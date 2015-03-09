@@ -1,0 +1,102 @@
+  \documentclass[a4paper,10pt]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{amsthm}
+\usepackage[colorlinks]{hyperref}
+
+\newtheorem{prop}{Proposition}
+\newtheorem{defi}{Definition}
+\newtheorem{theo}{Theorem}
+\newtheorem{lem}{Lemma}
+\title{SPQT Lecture : Equilibrium Renewal Processes and Renewal Reward Processes}
+\author{Prof. Parimal Parag}
+
+\begin{document}
+\maketitle
+\section{Renewal Theory Contd. }
+
+\subsection{Example:}
+ Consider two coins and suppose  that each time is coin flipped, it lands tail with some unknown probability $p_i,~i=1,2.$ We are interested in coming up with a strategy that ensures that long term proportion of tails is $\min\{p_1,~p_2\}.$ One strategy is as follows: In $n^\text{th}$ round of coin flipping, flip the first coin till $n$ consecutive tails are obtained. Then flip the second coin till $n$ consecutive tails are obtained. The proof is as follows: \\
+ 
+ Let $p=\max\{p_1,p_2\}$ and $\alpha p =\min\{p_1,p_2\}$. Call the coin with $P(T)=p$, the bad coin and the other, the good coin. Let $B_m$ denote the number of flips in the $n^text{th}$ round with bad coin and $G_m$ denote the number of flips in the $n^text{th}$ round with good coin.
+ \begin{lem}
+ $P(B_m \geq \epsilon G_m ~\text{for infinitely many}~ m)=0$.
+ \begin{proof}
+ \begin{flalign*}
+ P(G_m \leq  \frac{B_m}{\epsilon})&=\mathbb{E}[P(G_m \leq \frac{B_m}{\epsilon}|B_m)]\\
+ &=\mathbb{E}[ \sum_{i=1}^{\frac{B_m}{\epsilon}}P(G_m = i |B_m)]\\
+ &\leq \mathbb{E}[{\frac{B_m}{\epsilon}}]\sum_{i=1}^m(\alpha p)^m \\
+ =(\sum_{i=1}^m(\frac{1}{p^{i}}))(\alpha p)^m, 
+ \end{flalign*}
+ where the inequality follows from the fact that $\{G_m = i\}$ implies that $i \geq m$ and that cycle $m$ coin flips numbered $i-m+1$ to $i$ are all tails. Hence by Borel-Cantelli lemma, it follows  that $P(B_m \geq \epsilon G_m \text{for infinitely many m})\rightarrow 0$ as $m \rightarrow \infty$. Hence $\frac{B}{B+G}<\frac{\epsilon}{1+\epsilon}<\epsilon$.
+ \end{proof}
+ \end{lem} 
+ \subsection{Distribution of Last Renewal Time for Delayed Renewal Processes}
+ \begin{flalign*}
+ P(S_{N(t)} \leq s)&=G^c(t) P(S_{N(t)} \leq s|S_{N(t)=0})+\int_{0}^{t}P(S_{N(t)} \leq s|S_{N(t)=s})F^c(t-u)dm(u)\\
+ &= G^c(t) +\int_{0}^{s}F^c(t-u)dm(u).
+ \end{flalign*}
+ Let $F_e(x)=frac{\int_{0}^{x}F^c(y)dy}{\mu},~ x \geq 0$ equilibrium distribution of $F$. Observe that the moment generating function of $F_e(x)$ is $\tilde{F}_e(s) = \frac{1-\tilde{F}(s)}{s\mu}$. If $G=F_e,$ then the delayed renewal process is called equilibrium renewal process. Suppose start observing a renewal process at some arbitrary time $t$, the observed renewal process is called equilibrium renewal process. Let $Y_D(t)$ denote the excess time for delayed renewal process. 
+ \begin{theo}
+ For the equilibrium renewal process,
+ \begin{enumerate}
+ \item $m_D(t) =\frac{t}{\mu}$.\\
+ \item $P(Y_D(t) \leq x) = F_e(x)$.\\
+ \item $\{N_D(t): t \geq 0\}$ has stationary increments.
+  \end{enumerate}
+\begin{proof}
+To prove i), observe that $\tilde{m_D(s)}=\frac{\tilde{G}(s)}{1-\tilde{F}(s)} = \frac{1}{s\mu}$. Hence, $m_D(t)=\frac{t}{\mu}$.\\
+ii) 
+\begin{flalign*}
+P(Y_D(t) >x) &= P(Y_D(t) >x|S_{N(t)=0})P(S_{N(t)=0}) +P(Y_D(t) >x|S_{N(t)=s})F^c(t-s)\frac{ds}{\mu}\\
+ &= P(X >t+x,X>t) +P(X_2 >t+x-s|X_2 >t-s)F^c(t-s)\frac{ds}{\mu}\\
+&= F^c(t+x)+\int_{0}^{t}F^c(t+x-s)\frac{ds}{\mu} = F_e^c(x).
+\end{flalign*}
+iii) $N_D(t+s)-N_D(s) =$ Number of renewals in time interval of length $t$. When we start observing at $s$, the observed renewal process is delayed renewal process with initial distribution being the original distribution.
+\end{proof}
+\end{theo}
+
+\subsection{Renewal Reward Process}
+\textbf{Definition:} A renewal process $\{N(t), t \geq 0\}$ with inter arrival times $\{X_n: n \in \mathbb{N}\}$ having distribution $F$ and rewards $\{R_n: n \in \mathbb{N}\}$ where $R_n$ is the reward at the end of $X_n$. Let $(X_n,R_n)$ be iid. Then $R(t)=\sum_{i=1}^{N(t)}R_i$ is reward process. 
+\begin{theo}
+Let $\mathbb{E}[|R|]$ and $\mathbb{E}[|X|]$ be finite.
+\begin{enumerate}
+\item $\lim_{t \rightarrow \infty} \frac{R(t)}{t} = \frac{\mathbb{E}[R]}{\mathbb{E}[X]} ~a.s.$
+\item  $\lim_{t \rightarrow \infty} \frac{\mathbb{E}[R(t)]}{t} = \frac{\mathbb{E}[R]}{\mathbb{E}[X]}$.
+\end{enumerate}
+\end{theo}
+
+\begin{proof}
+\begin{flalign*}
+R(t)&=\sum_{i=1}^{N(t)}R_i\\
+&=(\frac{t}{N(t)} \sum_{i=1}^{N(t)}R_i) \frac{N(t)}{t}.
+\end{flalign*}
+Hence by Strong Law of Large Numbers, $\lim_{t \rightarrow \infty} \frac{R(t)}{t} = \frac{\mathbb{E}[R]}{\mathbb{E}[X]} ~a.s.$\\
+To prove the second part, \\
+
+$\mathbb{E}[R(t)]= \mathbb{E}[\sum_{i=1}^{N(t)}R_i)] = (m(t)+1)\mathbb{E}[R]-\mathbb{E}[R_{N(t)+1}]$. Let $g(t)=\mathbb{E}[R_{N(t)+1}].$ 
+\begin{flalign*}
+g(t)&=\mathbb{E}[R_{N(t)+1}1\{S_{N(t)}=0\}]+\mathbb{E}[R_{N(t)+1}1\{S_{N(t)}>0\}]\\
+&=\mathbb{E}[R_1|X_1>t]P(X_1>t)+\int_{0}^{t}\mathbb{E}[R_1|X>t-u]F^c(t-u)dm(u).
+&= h(t)+\int_{0}^{t}h(t-u)dm(u).
+\end{flalign*}
+
+where $h(t)=\mathbb{E}[R_1|X>t]P(X_1>t)$. Since $\mathbb{E}[|R_1|]<\infty$, as $t \rightarrow \infty,$ $h(t) \rightarrow 0$ as $t \rightarrow \infty.$ Hence choose $T$ such that $|h(T)| <\epsilon$, $t \geq T$.
+\begin{flalign*}
+\frac{g(t)}{t} &\leq \frac{|h(t)|}{t} +\int_{0}^{t-T}\frac{h(t-s)}{t}dm(s)+\int_{t-T}^{T}\frac{h(t-T)}{t}dm(s)\\
+& \frac{\epsilon}{T}+ \frac{\epsilon m(t-T)}{T}+ \frac{\mathbb{E}[|R_1|]}{t} (m(t)-m(t-T)).
+\end{flalign*}
+ Hence $\lim_{t \rightarrow \infty}\frac{g(t)}{t}=0$ and the result follows.
+ \end{proof}
+
+ \textbf{Remarks:}
+ \begin{enumerate}
+ \item $R_{N(t)+1}$ has different distribution than $R_1$.
+ \item $R(t)$ is the gradual reward during a cycle, 
+ \begin{flalign*}
+ \frac{\sum_{n=1}^{N(t)}R_n}{t} \leq  \frac{R(t)}{t} \leq \frac{\sum_{n=1}^{N(t)+1}R_n}{t}.
+ \end{flalign*}
+ \end{enumerate}
+ 
+ \subsubsection{Example:} Suppose for an alternating renewal process, we earn at a rate of one per unit time  when the system is on and the reward for a cycle is the the time system is ON during that cycle.\\
+ Amount of on time in $\frac{[0,t]}{t} = \lim_{t \rightarrow \infty} \frac{R(t)}{t}=\frac{\mathbb{E}[X]}{\mathbb{E}[X]+\mathbb{E}[Y]} = \lim_{t \rightarrow \infty}P(\text{on at time t})$. 
+\end{document}

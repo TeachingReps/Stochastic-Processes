@@ -1,0 +1,140 @@
+\documentclass[a4paper,10pt]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{amsthm}
+\usepackage[colorlinks]{hyperref}
+
+\newtheorem{prop}{Proposition}
+\newtheorem{defi}{Definition}
+\newtheorem{theo}{Theorem}
+\newtheorem{lem}{Lemma}
+\title{SPQT Lecture : Regenerative Processes}
+\author{Prof. Parimal Parag}
+
+\begin{document}
+\maketitle
+\section{Discrete Time Markov Chains Contd.}
+
+\subsection{Time Reversibility of Discrete Time Markov Chains}
+
+Consider a discrete time Markov chain with transition probability matrix $P$ and stationary probability vector $\pi$.\\
+\textbf{Claim:} The reversed process is a Markov chain.
+\begin{proof}
+\begin{flalign*}
+&P(X_{m-1}=i|X_m=j,X_{m+1}=i_{m+1} \hdots )=\frac{P(X_{m-1}=i,X_m=j, \hdots )}{P(X_m=j, X_{m+1}=i_{m+1}\hdots )}\\
+&=\frac{P(X_{m-1}=i,X_m=j)P(X_{m+1}=i_{m+1}\hdots |X_{m-1}=i,X_m=j \hdots )}{P(X_m=j)P(X_{m+1}=i_{m+1} \hdots |X_m=j)}\\
+&\stackrel{(a)}{=}\frac{P(X_{m-1}=i,X_m=j)P(X_{m+1}=i_{m+1}\hdots |X_m=j \hdots )}{P(X_m=j)P(X_{m+1}=i_{m+1} \hdots |X_m=j)}\\
+&=P(X_{m-1}=i|X_m=j).\\
+\end{flalign*}
+where $(a)$ follows from the Markov property.
+\end{proof}
+The sequence $\{X_n,X_{n-1} \hdots \}$ is called reverse process. Let $P^*$ denote the transition probability matrix. 
+\begin{flalign*}
+P_{ij}^*&=P(X_{n-1}=i|X_n=j)=\frac{P(X_{n-1}=i,X_n=j)}{P(X_n=j)}\\
+&=\frac{P(X_{n-1}=i)P(X_n=j|X_{n-1}=i)}{P(X_{n-1}=i)}\\
+&=\frac{P(X_{n-1}=i)}{P(X_{n}=j)}P_{ji}
+\end{flalign*}
+suppose we are considering a stationary Markov chain, $P(X_n=l)=P(X_{n-1}=l)=\pi(l),~\forall l$, $\pi(i){P^*}_{ij}=\pi(j)(P)_{ji}$. If $P^*=P$ then the Markov chain is called time reversible. Thus the condition for time reversibility is given by $\pi P_{ij}=\pi_jP_{ji}$. Any non-negative vector $X$ satisfying $X_iP_{ij}=X_jP_{ji},~\forall i,j$ and $\sum_{j \in \mathcal{N}_0}X_j=1$ is stationary distribution of time-reversible Markov chain. This is true because,
+\begin{flalign*}
+\sum_{i} X_i P_{ij}=\sum_i X_j P_{ji}=X_j \sum X_i = 1.
+\end{flalign*}
+Since stationary probabilities are the unique solution of the above, the claim follows.\\
+
+\textbf{Example 4.7(A) An Ergodic Random Walk}: Any ergodic, positive recurrent random walk is time reversible. The transition probability matrix is $P_{i,i+1}+P_{i-1,i}=1$. For every two transitions from $i+1$ to $i$, there must be one transition from $i$ to $i+1$. The rate of transitions from $i+1$ to $i$ must hence be same as the number of transitions from $i$ to $i+1$. So the process is time reversible.\\
+
+If we try to prove the equations necessary for time reversibility, $X_iP_{ij}=X_jP_{jk}$ for all $i,j$, for any arbitrary Markov chain, one may not end up getting any solution. This is so because, if $P_{ij}P_{jk}>0$, then $\frac{X_i}{X_k}=\frac{P_{ji}P_{kj}}{P_{jk}P_{ij}} \neq \frac{P_{kj}}{P_{jk}}$.
+
+Thus we see that a necessary condition for time reversibility is $P_{ij}P_{jk}P_{ki}=P_{ik}P_{kj}P_{ji},~ \forall i,j,k$. In fact we can show the following.
+\begin{theo}
+A stationary Markov chain is time reversible if and only if starting in state $i$
+, any path back to state $i$ has the same probability as the reversed path, for all $i$. That is, if
+\begin{flalign*}
+P_{i i_1}P_{i_1 i_2}\hdots P_{i_k i}=P_{i,i_k}P_{i_k i_{k-1}} \hdots P_{i_1,i}.
+\end{flalign*} 
+\end{theo}
+\begin{proof}
+The proof of necessity is as indicated above. To see the sufficiency part, fix states $i,j$
+\begin{flalign*}
+&\sum_{i_1,i_2,\hdots i_{k}}P_{ii_1}\hdots P_{i_k,j}P_{j,i}=\sum_{i_1,i_2,\hdots i_{k}}P_{i,j}P_{j,i_k}\hdots P_{i_1 i}\\
+&(P^k)_{ij}P_{ji}=P_{ij}(P^k)_{ji}\\
+&\frac{\sum_{k=1}^{n}(P^k)_{ij}P_{ji}}{n}= \frac{\sum_{k=1}^{n}P_{ij}(P^k)_{ji}}{n}
+\end{flalign*}
+As limit $n \rightarrow \infty$, we get the desire result.
+\end{proof}
+
+\begin{theo}
+Consider irreducible Markov chain with transition matrix $P$. If one can find non-negative vector $\pi$ and other transition matrix $P^*$ such that $\sum_j \pi_j =1$ and $\pi_iP_{ij}=\pi_jP^*_{ji}$ then $\pi$ is the stationary probability vector and $P^*$ is the transition matrix for the reversed chain.
+\end{theo}
+\begin{proof}
+Summing $\pi_iP_{ij}=\pi_jP_{ji}^*$ over $i$ gives, $\sum_{i}\pi_iP_{ij}=\pi_j$. Hence $\pi_i$s are the stationary probabilities of the forward and reverse process. Since $P_{ji}^*=\frac{\pi_iP_{ij}}{\pi_j}$, $P_{ij}^*$ are the transition probabilities of the reverse chain.
+\end{proof} 
+
+\subsection{Example 4.7(E): Example 4.3(C) revisited}
+Example 4.3(C) was with regard to the age of a renewal process. $X_n$ the forward process there was such that it increases in steps of 1 until it hits a value chosen by the inter arrival distribution. Hence the reverse process should be such that it decreases in steps of 1 until it hits 1 and then jumps to a state as chosen by the inter arrival distribution. Thus letting $P_i$ as the probability of inter arrival, it seems likely that  $P_{1i}*=P_i, ~ P_{i,i-1}=1,~ i > 1$. We have that $P_{i,1}=\frac{P_i}{\sum_{j \geq 1}P_j}=1-P_{i,i+1}, ~ i \geq 1$. For the reversed chain to be given as above, we would need 
+\begin{flalign*}
+&\pi_i P_{ij}=\pi_j P_{ji}^*\\
+&\pi_i \frac{P_i}{\sum_j P_j}=\pi_1 P_i\\
+&\pi_i=\pi_1 P(X \geq i)\\
+&1=\sum_i \pi_i=\pi_1 E[X]; \pi_i=\frac{P(X \geq i)}{E[X]}, 
+\end{flalign*}
+where $X$ is the inter arrival time. We need to verify that $\pi_i P_{i,i+1}=\pi_{i+1}P^*_{i+1,i}$ or equivalently $P(X \geq i)(1-\frac{P_i}{P(X \geq i)})=P(X \geq i)$ to complete the proof that the reversed process is the excess process and the limiting distributions are as given above. But that is immediate.
+\subsection{Semi Markov Processes}
+Consider a stochastic process with states $0,1,2 \hdots$ such that whenever it enters state $i$,
+\begin{enumerate}
+\item {The next state it enters is state $j$ with probability $P_{ij}$.}\\
+\item {Given the next state is going to be $j$, the time until the next transition from state $i$ to state $j$ has distribution $F_{ij}$. If we denote the state at time $t$ to be $Z(t)$, $\{Z(t), t \geq 0\}$ is called a Semi Markov process.}
+\end{enumerate}
+
+Markov chain is a semi Markov process  with 
+
+\begin{flalign*} 
+  F_{ij}(t) = \left\{
+     \begin{array}{lr}
+       0 & : t \leq 1 \\
+       1 & : t > 1.
+     \end{array}
+   \right.
+\end{flalign*}
+
+Let $H_i$ the distribution of time the semi Markov process stays in state $i$ before transition. We have $H_j(t)= \sum_i P_{ij}F_{ij}(t)$, $\mu_i = \int_0 ^ \infty X dH_i(x)$. Let $X_n$ denote the $n^{\text{th}}$ state visited. Then $\{X_n\}$ is a Markov chain with transition probability $P$ called the embedded Markov chain of the semi Markov process. \\
+\textbf{Definition:} If the embedded Markov chain is irreducible, then Semi Markov process is said to be irreducible. Let $T_{ii}$ denote the time between successive transitions to state $i$. Let $\mu_{ii}=E[T_{ii}]$.
+\begin{theo}
+If semi Markov process ius irreducible and if $T_{ii}$ has non-lattice distribution with $\mu_{ii}< \infty$ then, 
+\begin{flalign*}
+P_i=\lim_{t \rightarrow \infty}P(Z(t)=i|Z(0)=j)
+\end{flalign*}
+exists and is independent of the initial state. Furthermore, $P_i=\frac{\mu_i}{\mu_{ii}}$.
+\end{theo}
+\textbf{Corollary 4.8.2} If the semi-Markov process is irreducible and $\mu_{ii}<\infty$, then with probability 1,
+$\frac{\mu_i}{\mu_{ii}}=\frac{\lim_{t \rightarrow \infty} \text{Amount of time in [0,t]}}{t}$.\\
+\begin{theo}
+Suppose conditions of the previous theorem hold and the embedded Markov chain is positive recurrent. Then $P_i= \frac{\pi_i\mu_i}{\sum_{i}\pi_j \mu_j}$. 
+\end{theo} 
+\begin{proof}
+Define the notation as follows:
+
+$Y_i(j)=$ amount of time spent in state $i$ during $j^\text{th}$ visit to that state. $i,j \geq 0$. \\
+$N_i(m)=$ number of visits to state $i$ in the first $m$ transitions of the semi-Markov process.\\
+
+The proportion of time in $i$ during the first $m$ transitions:\\
+
+\begin{flalign*}
+P_{i=m}&= \frac{\sum_{j=1}^{N_i(m)}Y_i(j)}{\sum_l \sum_{j=1}^{N_i(m)}Y_i(j) }\\
+&= \frac{\frac{N_i(m)}{m}\sum_{j=1}^{N_i(m)}Y_i(j)}{\sum_l \frac{N_i(m)}{m} \sum_{j=1}^{N_i(m)}Y_i(j) }\\
+\end{flalign*}
+Since $N_i(m)\rightarrow \infty$ as $m \rightarrow \infty$, it follows from the strong law of large numbers that $\frac{\sum_{i=2}^{N_i(m)}Y_i(j)}{N_i(m)}\rightarrow \mu_i$ and $\frac{N_i(m)}{m}\rightarrow (E[\text{number of transitions between visits to state }i])^{-1}=\pi_i$. Letting $m \rightarrow \infty$, result follows.
+\end{proof}
+\begin{theo}
+If Semi Markov process is irreducible  and non lattice, then $\lim_{t \rightarrow \infty}P(Z(t)=i,Y(t)>x,S(t)=j|Z(0)=k)=\frac{P_{ij}\int_x^\infty F_{ij}^c(y)d(y)}{\mu_{ii}}$. Let $Y(t)$ denote the time from $t$ until the next transition. $S(t)$ state entered at the first transition after $t$. 
+\end{theo}
+\begin{proof}
+The trick lies in defining the "ON" time. 
+\begin{flalign*}
+E[\text{ON time in a cycle}]=E[(X_{ij}-x)^+].
+\end{flalign*}
+\end{proof}
+\textbf{Corollary:} 
+\begin{flalign*}
+\lim_{t \rightarrow \infty} P(Z(t)=i, Y(t) >x|Z(0)=k)= \frac{\int_{x}^{\infty}H_i^c(y)d(y)}{\mu_{ii}}.
+\end{flalign*}
+
+\end{document}

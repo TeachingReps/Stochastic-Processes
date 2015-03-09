@@ -1,0 +1,115 @@
+\documentclass[a4paper,10pt]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{amsthm}
+\usepackage[colorlinks]{hyperref}
+
+\newtheorem{prop}{Proposition}
+\newtheorem{defi}{Definition}
+\newtheorem{theo}{Theorem}
+\newtheorem{lem}{Lemma}
+\title{SPQT Lecture : Regenerative Processes}
+\author{Prof. Parimal Parag}
+
+\begin{document}
+\maketitle
+\section{Discrete Time Markov Chains Contd.}
+
+\subsection{Example 4.3(c) The Age of Renewal Process:}
+Consider a discret time slotted system. An item is put into use. When the item fails, it is replaced at the beginning of the next time period.  $P_i$ is the probability of the failure of the item  in $i^{\text{th}}$ time period. Assume that the life times are independent. $P_i$ is aperiodic. $\sum i P_i <\infty$. The age of an item is the number of periods the item is in use. Let us denote the age of the item at time $n$ as $X_n$. Let us denote  
+
+\begin{flalign*}
+\lambda(i) \triangleq \frac{P_i}{\sum_{j=i}^{\infty}P_j}
+\end{flalign*}
+
+$\lambda(i)$ is the probability that an $i$ unit old item fails. $\{X_n\}$ is a Markov chain with transition probability,
+
+\begin{flalign*} 
+  P(X_n=i_{n}|X_{n-1}=i) = \left\{
+     \begin{array}{lr}
+        \lambda(i) & : i_{n}=1 \\
+       1- \lambda(i) & : i_{n}=i+1,
+     \end{array}
+   \right.
+\end{flalign*}
+for $i \geq 1$.
+To find the equilibrium distribution of this process we solve for $\pi=\pi P$.
+\begin{flalign*}
+\pi_1 & =\sum_{i}\pi_i\lambda(i)\\
+\pi_{i+1}=&\pi_i (1-\lambda(i)).
+\end{flalign*}
+We can solve the above set of equations iteratively to obtain $\pi_{i+1}=\pi_1 (1-\lambda(1))(1-\lambda(2))\hdots (1-\lambda(i))= \pi_1 \sum_{j=i+1}^{\infty}P_j=\pi_1 P(Y \geq i+1)$, where $Y$ is the life time of an item. Using $\sum_j \pi_j =1$, we get $\pi_1 =\frac{1}{E[Y]}$ and $\pi_i=\frac{P(Y \geq i)}{E[Y]}$.
+\subsection{Example 4.3(D) Time slotted system:}
+Consider a time slotted system and in each slot every member of a population dies with probability $p$ i.i.d. In each time slot, the number of new members that join the population is according to a Poisson $(\lambda)$ process. Let $X_n$ denote the number of members of the population at the beginning of time period $n$. Observe that $\{X_n\}$ is a Markov chain. We are interested in computing the stationary distribution of the Markov chain. To that end, let $X_0 $ be a Poisson random variable with mean $\alpha$. Then $X_0$ individuals will be alive at the beginning of slot 1 with probability $(1-p)$. Since the number of new members in the system will be a Poisson random variable with parameter $\lambda$, $X_1$ is distributed Poisson with parameter $\alpha(1-p)+\lambda$. If $\alpha=\alpha(1-p)+\lambda$, the chain would be stationary. Hence by the uniqueness of the stationary distribution is Poisson with mean $\frac{\lambda}{p}$. 
+
+\subsection{Example 4.3(E)Gibbs sampler:}
+Gibbs sampler is used to generate values of a random vector $X_1,X_2 \hdots X_n$ where it as such difficult to generate values from the mass function $P_{X_1,X_2 \hdots X_n}(.)$ The idea is to form a Markov chain whose stationary distribution is given by $P_{X_1,X_2 \hdots X_n}(.)$ The Gibbs sampler works as follows: Let $\textbf{X}^0=(x_1^0,x_2^0 \hdots x_n^0)$  for which $p(x_!^0,x_2^0 \hdots x_n^0)>0$. Now generate $x_k^1$ for 
+$k=1,2 \hdots n$ according to $P_{X_k|X_j^0=x_j^0,~j \neq k}(.)$. Similarly generate $\textbf{X}^k$ given 
+ $\textbf{X}^{k-1}=(x_1^{k-1},\hdots x_n^{k-1})$. Observe the $\textbf{X}^j,~j \geq 0$ is a Markov chain. It is easy to see that $P_{X_1,X_2 \hdots X_n}$ is the stationary probability distribution of the Markov chain.
+%\subsection{Continuation of Example 4.3 (c):}
+%\begin{flalign*}
+%&\pi({i+1})=(1-\lambda(i))\pi(i),\\
+%&\pi(1)=\sum_{i \in \mathbb{N}} \lambda(i) \pi(i),\\
+%&\pi(i+1)=\Pi_{j=1}^{i}(1-\lambda(j))\pi(1),\\
+%&\pi(i+1)=\Pi_{j=1}^{i}\frac{\sum_{j=i+1}^{\infty}P_j}{\sum_{j=1}^{\infty}P_j}\pi_1,\\
+%&\pi(i+1)=P(Y \geq i+1)\pi_1.
+%\end{flalign*}
+%Since $1=\sum_i \pi(i)=\pi(1) \sum_i P(Y \geq i)=\pi(1) \mathbb{E}[Y]$.\\
+
+Consider an irreducible positive recurrent Markov chain with stationary probability $\{\pi(i): i \in \mathbb{N}_0\}$. Let $N$ denote the number of transitions between successive visits to state $0$. Visits to state 0 constitutes renewal instants. Then, the number of visits by time $n$ to state $0$, for large $n$ is approximately normally distributed. i.e.
+\begin{flalign*}
+\frac{1}{n}\sum_{m=1}^{n}1_{X_m=0} \rightarrow \mathcal{N}(\frac{n}{E[N]}, \frac{nVar(N)}{ E[N]^3}). 
+\end{flalign*}
+
+Note that $n/E[N]=n\pi_0$ and $n{Var}(N)/(E[N])^3=n{Var}(N)\pi_0^3$. Since ${Var}(N)=E[N^2]-\frac{1}{\pi+0^2}$, we need to find $E[N^2]$. Let $T_n$ be the number of transitions from $n$ until next visit to state 0. Note that, $\frac{1}{n}\sum_{m=0}^{n}T_m $. If $N$ is the number of transitions between successive visits to state 0, average reward of the process per unit time=$\frac{E[\frac{N(N+1)}{2}]}{E[N]}= \frac{1}{2}+\frac{1}{2}\frac{E[N^2]}{E[N]}= \sum_{i \in \mathbb{N}_0}\pi(i)\mu_{i,0}$. Here $\mu_{i,0}=E[T_n|X_n=i]$. Thus $\mu_{i,0}=1+\sum_{j \neq 0}P_{i,j}\mu_{j,0}$.
+\subsection{Transition Among Classes and Mean Times in Transient States}
+\begin{prop}
+Let $R$ be a recurrent class of states. If $i \in R$, $j \neq R$, then $P_{ij}=0.$
+\end{prop}
+\begin{proof}
+Suppose $P_ij>0$. Then, as $i$ and $j$ do not communicate with each other, $P_{ji}^{n}=0,~ \forall n $. Hence, starting from state $i$, there is a positive probability of at least $P_{ij}$ that the process will never return to state $i$. This contradicts the fact that $i$ is recurrent. Hence, $P_{ij}=0$.
+\end{proof}
+Let $T$ denote the set of all transient states. Let $j$ be recurrent, $i \in T$. $f_{ij}$ denote the probability of eventually hitting $j$ starting from $i= P_i(T_j <\infty)$.
+\begin{prop}
+If $j$ is recurrent, then the set of probabilities $\{f_{ij}: i \in T \}$ satisfies 
+\begin{flalign*}
+f_{ij}= \sum_{k \in T}P_{ik}f_{kj}+\sum_{k \in K}P_{ik},
+\end{flalign*}
+where $R$ denotes set of states  communicating with $j$.
+\end{prop}
+\begin{proof}
+\begin{flalign*}
+f_{ij}&=\sum_{k}P_i(T_i < \infty, X_1 =k)\\
+&= P_i(T_j < \infty, X_1 \in T)+P_i(T_j < \infty, X_1 \in R)\\
+&=\sum_{k \in T}P_k(T_j < \infty)p_{ik}+\sum_{k \in R}p_{ik}\\
+&=\sum_{k \in T}f_{kj}p_{ik}+\sum_{k \in R}p_{ik}.
+\end{flalign*}
+\end{proof}
+\subsection{Gambler's Ruin Problem}
+Consider a gambler who at each play of the game has $p=P(\text{win})=1-P(\text{loss})=1-q$. Assume successive plays of the game are independent. We are interested in knowing the probability that starting with $i$ units the gambler hits fortune $N$ before hitting 0. Let $X_n$ be the player's fortune at time $n$. $\{X_n\}$ is a Markov chain. Observe that $P_{00}=1$. $P_{NN}=1$. Also observe that $P_{i,i+1}=p=1-P_{i,i-1},~i=2,3 \hdots N-1$. Let $P(X_{n+1}=j|X_{n}=i)$. The Markov chain has three classes $\{0\}, \{N\}, \{1,2 \hdots N-1\}$, the first two are recurrent and the last one is transient. Let $f_{i}\equiv f_{iN}$. We have, from the previous proposition, $f_i=pf_{i+1}+(1-p)f_{i-1},~f_0=0, ~ f_N=1$. Since $p+q=1$, we can observe that $f_{i+1}-f_i=\frac{q}{p}(f_i-f_{i-1})$. Since $f_0=0$, we can write a recursion and observe that 
+\begin{flalign*} 
+  f_i = \left\{
+     \begin{array}{lr}
+       \frac{(1-(\frac{q}{p})^i)}{1-(\frac{q}{p})^N} & : p \neq \frac{1}{2} \\
+       \frac{i}{N}& : p = \frac{1}{2}.
+     \end{array}
+   \right.
+\end{flalign*}
+As $N \rightarrow \infty $
+
+\begin{flalign*} 
+  f_i = \left\{
+     \begin{array}{lr}
+       (1-(\frac{q}{p})^i) & : p > \frac{1}{2} \\
+       0 & : p \leq \frac{1}{2}.
+     \end{array}
+   \right.
+\end{flalign*}
+
+Consider a finite state Markov chain with transient states with $T=\{1, hdots t\}$. Let $Q$ be the associated transition matrix. Let $m_{ij}$ denote the expected total number of time periods spent if state $j$ stating form state $i$.
+\begin{flalign*}
+m_{ij}&=E[\sum_{n \in \mathbb{N}}1_{X_n=j}|X_0=i]\\
+&=1{i=j}+\sum_{k \in T}P_{ik}m_{kj}.
+\end{flalign*}
+$[M]_{ij}=(I)_{ij}+(QM)_{ij}$, $M=[I-Q]^{-i}$. The matrix inverse exists.
+
+\end{document}

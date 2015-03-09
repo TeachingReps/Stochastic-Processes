@@ -1,0 +1,108 @@
+\documentclass[a4paper,10pt]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{amsthm}
+\usepackage[colorlinks]{hyperref}
+
+\newtheorem{prop}{Proposition}
+\newtheorem{defi}{Definition}
+\newtheorem{theo}{Theorem}
+\newtheorem{lem}{Lemma}
+\title{SPQT Lecture : Regenerative Processes}
+\author{Prof. Parimal Parag}
+
+\begin{document}
+\maketitle
+\section{Continuous Time Markov Chains}
+
+
+
+Consider a continuous time stochastic process $\{X(t),~ t \geq 0\}$ taking on values on the set of non-negative integers. The process $\{X(t),~t \geq 0\}$ is continuous time Markov chain if for all $s,~t \geq 0$ and $i,~j \in \mathbb{N}_0$, $P(X(t+s)|X(u),~ u \in [0,s])= P(X(t+s)|X(s))$. If the probability is independent of $s$, the continuous time Markov chain (CTMC) has homogeneous transitions and we denote the probability by $P_{ij}(t)$. Suppose $X(0)=i,~X(u)=i,~ \forall u \in [0,s]$. We are interested in knowing probabilities of the form $P(X(v)=i,~v \in [s,s+t]||X(u)=i, ~ u \in [0,s])$. To that end, $\tau_i \triangleq \{t \geq 0: X(t) \neq i|X(0)=i\}$. We could sample the process at these instants and construct a DTMC out of it and study the same. Observe that,
+\begin{flalign*}
+P(\tau_i \geq s+t | \tau_i > s)&=P(X(v)=i,~v \in [s,s+t]|X(0)=i)\\
+&=P(\tau_i \geq t | X(0)=i)
+\end{flalign*}
+
+$\tau_i$ is memoryless and exponentially distributed. \\
+\subsection{Alternating way of constructing CTMC}
+A CTMC is a stochastic process that each time it enters state $i$,\\
+\begin{enumerate}
+\item {$\tau_i \sim $ exp$(\nu_i)$. }\\
+\item {P(Entering state $j$| state $i$ ) $\equiv$ $P_{ij}$ is such that $\sum_{i \neq j}P_{ij}=1$.}
+\end{enumerate}
+Note that $P_{i,j}$ and $\tau_i$ are not dependent. $\nu_i$ is called rate of state $i$. $\nu_i < \infty$. Else we call the state to be instantaneous. A CTMC is a DTMC with exponential sojourn time in each state.
+
+\textbf{Definition:} A CTMC is called "regular" if $P(\# transitions in [0,t] is \text{finite})=1,~ \forall t < \infty$. Consider the following example of a non-regular CTMC. \\
+\textbf{Example:} $P_{i,i+1}=1, \nu_i = i^2$. Show that it is regular.\\
+
+Let $Q$ be a matrix such that \\
+\begin{enumerate}
+\item {$q_{ij}=\nu_i P_{ij}$, $\forall i \neq j$.} \\
+\item { $q_{ii}= -\nu_i$.}
+\end{enumerate}
+ Properties of $Q:$
+ \begin{enumerate}
+\item {$0 \leq -q_{ii} < \infty,~ \forall i$.} \\
+\item { $q_{ij} \geq 0,~ \forall i \neq j$.}\\
+\item { $\sum_{j}q_{ij}=0,~ \forall i$.}
+\end{enumerate}
+
+From the $Q$ matrix, we can construct the whole CTMC.  In DTMC, we had the result $P^{(n)}(i,j)=(P^n)_{i,j}$. We can generalize this notion  in the case of CTMC as follows: $P=e^{Q}\triangleq \sum_{k \in \mathbb{N}_0}\frac{Q^k}{k !}$.  Observe that $e^{Q_1+Q_2}=e^{Q_1}e^{Q_2},~ e^{nQ}=(e^Q)^n=P^n$.\\
+\begin{theo}
+Let $Q$ be a finite sized matrix. Let $P(t)=e^{tQ}$. Then $\{P(t),~ t \geq 0\}$ has the following properties:\begin{enumerate}
+\item {$P(s+t)=P(s)P(t),~ \forall s,~t$ (semi group property).}
+\item {$P(t),~t \geq 0$ is the unique solution to the forward equation, $\frac{dP(t)}{dt}=P(t)Q,~P(0)=I$.}
+\item {And the backward equation $\frac{dP(t)}{dt}=QP(t),~P(0)=I$.}\\
+\item {For all $k \in \mathbb{N}$, $\frac{d^kP(t)}{d^k(t)}|_{t=0}=Q^k$.}
+\end{enumerate}
+\end{theo}  
+\begin{proof}
+$\frac{dM(t)e^{-tQ}}{dt}=0,$ $M(t)e^{-tQ}$ is constant. $M(t)$ is any matrix satisfying the forward equation.
+\end{proof}
+\begin{theo}
+A finite matrix $Q$ is $Q$ matrix if and only if $P(t)=e^{tQ}$ is a stochastic matrix for all $t \geq 0$. 
+\end{theo}
+\begin{proof}
+$P(t)=I+tQ+O(t^2)$ ($f(t)=O(t) \Rightarrow \frac{f(t)}{t} \leq c,$ for small $t,~c < \infty$ ). $q_{ij} \geq 0$ if and only if $P_{ij}(t) \geq 0,~ \forall i \neq j$ and $t \geq 0$ sufficiently small. $P(t)=P(\frac{t}{n})^n$. Note that if $Q$ has zero row sums, $Q^n$ also has zero row sums.\\
+\begin{flalign*}
+\sum_j [Q^n]_{ij}&= \sum_j \sum_k [Q^{n-1}]_{ik}Q_{kj}= \sum_j \sum_k Q_{kj}[Q^{n-1}]_{ik}=0.\\
+\sum_{j}P_{ij}(t)&=1+\sum_{n \in \mathbb{N}} \frac{t^n}{n!}\sum_j [Q^n]_{ij}=1+0=1.
+\end{flalign*}  
+Conversely $\sum_{j}P_{ij}(t)=1,~ \forall t \geq 0$, then $\sum_jQ_{ij}= \frac{dP_{ij}(t)}{dt}=0$.
+\end{proof}
+\subsection{Kolmogorov Differential Equations}
+\begin{lem}
+\begin{enumerate}
+\item{$\lim_{t \rightarrow 0} \frac{1-P_{ii}(t)}{t}=\nu_i$.}\\
+\item{$\lim_{t \rightarrow 0} \frac{P_{ij}(t)}{t}=q_{ij}$.}
+\end{enumerate}
+\end{lem}
+\begin{lem}
+For all $s,~t \geq 0$, $P_{ij}(t+s)=\sum_{k \in \mathbb{N}_0 P_{ik}(t)P_{kj}(s)}$
+\end{lem}
+\subsection{Chapman Kolmogorov Equation for CTMC}
+\begin{theo}
+\textbf{Kolmogorov Backward equation:} For all $i,j,t \geq 0$, $P'_{ij}(t)= \sum_{k \neq i}q_{ik}P_{kj}(t)-\nu_iP_{ij}(t)$ ,  $\frac{dP(t)}{dt}=QP(t)$
+\end{theo}
+\begin{proof}
+$P_{ij}(t+h)=\sum_kP_{ik}(h)P_{kj}(t).$
+\begin{flalign*}
+P_{ij}(t+h)-P_{ij}(t)=\sum_{k \neq 1}P_{ik}(h)P_{kj}(t)-(1-P_{ii}(h))P_{ij}(t), 
+\end{flalign*}
+divide by $h$, $h \rightarrow 0$, we get $\frac{dP_{ij}(t)}{dt}=\lim_{h \rightarrow 0}P'_{ij}(t)= \sum_{k \neq i}q_{ik}P_{kj}(t)-\nu_iP_{ij}(t)$. Now the exchange of limit and summation has to be justified. 
+\begin{flalign*}
+&\liminf_{h \rightarrow 0} \sum_{k \neq 1}\frac{P_{ik}(h)}{h}P_{kj}(t) \geq \liminf_{h \rightarrow 0}\sum_{k \neq 1}\frac{P_{ik}(h)}{h}P_{kj}(t), k <N\\
+&= \sum_{k \neq 1}q_{jk}P_{kj}(t),~k <N.
+\end{flalign*}
+This is true for any finite $N$. Take supremum over all $N$. We get \\
+$\liminf_{h \rightarrow 0} \sum_{k \neq 1}\frac{P_{ik}(h)}{h}P_{kj}(t) \geq \sum_{k \neq 1}q_{jk}P_{kj}(t)$. Suffices to show that $\limsup_{h \rightarrow 0} \sum_{k \neq 1}\frac{P_{ik}(h)}{h}P_{kj}(t) \leq \sum_{k \neq 1}q_{jk}P_{kj}(t)$. To that end, 
+\begin{flalign*}
+\text{LHS}& \leq \limsup_{h \rightarrow 0}[\sum_{k \neq 1, k<N}\frac{P_{ik}(h)}{h}P_{kj}(t)+\sum_{k \neq 1, k\geq N}\frac{P_{ik}(h)}{h} ]\\
+& = \limsup_{h \rightarrow 0}[\sum_{k \neq 1, k<N}\frac{P_{ik}(h)}{h}P_{kj}(t)+\frac{1-P_{ii}(h)}{h} \sum_{k \neq 1, k\geq N}\frac{P_{ik}(h)}{h} ]\\
+& = [\sum_{k \neq 1, k<N}q_{ik}P_{kj}(t)+\nu_i- \sum_{k \neq 1, k\geq N}q_{ik} ]\\
+&=\sum_{k \neq 1}q_{ik}P_{kj}(t). 
+\end{flalign*}
+\end{proof}
+\begin{theo}
+\textbf{Kolmogorov Forward Equation:} Under suitablle reqularity conditions, $P'_{ij}(t)=\sum_{k \neq i}P_{ik}(t)q_{kj}-P_{ij}(t)\nu_i$, i.e. $\frac{dP(t)}{dt}=P(t)Q$.
+\end{theo}
+\end{document}
