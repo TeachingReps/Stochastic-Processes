@@ -1,0 +1,15 @@
+\begin{tikzpicture}
+[node distance=1cm, draw=black, thick, >=stealth',
+axes/.style=,
+codeword/.style={rectangle, draw=black, inner sep=0pt, minimum height=0.8cm, minimum width=0.5cm}]
+
+\begin{scope}[axes]
+\draw[->] (0,0) -- (8,0) node[right] {$t$} coordinate (time);
+\draw[->] (0,0) -- (0,5) node[above] {$N(t)$} coordinate (number of  events);
+\foreach \x/\xtext in {1/S_1, 2/S_2, 5/S_3,7/S_4}
+	\draw[xshift=\x cm] (0pt,1pt) -- (0pt,-1pt) node[below,fill=white] {$\xtext$};
+\foreach \y/\ytext in {1,...,4}
+	\draw[yshift=\y cm] (1pt,0pt) -- (-1pt,0pt) node[left,fill=white] {$\ytext$};
+\end{scope}
+\draw[] (0,0)--(1,0)--(1,1)--(2,1)--(2,2)--(5,2)--(5,3)--(7,3)--(7,4)--(8,4);
+\end{tikzpicture}

@@ -1,0 +1,281 @@
+\documentclass[a4paper,10pt]{article}
+\usepackage{%
+	amsmath,%
+	amsfonts,%
+	amssymb,%
+	amsthm,%
+	hyperref,%
+	url,%
+	latexsym,%
+	epsfig,%
+	graphicx,%
+	psfrag,%
+	subfigure,%	
+	color,%
+	tikz,%
+	pgf,%
+	pgfplots,%
+	pgfplotstable,%
+	pgfpages%
+}
+
+\usepgflibrary{shapes}
+\usetikzlibrary{%
+  arrows,%
+	backgrounds,%
+	chains,%
+	decorations.pathmorphing,% /pgf/decoration/random steps | erste Graphik
+	decorations.text,%
+	matrix,%
+  positioning,% wg. " of "
+  fit,%
+	patterns,%
+  petri,%
+	plotmarks,%
+  scopes,%
+	shadows,%
+  shapes.misc,% wg. rounded rectangle
+  shapes.arrows,%
+	shapes.callouts,%
+  shapes%
+}
+
+\newcommand{\beq}{\begin{equation}}
+\newcommand{\eeq}{\end{equation}}
+\newcommand{\beqn}{\[}
+\newcommand{\eeqn}{\]}
+\newcommand{\bea}{\begin{eqnarray}}
+\newcommand{\eea}{\end{eqnarray}}
+\newcommand{\bean}{\begin{eqnarray*}}
+\newcommand{\eean}{\end{eqnarray*}}
+\newcommand{\re}{\mbox{$\mathfrak{Re}$}}
+\newcommand{\bit}{\begin{itemize}}
+\newcommand{\eit}{\end{itemize}}
+\newcommand{\ben}{\begin{enumerate}}
+\newcommand{\een}{\end{enumerate}}
+
+\theoremstyle{plain}
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{prop}[thm]{Proposition}
+\newtheorem{cor}[thm]{Corollary}
+
+\theoremstyle{definition}
+\newtheorem{defn}[thm]{Definition}
+\newtheorem{conj}[thm]{Conjecture}
+\newtheorem{exmp}[thm]{Example}
+
+\theoremstyle{remark}
+\newtheorem{rem}[thm]{Remark}
+\newtheorem{note}[thm]{Note}
+
+\date{}
+\title{Lecture 1: The Poisson Process}
+\author{Parimal Parag}
+
+\begin{document}
+\maketitle
+
+\section{The Poisson Process}
+Let \noindent $(\Omega, \mathcal{F}, \mathcal{P})$ be a probability space.
+\begin{defn}[Point Process] A stochastic process $\{N(t), t\geqslant 0\}$ is a \textbf{point process} if
+\begin{enumerate}
+  \item $N_{0} = 0$.
+  \item $t\mapsto N(t) (\omega)$ is non-decreasing, integer valued, right continuous and at points of discontinuity (wherever it has jumps) $(N(t)- N(t^{-}))\leqslant 1, \hspace{0.1cm} \forall \quad \omega \in \Omega$. 
+\end{enumerate}
+\end{defn} 
+\begin{defn}[Simple Point Process] A \textbf{simple point process} is a point process of jump size 1.
+\end{defn}
+
+\begin{defn}[Stationary Increment Point Process] A point process $\{N(t), t\geqslant 0\}$ is called \textbf{stationary increment point process }, if for any collection of $0\leqslant t_{1}<t_{2}...,<t_{n}$, we have $(N(t_{n})-N(t_{n-1}),N(t_{n-1})-N(t_{n-2}),...,N(t_{1}))$ having the same joint distribution as $(N(t_{n}+t)-N(t_{n-1}+t),...,N(t_{1}+t)), ~ \forall t \geqslant 0$.
+\end{defn}
+\begin{defn}[Stationary Independent Increment Point Process]   A point process $\{N(t), t\geqslant 0\}$ is called \textbf{stationary independent increment process}, if it has stationary increments and the increments are independent random variables.
+\end{defn}
+
+\begin{figure}[hhhh]
+\center
+	\input{Figures/Poisson}
+	\caption{Sample path of a Poisson process.}
+	\label{Fig:Poisson}
+\end{figure}
+\noindent The points of discontinuity corresponds to the arrival instants of the point process. Let $X_{n}$  denote the inter arrival time between $(n-1)^{th}$ and $n^{th}$ arrival. Further, let, $S_{0}=0,~ S_{n}= \sum^{n}_{k=1}X_{k}$. $S_{n}$ is the arrival instant of of $n^{th}$ point. The arrival at time zero is not counted.
+
+\begin{defn}[Poisson Process]
+A simple point process $\{N(t),~ t\geqslant0\} $ is called a \textbf{Poisson process} with rate $0< \lambda< \infty$, if inter-arrival times $\{X_{n},~n\geqslant 1\}$ are \emph{iid} $\exp(\lambda)$ random variables, i.e.
+ \begin{equation*}
+  P(X_{1}\leqslant x) = 
+	\begin{cases}
+		1-e^{-\lambda x}, & x\geqslant 0   \\
+		0,  & \text{ else}.
+	\end{cases}
+\end{equation*}
+\end{defn}
+
+\textbf{Remarks:} Observe that 
+\begin{align*}
+\{S_{n}\leqslant t\} &=  \{N(t)\geqslant n \},\\
+\{S_{n}\leqslant t, S_{n+1}> t \} &= \{N(t)= n\},\quad\mathrm{and} \\
+\Pr\{X_{n} = 0\} &= \Pr\{X_n\leqslant 0\} = 0.
+\end{align*}
+Also, by Strong Law of Large Numbers (SLLN), 
+\begin{equation*}
+\lim_{n \to \infty} \frac{S_{n}}{n} = E[X_{1}] = \frac{1}{\lambda}\quad\mathrm{a.s.} 
+\end{equation*}
+Therefore, we have $S_n \rightarrow \infty$, a.s. This implies $\Pr\{\omega: N(t)(\omega) < \infty\} =1$. To see this, let's pick an $\omega \in \Omega$ such that $ N(t)(\omega) = \infty$, then $S_{n}(\omega)\leqslant t,\quad \forall n$. This implies $S_{\infty}(\omega)\leqslant t$  and $\omega \not\in \{\omega: S_{n}(\omega) \rightarrow \infty \}.$ Hence, probability measure for such $omega$'s is zero and the claim follows. 
+
+
+\subsection{Moment Generating Function and Density Function of $S_n$}
+We know that time of $n^{\mathrm{th}}$ event $S_n$ is sum of $n$ consecutive \emph{iid} inter-arrival times $X_k$, i.e. $S_n = \sum^{n}_{k=1}X_{k}$. Therefore, moment generating function $\mathbb{E} [ e^{\alpha S_{n}} ]$ of $S_n$ is given by 
+ \begin{equation*}
+  \mathbb{E} [ e^{\alpha S_{n}} ] = \left(\mathbb{E}[e^{\alpha X_{1}}]\right)^{n}. 
+ \end{equation*} 
+Since each $X_k$ is \emph{iid} exponential with rate $\lambda$, it is easy to see that moment generating function of intr-arrival time $X_1$ is 
+ \begin{equation*}
+  \mathbb{E} [ e^{\alpha X_1} ] = 
+		\begin{cases}
+		\frac{\lambda}{\lambda-\alpha}, & \alpha < \lambda \\
+		\infty, & \alpha \geqslant \lambda.
+		\end{cases} 
+ \end{equation*} 
+   %\begin{eqnarray*}
+%\mathbb{ E}[e^{\alpha X_{1}}]  &=& \int^{\infty}_{0}\lambda e^{-\lambda t} e^{\alpha t} dt \\
+  %&=& \lambda \int^{\infty}_{0} e ^{-(\lambda-\alpha)t} dt\\
+  %\end{eqnarray*}
+   %If $\alpha \geqslant \lambda,~\mathbb{E} [e^{\alpha X_{1}}] = \infty$. Else, 
+  %\begin{eqnarray*}
+  %\mathbb{E} [e^{\alpha X_{1}}]&=&\lambda \left[ \frac{e^{-(\lambda-\alpha)t}}{-(\lambda-\alpha)}\right]^{\infty}_{0} \\
+   %&=& \lambda\left[0-(-\frac{1}{\lambda-\alpha})\right] = \frac{\lambda}{\lambda-\alpha}. 
+   %\end{eqnarray*}
+Substituting the moment generating function of inter-arrival time $X_1$ in moment generating function of $n^{\mathrm{th}}$ event time $S_n$, we obtain
+\begin{equation*}
+   \mathbb{E}[e^{\alpha S_{n}}] = 
+	\begin{cases} 
+	\left(\frac{\lambda}{\lambda-\alpha}\right)^{n}, & \alpha < \lambda, \\
+   \infty, &\text{else}.
+	\end{cases}
+\end{equation*}
+
+\begin{thm}[Arrival Time] Density function of $S_n$ is Gamma distributed with parameters $n$ and $\lambda$. That is,
+\begin{equation*}
+f_{S_n}(s) =\frac{\lambda (\lambda s)^{n-1}} {(n-1)!} e^{-\lambda s}.
+\end{equation*}
+\end{thm}
+\begin{proof} Notice that $X_i$'s are \emph{iid} and $S_1 = X_1$. In addition, we know that $S_n = X_n + S_{n-1}$. Since, $X_n$ is independent of $S_{n-1}$, we know that distribution of $S_n$ would be convolution of distribution of $S_{n-1}$ and $X_1$. Since $X_n$ and $S_1$ have identical distribution, we have $f_{S_{n}}=f_{S_{n-1}}*f_{S_1}$. The result follows from straightforward induction.
+\end{proof}
+
+Process $N(t)$ is of real interest, and we can compute the distribution of $N(t)$ for each $t$ from the distribution of $S_n$ in the following.
+%\begin{figure}[hhhh]
+%\center
+	%\include{Figures/Poisson}
+ %% \caption{}\label{}
+%\end{figure}
+\begin{thm}[Poisson process] Process $N(t)$ is Poisson distributed with parameter $\lambda$ for each $t$. That is,
+	\begin{equation*}
+	\Pr\{N(t)=n)\}= e^{-\lambda t}\frac{(\lambda t)^{n}}{n!}.
+	\end{equation*}
+\end{thm}
+\begin{proof}
+
+\begin{eqnarray*}
+   P(N(t) =n)&=&  P(S_{n}\leqslant t, S_{n+1} >t)\\
+   &=&  \int^{t}_{0} \Pr\left\{ {S_{n+1}>t}|{S_{n}=s}\right\}f_{S_n}(s)  ds\\
+   &\stackrel{(a)}{=}& \int^{t}_{0} \Pr\{X_{n+1}>t-s\} f_{S_n}(s) ds\\
+   &=&  \int^{t}_{0}e^{-\lambda(t- s)} \frac{\lambda^{n}s^{n-1}}{(n-1)!}e^{-\lambda s}  ds\\
+   &=&\frac{e^{-\lambda t} (\lambda t)^{n}}{n !}.
+\end{eqnarray*}
+ where (a) follows from the memoryless property of exponential distribution. %($P(X_{n+1}>s+t|X_{k+1}>t)=P(X_{k+1}>s)$).\\
+\end{proof}
+
+\textbf{Remark:} The Poisson process is not a stationary process. That is, the finite dimensional distributions (fdd) are not shift invariant. In the following section, we show that the Poisson process is a \textit{stationary,  independent increment} process. To this end, we will use an important property of exponential distribution- namely memoryless property. Memoryless property of exponential distribution will facilitate the computation of fdd of the Poisson process via one dimensional marginal distribution. 
+
+\begin{prop}[Memoryless Distribution] Exponential distribution with  continuous support is the only distribution satisfying memoryless property.
+\end{prop}
+
+%\begin{eqnarray*}    
+%            P(N(t1}& = &n_{1}),..., N(tk}=n_{k}\hspace{1.0cm} fdd
+%             \end{eqnarray*}
+%
+%We will S.t Poisson process has another very important property- Stationary indep. increment process\\
+%
+%$ 0 \leqslant t_{1} \leqslant  t_{2} \hspace{0.5cm} P[N(t1}=n_{1}, N(t2}=n_{2}]=0$ \hspace{1.0cm} if $n_{2}< n_{1}$\\
+%$n_{2}\geqslant n_{1} \hspace{1.5cm} P[N(t1}=n, N(t2}-N(t1}=n_{2}-n_{1}]$
+%
+%
+%If $N(t)$ is independent increment process.
+%\begin{eqnarray*}
+%&=&P [N(t1}=n_{1}]\\
+%P (N(t2}-N(t1} &=& n_{2}-n_{1}) n2-n1\\
+% P (N(t2}-N(t1} &=&\frac{[\lambda (t2-t1)]}{(n2-n1)!} e^{-\lambda (t2-t1)!}\\
+%\end{eqnarray*}
+%Need\\
+%\begin{eqnarray*}
+% N(t1}&=& n1\overrightarrow(n2-n1) n2\\
+% arrivals &=& \phi \frac{(\lambda t1)^{n1}}{(n1)!}e^{-\lambda t1}\\
+%\end{eqnarray*}
+%What it means all fdd can be computed from $1-d$ marginal in a stationary indep. incr. property.\\
+%Its not stationary $ \rightarrow N(t1}$ and $N(t2}$ not same distr.\\
+%$N(t2}$ in some sense $> N(t1}$ so not same distr. intution\\
+%To s.t ${N(t), t\geqslant 0}$ stationery ind. increment process.\\
+%First we show indep. increment.\\
+%We need an important property of exponential property of memorylessness.\\
+%$X\sim exp (\lambda$\\
+%$S>0, t> 0$\\
+%\begin{eqnarray*}
+%% \nonumber to remove numbering (before each equation)
+%  P(X>S +t / X>t) &=& P(X>S) \\
+%  In \hspace{0.2cm}reliability\hspace{0.2cm} theory & x& life time\\
+%  P(X>t+S/ X>t) &\leqslant& P(X>S)
+%\end{eqnarray*}
+%Class of distr. satisfying ``New better than used distr''\\
+%\begin{eqnarray*}
+%X>t+s>S\\
+%P(X>s+t)/ X>t)\\
+%&=& \frac{P(X>S+t, X>t)}{P(X>t)}\\
+%&=& \frac{P(X>S+t)}{P(X>t)}\\
+%&=& e^{-\lambda S}\\
+%&=& P(X>S)
+%\end{eqnarray*}
+\begin{proof}
+Let $X$ be a random variable with a distribution function $F$ with memoryless property defined on $\mathbb{R}^{+}$. Let $g(t) \triangleq \Pr\{X > t\} = 1 - F(t)$. Due to memoryless property of $F$, we notice that
+\begin{eqnarray*}
+  \Pr\{X>s\} &=& \Pr\{ X > t+s| X>t\} \\
+  \Pr\{X>s\} &=& \frac{ \Pr\{ X>t+s, X>t\}}{\Pr\{X>t\}}.
+\end{eqnarray*}
+Since $\{X > t + s\} =\{ X>t+s, X>t\}$, we have $g(t+s) = g(t)g(s)$ and hence $g(0) = g^2(0)$. Therefore, $g(0)$ is either unity or zero. Note, that $g$ is a right continuous (RC) function and is non-negative. 
+
+We will show that $g$ is an exponential function. That is, $g(t) = e^{\alpha t}$ for some $\alpha \geqslant 0$. We will prove this in stages. First, we show this is true for $t \in \mathbb{Z}^+$. Notice that we can obtain via induction
+\begin{eqnarray*}
+	g(2) &=& g(1) g(1) = g^{2}(1), \mathrm{ and }\\
+	g(m) &=& [g(1)]^{m}.
+\end{eqnarray*}
+Since $g(1)$ is non negative, there exists a $\beta$ such that $g(1)=e^{\beta}$ and $g(m)= e^{m \beta}, m \in \mathbb{Z}_{+}$. Next we show that for any $n \in \mathbb{Z}_{+}$,        
+\begin{equation*}
+	g(1) =  g\left(\frac{1}{n}+..., +\frac{1}{n}\right) = \left[g\left(\frac{1}{n}\right)\right]^{n}.
+\end{equation*}
+Therefore, for same $\beta$ we used for $g(1)$, we have $g\left(\frac{1}{n}\right) = e^{\frac{\beta}{n}}$. Now, we show that $g$ is exponential for any $t \in \mathbb{Q}^+$. To this end, we see that for any $m, n \in \mathbb{Z}_{+}$, we have 
+\begin{equation*}
+	g\left(\frac{m}{n}\right) = \left[g\left(\frac{1}{n}\right)\right]^{m}= e^{\frac{m \beta}{n}}.
+\end{equation*}
+Now, we can show that $g$ is exponential for any real positive $t$ by taking a sequence of rational numbers $\{t_n\}$ decreasing to t. From right continuity of $g$, we obtain 
+\begin{equation*}
+	g(t) \stackrel{(a)}{=} \lim_{n\rightarrow \infty} g(t_n) =   \lim_{n\rightarrow \infty} e^{\beta t_{n}}= e^{\beta t}.
+\end{equation*}
+Since $\Pr\{X > x\}$  is decreasing  with $x$, $\beta $ is negative.  
+\end{proof}
+\begin{figure}[hhhh]
+\center
+	\input{Figures/IndependentIncrements}
+  \caption{Stationary independent increment property of Poisson process.}
+	\label{Fig:IndependentIncrements}
+\end{figure}
+\begin{prop}[Stationary Independent Increment Property] Poisson process ${N(t), t\geqslant 0}$ has stationary independent increment property.
+\end{prop}
+\begin{proof}
+To show that $N(t)$ has stationary independent increment property, it suffices to show that $N_t-N(t_{1}) \perp N(t_1)$ and $N(t) - N(t_1) \sim N(t-t_1)$. Since, we can use induction to show this stationary independence increment property for for any finite disjoint time-intervals. The memoryless property of exponential distribution is crucially used. And, we see that independent increment holds only if inter-arrival time is exponential. We can see in Figure~\ref{Fig:IndependentIncrements} that $t_1$ divides $X_{n+1}$ in two parts such that, $X_{n+1} = X_{n+1}^{'} + X_{n+1}^{''}$. Here,  $X_{n+1}^{''}$ is independent of $X_{n+1}^{'}$ and has same distribution as $X_{n+1}$. Therefore, 
+\begin{align*}
+\{ N(t_1) = n \} &\iff  \{ S_n = t_1 + X'_{n+1} \}, \\
+\{ N(t) - N(t_1) \geqslant m \} &\iff \{ X''_{n+1} + \sum_{i=n+2}^{n+m} X_i \leqslant t - t_1 \}.
+\end{align*}
+Since, $\{X_i: i \geqslant n+2\}\cup\{X_{n+1}^{''}\}$ are independent of $\{X_i: i \leqslant n\}\cup{X_{n+1}^{'}}$, we have $N(t)-N(t_{1}) \perp N(t_1)$. Further, since $X_{n+1}^{''}$ has same distribution as $X_{n+1}$, we get $N(t) - N(t_1) \sim N(t-t_1)$. By induction we can extend this result to $(N(t_{n})-N(t_{n-1}),...,N(t_{1}))$. 
+\end{proof}
+\end{document}

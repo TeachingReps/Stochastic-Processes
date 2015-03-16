@@ -1,0 +1,100 @@
+\pgfdeclarelayer{background layer}
+\pgfdeclarelayer{foreground layer}
+\pgfsetlayers{background layer,main,foreground layer}
+\begin{tikzpicture}
+[node distance=1cm, draw=black, thick, >=stealth',
+codeword/.style={rectangle, draw=black, inner sep=0pt, minimum height=0.8cm, minimum width=0.5cm}]
+
+\node[codeword, fill=red!70,label=left:Channel 3] (l0x0) at (0,0) {};
+\node[codeword, fill=red!40,label=left:Channel 2] (l1x0) at (0,1) {};
+\node[codeword, fill=red!00,label=left:Channel 1] (l2x0) at (0,2) {};
+
+\node[codeword, fill=red!50] (l0x05) at (0.5,0) {};
+\node[codeword, fill=red!10] (l1x05) at (0.5,1) {};
+\node[codeword, fill=red!00] (l2x05) at (0.5,2) {};
+
+\node[codeword, fill=red!70] (l0x1) at (1,0) {};
+\node[codeword, fill=red!50] (l1x1) at (1,1) {};
+\node[codeword, fill=red!00] (l2x1) at (1,2) {};
+
+\node[codeword, fill=red!70] (l0x15) at (1.5,0) {};
+\node[codeword, fill=red!50] (l1x15) at (1.5,1) {};
+\node[codeword, fill=red!50] (l2x15) at (1.5,2) {};
+
+\node[codeword, fill=red!40] (l0x2) at (2,0) {};
+\node[codeword, fill=red!20] (l1x2) at (2,1) {};
+\node[codeword, fill=red] (l2x2) at (2,2) {};
+
+\node[codeword, fill=red!40] (l0x25) at (2.5,0) {};
+\node[codeword, fill=red!30] (l1x25) at (2.5,1) {};
+\node[codeword, fill=red] (l2x25) at (2.5,2) {};
+
+\node[codeword, fill=red!50] (l0x3) at (3,0) {};
+\node[codeword, fill=red!60] (l1x3) at (3,1) {};
+\node[codeword, fill=red!50] (l2x3) at (3,2) {};
+
+\node[codeword, fill=red!40] (l0x35) at (3.5,0) {};
+\node[codeword, fill=red!80] (l1x35) at (3.5,1) {};
+\node[codeword, fill=red!30] (l2x35) at (3.5,2) {};
+
+\node[codeword, fill=red!40] (l0x4) at (4,0) {};
+\node[codeword, fill=red!80] (l1x4) at (4,1) {};
+\node[codeword, fill=red!60] (l2x4) at (4,2) {};
+
+\node[codeword, fill=red!30] (l0x45) at (4.5,0) {};
+\node[codeword, fill=red!40] (l1x45) at (4.5,1) {};
+\node[codeword, fill=red!20] (l2x45) at (4.5,2) {};
+
+\node[codeword, fill=red!70] (l0x5) at (5,0) {};
+\node[codeword, fill=red!30] (l1x5) at (5,1) {};
+\node[codeword, fill=red!10] (l2x5) at (5,2) {};
+
+\node[codeword, fill=red!50] (l0x55) at (5.5,0) {};
+\node[codeword, fill=red!30] (l1x55) at (5.5,1) {};
+\node[codeword, fill=red] (l2x55) at (5.5,2) {};
+
+\node[codeword, fill=red!30] (l0x6) at (6,0) {};
+\node[codeword, fill=red!80] (l1x6) at (6,1) {};
+\node[codeword, fill=red!90] (l2x6) at (6,2) {};
+
+\node[codeword, fill=red!50] (l0x65) at (6.5,0) {};
+\node[codeword, fill=red!80] (l1x65) at (6.5,1) {};
+\node[codeword, fill=red!40] (l2x65) at (6.5,2) {};
+
+\node[codeword, fill=red!10] (l0x7) at (7,0) {};
+\node[codeword, fill=red!40] (l1x7) at (7,1) {};
+\node[codeword, fill=red] (l2x7) at (7,2) {};
+
+\node[codeword, fill=red!50] (l0x75) at (7.5,0) {};
+\node[codeword, fill=red!90] (l1x75) at (7.5,1) {};
+\node[codeword, fill=red!50] (l2x75) at (7.5,2) {};
+
+\node[codeword, fill=red!70] (l0x8) at (8,0) {};
+\node[codeword, fill=red!60] (l1x8) at (8,1) {};
+\node[codeword, fill=red!00] (l2x8) at (8,2) {};
+
+\node[codeword, fill=red!70] (l0x85) at (8.5,0) {};
+\node[codeword, fill=red!30] (l1x85) at (8.5,1) {};
+\node[codeword, fill=red!90] (l2x85) at (8.5,2) {};
+
+\node[codeword, fill=red!70] (l0x9) at (9,0) {};
+\node[codeword, fill=red!50] (l1x9) at (9,1) {};
+\node[codeword, fill=red] (l2x9) at (9,2) {};
+
+\node[codeword, fill=red!50] (l0x95) at (9.5,0) {};
+\node[codeword, fill=red!60] (l1x95) at (9.5,1) {};
+\node[codeword, fill=red] (l2x95) at (9.5,2) {};
+
+\node[codeword, fill=red!40] (l0x10) at (10,0) {};
+\node[codeword, fill=red!60] (l1x10) at (10,1) {};
+\node[codeword, fill=red] (l2x10) at (10,2) {};
+
+\node[codeword, fill=red!50] (l0x105) at (10.5,0) {};
+\node[codeword, fill=red!50] (l1x105) at (10.5,1) {};
+\node[codeword, fill=red!20] (l2x105) at (10.5,2) {};
+
+\node[codeword, fill=red!60] (l0x11) at (11,0) {};
+\node[codeword, fill=red!00] (l1x11) at (11,1) {};
+\node[codeword, fill=red] (l2x11) at (11,2) {};
+
+\end{tikzpicture}

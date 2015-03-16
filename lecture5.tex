@@ -1,0 +1,170 @@
+\documentclass[a4paper,10pt]{article}
+\usepackage{amsmath,amsfonts,amssymb,amsthm,url}
+%\usepackage{epsfig,epstopdf,titling,array}
+\usepackage[hidelinks]{hyperref}
+
+\theoremstyle{plain}
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{prop}[thm]{Proposition}
+\newtheorem{cor}[thm]{Corollary}
+
+\theoremstyle{definition}
+\newtheorem{defn}[thm]{Definition}
+\newtheorem{conj}[thm]{Conjecture}
+\newtheorem{exmp}[thm]{Example}
+
+%\theoremstyle{remark}
+\newtheorem{rem}{Remark}
+\newtheorem{note}{Note}
+
+\date{}
+\title{Lecture 3: Limit theorems in Renewal Theory}
+\author{Parimal Parag}
+
+\begin{document}
+\maketitle
+\section{Renewal Theory Continued - Limit Theorems}
+
+Let $N(\infty) := \lim_{t \to \infty} N(t)$. Then, it is easy to see that $\Pr\{N(\infty) = \infty\} = 1$.
+\begin{proof}
+It suffices to show $\Pr\{N(\infty) < \infty\} = 0$. We have
+\begin{flalign*}
+\Pr\{N(\infty) < \infty\} &= \Pr\{\bigcup_{n \in \mathbb{N}} \{N(\infty) < n\}\}\\
+&= \Pr\{\bigcup_{n \in \mathbb{N}} \{S_n = \infty\}\} = \Pr\{\bigcup_{n \in \mathbb{N}} \{X_n = \infty\}\} \\
+&\leq \sum_{n \in \mathbb{N}}\Pr\{X_n = \infty\} =0.
+\end{flalign*}
+The last step follows from the fact that $E[X_n] < \infty$.
+\end{proof}
+\subsection{Basic Renewal Theorem}
+We see that $N(t)$ increases to infinity with time. We are interested in rate of increase of $N(t)$ with $t$. Note that $S_{N(t)}$ represents the time of last renewal before $t$, and $S_{N(t)+1}$ represents the time of first renewal after time $t$. 
+\begin{prop}
+\begin{equation*}
+\lim_{t \to \infty} \frac{N(t)}{t} = \frac{1}{\mu} \quad \mbox{almost surely}.
+\end{equation*}
+\end{prop}
+\begin{proof}
+% Need picture here
+%0 ------- S_{N(t)}---t ---- S_{N(t)+1} ------------
+
+Consider $S_{N(t)}$. By definition, we have
+\[S_{N(t)} \leq t < S_{N(t)+1}\]
+Dividing by $N(t)$, we get 
+\[\frac{S_{N(t)}}{N(t)} \leq \frac{t}{N(t)} < \frac{S_{N(t)+1}}{N(t)}\]
+By Strong Law of Large Numbers (SLLN) and the previous result, we have
+\[\lim_{t \to \infty}\frac{S_{N(t)}}{N(t)} = \mu \quad \mbox{a.s.}\] 
+Also
+\[\lim_{t \to \infty} \frac{S_{N(t)+1}}{N(t)} = \lim_{t \to \infty} \frac{S_{N(t)+1}}{N(t)+1}.\frac{N(t)+1}{N(t)} \]
+Hence by Squeeze Theorem, the result follows.
+\end{proof}
+\subsubsection{Example}
+Suppose, you are in a casino with infinitely many games. Every game has a probability of win $X$, iid uniformly distributed between $(0,1)$. One can continue to play a game or switch to another one. We are interested in a strategy that maximizes the long-run proportion of wins.
+
+Let $N(n)$ denote the number of losses in $n$ plays. Then fraction of wins $P_W(n)$ is given by 
+\begin{equation*}
+P_W(n) = \frac{n-N(n)}{n}.
+\end{equation*}
+We pick a strategy where any game is selected to play, and continue to be played till the first loss. Note that, time till first loss is geometrically distributed with mean $\frac{1}{1-X}$. We shall show that this fraction approaches unity as $n \to \infty$. By the previous proposition, we have:
+\begin{align*}
+\lim_{n \to \infty} \frac{N(n)}{n} &= \frac{1}{E[\mbox{Time till first loss}]} \\
+&= \frac{1}{E\left[\frac{1}{1-X}\right]} = \frac{1}{\infty} = 0
+\end{align*}
+Hence Renewal theorems can be used to compute these long term averages. We'll have many such theorems in the following sections.
+
+\subsection{Wald's Lemma}
+Before we get into Wald's Lemma, let us first define what a stopping time is.
+\begin{defn}[Stopping Time]
+Let $\{X_n: n\in \mathbb{N}\}$ be independent random variables. Then $T$, an integer random variable, is called a stopping time wrt this sequence if $\{N=n\}$ depends only on $\{X_1,\cdots,X_n\}$ and is independent of $X_{n+1}, X_{n+2},\cdots$. 
+\end{defn}
+Intuitively, if we observe the $X_n$'s in sequential order and $N$ denotes the number observed before stopping then. Then, we have stopped after observing, $X_1, \ldots, X_N$, and before observing $X_{N+1}, X_{N+2}, \ldots$. 
+The intuition behind a stopping time is that it's value is determined by past and present events but NOT by future events. 
+\begin{exmp}
+For instance, while traveling on the bus, the random variable measuring ``Time until bus crosses Majestic and after that one stop" is a stopping time as it's value is determined by events before it happens. On the other hand ``Time until bus stops before Majestic is reached'' would not be a stopping time  in the same context. This is because we have to cross this time, reach Majestic and then realise we have crossed that point. 
+\end{exmp}
+Another example is consider $X_n$ iid Bernoulli$(1/2)$. Then $N = min \{n \in \mathbb{N}:\quad \sum_{k=1}^n X_i = 10\}$ is a stopping time.
+
+
+\textbf{Exercise}: Try to list out properties of stopping times. For instance, sum of two stopping times is a stopping time. Minimum of two stopping times is a stopping time. See how many can you find and prove/disprove.
+
+\begin{lem}[Wald's Lemma]
+Let $\{X_i:\quad i\in \mathbb{N}\}$ be iid random variables with finite mean $E[X_1]$ and let $N$ be a stopping time with respect to this set of variables, such that $E[N] < \infty$. Then
+\[E\left[\sum_{n=1}^N X_n\right] = E[X_1]E[N]\]
+\end{lem}
+\begin{proof}
+\begin{align}
+E\left[\sum_{n=1}^N X_n\right] &= E\left[\sum_{n \in \mathbb{N}} X_n 1_{\{N \geq n\}}\right]  \\
+&= \sum_{n \in \mathbb{N}} E\left[X_n 1_{\{N \geq n\}}\right] \label{tricky}
+\end{align}
+I'd like to point out here that in step (\ref{tricky}), you cannot always exchange infinite sums and expectations. But here you can do so. Refer Ross/Wolff if you are interested. Regardless, to proceed, we need to show that $N \geq n$ is independent of $X_k, \quad k \geq n$. This is fixed by observing that $\{N \geq k\} = \{N < k\}^c = \{N \leq k-1\}^c = [\cup_{i=1}^{k-1} \{N = i\}]^c$. What I'm getting at is that we can deduce whether $N \geq k$ by looking at the first $k-1$ samples and is independent of the future and present samples.
+
+Hence, we get
+\begin{flalign}
+\sum_{n \in \mathbb{N}} E\left[X_n 1_{\{N \geq n\}}\right] &= \sum_{n \in \mathbb{N}} E\left[X_n\right]E\left[ 1_{\{N \geq n\}}\right] \\
+&= E\left[X_1\right] \sum_{n \in \mathbb{N}} P[N \geq n] = E[X_1]E[N]
+\end{flalign} 
+\end{proof}
+
+\begin{prop}
+$N(t)+1$ is a stopping time where $X_1,X_2,\cdots$ iid are interarrival times of a renewal process $N(t)$ with $E[X_1] < \infty$
+\end{prop}
+\begin{proof}
+\[
+\left\{N(t) + 1 = n \right\} \iff \{S_{n-1} \leq t < S_n\} \iff \{\sum_{i=1}^{n-1} X_i \leq t < (\sum_{i=1}^{n-1} X_i) + X_n\}  \]
+Thus $N(t)+1$ is a stopping time. Hence from Wald's Lemma
+\[ E\left[\sum_{i=1}^{N(t)+1}X_i\right] = E[X_1]E[1 + N(t)] = E[X_1][1+m(t)]\]
+\end{proof}
+
+\subsection{Elementary Renewal Theorem}
+Essentially Elementary Renewal theorem says that under the hypotheses of Basic renewal theorem, we have (recall $m(t) = E[N(t)]$)
+\begin{thm}
+\[\lim_{t \to \infty}\frac{m(t)}{t} = \frac{1}{\mu}\]
+\end{thm}
+Before we proceed, we remark that it does \textbf{not} obviously follow from basic renewal theorem by taking Expected value on both sides. Consider the following example
+\[
+Y_n = \left\{ \begin{array}{l l}
+n^2 & \mbox{w.p.  } 1/n^2 \\
+0 & \mbox{w.p.  } 1- 1/n^2
+\end{array} \right.
+\]
+Then for any $\epsilon > 0$, $P[Y_n > \epsilon] = P[Y_n = n^2] = 1/n^2$. Then $\sum P[Y_n > \epsilon] < \infty$. Hence by Borel Cantelli Lemma, $Y_n \to 0$ a.s. However, $E[Y_n] = 1$ for all $n \in \mathbb{N}$. So $E[Y_n] \to 1$. QED.
+\begin{proof}
+Take $\mu < \infty$. We have $S_{N(t)+1} > t$. Hence we have
+\begin{flalign}
+S_{N(t)+1} > t &\Rightarrow  E[S_{N(t)+1}] > t \\
+&\Rightarrow \mu [1+m(t)] > t \\
+&\Rightarrow \frac{m(t)}{t} > \frac{1}{\mu} - \frac{1}{t} \\
+&\Rightarrow \liminf_{t \to \infty} \frac{m(t)}{t} \geq \frac{1}{\mu}  
+\end{flalign}
+
+Thus we now have to show 
+\[\limsup_{t \to \infty} \frac{m(t)}{t} \leq \frac{1}{\mu}\]
+We shall argue this using a truncated random variables argument. Define $\bar{X}_n = X_n 1_{\{X_n \leq M\}} + M1_{\{X_n > M\}}$. Analogously, we define $\bar{S}_n = \sum_{k=1}^n \bar{X}_k$ and $\bar{N}(t) = \sup\{n \in \mathbb{N}: \bar{S}_n \leq t\}$. Thus we have
+\[t < \bar{S}_{N(t)+1} \leq t+M\]
+since the next renewal can only happen in at most $M$ units of time. Once again, we have
+\[E[\bar{S}_{N(t)+1}] = \mu_M E[1+\bar{N}(t)] \leq t+M\]
+\[E\left[\frac{\bar{N}(t)}{t}\right] \leq \frac{1}{\mu_M} + \frac{M-\mu_M}{t\mu_M}\]
+Since $\bar{X}_i \leq X_i$, we have $N(t) \leq \bar{N}(t)$ (try to understand this). Hence
+\[E\left[\frac{{N}(t)}{t}\right] \leq \frac{1}{\mu_M} + \frac{M-\mu_M}{t\mu_M}\]
+Now take $\limsup$ on both sides to get
+\[\limsup_{t \to \infty}E\left[\frac{{N}(t)}{t}\right] \leq \frac{1}{\mu_M}\]
+Now observe that LHS is independent of $M$. Take limits $M \to \infty$, noting that $\mu_M \to \mu$ (Why?) to get
+ \[\limsup_{t \to \infty}\frac{m(t)}{t} \leq \frac{1}{\mu}\]
+Putting it all together,
+\[\lim_{t \to \infty}\frac{m(t)}{t} = \frac{1}{\mu}\]
+\end{proof}
+
+\subsection{Central Limit for Renewal Processes}
+\begin{thm}
+Let $X_n$ be iid random variables with $\mu = E[X_n] < \infty$ and $\sigma^2 = Var(X_n) < \infty$. Then
+\[\frac{N(t)-\frac{t}{\mu}}{\sigma \sqrt{\frac{t}{\mu^3}}} \to^d N(0,1) \]
+\end{thm}
+\begin{proof}
+Take $u = \frac{t}{\mu} + y \sigma \sqrt{\frac{t}{\mu^3}}$. We shall treat $u$ as an integer and proceed, the proof for general $u$ is an exercise. 
+Thus 
+\begin{flalign}
+P[N(t) < u] &= P[S_u >t] \\
+&= P\left[\frac{S_u - u\mu}{\sigma \sqrt{u}} > \frac{t - u\mu}{\sigma \sqrt{u}}\right]
+\end{flalign}
+
+\end{proof}
+\end{document}
