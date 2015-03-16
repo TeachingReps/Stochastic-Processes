@@ -1,7 +1,44 @@
 \documentclass[a4paper,10pt]{article}
-\usepackage{amsmath,amsfonts,amssymb,amsthm,url}
-%\usepackage{epsfig,epstopdf,titling,array}
-\usepackage[hidelinks]{hyperref}
+\usepackage{%
+	amsmath,%
+	amsfonts,%
+	amssymb,%
+	amsthm,%
+	hyperref,%
+	url,%
+	latexsym,%
+	epsfig,%
+	graphicx,%
+	psfrag,%
+	subfigure,%	
+	color,%
+	tikz,%
+	pgf,%
+	pgfplots,%
+	pgfplotstable,%
+	pgfpages%
+}
+
+\usepgflibrary{shapes}
+\usetikzlibrary{%
+  arrows,%
+	backgrounds,%
+	chains,%
+	decorations.pathmorphing,% /pgf/decoration/random steps | erste Graphik
+	decorations.text,%
+	matrix,%
+  positioning,% wg. " of "
+  fit,%
+	patterns,%
+  petri,%
+	plotmarks,%
+  scopes,%
+	shadows,%
+  shapes.misc,% wg. rounded rectangle
+  shapes.arrows,%
+	shapes.callouts,%
+  shapes%
+}
 
 \theoremstyle{plain}
 \newtheorem{thm}{Theorem}[section]
@@ -19,7 +56,7 @@
 \newtheorem{note}{Note}
 
 \date{}
-\title{Lecture 3: Limit theorems in Renewal Theory}
+\title{Lecture 5: Limit theorems in Renewal Theory}
 \author{Parimal Parag}
 
 \begin{document}

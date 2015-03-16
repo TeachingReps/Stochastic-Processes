@@ -103,11 +103,15 @@ f(t) = t 1_{\{t \in \mathbb{Q}\}}.
 \end{equation*}
 Let $Z$ be a continuous random variable. Then we can show that $\Pr\{X_t \neq Y_t) = 0$. This is true since
 \begin{flalign*}
-\Pr\{X_t \neq Y_t\} &= \Pr\{\omega \in \Omega: \quad t+Z(w) \in \mathbb{Q}\} \\
-&= P(Z \in \mathbb{Q}\setminus t) = 0
+\Pr\{X_t \neq Y_t\} &= \Pr\{\omega \in \Omega: \quad t+Z(\omega) \in \mathbb{Q}\} \\
+&= \Pr\{\omega \in \Omega:  Z(\omega) \in \mathbb{Q} - t\} = 0.
 \end{flalign*}
-The last part follows since $\mathbb{Q}\setminus t$ is a countable set of individual events with probability zero.
-
+The last part follows since $\mathbb{Q}-t$ is a countable set of individual events with probability zero. We can also show that $X(t)$ and $Y(t)$ have same fdds.
+\begin{equation*}
+  \Pr\{X_{t_1}= Y_{t_1}, X_{t_2}= Y_{t_2}\}
+  = \sum_{n_{1},n_{2}}\Pr\{X_{t_1} = n_1, X_{t_2}= n_2, Y_{t_1}=n_1, Y_{t_2}=n_2 \}  = 1.
+\end{equation*}
+$\{X_{t}(\omega)\}$ can take non-integer values and is not non-decreasing. Two process can have same distribution but sample path behavior can be quite different.
 %\section{Compound (Batch) Poisson Process}
 %
 %\begin{eqnarray*}
@@ -133,30 +137,20 @@ The last part follows since $\mathbb{Q}\setminus t$ is a countable set of indivi
    %&=&\sum^{\infty}_{n=0}\frac{(\lambda \beta t)^{n}e^{-\lambda \beta t}}{n!}\lambda (\beta t-t)\\
    %&=& e^{\lambda t (\beta-t)}
    %\end{eqnarray*}
-   \textbf{Example:}\\
-\begin{figure}[h!]
-\center
-  % Requires \usepackage{graphicx}
-  \includegraphics[width=4.5in]{Figures/rate.PNG}\\
- % \caption{}\label{}
-\end{figure}
-Suppose $\{N_{t}, t \geq 0\}$ Poisson process with rate $\lambda$. 
-
-$\tilde{N_{t}}(w)= N_{t}(w)+f(t+X_{1}(w))$ where $f(t)$=0, if $t$ is irrational and $f(t)$=t, if $t$ is rational.\\
-\begin{eqnarray*}
-% \nonumber to remove numbering (before each equation)
-  P[\tilde{N_{t}}\neq N_{t}] &= P[\omega:t+X_{1}(\omega) \text{is rational}],\\
-  &= P[\omega:X_1(\omega)  \text{is rational} ] =0.
-\end{eqnarray*}
+   %\textbf{Example:}\\
+%\begin{figure}[h!]
+%\center
+  %% Requires \usepackage{graphicx}
+  %\includegraphics[width=4.5in]{Figures/rate.PNG}\\
+ %% \caption{}\label{}
+%\end{figure}
+%Suppose $\{N_{t}, t \geq 0\}$ Poisson process with rate $\lambda$. 
+%
+%$\tilde{N_{t}}(w)= N_{t}(w)+f(t+X_{1}(w))$ where $f(t)$=0, if $t$ is irrational and $f(t)$=t, if $t$ is rational.\\
+%\begin{eqnarray*}
+%% \nonumber to remove numbering (before each equation)
+  %P[\tilde{N_{t}}\neq N_{t}] &= P[\omega:t+X_{1}(\omega) \text{is rational}],\\
+  %&= P[\omega:X_1(\omega)  \text{is rational} ] =0.
+%\end{eqnarray*}
  
-\begin{eqnarray*}
-% \nonumber to remove numbering (before each equation)
-  P[\tilde{N_{t}}= N_{t}] &=& 1\\
-  P[\tilde{N_{t_1}}= N_{t_1},\tilde{N_{t_2}}= N_{t_2} ] \\
-  &=& \sum_{n_{1},n_{2}}P[\tilde{N_{t1}}= N_{t_1},\tilde{N_{t_2}}= N_{t_2}, N_{t_1}=n_1, N_{t_2}=n_2 ] \\
-   &=& 1
-\end{eqnarray*}
-$\{\tilde{N_{t}}\}, \{N_{t}\}$ have same fdds.\\
-$\{\tilde{N_{t}}(\omega)\}$ can take non-integer values and is not non-decreasing.\\
-Two process can have same distribution but sample path behaviour can be quite different.\\
 \end{document}
