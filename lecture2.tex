@@ -316,25 +316,30 @@ Result follows by recognizing that summand is just binomial expansion of $[(\lam
 \end{proof}
 \begin{rem}If independence condition is removed, the statement is not true.
 \end{rem}
-\begin{figure}
-\centering
-  \includegraphics[width=5.0in]{Figures/comment.PNG}\\
- % \caption{}\label{}
+%\begin{figure}
+%\centering
+  %\includegraphics[width=5.0in]{Figures/comment.PNG}\\
+ %% \caption{}\label{}
+%\end{figure}
+\begin{figure}[hhhh]
+\center
+  \input{Figures/IndependentSplitting}
+ \caption{Splitting a Poisson process into two independent Poisson processes.}
+\label{Fig:IndependentSplitting}
 \end{figure}
 
 \begin{thm}[Independent Spilitting] Let $\{N(t), t \geqslant 0\}$ be a Poisson arrival process. Each arrival can be randomly assigned to either arrival type 1 or 2, with probability $p$ and $(1-p)$ respectively, independent of previous assignments. Arrival processes of type 1 and 2 are denoted by $N_1(t)$ and $N_2(t)$ respectively. Then, $\{N_{1}(t), t \geqslant 0\}$,and $\{N_{2}(t), t \geqslant 0\}$ are mutually independent Poisson processes with rates $\lambda p$ and $\lambda (1-p)$ respectively.  
 \end{thm}
 \begin{proof} To show that ${N_{1}(t), t \geq 0}$ is a Poisson process with rate $\lambda p$, we show that it is stationary independent increment process with the distribution
-\begin{eqnarray*}
-% \nonumber to remove numbering (before each equation)
+\begin{equation*}
  \Pr\{N_{1}(t)= n\}  = \frac{(p \lambda t)^{n}}{n!}e^{-\lambda p t}.
-\end{eqnarray*}
-\begin{figure}
-\center
-  % Requires \usepackage{graphicx}
-  \includegraphics[width=4.5in]{Figures/distr.PNG}\\
- % \caption{}\label{}
-\end{figure}
+\end{equation*}
+%\begin{figure}
+%\center
+  %% Requires \usepackage{graphicx}
+  %\includegraphics[width=4.5in]{Figures/distr.PNG}\\
+ %% \caption{}\label{}
+%\end{figure}
 The stationary, independent increment property of the probabilistically filtered processes $\{N_1(t), t \geqslant 0\}$ and $\{N_2(t), t \geqslant 0\}$ can be understood and argued out from the example given in the figure. Notice that 
 \begin{equation*}
 	\{N_1(t)=k\} = \bigcup_{n=k}^\infty\{N(t) = n, N_1(t) = k\}.
@@ -374,16 +379,9 @@ Using their distribution for $N_1(t), N_2(t)$, and conditional distribution of $
    %&=&  \frac{e^{-\lambda p t}e^{-\lambda (1-p)t}}{(n_{1}+n_{2})!} -(\lambda t)^{n_{1}+n_{2}}\\
    %&=&  \frac{e^{-\lambda p t}e^{-\lambda (1-p)t} (\lambda t)^{n_{1}}(\lambda t)^{n_{2}}}{n_{1}! n_{2}!}
 %\end{eqnarray*}
-In general, we need to show fdds factorize. For measurable $A_1, \hdots, A_n$, $B_1, \hdots B_m$ and \\
-\begin{eqnarray*}
-% \nonumber to remove numbering (before each equation)
-   0 \leq t_{1}< t_{2}&...&<t_{n}  \\
-   0\leq s_{1}<s_{2}&...&s_{m}.
-   \end{eqnarray*}
-   \begin{eqnarray*}
-   \Pr\{N_{1}(t_{1})\in A_{1}, N _{2}(t_{2})\in A_{2},\hdots N_{2(s_{1})}\in B_{1}, N_{2}(s_{2})\in B_{2} ..] \\
-   =\Pr\{(N_{1}(t_{1})\in A_{1}&...&N_{1}(t_{n})\in A_{n})],\\
-   \Pr\{(N_{2}(S_{1})\in B_{1}&...&N_{2}(S_{m})\in B_{m})].
-\end{eqnarray*}
+In general, we need to show fdds factorize. That is, we need to show that for measurable sets $A_1, \hdots, A_n$, $B_1, \hdots B_m$ and for increasing sequences $\{t_i \geqslant 0, i = 1, \ldots, n\}$, and $\{s_j \geqslant 0, j = 1, \ldots, m\}$, we have \begin{equation*}
+   \Pr\left(\bigcap_{i=1}^n\{N_{1}(t_{i})\in A_{i}\}\bigcap_{j=1}^m\{N_{2(s_{j})}\in B_{j}\}\right)
+   =\Pr\left(\bigcap_{i=1}^n\{N_{1}(t_{i})\in A_{i}\}\right)\Pr\left(\bigcap_{j=1}^m\{N_{2(s_{j})}\in B_{j}\}\right).
+\end{equation*}
 \end{proof}
 \end{document}
