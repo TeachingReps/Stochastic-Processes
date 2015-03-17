@@ -7,9 +7,10 @@
 \newtheorem{defi}{Definition}
 \newtheorem{theo}{Theorem}
 \newtheorem{lem}{Lemma}
-\title{SPQT Lecture : Regenerative Processes}
-\author{Prof. Parimal Parag}
+\title{Lecture 12 : Continuous Time Markov Chains}
+\author{Parimal Parag}
 
+\date{}
 \begin{document}
 \maketitle
 \section{Continuous Time Markov Chains}
@@ -22,8 +23,9 @@ P(\tau_i \geq s+t | \tau_i > s)&=P(X(v)=i,~v \in [s,s+t]|X(0)=i)\\
 &=P(\tau_i \geq t | X(0)=i)
 \end{flalign*}
 
-$\tau_i$ is memoryless and exponentially distributed. \\
-\subsection{Alternating way of constructing CTMC}
+$\tau_i$ is memoryless and exponentially distributed. 
+
+\subsection{Alternative way of constructing CTMC}
 A CTMC is a stochastic process that each time it enters state $i$,\\
 \begin{enumerate}
 \item {$\tau_i \sim $ exp$(\nu_i)$. }\\
