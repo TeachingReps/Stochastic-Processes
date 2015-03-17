@@ -64,10 +64,10 @@
 \maketitle
 
 \section{Renewal Theory}
-One of the characterization for the Poisson process is of it being a counting process with iid exponential inter-arrival times. Now we shall relax the ``exponential" part. A counting process with iid general inter-arrival times is called a renewal process.
+One of the characterization for the Poisson process is of it being a counting process with \emph{iid} exponential inter-arrival times. Now we shall relax the ``exponential" part. A counting process with \emph{iid} general inter-arrival times is called a renewal process.
 As a result, we no longer have the nice properties such as Independent and stationary increments that Poisson processes had. However, we can still get some great results which also apply to Poisson Processes. 
 
-\begin{defn}[Inter-arrival Times]Let $\{T_i: i \in \mathbb{N}\}$ be a sequence of iid random variables with a common distribution $F$. We interpret $T_n$ as the time between $(n - 1)^{\mathrm{st}}$ and the $n^{\mathrm{th}}$ event. Assume 
+\begin{defn}[Inter-arrival Times]Let $\{T_i: i \in \mathbb{N}\}$ be a sequence of \emph{iid} random variables with a common distribution $F$. We interpret $T_n$ as the time between $(n - 1)^{\mathrm{st}}$ and the $n^{\mathrm{th}}$ event. Assume 
 \begin{enumerate}
   \item Positive inter-arrival time, i.e. $T_n \geq 0$,
 	\item Finite mean i.e. $(0 \leq \mu = E[T_1] < \infty)$, and
@@ -141,7 +141,7 @@ Since we assumed that $\Pr\{T_n = 0\} < 1$, for some $\alpha > 0$, we have $\Pr\
 \begin{equation*}
 \overline{T}_n = \alpha 1_{\{T_n \geq \alpha\}}.
 \end{equation*}
-Let $\overline{N}(t)$ denote the renewal process with inter-arrival times $\overline{T}_n$. Note that since $T_i$'s are iid, so are $\overline{T}_i$ (Why?). In fact, the arrivals now happen at multiples of $\alpha$. And yes, they stack. Moreover, $T_n \geq \overline{T}_n$
+Let $\overline{N}(t)$ denote the renewal process with inter-arrival times $\overline{T}_n$. Note that since $T_i$'s are \emph{iid}, so are $\overline{T}_i$ (Why?). In fact, the arrivals now happen at multiples of $\alpha$. And yes, they stack. Moreover, $T_n \geq \overline{T}_n$
 
 The number of arrivals till time $t$, therefore is Geometric with mean $\frac{1}{P[T_n \geq \alpha]}$. Thus 
 \begin{equation*}
