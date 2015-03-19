@@ -1,0 +1,227 @@
+\documentclass[a4paper,10pt]{article}
+\usepackage{%
+amsmath,%
+amsfonts,%
+amssymb,%
+amsthm,%
+hyperref,%
+url,%
+latexsym,%
+epsfig,%
+graphicx,%
+psfrag,%
+subfigure,%
+color,%
+tikz,%
+pgf,%
+pgfplots,%
+pgfplotstable,%
+pgfpages%
+}
+\usepgflibrary{shapes}
+\usetikzlibrary{%
+arrows,%
+backgrounds,%
+chains,%
+decorations.pathmorphing,% /pgf/decoration/random steps | erste Graphik
+decorations.text,%
+matrix,%
+positioning,% wg. " of "
+fit,%
+patterns,%
+petri,%
+plotmarks,%
+scopes,%
+shadows,%
+shapes.misc,% wg. rounded rectangle
+shapes.arrows,%
+shapes.callouts,%
+shapes%
+}
+\theoremstyle{plain}
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{prop}[thm]{Proposition}
+\newtheorem{cor}[thm]{Corollary}
+\theoremstyle{definition}
+\newtheorem{defn}[thm]{Definition}
+\newtheorem{conj}[thm]{Conjecture}
+\newtheorem{exmp}[thm]{Example}
+\theoremstyle{remark}
+\newtheorem{rem}[thm]{Remark}
+\newtheorem{note}[thm]{Note}
+\date{}
+\title{Lecture 14: Continuous Time Markov Chains}
+\author{Parimal Parag}
+\begin{document}
+\maketitle
+\section{Uniformization}
+Consider a continuous-time Markov chain in which the mean time spent in a state is the same for all states. That is, say $\nu_i=\nu$ for all states $i$. Let $N(t)$ denote the number of state transitions by time $t$. Since the amount of time spent in each state is  exponential $\nu$, $\{N(t), ~ t \geq 0 \}$ is a Poisson process with parameter $\nu$. To compute the transition probabilities $P_{ij}(t)$, we can condition on $N(t)$ as follows:
+\begin{flalign*}
+P_{ij}(t)&=Pr(X(t)=j|X(0)=i)\\
+&=\sum_{n \in \mathbb{N}_0} Pr(X(t)=j,N(t)=n|X(0)=i)\\
+&=\sum_{n \in \mathbb{N}_0} Pr( N(t)=n|X(0)=i) Pr(X(t)=j|X(0)=i,N(t)=n).
+\end{flalign*}
+Hence,
+\begin{equation*}
+P_{ij}(t)= \sum_{n \in \mathbb{N}_0} P_{ij}^{(n)}e^{-\nu t}\frac{(\nu t)^n}{n !}.
+\end{equation*}
+The above equation helps to compute $P_{ij}(t)$ approximately by computing an appropriate partial sum. But its application is limited as the rates are all assumed to be equal. But it so turns out that most Markov chains can be put in that form by allowing hypothetical transitions from a state to itself.
+\subsection{Uniformization step}
+Consider a CTMC with bounded $\nu_i$s. Choose $\nu$ such that 
+\begin{equation}
+\label{eq: UniformizationBound}
+\nu_i \leq \nu,
+\end{equation}
+for all $i$. Since from each stage, the Markov chain leaves at rate $\nu_i$, we could equivalently assume that the transitions occur at a rate $\nu$ but only $\frac{\nu_i}{\nu}$ are real transitions and the remaining transitions are fictitious. Any Markov chain satisfying \ref{eq: UniformizationBound} can be thought of as being in a process that spends an exponential amount of time with rate $\nu$ in state $i$ and then makes a transition to state $j$ with probability $P_{ij}^*$, where
+\begin{equation}
+P_{ij}^* = \left\{
+     \begin{array}{lr}
+       1-\frac{\nu_i}{\nu} & : j =i\\
+       \frac{\nu_i}{\nu}P_{ij} & : j \neq i.
+     \end{array}
+   \right.
+\end{equation}   
+The transition probabilities are computed by 
+\begin{equation*}
+P_{ij}(t)=\sum_{n=0}^{\infty}P_{ij}^{*n}e^{\nu}t \frac{{(\nu t)}^n}{n!}
+\end{equation*}
+This technique of uniformizing the rate in which a transition occurs from each state to state by introducing self transitions is called uniformization.
+\subsection{Reversibility}
+\begin{cor}
+Consider an M/M/s queue with Poisson$(\lambda)$ arrivals and each server having exponential service time exp$(\mu)$ service. If $\lambda > s \mu$, then the output process in steady state is Poisson$(\lambda)$.
+\end{cor}
+\begin{proof}
+Let $X(t)$ denote the number of customers in the system at time $t$. Since M/M/s process is a birth and death process, it follows from the previous proposition that $\{X(t),~t \geq 0\}$ is time reversible. Now going forward in time, the time instants at which $X(t)$ increases by 1 are the arrival instants of a Poisson process. Hence, by time reversibility, the time Points at which $X(t)$ increases by 1 when we go backwards in time also constitutes a Poisson process. But these instants are exactly the departure instants of the forward process. Hence the result.
+\end{proof}
+\begin{prop}
+A time-reversible chain with limiting probabilities $P_j,~ j \in S$, that is truncated to the set $A\subset S$ and remains irreducible is also time reversible and has limiting probabilities 
+\begin{equation}
+P_j^A=P_j/(\sum_{i \in A}P_i),~ j \in A.
+\end{equation}
+\end{prop}
+\begin{proof}
+We must show that 
+\begin{equation*}
+P_i^Aq_{ij}=P_j^Aq_{ji},~ i \in A,~ j \in A,
+\end{equation*}
+or equivalently,
+\begin{equation*}
+P_iq_{ij}=P_j^Aq_{ji},~ i \in A,~ j \in A.
+\end{equation*}
+But this is true as the original chain is time reversible.
+\end{proof}
+\subsection{Tandem Queues}
+Time reversibility of M/M/s queues can be used to study what is called as a tandem, or sequential queueing system. For instance, consider a two server queueing system. Service time of server $i$ is distributed exponential$(\mu_i)$. Customers arrive according to a Poisson$(\lambda)$ process to the server 1. After being served at server 1, customers join server  2 for its service. Assume there is infinite waiting room at both servers. Since the departure process of server 1 is Poisson, as discussed previously, the arrival process to server 2 is also Poisson$(\lambda)$. Time reversibility concept can be used to give a much more stronger result.
+\begin{lem}
+In an ergodic M/M/1 queue in steady state:
+\begin{enumerate}
+\item the number of customers present in the system is independent of the sequence of past departures.
+\item the waiting time spent in the system (waiting in the queue plus the service time) by a customer is independent of the departure process prior to his departure.
+\end{enumerate} 
+\begin{proof}
+\begin{enumerate}
+\item Since the arrival process is Poisson, the future arrivals are independent of the number of customers in the system at the current instant. Looking backwards in time, future arrivals are the past departures. Hence by time reversibility, the number of customers currently in the system are also independent of the past departures.
+\item Consider the case when a customer arrives into the system at time $T_1$. The customer leaves at time $T_2>T_1$.  Since the service discipline is assumed first come first serve and the arrival is Poisson, it is seen that the waiting time $T_2-T_1$ is independent of the customers coming after $T_1$. Hence, by time reversibility, looking at the reversed process, we see that $T_2-T_1$  will be independent of the customers coming after $T_2$. But this is just the departure process before time $T_2$. Hence the result.
+\end{enumerate}
+\end{proof}
+\end{lem} 
+\begin{thm}
+For the ergodic tandem queue in steady state,
+\begin{enumerate}
+\item the number of customers present at server 1 and server 2 are independent, and
+\begin{equation*}
+Pr(n \text{~at server}1, m \text{~at server}2)={(\frac{\lambda}{\mu_1})}^n(1-\frac{\lambda}{\mu_1}){(\frac{\lambda}{\mu_2})}^n(1-\frac{\lambda}{\mu_2});
+\end{equation*}
+\item the waiting time at server 1 is independent of the waiting time at server 2.
+\end{enumerate}
+\end{thm}
+\begin{proof}
+\begin{enumerate}
+\item By part 1 of previous lemma, we have that the number of customers at server 1 is independent of the past departures od server 1. But past departures are same as the arrival to server 2. Thus follows the independence of the number of customers in both servers. The formula for the joint density follows from the independence and the formula for the limiting probabilities of an M/M/1 queue. 
+\item By part 2 of the previous lemma, the waiting time of a customer at server 1 is independent of the past departures happening at server 1. But the past departures at server 1, in conjunction with the service times at server 2, customer's waiting time at server 2. Hence the result follows.
+\end{enumerate}
+\end{proof}
+\subsection{Applications of the Reversed Chain to Queueing Theory}
+The reversed chain can be quite a useful concept even when the process is not time reversible. To see this, we start with the following theorem. 
+\begin{thm}
+Let $Q$ denote the rate matrix for an irreducible continuous-time Markov chain. If we can find $Q^*$ of the same size as $Q$ and a vector $P \geq 0$ such that $\sum_i P_i =1$ and 
+\begin{equation*}
+P_{i}q_{ij}^*=P_jq_{ji}^*, ~ i \neq j,
+\end{equation*} and
+\begin{equation*}
+\sum_{j \neq i}q_{ij}=\sum_{j \neq i}q_{ij}^*, i \geq 0,
+\end{equation*} 
+then $Q^*$ is the rate matrix for the reversed Markov chain and $P_i$ are the limiting probabilities for both  chains.
+\end{thm}
+\begin{proof}
+Exercise.
+\end{proof}
+\subsection{Network of Queues}
+Consider a system of $k$ servers. To each server, customers arrive from outside the system, according to Poisson$(r_i)$. Once a server is served at server $i$, the customer joins server $j$ with probability $P_{ij}$, $\sum_{i}P_{ij} \leq 1$. The probability of the customer departing the system is $1-\sum_{j}P_{ij}$. If we denote $\lambda_i$ as the total rate at which the customers join $i$, then $\lambda_i$s can be obtained as a solution to,
+\begin{equation*}
+\lambda_j=r_j+\sum_{i=1}^{k}\lambda_i P_{ij},~ j=1, \hdots k.
+\end{equation*}
+The model can be analysed by continuous-time Markov chain with states $(n_1,n_2, \hdots n_k)$, where $n_i$ denotes the number of customers in server $i$. From the tandem queue results, we expect the customers at each server to be independent random variables. We are interested in knowing the the joint probability,
+\begin{equation*}
+Pr(n_1,n_2 \hdots n_k)=Pr(n_1)Pr(n_2) \hdots Pr(n_k),
+\end{equation*}
+where $Pr(n_i)$ is the limiting probability that there are $n_i$ customers to serve at server $i$.
+\begin{conj}
+The reversed stochastic process is a network process of the same type as original. It has Poisson arrivals from outside the system to server $i$ at rate $\lambda_i(1-\sum_j)P_{ij}$ and a departure from $i$ goes to $j$ with probability $\bar{P}_{ij}$ as given by
+\begin{equation*}
+\bar{P}_{ij}=\frac{\lambda_j P_{ji}}{\lambda_i}.
+\end{equation*}
+The service rate is exponential $\mu_i$. In addition, the limiting probabilities satisfy
+\begin{equation*}
+Pr(n_1,n_2 \hdots n_k)=Pr(n_1)Pr(n_2)\hdots Pr(n_k).
+\end{equation*}
+\end{conj}
+ Consider transitions resulting from an outside arrival. Consider states $\underline{n}=(n_1,n_2 \hdots n_i, \hdots n_k)$ and $\underline{n}'=(n_1,\hdots n_i+1,\hdots n_k)$. Now
+ \begin{equation*}
+ q_{n,n'}=r_i,
+ \end{equation*}
+ and, if the conjecture is true,
+ \begin{flalign*}
+ q_{n',n}^*&=\mu_i(1-\sum_{j}\bar{P}_{ij})\\
+ &=\mu_i \frac{(\lambda_i-\sum_{j}\lambda_j {P}_{ji})}{\lambda_i}\\
+ &=\frac{\mu_i r_i}{\lambda_i}
+ \end{flalign*}
+ and 
+ \begin{equation*}
+ P(\underline{n})=\Pi_j P_j(n_j),~ P(\underline{n}')=P_i(n_i+1)\Pi_{j \neq i}P_j(n_j).
+ \end{equation*}
+ Hence, from the previous theorem, we need that
+ \begin{equation*}
+  r_i \Pi_j P_j(n_j)= \frac{\mu_i r_i}{\lambda_i}\Pi_{j \neq i}P_j(n_j).
+ \end{equation*} 
+ That is,
+ \begin{equation*}
+ P_i(n+1)= \frac{\lambda_i}{\mu_i}P_i(n)={(\frac{lambda_i}{\mu_i})}^{n+1}P_i(0),
+ \end{equation*}
+ and using the fact that 
+ \begin{equation*}
+\sum_{n=0}^{\infty}P_i(n)=1
+ \end{equation*}
+ yields 
+ \begin{equation*}
+P_i(n) ={(\frac{lambda_i}{\mu_i})}^n(1-\frac{\lambda_i}{\mu_i}).
+\end{equation*}
+Thus $\frac{\lambda_i}{\mu_i}< 1$ and $P_i$ must be as given before for the conjecture to be true. Now consider transitions that result from a departure from server $j$ going to server $i$. That is, let $\underline{n}=(n_1,n_2 \hdots n_i, \hdots n_k)$ and $\underline{n}'=(n_1,\hdots n_i+1,\hdots n_j+1,\hdots n_k)$, where $n_j >0$. Since
+\begin{equation*}
+q_{n,n'}=\mu_j P_{ji}
+\end{equation*}
+and the conjecture yields
+\begin{equation*}
+q_{n,n'}^*=\mu_i \bar{P}_{ij}.
+\end{equation*}
+We need to show that 
+\begin{equation*}
+P(\underline{n})\mu_j P_{ji}= P(\underline{n}')\mu_i \bar{P}_{ij}
+\end{equation*}
+or, equivalently,
+\begin{equation*}
+\lambda_j P_{ji}=\lambda_i \bar{P}_{ij}.
+\end{equation*}
+which is the definition of $\bar{P}_{ij}$.
+\end{document}
