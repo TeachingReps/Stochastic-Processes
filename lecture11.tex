@@ -1,4 +1,56 @@
 \documentclass[a4paper,10pt]{article}
+\usepackage{%
+amsmath,%
+amsfonts,%
+amssymb,%
+amsthm,%
+hyperref,%
+url,%
+latexsym,%
+epsfig,%
+graphicx,%
+psfrag,%
+subfigure,%
+color,%
+tikz,%
+pgf,%
+pgfplots,%
+pgfplotstable,%
+pgfpages%
+}
+\usepgflibrary{shapes}
+\usetikzlibrary{%
+arrows,%
+backgrounds,%
+chains,%
+decorations.pathmorphing,% /pgf/decoration/random steps | erste Graphik
+decorations.text,%
+matrix,%
+positioning,% wg. " of "
+fit,%
+patterns,%
+petri,%
+plotmarks,%
+scopes,%
+shadows,%
+shapes.misc,% wg. rounded rectangle
+shapes.arrows,%
+shapes.callouts,%
+shapes%
+}
+\theoremstyle{plain}
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{prop}[thm]{Proposition}
+\newtheorem{cor}[thm]{Corollary}
+\theoremstyle{definition}
+\newtheorem{defn}[thm]{Definition}
+\newtheorem{conj}[thm]{Conjecture}
+\newtheorem{exmp}[thm]{Example}
+\theoremstyle{remark}
+\newtheorem{rem}[thm]{Remark}
+\newtheorem{note}[thm]{Note}
+
 \include{header}
 \title{Lecture 11 : Time Reversibility of Discrete Time Markov Chains}
 \author{Parimal Parag}
@@ -13,28 +65,63 @@ Consider a discrete time Markov chain with transition probability matrix $P$ and
 \begin{proof}
 \begin{flalign*}
 &P(X_{m-1}=i|X_m=j,X_{m+1}=i_{m+1} \hdots )=\frac{P(X_{m-1}=i,X_m=j, \hdots )}{P(X_m=j, X_{m+1}=i_{m+1}\hdots )}\\
-&=\frac{P(X_{m-1}=i,X_m=j)P(X_{m+1}=i_{m+1}\hdots |X_{m-1}=i,X_m=j \hdots )}{P(X_m=j)P(X_{m+1}=i_{m+1} \hdots |X_m=j)}\\
-&\stackrel{(a)}{=}\frac{P(X_{m-1}=i,X_m=j)P(X_{m+1}=i_{m+1}\hdots |X_m=j \hdots )}{P(X_m=j)P(X_{m+1}=i_{m+1} \hdots |X_m=j)}\\
+&=\frac{P(X_{m-1}=i,X_m=j)P(X_{m+1}=i_{m+1}\hdots |X_{m-1}=i,X_m=j  )}{P(X_m=j)P(X_{m+1}=i_{m+1} \hdots |X_m=j)}\\
+&\stackrel{(a)}{=}\frac{P(X_{m-1}=i,X_m=j)P(X_{m+1}=i_{m+1}\hdots |X_m=j  )}{P(X_m=j)P(X_{m+1}=i_{m+1} \hdots |X_m=j)}\\
 &=P(X_{m-1}=i|X_m=j).\\
 \end{flalign*}
 where $(a)$ follows from the Markov property.
 \end{proof}
 The sequence $\{X_n,X_{n-1} \hdots \}$ is called reverse process. Let $P^*$ denote the transition probability matrix. 
 \begin{flalign*}
-P_{ij}^*&=P(X_{n-1}=i|X_n=j)=\frac{P(X_{n-1}=i,X_n=j)}{P(X_n=j)}\\
-&=\frac{P(X_{n-1}=i)P(X_n=j|X_{n-1}=i)}{P(X_{n-1}=i)}\\
-&=\frac{P(X_{n-1}=i)}{P(X_{n}=j)}P_{ji}
+P_{ij}^*&=P(X_{n-1}=j|X_n=i)=\frac{P(X_{n-1}=j,X_n=i)}{P(X_n=i)}\\
+&=\frac{P(X_{n-1}=j)P(X_n=i|X_{n-1}=j)}{P(X_{n}=i)}\\
+&=\frac{P(X_{n-1}=j)}{P(X_{n}=i)}P_{ji}
 \end{flalign*}
-suppose we are considering a stationary Markov chain, $P(X_n=l)=P(X_{n-1}=l)=\pi(l),~\forall l$, $\pi(i){P^*}_{ij}=\pi(j)(P)_{ji}$. If $P^*=P$ then the Markov chain is called time reversible. Thus the condition for time reversibility is given by $\pi P_{ij}=\pi_jP_{ji}$. Any non-negative vector $X$ satisfying $X_iP_{ij}=X_jP_{ji},~\forall i,j$ and $\sum_{j \in \mathcal{N}_0}X_j=1$ is stationary distribution of time-reversible Markov chain. This is true because,
+suppose we are considering a stationary Markov chain, $P(X_n=l)=P(X_{n-1}=l)=\pi(l),~\forall l$, $\pi(i){P^*}_{ij}=\pi(j)(P)_{ji}$. If $P^*=P^T$ then the Markov chain is called time reversible. Thus the condition for time reversibility is given by $\pi P_{ij}=\pi_jP_{ji}$. Any non-negative vector $X$ satisfying $X_iP_{ij}=X_jP_{ji},~\forall i,j$ and $\sum_{j \in \mathcal{N}_0}X_j=1$ is stationary distribution of time-reversible Markov chain. This is true because,
 \begin{flalign*}
 \sum_{i} X_i P_{ij}=\sum_i X_j P_{ji}=X_j \sum X_i = 1.
 \end{flalign*}
 Since stationary probabilities are the unique solution of the above, the claim follows.\\
 
-\textbf{Example 4.7(A) An Ergodic Random Walk}: Any ergodic, positive recurrent random walk is time reversible. The transition probability matrix is $P_{i,i+1}+P_{i-1,i}=1$. For every two transitions from $i+1$ to $i$, there must be one transition from $i$ to $i+1$. The rate of transitions from $i+1$ to $i$ must hence be same as the number of transitions from $i$ to $i+1$. So the process is time reversible.\\
+\textbf{Example 4.7(A) An Ergodic Random Walk}: Any ergodic, positive recurrent random walk is time reversible. The transition probability matrix is $P_{i,i+1}+P_{i-1,i}=1$. For every two transitions from $i+1$ to $i$, there must be one transition from $i$ to $i+1$. The rate of transitions from $i+1$ to $i$ must hence be same as the number of transitions from $i$ to $i+1$. So the process is time reversible.
 
-If we try to prove the equations necessary for time reversibility, $X_iP_{ij}=X_jP_{jk}$ for all $i,j$, for any arbitrary Markov chain, one may not end up getting any solution. This is so because, if $P_{ij}P_{jk}>0$, then $\frac{X_i}{X_k}=\frac{P_{ji}P_{kj}}{P_{jk}P_{ij}} \neq \frac{P_{kj}}{P_{jk}}$.
+\textbf{Example 4.7(B) The Metropolis Algorithm: } Let $a_j,~ j=1, \hdots m$ be positive numbers and let $A=\sum_{i=1}^{m}a_i$. Suppose that $m$ is large and $A$ is difficult to compute. One way to compute it by simulating a sequence of random variables is by generating a Markov chain whose limiting probabilities are $p_j$s. The Metropolis algorithm provides a convenient approach. \\
+Let $Q$ be an irreducible transition probability matrix on the integers $1, \hdots n$ such that $q_{ij}=q_{ji}$ and for all $i$ and $j$. Generate a Markov chain $\{X_n\}$ such that the transition probabilities are given by 
+\begin{flalign*}
+P_{ij} = \left\{
+     \begin{array}{lr}
+       q_{ij}\min(1,a_j/a_i) & : j \neq i\\
+       q_{ii}+\sum_{j \neq i}q_{ij}\{1-\min(1,a_j/a_i)\} & : j = i.
+     \end{array}
+   \right.
+\end{flalign*} 
+It can be directly verified that the chain is irreducible and hence verify that $p_j$s are the limiting probabilities.
 
+\textbf{Edge weighted graphs:} Consider a graph having a positive number $w_{ij}$ associated with each edge $(i,j)$, and suppose that a particle moves from vertex to vertex in the following manner: If the particle is presently at vertex  $i$ then it will next move to vertex $j$ with probability
+\begin{equation*}
+P_{ij}=\frac{w_{ij}}{\sum_{j}w_{ij}}
+\end{equation*}
+where $w_{ij}$ is 0 if $(i,j)$ is not an edge of the graph. The Markov chain describing the sequence of vertices visited by the particle is called a random walk on an edge weighted graph. 
+\begin{prop}
+Consider a random walk on an edge weighted graph witha finite number of vertices. If this Markov chain is irreducible then it is, in steady state, time reversible with stationary probabilities given by 
+\begin{equation*}
+\pi_i = \frac{\sum_{i}w_{ij}}{\sum_{j}\sum_{i}w_{ij}}.
+\end{equation*}
+\end{prop}
+\begin{proof}
+The time reversibility equation
+\begin{equation*}
+\pi_iP_{ij}=\pi_{j}P_{ji}
+\end{equation*}
+reduces to 
+\begin{equation*}
+ \frac{\pi_i w_{ij}}{\sum_{k}w_{ik}}=\frac{\pi_j w_{ji}}{\sum_{k}w_{jk}}
+\end{equation*}
+But noting that $w_{ij}=w_{ji}$ and $\sum_{i}\pi_i = 1$, we get the desired result.
+ 
+\end{proof}
+\subsubsection*{Necessary condition for time reversibility}
+If we try to prove the equations necessary for time reversibility, $X_iP_{ij}=X_jP_{jk}$ for all $i,j$, for any arbitrary Markov chain, one may not end up getting any solution. This is so because, if $P_{ij}P_{jk}>0$, then $\frac{X_i}{X_k}=\frac{P_{ji}P_{kj}}{P_{jk}P_{ij}} \neq \frac{P_{kj}}{P_{jk}}$.\\
 Thus we see that a necessary condition for time reversibility is $P_{ij}P_{jk}P_{ki}=P_{ik}P_{kj}P_{ji},~ \forall i,j,k$. In fact we can show the following.
 \begin{thm}
 A stationary Markov chain is time reversible if and only if starting in state $i$
@@ -97,7 +184,7 @@ P_i=\lim_{t \rightarrow \infty}P(Z(t)=i|Z(0)=j)
 exists and is independent of the initial state. Furthermore, $P_i=\frac{\mu_i}{\mu_{ii}}$.
 \end{thm}
 \textbf{Corollary 4.8.2} If the semi-Markov process is irreducible and $\mu_{ii}<\infty$, then with probability 1,
-$\frac{\mu_i}{\mu_{ii}}=\frac{\lim_{t \rightarrow \infty} \text{Amount of time in [0,t]}}{t}$.\\
+$\frac{\mu_i}{\mu_{ii}}=\frac{\lim_{t \rightarrow \infty} \text{Amount of time in [0,t]}}{t}~\text{a.s}$.\\
 \begin{thm}
 Suppose conditions of the previous thmrem hold and the embedded Markov chain is positive recurrent. Then $P_i= \frac{\pi_i\mu_i}{\sum_{i}\pi_j \mu_j}$. 
 \end{thm} 
