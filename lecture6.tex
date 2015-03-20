@@ -96,13 +96,7 @@ m(t)&=\sum_{n \in \mathbb{N}}F_n(t)
 , & \mu&= \int_{0}^{\infty}F^c(t).
 \end{align*}
 \end{thm}
-\textbf{Remark:} and we can deduce one theorem from the other. To see how we can prove the key renewal theorem from Blackwell's theorem, observe from Blackwell's theorem that,
-\begin{flalign*}
-&\lim_{a \rightarrow 0}\lim_{t \rightarrow \infty} \frac{m(t
-+a)-m(t)}{a}=\frac{1}{\mu}\\
-&\stackrel{(a)}{\Rightarrow}\lim_{t \rightarrow \infty}\frac{dm(t)}{dt}=\frac{1}{\mu},
-\end{flalign*}     
-where in $(a)$ we justify the exchange the order of limits as follows: 
+%\textbf{Remark:} and we can deduce one theorem from the other. 
 
 \begin{prop}[Equivalence] Blackwell's theorem and key renewal theorem are equivalent.
 \end{prop}
@@ -112,30 +106,44 @@ h(x) = 1_{\{ x \in [0,a]\}}.
 \end{equation*}
 It is easy to see that this function is directly Riemann integrable. With this selection of $h$, Blackwell's theorem follows.
 
+To see how we can prove the key renewal theorem from Blackwell's theorem, observe from Blackwell's theorem that,
+\begin{flalign*}
+&\lim_{a \rightarrow 0}\lim_{t \rightarrow \infty} \frac{m(t
++a)-m(t)}{a}=\frac{1}{\mu}\\
+&\stackrel{(a)}{\Rightarrow}\lim_{t \rightarrow \infty}\frac{dm(t)}{dt}=\frac{1}{\mu},
+\end{flalign*}     
+where in $(a)$ we can exchange the order of limits under certain regularity conditions.Reverse can be proved by approximating a directly Riemann integrable function with simple functions. We defer the formal proof for a later stage.
 \end{proof}
-
- 
-\begin{thm}
+\begin{rem} Key renewal theorem is very useful in computing limiting value of some function $g(t)$, probability or expectation of an event at arbitrary time $t$, for a renewal process. This value is computed by conditioning on the time of last renewal prior to time $t$.
+\end{rem}
+\begin{thm}[Key Lemma] Let $N(t)$ be a renewal process, with mean $m(t)$, \emph{iid} inter-renewal times $\{X_n\}$ with distribution function $F$, and $n^{\mathrm{th}}$ renewal instant $S_n$. Then,
 \begin{flalign}
-P(S_{N(t)}\leq s)=F^c(t)+\int_{0}^{s}F^c(t-y)dm(y),~ t\geq s \geq 0.
+\Pr\{S_{N(t)}\leq s\}=F^c(t)+\int_{0}^{s}F^c(t-y)dm(y),\quad\quad t\geq s \geq 0.
 \end{flalign}
 \end{thm} 
-
-\begin{proof}
-\begin{flalign*}
-P(S_{N(t)} \leq s)&= \sum_{n \in \mathbb{N}_0}P( S_{N(t)} \leq s, N(t)=n)\\
-&= \sum_{n \in \mathbb{N}_0}P( S_{n} \leq s, N(t)=n)\\
-&= \sum_{n \in \mathbb{N}_0}P( S_{n} \leq s, S_{n+1} > t)\\
-&= P(S_1 >t) +\sum_{n \in \mathbb{N}}P( S_{n} \leq s, S_{n+1} > t)\\
-&= P(X_1 >t) +\sum_{n \in \mathbb{N}}\int_{y=0}^{s}P( S_{n+1} > t|S_n=y)dF_n(y)\\
-&= P(X_1 >t) +\sum_{n \in \mathbb{N}}\int_{y=0}^{s}P( X_{n+1} > t-y)dF_n(y)\\
-&= P(X_1 >t) +\sum_{n \in \mathbb{N}}\int_{y=0}^{s}F^c(t-y)dF_n(y)\\
-&\stackrel{(a)}{=} P(X_1 >t) +\int_{y=0}^{s}F^c(t-y)\sum_{n \in \mathbb{N}}dF_n(y),\\
-\end{flalign*}
-where the order of summation is exchanged by virtue of the fact that the summands are non-negative and the sum is finite (Fubini's theorem).
+\begin{proof} We can see that event of time of last renewal prior to $t$ being smaller than another time $s$ can be partitioned into disjoint events corresponding to number of renewals till time $t$. Each of these disjoint events is equivalent to occurence of $n^{\mathrm{th}}$ renewal before time $s$ and $(n+1)^{\mathrm{st}}$ renewal past time $t$. That is,
+\begin{equation*}
+	\{S_{N(t)} \leq s\} = \bigcup_{n \in \mathbb{N}_0}\{ S_{N(t)} \leq s, N(t)=n\} = \bigcup_{n \in \mathbb{N}_0}\{ S_n \leq s, S_{n+1} > t\} .
+\end{equation*}
+Recognizing that $S_0 = 0$, $S_1 = X_1$, and that $S_{n+1} = S_n + X_{n+1}$, we can write
+\begin{equation*}
+	\Pr\{S_{N(t)} \leq s\} = \Pr\{X_1 > t\} + \sum_{n \in \mathbb{N}}\Pr\{ X_{n+1} + S_n > t, S_n \leq s\} .
+\end{equation*}
+We recall $F_n$, $n$-fold convolution of $F$, is the distribution function of $S_n$. Conditioning on $\{S_n = y\}$, we can write
+\begin{align*}
+	\Pr\{S_{N(t)} \leq s\} &= F^c(t) + \sum_{n \in \mathbb{N}}\int_{y=0}^{s}\Pr\{ X_{n+1} > t - S_n, S_n \leq s| S_n = y\}dF_n(y),\\
+	&= F^c(t) + \sum_{n \in \mathbb{N}}\int_{y=0}^{s}F^c(t-y)dF_n(y).
+\end{align*}
+Using monotone convergence theorem to interchange integral and summation, and noticing that $m(y) = \sum_{n\in\mathbb{N}}F_n(y)$, the result follows.
+%\begin{flalign*}
+%\Pr\{S_{N(t)} \leq s\} = \Pr\{X_1 > t\} +\sum_{n \in \mathbb{N}}\int_{y=0}^{s}\Pr\{ S_{n+1} > t|S_n=y\}dF_n(y)\\
+%&= \Pr\{X_1 > t\} +\sum_{n \in \mathbb{N}}\int_{y=0}^{s}\Pr\{ X_{n+1} > t-y\}dF_n(y)\\
+%&= \Pr\{X_1 > t\} +\sum_{n \in \mathbb{N}}\int_{y=0}^{s}F^c(t-y)dF_n(y)\\
+%&\stackrel{(a)}{=} \Pr\{X_1 >t) +\int_{y=0}^{s}F^c(t-y)\sum_{n \in \mathbb{N}}dF_n(y),\\
+%\end{flalign*}
+%where the order of summation is exchanged by virtue of the fact that the summands are non-negative and the sum is finite (Fubini's theorem).
 \end{proof}
-
-\textbf{Remarks:}
+\begin{rem}
 \begin{enumerate}
 \item $P(S_{N(t)}=0)=F^c(t)$, $dF_{S_{N(t)}}(y)=F^c(t-y)dm(y)$.\\
 \item Let $F$ be continuous with density function $f$. Then, 
@@ -149,6 +157,7 @@ Hence,
 dF_{S_{N(t)}}(y)=P(\text{renewal occurs in }(y,y+dy)) \text{ and next arrival after}~ t-y).
 \end{flalign*}
 \end{enumerate}
+\end{rem}
 \subsection{Alternate Renewal Processes}
 Alternating renewal processes form an important class of renewal processes and we find one natural application of  key renewal theorem  in this section. Let $\{(Z_n,Y_n),~n \in \mathbb{N}\}$ be an iid process. Note that $Y_n$ and $Z_n$ can be dependent. Let $Y_n \sim G$, $Z_n \sim H, F \sim Z_n+Y_n \triangleq X_n$. The random variable $Z_n$ denotes the ON time of a system and $Y_n$ denotes the OFF time of the system. Let $P(t)=P(\text{ON at time}~ t)$.
 \begin{thm}

@@ -1,19 +1,12 @@
-  \documentclass[a4paper,10pt]{article}
-\usepackage{amsmath,amssymb}
-\usepackage{amsthm}
-\usepackage[colorlinks]{hyperref}
-
-\newtheorem{prop}{Proposition}
-\newtheorem{defi}{Definition}
-\newtheorem{theo}{Theorem}
-\newtheorem{lem}{Lemma}
+\documentclass[a4paper,10pt]{article}
+\include{header}
 \title{Lecture 8: Equilibrium Renewal Processes and Renewal Reward Processes}
 \author{Parimal Parag}
 
 \date{}
 \begin{document}
 \maketitle
-\section{Renewal Theory Contd. }
+\section{Renewal thmry Contd. }
 
 \subsection{Example:}
  Consider two coins and suppose  that each time is coin flipped, it lands tail with some unknown probability $p_i,~i=1,2.$ We are interested in coming up with a strategy that ensures that long term proportion of tails is $\min\{p_1,~p_2\}.$ One strategy is as follows: In $n^\text{th}$ round of coin flipping, flip the first coin till $n$ consecutive tails are obtained. Then flip the second coin till $n$ consecutive tails are obtained. The proof is as follows: \\
@@ -37,7 +30,7 @@
  &= G^c(t) +\int_{0}^{s}F^c(t-u)dm(u).
  \end{flalign*}
  Let $F_e(x)=frac{\int_{0}^{x}F^c(y)dy}{\mu},~ x \geq 0$ equilibrium distribution of $F$. Observe that the moment generating function of $F_e(x)$ is $\tilde{F}_e(s) = \frac{1-\tilde{F}(s)}{s\mu}$. If $G=F_e,$ then the delayed renewal process is called equilibrium renewal process. Suppose start observing a renewal process at some arbitrary time $t$, the observed renewal process is called equilibrium renewal process. Let $Y_D(t)$ denote the excess time for delayed renewal process. 
- \begin{theo}
+ \begin{thm}
  For the equilibrium renewal process,
  \begin{enumerate}
  \item $m_D(t) =\frac{t}{\mu}$.\\
@@ -54,17 +47,17 @@ P(Y_D(t) >x) &= P(Y_D(t) >x|S_{N(t)=0})P(S_{N(t)=0}) +P(Y_D(t) >x|S_{N(t)=s})F^c
 \end{flalign*}
 iii) $N_D(t+s)-N_D(s) =$ Number of renewals in time interval of length $t$. When we start observing at $s$, the observed renewal process is delayed renewal process with initial distribution being the original distribution.
 \end{proof}
-\end{theo}
+\end{thm}
 
 \subsection{Renewal Reward Process}
 \textbf{Definition:} A renewal process $\{N(t), t \geq 0\}$ with inter arrival times $\{X_n: n \in \mathbb{N}\}$ having distribution $F$ and rewards $\{R_n: n \in \mathbb{N}\}$ where $R_n$ is the reward at the end of $X_n$. Let $(X_n,R_n)$ be iid. Then $R(t)=\sum_{i=1}^{N(t)}R_i$ is reward process. 
-\begin{theo}
+\begin{thm}
 Let $\mathbb{E}[|R|]$ and $\mathbb{E}[|X|]$ be finite.
 \begin{enumerate}
 \item $\lim_{t \rightarrow \infty} \frac{R(t)}{t} = \frac{\mathbb{E}[R]}{\mathbb{E}[X]} ~a.s.$
 \item  $\lim_{t \rightarrow \infty} \frac{\mathbb{E}[R(t)]}{t} = \frac{\mathbb{E}[R]}{\mathbb{E}[X]}$.
 \end{enumerate}
-\end{theo}
+\end{thm}
 
 \begin{proof}
 \begin{flalign*}

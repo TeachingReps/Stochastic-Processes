@@ -1,19 +1,12 @@
-  \documentclass[a4paper,10pt]{article}
-\usepackage{amsmath,amssymb}
-\usepackage{amsthm}
-\usepackage[colorlinks]{hyperref}
-
-\newtheorem{prop}{Proposition}
-\newtheorem{defi}{Definition}
-\newtheorem{theo}{Theorem}
-\newtheorem{lem}{Lemma}
+\documentclass[a4paper,10pt]{article}
+\include{header}
 \title{Lecture 7: Limiting Mean Excess Time, Branching Processes, Delayed Renewal Process}
 \author{Parimal Parag}
 
 \date{}
 \begin{document}
 \maketitle
-\section{Renewal Theory Contd. - Key Renewal Theorem and Applications}
+\section{Renewal thmry Contd. - Key Renewal thmrem and Applications}
 
 
 \subsection{Example:}
@@ -30,7 +23,7 @@
        \right.
     \end{displaymath} 
 
-$X(t)$ denote the inventory level at time $t$. We are interested in finding $\lim_{t \rightarrow \infty}\mathbb{P}(X(t) /geq x)$. From alternating renewal process theory, we have 
+$X(t)$ denote the inventory level at time $t$. We are interested in finding $\lim_{t \rightarrow \infty}\mathbb{P}(X(t) /geq x)$. From alternating renewal process thmry, we have 
 
 \begin{flalign*}
 \lim_{t \rightarrow \infty}\mathbb{P}(X(t) \geq x) &= \mathbb{E}[\text{ON time}]\\
@@ -48,7 +41,7 @@ Consider a nonlattice renewal process and we are interested in computing the mea
 \mathbb{E}[Y(t)]&= \mathbb{E}[Y(t)|S_{N(t)}=0]F^c(t)+ \int_{0}^{t} \mathbb{E}[Y(t)|S_{N(t)}=y]F^c(t-y)dm(y)\\
 &=\mathbb{E}[X-t |X>t]F^c(t)+ \int_{0}^{t} \mathbb{E}[X-(t-y)|X>t-y]F^c(t-y)dm(y).
 \end{flalign*}
-From Key Renewal Theorem, we have 
+From Key Renewal thmrem, we have 
 
 \begin{flalign*}
 \lim_{t \rightarrow \infty}\mathbb{E}[Y(t)]&=\frac{1}{\mu} \int_{0}^{\infty} \mathbb{E}[X-t|X-t >0]F^c(t) dt\\
@@ -66,14 +59,14 @@ If the inter arrival time is nonlattice and $\mathbb{E}[X^2] < \infty$, by corol
 
 Suppose an organism lives upto a time period of $X \sim F$ and produces $N \sim P$ number of  offspring. Let $X(t)$ denote the number of organisms alive at time $t$. The stochastic process $\{X(t),~ t \geq 0\}$ is called an age-dependent branching process. We are interested in computing $M(t)=\mathbb{E}[X(t)]$ when $m=\mathbb{E}[N] =\sum_{j \in \mathbb{N}}{j P_j}$. 
 
-\begin{theo}
+\begin{thm}
 If $X(0)=1$, $m>1$ and $F$ is non lattice, then
 \begin{flalign*}
 \lim_{t \rightarrow \infty} M(t)= \frac{m-1}{m^2 \alpha \int_{0}^{\infty}xe^{-\alpha x dF(x)}},
 \end{flalign*}
 
 where $\alpha > 0$ is unique such that $\int_{0}^{\infty}xe^{-\alpha x } dF(x) = \frac{1}{m}$.
-\end{theo}
+\end{thm}
 
 \begin{proof}
 Condition on $T_1$, the life time of first organism,
@@ -99,7 +92,7 @@ f&=h+f*G\\
 &=h+h*m_G.
 \end{flalign*}
 
-Or, $f(t)=h(t)+\int_{0}^{t}h(t-s)dm_G(s)$. It can be shown that $h(t)$ is dRi and hence by Key Renewal Theorem, 
+Or, $f(t)=h(t)+\int_{0}^{t}h(t-s)dm_G(s)$. It can be shown that $h(t)$ is dRi and hence by Key Renewal thmrem, 
 \begin{flalign*}
 f(t) \rightarrow \frac{\int_{o}^{\infty}e^{-\alpha t}F^c(t) dt }{\int_{0}^{\infty}xdG(x) }.
 \end{flalign*}

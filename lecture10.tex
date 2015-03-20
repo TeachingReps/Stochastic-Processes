@@ -1,12 +1,5 @@
 \documentclass[a4paper,10pt]{article}
-\usepackage{amsmath,amssymb}
-\usepackage{amsthm}
-\usepackage[colorlinks]{hyperref}
-
-\newtheorem{prop}{Proposition}
-\newtheorem{defi}{Definition}
-\newtheorem{theo}{Theorem}
-\newtheorem{lem}{Lemma}
+\include{header}
 \title{ Lecture 10: Examples of Discrete Time Markov Chain}
 \author{Parimal Parag}
 
@@ -16,7 +9,7 @@
 \section{Discrete Time Markov Chains Contd.}
 
 \subsection{Example 4.3(c) The Age of Renewal Process:}
-Consider a discret time slotted system. An item is put into use. When the item fails, it is replaced at the beginning of the next time period.  $P_i$ is the probability of the failure of the item  in $i^{\text{th}}$ time period. Assume that the life times are independent. $P_i$ is aperiodic. $\sum i P_i <\infty$. The age of an item is the number of periods the item is in use. Let us denote the age of the item at time $n$ as $X_n$. Let us denote  
+Consider a discrete time slotted system. An item is put into use. When the item fails, it is replaced at the beginning of the next time period.  $P_i$ is the probability of the failure of the item  in $i^{\text{th}}$ time period. Assume that the life times are independent. $P_i$ is aperiodic. $\sum i P_i <\infty$. The age of an item is the number of periods the item is in use. Let us denote the age of the item at time $n$ as $X_n$. Let us denote  
 
 \begin{flalign*}
 \lambda(i) \triangleq \frac{P_i}{\sum_{j=i}^{\infty}P_j}
