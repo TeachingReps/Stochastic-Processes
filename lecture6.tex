@@ -1,58 +1,125 @@
-  \documentclass[a4paper,10pt]{article}
-\usepackage{amsmath,amssymb}
-\usepackage{amsthm}
-\usepackage[colorlinks]{hyperref}
-
-\newtheorem{prop}{Proposition}
-\newtheorem{defi}{Definition}
-\newtheorem{theo}{Theorem}
-\newtheorem{lem}{Lemma}
-
-\title{Lecture 4: Key Renewal Theorem and Applications}
+\documentclass[a4paper,10pt]{article}
+\include{header}
+\title{Lecture 6: Key Renewal Theorem and Applications}
 \author{Parimal Parag}
 
 \date{}
 \begin{document}
 \maketitle
-\section{Renewal Theory Contd. - Key Renewal Theorem and Applications}
+\section{Key Renewal Theorem and Applications}
+\begin{defn}[Lattice Random Variable] A non-negative random variable $X$ is said to be \textbf{lattice} if there exists $d \geq 0$ such that 
+\begin{equation*}
+\sum_{n\in\mathbb{N}}\Pr\{X = nd\} = 1.
+\end{equation*}
+For a lattice $X$, its period is defined as 
+\begin{equation*}
+d = \min\{ d \in\mathbb{R}^+: \Pr\{X = d\} > 0 \}.
+\end{equation*}
+If $X$ is a lattice random variable, it distribution function $F$ is also called lattice.
+\end{defn}
+\subsection{Blackwell's Theorem}
+\begin{thm}[Blackwell's Theorem] Let $N(t)$ be a renewal process with mean $m(t)$, and inter-arrival times with distribution $F$ and mean $\mu$. If $F$ is not lattice, then for all $a \geq 0$
+\begin{equation*}
+\lim_{t \to \infty} m(t+a) -m(t) = \frac{a}{\mu}.
+\end{equation*}
+If $F$ is lattice with period $d$, then 
+\begin{equation*}
+\lim_{n \to \infty} E[\text{number of renewals at } nd] = \frac{d}{\mu}.
+\end{equation*}
+\end{thm}
+\begin{proof} 
+%From key renewal theorem, we have $\lim_{t \to \infty}m(t)/t = \frac{1}{\mu}$. For $\epsilon > 0$, pick $T$ such that for all $t > T$, we have
+%\begin{align*}
+%|m(t) - \frac{t}{\mu}| &\leq \epsilon/2,  |m(t+a) - \frac{t+a}{\mu}| &\leq \epsilon/2.
+%\end{align*}
+%Taking difference, we obtain for all $t \geq T$
+%\begin{align*}
+%|m(t+a) - m(t) - \frac{a}{\mu}| &\leq \epsilon.
+%\end{align*}
+We will not prove that 
+\begin{equation}
+\label{eq:LimitBlackwell}
+g(a) = \lim_{t \to \infty} [m(t+a) - m(t)]
+\end{equation}exists for non-lattice $F$. However, we show that if this limit does exist, it is equal to $a/\mu$ as a consequence of elementary renewal theorem. To this end, note that
+\begin{equation*}
+m(t+a+b) - m(t) = m(t+a+b) - m(t+a) + m(t+a) - m(t).
+\end{equation*}
+Taking limits on both sides of the above equation, we conclude $g(a+b) = g(a) +  g(b)$. Only increasing solution of such a $g$ is
+\begin{equation*}
+g(a) = ca, \forall a > 0,
+\end{equation*}
+for some positive constant $c$. To show $c = \frac{1}{\mu}$, define a sequence $\{x_n, n \in \mathbb{N}\}$ in terms of $m(t)$ as 
+\begin{equation*}
+x_n = m(n) - m(n-1),~n \in \mathbb{N}.
+\end{equation*}
+Note that $\sum_{i=1}^nx_i = m(n)$ and $x_n = g(1)$, hence
+\begin{equation*}
+\lim_{n \to \infty}x_n = c \Rightarrow \lim_{n \to \infty}\frac{\sum_{i=1}^nx_i}{n} = \lim_{n \to \infty}\frac{m(n)}{n} = c.
+\end{equation*}
+Therefore, we can conclude $c = 1/\mu$ by elementary renewal theorem.
 
-\subsection{Directly Riemann Integrals}
-A function $h: [0,\infty] \rightarrow \mathbb{R}$ is \textit{directly Riemann integrable} (dRi) if the partial sums obtained by summing the infimum and supremum of $h$, taken over intervals obtained by partitioning the positive axis, both converges to the same limit, for all finite positive interval lengths. That is,
-  \begin{flalign}
-  \lim_{\delta \rightarrow 0} \delta \sum_{k=0}^{\infty}\sup_{ u \in [(n-1)\delta,n\delta]}h(u)=\lim_{\delta \rightarrow 0} \delta \sum_{k=0}^{\infty}\inf_{ u \in [(n-1)\delta,n\delta]}h(u)  
-  \end{flalign}   
-  If both limits exist and are equal, the integral value is equal to the limit. Compare this definition with the definition of Riemann integrals. A function $g: [0, M] \rightarrow \mathbb{R} $ is Riemann integrable if 
+When $F$ is lattice with period $d$, limit in~\eqref{eq:LimitBlackwell} doesn't exist. However, the theorem is true for lattice trivially by elementary renewal theorem.
+\end{proof}
+
+\subsection{Directly Riemann Integrable}
+\begin{defn}[Directly Riemann Integrable] A function $h: [0,\infty] \rightarrow \mathbb{R}$ is \textbf{directly Riemann integrable} if the partial sums obtained by summing the infimum and supremum of $h$, taken over intervals obtained by partitioning the positive axis, are finite and both converge to the same limit, for all finite positive interval lengths. That is,
+\begin{equation*}
+	\lim_{\delta \rightarrow 0} \delta \sum_{n \in \mathbb{N}}\sup_{ u \in [(n-1)\delta,n\delta]}h(u)=\lim_{\delta \rightarrow 0} \delta \sum_{n \in \mathbb{N}}\inf_{ u \in [(n-1)\delta,n\delta]}h(u)  
+\end{equation*}   
+ If both limits exist and are equal, the integral value is equal to the limit. 
+\end{defn}
+	Compare this definition with the definition of Riemann integrals. A function $g: [0, M] \rightarrow \mathbb{R} $ is Riemann integrable if 
    \begin{eqnarray*}
   \lim_{\delta \rightarrow 0} \delta \sum_{k=0}^{M/\delta}\sup_{ u \in [(n-1)\delta,n\delta]}g(u)=\lim_{\delta \rightarrow 0} \delta \sum_{k=0}^{M/\delta}\inf_{ u \in [(n-1)\delta,n\delta]}g(u)  
   \end{eqnarray*} 
-   and in that case, limit is the value of the integral. For $h$ defined on $[0,\infty]$, $\int_{0}^{\infty}h(u)du = \lim_{M \rightarrow \infty}\int_{0}^{M}h(u)du$, if the limit exists. For many functions, this limit may not exist.  \\
-  \textbf{Remarks:}
+   and in that case, limit is the value of the integral. For $h$ defined on $[0,\infty]$, $\int_{0}^{\infty}h(u)du = \lim_{M \rightarrow \infty}\int_{0}^{M}h(u)du$, if the limit exists. For many functions, this limit may not exist.
+\begin{prop}[Sufficiency for Directly Riemann Integrable] Following are sufficient conditions for a function $h$ to be directly Riemann integrable.
   \begin{enumerate}
-  \item If $h$ is bounded and continuous and $h$ is non increasing, then $h$ is dRi.  \\
-  \item  If $h\leq h'$ and $h'$ is dRi, then $h$ is dRi.\\
-  \item If $h$ is dRi, $ \int_{0}^{\infty}h(s)ds < \infty$ and if in addition $h$ is non-negative, $\lim_{t \rightarrow \infty} h(t)=0$.
+  \item If $h$ is bounded and continuous and $h$ is non increasing. 
+  \item If $h$ is bounded above by a directly Riemann integrable function.
+	\item If $h$ is non-negative, non-increasing, and with bounded integral.
   \end{enumerate}
-
+\end{prop}
+\begin{prop}[Tail Property] If $h$ is non-negative, directly Riemann integrable, and has bounded integral value, then 
+\begin{equation*}
+\lim_{t \rightarrow \infty} h(t)=0.
+\end{equation*}
+\end{prop}
 \subsection{Key Renewal Theorem}
-\begin{theo}
-If $F$ is non lattice, and if a function $h(t)$ is dRI then,
-\begin{flalign}
+\begin{thm}[Key Renewal Theorem] Let $N(t)$ be a renewal process having mean $m(t)$, and \emph{iid} inter-arrival times with mean $\mu$ and distribution function $F$. If $F$ is non-lattice, and if a function $h(t)$ is directly Riemann integrable, then
+\begin{equation*}
 \lim_{t \rightarrow \infty} \int_{0}^{\infty}h(t-x)dm(x)=\frac{1}{\mu}\int_{0}^{\infty}h(t)dt,
-\end{flalign}
-where $m(x)=\mathbb{E}[N(x)]=\sum_{n \in \mathbb{N}}P(N(x)\geq n)=\sum_{n \in \mathbb{N}}P(S_n\leq x), \mu= \int_{0}^{\infty}F^c(t).$
-\end{theo}
-\textbf{Remark:} Blackwell's theorem and key renewal theorem are equivalent and we can deduce one theorem from the other. To see how we can prove the key renewal theorem from Blackwell's theorem, observe from Blackwell's theorem that,
+\end{equation*}
+where 
+\begin{align*}
+m(t)&=\sum_{n \in \mathbb{N}}F_n(t)
+, & \mu&= \int_{0}^{\infty}F^c(t).
+\end{align*}
+\end{thm}
+\textbf{Remark:} and we can deduce one theorem from the other. To see how we can prove the key renewal theorem from Blackwell's theorem, observe from Blackwell's theorem that,
 \begin{flalign*}
 &\lim_{a \rightarrow 0}\lim_{t \rightarrow \infty} \frac{m(t
 +a)-m(t)}{a}=\frac{1}{\mu}\\
 &\stackrel{(a)}{\Rightarrow}\lim_{t \rightarrow \infty}\frac{dm(t)}{dt}=\frac{1}{\mu},
 \end{flalign*}     
-where in $(a)$ we justify the exchange the order of limits as follows:  
-\begin{theo}
+where in $(a)$ we justify the exchange the order of limits as follows: 
+
+\begin{prop}[Equivalence] Blackwell's theorem and key renewal theorem are equivalent.
+\end{prop}
+\begin{proof} Let's assume key renewal theorem is true. We select $h$ as a simple function with value unity on interval $[0, a]$ and zero elsewhere. That is,
+\begin{equation*}
+h(x) = 1_{\{ x \in [0,a]\}}.
+\end{equation*}
+It is easy to see that this function is directly Riemann integrable. With this selection of $h$, Blackwell's theorem follows.
+
+\end{proof}
+
+ 
+\begin{thm}
 \begin{flalign}
 P(S_{N(t)}\leq s)=F^c(t)+\int_{0}^{s}F^c(t-y)dm(y),~ t\geq s \geq 0.
 \end{flalign}
-\end{theo} 
+\end{thm} 
 
 \begin{proof}
 \begin{flalign*}
@@ -84,12 +151,12 @@ dF_{S_{N(t)}}(y)=P(\text{renewal occurs in }(y,y+dy)) \text{ and next arrival af
 \end{enumerate}
 \subsection{Alternate Renewal Processes}
 Alternating renewal processes form an important class of renewal processes and we find one natural application of  key renewal theorem  in this section. Let $\{(Z_n,Y_n),~n \in \mathbb{N}\}$ be an iid process. Note that $Y_n$ and $Z_n$ can be dependent. Let $Y_n \sim G$, $Z_n \sim H, F \sim Z_n+Y_n \triangleq X_n$. The random variable $Z_n$ denotes the ON time of a system and $Y_n$ denotes the OFF time of the system. Let $P(t)=P(\text{ON at time}~ t)$.
-\begin{theo}
+\begin{thm}
 If $\mathbb{E}[Z_n+Y_n]< \infty $ and $F$ is non-lattice, then
 \begin{flalign*}
 \lim_{t \rightarrow \infty}P(t)=\frac{\mathbb{E}[Z_n]}{\mathbb{E}[Y_n]+\mathbb{E}[Z_n]}.
 \end{flalign*}
- \end{theo} 
+ \end{thm} 
  \begin{proof}
 \begin{flalign*}
 P(t)&= P(\text{ON at time t}, S_{N(t)}=0)+P(\text{ON at time t}, S_{N(t)}>0)\\
