@@ -33,7 +33,7 @@ Let \noindent $(\Omega, \mathcal{F}, \mathcal{P})$ be a probability space.
 \begin{defn}[Poisson Process]
 A simple point process $\{N(t),~ t\geqslant0\} $ is called a \textbf{Poisson process} with rate $0< \lambda< \infty$, if inter-arrival times $\{X_{n},~n\geqslant 1\}$ are \emph{iid} $\exp(\lambda)$ random variables, i.e.
  \begin{equation*}
-  P(X_{1}\leqslant x) = 
+  \Pr\{X_{1}\leqslant x\} = 
 	\begin{cases}
 		1-e^{-\lambda x}, & x\geqslant 0   \\
 		0,  & \text{ else}.
@@ -107,13 +107,13 @@ Process $N(t)$ is of real interest, and we can compute the distribution of $N(t)
 \begin{proof}
 
 \begin{eqnarray*}
-   P(N(t) =n)&=&  P(S_{n}\leqslant t, S_{n+1} >t)\\
+   \Pr\{N(t) =n\}&=&  \Pr\{S_{n}\leqslant t, S_{n+1} >t)\\
    &=&  \int^{t}_{0} \Pr\left\{ {S_{n+1}>t}|{S_{n}=s}\right\}f_{S_n}(s)  ds\\
    &\stackrel{(a)}{=}& \int^{t}_{0} \Pr\{X_{n+1}>t-s\} f_{S_n}(s) ds\\
    &=&  \int^{t}_{0}e^{-\lambda(t- s)} \frac{\lambda^{n}s^{n-1}}{(n-1)!}e^{-\lambda s}  ds\\
    &=&\frac{e^{-\lambda t} (\lambda t)^{n}}{n !}.
 \end{eqnarray*}
- where (a) follows from the memoryless property of exponential distribution. %($P(X_{n+1}>s+t|X_{k+1}>t)=P(X_{k+1}>s)$).\\
+ where (a) follows from the memoryless property of exponential distribution. %($\Pr\{X_{n+1}>s+t|X_{k+1}>t)=\Pr\{X_{k+1}>s)$).\\
 \end{proof}
 
 \textbf{Remark:} The Poisson process is not a stationary process. That is, the finite dimensional distributions (fdd) are not shift invariant. In the following section, we show that the Poisson process is a \textit{stationary,  independent increment} process. To this end, we will use an important property of exponential distribution- namely memoryless property. Memoryless property of exponential distribution will facilitate the computation of fdd of the Poisson process via one dimensional marginal distribution. 
@@ -122,7 +122,7 @@ Process $N(t)$ is of real interest, and we can compute the distribution of $N(t)
 \end{prop}
 
 %\begin{eqnarray*}    
-%            P(N(t1}& = &n_{1}),..., N(tk}=n_{k}\hspace{1.0cm} fdd
+%            \Pr\{N(t1}& = &n_{1}),..., N(tk}=n_{k}\hspace{1.0cm} fdd
 %             \end{eqnarray*}
 %
 %We will S.t Poisson process has another very important property- Stationary indep. increment process\\
@@ -152,18 +152,18 @@ Process $N(t)$ is of real interest, and we can compute the distribution of $N(t)
 %$S>0, t> 0$\\
 %\begin{eqnarray*}
 %% \nonumber to remove numbering (before each equation)
-%  P(X>S +t / X>t) &=& P(X>S) \\
+%  \Pr\{X>S +t / X>t) &=& \Pr\{X>S) \\
 %  In \hspace{0.2cm}reliability\hspace{0.2cm} theory & x& life time\\
-%  P(X>t+S/ X>t) &\leqslant& P(X>S)
+%  \Pr\{X>t+S/ X>t) &\leqslant& \Pr\{X>S)
 %\end{eqnarray*}
 %Class of distr. satisfying ``New better than used distr''\\
 %\begin{eqnarray*}
 %X>t+s>S\\
-%P(X>s+t)/ X>t)\\
-%&=& \frac{P(X>S+t, X>t)}{P(X>t)}\\
-%&=& \frac{P(X>S+t)}{P(X>t)}\\
+%\Pr\{X>s+t)/ X>t)\\
+%&=& \frac{\Pr\{X>S+t, X>t)}{\Pr\{X>t)}\\
+%&=& \frac{\Pr\{X>S+t)}{\Pr\{X>t)}\\
 %&=& e^{-\lambda S}\\
-%&=& P(X>S)
+%&=& \Pr\{X>S)
 %\end{eqnarray*}
 \begin{proof}
 Let $X$ be a random variable with a distribution function $F$ with memoryless property defined on $\mathbb{R}^{+}$. Let $g(t) \triangleq \Pr\{X > t\} = 1 - F(t)$. Due to memoryless property of $F$, we notice that
