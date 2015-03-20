@@ -1,0 +1,177 @@
+\documentclass[a4paper,10pt]{article}
+\usepackage{%
+amsmath,%
+amsfonts,%
+amssymb,%
+amsthm,%
+hyperref,%
+url,%
+latexsym,%
+epsfig,%
+graphicx,%
+psfrag,%
+subfigure,%
+color,%
+tikz,%
+pgf,%
+pgfplots,%
+pgfplotstable,%
+pgfpages%
+}
+\usepgflibrary{shapes}
+\usetikzlibrary{%
+arrows,%
+backgrounds,%
+chains,%
+decorations.pathmorphing,% /pgf/decoration/random steps | erste Graphik
+decorations.text,%
+matrix,%
+positioning,% wg. " of "
+fit,%
+patterns,%
+petri,%
+plotmarks,%
+scopes,%
+shadows,%
+shapes.misc,% wg. rounded rectangle
+shapes.arrows,%
+shapes.callouts,%
+shapes%
+}
+\theoremstyle{plain}
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{prop}[thm]{Proposition}
+\newtheorem{cor}[thm]{Corollary}
+\theoremstyle{definition}
+\newtheorem{defn}[thm]{Definition}
+\newtheorem{conj}[thm]{Conjecture}
+\newtheorem{exmp}[thm]{Example}
+\theoremstyle{remark}
+\newtheorem{rem}[thm]{Remark}
+\newtheorem{note}[thm]{Note}
+\date{}
+\title{Lecture 13: Continuous Time Markov Chains}
+\author{Parimal Parag}
+\begin{document}
+\maketitle
+\section{Limiting Probabilities}
+Since a Continuous Time Markov Chain (CTMC) is a semi-Markov chain with $F_{ij}(t)=1-e^{\nu_i t}$. From the theory of semi-Markov process, if the embedded Markov chain with transition probabilities $P_{ij}$ is irreducible and positive recurrent, then the limiting process,
+\begin{equation}
+\label{eq:LimitingProbability}
+ P_{j} \triangleq \lim_{t \rightarrow \infty } P_{ij}(t)= \frac{\pi_i / \nu_i}{\sum_j \pi_j \nu_j},
+\end{equation}
+where $\pi_i$ is the stationary distribution of the embedded Markov chain. $\{\pi\}$ is the unique solution to
+\begin{equation}
+\label{eq:StationaryDistribution}
+\pi_j = \sum_i \pi_i P_{ij},~ \sum_{i}\pi_i = 1. 
+\end{equation}
+From \ref{eq:LimitingProbability} and \ref{eq:StationaryDistribution}, we see that $\{P_j\}$ is the unique non-negative solution to 
+\begin{equation}
+\nu_jP_j=\sum_i \nu_iP_iP_{ij},~ \sum_j P_j =1.
+\end{equation}
+
+\begin{rem}
+From the theory of semi-Markov process, it also follows that $P_j$ also equals the long-run proportion of time the process is in state $j$.
+\end{rem}
+\begin{rem}
+If the initial state is chosen according to the limiting probabilities $\{P_j\}$ then the resultant process will be stationary. That is,
+\begin{equation*}
+\sum_i P_iP_{ij}(t)=P_j,~ \text{for all}~ t.
+\end{equation*}
+\begin{proof}
+\begin{flalign*}
+\sum_{i}P_{ij}(t)P_i &=\sum_{i}P_{ij}(t)\lim_{s \rightarrow \infty}P_{ki}(s)\\
+&=\lim_{s \rightarrow \infty} \sum_{i}P_{ij}(t)P_{ki}(s)\\
+&=\lim_{s \rightarrow \infty}P_{ki}(t+s)\\
+&=P_j.
+\end{flalign*}
+\end{proof} 
+\end{rem}
+\begin{rem}
+Another way of arriving at the limiting probabilities are by forward equations
+\begin{equation}
+P_{ij}'(t)=\sum_{k \neq j}q_{kj}P_{ik}(t)-\nu_iP_{ij}(t).
+\end{equation}
+Assume that the limiting probabilities exist. Then, it is easy to observe that $P_{ij}'(t) \rightarrow 0$ as $t \rightarrow \infty$. Letting $t \rightarrow \infty$, assuming that the limit and summation can be exchanged, we get the expression for $P_j$. 
+\end{rem}
+\begin{rem}
+In any interval $(0,t)$, the number of transitions into state $j$ must equal to within 1 the number of transitions out of state $j$. Hence, in the long run, The rate at which transitions occur into state $j$ = The rate at which transitions occur out of state $j$. That is,
+\begin{equation}
+\nu_i P_i =\sum_{ i}P_i q_{ij}. 
+\end{equation} 
+ Hence,
+ \begin{equation}
+ \nu_iP_{ij}=\sum_{i}P_iq_{ij},~ \sum_j P_j =1.
+ \end{equation}
+ are called balance equations.
+\end{rem}
+\subsection{Time Reversibility for CTMC}
+\begin{prop}
+Markov property holds going backward in time. i.e.
+\begin{equation*}
+Pr(X(t-s)=j|X(t)=i,X(y), y > t)=Pr(X(t-s)=j|X(t)=i).
+\end{equation*}
+\begin{proof}
+\begin{flalign*}
+&Pr(X(t-s)=j|X(t)=i, X(y), y>t)=\frac{Pr(X(t-s)=j, X(t)=i, X(y), y>t)}{Pr(X(t)=i, X(y), y>t)}\\
+&\stackrel{(a)}{=}\frac{Pr(X(t-s)=j)Pr(X(t)=i|X(t-s)=j)Pr(X(y), y>t|X(t)=i)}{Pr(X(t)=i, X(y), y>t)}\\
+&\stackrel{}{=}\frac{Pr(X(t-s)=j)Pr(X(t)=i|X(t-s)=j)}{Pr(X(t)=i)}\\
+&\stackrel{}{=}Pr(X(t-s)=j|X(t)=i).\\
+\end{flalign*}
+where $(a)$ follows from the Markov property of forward chain.  
+\end{proof}
+\end{prop}
+Now we would like to characterize the sojourn time in each state. Since the amount of time spent in each state is same whether in forward or backward direction, one expects the sojourn time for the reverse chain to be exponential with the same parameter $\nu_i$. We can verify this formally:
+\begin{flalign*}
+&Pr(\text{Process in state i during [t-s,t]}|X(t)=i)\\
+&= {Pr(\text{Process in state i during [t-s,t]})}/{Pr(X(t)=i)}\\
+&= \frac{Pr(X(t-s)=i)e^{-\nu_i s}}{Pr(X(t)=i)}=e^{-\nu_i s}.\\
+\end{flalign*}
+Next, we would like to characterize the transition probabilities of the reversed chain. The sequence of states visited by the reverse process constitutes a discrete-time Markov chain with transition probabilities $P_{ij}^*$ give by 
+\begin{equation}
+P_{ij}^*= \frac{\pi_jP_{ji}}{\pi_i},
+\end{equation} 
+where $\{\pi_i,~ i \geq 0\}$ are the stationary probabilities of the embeddede discrete time Markov chain with transition probabilities $P_{ij}$. Denote 
+\begin{equation}
+q_{ij}^*=\nu_iP_{ij}^*
+\end{equation}
+as the infinitesimal rates of the reversed process. Using the previous formula for $P_{ij}^*$ we see that
+\begin{equation}
+q_{ij}^*=\frac{\nu_i\pi_jP_{ji}}{\pi_i}.
+\end{equation} 
+Recall that 
+\begin{equation}
+P_{k}=\frac{\pi_k / \nu_k}{\sum_{i}\pi_i / \nu_i},
+\end{equation}
+we see that 
+\begin{equation}
+\frac{\pi_i}{\pi_j}=\frac{\nu_j P_j}{\nu_i P_i}.
+\end{equation}
+Hence, 
+\begin{equation}
+q_{ij}^*=\frac{\nu_j P_{j}P_{ji}}{P_i}= \frac{P_jq_{ji}}{P_i}.
+\end{equation}
+That is,
+\begin{equation*}
+P_{i}q_{ij}^*=P_{j}q_{ji}.
+\end{equation*}
+Form the above equation, it is obvious that 
+\begin{equation*}
+\sum_{i}P_i q_{ij}^*=0.
+\end{equation*} 
+This implies that $P_j,~j \geq 0$ are the stationary probabilities for the reverse chain as $P_j$s satisfy the balance equations.
+\begin{defn}
+A stationary CTMC is said to be time reversible if the reverse process follows the same probabilistic law as the original process. That is, if, for all $i,j$
+\begin{equation*}
+q_{ij}^*= q_{ij} \iff P_{i}q_{ij}=P_jq_{ji}.
+\end{equation*} 
+\end{defn} 
+\begin{prop}
+An ergodic birth and death process is time reversible in steady state.
+\end{prop}
+\begin{proof}
+To prove the above, we must show that the rate at which the process goes from state $i$ to $i+1$ is equal to the rate of going from $i+1$ to $i$. But during any time interval of length $t$, the number of transitions from $i$ to $i+1$ should be within 1 of the number of transitions from $i+1$ to $i$ (since the process is birth and death process. Hence, as $t \rightarrow \infty$,  both rates will be equal. 
+\end{proof}
+
+\end{document}
