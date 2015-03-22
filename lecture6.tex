@@ -141,7 +141,7 @@ Using monotone convergence theorem to interchange integral and summation, and no
 %\end{flalign*}
 %where the order of summation is exchanged by virtue of the fact that the summands are non-negative and the sum is finite (Fubini's theorem).
 \end{proof}
-\begin{rem} Key lemma tells us that distribution of $S_{N(t)}$ has probability mass at $0$ and density between $(0,t]$.
+\begin{rem}\label{Remark:DensityLastRenewal} Key lemma tells us that distribution of $S_{N(t)}$ has probability mass at $0$ and density between $(0,t]$.
 \begin{align*}
 \Pr\{S_{N(t)}=0\}&=F^c(t),& dF_{S_{N(t)}}(y)&=F^c(t-y)dm(y)~\quad 0 < y \leq t.
 \end{align*}
@@ -158,39 +158,69 @@ dF_{S_{N(t)}}(y)=\Pr\{\text{renewal occurs in }(y,y+dy) \text{ and next arrival 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Alternating Renewal Processes}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-Alternating renewal processes form an important class of renewal processes and we find one natural application of  key renewal theorem  in this section. Let $\{(Z_n,Y_n),~n \in \mathbb{N}\}$ be an \emph{iid} process. Note that $Y_n$ and $Z_n$ can be dependent. Let $Y_n \sim G$, $Z_n \sim H, F \sim Z_n+Y_n \triangleq X_n$. The random variable $Z_n$ denotes the ON time of a system and $Y_n$ denotes the OFF time of the system. Let $P(t)=P(\text{ON at time}~ t)$.
-\begin{thm}
+Alternating renewal processes form an important class of renewal processes, and model many interesting applications. We find one natural application of  key renewal theorem  in this section. 
+\begin{defn}[Alternating Renewal Process] Let $\{(Z_n,Y_n),~n \in \mathbb{N}\}$ be an \emph{iid} random process, where $Y_n$ and $Z_n$ are not necessarily independent. A renewal process where each inter-arrival time $X_n$ consist of ON time $Z_n$followed by OFF time $Y_n$, is called \textbf{alternating renewal process}. We denote distribution for ON, OFF, renewal periods by $H, G, F$ respectively. Let 
+\begin{equation*}
+P(t)=\Pr\{\text{ON at time}~ t\}.
+\end{equation*}
+\end{defn}
+%Let $Y_n \sim G$, $Z_n \sim H, F \sim Z_n+Y_n \triangleq X_n$. The random variable $Z_n$ denotes the ON time of a system and $Y_n$ denotes the OFF time of the system. Let $P(t)=P(\text{ON at time}~ t)$.
+\begin{thm}[ON Probability] \label{Thm:OnProbability}
+If $\mathbb{E}[Z_n+Y_n]< \infty $ and $F$ is non-lattice, then
+\begin{equation*}
+P(t) = H^c(t)+\int_{0}^{t}H^c(t-y)dm(y).
+\end{equation*}
+\end{thm} 
+\begin{proof} To find time dependent probability $P(t)$, we can partition the event of system being ON at time $t$ on value of last renewal time $S_{N(t)}$. That is, we can write
+\begin{equation*}
+\{\text{ON at time}~ t\} =\bigcup_{y \in [0, t)}\{\text{ON at time } t, S_{N(t)} = y\}.% = \bigcup_{y \in [0, t)}\{Z_1 > t- y, S_{N(t)} = y\}.
+\end{equation*}
+Since any ON time is possibly only dependent on the corresponding OFF time and no past renewal times. Conditioned on $\{S_{N(t)} = y \}$ system stays ON at time $t$, \emph{iff} ON time is longer than $t-y$ conditioned on renewal time being larger than $t-y$. That is, 
+\begin{equation*}
+\{\text{ON at time } t| S_{N(t)} = y\} =\{Z_1 > t - y| Z_1 + Y_1 > t-y\}.
+\end{equation*}
+Result follows from these observations along with the density of $S_{N(t)}$ from Remark~\ref{Remark:DensityLastRenewal}.
+\end{proof}
+
+\begin{cor}[Limiting ON Probability]
 If $\mathbb{E}[Z_n+Y_n]< \infty $ and $F$ is non-lattice, then
 \begin{equation*}
 \lim_{t \rightarrow \infty}P(t)=\frac{\mathbb{E}[Z_n]}{\mathbb{E}[Y_n]+\mathbb{E}[Z_n]}.
 \end{equation*}
- \end{thm} 
- \begin{proof}
+\end{cor}
+\begin{proof} Since $H$ is distribution function, 
 \begin{align*}
-P(t)&= \Pr\{\text{ON at time t}, S_{N(t)}=0\}+\Pr\{\text{ON at time t}, S_{N(t)}>0\}\\
-&=\Pr\{\text{ON at time t}, S_{N(t)}=0\}+\int_{y=0}^{t}\Pr\{\text{ON at time t}| S_{N(t)}=y\}dF_{S_{N(t)}}(y)\\
-&=\Pr\{Z_1>t)+\int_{y=0}^{t}\Pr\{Z>t-y| Z+Y > t-y\}dF_{S_{N(t)}}(y)\\
-&\stackrel{(a)}{=}H^c(t)+\int_{y=0}^{t}\frac{H^c(t-y)}{F^c(t-y)}F^c(t-y)dm(y)\\
-&= H^c(t)+\int_{y=0}^{t}H^c(t-y))dm(y),\\
+\lim_{t \rightarrow \infty}H^c(t) &= 0, & \int_0^\infty H^c(t)dt &= E[Z_n].
 \end{align*}
-where $(a)$ follows from the remark following Theorem 3.Now apply key renewal theorem to obtain the required result. Since $H^c(t) \rightarrow 0$ as $t \rightarrow \infty$, we get
-\begin{flalign}
-P(t) \rightarrow \frac{\int_{0}^{\infty}H^c(t)dt}{\mu}=\frac{\mathbb{E}[Z_n]}{\mathbb{E}[Y_n]+\mathbb{E}[Z_n]}.
-\end{flalign}
+Applying key renewal theorem to Theorem~\ref{Thm:OnProbability}, we get the result.
+%\begin{align*}
+%P(t)&= \Pr\{\text{ON at time t}, S_{N(t)}=0\}+\Pr\{\text{ON at time t}, S_{N(t)}>0\}\\
+%&=\Pr\{\text{ON at time t}, S_{N(t)}=0\}+\int_{y=0}^{t}\Pr\{\text{ON at time t}| S_{N(t)}=y\}dF_{S_{N(t)}}(y)\\
+%&=\Pr\{Z_1>t)+\int_{y=0}^{t}\Pr\{Z>t-y| Z+Y > t-y\}dF_{S_{N(t)}}(y)\\
+%&\stackrel{(a)}{=}H^c(t)+\int_{y=0}^{t}\frac{H^c(t-y)}{F^c(t-y)}F^c(t-y)dm(y)\\
+%&= H^c(t)+\int_{y=0}^{t}H^c(t-y))dm(y),\\
+%\end{align*}
+%where $(a)$ follows from the remark following Theorem 3.Now apply key renewal theorem to obtain the required result. Since $H^c(t) \rightarrow 0$ as $t \rightarrow \infty$, we get
+%\begin{flalign}
+%P(t) \rightarrow \frac{\int_{0}^{\infty}H^c(t)dt}{\mu}=\frac{\mathbb{E}[Z_n]}{\mathbb{E}[Y_n]+\mathbb{E}[Z_n]}.
+%\end{flalign}
 \end{proof}
 
-Many processes of practical interest can be modelled by an alternate renewal process. For example, consider a renewal process and let $A(t)$ be the time from $t$ since the last renewal and $Y(t)$ be the time from $t$ till the next renewal. That is,
-\begin{flalign*}
-&Y(t)=S_{N(t)+1}-t,\\
-&A(t)=t-S_{N(t)}.
-\end{flalign*}   
+Many processes of practical interest can be modeled by an alternate renewal process. 
+\begin{exmp}[Age and Excess Time] Consider a renewal process and let $A(t)$ be the time from $t$ since the last renewal and $Y(t)$ be the time from $t$ till the next renewal. That is,
+\begin{align*}
+Y(t) &=S_{N(t)+1}-t,\\
+A(t) &=t-S_{N(t)}.
+\end{align*}   
 Suppose we need to find $\lim_{t \rightarrow \infty}P(A(t) \leq x)$ for some fixed  x. Now, observe that $P(A(t) \leq x)=\mathbb{E}[1_{A(t) \geq x}]$ which is the mean time when the ``age at $t$" is less than $x$ which is equal to $\mathbb{E}[\min\{x,X\}]$. Hence, we get\\
-\begin{flalign*}
+\begin{equation*}
 \lim_{t \rightarrow \infty} P(A(t) \leq x)= \frac{\int_{t=x}^{\infty}F^c(t)dt}{\mu}.
-\end{flalign*}  
-
-It is to be mentioned that $P(Y(t)\leq x)$ also yield the same limit as $t \rightarrow \infty$. This can be observed by noting that if we consider the reversed processes (an identically distributed renewal process), $Y(t)$,  the ``excess life time" at $t$ is same as the age at $t$, $A(t)$ of the original process.  
+\end{equation*}  
+\end{exmp}
+It is to be mentioned that $P(Y(t)\leq x)$ also yield the same limit as $t \rightarrow \infty$. This can be observed by noting that if we consider the reversed processes (an identically distributed renewal process), $Y(t)$,  the ``excess life time" at $t$ is same as the age at $t$, $A(t)$ of the original process.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5  
 \subsubsection{The Inspection Paradox}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 Define $X_{N(t)+1}=A(t)+Y(t)$ as the length of the renewal interval containing $t$, in other words, the length of current renewal interval. Inspection paradox says that $P(X_{N(t)+1} >x)\geq F^c(x)$. That is, for any $x$, the length of the current renewal interval to be greater than $x$ is always more likely than that for an ordinary renewal interval. Formally,
 \begin{flalign*}
 P(X_{N(t)+1}>x)&= P(X_{N(t)+1}>x, S_{N(t)+1}=0)+P(X_{N(t)+1}>x,  S_{N(t)+1}>0)\\
