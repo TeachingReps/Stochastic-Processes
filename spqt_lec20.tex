@@ -1,0 +1,409 @@
+\documentclass[a4paper,10pt]{article}
+\usepackage{%
+amsmath,%
+amsfonts,%
+amssymb,%
+amsthm,%
+hyperref,%
+url,%
+latexsym,%
+epsfig,%
+graphicx,%
+psfrag,%
+subfigure,%
+color,%
+tikz,%
+pgf,%
+pgfplots,%
+pgfplotstable,%
+pgfpages%
+}
+\usepgflibrary{shapes}
+\usetikzlibrary{%
+arrows,%
+backgrounds,%
+chains,%
+decorations.pathmorphing,% /pgf/decoration/random steps | erste Graphik
+decorations.text,%
+matrix,%
+positioning,% wg. " of "
+fit,%
+patterns,%
+petri,%
+plotmarks,%
+scopes,%
+shadows,%
+shapes.misc,% wg. rounded rectangle
+shapes.arrows,%
+shapes.callouts,%
+shapes%
+}
+\theoremstyle{plain}
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{prop}[thm]{Proposition}
+\newtheorem{cor}[thm]{Corollary}
+\theoremstyle{definition}
+\newtheorem{defn}[thm]{Definition}
+\newtheorem{conj}[thm]{Conjecture}
+\newtheorem{exmp}[thm]{Example}
+\theoremstyle{remark}
+\newtheorem{rem}[thm]{Remark}
+\newtheorem{note}[thm]{Note}
+\date{}
+\title{Lecture 20: Random Walks}
+\author{Parimal Parag}
+\begin{document}
+\maketitle
+\subsection{ GI/GI/1 Queueing Model}
+Consider a $GI/GI/1$ queue. Customers arrive in accordance with a renewal process having an arbitrary interarrival distribution  $F$, and the service distribution is $G$. Let the interarrival times be $X_1,~X_2 \hdots $ and let the service times be $Y_1,~Y_2 \hdots$ and let $D_n$ denote the delay in queue of the $n^\text{th}$ arrival. The following recursion for  $D_n$ is easy to verify:
+
+\begin{displaymath}
+   D_{n+1} = \left\{
+     \begin{array}{lr}
+       D_n+Y_n-X_{n+1} & ~\text{if}~ D_n+Y_n \geq X_{n+1} \\
+       0 & ~\text{if}~ D_n+Y_n <X_{n+1}
+     \end{array}
+   \right.
+\end{displaymath}
+Let $U_n \equiv Y_n-X_{n+1},~ n \geq 1$,
+\begin{equation*}
+D_{n+1}=\max\{0,D_n+U_n\},~ n \geq 0.
+\end{equation*}
+Iterating the above relation yields
+\begin{eqnarray*}
+D_{n+1}&=\max\{0,D_n+U_n\}\\
+&=\max\{0,U_n+\max\{0,D_{n-1}+U_{n-1}\}\}\\
+&=\max\{0,U_n,U_n+U_{n-1}+D_{n-1}\}\\
+\vdots
+&=\max\{0,U_n,U_n+U_{n-1}, \hdots U_n+U_{n-1}+\hdots U_1\},
+\end{eqnarray*}
+where in the last step we have used the fact that $D_1=0$. Hence, for $c>0$,
+\begin{eqnarray*}
+Pr(D_{n+1} \geq c )&=Pr(\max\{0,U_n,U_n+U_{n-1}, \hdots , U_n+ \hdots +U_1\} \geq c)\\
+&=Pr(\max\{0,U_1,U_2+U_{1}, \hdots , U_1+ \hdots +U_n\} \geq c),
+\end{eqnarray*}
+where the last equality follows from duality. Thus the following proposition holds.
+\begin{prop}
+\label{prop_gigi1}
+If $D_n$ is the delay in the queue of the $n^\text{th}$ customer in a GI/GI/1 queue with interarrival times $X_i,~ i \geq 1$, and service times $_i,~ i \geq 1$ then
+\begin{equation}
+\label{GIGI1_prop_eqn}
+Pr(D_{n+1} \geq c) = Pr(\text{the random walk}~ S_j,~ j \geq 1,~\text{crosses}~ c~ \text{by time}~ n ),
+\end{equation}
+where 
+\begin{equation*}
+S_j=\sum_{i=1}^{j}(Y_i-X_{i+1}).
+\end{equation*}
+\end{prop}
+From Proposition \ref{prop_gigi1} that $Pr(D_{n+1} \geq c)$ is nondecreasing in $n$. Let
+\begin{equation*}
+Pr(D_{\infty} \geq c)=\lim_{n \rightarrow \infty}Pr(D_{n} \geq c),
+\end{equation*}
+we have from \ref{GIGI1_prop_eqn}
+\begin{equation}
+\label{random_walk_gigi1}
+Pr(D_{\infty} \geq c) = Pr(\text{the random walk}~ S_j,~ j \geq 1,~\text{ever crosses}~ c).
+\end{equation}
+If $E[U]=E[Y]-E[X]$ is positive, then by Strong Law of Large Numbers (SLLN) the random walk will converge to positive infinity with probability 1. Hence,
+\begin{equation*}
+Pr(D_{\infty} \geq c) =1,~ \forall c ~\text{if}~ E[Y]>E[X].
+\end{equation*}
+The above will also be true when $E[Y]=E[X]$ and hence we get that $E[Y]< E[X]$ will imply the existence of a stationary distribution.\\
+Let $M_n=\max\{0,S_1,S_2 \hdots S_n\},~ n \geq 1$. We have the following proposition.
+\begin{prop}
+\textbf{Spitzer's Identity}
+\begin{equation*}
+E[M_n]= \sum_{k=1}^{n} \frac{1}{k} E[S_k^+].
+\end{equation*}
+\end{prop}
+
+
+
+\begin{defn}
+A stochastic process $\{Z_n,~  n \geq 1\}$ having $E[|Z_n|]< \infty$ for all $n$ is said to be a submartingale if
+\begin{equation}
+\label{Submartingale}
+E[Z_{n+1}|Z_1 \hdots Z_n] \geq Z_n
+\end{equation}
+and is said to be a supermartingale if
+\begin{equation}
+\label{Supermartingale}
+E[Z_{n+1}|Z_1 \hdots Z_n] \leq Z_n
+\end{equation}
+\end{defn}
+From \ref{Submartingale}, for a submartingale
+\begin{equation*}
+E[Z_{n+1}] \geq E[Z_n]
+\end{equation*}
+where the inequality is reversed for a supermartingale. 
+\begin{thm}
+\label{Stoppingtime_theorem}
+If $N$ is a stopping time for $\{Z_n,~ n\geq 1\}$ such that any one of the following sufficient conditions is satisfied:
+\begin{enumerate}
+\item $\bar{Z}_n$ is uniformly bounded, or;
+\item $N$ is bounded, or;
+\item $E[N]< \infty$, and there is an $M < \infty$ such that
+\begin{equation*}
+E[|Z_{n+1}-Z_n| |Z_1, \hdots Z_n]<M,
+\end{equation*}
+then,
+\begin{eqnarray*}
+E[Z_N] \geq E[Z_1] ~ \text {for a submartingale}\\
+E[Z_N] \leq E[Z_1] ~ \text {for a supermartingale}.
+\end{eqnarray*}
+\end{enumerate}
+\end{thm}
+\begin{proof}
+We claim that 
+\begin{equation*}
+\bar{Z}_n= \bar{Z}_{n-1}+1_{N \geq n}(Z_n-Z_{n-1})
+\end{equation*}
+The above equation can be directly verified by considering the two cases separately viz. 
+\begin{enumerate}
+\item $N \geq n$: $\bar{Z}_n=Z_n$.
+\item $N < n:$ $\bar{Z}_{n-1}=\bar{Z}_{n}=Z_N$
+\end{enumerate}
+\begin{flalign*}
+E[\bar{Z}_{n+1}|Z_1 \hdots \bar{Z}_n]&=E[\bar{Z}_{n}+1_{n \leq N}(Z_n-Z_{n-1})|Z_1 \hdots \bar{Z}_n]\\
+&\stackrel{(a)}{=}\bar{Z}_{n}+1_{n \leq N} E[(Z_n-Z_{n-1})|Z_1 \hdots \bar{Z}_n]\\
+& \geq \bar{Z}_{n},
+\end{flalign*}
+where in $(a)$ we have used the fact that $N$ is a random time. Also, we have $E[\bar{Z}_{n}]=E[Z_1]$, for all $n$.  Now assume that $N$ is a stopping time. It is immediate that
+\begin{equation*}
+ \bar{Z}_n \rightarrow Z_N ~ \text{w.p}~ 1.
+\end{equation*}
+But  is it true that
+\begin{equation*}
+ E[\bar{Z}_n] \rightarrow E[Z_N] ~ \text{as n}~ \rightarrow \infty.
+\end{equation*}
+which gives that 
+\begin{equation*}
+E[Z_N ] \geq E[Z_1].
+\end{equation*}
+\end{proof}
+
+Before we state and prove martingale convergence theorem, we state some results which will be used in the proof of the theorem.
+\begin{lem}
+\label{StoppingTimeBound}
+If ${Z_i,~i\geq 1}$ is  a submartingale and $N$ is a stopping time such that $P(N \leq n)=1$ then
+\begin{equation*}
+ E[Z_1] \leq E[Z_N] \leq E[Z_n].
+\end{equation*}
+\end{lem}
+\begin{proof}
+It follows from Theorem \ref{Stoppingtime_theorem} that since $N$ is bounded, $E[Z_N] \geq E[Z_1]$. Now, 
+\begin{eqnarray*}
+E[Z_n|Z_1, \hdots ,Z_N,N=k]&=E[Z_n|Z_1 \hdots Z_k,N=k]\\
+&\stackrel{(a)}{=}E[Z_n|Z_1 \hdots Z_k]\\
+&=Z_k\\
+&=Z_N.
+\end{eqnarray*}
+where $(a)$ follows from the fact that $N$ is  a stopping time. Result follows by taking expectation on both sides.
+\end{proof}
+\begin{lem}
+\label{ConvexFuncSubmart}
+If $\{Z_n,n \geq 1\}$ is a martingale and $f$ is a convex function, then $\{f(Z_n),n \geq 1\}$ is a submartigale.
+\end{lem}
+\begin{proof}
+The result is a direct consequence of Jensen's inequality.
+\begin{eqnarray*}
+E[f(Z_n)|Z_1, \hdots Z_n] &\geq f(E[Z_{n+1}|Z_1, \hdots Z_n])
+&=f(Z_n).
+\end{eqnarray*}
+\end{proof}
+\begin{thm}
+\textbf{(Kolmogorov's Inequality for Submartingales)}If $\{Z_n,~ n \geq 1\}$ is a martingale, then
+\begin{equation*}
+Pr(\max\{Z_1,Z_2 \hdots Z_n\}>a)\leq \frac{E[Z_n]}{a},~ \text{for}~ a>0.
+\end{equation*}
+\end{thm}
+\begin{proof}
+Let $N$ be the smallest value of $i$,~ $i \leq n$, such that $Z_i >a$, and define it to equal $n$ if $Z_i \leq a$ for all $i=1, \hdots n$. Note that $\max\{Z_1 \hdots Z_n\}>a$ is equivalent to $Z_N>a$. Therefore,
+\begin{eqnarray*}
+Pr(\max\{Z_1 \hdots Z_n\}>a)&=Pr(Z_N>a)\\
+&\stackrel{(*)}{\leq} \frac{E[Z_N]}{a}\\
+&\leq  \frac{E[Z_n]}{a},
+\end{eqnarray*}
+where the last inequality follows from Lemma \ref{StoppingTimeBound} as $N \leq n$ and $(*)$ follows from Markov's inequality.
+\end{proof}
+\begin{cor}
+\label{MartingaleBoundCor}
+Let $\{Z_n,~n \geq 1\}$ be a martingale. Then, for $a>0$:
+\begin{enumerate}
+\item $Pr(\max\{|Z_1|, \hdots |Z_n|>a\}) \leq E[|Z_n|]/a$;
+\item $Pr(\max\{|Z_1|, \hdots |Z_n|>a\}) \leq E[Z_n^2]/a^2$.
+\end{enumerate} 
+\end{cor}
+\begin{proof}
+The proof the above statements follow from Lemma \ref{ConvexFuncSubmart} and Kolmogorov's inequality for submartingales by considering the convex functions $f(x)=|x|$ and $f(x)=x^2$. 
+\end{proof}
+\begin{thm}
+\label{MartingaleConvergenceTheorem}
+If $\{Z_n,~n \geq 1\}$ is a martingale such that for some $M< \infty$
+\begin{equation*}
+E[|Z_n|] \leq M, ~ \text{for all}~ n
+\end{equation*}
+then, with probability 1, $\lim_{n \rightarrow \infty}Z_n$ exists and is finite.
+\end{thm}
+\begin{proof}
+Assume $E[Z_n^2]< \infty$ which is stronger than $E[|Z_n|]< \infty$ (as a consequence of Jensen's inequality). Observe that $\{Z_n^2\}$ is a submartingale (from Lemma \ref{ConvexFuncSubmart}). Thus $E[Z_n^2]<\infty$ and is non-decreasing in $n$. Thus, as $n \rightarrow \infty$, $E[Z_n^2]$ converges and let $\mu<\infty$ be given by $\mu=\lim_{n \rightarrow \infty}E[Z_n^2]$.
+\begin{equation}
+\label{KolmoBound}
+Pr(\cup_{k \leq n} \{|Z_{m+k}-Z_m|> \epsilon\} )
+\end{equation}  
+\begin{eqnarray*}
+&\stackrel{(a)}{\leq }E[(Z_{m+n}-Z_m)^2]/\epsilon^2
+&=E[Z_{m+n}^2-2Z_mZ_{m+n}+Z_m^2]/\epsilon^2.
+\end{eqnarray*}
+Note that 
+\begin{eqnarray*}
+E[Z_{m+n}Z_m]&=E[E[Z_mZ_{m+n}|Z_m]]\\
+&=E[Z_mE[Z_{m+n}|Z_m]]\\
+&=E[Z_m^2].
+\end{eqnarray*}
+From \ref{KolmoBound}, 
+\begin{equation*}
+Pr(\cup_{k \leq n} \{|Z_{m+k}-Z_m|> \epsilon\}) \leq \frac{E[Z_{m+n}^2]-E[Z_m^2]}{\epsilon^2}.
+\end{equation*}
+Letting $n \rightarrow \infty$
+\begin{equation*}
+Pr(\cup_{k \leq 1} \{|Z_{m+k}-Z_m|> \epsilon\}) \leq \frac{\mu-E[Z_m^2]}{\epsilon^2}.
+\end{equation*}
+Hence,
+\begin{equation*}
+Pr(\cup_{k \leq n} \{|Z_{m+k}-Z_m|> \epsilon\}) \rightarrow 0 ~\text{as}~ m \rightarrow \infty.
+\end{equation*}
+Thus with probability 1, $\{Z_n\}$ will be  a Cauchy sequence, and thus $\lim_{n \rightarrow \infty}Z_n$ will exist and be finite.`
+\end{proof}
+\begin{cor}
+If $\{Z_n,~m \geq 0\}$ is a non-negative martingale, then, with probability 1, $\lim_{n \rightarrow \infty}Z_n$ exists and is finite.
+\end{cor}
+\begin{proof}
+Since $Z_n$ is non-negative,
+\begin{equation*}
+E[|Z_n|]=E[Z_n]=E[Z_1].
+\end{equation*}
+\end{proof}
+\begin{thm}
+\textbf{The Strong Law of Large Numbers}Let $X_1,X_2 \hdots $ be  a sequence of independent and identically distributed random variables having finite mean $\mu$, and let $S_n=\sum_{i=1}^{n}X_i$. Then
+\begin{equation*}
+Pr(\lim_{n \rightarrow \infty}S_n/n= \mu) = 1.
+\end{equation*}
+\end{thm}
+\begin{proof}
+We will prove the theorem under the assumption that the moment generating function exists. Let $\psi(t)=E[e^{tX}]$.  For a given $\epsilon>0$, let $g(t)$ be defined by
+\begin{equation*}
+g(t)=e^{t(\mu+\epsilon)}/\psi(t).
+\end{equation*}
+\begin{eqnarray*}
+&g(0)=1,\\
+&g'(0)=\frac{\psi(0)(\mu+\epsilon)e^{t(\mu+\epsilon)}-\psi'(0)}e^{t(\mu+\epsilon)}{\psi^2(t)}=\epsilon >0,
+\end{eqnarray*}
+there exists a value $t_0>0$ such that $g(t_0)>1$. We now show that $S_n/n$ can be as large as $\mu+\epsilon$ only finitely often. For, note that
+\begin{equation}
+\label{SnBound}
+\frac{S_n}{n} \geq \mu+\epsilon \Rightarrow {(\frac{e^{t_0S_n}}{\psi^n(t_0)})}^n ={(g(t_0))}^n
+\end{equation}
+But $\frac{e^{t_0S_n}}{\psi^n(t_0)}$ is the product of independent, non negative random variables with unit mean and hence is a martingale. By Theorem \ref{MartingaleConvergenceTheorem}
+\begin{equation*}
+\lim_{n \rightarrow \infty} \frac{e^{t_0S_n}}{\psi^n(t_0)} ~\text{exists and is finite}.
+\end{equation*}
+Since $g(t_0) >1$, it follows from \ref{SnBound} that
+\begin{equation*}
+Pr(S_n/n > \mu+\epsilon ~\text{for an infinite number of n} )=0.
+\end{equation*}
+Similarly, be defining the function $f(t)=e^{t(\mu-\epsilon)}/\psi(t)$ and noting that since $f(0)=1$, $f'(0)=-\epsilon$, there exists a value $t_0<0$ such that $f(t_0)>1$, we can prove in the same manner that
+\begin{equation*}
+Pr(S_n/n \leq \mu-\epsilon ~\text{for an infinite number of n} )=0.
+\end{equation*}
+Hence
+\begin{equation*}
+Pr(\mu-\epsilon S_n/n < \mu+epsilon ~\text{for all but a finite number of $n$} )=1,
+\end{equation*}
+or, since the above is true for all $\epsilon>0$,
+\begin{equation*}
+Pr(\lim_{n \rightarrow \infty}S_n/n=\mu)=0.
+\end{equation*}
+\end{proof}
+
+\begin{defn}
+The sequence of random variables $X_n,~ n\geq 1$, is said to be \textit{uniformly integrable} if for every $\epsilon>0$, there is a $y_\epsilon$ such that
+\begin{equation*}
+\int_{|x|>y_\epsilon}|x|dF_{n}(x) < \epsilon ~\forall n
+\end{equation*}
+where $F_n$ is the distribution function of $X_n$.
+\end{defn}
+\begin{lem}
+If $X_n,~ n \geq 1$, is uniformly integrable then there exists $M< \infty$ such that $E[|X_n|]<M$ for all n.
+\end{lem}
+\begin{proof}
+Let $y_1$ be as in the definition of uniform integrability. Then
+\begin{eqnarray*}
+E[|X_n|]&=\int_{|x|\leq y_1}|x|dF_n(x)+\int_{|x|>y_1}|x|dF_n(x)\\
+&\leq y_1+1
+\end{eqnarray*}
+\end{proof}
+\subsection{Generalized Azuma Inequality}
+\begin{prop}
+Let $\{Z_n,n \geq 1\}$ be a martingale with mean $Z_0=0$, for which
+\begin{equation*}
+-\alpha \leq Z_n-Z_{n-1} \leq \beta~ \forall ~n \geq 1
+\end{equation*}
+Then, for any positive values $a$ and $b$
+\begin{equation*}
+\label{GenAzumaLemma}
+Pr(Z_n \geq a+bn ~ \text{for some n}) \leq exp(-8ab/({\alpha+\beta})^2).
+\end{equation*}
+\end{prop}
+\begin{proof}
+Let, for $n \geq 0$
+\begin{equation*}
+W_n = exp\{c(Z_n-a-bn)\}
+\end{equation*}
+Observe that
+\begin{equation*}
+W_n = W_{n-1}e^{-cb}exp\{c(Z_n-Z_{n-1})\}.
+\end{equation*}
+Using the fact that knowledge of $W_1,W_2, \hdots W_{n-1}$ is equivalent to that of $Z_1,Z_2 \hdots Z_{n-1}$, we obtain that 
+\begin{eqnarray*}
+E[W_n|W_1 \hdots W_{n-1}]&=W_{n-1}e^{-cb}E[exp{c(Z_n-Z_{n-1})}|Z_1 \hdots Z_{n-1}]\\
+& \stackrel{(a)}{\leq} W_{n-1}e^{-cb}[\beta e^{-c\alpha} + \alpha e^{c\beta}]/(\alpha+\beta) \\
+ & \stackrel{(b)}{\leq} W_{n-1}e^{-cb}e^{c^2{(\alpha+\beta)}^2/8}
+\end{eqnarray*}
+where $(a)$ follows from Lemma 1.3 (Lecture 17) and $(b)$ from Lemma 1.4 (Lecture 17) with $\theta=\alpha/(\alpha+\beta),~x=c(\alpha+\beta)$. Hence, fixing the value of $c$ as $c=8b/{(\alpha+\beta)}^2$ yields 
+\begin{equation}
+E[W_n|W_1, \hdots W_{n-1}] \leq W_{n-1},
+\end{equation}
+and so $\{W_n,~ n geq 0\}$ is a supermartingale. For a fixed positive integer $k$, define the bounded stopping time $N$ by 
+\begin{equation*}
+N= \min\{n: ~\text{either}~ Z_n \geq a+bn ~ \text{or}~ n=k \}.
+\end{equation*} 
+Now,
+\begin{eqnarray*}
+Pr(Z_N \geq a+bn)&=P(W_N \geq 1)\\
+&\stackrel{(a)}{\leq} E[W_N]\\
+& \stackrel{(b)}{\leq} E[W_0]
+\end{eqnarray*}
+where $(a)$ follows from Markov inequality and $(b)$ follows from supermartingale stopping theorem. But the above inequality is equivalent to
+\begin{equation*}
+Pr(Z_n \geq a+bn ~ \text{for some}~ n \leq k) \leq e^{-8ab/{(\alpha+\beta)}^2}.
+\end{equation*}
+Letting $k \rightarrow \infty$ gives the result.
+\end{proof}
+\begin{thm}
+\textbf{The generalized Azuma Inequality} Let $\{Z_n~ n \geq 1\}$ be a martingale with mean $Z_0=0$. If $-\alpha \leq Z_n-Z_{n-1} \leq \beta $ for all $n \geq 1$ then, for any positive constant $c$ and integer $m$:
+\begin{enumerate}
+\item $Pr(Z_n \geq nc ~ \text{for some}~ n \geq m) \leq e^{-2mc^2/{(\alpha+\beta)}^2}.$
+\item $Pr(Z_n \leq -nc ~ \text{for some}~ \geq m) \leq e^{-2mc^2/{(\alpha+\beta)}^2}.$
+\end{enumerate}
+\end{thm}
+\begin{proof}
+To begin, note that if there is an $n$ such that $n \geq m$ and $Z_n \geq nc$ then, for that $n$, $Z_n \geq nc \geq mc/2+nc/2$. Hence,
+\begin{eqnarray*}
+Pr(Z_n \geq nc ~ \text{for some}~ \geq m) &\leq Pr(Z_n \geq mc/2+(c/2)n~ \text{for some} ~ n)\\
+& \leq exp\{-8(mc/2)(c/2)/{(\alpha+\beta)}^2\}
+\end{eqnarray*}
+where the last inequality follows from Proposition \ref{GenAzumaLemma}. This proves part $(i)$. Part $(ii)$ follows from part $(i)$ by considering the martingale $\{-Z_n,~ n \geq 0\}$.
+\end{proof}
+\end{document}
