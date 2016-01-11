@@ -1,0 +1,146 @@
+\documentclass[a4paper,10pt]{article}
+\include{header}
+\title{Lecture 7: Limiting Mean Excess Time, Branching Processes, Delayed Renewal Process}
+\author{Parimal Parag}
+
+\begin{document}
+\maketitle
+\section{Renewal thmry Contd. - Key Renewal thmrem and Applications}
+
+
+\subsection{Example:}
+ Consider the number of commodities desired by customers at a store follows a distribution $G$. The ordering policy of the store is as follows: For some fixed $s,~S$, if the inventory level after serving a customer is x, then the amount ordered is
+ 
+ 
+
+     \begin{displaymath}
+        \left\{
+         \begin{array}{lr}
+           S-x & \text{if} x <s\\
+           0 & \text{if} x \geq s
+         \end{array}
+       \right.
+    \end{displaymath} 
+
+$X(t)$ denote the inventory level at time $t$. We are interested in finding $\lim_{t \rightarrow \infty}\mathbb{P}(X(t) /geq x)$. From alternating renewal process thmry, we have 
+
+\begin{flalign*}
+\lim_{t \rightarrow \infty}\mathbb{P}(X(t) \geq x) &= \mathbb{E}[\text{ON time}]\\
+&=\frac{\mathbb{E}[\sum_{i=1}^{N_x}X_i]}{\mathbb{E}[\sum_{i=1}^{N_s}X_i]}=\frac{\mathbb{E}[N_x]}{\mathbb{E}[N_s]}.
+\end{flalign*}
+
+where $N_x= \min\{n \in \mathbb{N}: \sum_{i=1}^{n}Y_i > s-x\}$  and $Y_1,Y_2 \hdots$ denote the successive customer demands. Since $Y_i$s are iid, we can interpret $N_x-1$ as the number of renewals till time $S-x$. $Y_i$s are the inter arrival times of the processes. Thus   
+
+\begin{flalign*}
+\lim_{t \rightarrow \infty}\mathbb{P}(X(t) \geq x) =\frac{m_G(S-x)+1}{m_G(S-s)+1}, s \leq x \leq S.
+\end{flalign*}
+\subsection{Limiting Mean Excess Time}
+Consider a nonlattice renewal process and we are interested in computing the mean excess time of the process. We start by writing the renewal equation of mean excess life time, $\mathbb{E}[Y(t)]$.
+\begin{flalign*}
+\mathbb{E}[Y(t)]&= \mathbb{E}[Y(t)|S_{N(t)}=0]F^c(t)+ \int_{0}^{t} \mathbb{E}[Y(t)|S_{N(t)}=y]F^c(t-y)dm(y)\\
+&=\mathbb{E}[X-t |X>t]F^c(t)+ \int_{0}^{t} \mathbb{E}[X-(t-y)|X>t-y]F^c(t-y)dm(y).
+\end{flalign*}
+From Key Renewal thmrem, we have 
+
+\begin{flalign*}
+\lim_{t \rightarrow \infty}\mathbb{E}[Y(t)]&=\frac{1}{\mu} \int_{0}^{\infty} \mathbb{E}[X-t|X-t >0]F^c(t) dt\\
+&= \frac{1}{\mu} \int_{t=0}^{\infty} \int_{x=t}^{\infty}xdF(x)F^c(t) dt\\
+&= \frac{1}{\mu} \int_{x=0}^{\infty} \int_{t=0}^{x}xdF(x)F^c(t) dt\\
+&= \frac{\mathbb{E}[X^2]}{2\mu}.
+\end{flalign*}
+\begin{prop}
+If the inter arrival time is nonlattice and $\mathbb{E}[X^2] < \infty$, by corollary , we have $\mu (m(t)+1) = t + \mathbb{E}[Y(t)]$
+\begin{flalign*}
+\lim_{t \rightarrow \infty} (m(t)-\frac{t}{\mu}) = \frac{\mathbb{E}[X^2]}{2\mu^2}-1.
+\end{flalign*} 
+\end{prop}
+\subsection{Age-dependent Branching Process }
+
+Suppose an organism lives upto a time period of $X \sim F$ and produces $N \sim P$ number of  offspring. Let $X(t)$ denote the number of organisms alive at time $t$. The stochastic process $\{X(t),~ t \geq 0\}$ is called an age-dependent branching process. We are interested in computing $M(t)=\mathbb{E}[X(t)]$ when $m=\mathbb{E}[N] =\sum_{j \in \mathbb{N}}{j P_j}$. 
+
+\begin{thm}
+If $X(0)=1$, $m>1$ and $F$ is non lattice, then
+\begin{flalign*}
+\lim_{t \rightarrow \infty} M(t)= \frac{m-1}{m^2 \alpha \int_{0}^{\infty}xe^{-\alpha x dF(x)}},
+\end{flalign*}
+
+where $\alpha > 0$ is unique such that $\int_{0}^{\infty}xe^{-\alpha x } dF(x) = \frac{1}{m}$.
+\end{thm}
+
+\begin{proof}
+Condition on $T_1$, the life time of first organism,
+\begin{flalign*}
+M(t)&=\int_{0}^{\infty}\mathbb{E}[X(t)|T_1=y]dF(y)\\
+&\stackrel{(a)}{=}\int_{y=0}^{t} 1 dF(y) + \int_{y=t}^{\infty} m M(t-y)dF(y).
+\end{flalign*}
+
+Thus we get 
+
+\begin{flalign}
+\label{renew}
+M(t)= F^c(t)+m\int_{0}^{t}M(t-y)dF(y)
+\end{flalign}
+
+Let $\alpha$ denote the unique positive number such that $\int_{0}^{\infty}xe^{-\alpha x } dF(x) = \frac{1}{m}$ and $G(y)=m\int_{0}^{y}e^{-alpha y} dF(y)$. Upon multiplying both sides of equation (\ref{renew}) by  $e^{-\alpha t}$ and defining $f(t)=e^{-\alpha t}M(t)$, $h(t)=e^{-\alpha t}F^{c}(t)$,  
+
+\begin{flalign*}
+f&=h+f*G\\
+&=h+G*(h+f*G)\\
+\vdots
+&=h+h*\sum_{i=1}^{\infty}G_i\\
+&=h+h*m_G.
+\end{flalign*}
+
+Or, $f(t)=h(t)+\int_{0}^{t}h(t-s)dm_G(s)$. It can be shown that $h(t)$ is dRi and hence by Key Renewal thmrem, 
+\begin{flalign*}
+f(t) \rightarrow \frac{\int_{o}^{\infty}e^{-\alpha t}F^c(t) dt }{\int_{0}^{\infty}xdG(x) }.
+\end{flalign*}
+
+\begin{flalign*}
+\int_{o}^{\infty}e^{-\alpha t}F^c(t) dt &= \int_{0}^{\infty} e^{-\alpha t}\int_{t}^{\infty}dF(x)dt \\
+&=  \int_{0}^{\infty} \int_{0}^{x} e^{-\alpha t} dt  dF(x)\\
+&= \int_{0}^{\infty} (1- e^{-\alpha x}) dF(x) \\
+&= \frac{1}{\alpha}(1-\frac{1}{m}) ~~ (\text{by the definition of} ~\alpha).
+\end{flalign*}
+
+Also $\int_{0}^{\infty}xdG(x) = m \int_{0}^{\infty}xe^{-\alpha x}dF(x)$. Hence the result follows.
+
+\end{proof} 
+
+\subsection{Delayed Renewal Process}
+Let $\{X_n: n \in \mathbb{N}\}$ be independent but $X_1 \sim G$ and $X_i \sim F,~ i \geq 2$ then the counting process $\{N_D(t): t \geq 0\}$ is called general renewal process or delayed renewal process. Let $S_0=0$ and $S_n =\sum_{i=1}^{n}X_i$. We have 
+\begin{flalign*}
+N_D(t) = \sup \{n \in \mathbb{N}: S_n \leq t\},\\
+P(N_D(t)=n) &= P(S_n \leq t)-P(S_{n+1} \leq t)\\
+&=G*F^{n-1}(t)-G*F^n(t),\\
+m_D(t)=\mathbb{E}[N_D(t)]= \sum_{n \in \mathbb{N}} G*F^{n-1}(t).
+\end{flalign*}
+
+Taking the Laplace transform of $m_D(t)$, denoted as $\tilde{m}_D(s) = \frac{\tilde{G}(s)}{1-\tilde{F}(s)}$.
+
+\begin{prop}
+The following holds:
+\begin{enumerate}
+\item $\lim_{t \rightarrow \infty} \frac{N_D(t)}{t} = \frac{1}{\mu} $.
+\item $\lim_{t \rightarrow \infty} \frac{m_D(t)}{t} = \frac{1}{\mu} $.
+\item If $F$ is non-lattice, $lim_{t \rightarrow \infty} m_D(t+a)-m_D(t)=\frac{a}{\mu_F}$.
+\item If $F$ and $G$ are lattice with period $d$, $\mathbb{E}$[ $\#$of renewals at $nd$ ] =$\frac{d}{\mu_F}.$
+\item If $F$ is nonlattice, $\mu < \infty$ and $h$ dRi, then 
+\begin{flalign*}
+\lim_{t \rightarrow \infty} \int_{0}^{t}h(t-x)dm_D(x) = \frac{\int_{0}^{\infty}h(t) dt}{\mu}.
+\end{flalign*}
+\end{enumerate}
+\end{prop}
+
+\subsubsection{Example:}
+Let $\{X_n: n \in \mathbb{N}\}$ be iid discrete observed. A pattern $x_1,x_2 \hdots x_k$ is said to occur at time $n$ if $X_n=x_k,~X_{n-1}=x_{k-1}, \hdots X_{n-k+1}=x_1. $. If we have iid tosses and consider $N(n)$ as the number of times pattern $0,1,0,1$ appear in $n$ tosses, with $P(H)=p=1-q,$~the process is a delayed renewal processes. To find the mean number of tosses for the first time the pattern $0,1,0,1$ appear, \\
+
+\begin{flalign*}
+\mathbb{E}[\text{first time pattern}~ 0,1,0,1 ~ \text{appears}]&= \mathbb{E}[\text{first time pattern}~ 0,1 ~ \text{appears}]  \\
+&+\mathbb{E}[\text{time between patterns}~ 0,1,0,1 ]\\
+&=  p^{-1}q^{-1}+ p^{-2}q^{-2}.
+\end{flalign*}
+
+Similarly we can show that $\mathbb{E}[\text{first time}~ k \text{heads} ] = \sum_{i=1}^{n} p^{-i}$.
+
+\end{document}
