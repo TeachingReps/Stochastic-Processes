@@ -1,23 +1,36 @@
 \usepackage{%
-	amsmath,%
 	amsfonts,%
+	amsmath,%	
 	amssymb,%
 	amsthm,%
-	hyperref,%
-	url,%
-	latexsym,%
+	babel,%
+	bbm,%
+	%biblatex,%
+	caption,%
+	centernot,%
+	color,%
+	enumerate,%
 	epsfig,%
+	epstopdf,%
+	geometry,%
 	graphicx,%
+	hyperref,%
+	latexsym,%
+	mathtools,%
+	multicol,%
+	pgf,%
+	%pgfplots%
+	%pgfplotstable,%
+	pgfpages,%
+	proof,%
 	psfrag,%
 	subfigure,%	
-	color,%
 	tikz,%
-	pgf,%
-	pgfplots,%
-	pgfplotstable,%
-	pgfpages%
-}
+	ulem,%
+	url%
+}	
 
+\usepackage[mathscr]{eucal}
 \usepgflibrary{shapes}
 \usetikzlibrary{%
   arrows,%
@@ -49,10 +62,28 @@
 \newtheorem{defn}[thm]{Definition}
 \newtheorem{conj}[thm]{Conjecture}
 \newtheorem{exmp}[thm]{Example}
+\newtheorem{assum}[thm]{Assumptions}
+\newtheorem{axiom}[thm]{Axiom}
 
-%\theoremstyle{remark}
+\theoremstyle{remark}
 \newtheorem{rem}{Remark}
 \newtheorem{note}{Note}
+
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert}
+\DeclarePairedDelimiter\abs{\lvert}{\rvert}%
+%\DeclarePairedDelimiter\norm{\lVert}{\rVert}%
+\newcommand{\tr}{\operatorname{tr}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\B}{\mathscr{B}}
+\newcommand{\C}{\mathcal{C}}
+\newcommand{\T}{\mathscr{T}}
+\newcommand{\F}{\mathcal{F}}
+\newcommand{\G}{\mathcal{G}}
+%\newcommand{\ba}{\begin{align*}}
+%\newcommand{\ea}{\end{align*}}
 
 \makeatletter
 \def\th@plain{%
