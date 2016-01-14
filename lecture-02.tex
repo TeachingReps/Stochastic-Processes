@@ -6,7 +6,7 @@
 \begin{document}
 \maketitle
 
-\section{Poisson process}
+\section{Simple point processes}
 \begin{defn} A stochastic process $\{N(t), t\geqslant 0\}$ is a \textbf{point process} if
 \begin{enumerate}
   \item $N(0) = 0$, and 
@@ -69,15 +69,6 @@ X_n = S_n - S_{n-1}.
 \begin{defn} A point process $\{N(t), t\geqslant 0\}$ is called \textbf{stationary independent increment process}, if it has stationary increments and the increments are independent random variables.
 \end{defn}
 
-\begin{defn} A simple point process $\{N(t),~ t\geqslant 0\} $ is called a \textbf{Poisson process} with a finite positive rate $\lambda$, if inter-arrival times $\{X_{n}: n \in \N\}$ are \emph{iid} random variables with an exponential distribution of rate $\lambda$. That is, it has a distribution function $F$, such that 
- \begin{equation*}
- F(x) = \Pr\{X_{1}\leqslant x\} = 
-	\begin{cases}
-		1-e^{-\lambda x}, & x\geqslant 0   \\
-		0,  & \text{ else}.
-	\end{cases}
-\end{equation*}
-\end{defn}
 \begin{lem} Sequence of inter-arrival times $\{X_n: n \in \N\}$ of a simple stationary independent increment process $\{N(t), t \geqslant 0 \}$ consists of \emph{iid} random variables.
 \end{lem}
 \begin{proof} It suffices to show that $X_n$ is independent of $S_{n-1}$ to show that all inter-arrival times are independent. 
@@ -97,6 +88,84 @@ To show that each inter-arrival time is identically distributed, we observe that
 &= \int_{t > 0}\Pr\{N(x) = 0\}dF_{n-1}(t) = \Pr\{N(x) = 0\}.
 \end{align*}
 \end{proof}
+
+\section{Poisson process}
+\begin{lem} A unique non-negative right continuous function $f: \R \to \R$ satisfying equation 
+\begin{align*}
+ f(t+s) = f(t)f(s), \text{ for all } t,s \in \R
+ \end{align*}
+ is $f(t) = e^{\theta t}$, where $\theta = \log f(1)$.
+\end{lem}
+\begin{proof}
+Clearly, we have $f(0) = f^2(0)$. Since $f$ is non-negative, it means $f(0) = 1$. By definition of $\theta$ and induction for $m,n \in \Z^+$, we see that 
+\begin{xalignat*}{3}
+&f(m) = f(1)^m = e^{\theta m},&& e^{\theta} = f(1) = f(1/n)^n.
+ \end{xalignat*}
+Let $q \in \Q$, then it can be written as $m/n, n \neq 0$ for some $m,n \in \Z^+$. 
+Hence, it is clear that for all $q \in \Q^+$, we have $f(q) = e^{\theta q}$.
+either unity or zero. Note, that $f$ is a right continuous function and is non-negative. 
+%We will show that $g$ is an exponential function. That is, $g(t) = e^{\theta t}$ for some $\theta \geqslant 0$. We will prove this in stages. First, we show this is true for $t \in \mathbb{Z}^+$. Notice that we can obtain via induction
+%\begin{eqnarray*}
+%	g(2) &=& g(1) g(1) = g^{2}(1), \mathrm{ and }\\
+%	g(m) &=& [g(1)]^{m}.
+%\end{eqnarray*}
+%Since $g(1)$ is non negative, there exists a $\beta$ such that $g(1)=e^{\beta}$ and $g(m)= e^{m \beta}, m \in \mathbb{Z}_{+}$. Next we show that for any $n \in \mathbb{Z}_{+}$,        
+%\begin{equation*}
+%	g(1) =  g\left(\frac{1}{n}+..., +\frac{1}{n}\right) = \left[g\left(\frac{1}{n}\right)\right]^{n}.
+%\end{equation*}
+%Therefore, for same $\beta$ we used for $g(1)$, we have $g\left(\frac{1}{n}\right) = e^{\frac{\beta}{n}}$. Now, we show that $g$ is exponential for any $t \in \mathbb{Q}^+$. To this end, we see that for any $m, n \in \mathbb{Z}_{+}$, we have 
+%\begin{equation*}
+%	g\left(\frac{m}{n}\right) = \left[g\left(\frac{1}{n}\right)\right]^{m}= e^{\frac{m \beta}{n}}.
+%\end{equation*}
+Now, we can show that $f$ is exponential for any real positive $t$ by taking a sequence of rational numbers $\{t_n\}$ decreasing to $t$. From right continuity of $g$, we obtain 
+\begin{equation*}
+	g(t) = \lim_{t_n \downarrow t} g(t_n) =   \lim_{t_n \downarrow t} e^{\beta t_{n}}= e^{\beta t}.
+\end{equation*}
+\end{proof}
+\begin{defn} A random variable $X$ with continuous support on $\R_+$, is called \textbf{memoryless} if for all $t,s \in \R_+$, we have
+\begin{align*}
+  \Pr\{X>s\} &= \Pr\{ X > t+s| X>t\}.% = \frac{ \Pr\{ X>t+s, X>t\}}{\Pr\{X>t\}}.
+\end{align*}
+\end{defn}
+\begin{prop} The unique memoryless distribution function with continuous support on $\R_+$ is the exponential distribution.
+\end{prop}
+\begin{proof}
+Let $X$ be a random variable with a distribution function $F: \R_+ \to [0,1]$ with the memoryless property. Let $g(t) \triangleq 1 - F(t)$. It follows from the memoryless property of $F$, that
+\begin{align*}
+ g(t+s) = g(t)g(s).
+ %\Pr\{X>s\} &= \Pr\{ X > t+s| X>t\} \\&= \frac{ \Pr\{ X>t+s, X>t\}}{\Pr\{X>t\}}.
+\end{align*}
+%Since $\{X > t + s\} =\{ X>t+s, X>t\}$, we have $g(t+s) = g(t)g(s)$ and hence $g(0) = g^2(0)$. Therefore, $g(0)$ is either unity or zero. Note, that $g$ is a right continuous function and is non-negative. 
+%
+%We will show that $g$ is an exponential function. That is, $g(t) = e^{\theta t}$ for some $\theta \geqslant 0$. We will prove this in stages. First, we show this is true for $t \in \mathbb{Z}^+$. Notice that we can obtain via induction
+%\begin{eqnarray*}
+%	g(2) &=& g(1) g(1) = g^{2}(1), \mathrm{ and }\\
+%	g(m) &=& [g(1)]^{m}.
+%\end{eqnarray*}
+%Since $g(1)$ is non negative, there exists a $\beta$ such that $g(1)=e^{\beta}$ and $g(m)= e^{m \beta}, m \in \mathbb{Z}_{+}$. Next we show that for any $n \in \mathbb{Z}_{+}$,        
+%\begin{equation*}
+%	g(1) =  g\left(\frac{1}{n}+..., +\frac{1}{n}\right) = \left[g\left(\frac{1}{n}\right)\right]^{n}.
+%\end{equation*}
+%Therefore, for same $\beta$ we used for $g(1)$, we have $g\left(\frac{1}{n}\right) = e^{\frac{\beta}{n}}$. Now, we show that $g$ is exponential for any $t \in \mathbb{Q}^+$. To this end, we see that for any $m, n \in \mathbb{Z}_{+}$, we have 
+%\begin{equation*}
+%	g\left(\frac{m}{n}\right) = \left[g\left(\frac{1}{n}\right)\right]^{m}= e^{\frac{m \beta}{n}}.
+%\end{equation*}
+%Now, we can show that $g$ is exponential for any real positive $t$ by taking a sequence of rational numbers $\{t_n\}$ decreasing to t. From right continuity of $g$, we obtain 
+%\begin{equation*}
+%	g(t) \stackrel{(a)}{=} \lim_{n\rightarrow \infty} g(t_n) =   \lim_{n\rightarrow \infty} e^{\beta t_{n}}= e^{\beta t}.
+%\end{equation*}
+Since $g(x) = \Pr\{X > x\}$  is non-increasing  with $x \in \R_+$, we have $g(x) = e^{\theta x}$, where $\theta < 0$.
+\end{proof}
+
+\begin{defn} A simple point process $\{N(t),~ t\geqslant 0\} $ is called a \textbf{Poisson process} with a finite positive rate $\lambda$, if inter-arrival times $\{X_{n}: n \in \N\}$ are \emph{iid} random variables with an exponential distribution of rate $\lambda$. That is, it has a distribution function $F$, such that 
+ \begin{equation*}
+ F(x) = \Pr\{X_{1}\leqslant x\} = 
+	\begin{cases}
+		1-e^{-\lambda x}, & x\geqslant 0   \\
+		0,  & \text{ else}.
+	\end{cases}
+\end{equation*}
+\end{defn}
 
 \begin{thm} A simple stationary independent increment process is a Poisson process with parameter $\lambda$ when
 \begin{xalignat*}{3}
@@ -185,79 +254,6 @@ P_n(t) = F_n(t) - F_{n+1}(t).
 Fix $t > 0$ and let $M = \{\omega \in \Omega: N(t)(\omega) = \infty \}$ be a subset of the sample space. Let $\omega \in M$, then $S_{n}(\omega)\leqslant t$ for all $n \in \N$. This implies $\lim\sup_n\frac{S_{n}}{n} = 0$  and $\omega \not\in \{\lim_n \frac{S_{n}}{n} = \frac{1}{\lambda} \}.$ Hence, the probability measure for set $M$ is zero. 
 \end{proof}
 
-\begin{prop} Exponential distribution with continuous support is the only memoryless distribution.% satisfying memoryless property.
-\end{prop}
-
-%\begin{eqnarray*}    
-%            \Pr\{N(t1}& = &n_{1}),..., N(tk}=n_{k}\hspace{1.0cm} fdd
-%             \end{eqnarray*}
-%
-%We will S.t Poisson process has another very important property- Stationary indep. increment process\\
-%
-%$ 0 \leqslant t_{1} \leqslant  t_{2} \hspace{0.5cm} P[N(t1}=n_{1}, N(t2}=n_{2}]=0$ \hspace{1.0cm} if $n_{2}< n_{1}$\\
-%$n_{2}\geqslant n_{1} \hspace{1.5cm} P[N(t1}=n, N(t2}-N(t1}=n_{2}-n_{1}]$
-%
-%
-%If $N(t)$ is independent increment process.
-%\begin{eqnarray*}
-%&=&P [N(t1}=n_{1}]\\
-%P (N(t2}-N(t1} &=& n_{2}-n_{1}) n2-n1\\
-% P (N(t2}-N(t1} &=&\frac{[\lambda (t2-t1)]}{(n2-n1)!} e^{-\lambda (t2-t1)!}\\
-%\end{eqnarray*}
-%Need\\
-%\begin{eqnarray*}
-% N(t1}&=& n1\overrightarrow(n2-n1) n2\\
-% arrivals &=& \phi \frac{(\lambda t1)^{n1}}{(n1)!}e^{-\lambda t1}\\
-%\end{eqnarray*}
-%What it means all fdd can be computed from $1-d$ marginal in a stationary indep. incr. property.\\
-%Its not stationary $ \rightarrow N(t1}$ and $N(t2}$ not same distr.\\
-%$N(t2}$ in some sense $> N(t1}$ so not same distr. intution\\
-%To s.t ${N(t), t\geqslant 0}$ stationery ind. increment process.\\
-%First we show indep. increment.\\
-%We need an important property of exponential property of memorylessness.\\
-%$X\sim exp (\lambda$\\
-%$S>0, t> 0$\\
-%\begin{eqnarray*}
-%% \nonumber to remove numbering (before each equation)
-%  \Pr\{X>S +t / X>t) &=& \Pr\{X>S) \\
-%  In \hspace{0.2cm}reliability\hspace{0.2cm} theory & x& life time\\
-%  \Pr\{X>t+S/ X>t) &\leqslant& \Pr\{X>S)
-%\end{eqnarray*}
-%Class of distr. satisfying ``New better than used distr''\\
-%\begin{eqnarray*}
-%X>t+s>S\\
-%\Pr\{X>s+t)/ X>t)\\
-%&=& \frac{\Pr\{X>S+t, X>t)}{\Pr\{X>t)}\\
-%&=& \frac{\Pr\{X>S+t)}{\Pr\{X>t)}\\
-%&=& e^{-\lambda S}\\
-%&=& \Pr\{X>S)
-%\end{eqnarray*}
-\begin{proof}
-Let $X$ be a random variable with a distribution function $F$ with memoryless property defined on $\mathbb{R}^{+}$. Let $g(t) \triangleq \Pr\{X > t\} = 1 - F(t)$. Due to memoryless property of $F$, we notice that
-\begin{align*}
-  \Pr\{X>s\} &= \Pr\{ X > t+s| X>t\} \\&= \frac{ \Pr\{ X>t+s, X>t\}}{\Pr\{X>t\}}.
-\end{align*}
-Since $\{X > t + s\} =\{ X>t+s, X>t\}$, we have $g(t+s) = g(t)g(s)$ and hence $g(0) = g^2(0)$. Therefore, $g(0)$ is either unity or zero. Note, that $g$ is a right continuous function and is non-negative. 
-
-We will show that $g$ is an exponential function. That is, $g(t) = e^{\theta t}$ for some $\theta \geqslant 0$. We will prove this in stages. First, we show this is true for $t \in \mathbb{Z}^+$. Notice that we can obtain via induction
-\begin{eqnarray*}
-	g(2) &=& g(1) g(1) = g^{2}(1), \mathrm{ and }\\
-	g(m) &=& [g(1)]^{m}.
-\end{eqnarray*}
-Since $g(1)$ is non negative, there exists a $\beta$ such that $g(1)=e^{\beta}$ and $g(m)= e^{m \beta}, m \in \mathbb{Z}_{+}$. Next we show that for any $n \in \mathbb{Z}_{+}$,        
-\begin{equation*}
-	g(1) =  g\left(\frac{1}{n}+..., +\frac{1}{n}\right) = \left[g\left(\frac{1}{n}\right)\right]^{n}.
-\end{equation*}
-Therefore, for same $\beta$ we used for $g(1)$, we have $g\left(\frac{1}{n}\right) = e^{\frac{\beta}{n}}$. Now, we show that $g$ is exponential for any $t \in \mathbb{Q}^+$. To this end, we see that for any $m, n \in \mathbb{Z}_{+}$, we have 
-\begin{equation*}
-	g\left(\frac{m}{n}\right) = \left[g\left(\frac{1}{n}\right)\right]^{m}= e^{\frac{m \beta}{n}}.
-\end{equation*}
-Now, we can show that $g$ is exponential for any real positive $t$ by taking a sequence of rational numbers $\{t_n\}$ decreasing to t. From right continuity of $g$, we obtain 
-\begin{equation*}
-	g(t) \stackrel{(a)}{=} \lim_{n\rightarrow \infty} g(t_n) =   \lim_{n\rightarrow \infty} e^{\beta t_{n}}= e^{\beta t}.
-\end{equation*}
-Since $\Pr\{X > x\}$  is decreasing  with $x$, $\beta $ is negative.  
-\end{proof}
 \begin{figure}[hhhh]
 \center
 	\input{Figures/IndependentIncrements}
