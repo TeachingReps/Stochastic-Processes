@@ -13,16 +13,16 @@ A \textbf{probability space} $(\Omega, \F, P)$ consists of set of all possible o
 \item The collection of subsets of $\F$ is a $\sigma$-algebra, that is it contains an empty set and is closed under complements and countable unions.
 \item Set function $P$ satisfies $P(\Omega) = 1$, and for every countable pair-wise disjoint collection $\{A_n \in \F: n \in \N \}$, we have
 \begin{align*}
-P(\cup_{n}A_n) = \sum_nP(A_n).
+P(\bigcup_{n}A_n) = \sum_nP(A_n).
 \end{align*}
 \end{enumerate}
 \end{defn}
-There is a natural order of inclusion on sets through which we can define monotonicity of probability set function $P$. To define continiuity of this set function, we need to define limits of sets. 
+There is a natural order of inclusion on sets through which we can define monotonicity of probability set function $P$. To define continuity of this set function, we need to define limits of sets. 
 \begin{defn} For a sequence of sets $\{A_n: n \in \N\}$, we define \textbf{limit superior} and \textbf{limit inferior} of this sequence respectively as 
 \begin{xalignat*}{3}
-&\lim\sup_nA_n = \cap_n\cup_{k \geq n}A_k, && \lim\inf_nA_n = \cup_n\cap_{k \geq n}A_k.
+&\lim\sup_nA_n = \bigcap_n\bigcup_{k \geq n}A_k, && \lim\inf_nA_n = \bigcup_n\bigcap_{k \geq n}A_k.
 \end{xalignat*}
-We say that limit exists if the limit superior and limit inferior are equal.  and is equal to the limit of the sequence of sets.
+We say that limit exists if the limit superior and limit inferior are equal, and is equal to the limit of the sequence of sets.
 \end{defn}
 \begin{lem} Probability set function is monotone and continuous.
 \end{lem}
@@ -59,7 +59,17 @@ F_S(x) = P\left(\displaystyle {\bigcap_{t \in S}\{\omega \in \Omega: X_t(\omega)
 Set of all finite dimensional distributions of the stochastic process $\{X_t: t \in T\}$ characterizes its distribution completely.
 
 \section{Examples of Stochastic Processes}
-\begin{exmp}[Queues] Queues are a complex stochastic process and consist of two stochastic processes arrival and service, coupled through a buffer. For a discrete arrival case, arrival process can be characterized by the time epochs of discrete arrivals, denoted $\{A_n: n \in \N \}$. Service of each arrival can be considered to be a random amount of time, $\{S_n: n \in \N\}$. If a queue can only be served at a fixed rate, then arrivals would have to wait in the buffer till their service time. Queues have applications in operations research, industrial engineering, telecommunications networks, among others. 
+\begin{exmp}[Queues] Queues are complex stochastic processes and consist of two stochastic processes arrival and service, coupled through a buffer. 
+Number of arrivals and arrival instants could be discrete or continuous random variable. 
+For a discrete arrival case, arrival process can be characterized by the time epochs of discrete arrivals, denoted $\{A_n: n \in \N \}$. 
+Similarly, service requirement of each incoming arrival can also be a discrete or continuous random variable.
+Service of each discrete arrival can be considered to be a random amount of time, $\{S_n: n \in \N\}$. 
+Queue can have a finite or infinite waiting area, and can be served by single or multiple servers. 
+Important performance metrics for queues are mean waiting time of arrivals and mean queue length. 
+These metrics are affected by the service policy that determines how to serve incoming arrivals. 
+Few important service policies are first come first out, last in first out, processor sharing etc.
+%If a queue can only be served at a fixed rate, then arrivals would have to wait in the buffer till their service time. 
+Queues have applications in operations research, industrial engineering, telecommunications networks, among others. 
 \end{exmp}
 \begin{exmp}[Gambler's ruin] One can model many gambling games with random walks, where wins or losses on each bet can be thought of as a random step. If a gambler starts with certain capital, and he wants to quit gambling after he makes a certain amount of money, one is interested in probability of a gambler getting bankrupt before it can quit gambling. These questions are related to hitting times of a random walk. Random walks have deep relations to Brownian motion.
 \end{exmp}
