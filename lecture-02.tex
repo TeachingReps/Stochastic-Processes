@@ -283,3 +283,99 @@ Since, $\{X_i: i \geqslant n+2\}\cup\{X_{n+1}^{''}\}$ are independent of $\{X_i:
 \end{equation*}
 \end{prop}
 \end{document}
+\section{Characterizations of the Poisson Process}
+
+In the previous section, we have shown that Poisson process has stationary, independent increment property. Now, consider any point process with independent stationary increments. From the discussion in the previous section, it follows that the inter-arrival times have to be \emph{iid} with exponential distribution. Such a characterization does not exclude the possibility of more than one arrival at any time instant. Additionally, if we constrain jump sizes to be unity along with stationary independent increments, the process will be a Poisson process. There are stochastic processes which are stationary independent increment and not Poisson. For example, batch/compound Poisson point process and Brownian motion. We have three alternative characterization of the Poisson processes below. 
+
+\begin{defn}[SII and Joint Distribution]\label{defn:SIIJoint} Let $t_0 = 0$, and $\{t_i: 1 \leq i \leq k\}$ be an increasing sequence. A stationary independent increment point process $\{N(t),~t\geqslant 0\}$, such that $N(0) = 0$ is Poisson process if 
+%\begin{figure}[h!]
+%\center
+  %% Requires \usepackage{graphicx}
+  %\includegraphics[width=2.8in, height=0.9in]{Figures/SPQT.png}\\
+ %% \caption{}\label{}
+%\end{figure}
+\begin{equation*}
+  \Pr\{\bigcap_{i=1}^k \{N(t_i)-N(t_{i-1})= n_{i}\}\} = \prod_{i=1}^{k}\frac{(\lambda(t_{i}-t_{i-1}))^{n_{i}}}{n_{i}!} e^{-\lambda (t_{i}-t_{i-1})}.
+\end{equation*}
+\end{defn}
+
+\begin{defn}[SII and Marginal Distribution]\label{defn:SIIMarginal} A point process $\{N(t),~t\geqslant 0\}$ is said to be Poisson process with rate $\lambda$ if it has stationary independent increments, and 
+\begin{equation*}
+\Pr\{N(t)=n\}= \frac{(\lambda t)^{n}}{n!} e^{-\lambda t}, n\in \mathbb{Z}^+.
+\end{equation*}
+\end{defn}
+
+\begin{defn}[SII and Infinitesimal Arrivals]\label{defn:SIIInfinitesimal} A point process $\{N(t),~t\geqslant 0\}$ is said to be Poisson process with rate $\lambda$ if it has stationary independent increments, and 
+\begin{eqnarray*}\label{eqn1}
+\Pr\{N(t)=0\} &=& 1-\lambda t + o(t), \\
+  \Pr\{N(t)=1\} &=& \lambda t + o(t), \\
+  \Pr\{N(t)>1\} &=& o(t).
+\end{eqnarray*}
+\end{defn}
+
+\begin{thm}[Equivalent Characterizations] Definitions~\ref{defn:SIIJoint},~\ref{defn:SIIMarginal},~\ref{defn:SIIInfinitesimal} are equivalent to definition of Poisson process.
+\end{thm}
+\begin{proof}
+We have already shown that Poisson process satisfies the conditions in Definitions~\ref{defn:SIIJoint},~\ref{defn:SIIMarginal}. That is, Definition~\ref{defn:SIIJoint} follows from original definition of Poisson process. It is easy to see that Definition~\ref{defn:SIIMarginal} follows trivially from Definition~\ref{defn:SIIJoint}. It is easy to see that Definition~\ref{defn:SIIMarginal} implies Definition~\ref{defn:SIIInfinitesimal}. We will show that Definition~\ref{defn:SIIInfinitesimal} implies original definition of Poisson process. Hence, we would have shown equivalence of all characterizations.
+%will now that 
+%We first show that Poisson process satisfy the above set of equations. We have shown that the Poisson process has stationary, independent increment property  and 
+%\begin{equation*}
+  %\Pr\{N(t)= n\} =  e^{-\lambda t} \frac{(\lambda t)^{n}}{n!}, n\in \mathbb{Z}^+.
+%\end{equation*}
+  %\begin{eqnarray*}
+  %\Pr\{N(t)=0\} &=& e^{-\lambda t} = 1-\lambda t + o(t).\\
+   %\Pr\{N(t)=1\}&=& e^-\lambda t (\lambda t) \\
+  %&=& e^-\lambda t^{(1-e^-\lambda t+ o(t))}\\
+   %&=& \lambda t- \lambda^{2} t^{2}+ o(t) \lambda t.
+   %\end{eqnarray*}
+   %Since $\frac{\lambda^{2} t^{2}}{t} =  \lambda^{2} t$ and $\lim _{t\downarrow 0}\lambda^{2} t= 0$, $\lambda^{2} t^{2} =o(t)$. Consider  $\lambda t o(t) = 0$.   $\lim _{t\downarrow 0}\frac{\lambda t o(t)}{t} = \lambda \lim _{t\downarrow 0} o(t)$. Since sum of two $o(t)$ terms is again an $o(t)$ term, $\Pr\{N(t)=1]= \lambda t + o(t)$. Since the three probability terms given should sum up to 1, $ \Pr\{N(t)>1]=o(t)$. So, we showed that the  Poisson Process has the above stated property. 	Now, we show the converse. 
+	
+To show the converse, it suffices to show that the time to first jump $X_{1}$ is exponentially distributed with rate $\lambda$. To this end, let $f(t) = \Pr\{X_{1}>t\}$ for $t \geq 0$. It is clear that for any arbitrary $s>0$, we have
+\begin{equation*}
+\{X_{1}>t+s\}\iff \{N(t)=0\}\cap\{N(t+s)-N(t)=0\}.
+\end{equation*}
+Due to independent increment property of $N(t)$, we know that $N(t)$ and $N(t+s)-N(t)$ are independent. Further, due to stationarity of the increments, $N(t+s) - N(t)$ has same distribution as $N(s)$. Therefore, we can write
+\begin{equation*}
+ f(t+s) =   \Pr\{X_{1}>t+s\} = \Pr\{X_{1}>t\} \Pr\{X_{1}>s\} = f(s)f(t).
+\end{equation*}
+Since, $f$ is right continuous non-negative function with such a property, $f(t) = \exp(-\alpha t)$ for some $\alpha > 0$ and all $t \geq 0$, from last lecture. Since, $1 - f(0) = \lambda t + o(t)$, we conclude that $\alpha = \lambda$.
+%\begin{eqnarray*}
+   %&=& f(t) \Pr\{N(s)=0\} \\
+   %&=& [1- \lambda s + o(s)] f(t) \\
+  %f(t+s) &=& [1- \lambda s + o(s)] f(t)\\
+  %\frac{f(t+s)-f(t)}{s} &=& \frac{o(s)}{s}f(t)- \lambda f(t) \\
+  %\lim_{s\downarrow0}  \frac{f(t+s)-f(t)}{s}  &=& f(t) \times 0 - \lambda f(t) = -\lambda f(t) \\
+ %f'(t) &=& - \lambda f(t), t\geq 0.
+%\end{eqnarray*}
+%where (a) follows from independent increment property and (b) follows from stationary increment property.We have shown that $f$ has a derivative and is equal to $-\lambda f(t)$.\\
+%\begin{eqnarray*}
+%% \nonumber to remove numbering (before each equation)
+   %\Pr\{N(t)=0\} &=& 1- \lambda (t)+ 0(t) \\
+  %\lim _{t\downarrow0}\Pr\{N(t)=0\} &=& 1 \\
+  %1= \lim _{t\downarrow0}\Pr\{N(t)=0\}&=& \lim _{t\downarrow0}\Pr\{X_{1}>t\}\\
+   %&=& \Pr\{X_{1}>0]  \\
+  %\therefore f(0) &=& 1
+  %\end{eqnarray*}
+  %Solve $\frac{df(t)}{dt} = -\lambda f(t), ~t\geq 0$, $f(0)= 1$. We get $f(t) = e^{-\lambda t}$.
+   %\begin{eqnarray*}
+  %\therefore f(t) &=&  \Pr\{X_{1}>t\}= e^{-\lambda t}.\\
+  %X_{1}&\sim & exp (\lambda ).
+%\end{eqnarray*}
+
+%We next show that first two inter-arrival times $X_{1}, X_{2}$ are independent. To this end, note that 
+%\begin{equation*}
+%\{X_1 = t_1, X_2 = t_2\} \iff \{N(t_1)=1\}\cap\{N(t_2+t_1)-N(t_1)=1\}.
+%\end{equation*}
+%From stationary independent increment property of $N(t)$, we get  
+%\begin{eqnarray*}
+ %P(X_{1}=t_{1}, X_{2}=t_{2}) && t_{1} >0, t_{2}>0\\
+  %P(X_{1}=t_{1})P (X_{2}=t_{2}| X_{1}=t_{1})&=& \lambda e^{-\lambda t_{1}} \\
+   %&=& \lambda e^{-\lambda t_{1}} \Pr\{N_{t_{1}+t_{2}}-\delta=1,N_{t_{1}+t_{2}}=2|N(t_{1})=1) \\
+   %&=& \lambda e^{-\lambda t_{1}} \Pr\{Nt_{2}=1] \\
+   %&=& \lambda e^{-\lambda t_{1}} \lambda e^{-\lambda t_{2}}  \\
+   %X_{1} \perp X_{2}&and & X_{1}, X_{2} \sim exp (\lambda).
+%\end{eqnarray*}
+%Proof follows from induction
+\end{proof}
+
+We study these characterizations because Poisson process is a fundamental process, just like Gaussian process among the class of distributions.
