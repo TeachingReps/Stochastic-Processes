@@ -1,0 +1,17 @@
+
+\begin{tikzpicture}[>=latex]
+% the rectangle with vertical rules
+\draw (0,0) -- ++(2cm,0) -- ++(0,-1.5cm) -- ++(-2cm,0);
+\foreach \i in {1,...,4}
+  \draw (2cm-\i*10pt,0) -- +(0,-1.5cm);
+
+% the circle
+\draw (2.75,-0.75cm) circle [radius=0.75cm];
+\draw (2.75,1.75cm) circle [radius=0.75cm];
+\draw (2.75,-3.25cm) circle [radius=0.75cm];
+% the arrows and labels
+\draw[->] (3.5,-0.75) -- +(20pt,0);
+\draw[<-] (0,-0.75) -- +(-20pt,0) node[left] {$\lambda$};
+\node[align=center] at (1cm,-2cm) {Buffer};
+\node[align=center] at (3cm,-2cm) {Service \\ Node};
+\end{tikzpicture}
