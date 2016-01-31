@@ -210,9 +210,26 @@ The intuition behind a stopping time is that it's value is determined by past an
 	\item $\min \{N_1,N_2\} $ is a stopping time.
 \end{itemize}
 \begin{proof}
-	\begin{note}
-		Proof for home work.
-	\end{note}
+\begin{itemize}
+	\item 
+	\begin{align*}
+	\{N_1+N_2 \leq n\} &= \bigcup_{i=0}^{n} \{N_1+N_2 = i\}
+	\\
+	&= \bigcup_{i=0}^{n} \bigcup_{k=0}^{i} \{N_1 = k\} \cap \{N_2 = i-k\}
+	\\
+	& \!\perp\!\!\!\perp \{X_{n+1},X_{n+2},\ldots\}
+	\end{align*}
+	Hence, $N_1+N_2$ is a stopping time.
+	\item 
+	\begin{align*}
+	\{\min \{N_1,N_2\} > n\} = \{N_1 > n\} \cap \{N_2 > n\}
+	\\
+	\implies \{\min \{N_1,N_2\} \leq n\} &= \{N_1 \leq n\} \cap \{N_2 \leq n\}
+	\\
+	& \!\perp\!\!\!\perp \{X_{n+1},X_{n+2},\ldots\}
+	\end{align*}
+	Hence, $\min \{N_1,N_2\} $ is a stopping time.
+\end{itemize}
 \end{proof}
 
 \begin{lem}[Wald's Lemma]
