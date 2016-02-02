@@ -180,7 +180,7 @@ Let \{$U_i,i \in[n]$\} be iid random variables in $[0,t)$ and $\{U_{(i)},i \in [
 \begin{proof}
 For order statistics of $n$ uniform random variables in $[0,t)$ and for $u_1 \leq \ldots \leq u_n$, we get
 \begin{align*}
-\Pr\{U_{(1)} \leq u_1, \ldots, U_{(n)} \leq u_n\} = n!prod_{i=1}^{n}\frac{u_i}{t}
+\Pr\{U_{(1)} \leq u_1, \ldots, U_{(n)} \leq u_n\} = n!\prod_{i=1}^{n}\frac{u_i}{t}
 \end{align*}
 Further, distribution of $U_{(n)} = \max_{i \in [n]} U_i$ is given by 
 \begin{align*}
@@ -188,7 +188,7 @@ Further, distribution of $U_{(n)} = \max_{i \in [n]} U_i$ is given by
 \end{align*}
 Combining these two results, we get
 \begin{align*}
-\Pr\{U_{(1)} \leq u_1, \ldots, U_{(n-1)} \leq u_{n-1} | U_{n} = u\} = (n-1)!prod_{i=1}^{n-1}\frac{u_i}{u}.
+\Pr\{U_{(1)} \leq u_1, \ldots, U_{(n-1)} \leq u_{n-1} | U_{n} = u\} = (n-1)!\prod_{i=1}^{n-1}\frac{u_i}{u}.
 \end{align*}
 \end{proof}
 
@@ -288,67 +288,68 @@ Hence using Lemma~\ref{Lemma:Uniform}, we have
 
 \section{Compound Poisson Process}
 \begin{defn}
-A stochastic Process \{$Z_t,t \geq 0$\}	 is said to be a compound Poisson Process if it can be represented as $Z_t=\sum_{i=1}^{N_t}X_i$ for all $t\geq 0$ where \{$N_t,t\geq 0$\} is a Poisson Process and \{$X_i, i\in \mathbb{N}$\} are \emph{iid} random variables independent of \{$N_t, t\geq 0$\}
+A stochastic Process $\{Z_t,t \geqslant 0\}	$ is said to be a compound Poisson Process if it can be represented as $Z_t=\sum_{i=1}^{N_t}X_i$ for all $t\geq 0$ where $\{N_t,t\geq 0\}$ is a Poisson Process and $\{X_i, i\in \N\}$ are \emph{iid} random variables independent of $\{N_t, t\geq 0\}$.
 \end{defn}
-Alternately it can also be defined in the following way
+Alternately it can also be defined in the following way.
 \begin{defn}
-A compound Poisson Process is a point Process \{$Z_t,t \geq 0$\} having the following properties
+A compound Poisson Process is a point Process \{$Z_t,t \geq 0$\} having the following properties.
 \begin{enumerate}
-	\item $\forall \omega \in \Omega, t \longmapsto Z_t(\omega)$ has finitely many jumps in finite intervals
-	\item $\forall t,s \geq 0; Z_{t+s}-Z_t$ is independent of $\{Z_u, u\leq t\}$
-	\item $\forall t,s \geq 0$, distribution of $Z_{t+s}-Z_t$ depends only on $s$ and not on $t$
+	\item For all $\omega \in \Omega, t \longmapsto Z_t(\omega)$ has finitely many jumps in finite intervals.
+	\item For all $t,s \geq 0; Z_{t+s}-Z_t$ is independent of $\{Z_u, u\leq t\}$.
+	\item For all $t,s \geq 0$, distribution of $Z_{t+s}-Z_t$ depends only on $s$ and not on $t$.
 \end{enumerate}	
 \end{defn}
-A compound Poisson Process is stationary and independent increments point Process with jump points $S_1,S_2,\ldots$ i.e. $S_n=\inf \{t>0 | N(t)=n\}$. $X_n$ are the jump sizes associated with the Process.\\
+\begin{defn} A compound Poisson Process is stationary and independent increments point Process with jump points $S_n=\inf \{t>0 | N(t)=n\}$, and associated jump sizes $X_n$ independent of jump instants.% are the jump sizes associated with the Process.
+\end{defn}
 
 \subsection{Examples}
-\textbf{Example-1 }Arrival of customers in a store is a Poison Process $N_t
+\begin{exmp} Arrival of customers in a store is a Poison Process $N_t
 $. Let the amount spent by each customer be \emph{iid} random variables independent of the arrival Process. Amount of money spent by first $n$ customers is
-\begin{align}
-Y_n=\sum_{i=1}^{n}X_i, {2cm}i \in [n] {1cm}Y_0=0\\
+\begin{xalignat*}{3}
+&Y_n=\sum_{i=1}^{n}X_i, i \in [n],&&Y_0=0.
+\end{xalignat*}
+Now define $Z_t=Y_{N_t}$ as the amount spent by the customers arriving in time $t$. Then $\{Z_t,t\geq 0\}$ is a compound Poisson Process.
+\end{exmp}
+
+\begin{exmp}  Let the time between successive failures of a machine be independent and  exponentially distributed. The cost of repair is \emph{iid} random at each failure. Then the total cost of repair in a certain time t is a compound Poisson Process.
+\end{exmp}
+
+\begin{exmp}  Let $X_i\in E$ where $E$ is a countable set. Let $N_t^e$  be the number of jumps of size $e$ in time $[0,t)$.
+\begin{rem} Observe that $\{N_t^e, e\in E\}$ are independent Poisson with rate \{$\lambda_e: e\in E$\}  where $\lambda_e=\lambda \Pr\{X_i=e\}$.
+\end{rem}
+We define $Z_t=\sum_{e\in E}eN_t^e$, to obtain
+\begin{align}\label{obs}
+\E\left[e^{-\theta Z_t}\right]=\E\left[\prod_{e\in E}e^{-\theta e N_t^e}\right]=\prod_{e\in E}\E\left[e^{-\theta e N_t^e}\right]
 \end{align}
-Now define $Z_t=Y_{_tN}$ i.e. the amount spent by the customers arriving in time t. Then \{$Z_t,t\geq 0$\} is a compound Poisson Process.\\
-
-\textbf{Example-2} Let the time between successive failures of a machine be independent and  exponentially distributed. The cost of repair is \emph{iid} random at each failure. Then the total cost of repair in a certain time t is a compound Poisson Process\\
-
-\textbf{Example-3} Let $X_i\in E$ where $E$ is a countable set. Let $N_T^e$  be the number of jumps of size e in time $[0,t)$
-\begin{note}
-	Observe that $\{N_T^e, e\in E\}$ are independent Poisson with rate \{$\lambda_e, e\in E$\}  where $\lambda_e=\lambda \Pr\{X_i=e\}$
-\end{note}
-\begin{proof}
-	Define $Z_t=\sum_{e\in E}eN_t^e$
-	\begin{align}\label{obs}
-	\E\left[e^{-\theta Z_t}\right]=\E\left[prod_{e\in E}e^{-\theta e N_t^e}\right]=prod_{e\in E}\E\left[e^{-\theta e N_t^e}\right]
-	\end{align}
-	But we have
-	\begin{align*}
-	\E\left[-\theta N_t\right] &= \sum_{n=0}^{\infty}e^{-\theta n}e^{-\lambda t}\frac{(\lambda t)^n}{n!}\\
-	&= e^{-\lambda t} e^{\lambda te^{-\theta}}\\
-	&= e^{-\lambda t(1=e^{-\theta})}
-	\end{align*}
-	Substituting this back in Eq \ref{obs}, we obtain
-		\begin{align*}
-		\E\left[e^{-\theta Z_t}\right] &= prod_{e\in E}e^{-\lambda_et(1-e^{-\theta e})}\\
-		&= exp\left[t\sum_{e\in E}\lambda(1-e^{-\theta e})\Pr\{X_i=e\}\right]
-		\end{align*}
-\end{proof}
-
-\textbf{Example-4} $X_i$ \emph{iid} with mean $\mu$
+However, we have
 \begin{align*}
-	\E\left[Z_t|N_t\right]&=\E\left[\sum_{i=1}^{N_t}X_i|N_t\right]\\
-	&= N_t\mu\\
-	\Rightarrow \E\left[Z_t\right]&=\lambda \mu t
+\E\left[e^{-\theta N_t}\right] &= \sum_{n=0}^{\infty}e^{-\theta n}e^{-\lambda t}\frac{(\lambda t)^n}{n!} 
+%= e^{-\lambda t} e^{\lambda te^{-\theta}}
+= e^{-\lambda t(1-e^{-\theta})}.
 \end{align*}
-
-\textbf{Example-5} $X_i$ \emph{iid} $\sim \varphi$
+Substituting this back in equation~\eqref{obs}, we obtain
 \begin{align*}
-	\E\left[e^{-\theta Z_t}\right] &= \E\left[\E\left[e^{-\theta\sum_{i=1}^{n-1}X_i}\right]|N_t\right]\\
-	&= \sum_{n=0}^{\infty}P_n(t){\underbrace{\E\left[e^{-\theta X_1}\right]}_{f(\theta)}}^n\\
-	&= \sum_{n=0}^{\infty}e^{\lambda t}\frac{(\lambda t)^n}{n!}(f(\theta))^n\\
-	&= e^{-\lambda t}e^{\lambda t f(\theta)}\\
-	&= e^{-\lambda t (1-f(\theta))}\\
-	&= exp\left[-t\int_{0}^{\infty}(1-e^{-\theta u})\lambda d\varphi(u)\right]
+\E\left[e^{-\theta Z_t}\right] &= \prod_{e\in E}e^{-\lambda_et(1-e^{-\theta e})}\\
+&= \exp\left[-t\sum_{e\in E}\lambda(1-e^{-\theta e})\Pr\{X_i=e\}\right]
 \end{align*}
+\end{exmp}
+
+\begin{exmp} If $X_i$ \emph{iid} with mean $\mu$, then we can find mean off $Z_t$ as
+\begin{align*}
+ \E\left[Z_t\right] = \E\left[\E[Z_t|N_t]\right]&=\E\left[\E\left[\sum_{i=1}^{N_t}X_i|N_t\right]\right] = \mu\E N_t = \lambda \mu t.
+\end{align*}
+\end{exmp}
+
+\begin{exmp}  If $X_i$ are \emph{iid} with a distribution function $\varphi$, then we can write moment generating function of $Z_t$ in terms of moment generating function $f(\theta) = E[e^{-\theta X_1}]$ of $X_1$ as
+\begin{align*}
+\E\left[e^{-\theta Z_t}\right] &= \E\left[\E\left[e^{-\theta\sum_{i=1}^{n-1}X_i}\right]\big|N_t\right] 
+%= \sum_{n=0}^{\infty}P_n(t)f(\theta)^n\\
+= \sum_{n=0}^{\infty}e^{\lambda t}\frac{(-\lambda t)^n}{n!}f(\theta)^n
+%&= e^{-\lambda t}e^{\lambda t f(\theta)}\\
+= e^{-\lambda t (1-f(\theta))}\\
+&= \exp\left[-t\int_{0}^{\infty}(1-e^{-\theta u})\lambda d\varphi(u)\right].
+\end{align*}
+\end{exmp}
 
 %\section{Compound Poisson Process}
 %One of the characterizations of Poisson Process was single arrival in an infinitesimal time. We can generalize that definition to have a random number of arrivals $X_n$ at every arrival instant $S_n$.
