@@ -359,17 +359,17 @@ Substituting this back in equation~\eqref{obs}, we obtain
 %	\end{align*}
 %	is called a \textbf{compound Poisson Process}.
 %\end{defn}
-\subsection{properties of the compound Poisson Process}
-\subsubsection{Mean}
-\begin{align*}
-	E[X(t)] = E[\sum_{i=1}^{N(t)} X_i] &= E[E[\sum_{i=1}^{N(t)} X_i|N(t)]] \\
-	&= \sum_{k=0}^\infty E\left[\sum_{i=1}^{k} X_i|N(t)=k\right]\Pr\{N(t) = k\}\\
-	&= \sum_{k=0}^\infty \sum_{i=1}^{k} E[X_i]\Pr\{N(t) = k\}\\
-	&= E[N(t)]E[X_1] = \lambda tE[X_1].
-\end{align*}
-
-\subsubsection{MGF}
-We leave it as an exercise to show that $M_{X(t)}(\theta)=E[e^{\theta X(t)}] = e^{(M_X(\theta)-1)\lambda t}$.
+%\subsection{properties of the compound Poisson Process}
+%\subsubsection{Mean}
+%\begin{align*}
+%	E[X(t)] = E[\sum_{i=1}^{N(t)} X_i] &= E[E[\sum_{i=1}^{N(t)} X_i|N(t)]] \\
+%	&= \sum_{k=0}^\infty E\left[\sum_{i=1}^{k} X_i|N(t)=k\right]\Pr\{N(t) = k\}\\
+%	&= \sum_{k=0}^\infty \sum_{i=1}^{k} E[X_i]\Pr\{N(t) = k\}\\
+%	&= E[N(t)]E[X_1] = \lambda tE[X_1].
+%\end{align*}
+%
+%\subsubsection{MGF}
+%We leave it as an exercise to show that $M_{X(t)}(\theta)=E[e^{\theta X(t)}] = e^{(M_X(\theta)-1)\lambda t}$.
 
 \subsubsection{A nice counterexample}
 A Poisson Process is not uniquely determined by it's distribution. Let $X_t = Y_t + f(Z+t)$, where $Y_t$ is a Poisson Process and 

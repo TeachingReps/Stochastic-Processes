@@ -14,33 +14,32 @@ One of the characterization for the Poisson process is of it being a counting pr
 \end{defn}
 As a result, we no longer have the nice properties such as Independent and stationary increments that Poisson processes had. However, we can still get some great results which also apply to Poisson Processes. 
 
-\begin{defn}[Inter-arrival Times] Let $\{X_i: i \in \mathbb{N}\}$ be a sequence of non-negative \emph{iid} random variables with a common distribution $F$, with 
+\begin{defn}[Inter-arrival Times] Let $\{X_i: i \in \N\}$ be a sequence of non-negative \emph{iid} random variables with a common distribution $F$, with 
 	\begin{enumerate}
 		%\item Positive inter-arrival time,% i.e. $X_n \geq 0$,
 		\item finite mean $\mu$, %i.e. $(0 \leq \mu = E[X_1] < \infty)$, and
 		\item $F(0) < 1$.%= \Pr\{X_n \leq 0\} = \Pr\{X_n = 0\} < 1$.
 	\end{enumerate}
 \end{defn}
-$2$ implies non-degenerate, if $F(0) = 1$ then it is a trivial process. We interpret $X_n$ as the time between $(n - 1)^{\mathrm{st}}$ and the $n^{\mathrm{th}}$ renewal event. 
-
-\begin{defn}[Renewal Instants] Let $S_n$ denote the time of $n^{\mathrm{th}}$ renewal, and assume $S_0 = 0$. Then, we have
-	\begin{align*} 
-	S_n = \sum_{i=1}^n X_i, \quad n\in \mathbb{N}. 
-	\end{align*}
+Second condition implies non-degenerate renewal process, if $F(0) = 1$ then it is a trivial process. We interpret $X_n$ as the time between $(n - 1)^{\text{st}}$ and the $n^{\text{th}}$ renewal event. 
+\begin{defn}[Renewal Instants] Let $S_n$ denote the time of $n^{\text{th}}$ renewal, and assume $S_0 = 0$. Then, we have
+\begin{align*} 
+S_n = \sum_{i=1}^n X_i, \quad n\in \N. 
+\end{align*}
 \end{defn}
 \begin{defn}[Renewal process] Let $\{N(t), t \geq 0\}$ be the counting process that counts number of events by time $t$. Then,
 	\begin{align*} 
-	N(t) = \sup\{n \in \mathbb{N}_0 : S_n \leq t\} = \sum_{n \in \mathbb{N}}1_{\{S_n \leq t\}}.
+	N(t) = \sup\{n \in \N_0 : S_n \leq t\} = \sum_{n \in \N}1_{\{S_n \leq t\}}.
 	\end{align*} 
 	This counting process $\{N(t), t \geq 0\}$ is called a renewal process.
 \end{defn}
 \begin{lem}[Inverse Relationship]
-	There is an inverse relationship between time of $n^{\mathrm{th}}$ event $S_n$, and the counting process $N(t)$. That is
+	There is an inverse relationship between time of $n^{\text{th}}$ event $S_n$, and the counting process $N(t)$. That is
 	\begin{align}
 	\label{eq:InverseRelationship}
 	\{S_n \leq t\} \iff \{N(t) \geq n\}.
 	\end{align}
-	%since $N(t) = \sum_{n \in \mathbb{N}}1_{\{S_n \leq t\}}$.
+	%since $N(t) = \sum_{n \in \N}1_{\{S_n \leq t\}}$.
 \end{lem}
 
 \begin{lem}[Finiteness of $N(t)$]
@@ -52,7 +51,7 @@ $2$ implies non-degenerate, if $F(0) = 1$ then it is a trivial process. We inter
 	$S_n$ can be finite for at most finitely many $n$. Therefore, $N(t)$ must be finite,
 	and
 	\begin{align*} 
-	N(t) = \max\{n \in \mathbb{N}_0 : S_n \leq t\}.
+	N(t) = \max\{n \in \N_0 : S_n \leq t\}.
 	\end{align*} 
 \end{lem}
 
@@ -86,20 +85,20 @@ We are interested in the following two quantities.
 
 \begin{prop} Renewal function can be expressed in terms of distribution of renewal instants as
 	\begin{align*} 
-	m(t) = \sum_{n \in \mathbb{N}} F_n(t).
+	m(t) = \sum_{n \in \N} F_n(t).
 	\end{align*}
 \end{prop}
 \begin{proof} It follows from~\eqref{eq:InverseRelationship} and definitions,
 	\begin{align*}
-	m(t) &= \mathbb{E}[N(t)] \\ &= \sum_{n \in \mathbb{N}} \Pr\{N(t) \geq n\} (\because expectation~can~be~defined~ in~ terms~ of~ \emph{ccdf}) \\ &= \sum_{n \in \mathbb{N}} \Pr\{S_n \leq t\} = \sum_{n \in \mathbb{N}} F_n(t)
+	m(t) &= \mathbb{E}[N(t)] \\ &= \sum_{n \in \N} \Pr\{N(t) \geq n\} (\because expectation~can~be~defined~ in~ terms~ of~ \emph{ccdf}) \\ &= \sum_{n \in \N} \Pr\{S_n \leq t\} = \sum_{n \in \N} F_n(t)
 	\end{align*}
 	\\
 	Alternatively,
 	\begin{align*}
 	m(t) &= \mathbb{E}[N(t)] \\
-	&= \mathbb{E} \left[\sum_{n \in \mathbb{N}} \mathbb{I}_{\{S_n \leq t\}} \right] \\
-	&= \sum_{n \in \mathbb{N}} \mathbb{E} \left[ \mathbb{I}_{\{S_n \leq t\}} \right] (\because Monotone~ Convergence~ Theorem) \\
-	&= \sum_{n \in \mathbb{N}} \Pr\{S_n \leq t\} = \sum_{n \in \mathbb{N}} F_n(t)
+	&= \mathbb{E} \left[\sum_{n \in \N} \mathbb{I}_{\{S_n \leq t\}} \right] \\
+	&= \sum_{n \in \N} \mathbb{E} \left[ \mathbb{I}_{\{S_n \leq t\}} \right] (\because Monotone~ Convergence~ Theorem) \\
+	&= \sum_{n \in \N} \Pr\{S_n \leq t\} = \sum_{n \in \N} F_n(t)
 	\end{align*}
 \end{proof}
 
@@ -137,9 +136,9 @@ We are interested in the following two quantities.
 \begin{proof}
 	It suffices to show $\Pr\{N(\infty) < \infty\} = 0$. We have
 	\begin{flalign*}
-	\Pr\{N(\infty) < \infty\} &= \Pr\{\bigcup_{n \in \mathbb{N}} \{N(\infty) < n\}\}\\
-	&= \Pr\{\bigcup_{n \in \mathbb{N}} \{S_n = \infty\}\} = \Pr\{\bigcup_{n \in \mathbb{N}} \{X_n = \infty\}\} \\
-	&\leq \sum_{n \in \mathbb{N}}\Pr\{X_n = \infty\} =0.
+	\Pr\{N(\infty) < \infty\} &= \Pr\{\bigcup_{n \in \N} \{N(\infty) < n\}\}\\
+	&= \Pr\{\bigcup_{n \in \N} \{S_n = \infty\}\} = \Pr\{\bigcup_{n \in \N} \{X_n = \infty\}\} \\
+	&\leq \sum_{n \in \N}\Pr\{X_n = \infty\} =0.
 	\end{flalign*}
 	The last step follows from the fact that $E[X_n] < \infty$.
 \end{proof}
@@ -188,23 +187,23 @@ Hence Renewal theorems can be used to compute these long term averages. We'll ha
 \subsection{Wald's Lemma}
 Before we get into Wald's Lemma, let us first define what a stopping time is.
 \begin{defn}[Stopping Time]
-	Let $\{X_n: n\in \mathbb{N}\}$ be independent random variables. Then $T$, an integer random variable, is called a stopping time wrt this sequence if $\{N=n\}$ depends only on $\{X_1,\cdots,X_n\}$ and is independent of $X_{n+1}, X_{n+2},\cdots$. 
+	Let $\{X_n: n\in \N\}$ be independent random variables. Then $T$, an integer random variable, is called a stopping time wrt this sequence if $\{N=n\}$ depends only on $\{X_1,\cdots,X_n\}$ and is independent of $X_{n+1}, X_{n+2},\cdots$. 
 \end{defn}
 Intuitively, if we observe the $X_n$'s in sequential order and $N$ denotes the number observed before stopping then. Then, we have stopped after observing, $X_1, \ldots, X_N$, and before observing $X_{N+1}, X_{N+2}, \ldots$. 
 The intuition behind a stopping time is that it's value is determined by past and present events but NOT by future events. 
 \begin{exmp}
 	For instance, while traveling on the bus, the random variable measuring ``Time until bus crosses Majestic and after that one stop" is a stopping time as it's value is determined by events before it happens. On the other hand ``Time until bus stops before Majestic is reached'' would not be a stopping time  in the same context. This is because we have to cross this time, reach Majestic and then realise we have crossed that point. 
 \end{exmp}
-\begin{exmp} Consider $X_n \in \{0,1\}$ \emph{iid} Bernoulli$(1/2)$. Then $N = min \{n \in \mathbb{N}:\quad \sum_{i=1}^n X_i = 1\}$ is a stopping time. For instance, $Pr\{N=2\} = Pr\{X_1=0,X_2=1\}$ and hence $ N $ is a stopping time by definition.
+\begin{exmp} Consider $X_n \in \{0,1\}$ \emph{iid} Bernoulli$(1/2)$. Then $N = min \{n \in \N:\quad \sum_{i=1}^n X_i = 1\}$ is a stopping time. For instance, $Pr\{N=2\} = Pr\{X_1=0,X_2=1\}$ and hence $ N $ is a stopping time by definition.
 \end{exmp}
 \begin{exmp}[Random Walk Stopping Time] Consider $X_n$ \emph{iid} bivariate random variables with 
 	\begin{align*}
 	\Pr\{X_n = 1\} = \Pr\{X_n = -1\} = \frac{1}{2}. 
 	\end{align*}
-	Then $N = min \{n \in \mathbb{N}:\quad \sum_{i=1}^n X_i = 1\}$ is a stopping time.
+	Then $N = min \{n \in \N:\quad \sum_{i=1}^n X_i = 1\}$ is a stopping time.
 \end{exmp}
 
-\emph{Properties}: Let $N_1,N_2$ be two stopping times wrt $\{X_i : i \in \mathbb{N} \} $ then,
+\emph{Properties}: Let $N_1,N_2$ be two stopping times wrt $\{X_i : i \in \N \} $ then,
 \begin{itemize}
 	\item $N_1+N_2$ is a stopping time.
 	\item $\min \{N_1,N_2\} $ is a stopping time.
@@ -233,13 +232,13 @@ The intuition behind a stopping time is that it's value is determined by past an
 \end{proof}
 
 \begin{lem}[Wald's Lemma]
-	Let $\{X_i:\quad i\in \mathbb{N}\}$ be \emph{iid} random variables with finite mean $E[X_1]$ and let $N$ be a stopping time with respect to this set of variables, such that $E[N] < \infty$. Then
+	Let $\{X_i:\quad i\in \N\}$ be \emph{iid} random variables with finite mean $E[X_1]$ and let $N$ be a stopping time with respect to this set of variables, such that $E[N] < \infty$. Then
 	\[E\left[\sum_{n=1}^N X_n\right] = E[X_1]E[N]\]
 \end{lem}
 \begin{proof}
 	\begin{align}
-	E\left[\sum_{n=1}^N X_n\right] &= E\left[\sum_{n \in \mathbb{N}} X_n 1_{\{N \geq n\}}\right]  \\
-	&= \sum_{n \in \mathbb{N}} E\left[X_n 1_{\{N \geq n\}}\right] \label{tricky}
+	E\left[\sum_{n=1}^N X_n\right] &= E\left[\sum_{n \in \N} X_n 1_{\{N \geq n\}}\right]  \\
+	&= \sum_{n \in \N} E\left[X_n 1_{\{N \geq n\}}\right] \label{tricky}
 	\end{align}
 	I'd like to point out here that in step (\ref{tricky}), you cannot always exchange infinite sums and expectations. But here you can do so, because of the application of Monotone Convergence Theorem. Refer Ross/Wolff for more information. Regardless, to proceed, we need to show that $N \geq n$ is independent of $X_k, \quad k \geq n$. To this end, observe that 
 	\begin{align*}
@@ -247,14 +246,14 @@ The intuition behind a stopping time is that it's value is determined by past an
 	\end{align*}
 	Since, $N$ is a stopping time and by definition $\{N=i\}$ depends only on $\{X_1,\ldots, X_i\}$. Therefore, $\{N \geq k\}$ depends only on $\{X_1,\ldots, X_{k-1}\}$, and is independent of the future and present samples. Therefore, we can write
 	\begin{align*}
-	\sum_{n \in \mathbb{N}} E\left[X_n 1_{\{N \geq n\}}\right] &= \sum_{n \in \mathbb{N}} E\left[X_n\right]E\left[ 1_{\{N \geq n\}}\right] \\
-	&= E\left[X_1\right] \sum_{n \in \mathbb{N}} \Pr\{N \geq n\} \\
+	\sum_{n \in \N} E\left[X_n 1_{\{N \geq n\}}\right] &= \sum_{n \in \N} E\left[X_n\right]E\left[ 1_{\{N \geq n\}}\right] \\
+	&= E\left[X_1\right] \sum_{n \in \N} \Pr\{N \geq n\} \\
 	&= E[X_1]E[N] ~(\because expectation~can~be~defined~ in~ terms~ of~ \emph{ccdf}).
 	\end{align*} 
 \end{proof}
 
 \begin{prop}[Wald's Lemma for Renewal Process] \label{prop:WaldRenewal}
-	Let $\{X_n, n \in \mathbb{N}\}$ be \emph{iid} inter-arrival times of a renewal process $N(t)$ with $E[X_1] < \infty$, and let $m(t) = E[N(t)]$ be its renewal function. Then, $N(t)+1$ is a stopping time and 
+	Let $\{X_n, n \in \N\}$ be \emph{iid} inter-arrival times of a renewal process $N(t)$ with $E[X_1] < \infty$, and let $m(t) = E[N(t)]$ be its renewal function. Then, $N(t)+1$ is a stopping time and 
 	\begin{align*}
 	E\left[\sum_{i=1}^{N(t)+1}X_i\right] = E[X_1][1+m(t)]
 	\end{align*}
@@ -276,7 +275,7 @@ Basic renewal theorem implies $N(t)/t$ converges to $1/\mu$ almost surely. Now, 
 	\end{cases}
 	\end{align*}
 	Then, $\Pr\{ Y_n = 0 \} = 1 - 1/n$. %Then $\sum \Pr\{Y_n > \epsilon\} < \infty$. Hence by Borel Cantelli Lemma, $Y_n \to 0$
-	That is $Y_n \to 0$ a.s. However, $E[Y_n] = 1$ for all $n \in \mathbb{N}$. So $E[Y_n] \to 1$.
+	That is $Y_n \to 0$ a.s. However, $E[Y_n] = 1$ for all $n \in \N$. So $E[Y_n] \to 1$.
 \end{exmp}
 Even though, basic renewal theorem does \textbf{NOT} imply it, we still have $E[N(t)]/t$ converging to $1/\mu$.
 
@@ -304,7 +303,7 @@ Even though, basic renewal theorem does \textbf{NOT} imply it, we still have $E[
 	\end{align*}
 	We will call $E[\bar{X}_n] = \mu_M$. Further, we can define arrival instants $\{\bar{S}_n\}$ and renewal process $\bar{N}(t)$ for this set of truncated inter-arrival times $\{\bar{X}_n\}$ as 
 	\begin{align*}
-	\bar{S}_n &= \sum_{k=1}^n \bar{X}_k, & \bar{N}(t) &= \sup\{n \in \mathbb{N}_0: \bar{S}_n \leq t\}.
+	\bar{S}_n &= \sum_{k=1}^n \bar{X}_k, & \bar{N}(t) &= \sup\{n \in \N_0: \bar{S}_n \leq t\}.
 	\end{align*}
 	Note that since $S_n \geq \bar{S}_n$, number of arrivals would be higher for renewal process with truncated random variables, i.e. 
 	\begin{align}
