@@ -15,7 +15,7 @@ For a lattice $X$, its period is defined as
 \begin{equation*}
 d = \sup\{ d \in\R^+: \sum_{n\in\N}\Pr\{X = nd\} = 1 \}.
 \end{equation*}
-If $X$ is a lattice random variable, it distribution function $F$ is also called lattice.
+If $X$ is a lattice random variable, distribution function $F$ is also called lattice.
 \end{defn}
 %\subsection{Blackwell's Theorem}
 \begin{thm}[Blackwell's Theorem] Let $N(t)$ be a renewal process with mean $m(t)$, and inter-arrival times with distribution $F$ and mean $\mu$. If $F$ is not lattice, then for all $a \geq 0$
@@ -44,7 +44,7 @@ g(a) = \lim_{t \to \infty} [m(t+a) - m(t)]
 \begin{equation*}
 m(t+a+b) - m(t) = m(t+a+b) - m(t+a) + m(t+a) - m(t).
 \end{equation*}
-Taking limits on both sides of the above equation, we conclude $g(a+b) = g(a) +  g(b)$. Only increasing solution of such a $g$ is
+Taking limits on both sides of the above equation, we conclude that $g(a+b) = g(a) +  g(b)$. The only increasing solution of such a $g$ is
 \begin{equation*}
 g(a) = ca, \forall a > 0,
 \end{equation*}
@@ -55,12 +55,20 @@ x_n = m(n) - m(n-1),~n \in \N.
 Note that $\sum_{i=1}^nx_i = m(n)$ and $\lim_{n \in \N}x_n = g(1) = c$, hence we have
 \begin{equation*}
 %\lim_{n \to \infty}x_n = c \Rightarrow 
-\lim_{n \in \N}\frac{\sum_{i=1}^nx_i}{n} = \lim_{n \in \N}\frac{m(n)}{n} = c.
+\lim_{n \in \N}\frac{\sum_{i=1}^nx_i}{n} = \lim_{n \in \N}\frac{m(n)}{n} \stackrel{(a)}{=} c,
 \end{equation*}
+where (a) follows from the fact that if a sequence $\{x_i\}$ converges to $c$, then the running average sequence $a_n = \frac{1}{n}\sum_{i=1}^n x_i$ also converges to $c$, as $n \to \infty.$
+
 Therefore, we can conclude $c = 1/\mu$ by elementary renewal theorem.
 
-When $F$ is lattice with period $d$, limit in~\eqref{eq:LimitBlackwell} doesn't exist. However, the theorem is true for lattice trivially by elementary renewal theorem.
+When $F$ is lattice with period $d$, the limit in~\eqref{eq:LimitBlackwell} doesn't exist. (See Example \ref{eg:lattice limit}). However, the theorem is true for lattice trivially by elementary renewal theorem.
 \end{proof}
+
+\begin{exmp}
+\label{eg:lattice limit}
+For a trivial lattice example where the $\lim_{t\to \infty} m(t+a)-m(t)$ does not exist, consider a renewal process with $\Pr\{X_n = 1\} = 1$, that is, there is a renewal at every positive integer time instant with probability 1. Then $F$ is lattice with $d=1.$ Now, for $a=0.5$, and $t_n = n+(-1)^n 0.5$, we see that $\lim_{t_n \to \infty} m(t_n+a)-m(t_n)$ does not exist, and hence $\lim_{t \to \infty} m(t+a)-m(t)$ does not exist.
+\end{exmp}
+
 
 \subsection{Directly Riemann Integrable}
 \begin{defn}%[Directly Riemann Integrable] 
@@ -68,13 +76,22 @@ A function $h: [0,\infty] \rightarrow \R$ is \textbf{directly Riemann integrable
 \begin{equation*}
 	\lim_{\delta \rightarrow 0} \delta \sum_{n \in \N}\sup_{ u \in [(n-1)\delta,n\delta]}h(u)=\lim_{\delta \rightarrow 0} \delta \sum_{n \in \N}\inf_{ u \in [(n-1)\delta,n\delta]}h(u)  
 \end{equation*}   
- If both limits exist and are equal, the integral value is equal to the limit. 
+ If both limits exist and are equal, then the integral value is equal to the limit. 
 \end{defn}
-	Compare this definition with the definition of Riemann integrals. A function $g: [0, M] \rightarrow \R $ is Riemann integrable if 
+	Compare this definition with the definition of Riemann integrals. A function $g: [0, M] \rightarrow \R $ for $0<M<\infty$ is Riemann integrable if 
    \begin{eqnarray*}
   \lim_{\delta \rightarrow 0} \delta \sum_{k=0}^{M/\delta}\sup_{ u \in [(n-1)\delta,n\delta]}g(u)=\lim_{\delta \rightarrow 0} \delta \sum_{k=0}^{M/\delta}\inf_{ u \in [(n-1)\delta,n\delta]}g(u)  
   \end{eqnarray*} 
    and in that case, limit is the value of the integral. For $h$ defined on $[0,\infty]$, $\int_{0}^{\infty}h(u)du = \lim_{M \rightarrow \infty}\int_{0}^{M}h(u)du$, if the limit exists. For many functions, this limit may not exist.
+
+
+
+\begin{rem}
+A directly Riemann integral function over $[0,\infty)$ is also Riemann integral, but the converse need not be true. For instance $h(t) = \sum_{n\in\N}1_{\left[n-\frac{1}{(2n^2)},\,n+\frac{1}{(2n^2)}\right]}(t)$ is Riemann integral, but $\delta \sum_{n \in \N}\sup_{ u \in [(n-1)\delta,n\delta]}h(u)$ is always infinite for every $\delta>0.$
+\end{rem}  
+
+
+   
 \begin{prop}%[Sufficiency for Directly Riemann Integrable] 
 Following are sufficient conditions for a function $h$ to be directly Riemann integrable.
   \begin{enumerate}
@@ -90,9 +107,10 @@ Following are sufficient conditions for a function $h$ to be directly Riemann in
 \end{prop}
 %\subsection{Key Renewal Theorem}
 \begin{thm}[Key Renewal Theorem] Let $N(t)$ be a renewal process having mean $m(t)$, and \emph{iid} inter-arrival times with mean $\mu$ and distribution function $F$. If $F$ is non-lattice, and if a function $h(t)$ is directly Riemann integrable, then
-\begin{equation*}
+\begin{equation}
+\label{eqn:Key Renewal Theorem}
 \lim_{t \rightarrow \infty} \int_{0}^{\infty}h(t-x)dm(x)=\frac{1}{\mu}\int_{0}^{\infty}h(t)dt,
-\end{equation*}
+\end{equation}
 where 
 \begin{xalignat*}{3}
 &m(t) = \sum_{n \in \N}F_n(t),&& \mu= \int_{0}^{\infty}\bar{F}(t).
@@ -105,18 +123,20 @@ where
 \begin{proof} Let's assume key renewal theorem is true. We select $h$ as a simple function with value unity on interval $[0, a]$ and zero elsewhere. That is,
 \begin{equation*}
 h(x) = 1_{\{ x \in [0,a]\}}.
-\end{equation*}?
-It is easy to see that this function is directly Riemann integrable. With this selection of $h$, Blackwell's theorem follows.
+\end{equation*}
+It is easy to see that this function is directly Riemann integrable. %With this selection of $h$, Blackwell's theorem follows.
+
+
+
 To see how we can prove the key renewal theorem from Blackwell's theorem, observe from Blackwell's theorem that,
 \begin{align*}
 \lim_{t \to \infty}\frac{dm(t)}{dt} \stackrel{(a)}= \lim_{a \to 0}\lim_{t \to \infty} \frac{m(t
 +a)-m(t)}{a}=\frac{1}{\mu}.
 \end{align*}     
 where in $(a)$ we can exchange the order of limits under certain regularity conditions. 
-%Reverse can be proved by approximating a directly Riemann integrable function with simple functions. 
 We defer the formal proof for a later stage.
 \end{proof}
-\begin{rem} Key renewal theorem is very useful in computing limiting value of some function $g(t)$, probability or expectation of an event at arbitrary time $t$, for a renewal process. This value is computed by conditioning on the time of last renewal prior to time $t$.
+\begin{rem} Key renewal theorem is very useful in computing the limiting value of some function $g(t)$, probability or expectation of an event at an arbitrary time $t$, for a renewal process. This value is computed by conditioning on the time of last renewal prior to time $t$.
 \end{rem}
 \begin{thm}[Key Lemma] Let $N(t)$ be a renewal process, with mean $m(t)$, \emph{iid} inter-renewal times $\{X_n\}$ with distribution function $F$, and $n^{\mathrm{th}}$ renewal instant $S_n$. Then,
 \begin{equation*}
@@ -145,7 +165,7 @@ Using monotone convergence theorem to interchange integral and summation, and no
 %\end{flalign*}
 %where the order of summation is exchanged by virtue of the fact that the summands are non-negative and the sum is finite (Fubini's theorem).
 \end{proof}
-\begin{rem}\label{Remark:DensityLastRenewal} Key lemma tells us that distribution of $S_{N(t)}$ has probability mass at $0$ and density between $(0,t]$.
+\begin{rem}\label{Remark:DensityLastRenewal} Key lemma tells us that distribution of $S_{N(t)}$ has probability mass at $0$ and density between $(0,t]$, that is,
 \begin{align*}
 \Pr\{S_{N(t)}=0\}&=\bar{F}(t),& dF_{S_{N(t)}}(y)&=\bar{F}(t-y)dm(y)~\quad 0 < y \leq t.
 \end{align*}
@@ -163,12 +183,17 @@ dF_{S_{N(t)}}(y)=\Pr\{\text{renewal occurs in }(y,y+dy) \text{ and next arrival 
 \subsection{Alternating Renewal Processes}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 Alternating renewal processes form an important class of renewal processes, and model many interesting applications. We find one natural application of  key renewal theorem  in this section. 
-\begin{defn}[Alternating Renewal Process] Let $\{(Z_n,Y_n),~n \in \N\}$ be an \emph{iid} random process, where $Y_n$ and $Z_n$ are not necessarily independent. A renewal process where each inter-arrival time $X_n$ consist of ON time $Z_n$ followed by OFF time $Y_n$, is called \textbf{alternating renewal process}. We denote distribution for ON, OFF, renewal periods by $H, G, F$ respectively. Let 
+\begin{defn}[Alternating Renewal Process] Let $\{(Z_n,Y_n),~n \in \N\}$ be an \emph{iid} random process, where $Y_n$ and $Z_n$ are not necessarily independent. A renewal process where each inter-arrival time $X_n$ consist of ON time $Z_n$ followed by OFF time $Y_n$, is called an \textbf{alternating renewal process}. We denote the distributions for ON, OFF, and renewal periods by $H, G$, and $F$, respectively. Let 
 \begin{equation*}
 P(t)=\Pr\{\text{ON at time}~ t\}.
 \end{equation*}
 \end{defn}
 %Let $Y_n \sim G$, $Z_n \sim H, F \sim Z_n+Y_n \triangleq X_n$. The random variable $Z_n$ denotes the ON time of a system and $Y_n$ denotes the OFF time of the system. Let $P(t)=P(\text{ON at time}~ t)$.
+
+\begin{rem}
+To see that the alternating renewal process is indeed a renewal process, it needs to be established that $\{X_n:n\in\mathbb{N}\}$ is an \emph{iid} sequence. But this trivially follows from the fact that $\{f(Y_n,Z_n):n\in\mathbb{N}\}$ is an \emph{iid} sequence whenever $\{(Z_n,Y_n),~n \in \N\}$ is an \emph{iid} sequence. Let $f(a,b) = a+b$ to see that $\{X_n:n\in\mathbb{N}\}$ is an \emph{iid} sequence.
+\end{rem}
+
 \begin{thm}[ON Probability] \label{Thm:OnProbability}
 If $\E[Z_n+Y_n]< \infty $ and $F$ is non-lattice, then
 \begin{equation*}
@@ -179,22 +204,27 @@ P(t) = \bar{H}(t)+\int_{0}^{t}\bar{H}(t-y)dm(y).
 \begin{equation*}
 \{\text{ON at time}~ t\} =\bigcup_{y \in [0, t)}\{\text{ON at time } t, S_{N(t)} = y\}.% = \bigcup_{y \in [0, t)}\{Z_1 > t- y, S_{N(t)} = y\}.
 \end{equation*}
-Since any ON time is possibly only dependent on the corresponding OFF time and no past renewal times. Conditioned on $\{S_{N(t)} = y \}$ system stays ON at time $t$, \emph{iff} ON time is longer than $t-y$ conditioned on renewal time being larger than $t-y$. That is, 
+Since any ON time is possibly only dependent on the corresponding OFF time and no past renewal times, conditioned on $\{S_{N(t)} = y \}$, the system stays ON at time $t$ \emph{iff} ON time is longer than $t-y$ conditioned on renewal time being larger than $t-y$. That is, 
 \begin{equation*}
 \{\text{ON at time } t| S_{N(t)} = y\} =\{Z_1 > t - y| Z_1 + Y_1 > t-y\}.
 \end{equation*}
-Result follows from these observations along with the density of $S_{N(t)}$ from Remark~\ref{Remark:DensityLastRenewal}.
+Since, for $y>0$, we have $\Pr\{Z_1 > t - y| Z_1 + Y_1 > t-y\} = \frac{\bar{H}(t-y)}{\bar{F}(t-y)}$, it follows that
+\begin{equation*}
+P(t) = \bar{H}(t)+ \int_{0}^t {\bar{H}(t-y)}{\bar{F}(t-y)}dF_{S_{N(t)}}(y)
+\end{equation*}
+In view of the density of $S_{N(t)}$ from Remark~\ref{Remark:DensityLastRenewal}, the result follows.
 \end{proof}
 
 \begin{cor}[Limiting ON Probability]
+\label{cor:Limiting ON probability}
 If $\E[Z_n+Y_n]< \infty $ and $F$ is non-lattice, then
 \begin{equation*}
 \lim_{t \rightarrow \infty}P(t)=\frac{\E[Z_n]}{\E[Y_n]+\E[Z_n]}.
 \end{equation*}
 \end{cor}
-\begin{proof} Since $H$ is distribution function, 
+\begin{proof} Since $H$ is the distribution function of the non-negative random variable $Z_n$, it follows that 
 \begin{align*}
-\lim_{t \rightarrow \infty}\bar{H}(t) &= 0, & \int_0^\infty \bar{H}(t)dt &= E[Z_n].
+\lim_{t \rightarrow \infty}\bar{H}(t) = 0, \text{ and } \int_0^\infty \bar{H}(t)dt = E[Z_n].
 \end{align*}
 Applying key renewal theorem to Theorem~\ref{Thm:OnProbability}, we get the result.
 %\begin{align*}
@@ -222,14 +252,54 @@ Suppose we need to find $\lim_{t \to \infty}\Pr\{A(t) \leq x\}$ for some fixed  
 \end{equation*}  
 \end{exmp}
 It is to be mentioned that $\Pr\{Y(t)\leq x\}$ also yield the same limit as $t \to \infty$. This can be observed by noting that if we consider the reversed processes (an identically distributed renewal process), $Y(t)$,  the ``excess life time" at $t$ is same as the age at $t$, $A(t)$ of the original process.
+
+Another way of evaluating $\lim_{t\to \infty} \Pr\{A(t)\leq x\}$ is to note that $\{A(t)\leq x\} = \{S_{N(t)}\geq t-x\}$ from which it follows that
+\begin{align*}
+\Pr\{A(t)\leq x\} &= \Pr\{S_{N(t)}\geq t-x\} \\
+& = \int_{-\infty}^{\infty} \Pr\{S_{N(t)} \geq t-x | S_{N(t)}=y\}dF_{S_{N(t)}}(y) \\
+& = \int_{t-x}^\infty dF_{S_{N(t)}}(y)\\
+&\stackrel{(a)}{=} \int_{-\infty}^x \bar F(u)dm(u)\\
+&= \int_{-\infty}^0 dm(u) + \int_{0}^x \bar{F}(u)dm(u)\\
+& = \int_{0}^x \bar{F}(u)dm(u),
+\end{align*}
+where $(a)$ follows from a change of variable $u = t-y$. In the limit, $dm(u) \to \frac{du}{\mu}$, as $t \to \infty$, and hence 
+\begin{equation}
+\lim_{t\to \infty} \Pr\{A(t)\leq x\} = \frac{1}{\mu}\int_{0}^x \bar{F}(u)du
+\end{equation}
+
+
+
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5  
 \subsubsection{The Inspection Paradox}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 Define $X_{N(t)+1}=A(t)+Y(t)$ as the length of the renewal interval containing $t$, in other words, the length of current renewal interval. Inspection paradox says that $P(X_{N(t)+1} >x)\geq \bar{F}(x)$. That is, for any $x$, the length of the current renewal interval to be greater than $x$ is always more likely than that for an ordinary renewal interval. Formally,
 \begin{flalign*}
 \Pr\{X_{N(t)+1}>x\}&= \Pr\{X_{N(t)+1}>x, S_{N(t)}=0\}+\Pr\{X_{N(t)+1}>x,  S_{N(t)}>0\}\\
-&= \Pr\{X_{N(t)+1}>x, S_{N(t)}=0\} + \int_{0}^t\Pr\{X_{N(t)} > x | S_{N(t)} = y\}dm(y)\bar{F}(t-y)\\
+&= \Pr\{X_{N(t)+1}>x, S_{N(t)}=0\} + \int_{0}^t\Pr\{X_{N(t)} > x | S_{N(t)} = y\}dm(y)\bar{F}(t-y).
 %&= P(X_2 >x)\\
 %&= \bar{F}(x).
 \end{flalign*}
+Since $\Pr\{X_{N(t)+1}>x | S_{N(t)}=y\} = \Pr\{X>x | X>y\} = \frac{\bar{F}(x)}{\bar{F}(y)}\geq \bar{F}(x)$, we have
+\begin{flalign*}
+\Pr\{X_{N(t)+1}>x\}\geq  \bar{F}(x).
+\end{flalign*}
+To obtain the limiting distribution of $X_{N(t)+1}$, consider an alternating renewal process for which the ON time is the total time of the cycle if that time is greater than $x,$ and zero otherwise. The system is either totally ON during a cycle (if the renewal interval is greater than $x$), or totally OFF otherwise. Then,
+\begin{align*}
+\Pr \{X_{N(t)+1}>x\} &= \Pr\{\text{length of the interval containing } t>x\}\\
+&= \Pr\{ \text{on at time } t \}.
+\end{align*}
+In view of Corollary \ref{cor:Limiting ON probability}, we conclude that 
+\begin{align*}
+\lim_{t\to \infty}\Pr\{X_{N(t)}>x\} &= \frac{\E[\text{on time in cycle}]}{\mu} \\
+&= \frac{\E[X|X>x]\bar{F}(x)}{\mu}\\
+&= \frac{\int_{x}^\infty y dF(y)}{\mu}
+\end{align*}
+
+
+
+
+
+
 \end{document}
