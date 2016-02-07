@@ -9,43 +9,46 @@
 
 
 \subsection{Example:}
- Consider the number of commodities desired by customers at a store follows a distribution $G$. The ordering policy of the store is as follows: For some fixed $s,~S$, if the inventory level after serving a customer is x, then the amount ordered is
+ Suppose the number of commodities desired by a customer at a store follows a distribution $G$. The ordering policy of the store is as follows: For some fixed $s,~S$, if the inventory level after serving a customer is $x$, then the amount ordered is
  
  
 
      \begin{displaymath}
         \left\{
          \begin{array}{lr}
-           S-x & \text{if} x <s\\
-           0 & \text{if} x \geq s
+           S-x & \text{if } x <s\\
+           0 & \text{if } x \geq s
          \end{array}
        \right.
     \end{displaymath} 
 
-$X(t)$ denote the inventory level at time $t$. We are interested in finding $\lim_{t \rightarrow \infty}\mathbb{P}(X(t) /geq x)$. From alternating renewal process thmry, we have 
+Let $L(t)$ denote the inventory level at time $t$. We are interested in finding $\lim_{t \rightarrow \infty}\mathbb{P}(L(t) \geq y)$. 
+Let $X_n$ denote inter-restocking times. Let $\{L(t)\geq y\}$ denote ON period. $X_n$ forms an 
+alternating renewal process with the above mentioned ON time. 
+From alternating renewal process theorem, we have 
 
 \begin{flalign*}
-\lim_{t \rightarrow \infty}\mathbb{P}(X(t) \geq x) &= \mathbb{E}[\text{ON time}]\\
-&=\frac{\mathbb{E}[\sum_{i=1}^{N_x}X_i]}{\mathbb{E}[\sum_{i=1}^{N_s}X_i]}=\frac{\mathbb{E}[N_x]}{\mathbb{E}[N_s]}.
+\lim_{t \rightarrow \infty}\mathbb{P}(L(t) \geq y) &= \frac{\mathbb{E}[\text{ON time}]}{\mathbb{E}[X_1]}\\
+&=\frac{\mathbb{E}[\sum_{i=1}^{N_y}X_i]}{\mathbb{E}[\sum_{i=1}^{N_s}X_i]}=\frac{\mathbb{E}[N_x]}{\mathbb{E}[N_s]}.
 \end{flalign*}
 
-where $N_x= \min\{n \in \mathbb{N}: \sum_{i=1}^{n}Y_i > s-x\}$  and $Y_1,Y_2 \hdots$ denote the successive customer demands. Since $Y_i$s are iid, we can interpret $N_x-1$ as the number of renewals till time $S-x$. $Y_i$s are the inter arrival times of the processes. Thus   
+where $N_y= \min\{n \in \mathbb{N}: \sum_{i=1}^{n}D_i > S-y\}$  and $D_1,D_2 \hdots$ denote the successive customer demands. Since $D_i$ are iid, we can interpret $N_y-1$ as the number of renewals till time $S-y$. $D_i$ is the inter arrival time of the process. Thus   
 
 \begin{flalign*}
-\lim_{t \rightarrow \infty}\mathbb{P}(X(t) \geq x) =\frac{m_G(S-x)+1}{m_G(S-s)+1}, s \leq x \leq S.
+\lim_{t \rightarrow \infty}\mathbb{P}(L(t) \geq y) =\frac{m_G(S-x)+1}{m_G(S-s)+1}, s \leq x \leq S.
 \end{flalign*}
 \subsection{Limiting Mean Excess Time}
 Consider a nonlattice renewal process and we are interested in computing the mean excess time of the process. We start by writing the renewal equation of mean excess life time, $\mathbb{E}[Y(t)]$.
 \begin{flalign*}
 \mathbb{E}[Y(t)]&= \mathbb{E}[Y(t)|S_{N(t)}=0]F^c(t)+ \int_{0}^{t} \mathbb{E}[Y(t)|S_{N(t)}=y]F^c(t-y)dm(y)\\
-&=\mathbb{E}[X-t |X>t]F^c(t)+ \int_{0}^{t} \mathbb{E}[X-(t-y)|X>t-y]F^c(t-y)dm(y).
+&=\mathbb{E}[X_1-t |X_1>t]F^c(t)+ \int_{0}^{t} \mathbb{E}[X-(t-y)|X>t-y]F^c(t-y)dm(y).
 \end{flalign*}
-From Key Renewal thmrem, we have 
+From Key Renewal theorem, we have 
 
 \begin{flalign*}
 \lim_{t \rightarrow \infty}\mathbb{E}[Y(t)]&=\frac{1}{\mu} \int_{0}^{\infty} \mathbb{E}[X-t|X-t >0]F^c(t) dt\\
-&= \frac{1}{\mu} \int_{t=0}^{\infty} \int_{x=t}^{\infty}xdF(x)F^c(t) dt\\
-&= \frac{1}{\mu} \int_{x=0}^{\infty} \int_{t=0}^{x}xdF(x)F^c(t) dt\\
+&= \frac{1}{\mu} \int_{t=0}^{\infty} \int_{x=t}^{\infty}(x-t) dF(x) dt\\
+&= \frac{1}{\mu} \int_{x=0}^{\infty} \int_{t=0}^{x}(x-t) dF(x) dt\\
 &= \frac{\mathbb{E}[X^2]}{2\mu}.
 \end{flalign*}
 \begin{prop}
