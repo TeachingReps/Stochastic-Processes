@@ -128,7 +128,7 @@ We need to know the distribution of $N(t)$.
 	\\
 	The number of arrivals till time $t$ therefore is Geometric with mean $\frac{1}{P[X_n \geq \alpha]}$. Thus 
 	\begin{align*}
-	\E[\bar{N}(t)] = \frac{\lfloor\frac{t}{\alpha} \rceil + 1}{P[X_n \geq \alpha]} \leq \frac{\frac{t}{\alpha} + 1}{P[X_n \geq \alpha]} < \infty.
+	\E[\bar{N}(t)] = \frac{\lfloor\frac{t}{\alpha} \rfloor + 1}{P[X_n \geq \alpha]} \leq \frac{\frac{t}{\alpha} + 1}{P[X_n \geq \alpha]} < \infty.
 	\end{align*}
 	Since $\E[N(t)] \leq \E[\bar{N}(t)]$ which follows from $N(t) \leq \bar{N}(t)$, we are done.
 \end{proof} 
