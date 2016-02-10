@@ -266,9 +266,7 @@ where $(a)$ follows from a change of variable $u = t-y$. In the limit, $dm(u) \t
 \begin{equation}
 \lim_{t\to \infty} \Pr\{A(t)\leq x\} = \frac{1}{\mu}\int_{0}^x \bar{F}(u)du
 \end{equation}
-
-
-
+%\newpage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5  
 \subsubsection{The Inspection Paradox}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -304,12 +302,22 @@ Now we have,
 \Pr \{X_{N(t)+1}>x\} &= \Pr\{\text{length of the interval containing } t>x\}\\
 &= \Pr\{ \text{on at time } t \}.
 \end{flalign*}
+
 In view of Corollary \ref{cor:Limiting ON probability}, we conclude that 
 \begin{flalign*}
 \lim_{t\to \infty}\Pr\{X_{N(t)+1}>x\} &= \frac{\E[\text{on time in cycle}]}{\mu} \\
-&= \frac{\E[X\mathbb{I}_{X>x}]\bar{F}(x)}{\mu}\\
+&= \frac{\E[X\mathbb{I}_{X>x}]}{\mu}\\
 &= \frac{\int_{x}^\infty y dF(y)}{\mu}\\
 &\geq \Pr[X_1\geq x],
 \end{flalign*}
-where the last step follows from Chebyshev inequality.
+where the last step follows from Chebyshev's inequality stated below.
+
+\subsubsection*{Chebyshev's Sum Inequality:}
+ If $f$ and $g : \mathbb{R} \rightarrow \mathbb{R}^{+}$ are functions with the same
+ monotonicity then for any random variable $X$ $f(X)$ and $g(X)$ are positive and
+ $$\E[f(X)g(X)] \geq \E[f(X)]\E[g(X)].$$
+\textbf{Remark:} \\
+ This inequality give us that
+ $$\E[X\mathbb{I}_{X\geq x}] \geq \E[X]\Pr[X\geq x].$$
+
 \end{document}
