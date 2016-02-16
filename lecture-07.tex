@@ -1,4 +1,4 @@
-\documentclass[a4paper,10pt, english]{article}
+\documentclass[a4paper,10pt]{article}
 \input{header}
 \title{Lecture 07: Limiting Mean Excess Time, Branching Processes, Delayed Renewal Process}
 \author{}
@@ -64,7 +64,7 @@ Suppose an organism lives upto a time period of $X \sim F$ and produces $N \sim 
 \begin{thm}
 If $X(0)=1$, $m>1$ and $F$ is non lattice, then
 \begin{flalign*}
-\lim_{t \rightarrow \infty} M(t)= \frac{m-1}{m^2 \alpha \int_{0}^{\infty}xe^{-\alpha x dF(x)}},
+\lim_{t \rightarrow \infty} e^{-\alpha t}M(t)= \frac{m-1}{m^2 \alpha \int_{0}^{\infty}xe^{-\alpha x dF(x)}},
 \end{flalign*}
 
 where $\alpha > 0$ is unique such that $\int_{0}^{\infty}xe^{-\alpha x } dF(x) = \frac{1}{m}$.
