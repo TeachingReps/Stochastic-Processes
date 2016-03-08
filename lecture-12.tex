@@ -7,17 +7,17 @@
 \begin{document}
 \maketitle
 
-\section{Axiomatic Definition}
+\section{Markov Process}
 \begin{defn}
-A continuous time stochastic process $\{X(t) \in \N_0,~ t \geqslant 0\}$ is a \textbf{continuous time Markov chain (CTMC)} if
+For a countable set $I$ a continuous time stochastic process $\{X(t) \in I, ~ t \geqslant 0\}$ is a \textbf{Markov process} if
 \begin{align*}
-\Pr\{X(t+s) = j |X(u),~ u \in [0,s]\} &= \Pr\{X(t+s) = j |X(s)\}, \text{ for all } s, t \geqslant 0 \text{ and } i, j \in \N_0.
+\Pr\{X(t+s) = j |X(u),~ u \in [0,s]\} &= \Pr\{X(t+s) = j |X(s)\}, \text{ for all } s, t \geqslant 0 \text{ and } i, j \in I.
 \end{align*}
 We define the \textbf{transition probability} from state $i$ at time $s$ to state $j$ at time $s+t$ as 
 \begin{align*}
 P_{ij}(s, s+t) = \Pr\{X(s+t) = j | X(s) = i\}.
 \end{align*}
-The CTMC has \textbf{homogeneous} transitions if $P_{ij}(s,s+t) = P_{ij}(0,t)$ for all $i,j \in \N_0, s,t \geqslant 0$ and we denote the transition probability by $P_{ij}(t)$. 
+The CTMC has \textbf{homogeneous} transitions if $P_{ij}(s,s+t) = P_{ij}(0,t)$ for all $i,j \in I, s,t \geqslant 0$ and we denote the transition probability by $P_{ij}(t)$. 
 \end{defn}
 
 \subsection{Sojourn Times and Jump Transitions}
@@ -46,7 +46,7 @@ p_{ij} \triangleq \Pr\{X(\tau_i)  = j | X(0) =  i \}, ~i,j \in \N_0.
 \end{align*}
 \end{defn}
 \begin{lem}
-For a homogeneous CTMC, jump transition probabilities $p_{ij}$ add to unity for all $i \in \N_0$.
+For a CTMC, jump transition probabilities $p_{ij}$ add to unity for all $i \in \N_0$.
 \end{lem}
 \begin{proof}
 \end{proof}
@@ -94,21 +94,21 @@ A \textbf{generator matrix} denoted by $Q$ is defined in terms of sojourn times 
 
 From the $Q$ matrix, we can construct the whole CTMC.  In DTMC, we had the result $P^{(n)}(i,j)=(P^n)_{i,j}$. We can generalize this notion  in the case of CTMC as follows: $P=e^{Q}\triangleq \sum_{k \in \mathbb{N}_0}\frac{Q^k}{k !}$.  Observe that $e^{Q_1+Q_2}=e^{Q_1}e^{Q_2},~ e^{nQ}=(e^Q)^n=P^n$.\\
 \begin{thm}
-Let $Q$ be a finite sized matrix. Let $\Pr\{t)=e^{tQ}$. Then $\{\Pr\{t),~ t \geq 0\}$ has the following properties:\begin{enumerate}
-\item {$\Pr\{s+t)=\Pr\{s)\Pr\{t),~ \forall s,~t$ (semi group property).}
-\item {$\Pr\{t),~t \geq 0$ is the unique solution to the forward equation, $\frac{d\Pr\{t)}{dt}=\Pr\{t)Q,~\Pr\{0)=I$.}
-\item {And the backward equation $\frac{d\Pr\{t)}{dt}=Q\Pr\{t),~\Pr\{0)=I$.}\\
-\item {For all $k \in \mathbb{N}$, $\frac{d^k\Pr\{t)}{d^k(t)}|_{t=0}=Q^k$.}
+Let $Q$ be a finite sized matrix. Let $P(t)=e^{tQ}$. Then $\{P(t),~ t \geq 0\}$ has the following properties:\begin{enumerate}
+\item {$P(s+t)=P(s)P(t),~ \forall s,~t$ (semi group property).}
+\item {$P(t),~t \geq 0$ is the unique solution to the forward equation, $\frac{dP(t)}{dt}=P(t)Q,~P(0)=I$.}
+\item {And the backward equation $\frac{dP(t)}{dt}=QP(t),~P(0)=I$.}\\
+\item {For all $k \in \mathbb{N}$, $\frac{d^kP(t)}{d^k(t)}|_{t=0}=Q^k$.}
 \end{enumerate}
 \end{thm}  
 \begin{proof}
 $\frac{dM(t)e^{-tQ}}{dt}=0,$ $M(t)e^{-tQ}$ is constant. $M(t)$ is any matrix satisfying the forward equation.
 \end{proof}
 \begin{thm}
-A finite matrix $Q$ is $Q$ matrix if and only if $\Pr\{t)=e^{tQ}$ is a stochastic matrix for all $t \geq 0$. 
+A finite matrix $Q$ is $Q$ matrix if and only if $P(t)=e^{tQ}$ is a stochastic matrix for all $t \geq 0$. 
 \end{thm}
 \begin{proof}
-$\Pr\{t)=I+tQ+O(t^2)$ ($f(t)=O(t) \Rightarrow \frac{f(t)}{t} \leq c,$ for small $t,~c < \infty$ ). $q_{ij} \geq 0$ if and only if $P_{ij}(t) \geq 0,~ \forall i \neq j$ and $t \geq 0$ sufficiently small. $\Pr\{t)=\Pr\{\frac{t}{n})^n$. Note that if $Q$ has zero row sums, $Q^n$ also has zero row sums.\\
+$P(t)=I+tQ+O(t^2)$ ($f(t)=O(t) \Rightarrow \frac{f(t)}{t} \leq c,$ for small $t,~c < \infty$ ). $q_{ij} \geq 0$ if and only if $P_{ij}(t) \geq 0,~ \forall i \neq j$ and $t \geq 0$ sufficiently small. $P(t)=P(\frac{t}{n})^n$. Note that if $Q$ has zero row sums, $Q^n$ also has zero row sums.\\
 \begin{flalign*}
 \sum_j [Q^n]_{ij}&= \sum_j \sum_k [Q^{n-1}]_{ik}Q_{kj}= \sum_j \sum_k Q_{kj}[Q^{n-1}]_{ik}=0.\\
 \sum_{j}P_{ij}(t)&=1+\sum_{n \in \mathbb{N}} \frac{t^n}{n!}\sum_j [Q^n]_{ij}=1+0=1.
@@ -127,7 +127,7 @@ For all $s,~t \geq 0$, $P_{ij}(t+s)=\sum_{k \in \mathbb{N}_0 P_{ik}(t)P_{kj}(s)}
 \end{lem}
 \subsection{Chapman Kolmogorov Equation for CTMC}
 \begin{thm}
-\textbf{Kolmogorov Backward equation:} For all $i,j,t \geq 0$, $P'_{ij}(t)= \sum_{k \neq i}q_{ik}P_{kj}(t)-\nu_iP_{ij}(t)$ ,  $\frac{d\Pr\{t)}{dt}=Q\Pr\{t)$
+\textbf{Kolmogorov Backward equation:} For all $i,j,t \geq 0$, $P'_{ij}(t)= \sum_{k \neq i}q_{ik}P_{kj}(t)-\nu_iP_{ij}(t)$ ,  $\frac{dP(t)}{dt}=QP(t)$
 \end{thm}
 \begin{proof}
 $P_{ij}(t+h)=\sum_kP_{ik}(h)P_{kj}(t).$
@@ -149,6 +149,6 @@ $\liminf_{h \rightarrow 0} \sum_{k \neq 1}\frac{P_{ik}(h)}{h}P_{kj}(t) \geq \sum
 \end{flalign*}
 \end{proof}
 \begin{thm}
-\textbf{Kolmogorov Forward Equation:} Under suitablle reqularity conditions, $P'_{ij}(t)=\sum_{k \neq i}P_{ik}(t)q_{kj}-P_{ij}(t)\nu_i$, i.e. $\frac{d\Pr\{t)}{dt}=\Pr\{t)Q$.
+\textbf{Kolmogorov Forward Equation:} Under suitablle reqularity conditions, $P'_{ij}(t)=\sum_{k \neq i}P_{ik}(t)q_{kj}-P_{ij}(t)\nu_i$, i.e. $\frac{dP(t)}{dt}=P(t)Q$.
 \end{thm}
 \end{document}
