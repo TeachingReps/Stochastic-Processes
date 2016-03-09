@@ -2,7 +2,7 @@
 % !TEX spellcheck = LaTeX
 \documentclass[a4paper,10pt,english]{article}
 \input{header}
-\title{Lecture 12 : Continuous Time Markov Chains}
+\title{Lecture 14 : Continuous Time Markov Chains}
 \author{}
 \begin{document}
 \maketitle
@@ -17,18 +17,27 @@ We define the \textbf{transition probability} from state $i$ at time $s$ to stat
 \begin{align*}
 P_{ij}(s, s+t) = \Pr\{X(s+t) = j | X(s) = i\}.
 \end{align*}
-The CTMC has \textbf{homogeneous} transitions if $P_{ij}(s,s+t) = P_{ij}(0,t)$ for all $i,j \in I, s,t \geqslant 0$ and we denote the transition probability by $P_{ij}(t)$. 
+The Markov process has \textbf{homogeneous} transitions if $P_{ij}(s,s+t) = P_{ij}(0,t)$ for all $i,j \in I, s,t \geqslant 0$ and we denote the transition probability by $P_{ij}(t)$. 
+This process is also referred to as \textbf{continuous time Markov process (CTMC)}.
 \end{defn}
 
 \subsection{Sojourn Times and Jump Transitions}
-Suppose $X(0)=i$, and  for all $u \in [0,s]$, we have $X(u)=i$. We are interested in knowing probabilities of the form $\Pr\{X(v)=i,~v \in [s,s+t] | X(u)=i, ~ u \in [0,s]\}$. To this end, we define sojourn times in any state.
+For any stochastic process with countable state space $I$, we are interested in knowing probabilities of the form $\Pr\{X(v)=i,~v \in [s,s+t] | X(u)=i, ~ u \in [0,s]\}$.
+%Suppose $X(0)=i$, and  for all $u \in [0,s]$, we have $X(u)=i$.  
+To this end, we define sojourn times in any state and and jump transition probabilities from it.
 \begin{defn}
-Sojourn times of a continuous time stochastic process $\{X(t), t \geqslant 0\}$ is defined by
+\textbf{Sojourn time} of a stochastic process $\{X(t), t \geqslant 0\}$ is defined by
 \begin{align*}
 \tau_i \triangleq \{t \geqslant 0: X(t) \neq i|X(0)=i\}, i \in I. 
 \end{align*}
 \end{defn}
-\begin{lem}
+\begin{defn}
+\textbf{Jump transition probabilities} of a stochastic process $\{X(t), t \geqslant 0\}$ are defined by
+\begin{align*}
+p_{ij}(\tau_i) \triangleq \Pr\{X(\tau_i)  = j | X(0) =  i \}, ~i,j \in I.
+\end{align*}
+\end{defn}
+\begin{lem}\label{Lemma:MemorylessSojourn}
 For a homogeneous CTMC, sojourn time $\tau_i$ is a continuous memoryless random variable. %and exponentially distributed. 
 \end{lem}
 \begin{proof}
@@ -38,26 +47,36 @@ We observe that,
 &= \Pr\{X(v)=i,~v \in [0,t) | X(0)=i\} = \Pr\{\tau_i \geqslant t \}.
 \end{align*}
 \end{proof}
-We could sample the process at these instants and construct a DTMC and study the same. 
-\begin{defn}
-Jump transition probabilities of a CTMC $\{X(t), t \geqslant 0\}$ are defined by
-\begin{align*}
-p_{ij} \triangleq \Pr\{X(\tau_i)  = j | X(0) =  i \}, ~i,j \in \N_0.
-\end{align*}
-\end{defn}
-\begin{lem}
-For a CTMC, jump transition probabilities $p_{ij}$ add to unity for all $i \in \N_0$.
+\begin{lem}\label{Lemma:JumpProb}
+For any stochastic process, jump transition probabilities $p_{ij}(\tau_i)$ add to unity for all $i \in I$.
 \end{lem}
 \begin{proof}
+It follows from simple law of total probability.
 \end{proof}
+We could sample the homogenous Markov process at sojourn times and study the resulting DTMC. 
 
-\subsection{Alternative way of constructing CTMC}
-\begin{prop} A continuous time stochastic process $\{X(t) \in \N_0, t \geqslant 0 \}$ is a CTMC iff \begin{enumerate}
-\item sojourn time $\tau_i$ is distributed with $\exp(\nu_i)$, and 
-\item jump transition probabilities $p_{ij}$ is such that $\sum_{i \neq j}p_{ij}=1$.
+\subsection{Alternative construction of CTMC}
+\begin{prop} A stochastic process $\{X(t) \in I, t \geqslant 0 \}$ is a CTMC iff 
+\begin{enumerate}[a.]
+\item sojourn times are independent and identically distributed with an exponential distribution with rate $\nu_i$, and 
+\item jump transition probabilities $p_{ij}(\tau_i) = $ are independent of $\tau_i$, such that $\sum_{i \neq j}p_{ij}=1$.
 \end{enumerate}
 \end{prop}
 \begin{proof}
+Necessity of two conditions follows from Lemma~\ref{Lemma:MemorylessSojourn} and~\ref{Lemma:JumpProb}. 
+For sufficiency, we assume both conditions and show that Markov property holds and the transition probability is homogeneous. 
+To this end, we observe
+\begin{align*}
+\{ X(u) = i, u \in [0,s] \} = \{ \tau_i > s \}.
+\end{align*}
+Hence, we can write
+\begin{align*}
+\Pr\{ X(t+s) = j | X(u) = i, u \in [0,s] \} 
+%&= \frac{\Pr\{ X(t+s) = j, \tau_i \in (s, s+t) \}}{\Pr\{\tau_i > s\}}\\
+&= %\int_s^{s+t} 
+\sum_{k \neq i}\frac{\Pr\{ X(t+s) = j, \tau_i \in (s,s+t), X(\tau_i) = k \}}{\Pr\{\tau_i > s\}}\\
+&= \int_0^{t}\sum_{k \neq i}\Pr\{ X(t+s) = j| X(u+s) = k\} p_{ik} e^{-\nu_iu}du.
+\end{align*}
 \end{proof}
 \begin{rem}
 Transition probabilities $p_{ij}$ and sojourn times $\tau_i$ are independent. 
