@@ -2,11 +2,134 @@
 % !TEX spellcheck = LaTeX
 \documentclass[a4paper,10pt,english]{article}
 \input{header}
-\title{Lecture 11 : Time Reversibility of Discrete Time Markov Chains}
+\title{Lecture 15 : Limiting Probabilities and Uniformization }%Time Reversibility of Discrete Time Markov Chains}
 \author{}
 \begin{document}
 \maketitle
-\section{Discrete Time Markov Chains Contd.}
+
+\section{Limiting Probabilities}
+We denote by $\{S_n: n \in \N_0\}$ the jump times of CTMC and the probability transition of the embedded Markov chain is denoted by $P = \{p_{ij}: i \neq j \in I\}$. 
+We denote the mean of inter-arrival time by 
+\begin{align*}
+\frac{1}{\nu_i} = \E[S_{n+1} - S_{n}|X(S_n) = i].
+\end{align*} 
+Let $\pi$ be the stationary distribution of the embedded Markov chain.
+\begin{defn} First return time to a state $i$ for a stochastic process $\{X(t), t \geqslant 0\}$ is 
+\begin{align*}
+T_{ii} = \inf\{t > S_1 : X(0) = i, X(t) = i\}.
+\end{align*}
+\end{defn}
+\begin{thm} Let $T_{ii}$ denote the 
+\end{thm}
+ 
+Since a Continuous Time Markov Chain (CTMC) is a semi-Markov chain with $F_{ij}(t)=1-e^{\nu_i t}$. From the theory of semi-Markov process, if the embedded Markov chain with transition probabilities $P_{ij}$ is irreducible and positive recurrent, then the limiting process,
+\begin{equation}
+\label{eq:LimitingProbability}
+ P_{j} \triangleq \lim_{t \rightarrow \infty } P_{ij}(t)= \frac{\pi_i / \nu_i}{\sum_j \pi_j \nu_j},
+\end{equation}
+where $\pi_i$ is the stationary distribution of the embedded Markov chain. $\{\pi\}$ is the unique solution to
+\begin{equation}
+\label{eq:StationaryDistribution}
+\pi_j = \sum_i \pi_i P_{ij},~ \sum_{i}\pi_i = 1. 
+\end{equation}
+From \ref{eq:LimitingProbability} and \ref{eq:StationaryDistribution}, we see that $\{P_j\}$ is the unique non-negative solution to 
+\begin{equation}
+\nu_jP_j=\sum_i \nu_iP_iP_{ij},~ \sum_j P_j =1.
+\end{equation}
+
+\begin{rem}
+From the theory of semi-Markov process, it also follows that $P_j$ also equals the long-run proportion of time the process is in state $j$.
+\end{rem}
+\begin{rem}
+If the initial state is chosen according to the limiting probabilities $\{P_j\}$ then the resultant process will be stationary. That is,
+\begin{equation*}
+\sum_i P_iP_{ij}(t)=P_j,~ \text{for all}~ t.
+\end{equation*}
+\begin{proof}
+\begin{flalign*}
+\sum_{i}P_{ij}(t)P_i &=\sum_{i}P_{ij}(t)\lim_{s \rightarrow \infty}P_{ki}(s)\\
+&=\lim_{s \rightarrow \infty} \sum_{i}P_{ij}(t)P_{ki}(s)\\
+&=\lim_{s \rightarrow \infty}P_{ki}(t+s)\\
+&=P_j.
+\end{flalign*}
+\end{proof} 
+\end{rem}
+\begin{rem}
+Another way of arriving at the limiting probabilities are by forward equations
+\begin{equation}
+P_{ij}'(t)=\sum_{k \neq j}q_{kj}P_{ik}(t)-\nu_iP_{ij}(t).
+\end{equation}
+Assume that the limiting probabilities exist. Then, it is easy to observe that $P_{ij}'(t) \rightarrow 0$ as $t \rightarrow \infty$. Letting $t \rightarrow \infty$, assuming that the limit and summation can be exchanged, we get the expression for $P_j$. 
+\end{rem}
+\begin{rem}
+In any interval $(0,t)$, the number of transitions into state $j$ must equal to within 1 the number of transitions out of state $j$. Hence, in the long run, The rate at which transitions occur into state $j$ = The rate at which transitions occur out of state $j$. That is,
+\begin{equation}
+\nu_i P_i =\sum_{ i}P_i q_{ij}. 
+\end{equation} 
+ Hence,
+ \begin{equation}
+ \nu_iP_{ij}=\sum_{i}P_iq_{ij},~ \sum_j P_j =1.
+ \end{equation}
+ are called balance equations.
+\end{rem}
+
+\section{Uniformization}
+Consider a continuous-time Markov chain in which the mean time spent in a state is the same for all states. That is, say $\nu_i=\nu$ for all states $i$. Let $N(t)$ denote the number of state transitions by time $t$. Since the amount of time spent in each state is  exponential $\nu$, $\{N(t), ~ t \geq 0 \}$ is a Poisson process with parameter $\nu$. To compute the transition probabilities $P_{ij}(t)$, we can condition on $N(t)$ as follows:
+\begin{flalign*}
+P_{ij}(t)&=Pr(X(t)=j|X(0)=i)\\
+&=\sum_{n \in \mathbb{N}_0} Pr(X(t)=j,N(t)=n|X(0)=i)\\
+&=\sum_{n \in \mathbb{N}_0} Pr( N(t)=n|X(0)=i) Pr(X(t)=j|X(0)=i,N(t)=n).
+\end{flalign*}
+Hence,
+\begin{equation*}
+P_{ij}(t)= \sum_{n \in \mathbb{N}_0} P_{ij}^{(n)}e^{-\nu t}\frac{(\nu t)^n}{n !}.
+\end{equation*}
+The above equation helps to compute $P_{ij}(t)$ approximately by computing an appropriate partial sum. But its application is limited as the rates are all assumed to be equal. But it so turns out that most Markov chains can be put in that form by allowing hypothetical transitions from a state to itself.
+\subsection{Uniformization step}
+Consider a CTMC with bounded $\nu_i$s. Choose $\nu$ such that 
+\begin{equation}
+\label{eq: UniformizationBound}
+\nu_i \leq \nu,
+\end{equation}
+for all $i$. Since from each stage, the Markov chain leaves at rate $\nu_i$, we could equivalently assume that the transitions occur at a rate $\nu$ but only $\frac{\nu_i}{\nu}$ are real transitions and the remaining transitions are fictitious. Any Markov chain satisfying \ref{eq: UniformizationBound} can be thought of as being in a process that spends an exponential amount of time with rate $\nu$ in state $i$ and then makes a transition to state $j$ with probability $P_{ij}^*$, where
+\begin{equation}
+P_{ij}^* = \left\{
+     \begin{array}{lr}
+       1-\frac{\nu_i}{\nu} & : j =i\\
+       \frac{\nu_i}{\nu}P_{ij} & : j \neq i.
+     \end{array}
+   \right.
+\end{equation}   
+The transition probabilities are computed by 
+\begin{equation*}
+P_{ij}(t)=\sum_{n=0}^{\infty}P_{ij}^{*n}e^{\nu}t \frac{{(\nu t)}^n}{n!}
+\end{equation*}
+This technique of uniformizing the rate in which a transition occurs from each state to state by introducing self transitions is called uniformization.
+\subsection{Reversibility}
+\begin{cor}
+Consider an M/M/s queue with Poisson$(\lambda)$ arrivals and each server having exponential service time exp$(\mu)$ service. If $\lambda > s \mu$, then the output process in steady state is Poisson$(\lambda)$.
+\end{cor}
+\begin{proof}
+Let $X(t)$ denote the number of customers in the system at time $t$. Since M/M/s process is a birth and death process, it follows from the previous proposition that $\{X(t),~t \geq 0\}$ is time reversible. Now going forward in time, the time instants at which $X(t)$ increases by 1 are the arrival instants of a Poisson process. Hence, by time reversibility, the time Points at which $X(t)$ increases by 1 when we go backwards in time also constitutes a Poisson process. But these instants are exactly the departure instants of the forward process. Hence the result.
+\end{proof}
+\begin{prop}
+A time-reversible chain with limiting probabilities $P_j,~ j \in S$, that is truncated to the set $A\subset S$ and remains irreducible is also time reversible and has limiting probabilities 
+\begin{equation}
+P_j^A=P_j/(\sum_{i \in A}P_i),~ j \in A.
+\end{equation}
+\end{prop}
+\begin{proof}
+We must show that 
+\begin{equation*}
+P_i^Aq_{ij}=P_j^Aq_{ji},~ i \in A,~ j \in A,
+\end{equation*}
+or equivalently,
+\begin{equation*}
+P_iq_{ij}=P_j^Aq_{ji},~ i \in A,~ j \in A.
+\end{equation*}
+But this is true as the original chain is time reversible.
+\end{proof}
+
 
 \subsection{Time Reversibility of Discrete Time Markov Chains}
 

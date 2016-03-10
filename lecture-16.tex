@@ -4,57 +4,8 @@
 \author{Parimal Parag}
 \begin{document}
 \maketitle
-\section{Limiting Probabilities}
-Since a Continuous Time Markov Chain (CTMC) is a semi-Markov chain with $F_{ij}(t)=1-e^{\nu_i t}$. From the theory of semi-Markov process, if the embedded Markov chain with transition probabilities $P_{ij}$ is irreducible and positive recurrent, then the limiting process,
-\begin{equation}
-\label{eq:LimitingProbability}
- P_{j} \triangleq \lim_{t \rightarrow \infty } P_{ij}(t)= \frac{\pi_i / \nu_i}{\sum_j \pi_j \nu_j},
-\end{equation}
-where $\pi_i$ is the stationary distribution of the embedded Markov chain. $\{\pi\}$ is the unique solution to
-\begin{equation}
-\label{eq:StationaryDistribution}
-\pi_j = \sum_i \pi_i P_{ij},~ \sum_{i}\pi_i = 1. 
-\end{equation}
-From \ref{eq:LimitingProbability} and \ref{eq:StationaryDistribution}, we see that $\{P_j\}$ is the unique non-negative solution to 
-\begin{equation}
-\nu_jP_j=\sum_i \nu_iP_iP_{ij},~ \sum_j P_j =1.
-\end{equation}
 
-\begin{rem}
-From the theory of semi-Markov process, it also follows that $P_j$ also equals the long-run proportion of time the process is in state $j$.
-\end{rem}
-\begin{rem}
-If the initial state is chosen according to the limiting probabilities $\{P_j\}$ then the resultant process will be stationary. That is,
-\begin{equation*}
-\sum_i P_iP_{ij}(t)=P_j,~ \text{for all}~ t.
-\end{equation*}
-\begin{proof}
-\begin{flalign*}
-\sum_{i}P_{ij}(t)P_i &=\sum_{i}P_{ij}(t)\lim_{s \rightarrow \infty}P_{ki}(s)\\
-&=\lim_{s \rightarrow \infty} \sum_{i}P_{ij}(t)P_{ki}(s)\\
-&=\lim_{s \rightarrow \infty}P_{ki}(t+s)\\
-&=P_j.
-\end{flalign*}
-\end{proof} 
-\end{rem}
-\begin{rem}
-Another way of arriving at the limiting probabilities are by forward equations
-\begin{equation}
-P_{ij}'(t)=\sum_{k \neq j}q_{kj}P_{ik}(t)-\nu_iP_{ij}(t).
-\end{equation}
-Assume that the limiting probabilities exist. Then, it is easy to observe that $P_{ij}'(t) \rightarrow 0$ as $t \rightarrow \infty$. Letting $t \rightarrow \infty$, assuming that the limit and summation can be exchanged, we get the expression for $P_j$. 
-\end{rem}
-\begin{rem}
-In any interval $(0,t)$, the number of transitions into state $j$ must equal to within 1 the number of transitions out of state $j$. Hence, in the long run, The rate at which transitions occur into state $j$ = The rate at which transitions occur out of state $j$. That is,
-\begin{equation}
-\nu_i P_i =\sum_{ i}P_i q_{ij}. 
-\end{equation} 
- Hence,
- \begin{equation}
- \nu_iP_{ij}=\sum_{i}P_iq_{ij},~ \sum_j P_j =1.
- \end{equation}
- are called balance equations.
-\end{rem}
+
 \subsection{Time Reversibility for CTMC}
 \begin{prop}
 Markov property holds going backward in time. i.e.

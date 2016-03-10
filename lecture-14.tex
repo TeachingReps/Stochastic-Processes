@@ -18,7 +18,8 @@ We define the \textbf{transition probability} from state $i$ at time $s$ to stat
 P_{ij}(s, s+t) = \Pr\{X(s+t) = j | X(s) = i\}.
 \end{align*}
 The Markov process has \textbf{homogeneous} transitions if $P_{ij}(s,s+t) = P_{ij}(0,t)$ for all $i,j \in I, s,t \geqslant 0$ and we denote the transition probability by $P_{ij}(t)$. 
-This process is also referred to as \textbf{continuous time Markov process (CTMC)}.
+
+This continuous Markov process with homogenous jump transition probabilities is referred to as \textbf{continuous time Markov process (CTMC)}.
 \end{defn}
 
 \subsection{Sojourn Times and Jump Transitions}
@@ -97,17 +98,17 @@ Transition probabilities $p_{ij}$ and sojourn times $\tau_i$ are independent.
 
 \section{Generator Matrix}
 \begin{defn}
-A \textbf{generator matrix} denoted by $Q$ is defined in terms of sojourn times $\nu_i$ and jump transition probabilities $p_{ij}$ of a CTMC as
+A \textbf{generator matrix} denoted by $Q \in \R^{I \times I}$ is defined in terms of sojourn times $\{\nu_i, i \in I\}$ and jump transition probabilities $\{p_{ij}, i \neq j \in I\}$ of a CTMC as
 \begin{enumerate}
-\item {$q_{ij}=\nu_i p_{ij}$, $\forall i \neq j$, } 
-\item { $q_{ii}= -\nu_i$.}
+\item $q_{ii}= -\nu_i$,
+\item $q_{ij}=\nu_i p_{ij}$. 
 \end{enumerate}
 \end{defn}
-\begin{lem} Generator matrix $Q$ has following properties.
+\begin{lem} A matrix $Q$ is generator matrix for a CTMC iff for each $i \in I$,
  \begin{enumerate}
-\item {$0 \leq -q_{ii} < \infty,~ \forall i$.} 
-\item { $q_{ij} \geq 0,~ \forall i \neq j$.}
-\item { $\sum_{j}q_{ij}=0,~ \forall i$.}
+\item $0 \leq -q_{ii} < \infty$, 
+\item $q_{ij} \geq 0$,
+\item $\sum_{j \in I}q_{ij}=0$.
 \end{enumerate}
 \end{lem}
 
@@ -124,7 +125,7 @@ Let $Q$ be a finite sized matrix. Let $P(t)=e^{tQ}$. Then $\{P(t),~ t \geq 0\}$ 
 $\frac{dM(t)e^{-tQ}}{dt}=0,$ $M(t)e^{-tQ}$ is constant. $M(t)$ is any matrix satisfying the forward equation.
 \end{proof}
 \begin{thm}
-A finite matrix $Q$ is $Q$ matrix if and only if $P(t)=e^{tQ}$ is a stochastic matrix for all $t \geq 0$. 
+A finite matrix $Q$ is generator matrix for a CTMC iff $P(t)=e^{tQ}$ is a stochastic matrix for all $t \geq 0$. 
 \end{thm}
 \begin{proof}
 $P(t)=I+tQ+O(t^2)$ ($f(t)=O(t) \Rightarrow \frac{f(t)}{t} \leq c,$ for small $t,~c < \infty$ ). $q_{ij} \geq 0$ if and only if $P_{ij}(t) \geq 0,~ \forall i \neq j$ and $t \geq 0$ sufficiently small. $P(t)=P(\frac{t}{n})^n$. Note that if $Q$ has zero row sums, $Q^n$ also has zero row sums.\\
@@ -134,38 +135,57 @@ $P(t)=I+tQ+O(t^2)$ ($f(t)=O(t) \Rightarrow \frac{f(t)}{t} \leq c,$ for small $t,
 \end{flalign*}  
 Conversely $\sum_{j}P_{ij}(t)=1,~ \forall t \geq 0$, then $\sum_jQ_{ij}= \frac{dP_{ij}(t)}{dt}=0$.
 \end{proof}
+
+%%%%%%%%
 \subsection{Kolmogorov Differential Equations}
-\begin{lem}
+\begin{lem} For a CTMC with transition probability matrix $P(t)$, the following properties hold.
 \begin{enumerate}
-\item{$\lim_{t \rightarrow 0} \frac{1-P_{ii}(t)}{t}=\nu_i$.}\\
-\item{$\lim_{t \rightarrow 0} \frac{P_{ij}(t)}{t}=q_{ij}$.}
+\item Limiting values of transition probabilities are related to generator matrix $Q$, i.e.
+\begin{xalignat*}{3}
+&\lim_{t \downarrow 0} \frac{1-P_{ii}(t)}{t} =\nu_i,&&
+\lim_{t \downarrow 0} \frac{P_{ij}(t)}{t} =q_{ij}.
+\end{xalignat*}
+\item Transition probability matrix has the semi group property, i.e.
+\begin{align*}
+P(t+s) &= P(t)P(s), ~~s,t \geq 0.
+\end{align*}
 \end{enumerate}
 \end{lem}
-\begin{lem}
-For all $s,~t \geq 0$, $P_{ij}(t+s)=\sum_{k \in \mathbb{N}_0 P_{ik}(t)P_{kj}(s)}$
-\end{lem}
+
 \subsection{Chapman Kolmogorov Equation for CTMC}
-\begin{thm}
-\textbf{Kolmogorov Backward equation:} For all $i,j,t \geq 0$, $P'_{ij}(t)= \sum_{k \neq i}q_{ik}P_{kj}(t)-\nu_iP_{ij}(t)$ ,  $\frac{dP(t)}{dt}=QP(t)$
+\begin{thm}[Kolmogorov Backward equation] For a CTMC with transition probability matrix $P(t)$, we have
+\begin{align*}
+%P'_{ij}(t)= \sum_{k \neq i}q_{ik}P_{kj}(t)-\nu_iP_{ij}(t) ,  i,j \in I
+\frac{dP(t)}{dt}=QP(t), ~~t \geqslant 0.
+\end{align*}
 \end{thm}
-\begin{proof}
-$P_{ij}(t+h)=\sum_kP_{ik}(h)P_{kj}(t).$
-\begin{flalign*}
-P_{ij}(t+h)-P_{ij}(t)=\sum_{k \neq 1}P_{ik}(h)P_{kj}(t)-(1-P_{ii}(h))P_{ij}(t), 
-\end{flalign*}
-divide by $h$, $h \rightarrow 0$, we get $\frac{dP_{ij}(t)}{dt}=\lim_{h \rightarrow 0}P'_{ij}(t)= \sum_{k \neq i}q_{ik}P_{kj}(t)-\nu_iP_{ij}(t)$. Now the exchange of limit and summation has to be justified. 
-\begin{flalign*}
-&\liminf_{h \rightarrow 0} \sum_{k \neq 1}\frac{P_{ik}(h)}{h}P_{kj}(t) \geq \liminf_{h \rightarrow 0}\sum_{k \neq 1}\frac{P_{ik}(h)}{h}P_{kj}(t), k <N\\
-&= \sum_{k \neq 1}q_{jk}P_{kj}(t),~k <N.
-\end{flalign*}
-This is true for any finite $N$. Take supremum over all $N$. We get \\
-$\liminf_{h \rightarrow 0} \sum_{k \neq 1}\frac{P_{ik}(h)}{h}P_{kj}(t) \geq \sum_{k \neq 1}q_{jk}P_{kj}(t)$. Suffices to show that $\limsup_{h \rightarrow 0} \sum_{k \neq 1}\frac{P_{ik}(h)}{h}P_{kj}(t) \leq \sum_{k \neq 1}q_{jk}P_{kj}(t)$. To that end, 
-\begin{flalign*}
-\text{LHS}& \leq \limsup_{h \rightarrow 0}[\sum_{k \neq 1, k<N}\frac{P_{ik}(h)}{h}P_{kj}(t)+\sum_{k \neq 1, k\geq N}\frac{P_{ik}(h)}{h} ]\\
-& = \limsup_{h \rightarrow 0}[\sum_{k \neq 1, k<N}\frac{P_{ik}(h)}{h}P_{kj}(t)+\frac{1-P_{ii}(h)}{h} \sum_{k \neq 1, k\geq N}\frac{P_{ik}(h)}{h} ]\\
-& = [\sum_{k \neq 1, k<N}q_{ik}P_{kj}(t)+\nu_i- \sum_{k \neq 1, k\geq N}q_{ik} ]\\
-&=\sum_{k \neq 1}q_{ik}P_{kj}(t). 
-\end{flalign*}
+\begin{proof} Since, transition probability matrix $P(t)$ for a CTMC has a semi-group property, we have
+\begin{align*}
+P_{ij}(t+h)=\sum_{k \in I}P_{ik}(h)P_{kj}(t),~~i,j \in I.
+\end{align*}
+Re-arranging terms, we can write
+\begin{align*}
+P_{ij}(t+h)-P_{ij}(t)=\sum_{k \neq i}P_{ik}(h)P_{kj}(t)-(1-P_{ii}(h))P_{ij}(t).
+\end{align*}
+Dividing above equation by $h$,  and taking limits $h \downarrow 0$, we get 
+\begin{align*}
+\frac{dP_{ij}(t)}{dt} = \sum_{k \neq i}q_{ik}P_{kj}(t)-\nu_iP_{ij}(t). 
+\end{align*}
+Now the exchange of limit and summation has to be justified. For any finite $k < N$, we have
+\begin{align*}
+\liminf_{h \downarrow 0} \sum_{k \neq i}\frac{P_{ik}(h)}{h}P_{kj}(t) \geq \sum_{k \neq i, k < N}\liminf_{h \downarrow 0}\frac{P_{ik}(h)}{h}P_{kj}(t) = \sum_{k \neq i, k < N}q_{jk}P_{kj}(t).
+\end{align*}
+Since, above is true for any finite $N$, taking supremum over all $N$, we get 
+\begin{align*}
+\liminf_{h \downarrow 0} \sum_{k \neq 1}\frac{P_{ik}(h)}{h}P_{kj}(t) \geq \sum_{k \neq i}q_{jk}P_{kj}(t).
+\end{align*}
+%Suffices to show that $\limsup_{h \rightarrow 0} \sum_{k \neq 1}\frac{P_{ik}(h)}{h}P_{kj}(t) \leq \sum_{k \neq 1}q_{jk}P_{kj}(t)$. 
+Conversely,
+\begin{align*}
+\limsup_{h \downarrow 0}\sum_{k \neq i}\frac{P_{ik}(h)}{h}P_{kj}(t) &\leq \limsup_{h \downarrow 0}\left(\sum_{k \neq i, k<N}\frac{P_{ik}(h)}{h}P_{kj}(t)+\sum_{k\geq N}\frac{P_{ik}(h)}{h}\right)\\
+& = \limsup_{h \downarrow 0}\left(\sum_{k \neq i, k<N}\frac{P_{ik}(h)}{h}P_{kj}(t)+\frac{1-P_{ii}(h)}{h} -\sum_{k \neq i, k < N}\frac{P_{ik}(h)}{h} \right)\\
+&= \sum_{k \neq i, k<N}q_{ik}P_{kj}(t)+\nu_i- \sum_{k \neq i, k < N}q_{ik}. %&=\sum_{k \neq 1}q_{ik}P_{kj}(t). 
+\end{align*}
 \end{proof}
 \begin{thm}
 \textbf{Kolmogorov Forward Equation:} Under suitablle reqularity conditions, $P'_{ij}(t)=\sum_{k \neq i}P_{ik}(t)q_{kj}-P_{ij}(t)\nu_i$, i.e. $\frac{dP(t)}{dt}=P(t)Q$.
