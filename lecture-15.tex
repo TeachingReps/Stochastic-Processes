@@ -9,66 +9,88 @@
 
 \section{Limiting Probabilities}
 We denote by $\{S_n: n \in \N_0\}$ the jump times of CTMC and the probability transition of the embedded Markov chain is denoted by $P = \{p_{ij}: i \neq j \in I\}$. 
+\begin{defn}
+If the embedded Markov chain is irreducible and positive recurrent then the stationary distribution $\alpha$ of the embedded Markov chain is a unique solution to
+\begin{align}
+\label{eq:StationaryDistribution}
+\alpha = \alpha P,~ \sum_{i}\alpha_i = 1.
+\end{align}
+\end{defn}
 We denote the mean of inter-arrival time by 
 \begin{align*}
 \frac{1}{\nu_i} = \E[S_{n+1} - S_{n}|X(S_n) = i].
 \end{align*} 
-Let $\pi$ be the stationary distribution of the embedded Markov chain.
 \begin{defn} First return time to a state $i$ for a stochastic process $\{X(t), t \geqslant 0\}$ is 
 \begin{align*}
 T_{ii} = \inf\{t > S_1 : X(0) = i, X(t) = i\}.
 \end{align*}
 \end{defn}
-\begin{thm} Let $T_{ii}$ denote the 
-\end{thm}
- 
-Since a Continuous Time Markov Chain (CTMC) is a semi-Markov chain with $F_{ij}(t)=1-e^{\nu_i t}$. From the theory of semi-Markov process, if the embedded Markov chain with transition probabilities $P_{ij}$ is irreducible and positive recurrent, then the limiting process,
-\begin{equation}
+\begin{thm} For a CTMC with the irreducible and positive recurrent embedded Markov chain with the stationary distribution $\alpha$, following holds for the limiting process,
+\begin{align}
 \label{eq:LimitingProbability}
- P_{j} \triangleq \lim_{t \rightarrow \infty } P_{ij}(t)= \frac{\pi_i / \nu_i}{\sum_j \pi_j \nu_j},
-\end{equation}
-where $\pi_i$ is the stationary distribution of the embedded Markov chain. $\{\pi\}$ is the unique solution to
+ \pi_j \triangleq \lim_{t \rightarrow \infty } P_{ij}(t)= \frac{\alpha_j / \nu_j}{\sum_j \alpha_j /\nu_j},
+\end{align}
+From~\eqref{eq:LimitingProbability} and~\eqref{eq:StationaryDistribution}, we see that $\{\pi_j\}$ is the unique non-negative solution to 
 \begin{equation}
-\label{eq:StationaryDistribution}
-\pi_j = \sum_i \pi_i P_{ij},~ \sum_{i}\pi_i = 1. 
+\nu_j\pi_j=\sum_i \nu_i\pi_iP_{ij},~ \sum_j \pi_j =1.
 \end{equation}
-From \ref{eq:LimitingProbability} and \ref{eq:StationaryDistribution}, we see that $\{P_j\}$ is the unique non-negative solution to 
-\begin{equation}
-\nu_jP_j=\sum_i \nu_iP_iP_{ij},~ \sum_j P_j =1.
-\end{equation}
-
+\end{thm}
+\begin{proof} 
+For any CTMC on state space $I$, return to a state $i \in I$ is a renewal process. 
+We can define an alternating renewal process with on and off times characterized by the time CTMC spends in state $j$ and otherwise respectively.
+Therefore, by alternating renewal process theory, we have
+\begin{align*}
+\lim_{t \to \infty}\Pr\{ \text{CTMC is on at time } t\} = \lim_{t \to \infty}P_{ij}(t) = \frac{\E \tau_j }{\E T_{ii}}.
+\end{align*} 
+\end{proof}
 \begin{rem}
-From the theory of semi-Markov process, it also follows that $P_j$ also equals the long-run proportion of time the process is in state $j$.
+Limiting probability $\pi_j$ is long-run proportion of time the process is in state $j$.
 \end{rem}
-\begin{rem}
-If the initial state is chosen according to the limiting probabilities $\{P_j\}$ then the resultant process will be stationary. That is,
+
+%\begin{defn} We denote \textbf{stationary distribution} of an irreducible and positive recurrent CTMC $P(t)$ by $\pi$ such that for all $t > 0$
+%\begin{align}
+%\label{eq:StationaryCTMCDistribution}
+%\pi = \pi P(t),~~ \sum_{i}\pi_i = 1.
+%\end{align}
+%\end{defn}
+%
+%Since a Continuous Time Markov Chain (CTMC) is a semi-Markov chain with $F_{ij}(t)=1-e^{\nu_i t}$. From the theory of semi-Markov process, if the embedded Markov chain with transition probabilities $P_{ij}$ is irreducible and positive recurrent, then the limiting process,
+%\begin{align}
+%\label{eq:LimitingProbability}
+%\pi_j \triangleq \lim_{t \rightarrow \infty } P_{ij}(t)= \frac{\alpha_j / \nu_j}{\sum_j \alpha_j /\nu_j},
+%\end{align}
+%where $\alpha_i$ is the stationary distribution of the embedded Markov chain. From \ref{eq:LimitingProbability} and \ref{eq:StationaryDistribution}, we see that $\{\pi_j\}$ is the unique non-negative solution to 
+%\begin{equation}
+%\nu_j\pi_j=\sum_i \nu_i\pi_iP_{ij},~ \sum_j \pi_j =1.
+%\end{equation}
+
+\begin{lem}
+For an irreducible CTMC with transition probability $P(t)$, if the initial state is chosen according to the limiting probability distribution $\pi$, then the resultant process will be stationary. That is,
 \begin{equation*}
-\sum_i P_iP_{ij}(t)=P_j,~ \text{for all}~ t.
+\pi P(t)=\pi,~ \text{for all}~ t > 0.
 \end{equation*}
+\end{lem}
 \begin{proof}
 \begin{flalign*}
-\sum_{i}P_{ij}(t)P_i &=\sum_{i}P_{ij}(t)\lim_{s \rightarrow \infty}P_{ki}(s)\\
-&=\lim_{s \rightarrow \infty} \sum_{i}P_{ij}(t)P_{ki}(s)\\
-&=\lim_{s \rightarrow \infty}P_{ki}(t+s)\\
-&=P_j.
+\sum_{i}P_{ij}(t)\pi_i &=\sum_{i}P_{ij}(t)\lim_{s \rightarrow \infty}P_{ki}(s) =\lim_{s \rightarrow \infty} \sum_{i}P_{ij}(t)P_{ki}(s) =\lim_{s \rightarrow \infty}P_{kj}(t+s) =\pi_j.
 \end{flalign*}
 \end{proof} 
-\end{rem}
+
 \begin{rem}
 Another way of arriving at the limiting probabilities are by forward equations
 \begin{equation}
 P_{ij}'(t)=\sum_{k \neq j}q_{kj}P_{ik}(t)-\nu_iP_{ij}(t).
 \end{equation}
-Assume that the limiting probabilities exist. Then, it is easy to observe that $P_{ij}'(t) \rightarrow 0$ as $t \rightarrow \infty$. Letting $t \rightarrow \infty$, assuming that the limit and summation can be exchanged, we get the expression for $P_j$. 
+Assume that the limiting probabilities exist. Then, it is easy to observe that $P_{ij}'(t) \rightarrow 0$ as $t \rightarrow \infty$. Letting $t \rightarrow \infty$, assuming that the limit and summation can be exchanged, we get the expression for $\pi_j$. 
 \end{rem}
 \begin{rem}
 In any interval $(0,t)$, the number of transitions into state $j$ must equal to within 1 the number of transitions out of state $j$. Hence, in the long run, The rate at which transitions occur into state $j$ = The rate at which transitions occur out of state $j$. That is,
 \begin{equation}
-\nu_i P_i =\sum_{ i}P_i q_{ij}. 
+\nu_i \pi_i =\sum_{ i}\pi_i q_{ij}. 
 \end{equation} 
  Hence,
  \begin{equation}
- \nu_iP_{ij}=\sum_{i}P_iq_{ij},~ \sum_j P_j =1.
+ \nu_iP_{ij}=\sum_{i}\pi_iq_{ij},~ \sum_j \pi_j =1.
  \end{equation}
  are called balance equations.
 \end{rem}
@@ -113,19 +135,19 @@ Consider an M/M/s queue with Poisson$(\lambda)$ arrivals and each server having 
 Let $X(t)$ denote the number of customers in the system at time $t$. Since M/M/s process is a birth and death process, it follows from the previous proposition that $\{X(t),~t \geq 0\}$ is time reversible. Now going forward in time, the time instants at which $X(t)$ increases by 1 are the arrival instants of a Poisson process. Hence, by time reversibility, the time Points at which $X(t)$ increases by 1 when we go backwards in time also constitutes a Poisson process. But these instants are exactly the departure instants of the forward process. Hence the result.
 \end{proof}
 \begin{prop}
-A time-reversible chain with limiting probabilities $P_j,~ j \in S$, that is truncated to the set $A\subset S$ and remains irreducible is also time reversible and has limiting probabilities 
+A time-reversible chain with limiting probabilities $\pi_j,~ j \in S$, that is truncated to the set $A\subset S$ and remains irreducible is also time reversible and has limiting probabilities 
 \begin{equation}
-P_j^A=P_j/(\sum_{i \in A}P_i),~ j \in A.
+\pi_j^A=\pi_j/(\sum_{i \in A}\pi_i),~ j \in A.
 \end{equation}
 \end{prop}
 \begin{proof}
 We must show that 
 \begin{equation*}
-P_i^Aq_{ij}=P_j^Aq_{ji},~ i \in A,~ j \in A,
+\pi_i^Aq_{ij}=\pi_j^Aq_{ji},~ i \in A,~ j \in A,
 \end{equation*}
 or equivalently,
 \begin{equation*}
-P_iq_{ij}=P_j^Aq_{ji},~ i \in A,~ j \in A.
+\pi_iq_{ij}=\pi_j^Aq_{ji},~ i \in A,~ j \in A.
 \end{equation*}
 But this is true as the original chain is time reversible.
 \end{proof}
@@ -133,7 +155,7 @@ But this is true as the original chain is time reversible.
 
 \subsection{Time Reversibility of Discrete Time Markov Chains}
 
-Consider a discrete time Markov chain with transition probability matrix $P$ and stationary probability vector $\pi$.\\
+Consider a discrete time Markov chain with transition probability matrix $P$ and stationary probability vector $\alpha$.\\
 \textbf{Claim:} The reversed process is a Markov chain.
 \begin{proof}
 \begin{flalign*}
@@ -150,7 +172,7 @@ P_{ij}^*&=P(X_{n-1}=j|X_n=i)=\frac{P(X_{n-1}=j,X_n=i)}{P(X_n=i)}\\
 &=\frac{P(X_{n-1}=j)P(X_n=i|X_{n-1}=j)}{P(X_{n}=i)}\\
 &=\frac{P(X_{n-1}=j)}{P(X_{n}=i)}P_{ji}
 \end{flalign*}
-suppose we are considering a stationary Markov chain, $P(X_n=l)=P(X_{n-1}=l)=\pi(l),~\forall l$, $\pi(i){P^*}_{ij}=\pi(j)(P)_{ji}$. If $P^*=P^T$ then the Markov chain is called time reversible. Thus the condition for time reversibility is given by $\pi P_{ij}=\pi_jP_{ji}$. Any non-negative vector $X$ satisfying $X_iP_{ij}=X_jP_{ji},~\forall i,j$ and $\sum_{j \in \mathcal{N}_0}X_j=1$ is stationary distribution of time-reversible Markov chain. This is true because,
+suppose we are considering a stationary Markov chain, $P(X_n=l)=P(X_{n-1}=l)=\alpha(l),~\forall l$, $\alpha(i){P^*}_{ij}=\alpha(j)(P)_{ji}$. If $P^*=P^T$ then the Markov chain is called time reversible. Thus the condition for time reversibility is given by $\alpha P_{ij}=\alpha_jP_{ji}$. Any non-negative vector $X$ satisfying $X_iP_{ij}=X_jP_{ji},~\forall i,j$ and $\sum_{j \in \mathcal{N}_0}X_j=1$ is stationary distribution of time-reversible Markov chain. This is true because,
 \begin{flalign*}
 \sum_{i} X_i P_{ij}=\sum_i X_j P_{ji}=X_j \sum X_i = 1.
 \end{flalign*}
@@ -158,7 +180,7 @@ Since stationary probabilities are the unique solution of the above, the claim f
 
 \textbf{Example 4.7(A) An Ergodic Random Walk}: Any ergodic, positive recurrent random walk is time reversible. The transition probability matrix is $P_{i,i+1}+P_{i-1,i}=1$. For every two transitions from $i+1$ to $i$, there must be one transition from $i$ to $i+1$. The rate of transitions from $i+1$ to $i$ must hence be same as the number of transitions from $i$ to $i+1$. So the process is time reversible.
 
-\textbf{Example 4.7(B) The Metropolis Algorithm: } Let $a_j,~ j=1, \hdots m$ be positive numbers and let $A=\sum_{i=1}^{m}a_i$. Suppose that $m$ is large and $A$ is difficult to compute. One way to compute it by simulating a sequence of random variables is by generating a Markov chain whose limiting probabilities are $p_j$s. The Metropolis algorithm provides a convenient approach. \\
+\textbf{Example 4.7(B) The Metropolis Algorithm: } Let $a_j,~ j=1, \hdots m$ be positive numbers and let $A=\sum_{i=1}^{m}a_i$. Suppose that $m$ is large and $A$ is difficult to compute. One way to compute it by simulating a sequence of random variables is by generating a Markov chain whose limiting probabilities are $\pi_j$s. The Metropolis algorithm provides a convenient approach. \\
 Let $Q$ be an irreducible transition probability matrix on the integers $1, \hdots n$ such that $q_{ij}=q_{ji}$ and for all $i$ and $j$. Generate a Markov chain $\{X_n\}$ such that the transition probabilities are given by 
 \begin{flalign*}
 P_{ij} = \left\{
@@ -168,7 +190,7 @@ P_{ij} = \left\{
      \end{array}
    \right.
 \end{flalign*} 
-It can be directly verified that the chain is irreducible and hence verify that $p_j$s are the limiting probabilities.
+It can be directly verified that the chain is irreducible and hence verify that $\pi_j$s are the limiting probabilities.
 
 \textbf{Edge weighted graphs:} Consider a graph having a positive number $w_{ij}$ associated with each edge $(i,j)$, and suppose that a particle moves from vertex to vertex in the following manner: If the particle is presently at vertex  $i$ then it will next move to vertex $j$ with probability
 \begin{equation*}
@@ -178,19 +200,19 @@ where $w_{ij}$ is 0 if $(i,j)$ is not an edge of the graph. The Markov chain des
 \begin{prop}
 Consider a random walk on an edge weighted graph witha finite number of vertices. If this Markov chain is irreducible then it is, in steady state, time reversible with stationary probabilities given by 
 \begin{equation*}
-\pi_i = \frac{\sum_{i}w_{ij}}{\sum_{j}\sum_{i}w_{ij}}.
+\alpha_i = \frac{\sum_{i}w_{ij}}{\sum_{j}\sum_{i}w_{ij}}.
 \end{equation*}
 \end{prop}
 \begin{proof}
 The time reversibility equation
 \begin{equation*}
-\pi_iP_{ij}=\pi_{j}P_{ji}
+\alpha_iP_{ij}=\alpha_{j}P_{ji}
 \end{equation*}
 reduces to 
 \begin{equation*}
- \frac{\pi_i w_{ij}}{\sum_{k}w_{ik}}=\frac{\pi_j w_{ji}}{\sum_{k}w_{jk}}
+ \frac{\alpha_i w_{ij}}{\sum_{k}w_{ik}}=\frac{\alpha_j w_{ji}}{\sum_{k}w_{jk}}
 \end{equation*}
-But noting that $w_{ij}=w_{ji}$ and $\sum_{i}\pi_i = 1$, we get the desired result.
+But noting that $w_{ij}=w_{ji}$ and $\sum_{i}\alpha_i = 1$, we get the desired result.
  
 \end{proof}
 \subsubsection*{Necessary condition for time reversibility}
@@ -214,21 +236,21 @@ As limit $n \rightarrow \infty$, we get the desire result.
 \end{proof}
 
 \begin{thm}
-Consider irreducible Markov chain with transition matrix $P$. If one can find non-negative vector $\pi$ and other transition matrix $P^*$ such that $\sum_j \pi_j =1$ and $\pi_iP_{ij}=\pi_jP^*_{ji}$ then $\pi$ is the stationary probability vector and $P^*$ is the transition matrix for the reversed chain.
+Consider irreducible Markov chain with transition matrix $P$. If one can find non-negative vector $\alpha$ and other transition matrix $P^*$ such that $\sum_j \alpha_j =1$ and $\alpha_iP_{ij}=\alpha_jP^*_{ji}$ then $\alpha$ is the stationary probability vector and $P^*$ is the transition matrix for the reversed chain.
 \end{thm}
 \begin{proof}
-Summing $\pi_iP_{ij}=\pi_jP_{ji}^*$ over $i$ gives, $\sum_{i}\pi_iP_{ij}=\pi_j$. Hence $\pi_i$s are the stationary probabilities of the forward and reverse process. Since $P_{ji}^*=\frac{\pi_iP_{ij}}{\pi_j}$, $P_{ij}^*$ are the transition probabilities of the reverse chain.
+Summing $\alpha_iP_{ij}=\alpha_jP_{ji}^*$ over $i$ gives, $\sum_{i}\alpha_iP_{ij}=\alpha_j$. Hence $\alpha_i$s are the stationary probabilities of the forward and reverse process. Since $P_{ji}^*=\frac{\alpha_iP_{ij}}{\alpha_j}$, $P_{ij}^*$ are the transition probabilities of the reverse chain.
 \end{proof} 
 
 \subsection{Example 4.7(E): Example 4.3(C) revisited}
-Example 4.3(C) was with regard to the age of a renewal process. $X_n$ the forward process there was such that it increases in steps of 1 until it hits a value chosen by the inter arrival distribution. Hence the reverse process should be such that it decreases in steps of 1 until it hits 1 and then jumps to a state as chosen by the inter arrival distribution. Thus letting $P_i$ as the probability of inter arrival, it seems likely that  $P_{1i}*=P_i, ~ P_{i,i-1}=1,~ i > 1$. We have that $P_{i,1}=\frac{P_i}{\sum_{j \geq 1}P_j}=1-P_{i,i+1}, ~ i \geq 1$. For the reversed chain to be given as above, we would need 
+Example 4.3(C) was with regard to the age of a renewal process. $X_n$ the forward process there was such that it increases in steps of 1 until it hits a value chosen by the inter arrival distribution. Hence the reverse process should be such that it decreases in steps of 1 until it hits 1 and then jumps to a state as chosen by the inter arrival distribution. Thus letting $\pi_i$ as the probability of inter arrival, it seems likely that  $P_{1i}*=\pi_i, ~ P_{i,i-1}=1,~ i > 1$. We have that $P_{i,1}=\frac{\pi_i}{\sum_{j \geq 1}\pi_j}=1-P_{i,i+1}, ~ i \geq 1$. For the reversed chain to be given as above, we would need 
 \begin{flalign*}
-&\pi_i P_{ij}=\pi_j P_{ji}^*\\
-&\pi_i \frac{P_i}{\sum_j P_j}=\pi_1 P_i\\
-&\pi_i=\pi_1 P(X \geq i)\\
-&1=\sum_i \pi_i=\pi_1 E[X]; \pi_i=\frac{P(X \geq i)}{E[X]}, 
+&\alpha_i P_{ij}=\alpha_j P_{ji}^*\\
+&\alpha_i \frac{\pi_i}{\sum_j \pi_j}=\alpha_1 \pi_i\\
+&\alpha_i=\alpha_1 P(X \geq i)\\
+&1=\sum_i \alpha_i=\alpha_1 E[X]; \alpha_i=\frac{P(X \geq i)}{E[X]}, 
 \end{flalign*}
-where $X$ is the inter arrival time. We need to verify that $\pi_i P_{i,i+1}=\pi_{i+1}P^*_{i+1,i}$ or equivalently $P(X \geq i)(1-\frac{P_i}{P(X \geq i)})=P(X \geq i)$ to complete the proof that the reversed process is the excess process and the limiting distributions are as given above. But that is immediate.
+where $X$ is the inter arrival time. We need to verify that $\alpha_i P_{i,i+1}=\alpha_{i+1}P^*_{i+1,i}$ or equivalently $P(X \geq i)(1-\frac{\pi_i}{P(X \geq i)})=P(X \geq i)$ to complete the proof that the reversed process is the excess process and the limiting distributions are as given above. But that is immediate.
 \subsection{Semi Markov Processes}
 Consider a stochastic process with states $0,1,2 \hdots$ such that whenever it enters state $i$,
 \begin{enumerate}
@@ -252,14 +274,14 @@ Let $H_i$ the distribution of time the semi Markov process stays in state $i$ be
 \begin{thm}
 If semi Markov process ius irreducible and if $T_{ii}$ has non-lattice distribution with $\mu_{ii}< \infty$ then, 
 \begin{flalign*}
-P_i=\lim_{t \rightarrow \infty}P(Z(t)=i|Z(0)=j)
+\pi_i=\lim_{t \rightarrow \infty}P(Z(t)=i|Z(0)=j)
 \end{flalign*}
-exists and is independent of the initial state. Furthermore, $P_i=\frac{\mu_i}{\mu_{ii}}$.
+exists and is independent of the initial state. Furthermore, $\pi_i=\frac{\mu_i}{\mu_{ii}}$.
 \end{thm}
 \textbf{Corollary 4.8.2} If the semi-Markov process is irreducible and $\mu_{ii}<\infty$, then with probability 1,
 $\frac{\mu_i}{\mu_{ii}}=\frac{\lim_{t \rightarrow \infty} \text{Amount of time in [0,t]}}{t}~\text{a.s}$.\\
 \begin{thm}
-Suppose conditions of the previous thmrem hold and the embedded Markov chain is positive recurrent. Then $P_i= \frac{\pi_i\mu_i}{\sum_{i}\pi_j \mu_j}$. 
+Suppose conditions of the previous thmrem hold and the embedded Markov chain is positive recurrent. Then $\pi_i= \frac{\alpha_i\mu_i}{\sum_{i}\alpha_j \mu_j}$. 
 \end{thm} 
 \begin{proof}
 Define the notation as follows:
@@ -273,7 +295,7 @@ The proportion of time in $i$ during the first $m$ transitions:\\
 P_{i=m}&= \frac{\sum_{j=1}^{N_i(m)}Y_i(j)}{\sum_l \sum_{j=1}^{N_i(m)}Y_i(j) }\\
 &= \frac{\frac{N_i(m)}{m}\sum_{j=1}^{N_i(m)}Y_i(j)}{\sum_l \frac{N_i(m)}{m} \sum_{j=1}^{N_i(m)}Y_i(j) }\\
 \end{flalign*}
-Since $N_i(m)\rightarrow \infty$ as $m \rightarrow \infty$, it follows from the strong law of large numbers that $\frac{\sum_{i=2}^{N_i(m)}Y_i(j)}{N_i(m)}\rightarrow \mu_i$ and $\frac{N_i(m)}{m}\rightarrow (E[\text{number of transitions between visits to state }i])^{-1}=\pi_i$. Letting $m \rightarrow \infty$, result follows.
+Since $N_i(m)\rightarrow \infty$ as $m \rightarrow \infty$, it follows from the strong law of large numbers that $\frac{\sum_{i=2}^{N_i(m)}Y_i(j)}{N_i(m)}\rightarrow \mu_i$ and $\frac{N_i(m)}{m}\rightarrow (E[\text{number of transitions between visits to state }i])^{-1}=\alpha_i$. Letting $m \rightarrow \infty$, result follows.
 \end{proof}
 \begin{thm}
 If Semi Markov process is irreducible  and non lattice, then $\lim_{t \rightarrow \infty}P(Z(t)=i,Y(t)>x,S(t)=j|Z(0)=k)=\frac{P_{ij}\int_x^\infty F_{ij}^c(y)d(y)}{\mu_{ii}}$. Let $Y(t)$ denote the time from $t$ until the next transition. $S(t)$ state entered at the first transition after $t$. 
@@ -289,4 +311,33 @@ E[\text{ON time in a cycle}]=E[(X_{ij}-x)^+].
 \lim_{t \rightarrow \infty} P(Z(t)=i, Y(t) >x|Z(0)=k)= \frac{\int_{x}^{\infty}H_i^c(y)d(y)}{\mu_{ii}}.
 \end{flalign*}
 
+
+
+Since a Continuous Time Markov Chain (CTMC) is a semi-Markov chain with $F_{ij}(t)=1-e^{\nu_i t}$. From the theory of semi-Markov process, if the embedded Markov chain with transition probabilities $P_{ij}$ is irreducible and positive recurrent, then the limiting process,
+\begin{align}
+\label{eq:LimitingProbability}
+\pi_j \triangleq \lim_{t \rightarrow \infty } P_{ij}(t)= \frac{\alpha_j / \nu_j}{\sum_j \alpha_j /\nu_j},
+\end{align}
+where $\alpha_i$ is the stationary distribution of the embedded Markov chain. From \ref{eq:LimitingProbability} and \ref{eq:StationaryDistribution}, we see that $\{\pi_j\}$ is the unique non-negative solution to 
+\begin{equation}
+\nu_j\pi_j=\sum_i \nu_i\pi_iP_{ij},~ \sum_j \pi_j =1.
+\end{equation}
+
+\begin{rem}
+From the theory of semi-Markov process, it also follows that $\pi_j$ also equals the long-run proportion of time the process is in state $j$.
+\end{rem}
+\begin{rem}
+If the initial state is chosen according to the limiting probabilities $\{\pi_j\}$ then the resultant process will be stationary. That is,
+\begin{equation*}
+\sum_i \pi_iP_{ij}(t)=\pi_j,~ \text{for all}~ t.
+\end{equation*}
+\begin{proof}
+\begin{flalign*}
+\sum_{i}P_{ij}(t)\pi_i &=\sum_{i}P_{ij}(t)\lim_{s \rightarrow \infty}P_{ki}(s)\\
+&=\lim_{s \rightarrow \infty} \sum_{i}P_{ij}(t)P_{ki}(s)\\
+&=\lim_{s \rightarrow \infty}P_{ki}(t+s)\\
+&=\pi_j.
+\end{flalign*}
+\end{proof} 
+\end{rem}
 \end{document}

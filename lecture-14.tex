@@ -141,10 +141,13 @@ Conversely $\sum_{j}P_{ij}(t)=1,~ \forall t \geq 0$, then $\sum_jQ_{ij}= \frac{d
 \begin{lem} For a CTMC with transition probability matrix $P(t)$, the following properties hold.
 \begin{enumerate}
 \item Limiting values of transition probabilities are related to generator matrix $Q$, i.e.
-\begin{xalignat*}{3}
-&\lim_{t \downarrow 0} \frac{1-P_{ii}(t)}{t} =\nu_i,&&
-\lim_{t \downarrow 0} \frac{P_{ij}(t)}{t} =q_{ij}.
-\end{xalignat*}
+\begin{align*}
+\lim_{t \downarrow 0} \frac{P(t)-I}{t} &= Q.
+\end{align*}
+%\begin{xalignat*}{3}
+%&\lim_{t \downarrow 0} \frac{1-P_{ii}(t)}{t} =\nu_i,&&
+%\lim_{t \downarrow 0} \frac{P_{ij}(t)}{t} =q_{ij}.
+%\end{xalignat*}
 \item Transition probability matrix has the semi group property, i.e.
 \begin{align*}
 P(t+s) &= P(t)P(s), ~~s,t \geq 0.
@@ -159,15 +162,19 @@ P(t+s) &= P(t)P(s), ~~s,t \geq 0.
 \frac{dP(t)}{dt}=QP(t), ~~t \geqslant 0.
 \end{align*}
 \end{thm}
-\begin{proof} Since, transition probability matrix $P(t)$ for a CTMC has a semi-group property, we have
+\begin{proof} Since, transition probability matrix $P(t)$ for a CTMC has a semi-group property, 
+%we have
+%\begin{align*}
+%P_{ij}(t+h)=\sum_{k \in I}P_{ik}(h)P_{kj}(t),~~i,j \in I.
+%\end{align*}
+%Re-arranging terms, 
+we can write
 \begin{align*}
-P_{ij}(t+h)=\sum_{k \in I}P_{ik}(h)P_{kj}(t),~~i,j \in I.
+%P_{ij}(t+h)-P_{ij}(t)=\sum_{k \neq i}P_{ik}(h)P_{kj}(t)-(1-P_{ii}(h))P_{ij}(t).
+\frac{P(t+h) - P(t)}{h} &= \frac{(P(h)- I)}{h}P(t) = P(t)\frac{(P(h) - I)}{h}.
 \end{align*}
-Re-arranging terms, we can write
-\begin{align*}
-P_{ij}(t+h)-P_{ij}(t)=\sum_{k \neq i}P_{ik}(h)P_{kj}(t)-(1-P_{ii}(h))P_{ij}(t).
-\end{align*}
-Dividing above equation by $h$,  and taking limits $h \downarrow 0$, we get 
+%Dividing above equation by $h$,  and 
+Taking limits $h \downarrow 0$, we get 
 \begin{align*}
 \frac{dP_{ij}(t)}{dt} = \sum_{k \neq i}q_{ik}P_{kj}(t)-\nu_iP_{ij}(t). 
 \end{align*}
