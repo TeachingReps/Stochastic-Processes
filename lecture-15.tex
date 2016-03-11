@@ -38,10 +38,11 @@ From~\eqref{eq:LimitingProbability} and~\eqref{eq:StationaryDistribution}, we se
 \begin{proof} 
 For any CTMC on state space $I$, return to a state $i \in I$ is a renewal process. 
 We can define an alternating renewal process with on and off times characterized by the time CTMC spends in state $j$ and otherwise respectively.
-Therefore, by alternating renewal process theory, we have
+Therefore, by alternating delayed renewal process theory, we have
 \begin{align*}
-\lim_{t \to \infty}\Pr\{ \text{CTMC is on at time } t\} = \lim_{t \to \infty}P_{ij}(t) = \frac{\E \tau_j }{\E T_{ii}}.
+\lim_{t \to \infty}\Pr\{ \text{CTMC is on at time } t | X(0) = i\} = \lim_{t \to \infty}P_{ij}(t) = \lim_{t \to \infty}\frac{\Pr\{\text{CTMC is on during time }[0,t] |X(0) = t\}}{t} = \frac{\E \tau_j }{\E T_{jj}}.
 \end{align*} 
+
 \end{proof}
 \begin{rem}
 Limiting probability $\pi_j$ is long-run proportion of time the process is in state $j$.
