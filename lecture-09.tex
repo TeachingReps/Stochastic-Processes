@@ -2,7 +2,7 @@
 % !TEX spellcheck = LaTeX
 \documentclass[a4paper,10pt,english]{article}
 \input{header}
-\title{Lecture 8: Equilibrium Renewal Processes and Renewal Reward Processes}
+\title{Lecture 9: Equilibrium Renewal Processes and Renewal Reward Processes}
 \author{}
 
 \begin{document}
@@ -30,12 +30,12 @@ prove the following lemma.
  $P(B_n \geq \epsilon G_n ~\text{for infinitely many rounds}~ n)=0$.
  \end{lem} 
  \begin{proof}
-   For any $n \in \mathbb{N}$,
+   For any $n \in \N$,
  \begin{flalign*}
-   P\left(G_n \leq  \frac{B_n}{\epsilon}\right)&=\mathbb{E}[P(G_n \leq \frac{B_n}{\epsilon}|B_n)]\\
-   &=\mathbb{E}[ \sum_{i=1}^{\frac{B_n}{\epsilon}}P(G_n = i |B_n)]\\
-   &\leq\mathbb{E}[ \sum_{i=1}^{\frac{B_n}{\epsilon}} (\alpha p)^n]\\
-   &= \mathbb{E}[{\frac{B_n}{\epsilon}}](\alpha p)^n \\
+   P\left(G_n \leq  \frac{B_n}{\epsilon}\right)&=\E[P(G_n \leq \frac{B_n}{\epsilon}|B_n)]\\
+   &=\E[ \sum_{i=1}^{\frac{B_n}{\epsilon}}P(G_n = i |B_n)]\\
+   &\leq\E[ \sum_{i=1}^{\frac{B_n}{\epsilon}} (\alpha p)^n]\\
+   &= \E[{\frac{B_n}{\epsilon}}](\alpha p)^n \\
    &=\epsilon^{-1} \left( \sum_{i=1}^n \frac{1}{p^{i}}\right) (\alpha
    p)^n = \epsilon^{-1} \frac{p^{-n} - 1}{1 - p} (\alpha p)^n,
  \end{flalign*}
@@ -59,91 +59,184 @@ prove the following lemma.
  the good coin.
 
  \subsection{Distribution of the Last Renewal Time for a Delayed Renewal Process}
- In the same manner as we derived the key lemma for the last renewal
- time distribution of a standard renewal process, we can show for a
- delayed renewal process:
+ In the same manner as we derived the key lemma, refer Theorem 1.9 in lecture 6, for the last renewal time distribution of a standard renewal process, we can show for a delayed renewal process:
  \begin{flalign*}
- P(S_{N(t)} \leq s)&=G^c(t) P(S_{N(t)} \leq s|S_{N(t)=0})+\int_{0}^{t}P(S_{N(t)} \leq s|S_{N(t)=s})F^c(t-u)dm(u)\\
+ P(S_{N(t)} \leq s)&=G^c(t) P(S_{N(t)} \leq s|S_{N(t)} = 0) + \int_{0}^{t}P(S_{N(t)} \leq s|S_{N(t)}=u)F^c(t-u)dm(u)\\
  &= G^c(t) +\int_{0}^{s}F^c(t-u)dm(u).
  \end{flalign*}
  Let $F_e(x)=\frac{\int_{0}^{x}F^c(y)dy}{\mu},~ x \geq 0$, known as
- the \textit{equilibrium distribution} of $F$. Observe that (a) the
- moment generating function of $F_e(x)$ is $\tilde{F}_e(s) =
- \frac{1-\tilde{F}(s)}{s\mu}$, and (b) $F_e$ is the limiting
+ the \textit{equilibrium distribution} of $F$. Observe that the moment generating function of $F_e(x)$ is $\tilde{F}_e(s) =
+ \frac{1-\tilde{F}(s)}{s\mu}$.
+ \begin{proof}
+ By definition, $\tilde{F}_e(s) = \E\left[\mathrm{e}^{-sX}\right]$, where $ X $ is a random variable with probability distribution function $ F_e(x) $. So,
+ \begin{flalign*}
+ \tilde{F}_e(s) &= \int_{0}^{\infty}\mathrm{e}^{-sx}dF_e(x)\\
+ &= \frac{1}{\mu}\int_{0}^{\infty}\mathrm{e}^{-sx}F^c(x)dx\\
+ &= \frac{1}{s\mu} - \frac{1}{\mu}\int_{0}^{\infty}\mathrm{e}^{-sx}F(x)dx\\
+ &= \frac{1}{s\mu} - \frac{1}{s\mu}\int_{0}^{\infty}\mathrm{e}^{-sx}dF(x)\\
+ &= \frac{1}{s\mu} - \frac{1}{s\mu}\tilde{F}(s),
+ \end{flalign*}
+ where the third and fourth equalities follows from the basic integration techniques.
+ \end{proof}
+ And also observe that $F_e$ is the limiting
  distribution of the age and the excess time for the renewal process
- governed by $F$. If $G=F_e,$ then the delayed renewal process is
+ governed by $F$. If $G=F_e$, then the delayed renewal process is
  called the \textit{equilibrium renewal process}. Suppose we start
  observing a renewal process at some arbitrary time $t$. Then, the
  observed renewal process is the equilibrium renewal process. Let
- $Y_D(t)$ denote the excess time for the (delayed) equilibrium renewal
+ $Y_e(t)$ denote the excess time for the (delayed) equilibrium renewal
  process.
  \begin{thm}
  For the equilibrium renewal process,
  \begin{enumerate}
- \item $m_D(t) =\frac{t}{\mu}$.\\
- \item $P(Y_D(t) \leq x) = F_e(x)$.\\
- \item $\{N_D(t): t \geq 0\}$ has stationary increments.
+ \item $m_e(t) =\frac{t}{\mu}$.\\
+ \item $P(Y_e(t) \leq x) = F_e(x)$.\\
+ \item $\{N_e(t), t \geq 0\}$ has stationary increments.
   \end{enumerate}
 \begin{proof}
-To prove i), observe that $\tilde{m_D(s)}=\frac{\tilde{G}(s)}{1-\tilde{F}(s)} = \frac{1}{s\mu}$. Hence, $m_D(t)=\frac{t}{\mu}$.\\
-ii) 
+To prove $ (1) $, observe that $\tilde{m}_e(s)=\frac{\tilde{G}(s)}{1-\tilde{F}(s)} = \frac{\tilde{F_e}(s)}{1-\tilde{F}(s)} = \frac{1}{s\mu}$. Hence, if $m_e(t) = \frac{t}{\mu}$ then, 
 \begin{flalign*}
-P(Y_D(t) >x) &= P(Y_D(t) >x|S_{N(t)=0})P(S_{N(t)=0}) +P(Y_D(t) >x|S_{N(t)=s})F^c(t-s)\frac{ds}{\mu}\\
- &= P(X >t+x,X>t) +P(X_2 >t+x-s|X_2 >t-s)F^c(t-s)\frac{ds}{\mu}\\
-&= F^c(t+x)+\int_{0}^{t}F^c(t+x-s)\frac{ds}{\mu} = F_e^c(x).
+\tilde{m}_e(s) &= \int_{0}^{\infty}\mathrm{e}^{-st}dm_e(t)\\ 
+&= \frac{1}{\mu} \int_{0}^{\infty}\mathrm{e}^{-st}dt\\
+&= \frac{1}{s\mu}.
+\end{flalign*}	
+Since moment generating function is a one-to-one map, $m_e(t) = \frac{t}{\mu}$ is unique. \\
+$ (2) $ 
+\begin{flalign*}
+P(Y_e(t) >x) &= P(Y_e(t) >x|S_{N_e(t)}=0)P(S_{N_e(t)}=0) +P(Y_e(t) >x|S_{N_e(t)}=s)F^c(t-s)\frac{ds}{\mu}\\
+ &= P(X_1 >t+x,X_1>t) +P(X_2 >t+x-s|X_2 >t-s)F^c(t-s)\frac{ds}{\mu}\\
+&= {F_e}^c(t+x)+\int_{0}^{t}F^c(t+x-s)\frac{ds}{\mu}\\
+&= 1 - \frac{1}{\mu} \int_{0}^{t+x}F^c(y)dy - \frac{1}{\mu} \int_{t+x}^{x}F^c(y)dy\\
+&= 1 - \frac{1}{\mu} \int_{0}^{x}F^c(y)dy\\
+&= F_e^c(x).
 \end{flalign*}
-iii) $N_D(t+s)-N_D(s) =$ Number of renewals in time interval of length $t$. When we start observing at $s$, the observed renewal process is delayed renewal process with initial distribution being the original distribution.
+$ (3) $ $N_e(t+s)-N_e(s) =$ Number of renewals in time interval of length $t$. When we start observing at $s$, the observed renewal process is delayed renewal process with initial distribution being the original distribution.
 \end{proof}
 \end{thm}
+\emph{Question}: What can you say about the equilibrium renewal process when $ F $ is distributed exponentially with the parameter $ \lambda $?
+\\
+\emph{Answer}: Let's look at the distribution of the first inter-arrival distribution, $ F_e $. So,
+\begin{flalign*}
+  F_e(x) &= \frac{1}{\mu} \int_{0}^{x}F^c(y)dy \\
+  &= \lambda \int_{0}^{x} \mathrm{e}^{-y\lambda} dy \\
+  &= 1 - \mathrm{e}^{-x\lambda},
+\end{flalign*}	
+where the first equality follows from the definition of $ F_e $ for equilibrium renewal process, the second equality follows from the fact that the mean of exponential distribution is inverse of the parameter $ \lambda $.\\
+Thus even $ F_e $ is distributed exponentially with the parameter $ \lambda $. So with all the properties of equilibrium renewal process, $ F_e $ and $ F $ being distributed exponentially with the same parameter $ \lambda $, says that this is a poisson process (not a delayed renewal process).
 
 \subsection{Renewal Reward Process}
-\textbf{Definition:} A renewal process $\{N(t), t \geq 0\}$ with inter arrival times $\{X_n: n \in \mathbb{N}\}$ having distribution $F$ and rewards $\{R_n: n \in \mathbb{N}\}$ where $R_n$ is the reward at the end of $X_n$. Let $(X_n,R_n)$ be iid. Then $R(t)=\sum_{i=1}^{N(t)}R_i$ is reward process. 
+\textbf{Definition:} Consider a renewal process $\{N(t), t \geq 0\}$ with inter arrival times $\{X_n: n \in \N\}$ having distribution $F$ and rewards $\{R_n: n \in \N\}$ where $R_n$ is the reward at the end of $X_n$. Let $(X_n,R_n)$ be \emph{iid}. Then $R(t)=\sum_{i=1}^{N(t)}R_i$ is reward process (total reward earned by time $t$). 
 \begin{thm}
-Let $\mathbb{E}[|R|]$ and $\mathbb{E}[|X|]$ be finite.
+	\label{theorem}
+Let $\E[|R|]$ and $\E[|X|]$ be finite.
 \begin{enumerate}
-\item $\lim_{t \rightarrow \infty} \frac{R(t)}{t} = \frac{\mathbb{E}[R]}{\mathbb{E}[X]} ~a.s.$
-\item  $\lim_{t \rightarrow \infty} \frac{\mathbb{E}[R(t)]}{t} = \frac{\mathbb{E}[R]}{\mathbb{E}[X]}$.
+\item $\lim_{t \rightarrow \infty} \frac{R(t)}{t} = \frac{\E[R]}{\E[X]} ~a.s.$
+\item  $\lim_{t \rightarrow \infty} \frac{\E[R(t)]}{t} = \frac{\E[R]}{\E[X]}$.
 \end{enumerate}
 \end{thm}
 
 \begin{proof}
+$ (1) $ Write
 \begin{flalign*}
-R(t)&=\sum_{i=1}^{N(t)}R_i\\
-&=(\frac{t}{N(t)} \sum_{i=1}^{N(t)}R_i) \frac{N(t)}{t}.
+\frac{R(t)}{t}&=\frac{\sum_{i=1}^{N(t)}R_i}{t}\\
+&=\left(\frac{\sum_{i=1}^{N(t)}R_i}{N(t)} \right) \left(\frac{N(t)}{t}\right).
 \end{flalign*}
-Hence by Strong Law of Large Numbers, $\lim_{t \rightarrow \infty} \frac{R(t)}{t} = \frac{\mathbb{E}[R]}{\mathbb{E}[X]} ~a.s.$\\
-To prove the second part, \\
-
-$\mathbb{E}[R(t)]= \mathbb{E}[\sum_{i=1}^{N(t)}R_i)] = (m(t)+1)\mathbb{E}[R]-\mathbb{E}[R_{N(t)+1}]$. Let $g(t)=\mathbb{E}[R_{N(t)+1}].$ 
+By the strong law of large numbers (almost sure convergence law) we obtain that, 
 \begin{flalign*}
-g(t)&=\mathbb{E}[R_{N(t)+1}1\{S_{N(t)}=0\}]+\mathbb{E}[R_{N(t)+1}1\{S_{N(t)}>0\}]\\
-&=\mathbb{E}[R_1|X_1>t]P(X_1>t)+\int_{0}^{t}\mathbb{E}[R_1|X>t-u]F^c(t-u)dm(u).
-&= h(t)+\int_{0}^{t}h(t-u)dm(u).
+	\lim_{t \rightarrow \infty} \frac{\sum_{i=1}^{N(t)}R_i}{N(t)} = \E[R],
 \end{flalign*}
-
-where $h(t)=\mathbb{E}[R_1|X>t]P(X_1>t) \leq E|R_1|$ $\forall
-t$. Since $\mathbb{E}[|R_1|]<\infty$, as $t \rightarrow \infty,$ $h(t)
-\rightarrow 0$ as $t \rightarrow \infty.$ Hence, choosing $T$ such
-that $|h(u)| \leq \epsilon$ $\forall u \geq T$, we have for all $t
-\geq T$ that
+and by the basic renewal theorem (almost sure convergence law) we obtain that, 
 \begin{flalign*}
-\frac{|g(t)|}{t} &\leq \frac{|h(t)|}{t} +\int_{0}^{t-T}\frac{|h(t-s)|}{t}dm(s)+\int_{t-T}^{T}\frac{|h(t-s)|}{t}dm(s)\\
-&\leq \frac{\epsilon}{t}+ \frac{\epsilon m(t-T)}{t}+ \frac{\mathbb{E}[|R_1|]}{t} (m(t)-m(t-T)).
+	\lim_{t \rightarrow \infty} \frac{N(t)}{t} = \frac{1}{\E[X]}.
+\end{flalign*} 
+Thus $ (1) $ is proven.
+\\
+$ (2) $ \\
+Notice that $ N(t)+1 $ is a stopping time for the sequence \{$ R_1,R_2,\dots $\}. This is true since
+\begin{flalign*}
+	\{N(t)+1 = n\} &= \{X_1+X_2+\cdots+X_{n-1} \leq t , X_n > t \}\\
+	&= \{R_1+R_2+\cdots+R_{n-1} = R(t) , R_n \neq 0 \}.
 \end{flalign*}
-Hence $\lim_{t \rightarrow \infty}\frac{g(t)}{t}= \epsilon/EX$ by the
+Moreover $ N(t)+1 $ is a stopping time for the sequence \{$ X_1,X_2,\dots $\}. So by algebra and Wald's lemma,
+\begin{flalign*}
+\E[R(t)] &= \E\left[\sum_{i=1}^{N(t)}R_i\right] \\
+&= \E\left[\sum_{i=1}^{N(t)+1}R_i\right]-\E[R_{N(t)+1}]\\ 
+&= (m(t)+1)\E[R_1]-\E[R_{N(t)+1}].
+\end{flalign*}
+Let $g(t)=\E[R_{N(t)+1}].$ So 
+\begin{equation}
+ \frac{\E[R(t)]}{t} = \frac{(m(t)+1)}{t}\E[R_1]-\frac{g(t)}{t}, \nonumber
+\end{equation}
+and the result will follow from the elementary renewal theorem if we can show that $ \frac{g(t)}{t} \rightarrow 0 $ as $ t \rightarrow \infty. $ So,
+\begin{flalign*}
+g(t) &= \E[R_{N(t)+1}1\{S_{N(t)}=0\}]+\E[R_{N(t)+1}1\{S_{N(t)}>0\}]\\
+&=\E[R_{N(t)+1}|S_{N(t)}=0]P(X_1>t)+\int_{0}^{t}\E[R_{N(t)+1}|S_{N(t)}=u]F^c(t-u)dm(u),
+\end{flalign*}
+where the second equality follows from the fact that the interarrival times $ X_n, n \in \N $, are \emph{iid} with distribution $ F $. \\ 
+However,
+\begin{flalign*}
+	\E[R_{N(t)+1}|S_{N(t)}=0] &= \E[R_1|X_1>t], \\
+	\E[R_{N(t)+1}|S_{N(t)}=u] &= \E[R_n|X_1>t-u], 
+\end{flalign*}
+and so
+\begin{flalign*}
+g(t) &= \E[R_1|X_1>t]F^c(t)+\int_{0}^{t}\E[R_n|X_1>t-u]F^c(t-u)dm(u)\\
+&= \E[R_1|X_1>t]F^c(t)+\int_{0}^{t}\E[R_1|X_1>t-u]F^c(t-u)dm(u),
+\end{flalign*}
+where the second equality follows from the fact that $ R_n, n \in \N $, are \emph{iid}. \\
+Now, let
+\begin{equation}
+h(t)=\E[R_1|X_1>t]F^c(t) = \int_{x=t}^{\infty} \E[R_1|X_1=x]dF(x), \nonumber
+\end{equation}
+and note that since
+\begin{equation}
+\E[|R_1|] = \int_{x=0}^{\infty} \E[|R_1||X_1=x]dF(x) < \infty, \nonumber
+\end{equation}
+it follows that $h(t) \rightarrow 0$ as $t \rightarrow \infty.$ Hence, choosing $T$ such that $|h(u)| \leq \epsilon$ whenever $ u \geq T$, we have for all $t \geq T$ that
+\begin{flalign*}
+\frac{|g(t)|}{t} &\leq \frac{|h(t)|}{t} +\int_{0}^{t-T}\frac{|h(t-s)|}{t}dm(s)+\int_{t-T}^{t}\frac{|h(t-s)|}{t}dm(s)\\
+&\leq \frac{\epsilon}{t}+ \frac{\epsilon m(t-T)}{t}+ \E[|R_1|]\frac{(m(t)-m(t-T))}{t} .
+\end{flalign*}
+Hence $\lim_{t \rightarrow \infty}\frac{g(t)}{t}= \frac{\epsilon}{\E[X]}$ by the
 elementary renewal theorem, and the result follows since $\epsilon >
-0$ can be arbitrary.
+0$ is arbitrary.
  \end{proof}
 
- \textbf{Remarks:}
- \begin{enumerate}
- \item $R_{N(t)+1}$ has different distribution than $R_1$.
- \item $R(t)$ is the gradual reward during a cycle, 
- \begin{flalign*}
- \frac{\sum_{n=1}^{N(t)}R_n}{t} \leq  \frac{R(t)}{t} \leq \frac{\sum_{n=1}^{N(t)+1}R_n}{t}.
- \end{flalign*}
- \end{enumerate}
+\begin{rem}
+	 	$ (1) ~$ $R_{N(t)+1}$ has different distribution than $R_1$.\\
+	 	\emph{Analysis:} Notice that $R_{N(t)+1}$ is related to $X_{N(t)+1}$ which is the length of the renewal interval containing the point $t$. Since larger renewal intervals have a greater chance of containing $t$, it follows that $X_{N(t)+1}$ tends to be larger than a ordinary renewal interval. Formally,
+	 	\begin{flalign*}
+	 		\Pr\{X_{N(t)+1} > x\}&= \sum_{n \in \N_0} \left( \left[ \int_{0}^t\Pr\{X_{N(t)+1} > x | S_{N(t)} = y, N(t)=n\}F^c(t-y)dm(y) \right] \Pr\{N(t)=n\} \right).
+	 	\end{flalign*}
+	 	Now we have,
+	 	\begin{flalign*}
+	 		\Pr\{X_{N(t)+1}>x | S_{N(t)}=y, N(t)=n\} & = \Pr\{X_{N(t)+1}>x | X_1+\cdots+X_n=y, X_{n+1}>t-y\} \\
+	 		& = \Pr\{X_{n+1}>x | X_{n+1}>t-y\} \\
+	 		& = \frac{\Pr\{X_{n+1}>\text{max}(x,t-y)\}}{\Pr\{X_{n+1}>t-y\}} \\
+	 		& \geq F^c(x). 
+	 	\end{flalign*}
+	 	So we get that,
+	 	\begin{flalign*}
+	 		\Pr\{X_{N(t)+1}>x\}\geq \Pr\{X_1>x\}.
+	 	\end{flalign*}
+	 	Thus the remark follows.\\
+	 	$ (2) ~$ $R(t)$ is the gradual reward during a cycle, 
+	 	\begin{flalign*}
+	 		\frac{\sum_{n=1}^{N(t)}R_n}{t} \leq  \frac{R(t)}{t} \leq \frac{\sum_{n=1}^{N(t)+1}R_n}{t}.
+	 	\end{flalign*}
+	 	\emph{Analysis:} The part 1 of the theorem \ref{theorem} under this regime follows since
+	 	\begin{flalign*}
+	 		\lim_{t \rightarrow \infty} \frac{\sum_{n=1}^{N(t)}R_n}{t} = \frac{\E\left[R\right]}{\E\left[X\right]},\\
+	 		\lim_{t \rightarrow \infty} \frac{\sum_{n=1}^{N(t)+1}R_n}{t} = \frac{\E\left[R\right]}{\E\left[X\right]},
+	 	\end{flalign*}
+	 	by the similar arguments given in the proof of the theorem \ref{theorem}.\\
+	 	The part 2 of the theorem \ref{theorem} under this regime follows since
+	 	\begin{flalign*}
+	 		\lim_{t \rightarrow \infty} \frac{\E\left[R_{N(t)+1}\right]}{t} = 0,
+	 	\end{flalign*}
+	 	by the similar arguments given in the proof of the theorem \ref{theorem}. Thus the remark follows. For more insights refer Chapter 3 in \textit{Stochastic Processes} by \textit{Sheldon M. Ross}.
+\end{rem}
  
  \subsubsection{Example:} Suppose for an alternating renewal process, we earn at a rate of one per unit time  when the system is on and the reward for a cycle is the the time system is ON during that cycle.\\
- Amount of on time in $\frac{[0,t]}{t} = \lim_{t \rightarrow \infty} \frac{R(t)}{t}=\frac{\mathbb{E}[X]}{\mathbb{E}[X]+\mathbb{E}[Y]} = \lim_{t \rightarrow \infty}P(\text{on at time t})$. 
+ $ \lim_{t \rightarrow \infty} \frac{\text{Amount of ON time in } [0,t]}{t} = \lim_{t \rightarrow \infty} \frac{R(t)}{t}=\frac{\E[X]}{\E[X]+\E[Y]} = \lim_{t \rightarrow \infty}P(\text{ON at time t})$. 
 \end{document}
