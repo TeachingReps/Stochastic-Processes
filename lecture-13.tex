@@ -1,126 +1,115 @@
-\documentclass[a4paper,10pt]{article}
-\include{header}
-\title{Lecture 13: Limiting Probabilities and Reversibility}
-\author{Parimal Parag}
+\documentclass[a4paper,10pt,english]{article}
+\input{header}
+\usepackage{amsmath}
+
+
+%opening
+\title{Lecture 13: Foster's(Foster-Lyapunov Theorem)Theorem}
+\date{3 Feb 2016}
+\author{}
+
 \begin{document}
 \maketitle
-\section{Limiting Probabilities}
-Since a Continuous Time Markov Chain (CTMC) is a semi-Markov chain with $F_{ij}(t)=1-e^{\nu_i t}$. From the theory of semi-Markov process, if the embedded Markov chain with transition probabilities $P_{ij}$ is irreducible and positive recurrent, then the limiting process,
-\begin{equation}
-\label{eq:LimitingProbability}
- P_{j} \triangleq \lim_{t \rightarrow \infty } P_{ij}(t)= \frac{\pi_i / \nu_i}{\sum_j \pi_j \nu_j},
-\end{equation}
-where $\pi_i$ is the stationary distribution of the embedded Markov chain. $\{\pi\}$ is the unique solution to
-\begin{equation}
-\label{eq:StationaryDistribution}
-\pi_j = \sum_i \pi_i P_{ij},~ \sum_{i}\pi_i = 1. 
-\end{equation}
-From \ref{eq:LimitingProbability} and \ref{eq:StationaryDistribution}, we see that $\{P_j\}$ is the unique non-negative solution to 
-\begin{equation}
-\nu_jP_j=\sum_i \nu_iP_iP_{ij},~ \sum_j P_j =1.
-\end{equation}
-
-\begin{rem}
-From the theory of semi-Markov process, it also follows that $P_j$ also equals the long-run proportion of time the process is in state $j$.
-\end{rem}
-\begin{rem}
-If the initial state is chosen according to the limiting probabilities $\{P_j\}$ then the resultant process will be stationary. That is,
-\begin{equation*}
-\sum_i P_iP_{ij}(t)=P_j,~ \text{for all}~ t.
-\end{equation*}
+\section{Foster's Theorem}
+\begin{thm}[Foster,1950]
+Let $\{X_n\}_{n \geq 0}$ be a irreducible DTMC on $\mathbb{N}_0$ if there exist a function $L : \mathbb{N}_0 \longrightarrow \mathbb{R}_+$ with $\mathbb{E}[L(X_0)] < \infty$, such that for some $K>k\geq0$, and $\epsilon>0$:
+\begin{enumerate}
+\item $|\{x \in \mathbb{N}_0 : L(x) \leq k\}| < \infty$
+\item $\mathbb{E}[L(X_n)|X_{n-1}] < K$,when $L(X_{n-1}) \leq k$.
+\item $\mathbb{E}[L(X_n)-L(X_{n-1})|X_{n-1}] < -\epsilon$ if $L(X_{n-1})\geq k$
+\end{enumerate}
+Then $\{X_n\}_{n \geq 0}$ is positive recurrent.(L $\equiv$ "potential function" or energy or lyapunov function).
+\end{thm}
 \begin{proof}
-\begin{flalign*}
-\sum_{i}P_{ij}(t)P_i &=\sum_{i}P_{ij}(t)\lim_{s \rightarrow \infty}P_{ki}(s)\\
-&=\lim_{s \rightarrow \infty} \sum_{i}P_{ij}(t)P_{ki}(s)\\
-&=\lim_{s \rightarrow \infty}P_{ki}(t+s)\\
-&=P_j.
-\end{flalign*}
-\end{proof} 
-\end{rem}
-\begin{rem}
-Another way of arriving at the limiting probabilities are by forward equations
-\begin{equation}
-P_{ij}'(t)=\sum_{k \neq j}q_{kj}P_{ik}(t)-\nu_iP_{ij}(t).
-\end{equation}
-Assume that the limiting probabilities exist. Then, it is easy to observe that $P_{ij}'(t) \rightarrow 0$ as $t \rightarrow \infty$. Letting $t \rightarrow \infty$, assuming that the limit and summation can be exchanged, we get the expression for $P_j$. 
-\end{rem}
-\begin{rem}
-In any interval $(0,t)$, the number of transitions into state $j$ must equal to within 1 the number of transitions out of state $j$. Hence, in the long run, The rate at which transitions occur into state $j$ = The rate at which transitions occur out of state $j$. That is,
-\begin{equation}
-\nu_i P_i =\sum_{ i}P_i q_{ij}. 
-\end{equation} 
- Hence,
- \begin{equation}
- \nu_iP_{ij}=\sum_{i}P_iq_{ij},~ \sum_j P_j =1.
- \end{equation}
- are called balance equations.
-\end{rem}
-\subsection{Time Reversibility for CTMC}
-\begin{prop}
-Markov property holds going backward in time. i.e.
+As DTMC is irreducible than enough to show that some state is positive recurrent.
+By renewal theory, for ant DTMC, for all $x \in \mathbb{N}_0$,
+\begin{align}
+\lim\limits_{N \rightarrow \infty} \mathbb{E}\Big[ \sum_{n=1}^{N} \boldsymbol{1}_{\{X_n=x\}} \Big] = \frac{1}{\mu _{xx}} 
+\end{align}
+where 
 \begin{equation*}
-Pr(X(t-s)=j|X(t)=i,X(y), y > t)=Pr(X(t-s)=j|X(t)=i).
+\mu _{xx}=
+\begin{cases}
+	\infty \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ if \ $x$ \ is \ transient\\
+	\sum_{m \geq 0}m f^{m}_{xx} \ \ \ \ \ \ \ \ if \ $x$ \ is \ recurrent \\
+\end{cases}
 \end{equation*}
-\begin{proof}
-\begin{flalign*}
-&Pr(X(t-s)=j|X(t)=i, X(y), y>t)=\frac{Pr(X(t-s)=j, X(t)=i, X(y), y>t)}{Pr(X(t)=i, X(y), y>t)}\\
-&\stackrel{(a)}{=}\frac{Pr(X(t-s)=j)Pr(X(t)=i|X(t-s)=j)Pr(X(y), y>t|X(t)=i)}{Pr(X(t)=i, X(y), y>t)}\\
-&\stackrel{}{=}\frac{Pr(X(t-s)=j)Pr(X(t)=i|X(t-s)=j)}{Pr(X(t)=i)}\\
-&\stackrel{}{=}Pr(X(t-s)=j|X(t)=i).\\
-\end{flalign*}
-where $(a)$ follows from the Markov property of forward chain.  
+consider the RHS of equation $(1)$
+\begin{align*}
+\lim\limits_{N \rightarrow \infty} \mathbb{E}\Big[ \sum_{n=1}^{N} \boldsymbol{1}_{\{X_n=x\}} \Big] > 0 \Longleftrightarrow x \ is \ positive \ recurrent  
+\end{align*}
+consider
+\begin{align*}
+& 0 \leq \mathbb{E}[L(X_n)] = \mathbb{E}[L(X_0)] +   \sum_{n=1}^{N}\mathbb{E}[L(X_n)-L(X_{n-1})]\\
+&= \mathbb{E}[L(X_0)] + \sum_{n=1}^{N}\mathbb{E}[L(X_n)-L(X_{n-1})]\boldsymbol{1}_{\{L(X_{n-1})>k\}} + \sum_{n=1}^{N}\mathbb{E}[L(X_n)-L(X_{n-1})]\boldsymbol{1}_{\{L(X_{n-1})\leq k\}}\\
+&\leq \mathbb{E}[L(X_0)] + \sum_{n=1}^{N}\mathbb{E}[-\epsilon \        \boldsymbol{1}_{\{L(X_{n-1})>k\}}] + \sum_{n=1}^{N}\mathbb{E}[K \ \boldsymbol{1}_{\{L(X_{n-1})\leq k\}}]\\
+&\Rightarrow \Bigg[\mathbb{E}\sum_{n=1}^{N} \boldsymbol{1}_{\{L(X_{n-1})\leq k\}}\Bigg](K + \epsilon) \geq -\mathbb{E}[L(X_0)] + \epsilon N\\\\
+&\Rightarrow \frac{1}{N} \Bigg[\mathbb{E}\sum_{n=1}^{N} \boldsymbol{1}_{\{L(X_{n-1})\leq k\}}\Bigg] \geq -\frac{\mathbb{E}[L(X_0)]}{K+\epsilon} + \frac{\epsilon}{K+\epsilon}\\\\
+&\Rightarrow \limsup_{N\rightarrow \infty}\frac{1}{N} \Bigg[\mathbb{E}\sum_{n=1}^{N} \boldsymbol{1}_{\{L(X_{n-1})\leq k\}}\Bigg] \geq \frac{\epsilon}{K+\epsilon}
+\end{align*}
+Let $F = \{x \in \mathbb{N}_0: L(x) \leq k\}, \ |F| < \infty$. Now,
+\begin{align*}
+& \limsup_{N\rightarrow \infty}\frac{1}{N} \Bigg[\mathbb{E}\sum_{n=1}^{N} \boldsymbol{1}_{\{L(X_{n-1})\leq k\}}\Bigg]\\\\
+&=\limsup_{N\rightarrow \infty}\frac{1}{N} \Bigg[\mathbb{E}\sum_{n=1}^{N}\sum_{x \in F} \boldsymbol{1}_{\{X_{n-1}\leq k\}}\Bigg] \leq \sum_{x \in F} \Bigg[ \limsup_{N\rightarrow \infty}\frac{1}{N} \mathbb{E}\sum_{n=1}^{N} \boldsymbol{1}_{\{X_{n-1}\leq k\}}\Bigg]\\\\ 
+&=\sum_{x \in F} \Bigg[ \limsup_{N\rightarrow \infty}\frac{1}{N} \mathbb{E}\sum_{n=1}^{N} \boldsymbol{1}_{\{X_{n-1}\leq k\}}\Bigg] \geq \frac{\epsilon}{K+\epsilon}>0
+\end{align*}
+Therefore there exist some $x \in F$ such that ,
+\[\limsup_{N\rightarrow \infty}\frac{1}{N} \mathbb{E}\Bigg[ \sum_{n=1}^{N} \boldsymbol{1}_{\{X_{n-1}\leq k\}}\Bigg] \geq \frac{\epsilon}{(K+\epsilon)|F|}>0\]\\\\
+Therefore there exist some $x \in F$ such that ,
+\[\lim_{N\rightarrow \infty}\frac{1}{N} \mathbb{E}\Bigg[\sum_{n=1}^{N} \boldsymbol{1}_{\{X_{n-1}\leq k\}}\Bigg] >0\]
 \end{proof}
-\end{prop}
-Now we would like to characterize the sojourn time in each state. Since the amount of time spent in each state is same whether in forward or backward direction, one expects the sojourn time for the reverse chain to be exponential with the same parameter $\nu_i$. We can verify this formally:
-\begin{flalign*}
-&Pr(\text{Process in state i during [t-s,t]}|X(t)=i)\\
-&= {Pr(\text{Process in state i during [t-s,t]})}/{Pr(X(t)=i)}\\
-&= \frac{Pr(X(t-s)=i)e^{-\nu_i s}}{Pr(X(t)=i)}=e^{-\nu_i s}.\\
-\end{flalign*}
-Next, we would like to characterize the transition probabilities of the reversed chain. The sequence of states visited by the reverse process constitutes a discrete-time Markov chain with transition probabilities $P_{ij}^*$ give by 
-\begin{equation}
-P_{ij}^*= \frac{\pi_jP_{ji}}{\pi_i},
-\end{equation} 
-where $\{\pi_i,~ i \geq 0\}$ are the stationary probabilities of the embeddede discrete time Markov chain with transition probabilities $P_{ij}$. Denote 
-\begin{equation}
-q_{ij}^*=\nu_iP_{ij}^*
-\end{equation}
-as the infinitesimal rates of the reversed process. Using the previous formula for $P_{ij}^*$ we see that
-\begin{equation}
-q_{ij}^*=\frac{\nu_i\pi_jP_{ji}}{\pi_i}.
-\end{equation} 
-Recall that 
-\begin{equation}
-P_{k}=\frac{\pi_k / \nu_k}{\sum_{i}\pi_i / \nu_i},
-\end{equation}
-we see that 
-\begin{equation}
-\frac{\pi_i}{\pi_j}=\frac{\nu_j P_j}{\nu_i P_i}.
-\end{equation}
-Hence, 
-\begin{equation}
-q_{ij}^*=\frac{\nu_j P_{j}P_{ji}}{P_i}= \frac{P_jq_{ji}}{P_i}.
-\end{equation}
-That is,
+\section{Applications of Foster's theorem: Queue scheduling/Max-weight scheduling}
+Consider $N$ queue served by a single server in discrete time(Figure 1).
+At time slot t = 1,2,3....\\
+$A_i(t) \in \mathbb{N}_0$ packets arrive to each queue $i \in [N]$ independently.\\
+\begin{figure}
+\centering
+\includegraphics[scale=0.6]{Figures/saa.png}
+\caption{N queues single server, server chooses one queue and serve upto one packet}
+\label{fig: example 1.1}
+\end{figure}
+\begin{enumerate}
+\item $\mathbb{E}[A_i(t)] = \lambda _i$
+\item $\mathbb{P}[A_i(t)=0] > 0$
+\item $\mathbb{E}[A_i(t)^2] \leq C$
+\end{enumerate}
+Server picks one queue $Q(t) \in [N]$ for service. Let $R_i(t) =  \boldsymbol{1}\{Q(t) = i\}$.One packet is served from $Q(t)$ if it is not empty.Let $X_i(t)$ = number of packets in queue $i$ just before time slot $t$.\\
+\[X_i(t+1) = (X_i(t) + A_i(t) - R_i(t))_+\]
+Where \[a_+ = max(0,a)\]
+aslo \[X_i(t+1) = X_i(t) + A_i(t) - R_i(t) + L_i(t)       \]Where 
 \begin{equation*}
-P_{i}q_{ij}^*=P_{j}q_{ji}.
+L_i(t) = 
+\begin{cases}
+  1 \ \ \ \,service \ attempted \ when \ i \ is \ empty\\
+  0 \ \ \ \,otherwise 
+\end{cases}
 \end{equation*}
-Form the above equation, it is obvious that 
-\begin{equation*}
-\sum_{i}P_i q_{ij}^*=0.
-\end{equation*} 
-This implies that $P_j,~j \geq 0$ are the stationary probabilities for the reverse chain as $P_j$s satisfy the balance equations.
-\begin{defn}
-A stationary CTMC is said to be time reversible if the reverse process follows the same probabilistic law as the original process. That is, if, for all $i,j$
-\begin{equation*}
-q_{ij}^*= q_{ij} \iff P_{i}q_{ij}=P_jq_{ji}.
-\end{equation*} 
-\end{defn} 
-\begin{prop}
-An ergodic birth and death process is time reversible in steady state.
-\end{prop}
+Mean rate of arrivals to system : $= \sum_{i=1}^{N} \lambda _i
+$\\
+Maximum rate of departure $= 1$, we will assume $ \sum_{i=1}^{N} \lambda _i < 1$.
+\begin{thm}[Max-weight scheduling algorithm, 1992]
+\[Q(t) = \arg \max _{i \in N} X_i(t)  \] 
+that is serve  the longest queue.Under MAX-WT ,$X(t) = (X_i(t))_{i=1}^{N}$ is a DTMC which is irreducible and aperiodic on state space $\mathbb{N}_0^N$.As long as $\sum_{i=1}^{N} \lambda _i < 1$, $\{X_n\}$ is positive recurrent.
+\end{thm}
 \begin{proof}
-To prove the above, we must show that the rate at which the process goes from state $i$ to $i+1$ is equal to the rate of going from $i+1$ to $i$. But during any time interval of length $t$, the number of transitions from $i$ to $i+1$ should be within 1 of the number of transitions from $i+1$ to $i$ (since the process is birth and death process. Hence, as $t \rightarrow \infty$,  both rates will be equal. 
+By Foster's theorem, define the Lyapunov function:
+\[L(x) = \frac{1}{2} \sum_{i=1}^{N}x_i^2\] consider
+\begin{align*}
+& L(X(t)) - L(X(t-1))\\
+&= \frac{1}{2} \sum_{i=1}^{N}\Big[ (X_i(t))^2 - (X_i(t-1))^2 \Big]\\
+&= \frac{1}{2} \sum_{i=1}^{N}\Big[ \{X_i(t-1) + A_i(t-1) - R_i(t-1) + L_i(t-1)\}^2 - (X_i(t-1))^2 \Big]\\
+& \leq \frac{1}{2} \sum_{i=1}^{N}\Big[ \{X_i(t-1) + A_i(t-1) - R_i(t-1)\}^2 - (X_i(t-1))^2 \Big]
+\end{align*}
+Therefore 
+\[\mathbb{E}\Big[ L(X(t)) - L(X(t-1)) | X(t-1) = x \Big]  \leq \frac{1}{2} \sum_{i=1}^{N} \mathbb{E} \Big[ (x_i + A_i(t-1) - R_i(t))^2 - x_i^2 | X(t-1) = x \Big]\]
+\begin{align*}
+&= \frac{1}{2} \sum_{i=1}^{N} \Bigg[ 2x_i \mathbb{E} \Big[ (A_i(t-1) - R_i(t)| X(t-1) = x \Big] + \mathbb{E} \Big[ (A_i(t-1) - R_i(t-1))^2 | X(t-1) = x \Big] \Bigg]\\
+&= \sum_{i=1}^{N}x_i \lambda _i - \sum_{i=1}^{N}x_i R_i(t-1) + \frac{N}{2}(1+C)\\
+&= \sum_{i=1}^{N}x_i \lambda _i + \frac{N}{2}(1+C) - \max _i x_i\\
+& \leq \frac{N}{2}(1+C) + (\max _i x_i)(\sum_{i=1}^{N} \lambda _i - 1)\\
+&= C_1 - \epsilon (\max _i x_i)
+\end{align*}
+Foster's theorem applies with $k = \max \{\frac{\|x\|_2 ^2}{2}\}$
 \end{proof}
-
 \end{document}
+
