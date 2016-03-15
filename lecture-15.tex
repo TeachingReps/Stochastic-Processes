@@ -40,8 +40,27 @@ For any CTMC on state space $I$, return to a state $i \in I$ is a renewal proces
 We can define an alternating renewal process with on and off times characterized by the time CTMC spends in state $j$ and otherwise respectively.
 Therefore, by alternating renewal process theory, we have
 \begin{align*}
-\lim_{t \to \infty}\Pr\{ \text{CTMC is on at time } t\} = \lim_{t \to \infty}P_{ij}(t) = \frac{\E \tau_j }{\E T_{ii}}.
+\lim_{t \to \infty}\Pr\{ \text{CTMC is on at time } t\} = \lim_{t \to \infty}P_{ij}(t) = \frac{\E \tau_j }{\E T_{jj}}.
 \end{align*} 
+
+The time spent in state $j \in I$ during $k^\text{th}$ visit to this state is defined by
+\begin{align*}
+\tau_j(k) = \inf\{ t > 0: X() = j\}.
+\end{align*}
+Number of visits to state $j$ in the first $m$ transitions of the CTMC is defined by
+\begin{align*}
+N_j(m) = \sum_{l=1}^m1_{\{X(S_l) = j\}}.
+\end{align*}
+The proportion of time in state $j$ during the first $m$ transitions of the CTMC is 
+\begin{align*}
+\beta(m) &= \frac{\frac{N_j(m)}{m}\sum_{k=1}^{N_j(m)}\frac{\tau_j(k)}{N_j(m)}}{\sum_j \frac{N_j(m)}{m}\sum_{k=1}^{N_j(m)}\frac{\tau_j(k)}{N_j(m)}}.%,\\
+%&= \frac{\frac{N_i(m)}{m}\sum_{j=1}^{N_i(m)}Y_i(j)}{\sum_l \frac{N_i(m)}{m} \sum_{j=1}^{N_i(m)}Y_i(j) }.\\
+\end{align*}
+Since $N_j(m)\rightarrow \infty$ as $m \rightarrow \infty$, it follows from the strong law of large numbers that 
+\begin{xalignat*}{3}
+&\lim_{m \in \N}\frac{\sum_{k=1}^{N_j(m)}\tau_j(k)}{N_j(m)} = \E \tau_j, && \lim_{m \in \N}\frac{N_j(m)}{m} = \alpha_j.
+\end{xalignat*}
+%and $ (E[\text{number of transitions between visits to state }i])^{-1}=\alpha_i$. Letting $m \rightarrow \infty$, result follows.
 \end{proof}
 \begin{rem}
 Limiting probability $\pi_j$ is long-run proportion of time the process is in state $j$.
