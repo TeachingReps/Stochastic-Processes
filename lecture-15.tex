@@ -38,7 +38,7 @@ From~\eqref{eq:LimitingProbability} and~\eqref{eq:StationaryDistribution}, we se
 \begin{proof} 
 For any CTMC on state space $I$, return to a state $i \in I$ is a renewal process. 
 We can define an alternating renewal process with on and off times characterized by the time CTMC spends in state $j$ and otherwise respectively.
-Therefore, by alternating renewal process theory, we have
+Therefore, by alternating delayed renewal process theory, we have
 \begin{align*}
 \lim_{t \to \infty}\Pr\{ \text{CTMC is on at time } t\} = \lim_{t \to \infty}P_{ij}(t) = \frac{\E \tau_j }{\E T_{jj}}.
 \end{align*} 
@@ -61,6 +61,9 @@ Since $N_j(m)\rightarrow \infty$ as $m \rightarrow \infty$, it follows from the 
 &\lim_{m \in \N}\frac{\sum_{k=1}^{N_j(m)}\tau_j(k)}{N_j(m)} = \E \tau_j, && \lim_{m \in \N}\frac{N_j(m)}{m} = \alpha_j.
 \end{xalignat*}
 %and $ (E[\text{number of transitions between visits to state }i])^{-1}=\alpha_i$. Letting $m \rightarrow \infty$, result follows.
+%\begin{align*}
+%\lim_{t \to \infty}\Pr\{ \text{CTMC is on at time } t | X(0) = i\} = \lim_{t \to \infty}P_{ij}(t) = \lim_{t \to \infty}\frac{\Pr\{\text{CTMC is on during time }[0,t] |X(0) = t\}}{t} = \frac{\E \tau_j }{\E T_{jj}}.
+%\end{align*} 
 \end{proof}
 \begin{rem}
 Limiting probability $\pi_j$ is long-run proportion of time the process is in state $j$.
@@ -146,130 +149,11 @@ The transition probabilities are computed by
 P_{ij}(t)=\sum_{n=0}^{\infty}P_{ij}^{*n}e^{\nu}t \frac{{(\nu t)}^n}{n!}
 \end{equation*}
 This technique of uniformizing the rate in which a transition occurs from each state to state by introducing self transitions is called uniformization.
-\subsection{Reversibility}
-\begin{cor}
-Consider an M/M/s queue with Poisson$(\lambda)$ arrivals and each server having exponential service time exp$(\mu)$ service. If $\lambda > s \mu$, then the output process in steady state is Poisson$(\lambda)$.
-\end{cor}
-\begin{proof}
-Let $X(t)$ denote the number of customers in the system at time $t$. Since M/M/s process is a birth and death process, it follows from the previous proposition that $\{X(t),~t \geq 0\}$ is time reversible. Now going forward in time, the time instants at which $X(t)$ increases by 1 are the arrival instants of a Poisson process. Hence, by time reversibility, the time Points at which $X(t)$ increases by 1 when we go backwards in time also constitutes a Poisson process. But these instants are exactly the departure instants of the forward process. Hence the result.
-\end{proof}
-\begin{prop}
-A time-reversible chain with limiting probabilities $\pi_j,~ j \in S$, that is truncated to the set $A\subset S$ and remains irreducible is also time reversible and has limiting probabilities 
-\begin{equation}
-\pi_j^A=\pi_j/(\sum_{i \in A}\pi_i),~ j \in A.
-\end{equation}
-\end{prop}
-\begin{proof}
-We must show that 
-\begin{equation*}
-\pi_i^Aq_{ij}=\pi_j^Aq_{ji},~ i \in A,~ j \in A,
-\end{equation*}
-or equivalently,
-\begin{equation*}
-\pi_iq_{ij}=\pi_j^Aq_{ji},~ i \in A,~ j \in A.
-\end{equation*}
-But this is true as the original chain is time reversible.
-\end{proof}
 
 
-\subsection{Time Reversibility of Discrete Time Markov Chains}
 
-Consider a discrete time Markov chain with transition probability matrix $P$ and stationary probability vector $\alpha$.\\
-\textbf{Claim:} The reversed process is a Markov chain.
-\begin{proof}
-\begin{flalign*}
-&P(X_{m-1}=i|X_m=j,X_{m+1}=i_{m+1} \hdots )=\frac{P(X_{m-1}=i,X_m=j, \hdots )}{P(X_m=j, X_{m+1}=i_{m+1}\hdots )}\\
-&=\frac{P(X_{m-1}=i,X_m=j)P(X_{m+1}=i_{m+1}\hdots |X_{m-1}=i,X_m=j  )}{P(X_m=j)P(X_{m+1}=i_{m+1} \hdots |X_m=j)}\\
-&\stackrel{(a)}{=}\frac{P(X_{m-1}=i,X_m=j)P(X_{m+1}=i_{m+1}\hdots |X_m=j  )}{P(X_m=j)P(X_{m+1}=i_{m+1} \hdots |X_m=j)}\\
-&=P(X_{m-1}=i|X_m=j).\\
-\end{flalign*}
-where $(a)$ follows from the Markov property.
-\end{proof}
-The sequence $\{X_n,X_{n-1} \hdots \}$ is called reverse process. Let $P^*$ denote the transition probability matrix. 
-\begin{flalign*}
-P_{ij}^*&=P(X_{n-1}=j|X_n=i)=\frac{P(X_{n-1}=j,X_n=i)}{P(X_n=i)}\\
-&=\frac{P(X_{n-1}=j)P(X_n=i|X_{n-1}=j)}{P(X_{n}=i)}\\
-&=\frac{P(X_{n-1}=j)}{P(X_{n}=i)}P_{ji}
-\end{flalign*}
-suppose we are considering a stationary Markov chain, $P(X_n=l)=P(X_{n-1}=l)=\alpha(l),~\forall l$, $\alpha(i){P^*}_{ij}=\alpha(j)(P)_{ji}$. If $P^*=P^T$ then the Markov chain is called time reversible. Thus the condition for time reversibility is given by $\alpha P_{ij}=\alpha_jP_{ji}$. Any non-negative vector $X$ satisfying $X_iP_{ij}=X_jP_{ji},~\forall i,j$ and $\sum_{j \in \mathcal{N}_0}X_j=1$ is stationary distribution of time-reversible Markov chain. This is true because,
-\begin{flalign*}
-\sum_{i} X_i P_{ij}=\sum_i X_j P_{ji}=X_j \sum X_i = 1.
-\end{flalign*}
-Since stationary probabilities are the unique solution of the above, the claim follows.\\
 
-\textbf{Example 4.7(A) An Ergodic Random Walk}: Any ergodic, positive recurrent random walk is time reversible. The transition probability matrix is $P_{i,i+1}+P_{i-1,i}=1$. For every two transitions from $i+1$ to $i$, there must be one transition from $i$ to $i+1$. The rate of transitions from $i+1$ to $i$ must hence be same as the number of transitions from $i$ to $i+1$. So the process is time reversible.
 
-\textbf{Example 4.7(B) The Metropolis Algorithm: } Let $a_j,~ j=1, \hdots m$ be positive numbers and let $A=\sum_{i=1}^{m}a_i$. Suppose that $m$ is large and $A$ is difficult to compute. One way to compute it by simulating a sequence of random variables is by generating a Markov chain whose limiting probabilities are $\pi_j$s. The Metropolis algorithm provides a convenient approach. \\
-Let $Q$ be an irreducible transition probability matrix on the integers $1, \hdots n$ such that $q_{ij}=q_{ji}$ and for all $i$ and $j$. Generate a Markov chain $\{X_n\}$ such that the transition probabilities are given by 
-\begin{flalign*}
-P_{ij} = \left\{
-     \begin{array}{lr}
-       q_{ij}\min(1,a_j/a_i) & : j \neq i\\
-       q_{ii}+\sum_{j \neq i}q_{ij}\{1-\min(1,a_j/a_i)\} & : j = i.
-     \end{array}
-   \right.
-\end{flalign*} 
-It can be directly verified that the chain is irreducible and hence verify that $\pi_j$s are the limiting probabilities.
-
-\textbf{Edge weighted graphs:} Consider a graph having a positive number $w_{ij}$ associated with each edge $(i,j)$, and suppose that a particle moves from vertex to vertex in the following manner: If the particle is presently at vertex  $i$ then it will next move to vertex $j$ with probability
-\begin{equation*}
-P_{ij}=\frac{w_{ij}}{\sum_{j}w_{ij}}
-\end{equation*}
-where $w_{ij}$ is 0 if $(i,j)$ is not an edge of the graph. The Markov chain describing the sequence of vertices visited by the particle is called a random walk on an edge weighted graph. 
-\begin{prop}
-Consider a random walk on an edge weighted graph witha finite number of vertices. If this Markov chain is irreducible then it is, in steady state, time reversible with stationary probabilities given by 
-\begin{equation*}
-\alpha_i = \frac{\sum_{i}w_{ij}}{\sum_{j}\sum_{i}w_{ij}}.
-\end{equation*}
-\end{prop}
-\begin{proof}
-The time reversibility equation
-\begin{equation*}
-\alpha_iP_{ij}=\alpha_{j}P_{ji}
-\end{equation*}
-reduces to 
-\begin{equation*}
- \frac{\alpha_i w_{ij}}{\sum_{k}w_{ik}}=\frac{\alpha_j w_{ji}}{\sum_{k}w_{jk}}
-\end{equation*}
-But noting that $w_{ij}=w_{ji}$ and $\sum_{i}\alpha_i = 1$, we get the desired result.
- 
-\end{proof}
-\subsubsection*{Necessary condition for time reversibility}
-If we try to prove the equations necessary for time reversibility, $X_iP_{ij}=X_jP_{jk}$ for all $i,j$, for any arbitrary Markov chain, one may not end up getting any solution. This is so because, if $P_{ij}P_{jk}>0$, then $\frac{X_i}{X_k}=\frac{P_{ji}P_{kj}}{P_{jk}P_{ij}} \neq \frac{P_{kj}}{P_{jk}}$.\\
-Thus we see that a necessary condition for time reversibility is $P_{ij}P_{jk}P_{ki}=P_{ik}P_{kj}P_{ji},~ \forall i,j,k$. In fact we can show the following.
-\begin{thm}
-A stationary Markov chain is time reversible if and only if starting in state $i$
-, any path back to state $i$ has the same probability as the reversed path, for all $i$. That is, if
-\begin{flalign*}
-P_{i i_1}P_{i_1 i_2}\hdots P_{i_k i}=P_{i,i_k}P_{i_k i_{k-1}} \hdots P_{i_1,i}.
-\end{flalign*} 
-\end{thm}
-\begin{proof}
-The proof of necessity is as indicated above. To see the sufficiency part, fix states $i,j$
-\begin{flalign*}
-&\sum_{i_1,i_2,\hdots i_{k}}P_{ii_1}\hdots P_{i_k,j}P_{j,i}=\sum_{i_1,i_2,\hdots i_{k}}P_{i,j}P_{j,i_k}\hdots P_{i_1 i}\\
-&(P^k)_{ij}P_{ji}=P_{ij}(P^k)_{ji}\\
-&\frac{\sum_{k=1}^{n}(P^k)_{ij}P_{ji}}{n}= \frac{\sum_{k=1}^{n}P_{ij}(P^k)_{ji}}{n}
-\end{flalign*}
-As limit $n \rightarrow \infty$, we get the desire result.
-\end{proof}
-
-\begin{thm}
-Consider irreducible Markov chain with transition matrix $P$. If one can find non-negative vector $\alpha$ and other transition matrix $P^*$ such that $\sum_j \alpha_j =1$ and $\alpha_iP_{ij}=\alpha_jP^*_{ji}$ then $\alpha$ is the stationary probability vector and $P^*$ is the transition matrix for the reversed chain.
-\end{thm}
-\begin{proof}
-Summing $\alpha_iP_{ij}=\alpha_jP_{ji}^*$ over $i$ gives, $\sum_{i}\alpha_iP_{ij}=\alpha_j$. Hence $\alpha_i$s are the stationary probabilities of the forward and reverse process. Since $P_{ji}^*=\frac{\alpha_iP_{ij}}{\alpha_j}$, $P_{ij}^*$ are the transition probabilities of the reverse chain.
-\end{proof} 
-
-\subsection{Example 4.7(E): Example 4.3(C) revisited}
-Example 4.3(C) was with regard to the age of a renewal process. $X_n$ the forward process there was such that it increases in steps of 1 until it hits a value chosen by the inter arrival distribution. Hence the reverse process should be such that it decreases in steps of 1 until it hits 1 and then jumps to a state as chosen by the inter arrival distribution. Thus letting $\pi_i$ as the probability of inter arrival, it seems likely that  $P_{1i}*=\pi_i, ~ P_{i,i-1}=1,~ i > 1$. We have that $P_{i,1}=\frac{\pi_i}{\sum_{j \geq 1}\pi_j}=1-P_{i,i+1}, ~ i \geq 1$. For the reversed chain to be given as above, we would need 
-\begin{flalign*}
-&\alpha_i P_{ij}=\alpha_j P_{ji}^*\\
-&\alpha_i \frac{\pi_i}{\sum_j \pi_j}=\alpha_1 \pi_i\\
-&\alpha_i=\alpha_1 P(X \geq i)\\
-&1=\sum_i \alpha_i=\alpha_1 E[X]; \alpha_i=\frac{P(X \geq i)}{E[X]}, 
-\end{flalign*}
-where $X$ is the inter arrival time. We need to verify that $\alpha_i P_{i,i+1}=\alpha_{i+1}P^*_{i+1,i}$ or equivalently $P(X \geq i)(1-\frac{\pi_i}{P(X \geq i)})=P(X \geq i)$ to complete the proof that the reversed process is the excess process and the limiting distributions are as given above. But that is immediate.
 \subsection{Semi Markov Processes}
 Consider a stochastic process with states $0,1,2 \hdots$ such that whenever it enters state $i$,
 \begin{enumerate}
