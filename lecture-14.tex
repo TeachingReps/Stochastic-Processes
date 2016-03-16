@@ -17,9 +17,16 @@ We define the \textbf{transition probability} from state $i$ at time $s$ to stat
 \begin{align*}
 P_{ij}(s, s+t) = \Pr\{X(s+t) = j | X(s) = i\}.
 \end{align*}
+\end{defn}
+\begin{defn}
 The Markov process has \textbf{homogeneous} transitions if $P_{ij}(s,s+t) = P_{ij}(0,t)$ for all $i,j \in I, s,t \geqslant 0$ and we denote the transition probability by $P_{ij}(t)$. 
-
-This continuous Markov process with homogenous jump transition probabilities is referred to as \textbf{continuous time Markov process (CTMC)}.
+This continuous Markov process with homogeneous jump transition probabilities is referred to as \textbf{continuous time Markov chain (CTMC)}. 
+\end{defn}
+\begin{defn}
+A distribution $\pi$ is an \textbf{equilibrium distribution} of a Markov process if
+\begin{align*}
+\pi P(t) &= \pi,~~ \forall t \geqslant 0. 
+\end{align*}
 \end{defn}
 
 \subsection{Sojourn Times and Jump Transitions}
@@ -29,13 +36,23 @@ To this end, we define sojourn times in any state and and jump transition probab
 \begin{defn}
 \textbf{Sojourn time} of a stochastic process $\{X(t), t \geqslant 0\}$ is defined by
 \begin{align*}
-\tau_i \triangleq \{t \geqslant 0: X(t) \neq i|X(0)=i\}, i \in I. 
+\tau_i \triangleq \inf\{t \geqslant 0: X(t) \neq i|X(0)=i\}, i \in I. 
+\end{align*}
+\end{defn}
+\begin{defn}
+\textbf{Jump times} of a stochastic process $\{X(t), t \geqslant 0\}$ are defined by
+\begin{xalignat*}{3}
+&S_n \triangleq \inf\{t \geqslant 0: X(t) \neq X(S_{n-1})\},&& S_0 = 0. 
+\end{xalignat*}
+We can define a discrete time process $\{X^J(n): n \in \N_0\}$ called \textbf{jump process} from continuous time stochastic process $\{X(t): t \geqslant 0\}$ by
+\begin{align*}
+X^J(n) = X(S_n). 
 \end{align*}
 \end{defn}
 \begin{defn}
 \textbf{Jump transition probabilities} of a stochastic process $\{X(t), t \geqslant 0\}$ are defined by
 \begin{align*}
-p_{ij}(\tau_i) \triangleq \Pr\{X(\tau_i)  = j | X(0) =  i \}, ~i,j \in I.
+p_{ij}(n) \triangleq \Pr\{X(S_n)  = j | X(S_{n-1}) =  i \}, ~i,j \in I.
 \end{align*}
 \end{defn}
 \begin{lem}\label{Lemma:MemorylessSojourn}
@@ -54,13 +71,12 @@ For any stochastic process, jump transition probabilities $p_{ij}(\tau_i)$ add t
 \begin{proof}
 It follows from simple law of total probability.
 \end{proof}
-We could sample the homogenous Markov process at sojourn times and study the resulting DTMC. 
-
+%We could sample the homogenous Markov process at sojourn times and study the resulting DTMC. 
 \subsection{Alternative construction of CTMC}
 \begin{prop} A stochastic process $\{X(t) \in I, t \geqslant 0 \}$ is a CTMC iff 
 \begin{enumerate}[a.]
 \item sojourn times are independent and identically distributed with an exponential distribution with rate $\nu_i$, and 
-\item jump transition probabilities $p_{ij}(\tau_i) = $ are independent of $\tau_i$, such that $\sum_{i \neq j}p_{ij}=1$.
+\item jump transition probabilities $p_{ij}(\tau_i)$ are independent of $\tau_i$, such that $\sum_{i \neq j}p_{ij}=1$.
 \end{enumerate}
 \end{prop}
 \begin{proof}
@@ -70,13 +86,18 @@ To this end, we observe
 \begin{align*}
 \{ X(u) = i, u \in [0,s] \} = \{ \tau_i > s \}.
 \end{align*}
-Hence, we can write
+Hence, we can write for small $t > 0$, 
 \begin{align*}
 \Pr\{ X(t+s) = j | X(u) = i, u \in [0,s] \} 
 %&= \frac{\Pr\{ X(t+s) = j, \tau_i \in (s, s+t) \}}{\Pr\{\tau_i > s\}}\\
-&= %\int_s^{s+t} 
-\sum_{k \neq i}\frac{\Pr\{ X(t+s) = j, \tau_i \in (s,s+t), X(\tau_i) = k \}}{\Pr\{\tau_i > s\}}\\
-&= \int_0^{t}\sum_{k \neq i}\Pr\{ X(t+s) = j| X(u+s) = k\} p_{ik} e^{-\nu_iu}du.
+&= \int_0^{t}\frac{\Pr\{\tau_i = s+u\}\Pr\{\tau_j > t-u\}}{\Pr\{\tau_i > s\}}p_{ij} + o(t).
+%\sum_{k \neq i}\frac{\Pr\{ X(t+s) = j, \tau_i \in (s,s+t), X(\tau_i) = k \}}{\Pr\{\tau_i > s\}}\\
+%&= \int_0^{t}\sum_{k \neq i}\Pr\{ X(t+s) = j| X(u+s) = k\} p_{ik} e^{-\nu_iu}du.
+\end{align*}
+Since $\tau_i$'s are independent and memoryless, it follows that
+\begin{align*}
+\Pr\{ X(t+s) = j | X(u) = i, u \in [0,s] \} 
+&= \Pr\{X(t) = j | X(0) = i\}, ~~\forall s, t \geqslant 0.
 \end{align*}
 \end{proof}
 \begin{rem}
