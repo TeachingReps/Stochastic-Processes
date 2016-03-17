@@ -1,0 +1,40 @@
+\documentclass[a4paper,english,11pt]{article}
+\input{../header}
+
+
+\title{Throughput-Optimal Scheduling in Wireless Systems with QoE (Quality of Experience) Constraints}
+\author{Kishan P. B. and B. A. Shenoy}
+\date{ }
+ 
+ \textheight = 650pt
+ \voffset = -35pt
+ 
+ 
+ 
+\begin{document}
+\maketitle
+
+\subsection*{Motivation:}
+We intend to obtain a good scheduling policy which enhances quality of experience for users in the context of video streaming from a broadcasting agency such as YouTube.
+
+
+\subsection*{Model:}
+We consider a network consisting of one base station and $N$ number of users requesting data (video data) from the base station. We restrict analysis to the case where there are two types of users. Type 1 users are time-sensitive, that is, they are disturbed by the buffering time of the video, and quality insensitive, that is, they are fine with lower resolution video. Type 2 users are quality sensitive but time-insensitive. The adaptive allocation of the rate by the base station for the users is modeled as follows. Suppose there are $K$ users of type 1, and $N-K$ users of type 2. Let $\{Q_i(t)\}, i \in \{1,2,\cdots ,N \}$ be the packets in the buffers at the base station at time $t$, $\{A_i(t)\} , i \in \{1,2,\cdots, N \}$ be the arrival process at the buffers, and $\{D_i(t)\}, i \in \{1,2,\cdots ,N \}$ be the departure/service process. Let $\{c_i(t)\}, i \in \{1,2,\cdots ,N \}$ be the channel between the base station and the users. We assume that $c_i(t) \in \{0,1,\cdots,L\}$. Type 1 users reject service whenever the waiting time crosses $T_0$ and leave the system incurring a cost of $\alpha({T_i}) , i \in \{1,2,\cdots,K \}$, where $T_i$ are the instants at which the $i^{\text{th}}$ user leaves the system. Type 2 users reject service whenever the rate provided is below $R$ for some $R \in \{0,1,\cdots, L\}$, but are ready to wait for any amount of time.
+
+
+
+
+
+
+\subsection*{Problem Statement:}
+We address the problem of obtaining a scheduling policy $\pi:\left(\begin{array}{c}{\bf{Q}}\\\bf{c}\end{array}\right) \to \{1,2,\cdots, N\}$ such that the cost $\mathbb{E}\{\sum_{i=1}^K \alpha_i(T_i)\}$ is minimized subject to the stability condition 
+\begin{flalign*}
+\underset{T\to \infty}{\mathrm{lim~sup}} ~\frac{1}{T} \sum_{t=0}^{T-1} \mathbb{E}\{\sum_{i=1}^N Q_i(t) \} < \infty.
+\end{flalign*}
+
+We further study the stability region of this model. We explore whether the constraints can be relaxed for the same stability region for other scheduling policies. We also hope to address other related issues.
+\subsection*{Timeline:}
+We intend to analyse the case where $N=2$ and $K=1$ by the end of March, 2016 and extend it to the general case by the second week of April, 2016. 
+
+
+\end{document}
