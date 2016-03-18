@@ -1,0 +1,41 @@
+\documentclass[a4paper,english,11pt]{article}
+\input{header}
+
+%opening
+\title{\textbf{SPQT Project Proposal\\Design and analysis of algorithms for the Supermarket Model}}
+\author{Sanidhay Bhambay \\ Mohammadi Zaki \\ Rajeev H. B.}
+
+\begin{document}
+\maketitle
+\section{Motivation}
+\textit{Load balancing} is the act of distributing jobs among the set of processors as evenly as possible. This has various applications in real life. For example, load balancing is crucial in scenarios such as call centers where the dispatcher has to continuously assign the calls to  employees such that there is as even distribution of work as possible. \textit{Randomized} schemes for load balancing turn out to be simple and efficient \textit{asymptotically}. This kind of \textit{Dynamic}(where there are arrivals and departures of jobs to and from the system) Randomized Load Balancing models are called the \textit{Supermarket Models} \cite{Balaji}. Hence, we want to design and the analyze efficient strategies to schedule the arriving jobs with the aim of reducing the idle time of the servers with minimal induced complexity.      
+\section{System Model}
+We are concerned with system with $N$ servers with $N$ corresponding queues, where $N$ can be extremely large. Such situations arise in many general scenarios. The most basic strategy to assign jobs to servers so as to balance the load among the servers would be to pick uniformly at random among the $N$ servers and assign the job to the picked server. This strategy requires minimum coordination between the servers and the dispatcher. On the other hand one of the most popular strategies(which also turn out to be optimal) is join the shortest queue (JSQ strategy) which requires maximum coordination on the dispatcher's end \cite{Mitzenmacher}.  
+\section{Problem Statement}
+We want to come up with strategies which  require only some  minimal allowed  coordination between the servers and the dispatchers and but should help improve the efficiency of the system as compared to the baseline.
+\section{Plan}
+We would want to analyze and simulate the following strategies for the supermarket model in increasing order of complexities.
+\begin{itemize}
+\item Baseline algorithm which suggests placing of jobs uniformly randomly among the servers.
+\item If suppose the dispatcher can have the information of the index of the last relieved server, then the dispatcher can assign the job to the last relieved server.
+\item If suppose the dispatcher can have the information of the index of the last $D$ relieved server, then the dispatcher can follow a JSQ policy on the set of $D$ servers.     
+\end{itemize} 
+\section{Timeline}
+\begin{center}
+\begin{tabular}{|c|c|}
+\hline
+Date & Work \\ \hline
+15/03 -23/03 & Read the existing literature on methods solving Supermarket models \cite{Balaji} \cite{Mitzenmacher}  \\ \hline
+24/03 -04/04 & Theoretical analysis of the mentioned algorithms \\ \hline
+05/04 -10/04 & Numerical simulations of the mentioned algorithms \\ \hline
+11/04 - 16/04 & Compiling results \\ \hline
+\end{tabular}
+\end{center}
+
+\begin{thebibliography}{10}
+\bibitem{Balaji}
+Bramson, Maury, Yi Lu, and Balaji Prabhakar. ``Asymptotic independence of queues under randomized load balancing." \textit{Queueing Systems} 71.3 (2012): 247-292.
+\bibitem{Mitzenmacher}
+M. Mitzenmacher, ``The power of two choices in randomized load balancing," Ph.D. dissertation, Univ. Calif, Berkeley, 1996.
+\end{thebibliography}
+\end{document}

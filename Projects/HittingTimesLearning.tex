@@ -1,0 +1,32 @@
+% !TEX spellcheck = en_US
+% !TEX spellcheck = LaTeX
+\documentclass[a4paper,10pt,english]{article}
+\input{header}
+\title{\textbf{SPQT PROJECT PROPOSAL}\\ Online Learning of Hitting Time of Markov Chains}
+\author{Chandramouli K}
+\begin{document}
+\maketitle
+\section{Motivation}
+\par The function of communication channels is history dependent in general.
+It is common to model communication channels using Markov Chains. In this scenario learning
+hitting times can result in fast transmition by detecting active channels.
+Further learning hitting times has applications in stabilizing queues with applications to 
+parking etc. 
+
+\section{System model/Problem Statement}
+There are $N$ channels each modeled as a Markov chain. 
+The goal of the project is to find the Markov chain that hits state 1 quickly. 
+We plan to model this as a multi-armed bandit problem and modify and apply existing algorithms to
+this framework
+\section{Timeline}
+\begin{center}
+\begin{tabular}{|c|c|c|}
+\hline
+Week Number & Date & Work \\ \hline
+1 & 13/03 -26/03 & Read the existing literature on methods solving Markov bandits  \\ \hline
+2 & 27/03 -09/04 & Implement the methods for our framework \\ \hline
+3 & 10/04 - 16/04 & Compiling results \\ \hline
+\end{tabular}
+\end{center}
+
+\end{document}
