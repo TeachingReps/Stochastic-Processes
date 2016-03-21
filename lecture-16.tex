@@ -250,8 +250,14 @@ Also, it's easy to check that $\pi Q^{\ast} = 0$.
 %\end{lem}
 \begin{lem} A stationary Markov process with generator matrix $Q$ is reversible if the reverses process follows the same probabilistic law as the original process, i.e. $Q^*= Q$. Any non-negative vector $\pi$ satisfying $\pi_iQ_{ij}=\pi_jQ_{ji},~\forall i,j \in I$ and $\sum_{j \in I}\pi_j=1$ is stationary distribution of this Markov process. 
 \end{lem}
-
-
+%\begin{proof} Let $\pi$ be a stationary distribution of  Since $Q^{\ast}_{ij} = \frac{\pi_j}{\pi_i}Q_{ji}$ and the condition for time reversibility is given by $\pi_i Q_{ij}=\pi_jQ_{ji}$. This is true because,
+%
+%It is clear that $\pi$ is an equilibrium distribution of forward Markov process, since
+%\begin{align*}
+%\sum_{i} \pi_i Q_{ij}=\sum_i \pi_j Q_{ji}=\pi_j \sum \alpha_i = 1.
+%\end{align*}
+%Since stationary probabilities are the unique solution of the above, the claim follows.
+%\end{proof}
 %\begin{proof} The condition for time reversibility is given by $\alpha_i P_{ij}=\alpha_jP_{ji}$. This is true because,
 %\begin{align*}
 %\sum_{i} \alpha_i P_{ij}=\sum_i \alpha_j P_{ji}=\alpha_j \sum \alpha_i = 1.
@@ -259,16 +265,16 @@ Also, it's easy to check that $\pi Q^{\ast} = 0$.
 %Since stationary probabilities are the unique solution of the above, the claim follows.
 %\end{proof}
 
-%\begin{thm}
-%Let $Q$ denote the rate matrix for an irreducible Markov process. If we can find $Q^*$ of the same size as $Q$ and a vector $\pi \geq 0$ such that $\sum_i \pi_i =1$ and 
-%\begin{align*}
-%\pi_{i}Q_{ij} =\pi_jQ_{ji}^*, ~ i \neq j,
-%\end{align*} and
-%\begin{align*}
-%\sum_{j \neq i}Q_{ij}=\sum_{j \neq i}Q_{ij}^*, i \geq 0,
-%\end{align*} 
-%then $Q^*$ is the rate matrix for the reversed Markov chain and $\pi_i$ are the limiting probabilities for both  chains.
-%\end{thm}
+\begin{thm}
+Let $Q$ denote the rate matrix for an irreducible Markov process. If we can find $Q^*$ of the same size as $Q$ and a vector $\pi \geq 0$ such that $\sum_i \pi_i =1$ and 
+\begin{align*}
+\pi_{i}Q_{ij} =\pi_jQ_{ji}^*, ~ i \neq j,
+\end{align*} and
+\begin{align*}
+\sum_{j \neq i}Q_{ij}=\sum_{j \neq i}Q_{ij}^*, i \geq 0,
+\end{align*} 
+then $Q^*$ is the rate matrix for the reversed Markov chain and $\pi_i$ are the limiting probabilities for both  processes.
+\end{thm}
 %\begin{proof}
 %Exercise.
 %\end{proof}
