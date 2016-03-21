@@ -13,7 +13,7 @@ A stochastic process $\{X_n, n \in \mathbb{N}_0\}$, where $X_n \in \mathcal{S}$,
 \[\forall i_0, i_1,\cdots i_{n-1}, i,j \in \mathcal{S}, \quad \forall n \in \mathbb{N}_0\]
 \end{defn}
 
-If $p_{ij}^{(n)} = p_{ij}$ for every $n$ then we say the DTMC is homogeneous. Henceforth we shall only work with homogeneous DTMCs. 
+If $p_{ij}^{(n)} = p_{ij}$, \textit{i.e.,} $\mathbb{P}[X_{n+1}=j|X_n=i]$ does not depend on $n$ for every $n$ then we say the DTMC is homogeneous. Henceforth we shall only work with homogeneous DTMCs. 
 
 \begin{defn}[Transition Probability Matrix]
   $\{p_{ij}\}$ are called transition probabilities as they define the
@@ -51,13 +51,23 @@ Define
 \[p_{ij}^{(n)} = P[X_{n+m} = j | X_m = i] \quad \forall m \in \mathbb{N},\quad i,j \in \mathcal{S}\]
 Then we have by conditioning and the Markov property
 \[ p_{ij}^{(m+n)} = \sum_{k \in \mathcal{S}} p_{ik}^{(m)}p_{kj}^{(n)} \]
-
+\begin{proof}
+\begin{flalign*}
+p_{ij}^{(n+m)} =  & P[X_{n+m} = j| X_0 = i]\\
+=& \sum_{k \in \mathcal{S}} P[X_{n+m} = j,X_m=k| X_0 = i]\\
+=& \sum_{k \in \mathcal{S}}  P[X_{n+m} = j|X_m=k, X_0 = i].P[X_m=k|X_0=i]\\
+=& \sum_{k \in \mathcal{S}}  P[X_{n+m} = j|X_m=k].P[X_m=k|X_0=i]\\
+=& \sum_{k \in \mathcal{S}}  P[X_{n} = j|X_0=k].P[X_m=k|X_0=i]\\
+=& \sum_{k \in \mathcal{S}}  p_{ik}^{(m)}p_{kj}^{(n)}.\\
+\end{flalign*}
+The third equality is just using the property of conditional expectation. The fourth equality is by using the Markov property and the fifth equality is by the time homogeneity of the DTMC.
+\end{proof}
 If $P$ is the TPM, this result may be compactly written as $P^{(n)} = P^n$. As a result, $p_{ij}^{(n)} = P^n(i,j)$.
 
 \subsection{Strong Markov Property (SMP)}
-Let $T$ be an integer valued stopping time. Then a process $X_n$ that satisfies
-\[P[X_{T+1} = j|X_{T} = i, \cdots,X_0 =i_0] = P[X_{T+1} = j|X_{T} = i]\]
-is said to possess the strong Markov property (SMP). Markov chains, for instance, satisfy them (hence the name). Let $X_n$ be a DTMC. Then
+Let $T$ be an integer valued stopping time with respect to the stochastic process $\{X_n,n\geq 0\}$ such that $\mathbb{P}[T<\infty]=1$. Then the process $X_n$ that satisfies the \textit{Strong Markov Property} (SMP) \textit{if},
+\[P[X_{T+1} = j|X_{T} = i, \cdots,X_0 =i_0] = P[X_{T+1} = j|X_{T} = i] \quad \forall j,i,\ldots,i_0 \in \mathcal{S} \quad or \quad \mathbb{N}_0\]
+Markov chains, for instance, satisfy them (hence the name). Let $X_n$ be a DTMC. Then
 \begin{flalign*}
 &P[X_{T+1} = j|X_{T} = i, \cdots, X_0 =i_0] \\
 &= \sum_{n \in \mathbb{N}_0}  P[X_{T+1} = j, T=n|X_{T} = i, \cdots, X_0 =i_0] \\
@@ -65,7 +75,18 @@ is said to possess the strong Markov property (SMP). Markov chains, for instance
 &= \sum_{n \in \mathbb{N}_0} p_{ij} P[T=n|X_{T} = i, \cdots, X_0 =i_0] \\
 &= p_{ij}
 \end{flalign*}
-As an exercise, try to find a random variable $T$ for which the SMP does not hold. A useful application of the SMP is as follows. Let $i_0$ be a fixed state. Let $\tau_n$ denote the time at which the DTMC visits $i_0$ for the nth time. Then $\{X_{\tau_n + m}: \quad m \in \mathbb{N}_0\}$ is a stochastic replica of $\{X_m:\quad m \in \mathbb{N}_0\}$ with $X_0 = i_0$ and can be studied as such.
+As an exercise, if we try to use the Markov property on arbitrary random variable $T$, the SMP may not hold. For example, define $T$ which is not a stopping time like,
+\[T=\inf \{n \geq 0|X_{n+1}=s,\]
+then,
+\begin{equation*}
+\mathbb{P}[X_{T+1}=s|X_T=i,X_{T-1}=j]=
+\begin{cases}
+1,\quad if \, p_{is}>0\\
+0, \quad if \, p_{is}=0,\\
+\end{cases}
+\neq  \mathbb{P}[X_1=s|X_0=i].
+\end{equation*}
+A useful application of the SMP is as follows. Let $i_0$ be a fixed state. Let $\tau_n$ denote the time at which the DTMC visits $i_0$ for the nth time. Then $\{X_{\tau_n + m}: \quad m \in \mathbb{N}_0\}$ is a stochastic replica of $\{X_m:\quad m \in \mathbb{N}_0\}$ with $X_0 = i_0$ and can be studied as such.
 
 \section{Communicating classes}
 \begin{defn}
@@ -116,12 +137,34 @@ A few remarks:
 A state $j$ is recurrent iff
 \[\sum_{k=1}^\infty p_{jj}^{(k)} = \infty\]
 \end{prop}
-Try to prove the above.
+\begin{proof}
+$[\Rightarrow]$ We begin with the idea that
+\begin{flalign*}
+p_{ii}^{(k)}=&\mathbb{P}_i[X_k=i]\\
+=& \mathbb{E}_i[\mathbbm{1}\{X_k=i\}].
+\end{flalign*}
+Then, assuming that the infinite summation can be pushed inside the expectation 
+\[\sum_{k=1}^{\infty}p_{ii}^{(k)}=\mathbb{E}_i\Big[\sum_{k=1}^{\infty}\mathbbm{1}\{X_k=i\}\Big].\]
+Thus, $\sum_{k=1}^\infty p_{jj}^{(k)}$ represents the expected number of times we return to a state $j$ starting from state $j$, which we know to be equal to $\infty$ if the state is recurrent from remark (2).\\\\
+$[\Leftarrow]$ For the reverse argument we will show that if $\sum_{k=1}^{\infty}p_{ii}^{(k)}<\infty$ then the state $i$ will be transient, which should suffice to prove our claim. First we observe that for a transient state $j$, if $M_j$ is the number of visits to the state $j$, then
+\[P[M_j=m|X_0=j]=f_{jj}^m(1-f_{jj}).\] 
+This is true because the time of the $k^{th}$ visit to the state $j$ is a stopping time $\forall k \in \mathbb{N}$. Hence the probabilities will multiply. Hence starting from state $j$ we visit the state $j$ with probability $f_{jj}$. Moreover, we visit the state $j$ exactly $m$ number of times (and no more) with probability $f_{jj}^m(1-f_{jj}).$\\
+Hence now again if we calculate the expected number of times the state $j$ is visited starting from state $j$ can be calculated by the following elementary exercise.
+\begin{flalign*}
+\mathbb{E}_j[M_j=m|X_0=j]= & \sum_{m=1}^{\infty}mf_{jj}^m(1-f_{jj})\\
+=&\frac{f_{jj}}{(1-f_{jj})}\\
+=&
+\begin{cases}
+\infty \quad if \quad f_{jj}=1 \Leftrightarrow j \quad  recurrent,\\
+C<\infty \quad if \quad f_{jj} \neq 1 \Leftrightarrow j \quad transient.
+\end{cases}
+\end{flalign*}
+\end{proof}
 \begin{prop}
 Transience and recurrence are class properties.
 \end{prop}
 \begin{proof}
-Let us start with proving recurrence is a class property. Let $i$ be a recurrent state and let $i \iff j$. Hence for some $m,n >0$, $p_{ij}^{(m)} > 0$ and $p_{ji}^{(n)}>0$. As a consequence of the recurrence, $\sum_{s \in \mathbb{N}_0} p_{ii}^{(s)} = \infty$. Now
+Let us start with proving recurrence is a class property. Let $i$ be a recurrent state and let $i \iff j$. Hence there exist some $m,n >0$, such that $p_{ij}^{(m)} > 0$ and $p_{ji}^{(n)}>0$. As a consequence of the recurrence, $\sum_{s \in \mathbb{N}_0} p_{ii}^{(s)} = \infty$. Now
 \begin{flalign*}
 \sum_{s \in \mathbb{N}_0} p_{jj}^{(m+n+s)} &\geq \sum_{s \in \mathbb{N}_0} p_{ji}^{(n)} p_{ii}^{(s)} p_{ij}^{(m)} \\
 &\geq \infty
@@ -134,12 +177,12 @@ Hence $j$ is recurrent. Now, if $i$ were transient instead, we have
 Hence $j $ is transient.
 \end{proof}
 \begin{cor}
-If $j$ is recurrent, then for any state $i$, $f_{ij} = 1$.
+If $j$ is recurrent, then for any state $i$ such that $i\Leftrightarrow j$, $f_{ij} = 1$.
 \end{cor}
 \section{Limit Theorems}
-Let $N_j(t)$ denote the number of transitions into state $j$ by time $t$. If $j$ recurrent and $X_0 = j$ then $N_j(t)$ is a renewal process with interarrival distribution $\{f_{jj}^{(n)}\}_{n \geq 1}$. 
+Let $N_j(t)$ denote the number of transitions into state $j$ up to time $t$. If $j$ recurrent and $X_0 = j$ then $N_j(t)$ is a renewal process with interarrival distribution, \[\{\mathbb{P}[interarrival\, time =n]\}_{n\geq 1}=\{f_{jj}^{(n)}\}_{n \geq 1}.\] 
 
-If $X_0 = i$, $i \iff j$ and $j$ is recurrent, then $N_j(t)$ is a
+If $X_0 = i \neq j$, $i \iff j$ and $j$ is recurrent, then $N_j(t)$ is a
 delayed renewal process with first interarrival distribution
 $\{f_{ij}^{(n)}\}_{n \geq 1}$.
 
@@ -159,8 +202,8 @@ Hence from Renewal Theory, we have the following results. If $i \iff j$ then
       \lim_{n \to \infty} \frac{\E[N_j(n)] }{n} =
       \frac{1}{\mu_{jj}}\]
 
-	\item If $j$ is aperiodic, then \[ \lim_{n \to \infty} p_{ij}^{(n)} = \lim_{n \to \infty} \E[\# \mbox{ renewals at $n$}]  = \frac{1}{\mu_{jj}}\]
-	\item If $j$ is periodic with period $d$, then \[ \lim_{n \to \infty} p_{jj}^{(nd)}= \lim_{n \to \infty} \E[\# \mbox{ renewals at $nd$}] = \frac{d}{\mu_{jj}}.\]
+	\item If $j$ is aperiodic (\textit{i.e.,} $d(j)=1$), then \[ \lim_{n \to \infty} p_{ij}^{(n)} = \lim_{n \to \infty} \E[\# \mbox{ renewals at $n$}]  = \frac{1}{\mu_{jj}}\]
+	\item If $j$ is periodic with period $d$, then \[ \lim_{n \to \infty} p_{ij}^{(nd)}= \lim_{n \to \infty} \E[\# \mbox{ renewals at $nd$}] = \frac{d}{\mu_{jj}}.\]
 \end{enumerate}
 
 \section{Positive and Null recurrence}
@@ -172,22 +215,23 @@ where d is the period of state $j$. Then $\pi_j > 0$ if and only if $j$ is posit
 Positive recurrence and null recurrence are class properties.
 \end{prop}
 \begin{defn}
-An aperiodic positive recurrent state is also called \textbf{ergodic}.
+An state that is aperiodic and positive recurrent is called \textbf{ergodic}.
 \end{defn}
 
 \begin{defn}
   A probability distribution $\{\pi_j\}_{j \in \mathbb{N}_0}$ is said to
-  be \textbf{stationary} for the DTMC if
-\[\pi_j = \sum_{k \in \mathbb{N}_0} \pi_k p_{kj} \quad \forall j \in \mathbb{N}_0\]
+  be \textbf{stationary} for the DTMC if $\forall j \in \mathbb{N}_0$
+\[\pi_j = \sum_{k \in \mathbb{N}_0} \pi_k p_{kj}\]
 More compactly, $\pi$ is stationary if $\pi = \pi P$ where $P$ is the TPM.
 \end{defn}
 
-A thing to note is that if we start the DTMC with the stationary distribution, the distribution remains the same throughout the chain. That is, if we started the chain with $X_0 \sim \pi$ where $\pi$ is the stationary distribution, we would have for every $n \geq 1$, $X_n \sim \pi$. Moreover since $X_n$ is a DTMC, we have $X_n, X_{n+1}, ... X_{n+m}$ have the same joint distribution. Hence it is a stationary process.
+A thing to note is that if we start the DTMC with the stationary distribution, the distribution remains the same throughout the chain. That is, if we started the chain with $X_0 \sim \pi$ where $\pi$ is the stationary distribution, we would have for every $n \geq 1$, $X_n \sim \pi$. Moreover since $X_n$ is a DTMC, we have $X_n, X_{n+1}, ... X_{n+m}$ have the same joint distribution. Hence it is a stationary process. More precisely,
+\[(X_1,\ldots,X_s)\sim(X_{t+1},\ldots,X_{t+s}) \quad \forall t \geq 0.\]
 
 \begin{thm}[Classification of DTMCs]
   An irreducible aperiodic DTMC is of one of the following two types:
 \begin{enumerate}
-	\item All states are transient or null recurrent, in which case \[\lim_{n \to \infty} p_{ij}^{(n)} = 0 \quad \forall i,j \in \mathbb{N}_0\] and there exists no stationary distribution.
+	\item All states are either transient or null recurrent, in which case \[\lim_{n \to \infty} p_{ij}^{(n)} = 0 \quad \forall i,j \in \mathbb{N}_0\] and there exists no stationary distribution.
 	\item All states are positive recurrent (the DTMC is ergodic), wherein
           \[ \pi_j := \lim_{n \to \infty} p_{ij}^{(n)} > 0 \quad
           \forall i,j \in \mathbb{N}_0.\]
@@ -213,24 +257,25 @@ A thing to note is that if we start the DTMC with the stationary distribution, t
   first part of the theorem.  \\
 
   For the second part, assume that all states are positive recurrent
-  and, thus, $\pi_j := \lim_{n \to \infty} p_{ij}^{(n)} > 0$. We will
+  and, thus, $\pi_j := \lim_{n \to \infty} p_{ij}^{(n)} =\frac{1}{\mu_{jj}}> 0$. We will
   show that $\pi$ is a stationary distribution for the DTMC and that
   it is unique. Observe that
   $\sum_{j=0}^Mp_{ij}^{(n)} \leq \sum_{j \in \mathbb{N}_0}p_{ij}^{(n)}
   = 1$
   for any fixed $M$.  Taking limits as $n \to \infty$ and then
-  $M \to \infty$ on both sides yields
-\[\sum_{j=0}^\infty \pi_j \leq 1.\]
+  $M \to \infty$ on both sides yields \[\sum_{j=0}^M \lim_{n \to \infty}p_{ij}^{(n)} \leq 1\]
+\[\Rightarrow\sum_{j=0}^\infty \pi_j \leq 1.\]
 Now we have, 
 \begin{flalign*}
 p_{ij}^{(n+1)} &= \sum_{k \in \mathbb{N}_0} p_{ik}^{(n)}p_{kj}  \\
 \Rightarrow \quad \lim_{n \to \infty}p_{ij}^{(n+1)} &= \lim_{n \to \infty}\sum_{k \in \mathbb{N}_0} p_{ik}^{(n)}p_{kj} \\
 &\geq \lim_{n \to \infty}\sum_{k =0}^M p_{ik}^{(n)}p_{kj} \quad \mbox{(for any $M$)}\\
 \Rightarrow \pi_j &\geq \sum_{k=0}^M \pi_k p_{kj} \quad \mbox{(by DCT)}\\
-\Rightarrow \pi_j &\geq \sum_{k \in \mathbb{N}_0} \pi_k p_{kj}. \quad \mbox{($M \to \infty$)}
+\Rightarrow \pi_j &\geq \sum_{k \in \mathbb{N}_0} \pi_k p_{kj}. \quad \mbox{($M \to \infty$)}\\
+\Rightarrow \pi &\geq  \pi P.
 \end{flalign*}
 To show equality, suppose that the inequality above is strict for some
-state in $\N_0$. Then, observe that
+state $j$ in $\N_0$. Then, observe that
 \[ \sum_{j \in \mathbb{N}_0} \pi_j > \sum_{j \in \mathbb{N}_0} \sum_{k
   \in \mathbb{N}_0} \pi_k p_{kj} = \sum_{k \in \mathbb{N}_0} \pi_k
 \sum_{j \in \mathbb{N}_0} p_{kj} = \sum_{k \in \mathbb{N}_0} \pi_k\]
