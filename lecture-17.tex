@@ -73,6 +73,18 @@ Consider irreducible Markov chain with transition matrix $P$. If one can find no
 Summing $\alpha_iP_{ij}=\alpha_jP_{ji}^*$ over $i$ gives, $\sum_{i}\alpha_iP_{ij}=\alpha_j$. Hence $\alpha_i$s are the stationary probabilities of the forward and reverse process. Since $P_{ji}^*=\frac{\alpha_iP_{ij}}{\alpha_j}$, $P_{ij}^*$ are the transition probabilities of the reverse chain.
 \end{proof} 
 
+\begin{thm}
+Let $Q$ denote the rate matrix for an irreducible Markov process. If we can find $Q^*$ of the same size as $Q$ and a vector $\pi \geq 0$ such that $\sum_i \pi_i =1$ and for $i \neq j \in I$, we have
+\begin{align*}
+\pi_{i}Q_{ij} =\pi_jQ_{ji}^*, \text{ and } &
+\sum_{j \neq i}Q_{ij} =\sum_{j \neq i}Q_{ij}^*,
+\end{align*} 
+then $Q^*$ is the rate matrix for the reversed Markov chain and $\pi_i$ are the limiting probabilities for both  processes.
+\end{thm}
+%\begin{proof}
+%Exercise.
+%\end{proof}
+\subsection{Jackson Network}
 Consider a system of $k$ servers. To each server, customers arrive from outside the system, according to Poisson$(r_i)$. Once a customer is served at server $i$, the customer joins server $j$ with probability $P_{ij}$, $\sum_{i}P_{ij} \leq 1$. The probability of the customer departing the system is $1-\sum_{j}P_{ij}$. If we denote $\lambda_i$ as the total rate at which the customers join $i$, then $\lambda_i$s can be obtained as a solution to,
 \begin{align*}
 \lambda_j=r_j+\sum_{i=1}^{k}\lambda_i P_{ij},~ j=1, \hdots k.
