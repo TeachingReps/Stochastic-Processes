@@ -7,7 +7,7 @@
 \begin{document}
 \maketitle
 \section{Martingales}
-A martingale is a type of stochastic process whose definition formalizes the concept of a fair game.
+%A martingale is a type of stochastic process whose definition formalizes the concept of a fair game.
 \begin{defn}
 A stochastic process $\{Z_n,~n \in \N \}$ is said to be a \textbf{martingale} if 
 \begin{enumerate}
@@ -240,26 +240,25 @@ The result is a direct consequence of Jensen's inequality.
 \E[f(Z_n)|Z_1, \hdots Z_n] &\geq f(\E[Z_{n+1}|Z_1, \hdots Z_n])=f(Z_n).
 \end{align*}
 \end{proof}
-\begin{thm}[Kolmogorov's inequality for submartingales] If $\{Z_n,~ n \geq 1\}$ is a martingale, then
+\begin{thm}[Kolmogorov's inequality for submartingales] If $\{Z_n,~ n \in \N \}$ is a submartingale, then
 \begin{equation*}
 \Pr\{\max\{Z_1,Z_2 \hdots Z_n\}>a\}\leq \frac{\E[Z_n]}{a},~ \text{for}~ a>0.
 \end{equation*}
 \end{thm}
 \begin{proof}
-Let $N$ be the smallest value of $i$,~ $i \leq n$, such that $Z_i >a$, and define it to equal $n$ if $Z_i \leq a$ for all $i=1, \hdots n$. Note that $\max\{Z_1 \hdots Z_n\}>a$ is equivalent to $Z_N>a$. Therefore,
-\begin{eqnarray*}
-\Pr(\max\{Z_1 \hdots Z_n\}>a)&=\Pr(Z_N>a)\\
-&\stackrel{(*)}{\leq} \frac{\E[Z_N]}{a}\\
-&\leq  \frac{\E[Z_n]}{a},
-\end{eqnarray*}
-where the last inequality follows from Lemma \ref{StoppingTimeBound} as $N \leq n$ and $(*)$ follows from Markov's inequality.
+Let $N = \min\{i \in [n]: Z_i >a\} \wedge n$. %, and define it to equal $n$ if $Z_i \leq a$ for all $i=1, \hdots n$. 
+Then, $\{\max\{Z_1 \hdots Z_n\}>a\} = \{Z_N > a\}$. Since $N \leq n$, from Markov inequality, we have
+\begin{align*}
+\Pr\{\max\{Z_1 \hdots Z_n\}>a\}&=\Pr\{Z_N>a\} \leq \frac{\E[Z_N]}{a} \leq  \frac{\E[Z_n]}{a}.
+\end{align*}
+%where the last inequality follows from Lemma \ref{StoppingTimeBound} as $N \leq n$ and $(*)$ follows from Markov's inequality.
 \end{proof}
 \begin{cor}
 \label{MartingaleBoundCor}
 Let $\{Z_n,~n \geq 1\}$ be a martingale. Then, for $a>0$:
 \begin{enumerate}
-\item $\Pr(\max\{|Z_1|, \hdots |Z_n|>a\}) \leq \E[|Z_n|]/a$;
-\item $\Pr(\max\{|Z_1|, \hdots |Z_n|>a\}) \leq \E[Z_n^2]/a^2$.
+\item $\Pr\{\max\{|Z_1|, \hdots |Z_n|\}>a\} \leq \E[|Z_n|]/a$;
+\item $\Pr\{\max\{|Z_1|, \hdots |Z_n|\}>a\} \leq \E[Z_n^2]/a^2$.
 \end{enumerate} 
 \end{cor}
 \begin{proof}
