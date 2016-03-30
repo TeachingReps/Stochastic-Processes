@@ -3,7 +3,7 @@
 \documentclass[a4paper,10pt,english]{article}
 %\uspackage{tfrupee}
 \input{header}
-\title{Lecture 19: Random Walks}
+\title{Lecture 21: Exchangeability}
 \author{}
 \begin{document}
 \maketitle
@@ -71,259 +71,53 @@ Let $\Lambda$ denote a random variable having distribution $G$. Let $X$ be a seq
 \end{align*}
 which is symmetric in $(x_1, \ldots x_n)$. %The are not independent.
 \end{exmp}
-\begin{thm}
-(De Finetti's Theorem) To every infinite sequence of random variables $X_1, X_2 \hdots $ taking values either $0$ or $1$, there corresponds a probability distribution $G$ on $[0,1]$ such that, for all $0 \leq k \leq n$,
-\begin{equation*}
-\label{De Finetti}
-Pr(X_1=X_2= \hdots X_k =1, X_{k+1}= \hdots X_n = 0)= \int_{0}^{1}\lambda^k(1-\lambda)^{n-k}dG(\lambda).
-\end{equation*}  
+\begin{thm}[de Finetti's Theorem] If $X$ is an exchangeable sequence of random variables then conditioned on $\mathcal{E}$, each random variable $X_i$ in the sequence is iid.
 \end{thm}
-\begin{proof}
-Let $m \geq n $.
-\begin{eqnarray*}
-&Pr(X_1 = X_2 \hdots X_k =1, X_{k+1}= \hdots X_n 0 )\\
-&=\sum_{j=0}^{m}Pr(X_1=\hdots X_k=1, X_{k+1}= X_{n}=0|S_m=j)Pr(S_m=j)\\
-&=\sum_{j} \frac{j(j-1) \hdots (j-k+1)(m-j)(m-j-1) \hdots (m-j-(n-k)+1) }{m(m-1) \hdots (m-n+1)}Pr(S_m=j).
-\end{eqnarray*}
-The last equation follows by exchangeability as given $S_m=j$ each subset of size $j$ of $X_1 \hdots X_m$ is equally likely to be the one consisting of all $1'$s. Letting $S_m=mY_m$, the above equation for large $m$ is roughly equal to $E[Y_m^k(1-Y_m)^{n-k}]$, and the theorem follows letting $m \rightarrow \infty$. Indeed, from a result known as  Helly's theorem it can be shown that for some subsequence $m'$ converging to $\infty$, the distribution of $Y_m'$ will converge to a distribution $G$ and we get
-\begin{equation*}
-E[Y_{\infty}^k(1-Y_{\infty})^{n-k}] = \int_0^1 \lambda^k(1-\lambda)^{n-k}dG(\lambda).
-\end{equation*} 
+\begin{proof} Let $I_{n,k} = \{i \subseteq [n]^k: i_j \text{ distinct}\}$. Then, for a function $\phi: \R^k \to \R$, we can define
+\begin{align*}
+A_n(\phi) &= \frac{1}{(n)_k}\sum_{i \in I_{n,k}}\phi(X_{i_1}, X_{i_2}, \ldots, X_{i_k}),
+\end{align*}
+where $(n)_k = n(n-1)\ldots(n-k+1)$. Clearly, $A_n(\phi) \in \mathcal{E}_n$ measurable and hence,
+$\E[A_n(\phi)|\mathcal{E}_n] = A_n(\phi)$. Since, $X$ is exchangeable, we have
+\begin{align*}
+A_n(\phi) &= \frac{1}{(n)_k}\sum_{i \in I_{n,k}}\E[\phi(X_{i_1}, X_{i_2}, \ldots, X_{i_k})|\mathcal{E}_n] = \E[\phi(X_{1}, X_{2}, \ldots, X_{k})|\mathcal{E}_n].
+\end{align*}
+Since $\mathcal{E}_n \to \mathcal{E}$, we have 
+\begin{align*}
+\lim_{n \in \N} A_n(\phi) &= \lim_{n \in \N} \E[\phi(X_{1}, X_{2}, \ldots, X_{k})|\mathcal{E}_n] = \E[\phi(X_{1}, X_{2}, \ldots, X_{k})|\mathcal{E}] .
+\end{align*}
+Let $f$ and $g$ be bounded functions on $\R^{k-1}$ and $\R$ respectively, such that $\phi(x_1,\ldots,x_k) = f(x_1,\ldots,x_{k-1})g(x_k)$. We also define $\phi_j(x_1,\ldots,x_{k-1}) = f(x_1,\ldots,x_{k-1})g(x_j)$, to write 
+\begin{align*}
+(n)_{k-1}A_n(f)nA_n(g) &= \sum_{i \in I_{n,k-1}}f(X_{i_1}, \ldots,X_{i_{k-1}})\sum_{m}g(X_{m})\\
+&= \sum_{i \in I_{n,k}}f(X_{i_1}, \ldots,X_{i_{k-1}})g(X_{i_k}) + \sum_{i \in I_{n,k-1}}\sum_{j=1}^{k-1}f(X_{i_1},\ldots,X_{i_{k-1}})g(X_{i_j})\\
+&= (n)_kA_n(\phi) + \sum_{j=1}^k(n)_{k-1}A_n(\phi_j).
+\end{align*}
+Dividing both sides by $(n)_k$ and rearranging terms, we get
+\begin{align*}
+A_n(\phi)& = \frac{n}{n-k+1}A_n(f)A_n(g) - \frac{1}{n-k+1}\sum_{j=1}^kA_n(\phi_j),\\
+%\lim_{n\in \N}\E[f(X_1,\ldots, X_{k-1})g(X_k)| \mathcal{E}_n] &= \lim_{n \in \N} \E[f(X_1,\ldots, X_{k-1})| \mathcal{E}_n] \E[g(X_k)| \mathcal{E}_n] 
+\end{align*}
+Using above two results, theorem follows by induction.
 \end{proof}
+%\begin{thm}[de Finetti's Theorem] Every infinite sequence $X$ of random variables taking values either $0$ or $1$, there corresponds a probability distribution $G$ on $[0,1]$ such that, for all $0 \leq k \leq n$,
+%\begin{equation*}
+%\label{De Finetti}
+%Pr(X_1=X_2= \hdots X_k =1, X_{k+1}= \hdots X_n = 0)= \int_{0}^{1}\lambda^k(1-\lambda)^{n-k}dG(\lambda).
+%\end{equation*}  
+%\end{thm}
+%\begin{proof}
+%Let $m \geq n $.
+%\begin{eqnarray*}
+%&Pr(X_1 = X_2 \hdots X_k =1, X_{k+1}= \hdots X_n 0 )\\
+%&=\sum_{j=0}^{m}Pr(X_1=\hdots X_k=1, X_{k+1}= X_{n}=0|S_m=j)Pr(S_m=j)\\
+%&=\sum_{j} \frac{j(j-1) \hdots (j-k+1)(m-j)(m-j-1) \hdots (m-j-(n-k)+1) }{m(m-1) \hdots (m-n+1)}Pr(S_m=j).
+%\end{eqnarray*}
+%The last equation follows by exchangeability as given $S_m=j$ each subset of size $j$ of $X_1 \hdots X_m$ is equally likely to be the one consisting of all $1'$s. Letting $S_m=mY_m$, the above equation for large $m$ is roughly equal to $E[Y_m^k(1-Y_m)^{n-k}]$, and the theorem follows letting $m \rightarrow \infty$. Indeed, from a result known as  Helly's theorem it can be shown that for some subsequence $m'$ converging to $\infty$, the distribution of $Y_m'$ will converge to a distribution $G$ and we get
+%\begin{equation*}
+%E[Y_{\infty}^k(1-Y_{\infty})^{n-k}] = \int_0^1 \lambda^k(1-\lambda)^{n-k}dG(\lambda).
+%\end{equation*} 
+%\end{proof}
 
 
-\section{Duality in Random Walks}
-Essentially, if $X_i$ are iid, then $X_1,X_2,\cdots,X_n$ has the same joint distribution as $X_n, X_{n-1},\cdots, X_1$. The first result we shall show that if $\E[X_1] >0 $ then the random walk will become positive in finite steps. 
-\begin{prop}
-Suppose $\{X_i: i \in \N\}$ is a sequence of iid random variables with positive mean. Let $S_n = \sum_{k=1}^n X_i$. If 
-\begin{align*}N = \min \{n \in \N : S_n > 0\}\end{align*}
-Then $\E[N] < \infty$.
-\end{prop}
-\begin{proof} From duality principle we obtain that
-\begin{align*}
-\{N > n\} &= \{S_i \leq 0, i \in [n]\} = \left\{\sum_{k=0}^{i-1}X_{n-k} \leq 0, i \in [n]\right\} = \{S_n \leq S_{n-i}, i \in [n]\}.
-\end{align*}
-It follows that 
-\begin{align*}
-\E[N] &= \sum_{n \in \N_0} \Pr\{N > n\}
-%&= \sum_{n=0}^\infty P[X_1 \leq 0, X_1+X_2 \leq 0, \cdots, X_1+X_2+\cdots+X_n \leq 0]  \label{Dual1}\\
-%&= \sum_{n=0}^\infty P[X_n \leq 0, X_n+X_{n-1} \leq 0, \cdots, X_n+X_{n-1}+\cdots+X_1 \leq 0] \label{Dual2}\\
-= \sum_{n \in \N_0} \Pr\{S_n \leq S_{n-i}, i \in [n]\}.
-\end{align*}
-%Where we used the duality principle to get (\ref{Dual2}). 
-We define the renewal instants to be when random walk hits a new low. (Why are these renewal instants?) 
-Hence, $n$ is a renewal instant after $0$ if $\{S_n \leq S_i: i \in [n]\}$. Hence, we have
-\begin{align*}
-\E[N] &= \sum_{n\in \N_0}\Pr\{\text{renewal happens at time } n\} = \sum_{n \in \N_0}\Pr\{\text{inter-renewal length} \geq n\}\\
-&= 1 + \E[\text{Number of renewals that occur}]
-\end{align*}
-%
-%Now let us count a renewal at time $n$ when $S_n \leq S_{n-1},S_{n} \leq S_{n-2}, \cdots, S_n \leq 0$. Then we get
-%\begin{flalign}
-%E[N] &= \sum_{n=0}^\infty P[\mbox{renewal happens at time n}]\\
-%&= 1 + E[\mbox{No of renewals that occur}]
-%\end{flalign}
-Since $\E X > 0$, it follows from strong law of large numbers that $S_n \to \infty$. Hence, the expected number of renewals that occur is finite. Thus $\E[N] < \infty$.
-\end{proof}
-\begin{defn}
-The number of distinct values of $(S_0,\cdots, S_n)$ is called \textbf{range}, denoted by $R_n$.
-\end{defn}
-\begin{prop}
-\begin{align*} \lim_{n \in \N} \frac{\E[R_n]}{n} = \Pr\{S_n \neq 0, \forall n \in \N\}\end{align*}
-\end{prop}
-\begin{proof}
-We define indicator function 
-\begin{align*}I_k &=1_{\{S_k \neq S_{k-i}, i \in [k]\}}.\end{align*}
-Then, we can write range $R_n$ in terms of indicator $I_k$ as 
-\begin{align*}R_n = 1 + \sum_{k=1}^nI_k\end{align*}
-Let $T = \{n > 0: S_n = 0\}$. Then, $\lim_{k \in \N} \Pr\{T > k\} = \Pr\{S_n \neq 0, \forall n \in \N\}$. 
-Further, using the duality principle, we can write
-\begin{flalign}
-\E[R_n] &= 1 + \sum_{k=1}^n \Pr\{S_i\neq 0, i \in [k]\} 
-%&= 1 + \sum_{k=1}^n P[S_1 \neq 0, S_2 \neq 0, \cdots, S_k \neq 0] \\
-= \sum_{k=0}^n \Pr\{T > k\}
-\end{flalign}
-%Where $T$ is the first time the RW returns to 0. 
-Result follows by dividing both sides by $n$ and taking limits.
-\end{proof}
 
-\begin{thm}[Simple Random Walk] For a simple random walk, where $\Pr\{X_1 = 1\} = p$ the following holds
-\begin{align*}
-\lim_{n \in \N}\frac{\E[R_n]}{n} &= 
-	\begin{cases}
-2p - 1, & p > \frac{1}{2}\\
-2(1-p)-1, & p <\leq \frac{1}{2}.
-	\end{cases}
-\end{align*}
-\end{thm}
-\begin{proof}
-%Consider the simple random walk with $\Pr\{X_i = 1\} = p$. 
-When $p=\frac{1}{2}$, this random walk is recurrent and thus
-\begin{align*}
-\Pr\{\text{No Return to }0\} = 0 = \lim_{n \in \N} \frac{\E[R_n]}{n}.
-\end{align*}
-When $p > \frac{1}{2}$, let $\alpha = \Pr\{\text{return to } 0|X_1 = 1\}$. Since $\E X > 0$, we know that $S_n \to \infty$ and hence $\Pr\{\text{return to } 0|X_1 = -1\} = 1$. We can write unconditioned probability of return of random walk to $0$ as 
-\begin{align*}
-\Pr\{\text{Return to }0\} = \alpha p+ 1-p.
-\end{align*}
-Conditioning on $X_2$ yields 
-\begin{align*}
-\Pr\{S_n = 0 \text{ for some }n|X_1 = 1\} &= p\Pr\{S_n = 0 \text{ for some }n| S_2  = 2\}  + (1-p).
-%\Pr\{S_n = 0 \text{ for some }n| S_2 = 0\}\\
-\end{align*}
-Further noticing that 
-\begin{align*}
-\Pr\{S_n = 0 \text{ for some }n| S_2  = 2\} &= \alpha \Pr\{S_{n+m} = 0 \text{ for some }n| S_m = 1 \text{ for some }m \},
-\end{align*}
-we conclude $\alpha = \alpha^2 p + 1-p$. 
-Solving for $\alpha$ yields $\alpha = \frac{1-p}{p}$, and hence the result follows. We can show similarly for the case when $p < 1/2$.
-%. Thus for $p > 1/2$,
-%\begin{align*}\lim_{n \in \N}\frac{\E[R_n]}{n} = 2p-1.\end{align*}
-%Similarly, we can show for $p \leq 1/2$, we have
-%\begin{align*}\lim_{n \in \N}\frac{\E[R_n]}{n} = 2(1-p)-1.\end{align*}
-\end{proof}
-
-\begin{prop}
-In the symmetric RW $(p=1/2)$, the expected number of visits to state $k$ before returning to origin is equal to $1$ for all $k \neq 0$.
-\end{prop}
-
-\begin{proof}
-For $k>0$, let $Y$ denote the number of visits to state k before the first return to origin. Then
-\begin{align*}Y = \sum_{n=1}^\infty I_n\end{align*}
-where
-\begin{align*}I_n = \left\{ \begin{array}{cl}
-	1& \mbox{ if a visit is made to state k at time n and}\\
-	& \mbox{there is no return to origin before n}\\
-	0 & \mbox{ else}
-\end{array}\right.\end{align*} 
-Thus
-\begin{flalign}
-E[Y] &= \sum_{n=1}^\infty P[S_n > 0, S_{n-1}> 0, \cdots, S_1>0, S_n = k]\\
-&= \sum_{n=1}^\infty P[X_1+X_2 +\cdots X_n > 0, X_2+X_3+\cdots +X_n> 0, \cdots, X_n>0, S_n = k]\\
-&= \sum_{n=1}^\infty P[S_n > 0, S_n > S_1, \cdots, S_n > S_{n-1}, S_n=k] \\
-&= \sum_{n=1}^\infty P[\mbox{Symmetric RW hits k for first time at time n}] \\
-&= P[\mbox{Symmetric RW ever hits k}] = 1 \mbox{ due to recurrence}
-\end{flalign}
-\end{proof}
-\subsection{ GI/GI/1 Queueing Model}
-Consider a $GI/GI/1$ queue. Customers arrive in accordance with a renewal process having an arbitrary interarrival distribution  $F$, and the service distribution is $G$. Let the interarrival times be $X_1,~X_2 \hdots $ and let the service times be $Y_1,~Y_2 \hdots$ and let $D_n$ denote the delay in queue of the $n^\text{th}$ arrival. The following recursion for  $D_n$ is easy to verify:
-
-\begin{displaymath}
-   D_{n+1} = \left\{
-     \begin{array}{lr}
-       D_n+Y_n-X_{n+1} & ~\text{if}~ D_n+Y_n \geq X_{n+1} \\
-       0 & ~\text{if}~ D_n+Y_n <X_{n+1}
-     \end{array}
-   \right.
-\end{displaymath}
-Let $U_n \equiv Y_n-X_{n+1},~ n \geq 1$,
-\begin{equation*}
-D_{n+1}=\max\{0,D_n+U_n\},~ n \geq 0.
-\end{equation*}
-Iterating the above relation yields
-\begin{eqnarray*}
-D_{n+1}&=\max\{0,D_n+U_n\}\\
-&=\max\{0,U_n+\max\{0,D_{n-1}+U_{n-1}\}\}\\
-&=\max\{0,U_n,U_n+U_{n-1}+D_{n-1}\}\\
-\vdots
-&=\max\{0,U_n,U_n+U_{n-1}, \hdots U_n+U_{n-1}+\hdots U_1\},
-\end{eqnarray*}
-where in the last step we have used the fact that $D_1=0$. Hence, for $c>0$,
-\begin{eqnarray*}
-Pr(D_{n+1} \geq c )&=Pr(\max\{0,U_n,U_n+U_{n-1}, \hdots , U_n+ \hdots +U_1\} \geq c)\\
-&=Pr(\max\{0,U_1,U_2+U_{1}, \hdots , U_1+ \hdots +U_n\} \geq c),
-\end{eqnarray*}
-where the last equality follows from duality. Thus the following proposition holds.
-\begin{prop}
-\label{prop_gigi1}
-If $D_n$ is the delay in the queue of the $n^\text{th}$ customer in a GI/GI/1 queue with interarrival times $X_i,~ i \geq 1$, and service times $_i,~ i \geq 1$ then
-\begin{equation}
-\label{GIGI1_prop_eqn}
-Pr(D_{n+1} \geq c) = Pr(\text{the random walk}~ S_j,~ j \geq 1,~\text{crosses}~ c~ \text{by time}~ n ),
-\end{equation}
-where 
-\begin{equation*}
-S_j=\sum_{i=1}^{j}(Y_i-X_{i+1}).
-\end{equation*}
-\end{prop}
-From Proposition \ref{prop_gigi1} that $Pr(D_{n+1} \geq c)$ is nondecreasing in $n$. Let
-\begin{equation*}
-Pr(D_{\infty} \geq c)=\lim_{n \rightarrow \infty}Pr(D_{n} \geq c),
-\end{equation*}
-we have from \ref{GIGI1_prop_eqn}
-\begin{equation}
-\label{random_walk_gigi1}
-Pr(D_{\infty} \geq c) = Pr(\text{the random walk}~ S_j,~ j \geq 1,~\text{ever crosses}~ c).
-\end{equation}
-If $E[U]=E[Y]-E[X]$ is positive, then by Strong Law of Large Numbers (SLLN) the random walk will converge to positive infinity with probability 1. Hence,
-\begin{equation*}
-Pr(D_{\infty} \geq c) =1,~ \forall c ~\text{if}~ E[Y]>E[X].
-\end{equation*}
-The above will also be true when $E[Y]=E[X]$ and hence we get that $E[Y]< E[X]$ will imply the existence of a stationary distribution.\\
-Let $M_n=\max\{0,S_1,S_2 \hdots S_n\},~ n \geq 1$. We have the following proposition.
-\begin{prop}
-\textbf{Spitzer's Identity}
-\begin{equation*}
-E[M_n]= \sum_{k=1}^{n} \frac{1}{k} E[S_k^+].
-\end{equation*}
-\end{prop}
-\begin{proof}
-We represent $M_n$ as 
-\begin{equation*}
-M_n=1_{\{S_n>0\}}M_n+1_{\{S_n \leq 0\}}M_n.
-\end{equation*}
-Consider first $1_{S_n>0}M_n$.
-\begin{equation*}
-1_{\{S_n>0\}}M_n= 1_{\{S_n>0\}}\max_{1\leq i \leq n}S_i = 1_{\{S_n>0\}}(X_1+\max\{0,X_2,\hdots X_2+\hdots +X_n\})
-\end{equation*}
-Taking expectation,
-\begin{equation}
-\label{sptiz_1}
-E[1_{\{S_n>0\}}M_n]= E [ 1_{\{S_n>0\}} X_1 ]+ E[ 1_{\{S_n>0\}} \max\{0,X_2,\hdots X_2+\hdots +X_n\}].
-\end{equation}
-The joint distribution of $X_1, \hdots X_n$ and $X_n,X_1, \hdots X_{n-1}$ are the same. 
-\begin{equation}
-\label{sptiz_2}
- E[ 1_{\{S_n>0\}} \max\{0,X_2,\hdots X_2+\hdots +X_n\}]=E[1_{\{S_n >0\}}M_{n-1}].
-\end{equation}
-Since $X_i,S_n$ has the same joint distribution for all $i$,
-\begin{equation*}
-E[S_n1_{\{S_n>0\}}]=E[\sum_{i=1}^{n}X_i 1_{\{S_n>0\}}]=nE[X_11_{\{S_n>0\}}].
-\end{equation*}
-Hence,
-\begin{equation}
-\label{sptiz_3}
- E[X_11_{\{S_n>0\}}]=\frac{1}{n}=E[S_n 1_{\{S_n>0\}}] =\frac{1}{n}E[S_n^+].
-\end{equation}
-From equations \ref{sptiz_1}, ~\ref{sptiz_2}, ~ \ref{sptiz_3}, we have that
-\begin{equation*}
-E[1_{\{S_n>0\}}M_n]=E[1_{\{S_n>0\}}M_{n-1}]+\frac{1}{n}E[S_n^+].
-\end{equation*}
-Also, $S_n \leq 0$ implies that $M_n=M_{n-1}$, it follows that
-\begin{equation*}
-1_{\{S_n\leq 0\}}M_n=1_{\{S_n\leq 0\}}M_{n-1}.
-\end{equation*}
-Thus,
-\begin{equation*}
-E[M_n]=E[M_{n-1}]+\frac{1}{n}E[S_n^+].
-\end{equation*}
-Upon recursion, we get
- \begin{equation*}
-E[M_n]= \sum_{k=2}^{n} \frac{1}{k} E[S_k^+]+E[M_1].
-\end{equation*}
-\end{proof}
-Since, $M_1 =S_1^+$, the result follows. From Proposition \ref{prop_gigi1}, with $M_n=\max\{0,S_1,\hdots S_n\}$
- \begin{equation*}
-Pr(D_{n+1} \geq c) = Pr(M_n \geq c).
-\end{equation*}
-Hence,
- \begin{equation*}
-E[D_{n+1}]=E[M_n].
-\end{equation*}
-From Spitzer's identity we see that
- \begin{equation*}
-E[D_{n+1}]= \sum_{k=1}^{n} \frac{1}{k}E[S_k^+].
-\end{equation*}
-
-%\subsection{Some Remarks Concerning Exchangeable Random Variables}
 \end{document}
