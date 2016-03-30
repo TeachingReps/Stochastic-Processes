@@ -2,314 +2,249 @@
 % !TEX spellcheck = LaTeX
 \documentclass[a4paper,10pt,english]{article}
 \input{header}
-\title{Lecture 18 : Martingales}
+\title{Lecture 17: Queueing Networks}
 \author{}
 \begin{document}
 \maketitle
-\section{Martingales}
-%A martingale is a type of stochastic process whose definition formalizes the concept of a fair game.
-\begin{defn}
-A stochastic process $\{Z_n,~n \in \N \}$ is said to be a \textbf{martingale} if 
-\begin{enumerate}
-\item $\E[|Z_n|]< \infty$, ~ \text{for all}~ n.
-\item $\E[Z_{n+1}|Z_1,Z_2, \hdots Z_n]=Z_n$.
-\end{enumerate}
-If the equality in second condition is replaced by $\leq$ or $\geq$, then the process is called \textbf{supermartingale} or \textbf{submartingale}, respectively.
-\end{defn}
-\begin{rem} Taking expectation on both sides of part 2 of the above definition, we get $\E[Z_{n+1}]=\E[Z_n]$, and hence $\E[Z_{n+1}]=\E[Z_1]$, for all $n$.
-\end{rem}
-\begin{exmp}[Simple random walk]
-Let $\{X_i\}$ be a sequence of independent random variables with mean $0$. Let $Z_n=\sum_{i=1}^n X_i$. Then, $\{Z_n,~n \in \N \}$ is a martingale. This is so because, $\E[Z_n]=0$ and 
-\begin{align*}
-\E[Z_{n+1}|Z_1,Z_2 \hdots Z_n] =\E[Z_{n}+X_{n+1}|Z_1,Z_2 \hdots Z_n]
-%&=\E[Z_{n}|Z_1,Z_2 \hdots Z_n]+\E[X_{n+1}|Z_1,Z_2 \hdots Z_n]\\
-&=Z_n.
-\end{align*} 
-\end{exmp}
-\begin{exmp}
-Let $\{X_i\}$ be a sequence of independent random variables with mean $1$. Let $Z_n=\Pi_{i=1}^n X_i$. Then, $\{Z_n,~n \in \N \}$ is a martingale. This is so because, $\E[Z_n]=1$ and 
-\begin{align*}
-\E[Z_{n+1}|Z_1,Z_2 \hdots Z_n] =\E[Z_{n}X_{n+1}|Z_1,Z_2 \hdots Z_n]
-%&=Z_n\E[X_{n+1}|Z_1,Z_2 \hdots Z_n]\\
-%&=Z_n\E[X_{n+1}]\\
-&=Z_n.
-\end{align*} 
-\end{exmp}
-\begin{exmp}[Branching Process] 
-Let $\{X_n\}$ be a branching process. Let $X_0=1$. Then,
-\begin{equation*}
-X_n = \sum_{i=1}^{X_{n-1}}Z_i,
-\end{equation*}
-where $Z_i$ represents the number of offspring of the $i^{\text{th}}$ individual of the $(n-1)^{\text{st}}$ generation. conditioning on $X_{n-1}$ yields, $\E[X_n]= \mu^n$ where $\mu$ is the mean number of offspring per individual. Then $\{Y_n = X_n / \mu^n: n \in \N\}$ is a martingale because $\E[Y_n]= 1$ and 
-\begin{align*}
-\E[Y_{n+1}|Y_1, \hdots Y_n] %&= \frac{1}{\mu^{n+1}}\E[X_{n+1}|Y_1, \hdots Y_n]\\
-&= \frac{1}{\mu^{n+1}}\E[\sum_{i=1}^{X_{n}}Z_i|Y_1, \hdots Y_n]
-%&=  \frac{1}{\mu^{n+1}}X_{n}\E[Z_i]
-= \frac{X_n}{\mu^n}=Y_n.
-\end{align*}
-\end{exmp}
-\begin{exmp} [Doob's Martingale]
-Let $X,Y_1,Y_2 \hdots$ be arbitrary random variables such that $\E[|X|]< \infty$. Then
-\begin{equation*}
-Z_n =\E[X|Y_1,Y_2, \hdots Y_n]
-\end{equation*}
-is a martingale. The integrability condition can be directly verified, and
-\begin{align*}
-\E[Z_{n+1}|Y_1,Y_2, \hdots Y_n]&= \E[\E[X|Y_1,\hdots Y_{n+1}]|Y_1,\hdots Y_{n}] = \E[X|Y_1,\hdots Y_{n}]]=Z_n.
-\end{align*} 
-%Thus the result follows. The above martingale is called the Doob type martingale.
-\end{exmp}
-\begin{exmp}
-For any sequence of random variables $X_1,X_2 \hdots $, the random variables $X_i-\E[X_i|X_1 \hdots X_{i-1}]$ have zero mean. Define
-\begin{equation*}
-Z_n =\sum_{i=1}^n X_i -\E[X_i|X_1,X_2, \hdots X_{i-1}] 
-\end{equation*}
- is  a martingale provided $\E[|Z_n|]< \infty$.  To verify the same, 
- \begin{flalign*}
-\E[Z_{n+1}|Z_1 \hdots Z_n]&= \E[Z_n+X_n-\E[X_n|X_1 \hdots X_{n-1}]]\\
-&= Z_n+\E[X_n-\E[X_n|X_1 \hdots X_{n-1}]]=Z_n.\\
-\end{flalign*}
-\end{exmp}
-\subsection{Stopping Times}
-\begin{defn}The positive integer values, possibly infinite, random variable $N$ is said to be a \textbf{random time} for the process $\{Z_n\}$ if the event $\{N=n\}$ is determined by the random variables $Z_1 \hdots Z_n$. If $\Pr\{N < \infty\}=1$, then the random time $N$ is said to be a \textbf{stopping time}.  
-\end{defn}
-\begin{defn}
-Let $N$ be a random time for the process $\{Z_n\}$, then \textbf{stopped process} $\{\bar{Z}_n\}$ is defined as 
-\begin{align*}
-\bar{Z}_n = Z_n1_{\{n \leq N\}} + Z_N1_{\{n > N\}}.
-\end{align*}
-\end{defn}
-\begin{prop}
-If $N$ is a random time for the martingale $\{Z_n\}$, then the stopped process $\{\bar{Z}_n\}$ is also a martingale.
-\end{prop}
-\begin{proof}
-We claim that 
-\begin{equation*}
-\bar{Z}_n= \bar{Z}_{n-1}+1_{\{n \leq N\}}(Z_n-Z_{n-1})
-\end{equation*}
-The above equation can be directly verified by considering the two cases separately by
-\begin{align*}
-\bar{Z}_n &= 
-\begin{cases}
-Z_n & n \leq N,\\
-\bar{Z}_{n-1}=Z_N, & n > N.
-\end{cases}
-\end{align*}
-Further, since $N$ is a random time, we see that 
-\begin{align*}
-\E[\bar{Z}_{n+1}|Z_1 \hdots \bar{Z}_n] %&=\E[\bar{Z}_{n}+1_{\{n \leq N\}}(Z_n-Z_{n-1})|Z_1 \hdots \bar{Z}_n]\\
-&=\bar{Z}_{n}+1_{\{n \leq N\}} \E[(Z_n-Z_{n-1})|Z_1 \hdots \bar{Z}_n] =\bar{Z}_{n}.
-\end{align*}
-\end{proof}
-\begin{rem}
-For any martingale $\{\Z_n: n \in \N\}$, we have $\E[\bar{Z}_{n}]=\E[Z_1]$, for all $n$.  Now assume that $N$ is a stopping time. It is immediate that 
-\begin{equation*}
-\Pr\left\{\lim_{n\in \N}\bar{Z}_n = Z_N\right\} = 1.
-\end{equation*}
-\end{rem}
-But  is it true that
-\begin{equation*}
-\lim_{n \in \N}\E[\bar{Z}_n] = \E[Z_N]?
-\end{equation*}
-It so turns out that the above is true under some additional regularity constraints only. %We state the following theorem without proof.
-\begin{thm}[Martingale Stopping Theorem]
-\label{MartStopThm}
-If $N$ is a stopping time for a martingale $\{Z_n: n \in \N\}$ such that either of the following conditions is true:
-\begin{enumerate}[(i)]
-\item $N$ is bounded, 
-\item $\bar{Z}_n$ is uniformly bounded,
-\item $\E[N] < \infty$, and for some real positive $K$, we have $\sup_{n \in \N}\E[|Z_{n+1}-Z_n||Z_1 \hdots Z_n] < K$,
-\end{enumerate}
-then $Z_N$ is integrable and $\lim_{n \in \N}\E[\bar{Z}_n] = \E[Z_N]=\E[Z_1]$.
-\end{thm}
-\begin{proof} We show this is true for all three cases.
-\begin{enumerate}[(i)] 
-\item Let $K$ be the bound on $N$ then for all $n \geq K$, we have $\bar{Z}_n = \Z_N$, and hence it follows that
-\begin{align*}
-\E Z_1 = \E\bar{Z}_n &= \E Z_N, ~\forall n \geq K.
-\end{align*}
-\item Dominated convergence theorem implies the result. 
-\item Since $N$ is integrable and  
-\begin{align*} 
-\bar{Z}_n \leq |Z_1| + K N,
-\end{align*}
-we observe that $\bar{Z}_n$ is bounded by an integrable random variable, and hence result follows from dominated convergence theorem.
-\end{enumerate}
-\end{proof}
-\begin{cor}[Wald's Equation] If $N$ is a stopping time for $\{X_i,~ i \in \N\}$ \textit{iid} with $\E[|X|]< \infty$ and $\E[N]< \infty$, then
-\begin{align*}
-\E[\sum_{i=1}^{N}X_i]=\E[N]\E[X].
-\end{align*}
+
+\section{Migration Processes}
+
+\begin{cor}
+Consider an M/M/s queue with Poisson$(\lambda)$ arrivals and each server having exponential service time exp$(\mu)$ service. If $\lambda > s \mu$, then the output process in steady state is Poisson$(\lambda)$.
 \end{cor}
 \begin{proof}
-Let $\mu=\E[X]$. Then $\{Z_n = \sum_{i=1}^{n}(X_i-\mu): n \in \N\}$ is a martingale and hence from the Martingale stopping theorem, we have $\E[Z_N]=\E[Z_1]=0$. But 
-\begin{align*}
-\E[Z_N] %&= \E[\sum_{i=1}^N (X_i-\mu)]\\
-%&=\E[\sum_{i=1}^N (X_i)-N\mu)]\\
-&=\E\sum_{i=1}^N X_i- \mu\E N.
-\end{align*}
-Observe that condition $3$  for Martingale stopping theorem to hold can be directly verified. Hence the result follows. 
+Let $X(t)$ denote the number of customers in the system at time $t$. Since M/M/s process is a birth and death process, it follows from the previous proposition that $\{X(t),~t \geq 0\}$ is time reversible. Now going forward in time, the time instants at which $X(t)$ increases by 1 are the arrival instants of a Poisson process. Hence, by time reversibility, the time Points at which $X(t)$ increases by 1 when we go backwards in time also constitutes a Poisson process. But these instants are exactly the departure instants of the forward process. Hence the result.
 \end{proof}
-%\section{ Submartingales, Supermartingales and the Martingale Convergence Theorem}
-%\begin{defn}
-%A stochastic process $\{Z_n,~  n \geq 1\}$ having $\E[|Z_n|]< \infty$ for all $n$ is said to be a submartingale if
-%\begin{equation}
-%\label{Submartingale}
-%\E[Z_{n+1}|Z_1 \hdots Z_n] \geq Z_n
-%\end{equation}
-%and is said to be a supermartingale if
-%\begin{equation}
-%\label{Supermartingale}
-%\E[Z_{n+1}|Z_1 \hdots Z_n] \leq Z_n
-%\end{equation}
-%\end{defn}
-%From \ref{Submartingale}, for a submartingale
-%\begin{equation*}
-%\E[Z_{n+1}] \geq \E[Z_n]
-%\end{equation*}
-%where the inequality is reversed for a supermartingale. 
+\begin{lem}
+For an ergodic M/M/1 queue in steady state, the following are true.
+\begin{enumerate}
+\item The number of customers present in the system at time $t$ is independent of the sequence of past departures.
+\item For FCFS discipline, the waiting time spent in the system (waiting in the queue plus the service time) by a customer is independent of the departure process prior to its departure.
+\end{enumerate} 
+\end{lem} 
+\begin{proof}
+Proofs follow by looking at reversed process.
+\begin{enumerate}
+\item Since the arrival process is Poisson, the future arrivals are independent of the number of customers in the system at the current instant. Looking backwards in time, future arrivals are the past departures. Hence by time reversibility, the number of customers currently in the system are also independent of the past departures.
+\item Consider the case when a customer arrives into the system at time $T_1$. The customer leaves at time $T_2>T_1$.  Since the service discipline is assumed first come first serve and the arrival is Poisson, it is seen that the waiting time $T_2-T_1$ is independent of the customers coming after $T_1$. Looking at the reversed process, we see that $T_2-T_1$  will be independent of the arrivals after $T_2$ for the reversed process. But this is just the departure process before time $T_2$. Hence the result.
+\end{enumerate}
+\end{proof}
+
+\section{Tandem Queues}
+Time reversibility of M/M/s queues can be used to study what is called as a tandem, or sequential queueing system. For instance, consider a two server queueing system. Service time of server $i$ is distributed exponential$(\mu_i)$. Customers arrive according to a Poisson$(\lambda)$ process to the server 1. After being served at server 1, customers join server  2 for its service. Assume there is infinite waiting room at both servers. Since the departure process of server 1 is Poisson, as discussed previously, the arrival process to server 2 is also Poisson$(\lambda)$. Time reversibility concept can be used to give a much more stronger result.
+
+\begin{thm}
+For the ergodic tandem queue in steady state, the following are true.
+\begin{enumerate}
+\item The number of customers $N_1, N_2$ present at server 1 and server 2 respectively, are independent, and
+\begin{align*}
+Pr\{N_1 = n_1, N_2 = n_2)\}={\rho_1}^{n_1}(1-\rho_1){\rho_2}^{n_2}(1-\rho_2).
+\end{align*}
+\item For FCFS discipline, the waiting time at server 1 is independent of the waiting time at server 2.
+\end{enumerate}
+\end{thm}
+\begin{proof}
+Proofs follow by looking at reversed process.
+\begin{enumerate}
+\item By part 1 of previous lemma, we have that the number of customers at server 1 is independent of the past departures of server 1. But past departures are same as the arrival to server 2. Thus follows the independence of the number of customers in both servers. The formula for the joint density follows from the independence and the formula for the limiting probabilities of an M/M/1 queue. 
+\item By part 2 of the previous lemma, the waiting time of a customer at server 1 is independent of the past departures happening at server 1. But the past departures at server 1, in conjunction with the service times at server 2, determine customer's waiting time at server 2. Hence the result follows.
+\end{enumerate}
+\end{proof}
+%\subsection{Applications of the Reversed Chain to Queueing Theory}
+%The reversed chain can be quite a useful concept even when the process is not time reversible. To see this, we start with the following theorem. 
 %\begin{thm}
-%\label{Stoppingtime_theorem}
-%If $N$ is a stopping time for $\{Z_n,~ n\geq 1\}$ such that any one of the following sufficient conditions is satisfied:
-%\begin{enumerate}
-%\item $\bar{Z}_n$ is uniformly bounded, or;
-%\item $N$ is bounded, or;
-%\item $\E[N]< \infty$, and there is an $M < \infty$ such that
-%\begin{equation*}
-%\E[|Z_{n+1}-Z_n| |Z_1, \hdots Z_n]<M,
-%\end{equation*}
-%then,
-%\begin{eqnarray*}
-%\E[Z_N] \geq \E[Z_1] ~ \text {for a submartingale}\\
-%\E[Z_N] \leq \E[Z_1] ~ \text {for a supermartingale}.
-%\end{eqnarray*}
-%\end{enumerate}
+%Let $Q$ denote the rate matrix for an irreducible continuous-time Markov chain. If we can find $Q^*$ of the same size as $Q$ and a vector $P \geq 0$ such that $\sum_i P_i =1$ and 
+%\begin{align*}
+%P_{i}q_{ij}^*=P_jq_{ji}^*, ~ i \neq j,
+%\end{align*} and
+%\begin{align*}
+%\sum_{j \neq i}q_{ij}=\sum_{j \neq i}q_{ij}^*, i \geq 0,
+%\end{align*} 
+%then $Q^*$ is the rate matrix for the reversed Markov chain and $P_i$ are the limiting probabilities for both  chains.
 %\end{thm}
 %\begin{proof}
-%We claim that 
-%\begin{equation*}
-%\bar{Z}_n= \bar{Z}_{n-1}+1_{N \geq n}(Z_n-Z_{n-1})
-%\end{equation*}
-%The above equation can be directly verified by considering the two cases separately viz. 
-%\begin{enumerate}
-%\item $N \geq n$: $\bar{Z}_n=Z_n$.
-%\item $N < n:$ $\bar{Z}_{n-1}=\bar{Z}_{n}=Z_N$
-%\end{enumerate}
-%\begin{flalign*}
-%\E[\bar{Z}_{n+1}|Z_1 \hdots \bar{Z}_n]&=\E[\bar{Z}_{n}+1_{n \leq N}(Z_n-Z_{n-1})|Z_1 \hdots \bar{Z}_n]\\
-%&\stackrel{(a)}{=}\bar{Z}_{n}+1_{n \leq N} \E[(Z_n-Z_{n-1})|Z_1 \hdots \bar{Z}_n]\\
-%& \geq \bar{Z}_{n},
-%\end{flalign*}
-%where in $(a)$ we have used the fact that $N$ is a random time. Also, we have $\E[\bar{Z}_{n}]=\E[Z_1]$, for all $n$.  Now assume that $N$ is a stopping time. It is immediate that
-%\begin{equation*}
-% \bar{Z}_n \rightarrow Z_N ~ \text{w.p}~ 1.
-%\end{equation*}
-%But  is it true that
-%\begin{equation*}
-% \E[\bar{Z}_n] \rightarrow \E[Z_N] ~ \text{as n}~ \rightarrow \infty.
-%\end{equation*}
-%which gives that 
-%\begin{equation*}
-%\E[Z_N ] \geq \E[Z_1].
-%\end{equation*}
+%Exercise.
 %\end{proof}
-
-Before we state and prove martingale convergence theorem, we state some results which will be used in the proof of the theorem.
-\begin{lem}
-\label{StoppingTimeBound}
-If $\{Z_i, i \in \N \}$ is  a submartingale and $N$ is a stopping time such that $\Pr\{N \leq n\}=1$ then
-\begin{equation*}
- \E Z_1 \leq \E Z_N \leq \E Z_n.
-\end{equation*}
-\end{lem}
-\begin{proof}
-It follows from Theorem \ref{MartStopThm} that since $N$ is bounded, $\E[Z_N] \geq \E[Z_1]$. Now, since $N$ is a stopping time, we see that for $\{N = k\}$
-\begin{eqnarray*}
-\E[Z_n|Z_1, \hdots ,Z_N,N=k]&=\E[Z_n|Z_1 \hdots Z_k,N=k] = \E[Z_n|Z_1 \hdots Z_k] \geq Z_k = Z_N.
-\end{eqnarray*}
-%where $(a)$ follows from the fact that $N$ is  a stopping time. 
-Result follows by taking expectation on both sides.
-\end{proof}
-\begin{lem}
-\label{ConvexFuncSubmart}
-If $\{Z_n,n \in \N\}$ is a martingale and $f$ is a convex function, then $\{f(Z_n),n \in \N\}$ is a submartigale.
-\end{lem}
-\begin{proof}
-The result is a direct consequence of Jensen's inequality.
-\begin{align*}
-\E[f(Z_n)|Z_1, \hdots Z_n] &\geq f(\E[Z_{n+1}|Z_1, \hdots Z_n])=f(Z_n).
-\end{align*}
-\end{proof}
-\begin{thm}[Kolmogorov's inequality for submartingales] If $\{Z_n,~ n \in \N \}$ is a submartingale, then
-\begin{equation*}
-\Pr\{\max\{Z_1,Z_2 \hdots Z_n\}>a\}\leq \frac{\E[Z_n]}{a},~ \text{for}~ a>0.
-\end{equation*}
+\section{Network of Queues}
+\begin{thm}
+Consider irreducible Markov chain with transition matrix $P$. If one can find non-negative vector $\alpha$ and other transition matrix $P^*$ such that $\sum_j \alpha_j =1$ and $\alpha_iP_{ij}=\alpha_jP^*_{ji}$ then $\alpha$ is the stationary probability vector and $P^*$ is the transition matrix for the reversed chain.
 \end{thm}
 \begin{proof}
-Let $N = \min\{i \in [n]: Z_i >a\} \wedge n$. %, and define it to equal $n$ if $Z_i \leq a$ for all $i=1, \hdots n$. 
-Then, $\{\max\{Z_1 \hdots Z_n\}>a\} = \{Z_N > a\}$. Since $N \leq n$, from Markov inequality, we have
+Summing $\alpha_iP_{ij}=\alpha_jP_{ji}^*$ over $i$ gives, $\sum_{i}\alpha_iP_{ij}=\alpha_j$. Hence $\alpha_i$s are the stationary probabilities of the forward and reverse process. Since $P_{ji}^*=\frac{\alpha_iP_{ij}}{\alpha_j}$, $P_{ij}^*$ are the transition probabilities of the reverse chain.
+\end{proof} 
+
+\begin{thm}
+Let $Q$ denote the rate matrix for an irreducible Markov process. If we can find $Q^*$ of the same size as $Q$ and a vector $\pi \geq 0$ such that $\sum_i \pi_i =1$ and for $i \neq j \in I$, we have
 \begin{align*}
-\Pr\{\max\{Z_1 \hdots Z_n\}>a\}&=\Pr\{Z_N>a\} \leq \frac{\E[Z_N]}{a} \leq  \frac{\E[Z_n]}{a}.
+\pi_{i}Q_{ij} =\pi_jQ_{ji}^*, \text{ and } &
+\sum_{j \neq i}Q_{ij} =\sum_{j \neq i}Q_{ij}^*,
+\end{align*} 
+then $Q^*$ is the rate matrix for the reversed Markov chain and $\pi_i$ are the limiting probabilities for both  processes.
+\end{thm}
+%\begin{proof}
+%Exercise.
+%\end{proof}
+\subsection{Jackson Network}
+Consider a system of $k$ servers. To each server, customers arrive from outside the system, according to Poisson$(r_i)$. Once a customer is served at server $i$, the customer joins server $j$ with probability $P_{ij}$, $\sum_{i}P_{ij} \leq 1$. The probability of the customer departing the system is $1-\sum_{j}P_{ij}$. If we denote $\lambda_i$ as the total rate at which the customers join $i$, then $\lambda_i$s can be obtained as a solution to,
+\begin{align*}
+\lambda_j=r_j+\sum_{i=1}^{k}\lambda_i P_{ij},~ j=1, \hdots k.
 \end{align*}
-%where the last inequality follows from Lemma \ref{StoppingTimeBound} as $N \leq n$ and $(*)$ follows from Markov's inequality.
-\end{proof}
+The model can be analysed by continuous-time Markov chain with states $(n_1,n_2, \hdots n_k)$, where $n_i$ denotes the number of customers in server $i$. From the tandem queue results, we expect the customers at each server to be independent random variables. We are interested in knowing the the joint probability,
+\begin{align*}
+Pr(n_1,n_2 \hdots n_k)=Pr(n_1)Pr(n_2) \hdots Pr(n_k),
+\end{align*}
+where $Pr(n_i)$ is the limiting probability that there are $n_i$ customers to serve at server $i$.
+\begin{conj}
+The reversed stochastic process is a network process of the same type as original. It has Poisson arrivals from outside the system to server $i$ at rate $\lambda_i(1-\sum_jP_{ij})$ and a departure from $i$ goes to $j$ with probability $\bar{P}_{ij}$ as given by
+\begin{align*}
+\bar{P}_{ij}=\frac{\lambda_j P_{ji}}{\lambda_i}.
+\end{align*}
+The service rate is exponential $\mu_i$. In addition, the limiting probabilities satisfy
+\begin{align*}
+Pr(n_1,n_2 \hdots n_k)=Pr(n_1)Pr(n_2)\hdots Pr(n_k).
+\end{align*}
+\end{conj}
+ Consider transitions resulting from an outside arrival. Consider states $\underline{n}=(n_1,n_2 \hdots n_i, \hdots n_k)$ and $\underline{n}'=(n_1,\hdots n_i+1,\hdots n_k)$. Now
+ \begin{align*}
+ q_{n,n'}=r_i,
+ \end{align*}
+ and, if the conjecture is true,
+ \begin{align*}
+ q_{n',n}^*&=\mu_i(1-\sum_{j}\bar{P}_{ij})\\
+ &=\mu_i \frac{(\lambda_i-\sum_{j}\lambda_j {P}_{ji})}{\lambda_i}\\
+ &=\frac{\mu_i r_i}{\lambda_i}
+ \end{align*}
+ and 
+ \begin{align*}
+ P(\underline{n})=\Pi_j P_j(n_j),~ P(\underline{n}')=P_i(n_i+1)\Pi_{j \neq i}P_j(n_j).
+ \end{align*}
+ Hence, from the previous theorem, we need that
+ \begin{align*}
+  r_i \Pi_j P_j(n_j)= \frac{\mu_i r_i}{\lambda_i}\Pi_{j \neq i}P_j(n_j).
+ \end{align*} 
+ That is,
+ \begin{align*}
+ P_i(n+1)= \frac{\lambda_i}{\mu_i}P_i(n)={(\frac{\lambda_i}{\mu_i})}^{n+1}P_i(0),
+ \end{align*}
+ and using the fact that 
+ \begin{align*}
+\sum_{n=0}^{\infty}P_i(n)=1
+ \end{align*}
+ yields 
+ \begin{align*}
+P_i(n) ={(\frac{\lambda_i}{\mu_i})}^n(1-\frac{\lambda_i}{\mu_i}).
+\end{align*}
+Thus $\frac{\lambda_i}{\mu_i}< 1$ and $P_i$ must be as given before for the conjecture to be true. Now consider transitions that result from a departure from server $j$ going to server $i$. That is, let $\underline{n}=(n_1,n_2 \hdots n_i, \hdots n_k)$ and $\underline{n}'=(n_1,\hdots n_i+1,\hdots n_j+1,\hdots n_k)$, where $n_j >0$. Since
+\begin{align*}
+q_{n,n'}=\mu_j P_{ji}
+\end{align*}
+and the conjecture yields
+\begin{align*}
+q_{n,n'}^*=\mu_i \bar{P}_{ij}.
+\end{align*}
+We need to show that 
+\begin{align*}
+P(\underline{n})\mu_j P_{ji}= P(\underline{n}')\mu_i \bar{P}_{ij}
+\end{align*}
+or, equivalently,
+\begin{align*}
+\lambda_j P_{ji}=\lambda_i \bar{P}_{ij}.
+\end{align*}
+which is the definition of $\bar{P}_{ij}$.
+The last lecture ended with a conjecture on the network of queues. First we state the following theorem.
+\begin{thm}
+Assuming that $\lambda_i < \mu_i$, for all $i$, in steady state, the number of customers at service $i$ are independent and the limiting probabilities are given by
+\begin{equation*}
+Pr(n_1,n_2, \hdots n_k) = \Pi_{i=1}^{k}{(\frac{\lambda_i}{\mu_i})}^n (1-\frac{\lambda_i}{\mu_i}).
+\end{equation*}
+\end{thm}
+Also, form the reversed chain, we have the following.
 \begin{cor}
-\label{MartingaleBoundCor}
-Let $\{Z_n,~n \geq 1\}$ be a martingale. Then, for $a>0$:
-\begin{enumerate}
-\item $\Pr\{\max\{|Z_1|, \hdots |Z_n|\}>a\} \leq \E[|Z_n|]/a$;
-\item $\Pr\{\max\{|Z_1|, \hdots |Z_n|\}>a\} \leq \E[Z_n^2]/a^2$.
-\end{enumerate} 
+The process of customers departing the system from the server $i$, $i=1,2 \hdots k,$ are independent Poisson processes having respective rates $\lambda_i (1-\sum_j P_{ij} )$.
 \end{cor}
 \begin{proof}
-The proof the above statements follow from Lemma \ref{ConvexFuncSubmart} and Kolmogorov's inequality for submartingales by considering the convex functions $f(x)=|x|$ and $f(x)=x^2$. 
+We have already shown that in the reverse process, customers arrive to server $i$ from outside the system according to independent Poisson processes having rates $\lambda_i(1-\sum_{i}P_{ij}),~ i \geq 1$. Since an arrival from outside corresponds to a departure out of the system from server $i$ in the forward process, the result follows. 
 \end{proof}
-\begin{thm}[Martingale Convergence Theorem]
-\label{MartingaleConvergenceTheorem}
-If $\{Z_n,~n \geq 1\}$ is a martingale such that for some $M< \infty$
+
+
+\section{The Erlang Loss Formula}
+consider a queueing system in which there are $k$ servers and customers arrive according to a Poisson process with rate $\lambda$. If an arriving customers find all the $k$ servers the customer is lost (do not eneter the system). The service times of server are assumed to be distributed according to some general distribution $G$. Assume that $G$ has a density $g$. Let $\lambda(t)$ denote the hazard rate function. That is,
 \begin{equation*}
-\E[|Z_n|] \leq M, ~ \text{for all}~ n
+\lambda(t)=\frac{g(t)}{\bar{G}(t)}
 \end{equation*}
-then, with probability 1, $\lim_{n \rightarrow \infty}Z_n$ exists and is finite.
-\end{thm}
+is the instantaneous probability density that a $t$ unit old service will end. Assume that the states are ordered. i.e. $\underline{x}=(x_1,x_2, \hdots x_n)$, $x_1 \leq x_2 \leq \hdots x_n$, where $x_n$ denote the service time of $n^{\text{th}}$ customer ($n \leq k$). The process of successive states will be a Markov process in the sense that the conditional distribution of any future state, given the present state and all the past states, will depend only on the present. Even though the process is not a continuous-time Markov chain, we can extend and use the theory so far developed to analyse the process.
+\begin{cor}
+The reverse process is also a $k-$ server loss system with service distribution $G$ in which arrivals occur according to a Poisson process with rate $\lambda$. The state at any time represents the ordered residual service times of customers in service currently.
+\end{cor}  
 \begin{proof}
-Assume $\E[Z_n^2]< \infty$ which is stronger than $\E[|Z_n|]< \infty$ (as a consequence of Jensen's inequality). Observe that $\{Z_n^2\}$ is a submartingale (from Lemma \ref{ConvexFuncSubmart}). Thus $\E[Z_n^2]<\infty$ and is non-decreasing in $n$. Thus, as $n \rightarrow \infty$, $\E[Z_n^2]$ converges and let $\mu<\infty$ be given by $\mu=\lim_{n \rightarrow \infty}\E[Z_n^2]$.
+We shall prove the above conjecture and obtain the limiting distribution. For any state $\underline{x}=(x_1,x_2 \hdots x_i, \hdots x_n)$ and $e_i(\underline{x})=(x_1,x_2 \hdots x_{i-1},x_{i+1} \hdots x_n)$. In the original process when the state is $\underline{x}$ it will instantaneously go to $e_i(\underline{x})$ with a probability density equal to $\lambda(x_i)$. Similarly, in the reversed process, we see that if the state is $e_i(\underline{x})$, then it will instantaneously go to $\underline{x}$ if a customer having service time $x_i$ instantaneously arrives. So,
+\begin{flalign*}
+\text{Forward}:~ \underline{x} \rightarrow e_i(\underline{x})~ \text{w.p. intensity~}\lambda(x_i);\\
+\text{Reverse}:~ e_i(\underline{x}) \rightarrow ~ \underline{x} \text{with joint prob. intensity~}\lambda g(x_i).
+\end{flalign*}
+Hence if $p(\underline{x})$ represents the limiting density, in accordance with Theorem 1.5 (Lecture 14), we would need that
+\begin{equation*}
+p(\underline{x})\lambda(x_i)=P(e_i(\underline{x}))\lambda g(x_i),
+\end{equation*}
+or, since $\lambda(x_i)=g(x_i)/\bar{G}(x_i)$,
+\begin{equation*}
+p(\underline{x})=p(e_i(\underline{x}))\lambda G(x_i).
+\end{equation*}
+Letting  $i=1$ and iterating the above yields,
+\begin{flalign*}
+p(\underline{x})&=\lambda G(x_1)p(e_1(\underline{x}))\\
+=&\lambda G(x_1)\lambda G(x_2)p(e_1(e_1(\underline{x})))\\
+& \vdots\\
+&=\Pi_{i=1}^{n}\lambda \bar{G}(x_i)P(\phi),
+\end{flalign*}
+where $P(\phi)$ is the limiting probability that the system is empty. Integrating over vector $\underline{x}$ yields
+\begin{flalign*}
+Pr(n~\text{in the system})&=P(\phi)\lambda^n {\int \int \hdots \int}_{x_1 \leq x_2 \hdots x_n}\Pi_{i=1}^n\bar{G}(x_i)dx_1 dx_2 \hdots dx_n\\
+&=P(\phi)\frac{\lambda^n}{n!} {\int \int \hdots \int}_{x_1, x_2, \hdots x_n}\Pi_{i=1}^n\bar{G}(x_i)dx_1 dx_2 \hdots dx_n\\
+&=P(\phi)\frac{{(\lambda E[S])}^n}{n!}, n 1,2 \hdots k, 
+\end{flalign*}
+where $E[S]=\int \bar{G}(x) dx$ is the mean service time. Upon using the fact that
+\begin{equation*}
+P(\phi)+\sum_{n=1}^k Pr(n~\text{in the system})=1.
+\end{equation*}
+we obtain
 \begin{equation}
-\label{KolmoBound}
-\Pr(\cup_{k \leq n} \{|Z_{m+k}-Z_m|> \epsilon\} )
-\end{equation}  
-\begin{eqnarray*}
-&\stackrel{(a)}{\leq }\E[(Z_{m+n}-Z_m)^2]/\epsilon^2
-&=\E[Z_{m+n}^2-2Z_mZ_{m+n}+Z_m^2]/\epsilon^2.
-\end{eqnarray*}
-Note that 
-\begin{eqnarray*}
-\E[Z_{m+n}Z_m]&=\E[\E[Z_mZ_{m+n}|Z_m]]\\
-&=\E[Z_m\E[Z_{m+n}|Z_m]]\\
-&=\E[Z_m^2].
-\end{eqnarray*}
-From \ref{KolmoBound}, 
+\label{EquilibriumDistribution}
+ Pr(n~ \text{in the system})= \frac{ {(\lambda E[S])}^n /(n!)}{\sum_{i=0}^n {(\lambda E[S])}^i/(i!)}.
+\end{equation}
+This can be written as
 \begin{equation*}
-\Pr(\cup_{k \leq n} \{|Z_{m+k}-Z_m|> \epsilon\}) \leq \frac{\E[Z_{m+n}^2]-\E[Z_m^2]}{\epsilon^2}.
+ Pr(\underline{x})= \frac{ \lambda^n \Pi_{i=1}^n \bar{G}(x_i)}{\sum_{i=0}^n {(\lambda E[S])}^i/(i!)}.
 \end{equation*}
-Letting $n \rightarrow \infty$
+Observe that the conditional distribution of the ordered ages given that there are $n$ customers in the system is
+\begin{flalign*}
+Pr(\underline{x}|n~ \text{in the system})&=\frac{p(\underline{x}}{Pr(n~ \text{in the system})}\\
+&n! \Pi_{i=1}^{n}\frac{\bar{G}(x_i)}{E[S]}.
+\end{flalign*}
+As $\bar{G}(x)/E[S]$ is just the density of the equilibrium distribution of $G$, if the conjecture is valid, the limiting distribution of the number of customers in the sysytem depends on $G$ only through its mean and given that there are $n$ customers in the system the ages are independnet and identically distributed according to the equilibrium distribution of $G$. To complete the proof of the conjecture, we must consider the transitions of the forward process from $\underline{x}$ to $(0,\underline{x})$ when $n<k$. Now 
+\begin{flalign*}
+& \text{Forward:} \underline{x} \rightarrow (0,\underline{x}) ~\text{with instantaneous density }~ \lambda;\\
+&\text{Reverse:} (0,\underline{x})  \rightarrow  \underline{x} ~  \underline{x} ~\text{with probability  } 1.
+\end{flalign*} 
+Hence in conjunction with Theorem 1.5 (Lecture 14) we must verify that 
 \begin{equation*}
-\Pr(\cup_{k \leq 1} \{|Z_{m+k}-Z_m|> \epsilon\}) \leq \frac{\mu-\E[Z_m^2]}{\epsilon^2}.
+p(\underline{x})\lambda=p(0,\underline{x}),
 \end{equation*}
-Hence,
-\begin{equation*}
-\Pr(\cup_{k \leq n} \{|Z_{m+k}-Z_m|> \epsilon\}) \rightarrow 0 ~\text{as}~ m \rightarrow \infty.
-\end{equation*}
-Thus with probability 1, $\{Z_n\}$ will be  a Cauchy sequence, and thus $\lim_{n \rightarrow \infty}Z_n$ will exist and be finite.`
+which follows from ref{EquilibriumDistribution} since $\bar{G}(0)=1$.
 \end{proof}
+We have thus proven the following:
+\begin{thm}
+The limiting distribution of the number of customers in the system is given by
+\begin{equation}
+Pr(n ~ \text{in the system}) = Pr(n~ \text{in the system})= \frac{ {(\lambda E[S])}^n /(n!)}{\sum_{i=0}^n {(\lambda E[S])}^i/(i!)}.
+\end{equation}
+and given that there are $n$ in the system the ages (or the residual times) of these $n$ are independent and identically distributed according to the equilibrium distribution of $G$.
+\end{thm}
+The model considered is often called the Erlang loss system and \ref{EquilibriumDistribution} is called is called the Erlang loss formula. By using the reversed process, we also have the following corollary.
 \begin{cor}
-If $\{Z_n,~m \geq 0\}$ is a non-negative martingale, then, with probability 1, $\lim_{n \rightarrow \infty}Z_n$ exists and is finite.
+In Erlang loss model the departure process (including both customers completing service and those that are lost) is a Poisson process at rate $\lambda$. 
 \end{cor}
 \begin{proof}
-Since $Z_n$ is non-negative,
-\begin{equation*}
-\E[|Z_n|]=\E[Z_n]=\E[Z_1].
-\end{equation*}
+The corollary follows as in the reversed process arrivals of all customers (including that are lost) constitutes a Poisson process. 
 \end{proof}
-
 \end{document}

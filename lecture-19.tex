@@ -1,318 +1,315 @@
 % !TEX spellcheck = en_US
 % !TEX spellcheck = LaTeX
 \documentclass[a4paper,10pt,english]{article}
-%\uspackage{tfrupee}
 \input{header}
-\title{Lecture 19: Random Walks}
+\title{Lecture 18 : Martingales}
 \author{}
 \begin{document}
 \maketitle
-\section{Random Walk}
-\begin{defn} Let $\{X_i: i \in \N\}$ be \textit{iid} random variables with finite $\E[|X_1|]$. Let
-\begin{align*}
-S_n &= \sum_{k=1}^n X_i, ~~n \in \N_0.
-\end{align*}
-Then the process $\{S_n: n \in \N_0\}$ is called a \textbf{random walk}. 
-\end{defn}
-\begin{defn} A random walk is called a \textbf{simple random walk} if
-\begin{align*}
-\Pr\{X_1 = 1\} &= 1- \Pr\{X_1 = -1\}.
-\end{align*}
-\end{defn}
-\begin{rem} A simple random walk has the interpretation of the winnings of a gambler who plays a simple coin toss game and wins Rupee 1 if heads and loses Rupee 1 if tails. 
-\end{rem}
-\begin{rem} Random walks are useful in analyzing GI/GI/1 Queues, Ruin systems and even stock prices.
-\end{rem}
-
-\begin{defn} Let $X_i$ belong to probability space $(S, \mathcal{S}, \mu)$. Consider the probability space $(\Omega, \F, P)$  for process $\{X_i: i \in \N\}$ where 
-\begin{xalignat*}{5}
-&\Omega = \prod_{i \in \N} S, &&\mathcal{F} = \prod_{i \in \N}\mathcal{S},&&P = \prod_{i \in \N}\mu.
-\end{xalignat*}
-%We define $X_n(\omega) = \omega_n$
-\end{defn}
-\begin{defn} A \textbf{finite permutation} of $\N$ is a map $\pi: \N \to \N$ such that $\pi(i) \neq i$ for only finitely many $i$.
-\end{defn}
-\begin{defn} For a finite permutation $\pi$, we define $(\pi \omega)_i = \omega_{\pi(i)}$ for all $i \in \N$.
-\end{defn}
-\begin{defn} An event $A$ is \textbf{permutable} if $A = \pi^{-1}A = \{\omega \in \Omega: \pi \omega \in A\}$ for any finite permutation $\pi$.
-\end{defn}
-\begin{defn} The collection of permutable events is a $\sigma$-field called the \textbf{exchangeable} $\sigma$-field and denoted by $\mathcal{E}$.
-\end{defn}
-
-\section{Duality in Random Walks}
-Essentially, if $X_i$ are iid, then $X_1,X_2,\cdots,X_n$ has the same joint distribution as $X_n, X_{n-1},\cdots, X_1$. The first result we shall show that if $\E[X_1] >0 $ then the random walk will become positive in finite steps. 
-\begin{prop}
-Suppose $\{X_i: i \in \N\}$ is a sequence of iid random variables with positive mean. Let $S_n = \sum_{k=1}^n X_i$. If 
-\begin{align*}N = \min \{n \in \N : S_n > 0\}\end{align*}
-Then $\E[N] < \infty$.
-\end{prop}
-\begin{proof} From duality principle we obtain that
-\begin{align*}
-\{N > n\} &= \{S_i \leq 0, i \in [n]\} = \left\{\sum_{k=0}^{i-1}X_{n-k} \leq 0, i \in [n]\right\} = \{S_n \leq S_{n-i}, i \in [n]\}.
-\end{align*}
-It follows that 
-\begin{align*}
-\E[N] &= \sum_{n \in \N_0} \Pr\{N > n\}
-%&= \sum_{n=0}^\infty P[X_1 \leq 0, X_1+X_2 \leq 0, \cdots, X_1+X_2+\cdots+X_n \leq 0]  \label{Dual1}\\
-%&= \sum_{n=0}^\infty P[X_n \leq 0, X_n+X_{n-1} \leq 0, \cdots, X_n+X_{n-1}+\cdots+X_1 \leq 0] \label{Dual2}\\
-= \sum_{n \in \N_0} \Pr\{S_n \leq S_{n-i}, i \in [n]\}.
-\end{align*}
-%Where we used the duality principle to get (\ref{Dual2}). 
-We define the renewal instants to be when random walk hits a new low. (Why are these renewal instants?) 
-Hence, $n$ is a renewal instant after $0$ if $\{S_n \leq S_i: i \in [n]\}$. Hence, we have
-\begin{align*}
-\E[N] &= \sum_{n\in \N_0}\Pr\{\text{renewal happens at time } n\} = \sum_{n \in \N_0}\Pr\{\text{inter-renewal length} \geq n\}\\
-&= 1 + \E[\text{Number of renewals that occur}]
-\end{align*}
-%
-%Now let us count a renewal at time $n$ when $S_n \leq S_{n-1},S_{n} \leq S_{n-2}, \cdots, S_n \leq 0$. Then we get
-%\begin{flalign}
-%E[N] &= \sum_{n=0}^\infty P[\mbox{renewal happens at time n}]\\
-%&= 1 + E[\mbox{No of renewals that occur}]
-%\end{flalign}
-Since $\E X > 0$, it follows from strong law of large numbers that $S_n \to \infty$. Hence, the expected number of renewals that occur is finite. Thus $\E[N] < \infty$.
-\end{proof}
+\section{Martingales}
+%A martingale is a type of stochastic process whose definition formalizes the concept of a fair game.
 \begin{defn}
-The number of distinct values of $(S_0,\cdots, S_n)$ is called \textbf{range}, denoted by $R_n$.
+A stochastic process $\{Z_n,~n \in \N \}$ is said to be a \textbf{martingale} if 
+\begin{enumerate}
+\item $\E[|Z_n|]< \infty$, ~ \text{for all}~ n.
+\item $\E[Z_{n+1}|Z_1,Z_2, \hdots Z_n]=Z_n$.
+\end{enumerate}
+If the equality in second condition is replaced by $\leq$ or $\geq$, then the process is called \textbf{supermartingale} or \textbf{submartingale}, respectively.
 \end{defn}
-\begin{prop}
-\begin{align*} \lim_{n \in \N} \frac{\E[R_n]}{n} = \Pr\{S_n \neq 0, \forall n \in \N\}\end{align*}
-\end{prop}
-\begin{proof}
-We define indicator function 
-\begin{align*}I_k &=1_{\{S_k \neq S_{k-i}, i \in [k]\}}.\end{align*}
-Then, we can write range $R_n$ in terms of indicator $I_k$ as 
-\begin{align*}R_n = 1 + \sum_{k=1}^nI_k\end{align*}
-Let $T = \{n > 0: S_n = 0\}$. Then, $\lim_{k \in \N} \Pr\{T > k\} = \Pr\{S_n \neq 0, \forall n \in \N\}$. 
-Further, using the duality principle, we can write
-\begin{flalign}
-\E[R_n] &= 1 + \sum_{k=1}^n \Pr\{S_i\neq 0, i \in [k]\} 
-%&= 1 + \sum_{k=1}^n P[S_1 \neq 0, S_2 \neq 0, \cdots, S_k \neq 0] \\
-= \sum_{k=0}^n \Pr\{T > k\}
-\end{flalign}
-%Where $T$ is the first time the RW returns to 0. 
-Result follows by dividing both sides by $n$ and taking limits.
-\end{proof}
-
-\begin{thm}[Simple Random Walk] For a simple random walk, where $\Pr\{X_1 = 1\} = p$ the following holds
+\begin{rem} Taking expectation on both sides of part 2 of the above definition, we get $\E[Z_{n+1}]=\E[Z_n]$, and hence $\E[Z_{n+1}]=\E[Z_1]$, for all $n$.
+\end{rem}
+\begin{exmp}[Simple random walk]
+Let $\{X_i\}$ be a sequence of independent random variables with mean $0$. Let $Z_n=\sum_{i=1}^n X_i$. Then, $\{Z_n,~n \in \N \}$ is a martingale. This is so because, $\E[Z_n]=0$ and 
 \begin{align*}
-\lim_{n \in \N}\frac{\E[R_n]}{n} &= 
-	\begin{cases}
-2p - 1, & p > \frac{1}{2}\\
-2(1-p)-1, & p <\leq \frac{1}{2}.
-	\end{cases}
-\end{align*}
-\end{thm}
-\begin{proof}
-%Consider the simple random walk with $\Pr\{X_i = 1\} = p$. 
-When $p=\frac{1}{2}$, this random walk is recurrent and thus
-\begin{align*}
-\Pr\{\text{No Return to }0\} = 0 = \lim_{n \in \N} \frac{\E[R_n]}{n}.
-\end{align*}
-When $p > \frac{1}{2}$, let $\alpha = \Pr\{\text{return to } 0|X_1 = 1\}$. Since $\E X > 0$, we know that $S_n \to \infty$ and hence $\Pr\{\text{return to } 0|X_1 = -1\} = 1$. We can write unconditioned probability of return of random walk to $0$ as 
-\begin{align*}
-\Pr\{\text{Return to }0\} = \alpha p+ 1-p.
-\end{align*}
-Conditioning on $X_2$ yields 
-\begin{align*}
-\Pr\{S_n = 0 \text{ for some }n|X_1 = 1\} &= p\Pr\{S_n = 0 \text{ for some }n| S_2  = 2\}  + (1-p).
-%\Pr\{S_n = 0 \text{ for some }n| S_2 = 0\}\\
-\end{align*}
-Further noticing that 
-\begin{align*}
-\Pr\{S_n = 0 \text{ for some }n| S_2  = 2\} &= \alpha \Pr\{S_{n+m} = 0 \text{ for some }n| S_m = 1 \text{ for some }m \},
-\end{align*}
-we conclude $\alpha = \alpha^2 p + 1-p$. 
-Solving for $\alpha$ yields $\alpha = \frac{1-p}{p}$, and hence the result follows. We can show similarly for the case when $p < 1/2$.
-%. Thus for $p > 1/2$,
-%\begin{align*}\lim_{n \in \N}\frac{\E[R_n]}{n} = 2p-1.\end{align*}
-%Similarly, we can show for $p \leq 1/2$, we have
-%\begin{align*}\lim_{n \in \N}\frac{\E[R_n]}{n} = 2(1-p)-1.\end{align*}
-\end{proof}
-
-\begin{prop}
-In the symmetric RW $(p=1/2)$, the expected number of visits to state $k$ before returning to origin is equal to $1$ for all $k \neq 0$.
-\end{prop}
-
-\begin{proof}
-For $k>0$, let $Y$ denote the number of visits to state k before the first return to origin. Then
-\begin{align*}Y = \sum_{n=1}^\infty I_n\end{align*}
-where
-\begin{align*}I_n = \left\{ \begin{array}{cl}
-	1& \mbox{ if a visit is made to state k at time n and}\\
-	& \mbox{there is no return to origin before n}\\
-	0 & \mbox{ else}
-\end{array}\right.\end{align*} 
-Thus
-\begin{flalign}
-E[Y] &= \sum_{n=1}^\infty P[S_n > 0, S_{n-1}> 0, \cdots, S_1>0, S_n = k]\\
-&= \sum_{n=1}^\infty P[X_1+X_2 +\cdots X_n > 0, X_2+X_3+\cdots +X_n> 0, \cdots, X_n>0, S_n = k]\\
-&= \sum_{n=1}^\infty P[S_n > 0, S_n > S_1, \cdots, S_n > S_{n-1}, S_n=k] \\
-&= \sum_{n=1}^\infty P[\mbox{Symmetric RW hits k for first time at time n}] \\
-&= P[\mbox{Symmetric RW ever hits k}] = 1 \mbox{ due to recurrence}
-\end{flalign}
-\end{proof}
-\subsection{ GI/GI/1 Queueing Model}
-Consider a $GI/GI/1$ queue. Customers arrive in accordance with a renewal process having an arbitrary interarrival distribution  $F$, and the service distribution is $G$. Let the interarrival times be $X_1,~X_2 \hdots $ and let the service times be $Y_1,~Y_2 \hdots$ and let $D_n$ denote the delay in queue of the $n^\text{th}$ arrival. The following recursion for  $D_n$ is easy to verify:
-
-\begin{displaymath}
-   D_{n+1} = \left\{
-     \begin{array}{lr}
-       D_n+Y_n-X_{n+1} & ~\text{if}~ D_n+Y_n \geq X_{n+1} \\
-       0 & ~\text{if}~ D_n+Y_n <X_{n+1}
-     \end{array}
-   \right.
-\end{displaymath}
-Let $U_n \equiv Y_n-X_{n+1},~ n \geq 1$,
-\begin{equation*}
-D_{n+1}=\max\{0,D_n+U_n\},~ n \geq 0.
-\end{equation*}
-Iterating the above relation yields
-\begin{eqnarray*}
-D_{n+1}&=\max\{0,D_n+U_n\}\\
-&=\max\{0,U_n+\max\{0,D_{n-1}+U_{n-1}\}\}\\
-&=\max\{0,U_n,U_n+U_{n-1}+D_{n-1}\}\\
-\vdots
-&=\max\{0,U_n,U_n+U_{n-1}, \hdots U_n+U_{n-1}+\hdots U_1\},
-\end{eqnarray*}
-where in the last step we have used the fact that $D_1=0$. Hence, for $c>0$,
-\begin{eqnarray*}
-Pr(D_{n+1} \geq c )&=Pr(\max\{0,U_n,U_n+U_{n-1}, \hdots , U_n+ \hdots +U_1\} \geq c)\\
-&=Pr(\max\{0,U_1,U_2+U_{1}, \hdots , U_1+ \hdots +U_n\} \geq c),
-\end{eqnarray*}
-where the last equality follows from duality. Thus the following proposition holds.
-\begin{prop}
-\label{prop_gigi1}
-If $D_n$ is the delay in the queue of the $n^\text{th}$ customer in a GI/GI/1 queue with interarrival times $X_i,~ i \geq 1$, and service times $_i,~ i \geq 1$ then
-\begin{equation}
-\label{GIGI1_prop_eqn}
-Pr(D_{n+1} \geq c) = Pr(\text{the random walk}~ S_j,~ j \geq 1,~\text{crosses}~ c~ \text{by time}~ n ),
-\end{equation}
-where 
-\begin{equation*}
-S_j=\sum_{i=1}^{j}(Y_i-X_{i+1}).
-\end{equation*}
-\end{prop}
-From Proposition \ref{prop_gigi1} that $Pr(D_{n+1} \geq c)$ is nondecreasing in $n$. Let
-\begin{equation*}
-Pr(D_{\infty} \geq c)=\lim_{n \rightarrow \infty}Pr(D_{n} \geq c),
-\end{equation*}
-we have from \ref{GIGI1_prop_eqn}
-\begin{equation}
-\label{random_walk_gigi1}
-Pr(D_{\infty} \geq c) = Pr(\text{the random walk}~ S_j,~ j \geq 1,~\text{ever crosses}~ c).
-\end{equation}
-If $E[U]=E[Y]-E[X]$ is positive, then by Strong Law of Large Numbers (SLLN) the random walk will converge to positive infinity with probability 1. Hence,
-\begin{equation*}
-Pr(D_{\infty} \geq c) =1,~ \forall c ~\text{if}~ E[Y]>E[X].
-\end{equation*}
-The above will also be true when $E[Y]=E[X]$ and hence we get that $E[Y]< E[X]$ will imply the existence of a stationary distribution.\\
-Let $M_n=\max\{0,S_1,S_2 \hdots S_n\},~ n \geq 1$. We have the following proposition.
-\begin{prop}
-\textbf{Spitzer's Identity}
-\begin{equation*}
-E[M_n]= \sum_{k=1}^{n} \frac{1}{k} E[S_k^+].
-\end{equation*}
-\end{prop}
-\begin{proof}
-We represent $M_n$ as 
-\begin{equation*}
-M_n=1_{\{S_n>0\}}M_n+1_{\{S_n \leq 0\}}M_n.
-\end{equation*}
-Consider first $1_{S_n>0}M_n$.
-\begin{equation*}
-1_{\{S_n>0\}}M_n= 1_{\{S_n>0\}}\max_{1\leq i \leq n}S_i = 1_{\{S_n>0\}}(X_1+\max\{0,X_2,\hdots X_2+\hdots +X_n\})
-\end{equation*}
-Taking expectation,
-\begin{equation}
-\label{sptiz_1}
-E[1_{\{S_n>0\}}M_n]= E [ 1_{\{S_n>0\}} X_1 ]+ E[ 1_{\{S_n>0\}} \max\{0,X_2,\hdots X_2+\hdots +X_n\}].
-\end{equation}
-The joint distribution of $X_1, \hdots X_n$ and $X_n,X_1, \hdots X_{n-1}$ are the same. 
-\begin{equation}
-\label{sptiz_2}
- E[ 1_{\{S_n>0\}} \max\{0,X_2,\hdots X_2+\hdots +X_n\}]=E[1_{\{S_n >0\}}M_{n-1}].
-\end{equation}
-Since $X_i,S_n$ has the same joint distribution for all $i$,
-\begin{equation*}
-E[S_n1_{\{S_n>0\}}]=E[\sum_{i=1}^{n}X_i 1_{\{S_n>0\}}]=nE[X_11_{\{S_n>0\}}].
-\end{equation*}
-Hence,
-\begin{equation}
-\label{sptiz_3}
- E[X_11_{\{S_n>0\}}]=\frac{1}{n}=E[S_n 1_{\{S_n>0\}}] =\frac{1}{n}E[S_n^+].
-\end{equation}
-From equations \ref{sptiz_1}, ~\ref{sptiz_2}, ~ \ref{sptiz_3}, we have that
-\begin{equation*}
-E[1_{\{S_n>0\}}M_n]=E[1_{\{S_n>0\}}M_{n-1}]+\frac{1}{n}E[S_n^+].
-\end{equation*}
-Also, $S_n \leq 0$ implies that $M_n=M_{n-1}$, it follows that
-\begin{equation*}
-1_{\{S_n\leq 0\}}M_n=1_{\{S_n\leq 0\}}M_{n-1}.
-\end{equation*}
-Thus,
-\begin{equation*}
-E[M_n]=E[M_{n-1}]+\frac{1}{n}E[S_n^+].
-\end{equation*}
-Upon recursion, we get
- \begin{equation*}
-E[M_n]= \sum_{k=2}^{n} \frac{1}{k} E[S_k^+]+E[M_1].
-\end{equation*}
-\end{proof}
-Since, $M_1 =S_1^+$, the result follows. From Proposition \ref{prop_gigi1}, with $M_n=\max\{0,S_1,\hdots S_n\}$
- \begin{equation*}
-Pr(D_{n+1} \geq c) = Pr(M_n \geq c).
-\end{equation*}
-Hence,
- \begin{equation*}
-E[D_{n+1}]=E[M_n].
-\end{equation*}
-From Spitzer's identity we see that
- \begin{equation*}
-E[D_{n+1}]= \sum_{k=1}^{n} \frac{1}{k}E[S_k^+].
-\end{equation*}
-
-\subsection{Some Remarks Concerning Exchangeable Random Variables}
-\begin{defn}
-$X_1, \hdots ,X_n$ is exchangeable if $X_{i_1}, \hdots X_{i_n}$ has the same joint distribution for all permutations $(i_1,i_2 \hdots i_n)$ of $(1, \hdots ,n)$. The infinite sequence of random variables $X_1, X_2 \hdots$ is said to be exchangeable if every finite subsequence $X_1, \hdots ,X_n$ is exchangeable.
-\end{defn}
-\begin{exmp}
-Suppose balls are selected randomly, without replacement, from an urn consisting of $n$ balls of which $k$ are white. If we let
-\begin{displaymath}
-   X_1 = \left\{
-     \begin{array}{lr}
-       1 & ~\text{if}~ i^{\text{th}}~ \text{selection is white} \\
-       0 & ~\text{otherwise},
-     \end{array}
-   \right.
-\end{displaymath}
-then $X_1, \hdots X_n$ will be exchangeable but not independent. 
+\E[Z_{n+1}|Z_1,Z_2 \hdots Z_n] =\E[Z_{n}+X_{n+1}|Z_1,Z_2 \hdots Z_n]
+%&=\E[Z_{n}|Z_1,Z_2 \hdots Z_n]+\E[X_{n+1}|Z_1,Z_2 \hdots Z_n]\\
+&=Z_n.
+\end{align*} 
 \end{exmp}
 \begin{exmp}
-Let $\Lambda$ denote a random variable having distribution $G$. Given that $\Lambda= \lambda$, $X_1, X_2 \hdots$ are $iid$ with distribution $F_\lambda$. The random variables are exchangeable since
-\begin{equation*}
-Pr(X_1 \leq x_1 \hdots , X_n \leq x_n) = \int \Pi_{i=1}^nF_\lambda(x_i)dG(\lambda),
-\end{equation*}
-which is symmetric in $(x_1, \hdots x_n)$. The are not independent.
+Let $\{X_i\}$ be a sequence of independent random variables with mean $1$. Let $Z_n=\Pi_{i=1}^n X_i$. Then, $\{Z_n,~n \in \N \}$ is a martingale. This is so because, $\E[Z_n]=1$ and 
+\begin{align*}
+\E[Z_{n+1}|Z_1,Z_2 \hdots Z_n] =\E[Z_{n}X_{n+1}|Z_1,Z_2 \hdots Z_n]
+%&=Z_n\E[X_{n+1}|Z_1,Z_2 \hdots Z_n]\\
+%&=Z_n\E[X_{n+1}]\\
+&=Z_n.
+\end{align*} 
 \end{exmp}
-\begin{thm}
-(De Finetti's Theorem) To every infinite sequence of random variables $X_1, X_2 \hdots $ taking values either $0$ or $1$, there corresponds a probability distribution $G$ on $[0,1]$ such that, for all $0 \leq k \leq n$,
+\begin{exmp}[Branching Process] 
+Let $\{X_n\}$ be a branching process. Let $X_0=1$. Then,
 \begin{equation*}
-\label{De Finetti}
-Pr(X_1=X_2= \hdots X_k =1, X_{k+1}= \hdots X_n = 0)= \int_{0}^{1}\lambda^k(1-\lambda)^{n-k}dG(\lambda).
-\end{equation*}  
+X_n = \sum_{i=1}^{X_{n-1}}Z_i,
+\end{equation*}
+where $Z_i$ represents the number of offspring of the $i^{\text{th}}$ individual of the $(n-1)^{\text{st}}$ generation. conditioning on $X_{n-1}$ yields, $\E[X_n]= \mu^n$ where $\mu$ is the mean number of offspring per individual. Then $\{Y_n = X_n / \mu^n: n \in \N\}$ is a martingale because $\E[Y_n]= 1$ and 
+\begin{align*}
+\E[Y_{n+1}|Y_1, \hdots Y_n] %&= \frac{1}{\mu^{n+1}}\E[X_{n+1}|Y_1, \hdots Y_n]\\
+&= \frac{1}{\mu^{n+1}}\E[\sum_{i=1}^{X_{n}}Z_i|Y_1, \hdots Y_n]
+%&=  \frac{1}{\mu^{n+1}}X_{n}\E[Z_i]
+= \frac{X_n}{\mu^n}=Y_n.
+\end{align*}
+\end{exmp}
+\begin{exmp} [Doob's Martingale]
+Let $X,Y_1,Y_2 \hdots$ be arbitrary random variables such that $\E[|X|]< \infty$. Then
+\begin{equation*}
+Z_n =\E[X|Y_1,Y_2, \hdots Y_n]
+\end{equation*}
+is a martingale. The integrability condition can be directly verified, and
+\begin{align*}
+\E[Z_{n+1}|Y_1,Y_2, \hdots Y_n]&= \E[\E[X|Y_1,\hdots Y_{n+1}]|Y_1,\hdots Y_{n}] = \E[X|Y_1,\hdots Y_{n}]]=Z_n.
+\end{align*} 
+%Thus the result follows. The above martingale is called the Doob type martingale.
+\end{exmp}
+\begin{exmp}
+For any sequence of random variables $X_1,X_2 \hdots $, the random variables $X_i-\E[X_i|X_1 \hdots X_{i-1}]$ have zero mean. Define
+\begin{equation*}
+Z_n =\sum_{i=1}^n X_i -\E[X_i|X_1,X_2, \hdots X_{i-1}] 
+\end{equation*}
+ is  a martingale provided $\E[|Z_n|]< \infty$.  To verify the same, 
+ \begin{flalign*}
+\E[Z_{n+1}|Z_1 \hdots Z_n]&= \E[Z_n+X_n-\E[X_n|X_1 \hdots X_{n-1}]]\\
+&= Z_n+\E[X_n-\E[X_n|X_1 \hdots X_{n-1}]]=Z_n.\\
+\end{flalign*}
+\end{exmp}
+\subsection{Stopping Times}
+\begin{defn}The positive integer values, possibly infinite, random variable $N$ is said to be a \textbf{random time} for the process $\{Z_n\}$ if the event $\{N=n\}$ is determined by the random variables $Z_1 \hdots Z_n$. If $\Pr\{N < \infty\}=1$, then the random time $N$ is said to be a \textbf{stopping time}.  
+\end{defn}
+\begin{defn}
+Let $N$ be a random time for the process $\{Z_n\}$, then \textbf{stopped process} $\{\bar{Z}_n\}$ is defined as 
+\begin{align*}
+\bar{Z}_n = Z_n1_{\{n \leq N\}} + Z_N1_{\{n > N\}}.
+\end{align*}
+\end{defn}
+\begin{prop}
+If $N$ is a random time for the martingale $\{Z_n\}$, then the stopped process $\{\bar{Z}_n\}$ is also a martingale.
+\end{prop}
+\begin{proof}
+We claim that 
+\begin{equation*}
+\bar{Z}_n= \bar{Z}_{n-1}+1_{\{n \leq N\}}(Z_n-Z_{n-1})
+\end{equation*}
+The above equation can be directly verified by considering the two cases separately by
+\begin{align*}
+\bar{Z}_n &= 
+\begin{cases}
+Z_n & n \leq N,\\
+\bar{Z}_{n-1}=Z_N, & n > N.
+\end{cases}
+\end{align*}
+Further, since $N$ is a random time, we see that 
+\begin{align*}
+\E[\bar{Z}_{n+1}|Z_1 \hdots \bar{Z}_n] %&=\E[\bar{Z}_{n}+1_{\{n \leq N\}}(Z_n-Z_{n-1})|Z_1 \hdots \bar{Z}_n]\\
+&=\bar{Z}_{n}+1_{\{n \leq N\}} \E[(Z_n-Z_{n-1})|Z_1 \hdots \bar{Z}_n] =\bar{Z}_{n}.
+\end{align*}
+\end{proof}
+\begin{rem}
+For any martingale $\{\Z_n: n \in \N\}$, we have $\E[\bar{Z}_{n}]=\E[Z_1]$, for all $n$.  Now assume that $N$ is a stopping time. It is immediate that 
+\begin{equation*}
+\Pr\left\{\lim_{n\in \N}\bar{Z}_n = Z_N\right\} = 1.
+\end{equation*}
+\end{rem}
+But  is it true that
+\begin{equation*}
+\lim_{n \in \N}\E[\bar{Z}_n] = \E[Z_N]?
+\end{equation*}
+It so turns out that the above is true under some additional regularity constraints only. %We state the following theorem without proof.
+\begin{thm}[Martingale Stopping Theorem]
+\label{MartStopThm}
+If $N$ is a stopping time for a martingale $\{Z_n: n \in \N\}$ such that either of the following conditions is true:
+\begin{enumerate}[(i)]
+\item $N$ is bounded, 
+\item $\bar{Z}_n$ is uniformly bounded,
+\item $\E[N] < \infty$, and for some real positive $K$, we have $\sup_{n \in \N}\E[|Z_{n+1}-Z_n||Z_1 \hdots Z_n] < K$,
+\end{enumerate}
+then $Z_N$ is integrable and $\lim_{n \in \N}\E[\bar{Z}_n] = \E[Z_N]=\E[Z_1]$.
+\end{thm}
+\begin{proof} We show this is true for all three cases.
+\begin{enumerate}[(i)] 
+\item Let $K$ be the bound on $N$ then for all $n \geq K$, we have $\bar{Z}_n = \Z_N$, and hence it follows that
+\begin{align*}
+\E Z_1 = \E\bar{Z}_n &= \E Z_N, ~\forall n \geq K.
+\end{align*}
+\item Dominated convergence theorem implies the result. 
+\item Since $N$ is integrable and  
+\begin{align*} 
+\bar{Z}_n \leq |Z_1| + K N,
+\end{align*}
+we observe that $\bar{Z}_n$ is bounded by an integrable random variable, and hence result follows from dominated convergence theorem.
+\end{enumerate}
+\end{proof}
+\begin{cor}[Wald's Equation] If $N$ is a stopping time for $\{X_i,~ i \in \N\}$ \textit{iid} with $\E[|X|]< \infty$ and $\E[N]< \infty$, then
+\begin{align*}
+\E[\sum_{i=1}^{N}X_i]=\E[N]\E[X].
+\end{align*}
+\end{cor}
+\begin{proof}
+Let $\mu=\E[X]$. Then $\{Z_n = \sum_{i=1}^{n}(X_i-\mu): n \in \N\}$ is a martingale and hence from the Martingale stopping theorem, we have $\E[Z_N]=\E[Z_1]=0$. But 
+\begin{align*}
+\E[Z_N] %&= \E[\sum_{i=1}^N (X_i-\mu)]\\
+%&=\E[\sum_{i=1}^N (X_i)-N\mu)]\\
+&=\E\sum_{i=1}^N X_i- \mu\E N.
+\end{align*}
+Observe that condition $3$  for Martingale stopping theorem to hold can be directly verified. Hence the result follows. 
+\end{proof}
+%\section{ Submartingales, Supermartingales and the Martingale Convergence Theorem}
+%\begin{defn}
+%A stochastic process $\{Z_n,~  n \geq 1\}$ having $\E[|Z_n|]< \infty$ for all $n$ is said to be a submartingale if
+%\begin{equation}
+%\label{Submartingale}
+%\E[Z_{n+1}|Z_1 \hdots Z_n] \geq Z_n
+%\end{equation}
+%and is said to be a supermartingale if
+%\begin{equation}
+%\label{Supermartingale}
+%\E[Z_{n+1}|Z_1 \hdots Z_n] \leq Z_n
+%\end{equation}
+%\end{defn}
+%From \ref{Submartingale}, for a submartingale
+%\begin{equation*}
+%\E[Z_{n+1}] \geq \E[Z_n]
+%\end{equation*}
+%where the inequality is reversed for a supermartingale. 
+%\begin{thm}
+%\label{Stoppingtime_theorem}
+%If $N$ is a stopping time for $\{Z_n,~ n\geq 1\}$ such that any one of the following sufficient conditions is satisfied:
+%\begin{enumerate}
+%\item $\bar{Z}_n$ is uniformly bounded, or;
+%\item $N$ is bounded, or;
+%\item $\E[N]< \infty$, and there is an $M < \infty$ such that
+%\begin{equation*}
+%\E[|Z_{n+1}-Z_n| |Z_1, \hdots Z_n]<M,
+%\end{equation*}
+%then,
+%\begin{eqnarray*}
+%\E[Z_N] \geq \E[Z_1] ~ \text {for a submartingale}\\
+%\E[Z_N] \leq \E[Z_1] ~ \text {for a supermartingale}.
+%\end{eqnarray*}
+%\end{enumerate}
+%\end{thm}
+%\begin{proof}
+%We claim that 
+%\begin{equation*}
+%\bar{Z}_n= \bar{Z}_{n-1}+1_{N \geq n}(Z_n-Z_{n-1})
+%\end{equation*}
+%The above equation can be directly verified by considering the two cases separately viz. 
+%\begin{enumerate}
+%\item $N \geq n$: $\bar{Z}_n=Z_n$.
+%\item $N < n:$ $\bar{Z}_{n-1}=\bar{Z}_{n}=Z_N$
+%\end{enumerate}
+%\begin{flalign*}
+%\E[\bar{Z}_{n+1}|Z_1 \hdots \bar{Z}_n]&=\E[\bar{Z}_{n}+1_{n \leq N}(Z_n-Z_{n-1})|Z_1 \hdots \bar{Z}_n]\\
+%&\stackrel{(a)}{=}\bar{Z}_{n}+1_{n \leq N} \E[(Z_n-Z_{n-1})|Z_1 \hdots \bar{Z}_n]\\
+%& \geq \bar{Z}_{n},
+%\end{flalign*}
+%where in $(a)$ we have used the fact that $N$ is a random time. Also, we have $\E[\bar{Z}_{n}]=\E[Z_1]$, for all $n$.  Now assume that $N$ is a stopping time. It is immediate that
+%\begin{equation*}
+% \bar{Z}_n \rightarrow Z_N ~ \text{w.p}~ 1.
+%\end{equation*}
+%But  is it true that
+%\begin{equation*}
+% \E[\bar{Z}_n] \rightarrow \E[Z_N] ~ \text{as n}~ \rightarrow \infty.
+%\end{equation*}
+%which gives that 
+%\begin{equation*}
+%\E[Z_N ] \geq \E[Z_1].
+%\end{equation*}
+%\end{proof}
+
+Before we state and prove martingale convergence theorem, we state some results which will be used in the proof of the theorem.
+\begin{lem}
+\label{StoppingTimeBound}
+If $\{Z_i, i \in \N \}$ is  a submartingale and $N$ is a stopping time such that $\Pr\{N \leq n\}=1$ then
+\begin{equation*}
+ \E Z_1 \leq \E Z_N \leq \E Z_n.
+\end{equation*}
+\end{lem}
+\begin{proof}
+It follows from Theorem \ref{MartStopThm} that since $N$ is bounded, $\E[Z_N] \geq \E[Z_1]$. Now, since $N$ is a stopping time, we see that for $\{N = k\}$
+\begin{eqnarray*}
+\E[Z_n|Z_1, \hdots ,Z_N,N=k]&=\E[Z_n|Z_1 \hdots Z_k,N=k] = \E[Z_n|Z_1 \hdots Z_k] \geq Z_k = Z_N.
+\end{eqnarray*}
+%where $(a)$ follows from the fact that $N$ is  a stopping time. 
+Result follows by taking expectation on both sides.
+\end{proof}
+\begin{lem}
+\label{ConvexFuncSubmart}
+If $\{Z_n,n \in \N\}$ is a martingale and $f$ is a convex function, then $\{f(Z_n),n \in \N\}$ is a submartigale.
+\end{lem}
+\begin{proof}
+The result is a direct consequence of Jensen's inequality.
+\begin{align*}
+\E[f(Z_n)|Z_1, \hdots Z_n] &\geq f(\E[Z_{n+1}|Z_1, \hdots Z_n])=f(Z_n).
+\end{align*}
+\end{proof}
+\begin{thm}[Kolmogorov's inequality for submartingales] If $\{Z_n,~ n \in \N \}$ is a submartingale, then
+\begin{equation*}
+\Pr\{\max\{Z_1,Z_2 \hdots Z_n\}>a\}\leq \frac{\E[Z_n]}{a},~ \text{for}~ a>0.
+\end{equation*}
 \end{thm}
 \begin{proof}
-Let $m \geq n $.
-\begin{eqnarray*}
-&Pr(X_1 = X_2 \hdots X_k =1, X_{k+1}= \hdots X_n 0 )\\
-&=\sum_{j=0}^{m}Pr(X_1=\hdots X_k=1, X_{k+1}= X_{n}=0|S_m=j)Pr(S_m=j)\\
-&=\sum_{j} \frac{j(j-1) \hdots (j-k+1)(m-j)(m-j-1) \hdots (m-j-(n-k)+1) }{m(m-1) \hdots (m-n+1)}Pr(S_m=j).
-\end{eqnarray*}
-The last equation follows by exchangeability as given $S_m=j$ each subset of size $j$ of $X_1 \hdots X_m$ is equally likely to be the one consisting of all $1'$s. Letting $S_m=mY_m$, the above equation for large $m$ is roughly equal to $E[Y_m^k(1-Y_m)^{n-k}]$, and the theorem follows letting $m \rightarrow \infty$. Indeed, from a result known as  Helly's theorem it can be shown that for some subsequence $m'$ converging to $\infty$, the distribution of $Y_m'$ will converge to a distribution $G$ and we get
+Let $N = \min\{i \in [n]: Z_i >a\} \wedge n$. %, and define it to equal $n$ if $Z_i \leq a$ for all $i=1, \hdots n$. 
+Then, $\{\max\{Z_1 \hdots Z_n\}>a\} = \{Z_N > a\}$. Since $N \leq n$, from Markov inequality, we have
+\begin{align*}
+\Pr\{\max\{Z_1 \hdots Z_n\}>a\}&=\Pr\{Z_N>a\} \leq \frac{\E[Z_N]}{a} \leq  \frac{\E[Z_n]}{a}.
+\end{align*}
+%where the last inequality follows from Lemma \ref{StoppingTimeBound} as $N \leq n$ and $(*)$ follows from Markov's inequality.
+\end{proof}
+\begin{cor}
+\label{MartingaleBoundCor}
+Let $\{Z_n,~n \geq 1\}$ be a martingale. Then, for $a>0$:
+\begin{enumerate}
+\item $\Pr\{\max\{|Z_1|, \hdots |Z_n|\}>a\} \leq \E[|Z_n|]/a$;
+\item $\Pr\{\max\{|Z_1|, \hdots |Z_n|\}>a\} \leq \E[Z_n^2]/a^2$.
+\end{enumerate} 
+\end{cor}
+\begin{proof}
+The proof the above statements follow from Lemma \ref{ConvexFuncSubmart} and Kolmogorov's inequality for submartingales by considering the convex functions $f(x)=|x|$ and $f(x)=x^2$. 
+\end{proof}
+\begin{thm}[Martingale Convergence Theorem]
+\label{MartingaleConvergenceTheorem}
+If $\{Z_n,~n \geq 1\}$ is a martingale such that for some $M< \infty$
 \begin{equation*}
-E[Y_{\infty}^k(1-Y_{\infty})^{n-k}] = \int_0^1 \lambda^k(1-\lambda)^{n-k}dG(\lambda).
-\end{equation*} 
+\E[|Z_n|] \leq M, ~ \text{for all}~ n
+\end{equation*}
+then, with probability 1, $\lim_{n \rightarrow \infty}Z_n$ exists and is finite.
+\end{thm}
+\begin{proof}
+Assume $\E[Z_n^2]< \infty$ which is stronger than $\E[|Z_n|]< \infty$ (as a consequence of Jensen's inequality). Observe that $\{Z_n^2\}$ is a submartingale (from Lemma \ref{ConvexFuncSubmart}). Thus $\E[Z_n^2]<\infty$ and is non-decreasing in $n$. Thus, as $n \rightarrow \infty$, $\E[Z_n^2]$ converges and let $\mu<\infty$ be given by $\mu=\lim_{n \rightarrow \infty}\E[Z_n^2]$.
+\begin{equation}
+\label{KolmoBound}
+\Pr(\cup_{k \leq n} \{|Z_{m+k}-Z_m|> \epsilon\} )
+\end{equation}  
+\begin{eqnarray*}
+&\stackrel{(a)}{\leq }\E[(Z_{m+n}-Z_m)^2]/\epsilon^2
+&=\E[Z_{m+n}^2-2Z_mZ_{m+n}+Z_m^2]/\epsilon^2.
+\end{eqnarray*}
+Note that 
+\begin{eqnarray*}
+\E[Z_{m+n}Z_m]&=\E[\E[Z_mZ_{m+n}|Z_m]]\\
+&=\E[Z_m\E[Z_{m+n}|Z_m]]\\
+&=\E[Z_m^2].
+\end{eqnarray*}
+From \ref{KolmoBound}, 
+\begin{equation*}
+\Pr(\cup_{k \leq n} \{|Z_{m+k}-Z_m|> \epsilon\}) \leq \frac{\E[Z_{m+n}^2]-\E[Z_m^2]}{\epsilon^2}.
+\end{equation*}
+Letting $n \rightarrow \infty$
+\begin{equation*}
+\Pr(\cup_{k \leq 1} \{|Z_{m+k}-Z_m|> \epsilon\}) \leq \frac{\mu-\E[Z_m^2]}{\epsilon^2}.
+\end{equation*}
+Hence,
+\begin{equation*}
+\Pr(\cup_{k \leq n} \{|Z_{m+k}-Z_m|> \epsilon\}) \rightarrow 0 ~\text{as}~ m \rightarrow \infty.
+\end{equation*}
+Thus with probability 1, $\{Z_n\}$ will be  a Cauchy sequence, and thus $\lim_{n \rightarrow \infty}Z_n$ will exist and be finite.`
+\end{proof}
+\begin{cor}
+If $\{Z_n,~m \geq 0\}$ is a non-negative martingale, then, with probability 1, $\lim_{n \rightarrow \infty}Z_n$ exists and is finite.
+\end{cor}
+\begin{proof}
+Since $Z_n$ is non-negative,
+\begin{equation*}
+\E[|Z_n|]=\E[Z_n]=\E[Z_1].
+\end{equation*}
 \end{proof}
 
 \end{document}
