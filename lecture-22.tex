@@ -8,9 +8,11 @@
 \begin{document}
 \maketitle
 \section{Duality in Random Walks}
-Essentially, if $X_i$ are iid, then $X_1,X_2,\cdots,X_n$ has the same joint distribution as $X_n, X_{n-1},\cdots, X_1$. The first result we shall show that if $\E[X_1] >0 $ then the random walk will become positive in finite steps. 
+Essentially, if $X$ is an exchangeable sequence of random variables, then $(X_1,X_2,\cdots,X_n)$ has the same joint distribution as $(X_n, X_{n-1},\cdots, X_1)$. 
+In particular, an iid sequence of random variables is exchangeable. 
+%The first result we shall show that if $\E[X_1] >0 $ then the random walk will become positive in finite steps. 
 \begin{prop}
-Suppose $\{X_i: i \in \N\}$ is a sequence of iid random variables with positive mean. Let $S_n = \sum_{k=1}^n X_i$. If 
+Suppose $\{X_n: n \in \N\}$ is a sequence of iid random variables with positive mean. Let $S_n = \sum_{k=1}^n X_i$ be a random walk with step size $X_nz$. If 
 \begin{align*}N = \min \{n \in \N : S_n > 0\}\end{align*}
 Then $\E[N] < \infty$.
 \end{prop}
@@ -19,7 +21,7 @@ Then $\E[N] < \infty$.
 \{N > n\} &= \{S_i \leq 0, i \in [n]\} = \left\{\sum_{k=0}^{i-1}X_{n-k} \leq 0, i \in [n]\right\} = \{S_n \leq S_{n-i}, i \in [n]\}.
 \end{align*}
 It follows that 
-\begin{align*}
+\begin{align*} 
 \E[N] &= \sum_{n \in \N_0} \Pr\{N > n\}
 %&= \sum_{n=0}^\infty P[X_1 \leq 0, X_1+X_2 \leq 0, \cdots, X_1+X_2+\cdots+X_n \leq 0]  \label{Dual1}\\
 %&= \sum_{n=0}^\infty P[X_n \leq 0, X_n+X_{n-1} \leq 0, \cdots, X_n+X_{n-1}+\cdots+X_1 \leq 0] \label{Dual2}\\
@@ -246,41 +248,55 @@ $\E[D_{n+1}] =\E[M_n] = \sum_{k=1}^{n} \frac{1}{k}E[S_k^+]$.
 %\begin{align*}S_n = \sum_{k=1}^n X_k \quad n \geq 1\end{align*}
 %denote a random walk. Then we have the following results.
 \begin{prop}
-Let $X_n \in [-M,M]\cup \Z$ for some finite $M$, then  random walk $S_n$ with step size $X_n$ is a recurrent DTMC iff $\E X = 0$.
+A random walk $S_n$ with step size $X_n \in [-M,M]\cap \Z$ for some finite $M$ is a recurrent DTMC iff $\E X = 0$.
 \end{prop}
 \begin{proof}
 If $\E X \neq 0$, the random walk is clearly transient since, it will diverge to $\pm \infty$ depending on the sign of $\E X$. 
-Conversely, if $\E X =0$, then $S_n$ is a martingale. Let 
-\begin{align*}A = \{-M, -M+1,\cdots,-2,-1\}\end{align*}
-Assume that the process starts in state $i$. Now for every $j>i$, define
-\begin{align*}A_j = \{j, j+1,\cdots,j+M\}\end{align*}
-Let $N$ denote the first time the process is in either $A$ or $A_j$. 
-Since $N$ is a stopping time, by Doob's Stopping theorem, we have
-\begin{align*}E[S_N] =E[S_0] = i\end{align*}
+Conversely, if $\E X =0$, then $S_n$ is a martingale. 
+Assume that the process starts in state $i$. 
+We define
+\begin{xalignat*}{3}
+&A = \{-M, -M+1,\cdots,-2,-1\}, &&A_j = j + [M], ~j > i.
+\end{xalignat*}
+%\begin{align*}A_j = \{j, j+1,\cdots,j+M\}\end{align*}
+Let $N$ denote the hitting time to $A$ or $A_j$ by random walk $S_n$. 
+Since $N$ is a stopping time, by optional stopping theorem, we have
+\begin{align*}
+\E_i[S_N] =\E_i[S_0] = i.
+\end{align*}
 Thus we have
-\begin{flalign}
-i = E[S_N] &= E[S_N|S_N \in A]P[S_N \in A] \\
-&+ E[S_N|S_N \in A]P[S_N \in A_j]P[S_N \in A_j] \\
-&\geq -MP[S_N \in A] + j(1-P[S_N \in A_j]) 
-\end{flalign}
-
-Rearranging this gives us
-\begin{align*}P[S_N \in A] \geq \frac{j-i}{j+M}\end{align*}
-Thus we have 
-\begin{align*}P[\mbox{process ever enters }A] \geq P[S_N \in A] \geq \frac{j-i}{j+M}\end{align*}
-As $j$ tends to $\infty$, we see
-\begin{align*}P[\mbox{process ever enters }A|\mbox{starts at }i ] = 1 \quad i \geq 0\end{align*}
-
-Now let $B = \{1,2,\cdots, M\}$. Repeat the arguments to show
-\begin{align*}P[\mbox{process ever enters }B|\mbox{starts at }i ] = 1 \quad i \geq 0\end{align*}
-
-Hence we have
-\begin{align*}P[\mbox{process ever enters }A\cup B|\mbox{starts at }i ] = 1 \quad i \geq 0\end{align*}
-
-Thus the process is recurrent.
+\begin{align*}
+i &= \E_i[S_N] %= \E_i[S_N|S_N \in A]\Pr\{S_N \in A\} + \E_i[S_N|S_N \in A_i]\Pr\{S_N \in A_j]\\
+\geq -M\P_i\{S_N \in A\} + j(1-\P_i\{S_N \in A_j\}). 
+\end{align*}
+Rearranging this, we get a bound on probability of random walk $S_n$ hitting $A$ over $A_j$ as 
+\begin{align*}
+\P_i\{S_n \in A \text{ for some } n\} \geq \P_i\{S_N \in A\} \geq \frac{j-i}{j+M}.
+\end{align*}
+%Thus we have 
+%\begin{align*}P[\mbox{process ever enters }A] \geq P[S_N \in A] \geq \frac{j-i}{j+M}\end{align*}
+Taking limit $j \to \infty$, we see that for any $i \geq 0$, we have 
+%\begin{align*}
+$\P_i\{S_n \in A \text{ for some }n \} = 1$.
+%\end{align*}
+Similarly, taking $B = \{1,2,\cdots, M\}$, we can show that for any $i \geq 0$, 
+%\begin{align*}
+$\P_i\{S_n \in B \text{ for some }n \} = 1.$
+%\end{align*}
+Result follows from combining the above two arguments to see that for any $i \geq 0$,
+\begin{align*}
+\P_i\{S_n \in A\cup B \text{ for some } n\} = 1.
+\end{align*}
 \end{proof}
-
-Now consider a random walk with $E[X] \neq 0$. For $A,B > 0$, we wish to compute the probability $P_A$ that the walk hits at least $A$ before it hits a value $\leq -B$. Let $\theta \neq 0$ s.t
+\begin{prop} Consider a random walk $S_n$ with mean step size $\E[X] \neq 0$. 
+For $A,B > 0$, let $P_A$ denote the probability that the walk hits a value greater than $A$ before it hits a value less than $-B$. Then, 
+\begin{align*}
+P_A \approx \frac{1-e^{-\theta B}}{e^{\theta A}-e^{\theta B}}.
+\end{align*}
+Approximation is an equality when step size is unity and $A$ and $B$ are integer valued.
+\end{prop}
+\begin{proof}
+Now  For $A,B > 0$, we wish to compute the probability $P_A$ that the walk hits at least $A$ before it hits a value $\leq -B$. Let $\theta \neq 0$ s.t
 \begin{align*}E[e^{\theta X}] = 1\end{align*}
 Now let $Z_n = e^{\theta S_n}$. We can see that $Z_n$ is a martingale with mean 1. Define $N$ as
 \begin{align*}N = \min \{S_n \geq A \mbox{ or } S_n \leq -B\}\end{align*}
@@ -293,8 +309,7 @@ E[e^{\theta S_N}|S_N\geq A] &\approx e^{\theta A} \\
 E[e^{\theta S_N}|S_N\leq -B] &\approx e^{-\theta B} \\
 \end{flalign*}
 Hence we get, 
-\begin{align*}P_A \approx \frac{1-e^{-\theta B}}{e^{\theta A}-e^{\theta B}}\end{align*}
-
+\end{proof}
 As an assignment, show that 
 \begin{align*}E[N] \approx \frac{AP_A - B(1-P_A)}{E[X]}\end{align*}
 
