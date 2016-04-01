@@ -1,0 +1,210 @@
+\documentclass[a4paper,10pt]{article}
+\usepackage{%
+amsmath,%
+amsfonts,%
+amssymb,%
+amsthm,%
+hyperref,%
+url,%
+latexsym,%
+epsfig,%
+graphicx,%
+psfrag,%
+subfigure,%
+color,%
+tikz,%
+pgf,%
+pgfplots,%
+pgfplotstable,%
+pgfpages%
+}
+\usepgflibrary{shapes}
+\usetikzlibrary{%
+arrows,%
+backgrounds,%
+chains,%
+decorations.pathmorphing,% /pgf/decoration/random steps | erste Graphik
+decorations.text,%
+matrix,%
+positioning,% wg. " of "
+fit,%
+patterns,%
+petri,%
+plotmarks,%
+scopes,%
+shadows,%
+shapes.misc,% wg. rounded rectangle
+shapes.arrows,%
+shapes.callouts,%
+shapes%
+}
+\theoremstyle{plain}
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{prop}[thm]{Proposition}
+\newtheorem{cor}[thm]{Corollary}
+\theoremstyle{definition}
+\newtheorem{defn}[thm]{Definition}
+\newtheorem{conj}[thm]{Conjecture}
+\newtheorem{exmp}[thm]{Example}
+\theoremstyle{remark}
+\newtheorem{rem}[thm]{Remark}
+\newtheorem{note}[thm]{Note}
+
+\include{header}
+\title{Lecture 12: Convergence of DTMCs and Coupling theorem}
+\author{Sireesha Madabhushi}
+\begin{document}
+\maketitle
+\section{Discrete Time Markov Chains Contd.}
+
+\subsection{Total Variation Distance}
+
+Given two probability distributions p and q defined on set of natural numbers \textbf{$N_0$}, their total variation distance is defined as\\
+$d_{TV}(p,q) = \dfrac{1}{2} \lVert p - q \rVert_1$\\
+\textbf{FACT:} $d_{TV}(p,q) = sup_{S \subseteq N_0} [p(S) - q(S)]$
+\textbf{Definition: Convergence in total variation\\}\\
+Let ${X_n}_{n \geq 0}$ be a $N_0$-valued stochastic process if $\exists$ a probability distribution $\Pi$ on $N_0$ such that \\
+$lim_{n \rightarrow \infty} d_{TV}(P[X_{n} \in .], \Pi) = 0$ i.e.\\
+
+$lim_{n \rightarrow \infty} \sum{i \in N_{0}} \lvert P[X_{n}=i] - \Pi(i) \rvert = 0$\\
+Then, we say that $P[X_{n} \in .] \rightarrow \Pi$ in total variation distance as $n \rightarrow \infty$.\\
+\textbf{NOTE:}\\
+If $X_{n} \rightarrow \Pi$, then $\forall$ bounded functions, $f:N_{0} \rightarrow R$, $lim_{n \rightarrow \infty} E[f(X{n})] = \Sigma_{i \in N_0} \Pi(i)f(i)$\\
+\textbf{Theorem: Convergence in variation of DTMC}\\
+Let ${X_n}_{n \geq 0}$ be an ergodic DTMC on $N_{0}$ (irreducible, aperiodic and positive recurrent) with stationary distribution $(\Pi_{j})_{j \in N_0}$.\\
+Then $\forall$ initial distribution of $X_0$, we have $X_n \rightarrow \Pi$.\\
+In other words, if $\mu_j$ is the initial distribution, then \\
+
+ $lim_{n \rightarrow \infty} \lVert \mu P^n - \Pi \rVert_1 = 0$\\
+ where, $P_{ij} = P[X_{n+1} = j/X_n = i]$\\
+
+ 
+\subsection{The Coupling method}
+\textbf{Definition:}\\
+Consider two stochastic processes $\{X_n'\}_n$ and $\{X_n''\}_n$ on $N_0$, defined on the same probability space.\\
+$\{X_n'\}_n$ and $\{X_n''\}_n$ are said to couple if $\exists$ an a.s. finite random time $\tau$ such that $\forall n \geq \tau : X_n' = X_n''$ a.s.\\
+Moreover, $\tau$ is called a coupling time of the process.\\
+
+\textbf{Coupling Inequality:}\\
+If $\tau$ is a coupling time, then $\forall n \geq 0$,
+$d_{TV} (X_n',X_n'') = \Sigma_{i \in N_0} \lvert P[X_n' = i] - P[X_n'' = i] \rvert \leq P[\tau > n]$\\
+
+Remark: Variation distance is bounded based on the coupling time.\\
+
+\textbf{Proof:} Consider any $A \subseteq N_0$.\\
+\begin{eqnarray*}
+\begin{aligned}
+& P[X_n' \in A] - P[X_n'' \in A] = P[X_n' \in A,\tau \leq n] + P[X_n' \in A,\tau > n] - P[X_n'' \in A, \tau \leq n] - P[X_n'' \in A,\tau > n] \\
+& P[X_n' \in A] - P[X_n'' \in A] = P[X_n' \in A,\tau > n] - P[X_n'' \in A,\tau > n] (from \: the \: definition \: of \: coupling \: between \: X_n' \: and \: X_n'')\\
+& P[X_n' \in A] - P[X_n'' \in A] \leq P[X_n' \in A,\tau > n] \leq P[\tau > n]\\
+\end{aligned}
+\end{eqnarray*}
+ 
+
+\subsection{Theorem[DTMC Convergence in $d_{TV}$]}	
+Let ${X_n}$ be a homogenous $N_0$ valued ergodic DTMC with transition probability $p_{ij}$ with stationary distribution $(\Pi_j)_{j \in N_0}$. Then for any initial distribution of $X_0$,\\
+\begin{eqnarray*}
+	\begin{aligned}
+ lim_{n \longrightarrow \infty} \sum_{i \in N_0} \lvert P[X_n = i] - \Pi(i) \rvert = 0\\
+\end{aligned}
+\end{eqnarray*}
+\textbf{Proof:}
+We will prove using the coupling argument.\\
+Let $\{X_n^{(1)}\}_{n \geq 0}$ and $\{X_n^{(2)}\}_{n \geq 0}$ be two independent ergodic DTMCs with transition matrix P and initial distributions $\mu$ and $\Pi$ respectively.\\
+Construct the product DTMC $Z_n = (X_n^{(1)}, X_n^{(2)})_{n \in N_0}$\\
+$\{Z_n\}_{n \geq 0}$ has transition probabilities\\
+\begin{eqnarray*}
+\begin{aligned}
+	P[Z_n = (i,j)/Z_{n-1} = (k,l)] = p_{ki} p_{lj}
+\end{aligned}
+\end{eqnarray*}
+\textbf{CLAIMS:}
+\begin{itemize}
+	\item $\{Z_n\}_{n \geq 0}$ is irreducible and aperiodic.
+	\item $\{Z_n\}_{n \geq 0}$ is positive recurrent.
+\end{itemize}
+\textbf{Proof:}\\
+$\Pi_z(i,j) = \Pi(i) \Pi(j)$ is a stationary distribution
+$$
+\tau = 
+\begin{cases}
+inf  \{n \geq 0: X_n^{(1)} = X_n^{(2)}\}\\
+\infty , if \{X_n^{(1)}\}$ and $\{X_n^{(2)}\} $ never meet$\\
+\end{cases}
+$$
+$\tau$ is a stopping time for the process $\{Z_n\}$, which is positive recurrent.\\
+This implies $P[\tau < \infty] = 1$\\
+Consider a process $X_n'$ defined as follows\\
+$$
+X_n' =
+\begin{cases}
+X_n^{(1)}, n \leq \tau\\
+X_n^{(2)}, n > \tau\\
+\end{cases}
+$$
+
+\textbf{CLAIM:}\\
+${X_n'}_{n \geq 0}$ is a homogenous DTMC with transition matrix $P$ and initial distribution $\mu$. It inherits all the properties of $X_n^{(1)}$.\\
+Also, $\tau$ is a coupling time for $\{X_n^{(1)}\}_{n \geq 0}$ and $\{X_n^{(2)}\}_{n \geq 0}$.\\
+From the coupling inequality,\\
+\begin{eqnarray*}
+\begin{aligned}
+ \sum_{i \in N_0} \lvert P(X_n' = i) - P(X_n^{(2)} = i) \rvert \leq P[\tau < n]\\
+ n \longrightarrow \infty:  P(X_n^{(2)} = i) \longrightarrow \Pi(i),  P[\tau > n] \longrightarrow 0\\
+ n \longrightarrow \infty \Rightarrow P(X_n' = i) = \Pi(i) 
+\end{aligned}
+\end{eqnarray*}
+We can get bounds on the rate of convergence by bounding $P[\tau > n]$
+
+\subsection{Example}
+Let $X$ and $Y$ be two binomial distributions defined as follows:\\
+$X \sim Bin(n,p)$\\
+$Y \sim Bin(n,q)$ and $p > q$\\
+What is the relation between $P_1[X > k]$ and $P_2[Y > k]$  $\forall$ k?\\
+\textbf{Solution:}\\
+Consider $n$ Bernoulli random variables, $Z_1,Z_2,....Z_n \sim Ber(p)$\\
+Define $W_1,W_2....W_n$ such that $W_i \sim Ber(p*q/p)$ when the event $\{Z_i = 1\}$ which occurs with probability $p$ and $W_i = 0$ when the event $\{Z_i = 0\}$
+occurs with probability $q$.\\
+$\Rightarrow W_i \sim Ber(q)$ and $Z_i \sim Ber(p)$, with $p > q$ \\
+From the definition, we have $\sum_i W_i \leq \sum_i Z_i $\\
+$\Rightarrow P[\sum_i W_i > k] \leq  P[\sum_i Z_i > k]$\\
+We know that $\sum_i Z_i = X$ and $\sum_i W_i = Y$\\
+Therefore, $\forall$ k, $P_1[X > k] \geq P_2[Y>k]$\\
+
+\section{Mean time spent in the transient states}
+Consider a finite state space DTMC.'\\
+Let the transient states be $\{1,2,...t\}$.\\
+\begin{eqnarray*}
+	\begin{aligned}
+	&	Q_{t \times t} = P_{[t] \times [t]}\\
+	&	Q_{t \times t} = \begin{bmatrix} p_{11}&-&-&-&p_{1t}\\ p_{21}&-&-&-&p_{2t} \\ -&-&-&-&-\\ p_{t1}&-&-&-&p_{tt} \end{bmatrix}
+    \end{aligned}
+\end{eqnarray*}
+\textbf{NOTE:} All row sums of $Q$ cannot be equal to 1.\\
+Atleast one row should not sum upto 1, else it contradicts the claim that $Q$ is a transition matrix for the set of transient states.\\
+For $i,j \in [t]$, let\\
+\begin{eqnarray*}
+	\begin{aligned}
+& m_{ij} = E_i[\sum_{n=0}^{\infty} \textbf{1} \{X_n = j\}]\\
+& m_{ij} = \sum_{n=0}^{\infty} p_{ij}^{(n)} < \infty\\
+& m_{ij} = \textbf{1}[i = j] + \sum_{k=1}^{[t]} p_{ik}m_{kj} \\
+& M = I + QM\\
+& M(I - Q) = I\\
+& M = (I - Q)^{-1}\\
+& M = I + Q + Q^{2} + Q^{3} + ......\\
+    \end{aligned}
+\end{eqnarray*}
+$M$ is called the fundamental matrix.\\
+Here, $(I - Q)$ is invertible because all row sums of $Q$ don't sum upto 1.\\
+\textbf{Note:}\\
+$\forall i,j \in [t]$, consider $f_{ij} = \mathbb{E}_i[\textbf{1} \{\exists n \geq 0: X_n = j \}]$\\
+\begin{eqnarray*}
+\begin{aligned}
+& m_{ij} = \mathbb{E}_i[\# transitions\ to\ j \in \{0,1,2...\infty\}]\\
+& m_{ij} = f_{ij} m_{jj}\\
+&\Rightarrow i,j \in [t]; f_{ij} = \dfrac{m_{ij}}{m_{jj}}
+\end{aligned}
+\end{eqnarray*}
+ 
+\end{document}
