@@ -1,0 +1,221 @@
+\documentclass[a4paper,10pt]{article}
+\usepackage{%
+amsmath,%
+amsfonts,%
+amssymb,%
+amsthm,%
+hyperref,%
+url,%
+latexsym,%
+epsfig,%
+graphicx,%
+psfrag,%
+subfigure,%
+color,%
+tikz,%
+pgf,%
+pgfplots,%
+pgfplotstable,%
+pgfpages%
+}
+\usepgflibrary{shapes}
+\usetikzlibrary{%
+arrows,%
+backgrounds,%
+chains,%
+decorations.pathmorphing,% /pgf/decoration/random steps | erste Graphik
+decorations.text,%
+matrix,%
+positioning,% wg. " of "
+fit,%
+patterns,%
+petri,%
+plotmarks,%
+scopes,%
+shadows,%
+shapes.misc,% wg. rounded rectangle
+shapes.arrows,%
+shapes.callouts,%
+shapes%
+}
+\theoremstyle{plain}
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{prop}[thm]{Proposition}
+\newtheorem{cor}[thm]{Corollary}
+\theoremstyle{definition}
+\newtheorem{defn}[thm]{Definition}
+\newtheorem{conj}[thm]{Conjecture}
+\newtheorem{exmp}[thm]{Example}
+\theoremstyle{remark}
+\newtheorem{rem}[thm]{Remark}
+\newtheorem{note}[thm]{Note}
+\date{}
+\title{Lecture 21: Random Walks-3}
+\author{Parimal Parag}
+\pgfplotsset{compat=1.12}
+
+
+\begin{document}
+\maketitle
+\section{Martingales for Random Walks}
+Let
+\[S_n = \sum_{k=1}^n X_k \quad n \geq 1\]
+denote a random walk. Then we have the following results.
+
+\begin{prop}
+If $X_i$ can take on the integer values between (inclusive) $-M$ and $M$, for some finite $M$, then $S_n, n\geq 0$ is a recurrent DTMC iff $E[X] = 0$.
+\end{prop}
+
+\begin{proof}
+If $EX \neq 0$, the random walk is clearly transient since, it will diverge to $\pm \infty$ depending on the sign of $E[X]$. Now when $E[X]=0$, $S_n$ is a martingale. Let 
+\[A = \{-M, -M+1,\cdots,-2,-1\}\]
+Assume that the process starts in state $i$. Now for every $j>i$, define
+\[A_j = \{j, j+1,\cdots,j+M\}\]
+Let $N$ denote the first time the process is in either $A$ or $A_j$. 
+Since $N$ is a stopping time, by Doob's Stopping theorem, we have
+\[E[S_N] =E[S_0] = i\]
+Thus we have
+\begin{flalign}
+i = E[S_N] &= E[S_N|S_N \in A]P[S_N \in A] \\
+&+ E[S_N|S_N \in A]P[S_N \in A_j]P[S_N \in A_j] \\
+&\geq -MP[S_N \in A] + j(1-P[S_N \in A_j]) 
+\end{flalign}
+
+Rearranging this gives us
+\[P[S_N \in A] \geq \frac{j-i}{j+M}\]
+Thus we have 
+\[P[\mbox{process ever enters }A] \geq P[S_N \in A] \geq \frac{j-i}{j+M}\]
+As $j$ tends to $\infty$, we see
+\[P[\mbox{process ever enters }A|\mbox{starts at }i ] = 1 \quad i \geq 0\]
+
+Now let $B = \{1,2,\cdots, M\}$. Repeat the arguments to show
+\[P[\mbox{process ever enters }B|\mbox{starts at }i ] = 1 \quad i \geq 0\]
+
+Hence we have
+\[P[\mbox{process ever enters }A\cup B|\mbox{starts at }i ] = 1 \quad i \geq 0\]
+
+Thus the process is recurrent.
+\end{proof}
+
+Now consider a random walk with $E[X] \neq 0$. For $A,B > 0$, we wish to compute the probability $P_A$ that the walk hits at least $A$ before it hits a value $\leq -B$. Let $\theta \neq 0$ s.t
+\[E[e^{\theta X}] = 1\]
+Now let $Z_n = e^{\theta S_n}$. We can see that $Z_n$ is a martingale with mean 1. Define $N$ as
+\[N = \min \{S_n \geq A \mbox{ or } S_n \leq -B\}\]
+From Doob's Theorem, $E[e^{S_N}] = 1$. Thus we get
+\[ 1 = E[e^{\theta S_N}|S_N \geq A]P_A + E[e^{\theta S_N}|S_N \leq -B](1-P_A)\]
+
+We can obtain an approximation for $P_A$ byneglecting the overshoots past $A$ or $-B$. Thus we get
+\begin{flalign*}
+E[e^{\theta S_N}|S_N\geq A] &\approx e^{\theta A} \\
+E[e^{\theta S_N}|S_N\leq -B] &\approx e^{-\theta B} \\
+\end{flalign*}
+Hence we get, 
+\[P_A \approx \frac{1-e^{-\theta B}}{e^{\theta A}-e^{\theta B}}\]
+
+As an assignment, show that 
+\[E[N] \approx \frac{AP_A - B(1-P_A)}{E[X]}\]
+
+\begin{exmp}\textbf{Gambler Ruin}
+Consider a simple random walk with probability of increment = $p$. As an exercise, show that $E\left[(q/p)^X\right] = 1$ and thus $e^\theta = q/p$. If $A$ and $B$ are integers, then there is no overshoot and hence, our approximations are exact. Thus
+\[P_A = \frac{(q/p)^B - 1}{(q/p)^{A+B} -1}\]
+ Suppose $E[X]<0$ and we wish to know if the random walk ever crosses $A$. Then
+\begin{flalign*}
+1 &= E[e^{\theta S_N}|S_N\geq A]P[\mbox{process crossed $A$ before $-B$}] \\
+&+ E[e^{\theta S_N}|S_N\leq -B]P[\mbox{process crossed $-B$ before $A$}]
+\end{flalign*}
+Now $E[X]<0$ implies $\theta > 0$ (Why?). Hence we have
+\[1 \geq e^{\theta A} P[\mbox{process crossed $A$ before $-B$}]\]
+Taking $B$ to $\infty$ yields
+\[P[\mbox{Random walk ever crosses A}] \leq e^{-\theta A}\]
+
+\end{exmp}
+\section{Application to G/G/1 Queues and Ruin}
+\subsection{The G/G/1 Queue}
+For the G/G/1 queue, the limiting distribution of delay is
+\[P[D_\infty \geq A] = P[S_n \geq A \mbox{ for some } n]\]
+where 
+\[S_n = \sum_{k=1}^n U_k, \quad U_k = Y_k-X_{k+1} \]
+Here $Y_i$ is the service time of the ith customer and $X_i$ is the interarrival duration between customer $i-1$ and customer $i$.
+Thus when $E[U] = E[Y] - E[X] < 0$, letting $\theta > 0$ such that
+\[E[e^{\theta U}] = E[e^{\theta(Y-X)}] = 1\]
+We get
+\[P[D_\infty \geq A] \leq e^{-\theta A}\] 
+
+Now the exact distribution of $D_\infty$ can be calculated when services are exponential. Hence assume $Y_i \sim exp(\mu)$. Once again,
+\begin{flalign*}
+1 &= E[e^{\theta S_N}|S_N\geq A]P[S_n\mbox{ crossed $A$ before $-B$}] \\
+&+ E[e^{\theta S_N}|S_N\leq -B]P[S_n\mbox{ crossed $-B$ before $A$}]
+\end{flalign*}
+Let us compute $E[e^{\theta S_N}|S_N \geq A]$ first. Let us condition this on $N=n$ and $X_{n+1} - \sum_{i=1}^{n-1} (Y_i - X_{i+1}) = c$. By the memoryless property, the conditional distribution of $Y_n$ given $Y_n > c+A$ is just $c+A$ plus an exponential with rate $\mu$. Thus we get
+\begin{flalign*}
+E[e^{\theta S_N}|S_N \geq A] &= E[e^{\theta(A+Y)}] \\
+&=\frac{\mu e^{\theta A}}{\mu - \theta}
+\end{flalign*}
+Now substituting back, we get
+\begin{flalign*}
+1 &= \frac{\mu e^{\theta A}}{\mu - \theta}P[S_n\mbox{ crossed $A$ before $-B$}] \\
+&+ E[e^{\theta S_N}|S_N\leq -B]P[S_n\mbox{ crossed $-B$ before $A$}]
+\end{flalign*}
+Now as $\theta > 0$, let $B\to \infty$ to get
+\[1 = \frac{\mu e^{\theta A}}{\mu - \theta} P[S_n \mbox{ ever crosses }A]\]
+And hence
+\[P[D_\infty \geq A] = \frac{\mu - \theta}{\mu}e^{-\theta A}\]
+
+\subsection{A Ruin Problem}
+Suppose claims made to an insurance company follow a renewal process with iid interarrival times $\{X_i\}$. Let the values of the claims also be iid and independent of the renewal process $N(t)$ of their occurence. Let $Y_i$ be the ith claim value. Thus the total value of claims till time $t$ is $\sum_{k=1}^{N(t)}Y_i$. Now let us suppose the insurance company receives money at constant rate $c$ per unit time, $c>0$. We wish to compute the probability of the insurance company, starting with capital $A$, will eventually be wiped out or \textbf{ruined}. Thus we require
+\[p = P\left\{ \sum_{k=1}^{N(t)}Y_i > ct + A \mbox{ for some } t\geq 0\right\}\]
+As an assignment, show that the company will be ruined if $E[Y] \geq cE[X]$. So let us assume that $E[Y] < cE[X]$. Also the ruin occurs when a claim is made. After the $n$th claim, the company's fortune is
+\[A + c\sum_{k=1}^n X_k -\sum_{k=1}^n Y_k \]
+Letting $S_n = \sum_{k=1}^n Y_i - cX_i$ and $p(A) = P[S_n > A \mbox{ for some }n]$. As $S_n$ is a random walk, we see that 
+\[p(A) = P[D_\infty > A]\]
+
+Now the results from the G/G/1 queue apply.
+
+\section{Blackwell Theorem on the Line}
+Let $S_n$ denote a random walk where $0<\mu=E[X] < \infty$. Let 
+\[U(t)=\#\{n: S_n \leq t\} = \sum_{n=1}^\infty I_n\]
+Where $I_n=1$ if $S_n \leq t$ and zero else. Observe that if $X_n$ are nonnegative, then $U(t) = N(t)$. Let $u(t) = E[U(t)]$. Now we prove an analog of Blackwell Renewal Theorem. 
+
+\begin{thm}
+\textbf{(Blackwell renewal theorem)} If $\mu > 0$ and $X_i$ are not lattice, then
+\[u(t+a) - u(t) \to a/\mu \quad t\to \infty \quad \mbox{for }a>0\]
+\end{thm}
+Let us define a few concepts. We say an \textbf{ascending ladder variable of ladder height $S_n$} occurs at time $n$ when
+\[S_n > \max(S_0,S_1,\cdots, S_{n-1})\]
+where $S_0 = 0$. We may deduce that since $X_i$ are iid random variables, then the random variables $(N_i,S_{N_i}-S_{N_{i-1}})$ are iid; where $N_i$ denotes the time between the $(i-1)$th and ith random variable. We may analogously define descending ladder variables. Now let $p(p_*)$ denote the probability of ever achieving an ascending/descending ladder variable.
+\[p = P\{S_n > 0 \mbox{ for some }n\},\quad p_* = P\{S_n < 0 \mbox{ for some }n\}\]
+At each ascension/descension there is a probability $p$ (resp $p_*$) of achieving another one. Hence the number of ascensions/descensions is geometrically distributed. The number of ascending ladder variables (ascensions) will have finite mean iff $p < 1$. Now as $E[X] > 0$, by SLLN, we deduce that $w.p.1$, there will be infinitely many ascending ladder variables but finitely many descending ones. That is $p =1$ and $p_* < 1$.
+
+\begin{proof}
+The successive ascending ladder heights are a renewal process. Let $Y(t)$ be the excess time. Now given the value of $Y(t)$, the distribution of $U(t+a) - U(t)$ is independent of $t$. (Why?). Hence let us denote
+\[E[U(t+a) - U(t)|Y(t)] = g(Y(t))\]
+for some function $g$. Now taking expectations yields
+\[u(t+a) - u(t) = E[g(Y(t))]\]
+
+Now since $Y(t) \to^d Y_\infty$ where $Y_\infty$ has the equilibrium distribution, we have $E[g(Y(t))] \to E[g(Y_\infty)]$. The result would be true if we show $g$ is continuous and bounded. We leave that as an exercise. For now, we deduce that the limit exists. Let
+\[h(a) = \lim_{t \to \infty}u(t+a) - u(t)\]
+This also implies $h(a+b) = h(a) + h(b)$. Thus for some constant $c$, 
+\[h(a) = ca\]
+
+Now to get $c$, let $N_t$ denote the first $n$ for which $S_n > t$. If $X_i$ are upper bounded by $M$, then
+\[t < \sum_{i=1}^{N_t} X_i \leq t+M\]
+Taking expectations, and using Wald's Lemma, yields
+\[t < E[N_t]\mu \leq t+M\]
+Thus 
+\[\frac{E[N_t]}{t} \to \frac{1}{\mu}\]
+If $X_i$ are unbounded, use the truncation arguments done while proving Elementary renewal theorem. Now $U(t)$ can be expressed as
+\[U(t) = N_t -1 +N_t^*\]
+where $N_t^*$ is the number of times $S_n \leq t$ after having crossed $t$. Since $N_t^*$ is not greater than the number of points occuring after $N_t$ when the random walk is less than $S_{N_t}$, we get
+\[E[N_t^*] \leq E[\mbox{number of $n$ such that $S_n < 0$}]\]
+
+Hence if we argue that RHS of above is finite, then
+\[\frac{u(t)}{t} \to \frac{1}{\mu}\]
+
+From the first proposition in Random walks, we have $E[N] <\infty$ where $N$ is the first value of $n$ for which $S_n > 0$. At time $N$, with positive probability $1-p^*$, no future value of random walk will fall below $S_N$. Thus,
+\[E[\mbox{number of $n$ where $S_n < 0$}] \leq \frac{E[N|X_1<0]}{1-p^*} < \infty\]
+
+Now follow the steps illustrated in the Blackwell renewal theorem (original) proof to arrive at the desired result.
+
+\end{proof}
+\end{document}

@@ -1,0 +1,113 @@
+% !TEX spellcheck = en_US
+% !TEX spellcheck = LaTeX
+\documentclass[a4paper,10pt,english]{article}
+\input{header}
+\title{Lecture 07: Inspection Paradox and Limiting Mean Excess Time}
+\author{}
+
+\begin{document}
+\maketitle
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5  
+\section{The Inspection Paradox}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Define $X_{N(t)+1}=A(t)+Y(t)$ as the length of the renewal interval containing $t$, in other words, the length of current renewal interval. Inspection paradox says that $P(X_{N(t)+1} >x)\geq \bar{F}(x)$. That is, for any $x$, the length of the current renewal interval to be greater than $x$ is always more likely than that for an ordinary renewal interval. Formally,
+\begin{flalign*}
+\Pr\{X_{N(t)+1}>x\}&= \int_{0}^t\Pr\{X_{N(t)+1} > x | S_{N(t)} = y, N(t)=n\}dF_{(S_{N(t)}, N(t))}.
+%&= P(X_2 >x)\\
+%&= \bar{F}(x).
+\end{flalign*}
+Now we have,
+\begin{flalign*}
+\Pr\{X_{N(t)+1}>x | S_{N(t)}=y, N(t)=n\} & = \Pr\{X_{N(t)+1}>x | X_1+\cdots+X_n=y, X_{n+1}>t-y\} \\
+& = \Pr\{X_{n+1}>x | X_{n+1}>t-y\} \\
+& = \frac{\Pr\{X_{n+1}>\text{max}(x,t-y)\}}{\Pr\{X_{n+1}>t-y\}} \\
+& \geq \bar{F}(x). 
+\end{flalign*}
+So we get that,
+\begin{flalign*}
+\Pr\{X_{N(t)+1}>x\}\geq \Pr\{X_{1}>x\}.
+\end{flalign*}
+One can also look into a weaker version of inspection paradox involving
+the limiting distribution of $X_{N(t)+1}$, consider an alternating 
+renewal process for which the ON time is the total time of the cycle if that 
+total time is greater than $x,$ and zero otherwise. The system is either totally ON 
+during a cycle (if the renewal interval is greater than $x$), or totally OFF 
+otherwise. Formally,
+\begin{align*}
+Z_n= &\text{ON time in $n^{th}$ cycle} = X_n \mathbb{I}_{X_n>x} \\
+Y_n= &\text{OFF time in $n^{th}$ cycle} = X_n \mathbb{I}_{X_n\leq x}.
+\end{align*}
+Now we have,
+\begin{flalign*}
+\Pr \{X_{N(t)+1}>x\} &= \Pr\{\text{length of the interval containing } t>x\}\\
+&= \Pr\{ \text{on at time } t \}.
+\end{flalign*}
+
+In view of Corollary \ref{cor:Limiting ON probability}, we conclude that 
+\begin{flalign*}
+\lim_{t\to \infty}\Pr\{X_{N(t)+1}>x\} &= \frac{\E[\text{on time in cycle}]}{\mu} \\
+&= \frac{\E[X\mathbb{I}_{X>x}]}{\mu}\\
+&= \frac{\int_{x}^\infty y dF(y)}{\mu}\\
+&\geq \Pr[X_1\geq x],
+\end{flalign*}
+where the last step follows from Chebyshev's inequality stated below.
+
+\subsubsection*{Chebyshev's Sum Inequality:}
+ If $f:\mathbb{R} \rightarrow \mathbb{R}^{+}$ and $g : \mathbb{R} \rightarrow \mathbb{R}^{+}$ are functions with the same
+ monotonicity then for any random variable $X$, $f(X)$ and $g(X)$ are positive and
+ $$\E[f(X)g(X)] \geq \E[f(X)]\E[g(X)].$$
+\textbf{Remark:} \\
+ This inequality gives us that
+ $$\E[X\mathbb{I}_{X\geq x}] \geq \E[X]\Pr[X\geq x].$$
+
+\subsection{Example:}
+ Suppose the number of commodities desired by a customer at a store follows a distribution $G$. The ordering policy of the store is as follows: For some fixed $s,~S$, if the inventory level after serving a customer is $x$, then the amount ordered is
+ 
+ 
+
+     \begin{displaymath}
+        \left\{
+         \begin{array}{lr}
+           S-x & \text{if } x <s\\
+           0 & \text{if } x \geq s
+         \end{array}
+       \right.
+    \end{displaymath} 
+
+Let $L(t)$ denote the inventory level at time $t$. We are interested in finding $\lim_{t \rightarrow \infty}\mathbb{P}(L(t) \geq y)$. 
+Let $X_n$ denote inter-restocking times. Let $\{L(t)\geq y\}$ denote ON period. $X_n$ forms an 
+alternating renewal process with the above mentioned ON time. 
+From alternating renewal process theorem, we have 
+
+\begin{flalign*}
+\lim_{t \rightarrow \infty}\mathbb{P}(L(t) \geq y) &= \frac{\mathbb{E}[\text{ON time}]}{\mathbb{E}[X_1]}\\
+&=\frac{\mathbb{E}[\sum_{i=1}^{N_y}X_i]}{\mathbb{E}[\sum_{i=1}^{N_s}X_i]}=\frac{\mathbb{E}[N_x]}{\mathbb{E}[N_s]}.
+\end{flalign*}
+
+where $N_y= \min\{n \in \mathbb{N}: \sum_{i=1}^{n}D_i > S-y\}$  and $D_1,D_2 \hdots$ denote the successive customer demands. Since $D_i$ are iid, we can interpret $N_y-1$ as the number of renewals till time $S-y$. $D_i$ is the inter arrival time of the process. Thus   
+
+\begin{flalign*}
+\lim_{t \rightarrow \infty}\mathbb{P}(L(t) \geq y) =\frac{m_G(S-x)+1}{m_G(S-s)+1}, s \leq x \leq S.
+\end{flalign*}
+\section{Limiting Mean Excess Time}
+Consider a nonlattice renewal process and we are interested in computing the mean excess time of the process. We start by writing the renewal equation of mean excess life time, $\mathbb{E}[Y(t)]$.
+\begin{flalign*}
+\mathbb{E}[Y(t)]&= \mathbb{E}[Y(t)|S_{N(t)}=0]F^c(t)+ \int_{0}^{t} \mathbb{E}[Y(t)|S_{N(t)}=y]F^c(t-y)dm(y)\\
+&=\mathbb{E}[X_1-t |X_1>t]F^c(t)+ \int_{0}^{t} \mathbb{E}[X-(t-y)|X>t-y]F^c(t-y)dm(y).
+\end{flalign*}
+From Key Renewal theorem, we have 
+
+\begin{flalign*}
+\lim_{t \rightarrow \infty}\mathbb{E}[Y(t)]&=\frac{1}{\mu} \int_{0}^{\infty} \mathbb{E}[X-t|X-t >0]F^c(t) dt\\
+&= \frac{1}{\mu} \int_{t=0}^{\infty} \int_{x=t}^{\infty}(x-t) dF(x) dt\\
+&= \frac{1}{\mu} \int_{x=0}^{\infty} \int_{t=0}^{x}(x-t) dF(x) dt\\
+&= \frac{\mathbb{E}[X^2]}{2\mu}.
+\end{flalign*}
+\begin{prop}
+If the inter arrival time is nonlattice and $\mathbb{E}[X^2] < \infty$, by corollary , we have $\mu (m(t)+1) = t + \mathbb{E}[Y(t)]$
+\begin{flalign*}
+\lim_{t \rightarrow \infty} (m(t)-\frac{t}{\mu}) = \frac{\mathbb{E}[X^2]}{2\mu^2}-1.
+\end{flalign*} 
+\end{prop}
+\end{document}

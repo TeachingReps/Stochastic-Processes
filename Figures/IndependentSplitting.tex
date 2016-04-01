@@ -1,0 +1,31 @@
+\begin{tikzpicture}
+[node distance=1cm, draw=black, thick, >=stealth',
+axes/.style=,
+block/.style={rectangle, draw=black, rounded corners, inner sep=1pt, minimum height=0.8cm, minimum width=0.5cm},
+queue/.style={rectangle, draw=white, rounded corners, inner sep=1pt, minimum height=0.8cm, minimum width=0.5cm}]
+
+\node[block](Nt) at (2,10) {Splitter} 
+	edge node[near start,above]{$N(t)$} (0,10);
+\node[queue](N1t) [above right=of Nt,xshift=3cm] {}
+	edge
+	node[near end, above]{$p$}
+	node[near start, above]{$N_1(t)$}
+	(Nt);
+\node[queue](N2t) [below right=of Nt,xshift=3cm] {}
+	edge
+	node[near end, below]{$1-p$}
+	node[near start, above]{$N_2(t)$}
+	(Nt);
+\begin{scope}[axes]
+\draw[->] (0,0) -- (9.5,0) node[right] {$t$} coordinate (time);
+\draw[->] (0,0) -- (0,7) node[above] {$N(t)$} coordinate (number of  events);
+\foreach \x/\xtext in {0.5/S_{n-3}, 1.5/S_{n-2}, 2.2/S_{n-1},3.2/S_{n}, 5.1/S_{n+1}, 6/S_{n+2}}
+	\draw[xshift=\x cm] (0pt,1pt) -- (0pt,-1pt) node[below,fill=white] {$\xtext$};
+\foreach \y/\ytext in {1/n-3,2/n-2, 3/n-1, 4/n,5/n+1,6/n+2}
+	\draw[yshift=\y cm] (1pt,0pt) -- (-1pt,0pt) node[left,fill=white] {$\ytext$};
+\end{scope}
+\draw[] (0,0)--(.5,0)--(.5,1)--(1.5,1)--(1.5,2)--(2.2,2)--(2.2,3)--(3.2,3)--(3.2,4)--(5.1,4)--(5.1,5)--(6,5)--(6,6)--(9,6)node[right]{$N(t)$};
+\draw[red] (0,0)--(.5,0)--(.5,1)--(3.2,1)--(3.2,2)--(9,2)node[right]{$N_1(t)$};
+\draw[blue] (0,0)--(1.5,0)--(1.5,1)--(2.2,1)--(2.2,2)--(5.1,2)--(5.1,3)--(6,3)--(6,4)--(9,4) node[right]{$N_2(t)$};
+
+\end{tikzpicture}

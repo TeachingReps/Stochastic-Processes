@@ -1,0 +1,50 @@
+\documentclass[a4paper,english,12pt]{article}
+\input{header}
+
+%opening
+\title{\textbf{Proposal for SPQT Project\\Dynamic Allocation of Interest Rates to group of car drivers given their past events}}
+\author{K Chetan Kumar}
+
+\begin{document}
+\maketitle
+
+\section{Motivation}
+Insurance companies always receives accident from automobile accidents. If the frequency of these claims are high, then insurance companies need to pay more money to insured people. this is risky and sometimes companies become bankrupt. As risk management is one of the foremost important thing in the business, this problem worth studying.
+
+\section{System Model}
+Suppose there are $N$ car drivers insured to some insurance company each having premium rates $r_i, i\in \{1, \dots, N\}$. Suppose each driver had some number of accidents $A_i, i\in\{1,\dots,N\} \sim poisson(\lambda_i)$ and corresponding claims $X_i, i\in\{1,\dots,N\}$ in every year. Here are the some useful terminologies:
+\begin{itemize}
+\item $r_i^t, r_i^{t-1}, r_i^{t+1}, i\in\{1,\dots,N\}$ is the premium rates of driver $i$ in present, previous and next years respectively.
+\item $A_i^t, A_i^{t-1}, A_i^{t+1}, i\in\{1,\dots,N\}$ is the number of accidents of driver $i$ in present, previous and next years respectively.
+\end{itemize}
+\section{Problem Statement}
+In this project I want to model the premium rates of each driver based on their accidents in the previous years and expected amount that the company has to pay to the drivers. Here are the cases I want to look at:
+
+\begin{itemize}
+\item Case 1: If number of accidents of driver $i$ in present year is greater than number of accidents in previous year, than premium rate for next year is greater than premium rate of present year i.e.,  
+\begin{equation*}
+A_i^t > A_i^{t-1} \rightarrow r_i^{t+1} > r_i^t.
+\end{equation*}
+\item Case 2: Similarly, if $ A_i^t < A_i^{t-1} \rightarrow r_i^{t+1} < r_i^t $.
+\item Case 3: If $ A_i^t = A_i^{t-1} \rightarrow r_i^{t+1} = r_i^t $.
+\item Case 4: If driver $i$ doesn't cause any accidents (that means no claims to company), than company will pay some incentive $x_i(r_i^t)$ to the customer, it is a some function of present year premium rate $r_i^t$.
+\end{itemize}
+
+Now I wanted to find out $r_i^{t+1}$ and $x_i(r_i^t)$ with two things under consideration.
+\begin{itemize}
+\item Company doesn't bankrupt. This means in Case 2, if company select $r_i^{t+1}$ too less compared to $r_i^t$ i.e., $r_i^{t+1} << r_i^t $, there might be a chance that company incur losses.
+\item Customer satisfaction. This means in Case 1, if if company select $r_i^{t+1}$ much higher compared to $r_i^t$ i.e., $r_i^{t+1} >> r_i^t $, then customers may unsatisfied with the rate and withdraw their policy. Still in this case company may incur losses by losing customers.
+\end{itemize}
+And also I want to find out total expected amount that the company has to pay every year to their customers by considering above 4 cases. At last I will include all of 4 cases in  a group of $N$, i.e., drivers with more accidents, less accidents, equal accidents and no accidents in $N$ number of drivers and try to evaluate it as a whole.  
+
+\subsection{Justification}
+By this model, the driver more prone to accidents will have to pay more premium amount than the one who have less number of accidents. Which makes him more cautious while driving.
+\section{Plan}
+\begin{itemize}
+\item Week 1: Literature survey.
+\item Week 2: Mathematical modeling of problem.
+\item Week 3: Solving for optimal $r_i^{t+1}$.
+\item Week 4: Finding total expected amount that the company has to pay every year to their customers and I will try to incorporate more things in this problem if time permits.
+\end{itemize}
+
+\end{document}

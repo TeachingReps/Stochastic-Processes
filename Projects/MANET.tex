@@ -1,0 +1,34 @@
+% !TEX spellcheck = en_US
+% !TEX spellcheck = LaTeX
+\documentclass[a4paper,10pt,english]{article}
+\input{header}
+\title{\textbf{SPQT PROJECT PROPOSAL}\\ Mobile Ad hoc Networks}
+\author{Roshan Antony \\ Sireesha Madabhushi \\ Vinay Kumar B R}
+\begin{document}
+\maketitle
+\section{Motivation}
+\par Mobile communication today has evolved to handle high data rates and the need of the hour is to have reliable seamless communication. MANETs have become popular at this juncture and are ubiquitous due to the presence of mobiles and laptops. However a persistent problem in MANETs is to maintain connectivity given that the nodes are moving at high speeds. Such scenarios also arise in sensor networks and tactical networks such as UAVs, ships etc. wherein connectivity could be a single point of failure for the whole system.
+
+\section{System model/Problem Statement}
+There are $N$ nodes in the network moving according to a mobility model. The goal of the project is to determine the mean time for all the nodes in the network to be connected. The roadmap to achieve this is as follows.
+\begin{itemize}
+\item $N$ nodes on the lattice points from $[0,L]$ each of which move according to a random walk. Find the mean recurrence time for connectivity and the mean time the graph stays connected.
+\item $N$ nodes on the lattice points from $[-\infty,\infty]$ each of which move according to a random walk. Find the expected time for $p$ fraction of the nodes to get connected to a broadcasting node(say $N_0$)
+\item $N$ nodes on a 2-D bounded lattice with a random walk mobility model. Find the mean recurrence time for connectivity and the mean time the graph stays connected.
+\item Simulations for the above.
+\end{itemize}
+
+\section{Timeline}
+\begin{center}
+\begin{tabular}{|c|c|c|}
+\hline
+Week Number & Date & Work \\ \hline
+1 & 13/03 -19/03 & Analysis of Bounded 1-D case \\ \hline
+2 & 20/03 -26/03 & Analysis of broadcast time in 1-D case \\ \hline
+3 & 27/03 - 02/04 & Analysis of 2-D Bounded model \\ \hline
+4 & 03/04 - 09/04 & Simulations for the three cases \\ \hline
+5 & 10/04 - 16/04 & Compiling results \\ \hline
+\end{tabular}
+\end{center}
+
+\end{document}

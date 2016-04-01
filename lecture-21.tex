@@ -1,0 +1,123 @@
+% !TEX spellcheck = en_US
+% !TEX spellcheck = LaTeX
+\documentclass[a4paper,10pt,english]{article}
+%\uspackage{tfrupee}
+\input{header}
+\title{Lecture 21: Exchangeability}
+\author{}
+\begin{document}
+\maketitle
+\section{Random Walk}
+\begin{defn} Let $\{X_i: i \in \N\}$ be \textit{iid} random variables with finite $\E[|X_1|]$. Let
+\begin{align*}
+S_n &= \sum_{k=1}^n X_i, ~~n \in \N_0.
+\end{align*}
+Then the process $\{S_n: n \in \N_0\}$ is called a \textbf{random walk}. 
+\end{defn}
+\begin{defn} A random walk is called a \textbf{simple random walk} if
+\begin{align*}
+\Pr\{X_1 = 1\} &= 1- \Pr\{X_1 = -1\}.
+\end{align*}
+\end{defn}
+\begin{rem} A simple random walk has the interpretation of the winnings of a gambler who plays a simple coin toss game and wins Rupee 1 if heads and loses Rupee 1 if tails. 
+\end{rem}
+\begin{rem} Random walks are useful in analyzing GI/GI/1 Queues, Ruin systems and even stock prices.
+\end{rem}
+
+\begin{defn} Let $X_i$ belong to probability space $(S, \mathcal{S}, \mu)$. Consider the probability space $(\Omega, \F, P)$  for process $\{X_i: i \in \N\}$ where 
+\begin{xalignat*}{5}
+&\Omega = \prod_{i \in \N} S, &&\mathcal{F} = \prod_{i \in \N}\mathcal{S},&&P = \prod_{i \in \N}\mu.
+\end{xalignat*}
+%We define $X_n(\omega) = \omega_n$
+%\end{defn}
+%\begin{defn} 
+A \textbf{finite permutation} of $\N$ is a map $\pi: \N \to \N$ such that $\pi(i) \neq i$ for only finitely many $i$.
+\end{defn}
+\begin{defn} For a finite permutation $\pi$, we define $(\pi \omega)_i = \omega_{\pi(i)}$ for all $i \in \N$.
+\end{defn}
+\begin{defn} An event $A$ is \textbf{permutable} if $A = \pi^{-1}A = \{\omega \in \Omega: \pi \omega \in A\}$ for any finite permutation $\pi$.
+\end{defn}
+\begin{defn} The collection of permutable events is a $\sigma$-field called the \textbf{exchangeable} $\sigma$-field and denoted by $\mathcal{E}$.
+\end{defn}
+\begin{defn} A sequence $X$ of random variables is called \textbf{exchangeable} if for each $n$ and permutation $\pi: [n] \to [n]$, joint distribution of $(X_1, X_2, \ldots, X_n)$ and $(X_{\pi(1)}, X_{\pi(2)}, \ldots, X_{\pi(n)})$ are same.
+\end{defn}
+%\begin{defn}
+%$X_1, \hdots ,X_n$ is exchangeable if $X_{i_1}, \hdots X_{i_n}$ has the same joint distribution for all permutations $(i_1,i_2 \hdots i_n)$ of $(1, \hdots ,n)$. The infinite sequence of random variables $X_1, X_2 \hdots$ is said to be exchangeable if every finite subsequence $X_1, \hdots ,X_n$ is exchangeable.
+%\end{defn}
+\begin{exmp}
+Suppose balls are selected randomly, without replacement, from an urn consisting of $n$ balls of which $k$ are white. For $i \in [n]$, let
+\begin{align*}
+   X_i &= 1_{\{ i^{\text{th}}\text{ selection is white}\}},
+\end{align*}
+then $(X_1, \ldots X_n)$ will be exchangeable but not independent.  
+In particular, let $A = \{ i \in [n]: X_i = 1\}$. Then, we know that $|A| = k$, and we can write 
+\begin{align*}
+\Pr\{X_i = 1, i \in A, X_j = 0, j \in A^c\} = \Pr\{A = (i_1, i_2, \ldots, i_k) \} = \frac{(n-k)!k!}{n!} = \frac{1}{\binom{n}{k}}.
+\end{align*}
+This joint distribution is independent of set of exact locations $A$, and hence exchangeable. 
+Further, we can show that all $X_i$ are identically distributed, since
+\begin{align*}
+\Pr\{X_1= 1, X_2, \ldots, X_n\} = \Pr\{X_i = 1, X_1, \ldots, X_{i-1}, X_i, \ldots, X_n\}. 
+\end{align*}
+Further, it can be seen that
+\begin{align*}
+\Pr\{X_2 = 1|X_1= 1) = \frac{k-1}{n-1} \neq \frac{k}{n-1} = \Pr\{X_2 = 1|X_1 =0\}.
+\end{align*}
+\end{exmp}
+\begin{exmp}
+Let $\Lambda$ denote a random variable having distribution $G$. Let $X$ be a sequence of dependent random variables, where each of these random variables are conditionally \textit{iid} with distribution $F_\lambda$ given $\Lambda= \lambda$.Then, these random variables are exchangeable since
+\begin{align*}
+\Pr\{X_1 \leq x_1 \ldots , X_n \leq x_n\} = \int_{\lambda} \prod_{i=1}^nF_\lambda(x_i)dG(\lambda),
+\end{align*}
+which is symmetric in $(x_1, \ldots x_n)$. %The are not independent.
+\end{exmp}
+\begin{thm}[de Finetti's Theorem] If $X$ is an exchangeable sequence of random variables then conditioned on $\mathcal{E}$, each random variable $X_i$ in the sequence is iid.
+\end{thm}
+\begin{proof} Let $I_{n,k} = \{i \subseteq [n]^k: i_j \text{ distinct}\}$. Then, for a function $\phi: \R^k \to \R$, we can define
+\begin{align*}
+A_n(\phi) &= \frac{1}{(n)_k}\sum_{i \in I_{n,k}}\phi(X_{i_1}, X_{i_2}, \ldots, X_{i_k}),
+\end{align*}
+where $(n)_k = n(n-1)\ldots(n-k+1)$. Clearly, $A_n(\phi) \in \mathcal{E}_n$ measurable and hence,
+$\E[A_n(\phi)|\mathcal{E}_n] = A_n(\phi)$. Since, $X$ is exchangeable, we have
+\begin{align*}
+A_n(\phi) &= \frac{1}{(n)_k}\sum_{i \in I_{n,k}}\E[\phi(X_{i_1}, X_{i_2}, \ldots, X_{i_k})|\mathcal{E}_n] = \E[\phi(X_{1}, X_{2}, \ldots, X_{k})|\mathcal{E}_n].
+\end{align*}
+Since $\mathcal{E}_n \to \mathcal{E}$, we have 
+\begin{align*}
+\lim_{n \in \N} A_n(\phi) &= \lim_{n \in \N} \E[\phi(X_{1}, X_{2}, \ldots, X_{k})|\mathcal{E}_n] = \E[\phi(X_{1}, X_{2}, \ldots, X_{k})|\mathcal{E}] .
+\end{align*}
+Let $f$ and $g$ be bounded functions on $\R^{k-1}$ and $\R$ respectively, such that $\phi(x_1,\ldots,x_k) = f(x_1,\ldots,x_{k-1})g(x_k)$. We also define $\phi_j(x_1,\ldots,x_{k-1}) = f(x_1,\ldots,x_{k-1})g(x_j)$, to write 
+\begin{align*}
+(n)_{k-1}A_n(f)nA_n(g) &= \sum_{i \in I_{n,k-1}}f(X_{i_1}, \ldots,X_{i_{k-1}})\sum_{m}g(X_{m})\\
+&= \sum_{i \in I_{n,k}}f(X_{i_1}, \ldots,X_{i_{k-1}})g(X_{i_k}) + \sum_{i \in I_{n,k-1}}\sum_{j=1}^{k-1}f(X_{i_1},\ldots,X_{i_{k-1}})g(X_{i_j})\\
+&= (n)_kA_n(\phi) + \sum_{j=1}^k(n)_{k-1}A_n(\phi_j).
+\end{align*}
+Dividing both sides by $(n)_k$ and rearranging terms, we get
+\begin{align*}
+A_n(\phi)& = \frac{n}{n-k+1}A_n(f)A_n(g) - \frac{1}{n-k+1}\sum_{j=1}^kA_n(\phi_j),\\
+%\lim_{n\in \N}\E[f(X_1,\ldots, X_{k-1})g(X_k)| \mathcal{E}_n] &= \lim_{n \in \N} \E[f(X_1,\ldots, X_{k-1})| \mathcal{E}_n] \E[g(X_k)| \mathcal{E}_n] 
+\end{align*}
+Using above two results, theorem follows by induction.
+\end{proof}
+%\begin{thm}[de Finetti's Theorem] Every infinite sequence $X$ of random variables taking values either $0$ or $1$, there corresponds a probability distribution $G$ on $[0,1]$ such that, for all $0 \leq k \leq n$,
+%\begin{equation*}
+%\label{De Finetti}
+%Pr(X_1=X_2= \hdots X_k =1, X_{k+1}= \hdots X_n = 0)= \int_{0}^{1}\lambda^k(1-\lambda)^{n-k}dG(\lambda).
+%\end{equation*}  
+%\end{thm}
+%\begin{proof}
+%Let $m \geq n $.
+%\begin{eqnarray*}
+%&Pr(X_1 = X_2 \hdots X_k =1, X_{k+1}= \hdots X_n 0 )\\
+%&=\sum_{j=0}^{m}Pr(X_1=\hdots X_k=1, X_{k+1}= X_{n}=0|S_m=j)Pr(S_m=j)\\
+%&=\sum_{j} \frac{j(j-1) \hdots (j-k+1)(m-j)(m-j-1) \hdots (m-j-(n-k)+1) }{m(m-1) \hdots (m-n+1)}Pr(S_m=j).
+%\end{eqnarray*}
+%The last equation follows by exchangeability as given $S_m=j$ each subset of size $j$ of $X_1 \hdots X_m$ is equally likely to be the one consisting of all $1'$s. Letting $S_m=mY_m$, the above equation for large $m$ is roughly equal to $E[Y_m^k(1-Y_m)^{n-k}]$, and the theorem follows letting $m \rightarrow \infty$. Indeed, from a result known as  Helly's theorem it can be shown that for some subsequence $m'$ converging to $\infty$, the distribution of $Y_m'$ will converge to a distribution $G$ and we get
+%\begin{equation*}
+%E[Y_{\infty}^k(1-Y_{\infty})^{n-k}] = \int_0^1 \lambda^k(1-\lambda)^{n-k}dG(\lambda).
+%\end{equation*} 
+%\end{proof}
+
+
+
+\end{document}
