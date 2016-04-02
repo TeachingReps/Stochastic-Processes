@@ -11,18 +11,20 @@
 An irreducible, aperiodic Markov Chain with countable state space $I$ is of one of the following types:
 \begin{enumerate}[i)]
 \item All the states are either transient or null recurrent. That is, $\lim_{n \in \N}P_{ij}^n = 0$  and there exists no stationary distribution.
-\item All the states are positive recurrent. There exists a unique stationary distribution ${\pi_j, j \in I}$,
+\item All the states are positive recurrent. There exists a unique stationary distribution $\pi \in \Delta(I)$,
 \begin{align*}
- \pi_j &= \lim_{n \in \N} P^n_{ij} > 0.
+ \pi_j &= \lim_{n \in \N} P^n_{ij} > 0,~ j \in I.
  \end{align*}
 \end{enumerate}
 \end{thm}
-\begin{proof}
+\begin{proof} Let $\{X_n: n \in \N\}$ be an irreducible, aperiodic Markov chain with state space $I$. 
 \begin{enumerate}[i)]
 \item 
-If the states are transient or null recurrent and $\{P_j,j \in I\}$ is a stationary distribution, 
-then $P_j = \sum_{i \in I} \Pr\{X_n = j|X_0 = i\} \Pr\{X_0 = i\}$ holds. 
-Then, for each $n \in \N$, we have $P_j= \sum_{i \in I} \pi_i P_{ij}^n$. 
+If the states are transient or null recurrent and $P \in \Delta(I)$ is a stationary distribution, 
+then for any $n \in \N$, we have
+\begin{align*}
+P_j = \sum_{i \in I} \Pr\{X_n = j|X_0 = i\} \Pr\{X_0 = i\} = \sum_{i \in I} \pi_i P_{ij}^n.
+\end{align*} 
 Since, $\pi_j = 0$ for all $j \in I$, we have $P_j=0$ for every $j \in I$. 
 This contradicts the assumption that $P_j$ is a probability distribution. 
 \item 
@@ -126,40 +128,37 @@ We focus on the mean reward in one renewal cycle, assuming $f$ is non-negative,
 \begin{align*}
 %&E_0[cycle \: length] = \frac{1}{\pi_0}\: (from \: Corollary \: 2)\\
 %&E_0[cycle \: reward] = E_0[\sum_{n=0}^{\tau_1}f(X_n)]\\
-\E_i[\text{cycle reward}] &= \E_i\sum_{n=1}^{\tau_1} \sum_{j \in I} f(j) 1_{\{X_n = j\}} = \sum_{j \in I} f(j) \E_i\sum_{n=1}^{\tau_i} 1_{\{X_n = j\}}.
+\E_i[\text{cycle reward}] &= \E_i\sum_{n=1}^{\tau_1} \sum_{j \in I} f(j) 1_{\{X_n = j\}} = \sum_{j \in I} f(j) \E_i\sum_{n=1}^{\tau_1} 1_{\{X_n = j\}}.
 \end{align*}
 To calculate the reward given above, we need to find the expected number of visits to state $j$ between successive visits to state $i$. 
 We denote the average number of visits to state $j$ by  
 $Y_j = \lim_{n \in \N}\frac{\sum_{t=1}^{n} 1_{\{X_t = j\}}}{n}$. %Let us call it $\circledR$.\\
-We can compute $Y_n(j)$ in two ways.
+We can compute $Y_j$ in two ways.
 \begin{enumerate}
 	\item DTMC undergoes a renewal each time it hits state $j$. 
 	So, from elementary renewal theorem, 
 	\begin{align*}
-	Y_j &= \frac{1}{\E_j\tau_1} = 1/(1/\pi_j) = \pi_j.
+	Y_j &= \E_i1_{\{X_n = j\}} = 1/(1/\pi_j) = \pi_j.
 	\end{align*}
-	\item Without loss of generality, renewal occurs whenever DTMC hits state $i$. 
-	By renewal reward theorem, 
+	\item Without loss of generality, renewal occurs whenever DTMC hits state $i$. Hence, $\E_i\tau_1 = 1/\pi-i$ and by renewal reward theorem, we obtain
 	\begin{align*}
-	Y_j &= \frac{\E_i[\sum_{n=1}^{\tau_1} 1_{\{X_n = j\}}]}{1/\pi_0}.
+	Y_j &= \frac{\E_i[\sum_{n=1}^{\tau_1} 1_{\{X_n = j\}}]}{1/\pi_i}.
 	\end{align*}
 \end{enumerate}
 Combining above two, we get $\E_i[\sum_{t=1}^{\tau_1} 1_{\{X_t = j\}}] = \frac{\pi_j}{\pi_i}$ and the result follows. 
-%$\frac{1}{\tau_n} \sum_{t=0}^{\tau_n} f(X_t) \stackrel {n \in \N}{\to} \frac{\sum_{i \in N_0} f(i) \pi_i/\pi_0}{1/\pi_0}$
-
+%$\frac{1}{\tau_n} \sum_{t=0}^{\tau_n} f(X_t) \stackrel {n \in \N}{\to} \frac{\sum_{j \in I} f(j) \pi_j/\pi_i}{1/\pi_i}$
 \end{proof}
-
 \end{document}
-=======
-% !TEX spellcheck = en_US
-% !TEX spellcheck = LaTeX
-\documentclass[a4paper,10pt,english]{article}
-\input{header}
-\title{Lecture 11 : Time Reversibility of Discrete Time Markov Chains}
-\author{}
-\begin{document}
-\maketitle
-\section{Discrete Time Markov Chains Contd.}
+%
+%% !TEX spellcheck = en_US
+%% !TEX spellcheck = LaTeX
+%\documentclass[a4paper,10pt,english]{article}
+%\input{header}
+%\title{Lecture 11 : Time Reversibility of Discrete Time Markov Chains}
+%\author{}
+%\begin{document}
+%\maketitle
+%\section{Discrete Time Markov Chains Contd.}
 
 \subsection{Time Reversibility of Discrete Time Markov Chains}
 
@@ -320,4 +319,3 @@ E[\text{ON time in a cycle}]=E[(X_{ij}-x)^+].
 \end{align*}
 
 \end{document}
->>>>>>> 3ae3511b97af20b070d525442f60951d2a53ccda
