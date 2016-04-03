@@ -6,159 +6,202 @@
 \author{}
 \begin{document}
 \maketitle
-\section{Discrete Time Markov Chains Contd.}
+%\section{Discrete Time Markov Chains Contd.}
 
-\subsection{Total Variation Distance}
-
-Given two probability distributions p and q defined on set of natural numbers \textbf{$N_0$}, their total variation distance is defined as\\
-$d_{TV}(p,q) = \dfrac{1}{2} \lVert p - q \rVert_1$\\
-\textbf{FACT:} $d_{TV}(p,q) = sup_{S \subseteq N_0} [p(S) - q(S)]$
-\textbf{Definition: Convergence in total variation\\}\\
-Let ${X_n}_{n \geq 0}$ be a $N_0$-valued stochastic process if $\exists$ a probability distribution $\Pi$ on $N_0$ such that \\
-$lim_{n \rightarrow \infty} d_{TV}(P[X_{n} \in .], \Pi) = 0$ i.e.\\
-
-$lim_{n \rightarrow \infty} \sum{i \in N_{0}} \lvert P[X_{n}=i] - \Pi(i) \rvert = 0$\\
-Then, we say that $P[X_{n} \in .] \rightarrow \Pi$ in total variation distance as $n \rightarrow \infty$.\\
-\textbf{NOTE:}\\
-If $X_{n} \rightarrow \Pi$, then $\forall$ bounded functions, $f:N_{0} \rightarrow R$, $lim_{n \rightarrow \infty} E[f(X{n})] = \Sigma_{i \in N_0} \Pi(i)f(i)$\\
-\textbf{Theorem: Convergence in variation of DTMC}\\
-Let ${X_n}_{n \geq 0}$ be an ergodic DTMC on $N_{0}$ (irreducible, aperiodic and positive recurrent) with stationary distribution $(\Pi_{j})_{j \in N_0}$.\\
-Then $\forall$ initial distribution of $X_0$, we have $X_n \rightarrow \Pi$.\\
-In other words, if $\mu_j$ is the initial distribution, then \\
-
- $lim_{n \rightarrow \infty} \lVert \mu P^n - \Pi \rVert_1 = 0$\\
- where, $P_{ij} = P[X_{n+1} = j/X_n = i]$\\
-
+\section{Total Variation Distance}
+\begin{defn} Given two probability distributions $p$ and $q$ defined on a countable space $I$, their \textbf{total variation distance} is defined as
+\begin{align*}
+d_{TV}(p,q) &\triangleq \dfrac{1}{2}\norm{p-q}_1.
+\end{align*}
+\end{defn}
+\begin{lem} For a countable set $I$, and distributions $p, q \in \Delta(I)$, we have 
+\begin{align*}
+d_{TV}(p,q) = \sup\{ p(S) - q(S) : S \subseteq I \}.
+\end{align*}
+\end{lem}
+\begin{proof} 
+Let $A = \{ i \in I: p(i) - q(i) \geq 0\}$. Then, we can write
+\begin{align*}
+d_{TV}(p,q) = \frac{1}{2}\left(\sum_{i \in A}p(i) - q(i) + \sum_{i \notin A} q(i) - p(i) \right)= \frac{1}{2}\left(p(A) - p(A^c) - q(A) + q(A^c) \right) = p(A)-q(A).
+\end{align*}
+Let $S \subseteq I$, then we have
+\begin{align*}
+p(S)-q(S) &\leq p(S\cap A) - q(S \cap A) \leq p(A) - q(A) = d_{TV}(p,q).
+\end{align*}
+Hence, the result follows.
+%\begin{align*}
+%d_{TV}(p,q) \leq \sup\{p(S)-q(S): S \subseteq I \}.
+%\end{align*}
+\end{proof}
+\begin{defn}[Convergence in total variation] Let $\{X_n : n \in \N_0\}$ be an $I$-valued stochastic process with marginal distribution $\pi(n)_i = \Pr\{X_n = i\}$ for all $i \in I$. 
+If  there exists a probability distribution $\pi \in \Delta(I)$, such that 
+\begin{align*}
+\lim_{n \in \N} d_{TV}(\pi(n), \pi) = \lim_{n \in \N} \sum_{i \in I} \lvert\pi(n)_i - \pi_i\rvert = 0.
+\end{align*}
+Then, we say that $\lim_{n \in \N}\pi(n) = \pi$ in total variation distance.
+\end{defn}
+\begin{lem} If $X_{n} \to \pi$, then for all bounded functions $f: I \to \R$, 
+we have
+\begin{align*}
+\lim_{n \in \N} \E[f(X_n)] = \sum_{i \in I} \pi_i f(i).
+\end{align*}
+\end{lem}
+\begin{proof} Let $\sup_{i \in I}|f(i)| \leq K$ be a finite upper bound on chosen $f$. Then it follows from convergence in total variation, and observing that 
+\begin{align*}
+ \lvert\E[f(X_n)]  - \sum_{i \in I}\pi_if(i) \rvert&=  \lvert\sum_{i \in I}f(i)(\pi(n)_i - \pi_i) \rvert \leq Kd_{TV}(\pi(n),\pi).
+\end{align*}
+\end{proof}
+\begin{thm}[Convergence in total variation of DTMC]
+Let $X \in I^{\N_0}$ be an ergodic (irreducible, aperiodic, and positive recurrent) DTMC on countable state space $I$ with stationary distribution $\pi \in \Delta(I)$. Then for all initial distributions on $X_0$, distribution of $X_n$ converges in total variation to $\pi$.
+\end{thm}
+\begin{proof}
+Let $X_0 = i$, then $\pi(n)_j = \P_i\{X_n = j\} = P^n_{ij}$ for all $j \in I$. We write 
+\begin{align*}
+d_{TV}(\pi(n),\pi) = \frac{1}{2}\sum_{j \in I}|P_{ij}^n - \pi|.
+\end{align*}
+This follows from ergodicity of the DTMC.
+ \end{proof}
  
-\subsection{The Coupling method}
-\textbf{Definition:}\\
-Consider two stochastic processes $\{X_n'\}_n$ and $\{X_n''\}_n$ on $N_0$, defined on the same probability space.\\
-$\{X_n'\}_n$ and $\{X_n''\}_n$ are said to couple if $\exists$ an a.s. finite random time $\tau$ such that $\forall n \geq \tau : X_n' = X_n''$ a.s.\\
-Moreover, $\tau$ is called a coupling time of the process.\\
+\section{The Coupling method}
+\begin{defn} Consider two stochastic processes $X \in I^{\N}$ and $Y \in I^{\N}$ on state space $I$. %, defined on the same probability space.\\
+Processes $X$ and $Y$ are said to \textbf{coupled} if  there exists an a.s. finite random time $\tau$ such that for all $n \geq \tau$, we have $X_n = Y_n$ a.s. Moreover, $\tau$ is called a \textbf{coupling time} of the process.
+\end{defn}
+\begin{thm}[Coupling Inequality] Let $\tau$ be a coupling time for coupled processes $X$ and $Y$  with marginal distributions $p_n,q_n \in \Delta(I)$ for $X_n,Y_n$ respectively. Then for all $n \in \N$, we have 
+\begin{align*}
+d_{TV} (p_n,q_n) &\leq \Pr\{\tau > n\}.
+\end{align*}
+\end{thm}
+\begin{proof} Consider a finite subset $I_0 \subseteq I$ and $A = \{X_n \in I_0\}, B = \{Y_n \in I_0\}$, and $C = \{\tau \leq n\}$. Then, from definition of coupling time, we have $X_n = Y_n$ a.s. on $C$. Hence, we can write 
+\begin{align*}
+p_n(I_0) - q_n(I_0) &= %\Pr(A \cap C) + \Pr(A \setminus C) - \Pr(B \cap C) - \Pr(B \setminus C) = 
+\Pr(A \setminus C) - \Pr(B \setminus C) \leq \Pr\{X_n \in I_0, \tau > n\} \leq \Pr\{\tau > n\}.
+\end{align*}
+\end{proof}
+\begin{rem} Variation distance is bounded based on the coupling time.
+ \end{rem}
+\begin{thm}[Convergence in total variation of DTMC]
+Let $X = \{X_n \in I: n \in \N_0 \}$ be a homogenous ergodic DTMC with transition probability matrix $P$ and stationary distribution $\pi \in \Delta(I)$. Then, for any initial distribution on $X_0$, distribution of $X_n$ converges in total variation to the stationary distribution.
+%\begin{align*}
+%\lim_{n \in \N} \sum_{i \in I} \lvert P[X_n = i] - \pi(i) \rvert = 0.
+%\end{align*}
+\end{thm}
+\begin{proof}
+We will provide an alternative proof using the coupling argument. 
+Let $X$ and $Y$ be two independent ergodic DTMCs with transition matrix $P$, stationary distribution $\pi$, and initial states $i$ and $j$ respectively. 
+We construct the product DTMC $Z_n = (X_n, Y_n)$ for all $n \in \N_0$. Then, $\{Z_n: n \in \N_0\}$ has transition probabilities,
+\begin{align*}
+\Pr\{Z_n = (k,l)|Z_{n-1} = (i,j)\} = P_{ik} P_{jl}.
+\end{align*}
 
-\textbf{Coupling Inequality:}\\
-If $\tau$ is a coupling time, then $\forall n \geq 0$,
-$d_{TV} (X_n',X_n'') = \Sigma_{i \in N_0} \lvert P[X_n' = i] - P[X_n'' = i] \rvert \leq P[\tau > n]$\\
+We will first show that DTMC $Z$ is irreducible, aperiodic, and positive recurrent. 
+To this end, we notice that $\pi_z(i,j) = \pi_i \pi_j$ is a stationary distribution, since
+\begin{align*}
+\pi_z(i,j) &=  \pi_i \pi_j = \sum_{k \in I}\pi_kP_{ki} \sum_{l \in I}\pi_lP_{lj} = \sum_{(k,l) \in I \times I}\pi_z(k,l)P_{ki}P_{lj}.
+\end{align*}
+Next, we define a stopping time $\tau$ for the process $Z$, as 
+\begin{align*}
+\tau = \inf\{n \in \N_0 : X_n = Y_n \}.
+\end{align*}
+Since $\tau$ is stopping time for ergodic DTMC $Z$, it follows that $\Pr\{\tau < \infty\} = 1$. 
+Consider a process $W$ defined as 
+\begin{align*}
+W_n &= X_n1_{\{ n \leq \tau\}} + Y_n1_{\{n > \tau\}}~\forall n \in \N_0.
+\end{align*}
+It turns out that $W$  is a homogenous DTMC with transition matrix $P$ and initial state $i$. 
+That is, it inherits all the statistical properties of $X$. 
+Further, $\tau$ is a coupling time for $Y$ and $W$, and hence by coupling inequality, we have 
+\begin{align*}
+ \sum_{m \in I} \lvert \Pr\{W_n = m\} - \Pr\{Y_n = m\} \rvert \leq 2\Pr\{\tau < n\}.
+\end{align*}
+Since $\Pr\{\tau > n\} \to 0$ and $\Pr\{Y_n = m\} \to \pi_m$ as limit $n \in \N$, we see that
+\begin{align*}
+\lim_{n \in \N} \Pr\{W_n = i\} &= \pi_i. 
+\end{align*}
+%\textbf{CLAIM:}\\
+%${X_n'}_{n \geq 0}$. It inherits all the properties of $X_n^{(1)}$.\\
+%Also, $\tau$ is a coupling time for $\{X_n^{(1)}\}_{n \geq 0}$ and $\{X_n^{(2)}\}_{n \geq 0}$.\\
+%From the coupling inequality,\\
+%\begin{align*}
+% \sum_{i \in N_0} \lvert \Pr(X_n' = i) - P(X_n^{(2)} = i) \rvert \leq P[\tau < n]\\
+% n \longrightarrow \infty:  \Pr(X_n^{(2)} = i) \longrightarrow \Pi(i),  P[\tau > n] \longrightarrow 0\\
+% n \longrightarrow \infty \to \Pr(X_n' = i) = \Pi(i) 
+%\end{align*}
+\end{proof}
+%\textbf{CLAIMS:}
+%\begin{itemize}
+%	\item $\{Z_n\}_{n \geq 0}$ is irreducible and aperiodic.
+%	\item $\{Z_n\}_{n \geq 0}$ is positive recurrent.
+%\end{itemize}
+%\textbf{Proof:}\\
+\begin{rem} We can get bounds on the rate of convergence by bounding $\P\{\tau > n\}$/
+\end{rem}
+\begin{exmp} 
+Let $X$ and $Y$ be two binomial distributions with parameters $(n,p)$ and $(n,q)$ respectively, for $p > q$. 
+We are interested in finding the relation between $\Pr\{X > k\}$ and $\Pr\{Y > k\}$  for all $k \in I$. 
 
-Remark: Variation distance is bounded based on the coupling time.\\
-
-\textbf{Proof:} Consider any $A \subseteq N_0$.\\
-\begin{eqnarray*}
-\begin{aligned}
-& P[X_n' \in A] - P[X_n'' \in A] = P[X_n' \in A,\tau \leq n] + P[X_n' \in A,\tau > n] - P[X_n'' \in A, \tau \leq n] - P[X_n'' \in A,\tau > n] \\
-& P[X_n' \in A] - P[X_n'' \in A] = P[X_n' \in A,\tau > n] - P[X_n'' \in A,\tau > n] (from \: the \: definition \: of \: coupling \: between \: X_n' \: and \: X_n'')\\
-& P[X_n' \in A] - P[X_n'' \in A] \leq P[X_n' \in A,\tau > n] \leq P[\tau > n]\\
-\end{aligned}
-\end{eqnarray*}
- 
-
-\subsection{Theorem[DTMC Convergence in $d_{TV}$]}	
-Let ${X_n}$ be a homogenous $N_0$ valued ergodic DTMC with transition probability $p_{ij}$ with stationary distribution $(\Pi_j)_{j \in N_0}$. Then for any initial distribution of $X_0$,\\
-\begin{eqnarray*}
-	\begin{aligned}
- lim_{n \longrightarrow \infty} \sum_{i \in N_0} \lvert P[X_n = i] - \Pi(i) \rvert = 0\\
-\end{aligned}
-\end{eqnarray*}
-\textbf{Proof:}
-We will prove using the coupling argument.\\
-Let $\{X_n^{(1)}\}_{n \geq 0}$ and $\{X_n^{(2)}\}_{n \geq 0}$ be two independent ergodic DTMCs with transition matrix P and initial distributions $\mu$ and $\Pi$ respectively.\\
-Construct the product DTMC $Z_n = (X_n^{(1)}, X_n^{(2)})_{n \in N_0}$\\
-$\{Z_n\}_{n \geq 0}$ has transition probabilities\\
-\begin{eqnarray*}
-\begin{aligned}
-	P[Z_n = (i,j)/Z_{n-1} = (k,l)] = p_{ki} p_{lj}
-\end{aligned}
-\end{eqnarray*}
-\textbf{CLAIMS:}
-\begin{itemize}
-	\item $\{Z_n\}_{n \geq 0}$ is irreducible and aperiodic.
-	\item $\{Z_n\}_{n \geq 0}$ is positive recurrent.
-\end{itemize}
-\textbf{Proof:}\\
-$\Pi_z(i,j) = \Pi(i) \Pi(j)$ is a stationary distribution
-$$
-\tau = 
-\begin{cases}
-inf  \{n \geq 0: X_n^{(1)} = X_n^{(2)}\}\\
-\infty , if \{X_n^{(1)}\}$ and $\{X_n^{(2)}\} $ never meet$\\
-\end{cases}
-$$
-$\tau$ is a stopping time for the process $\{Z_n\}$, which is positive recurrent.\\
-This implies $P[\tau < \infty] = 1$\\
-Consider a process $X_n'$ defined as follows\\
-$$
-X_n' =
-\begin{cases}
-X_n^{(1)}, n \leq \tau\\
-X_n^{(2)}, n > \tau\\
-\end{cases}
-$$
-
-\textbf{CLAIM:}\\
-${X_n'}_{n \geq 0}$ is a homogenous DTMC with transition matrix $P$ and initial distribution $\mu$. It inherits all the properties of $X_n^{(1)}$.\\
-Also, $\tau$ is a coupling time for $\{X_n^{(1)}\}_{n \geq 0}$ and $\{X_n^{(2)}\}_{n \geq 0}$.\\
-From the coupling inequality,\\
-\begin{eqnarray*}
-\begin{aligned}
- \sum_{i \in N_0} \lvert P(X_n' = i) - P(X_n^{(2)} = i) \rvert \leq P[\tau < n]\\
- n \longrightarrow \infty:  P(X_n^{(2)} = i) \longrightarrow \Pi(i),  P[\tau > n] \longrightarrow 0\\
- n \longrightarrow \infty \Rightarrow P(X_n' = i) = \Pi(i) 
-\end{aligned}
-\end{eqnarray*}
-We can get bounds on the rate of convergence by bounding $P[\tau > n]$
-
-\subsection{Example}
-Let $X$ and $Y$ be two binomial distributions defined as follows:\\
-$X \sim Bin(n,p)$\\
-$Y \sim Bin(n,q)$ and $p > q$\\
-What is the relation between $P_1[X > k]$ and $P_2[Y > k]$  $\forall$ k?\\
-\textbf{Solution:}\\
-Consider $n$ Bernoulli random variables, $Z_1,Z_2,....Z_n \sim Ber(p)$\\
-Define $W_1,W_2....W_n$ such that $W_i \sim Ber(p*q/p)$ when the event $\{Z_i = 1\}$ which occurs with probability $p$ and $W_i = 0$ when the event $\{Z_i = 0\}$
-occurs with probability $q$.\\
-$\Rightarrow W_i \sim Ber(q)$ and $Z_i \sim Ber(p)$, with $p > q$ \\
-From the definition, we have $\sum_i W_i \leq \sum_i Z_i $\\
-$\Rightarrow P[\sum_i W_i > k] \leq  P[\sum_i Z_i > k]$\\
-We know that $\sum_i Z_i = X$ and $\sum_i W_i = Y$\\
-Therefore, $\forall$ k, $P_1[X > k] \geq P_2[Y>k]$\\
-
+Consider $n$ Bernoulli random variables, $Z_1,Z_2, \ldots,Z_n$ with probability $\Pr\{Z_i = 1\} = p$. 
+%We construct Bernoulli random variables $W_1,W_2, \ldots,W_n$ such that $\Pr\{W_i = 1\} = q$. 
+Consider random variables $U_1, U_2, \ldots, U_n$ each Bernoulli with probability $q/p$ and independent of random variables $Z_1,Z_2, \ldots, Z_n$, and defining for all $i \in [n]$
+\begin{align*}
+W_i = U_iZ_i.
+\end{align*}
+Hence, we see that $W_i \leq Z_i$ is Bernoulli with parameter $\E W_i = q = \Pr\{W_i = 1\}$.
+Observing that $Y = \sum_i W_i \leq \sum_i Z_i  = X$, it follows that $\Pr\{Y > k\} \leq  \Pr\{X > k\}$. 
+\end{exmp}
 \section{Mean time spent in the transient states}
-Consider a finite state space DTMC.'\\
-Let the transient states be $\{1,2,...t\}$.\\
-\begin{eqnarray*}
-	\begin{aligned}
-	&	Q_{t \times t} = P_{[t] \times [t]}\\
-	&	Q_{t \times t} = \begin{bmatrix} p_{11}&-&-&-&p_{1t}\\ p_{21}&-&-&-&p_{2t} \\ -&-&-&-&-\\ p_{t1}&-&-&-&p_{tt} \end{bmatrix}
-    \end{aligned}
-\end{eqnarray*}
-\textbf{NOTE:} All row sums of $Q$ cannot be equal to 1.\\
-Atleast one row should not sum upto 1, else it contradicts the claim that $Q$ is a transition matrix for the set of transient states.\\
-For $i,j \in [t]$, let\\
-\begin{eqnarray*}
-	\begin{aligned}
-& m_{ij} = E_i[\sum_{n=0}^{\infty} \textbf{1} \{X_n = j\}]\\
-& m_{ij} = \sum_{n=0}^{\infty} p_{ij}^{(n)} < \infty\\
-& m_{ij} = \textbf{1}[i = j] + \sum_{k=1}^{[t]} p_{ik}m_{kj} \\
-& M = I + QM\\
-& M(I - Q) = I\\
-& M = (I - Q)^{-1}\\
-& M = I + Q + Q^{2} + Q^{3} + ......\\
-    \end{aligned}
-\end{eqnarray*}
-$M$ is called the fundamental matrix.\\
-Here, $(I - Q)$ is invertible because all row sums of $Q$ don't sum upto 1.\\
-\textbf{Note:}\\
-$\forall i,j \in [t]$, consider $f_{ij} = \mathbb{E}_i[\textbf{1} \{\exists n \geq 0: X_n = j \}]$\\
-\begin{eqnarray*}
-\begin{aligned}
-& m_{ij} = \mathbb{E}_i[\# transitions\ to\ j \in \{0,1,2...\infty\}]\\
-& m_{ij} = f_{ij} m_{jj}\\
-&\Rightarrow i,j \in [t]; f_{ij} = \dfrac{m_{ij}}{m_{jj}}
-\end{aligned}
-\end{eqnarray*}
+Consider a DTMC $X$ defined on a finite state space $I$ with probability transition matrix $P$. Let $T \subseteq I$ be the set of transient states. 
+We define a probability transition matrix $Q$ for transient states as 
+\begin{align*}
+Q_{ij} = P_{ij},~~i,j \in T.
+%Q_{t \times t} &= P_{[t] \times [t]}\\
+%Q_{t \times t} &= \begin{bmatrix} p_{11}&-&-&-&p_{1t}\\ p_{21}&-&-&-&p_{2t} \\ -&-&-&-&-\\ p_{t1}&-&-&-&p_{tt} \end{bmatrix}
+\end{align*}
+\begin{rem} All row sums of $Q$ cannot equal $1$. 
+At least one row should not sum up to $1$, else it contradicts the claim that $Q$ is a transition matrix for the set of transient states. Hence, $I-Q$ is invertible. 
+\end{rem}
+\begin{defn}
+For $i,j \in T$, we define \textbf{fundamental matrix} $M$ such that
+\begin{align*}
+M_{ij} &\triangleq \E_i\sum_{n\in \N_0} 1_{\{X_n = j\}} = \sum_{n \in \N_0}P^n_{ij}.
+\end{align*}
+\end{defn}
+\begin{lem} Fundamental matrix $M$ for transient states of a DTMC $X$ can be expressed in terms of its transition matrix $Q$ as
+\begin{align*}
+M = (I - Q)^{-1}.
+\end{align*}
+\end{lem}
+Further, we can rewrite $M$ as 
+\begin{align*}
+M_{ij} &= 1_{\{i = j\}} + \sum_{n \in \N}\sum_{k \in I}\P_i\{X_n = j, X_1 = k\} = I_{ij} + \sum_{k \in I}P_{ik}\sum_{n \in \N_0}P^n_{kj}\\
+&= I_{ij} + \sum_{k \in T} P_{ik}M_{kj} + \sum_{k \notin T} P_{ik}\sum_{n \in \N_0}P^n_{kj}.
+\end{align*}
+Since $T$ is a set of transient states, $P_{ij} = 0$ for $i \notin T$ and $j \in T$, we get 
+\begin{align*}
+M &= I + QM.
+\end{align*}
+%$M$ is called the fundamental matrix.\\
+\begin{defn} We define expected time to visit any transient state $j \in T$, starting from initial transient state $i \in T$ as 
+\begin{align*}
+f_{ij} &= \E_i1_{\{X_n = j \text{ for some } n \in \N_0 \}}
+\end{align*}
+\end{defn}
+\begin{lem} For all $i, \in T$, we have $f_{ij} = \frac{M_{ij}}{M_{jj}}$.
+\end{lem}
+\begin{proof} 
+Let $\tau_j = \inf\{ n \in \N_0 : X_n = j \}$. 
+Since $j \in T$, we know $\Pr\{\tau_j < \infty \} = 1$, hence we can write 
+\begin{align*}
+f_{ij} &= \P_i\{\tau_j < \infty\} = \sum_{m \in \N_0}\P_i\{\tau_j = m\}.
+\end{align*}
+Further, we observe
+\begin{align*}
+M_{ij} &= \sum_{m \in \N_0}\sum_{n \geq m}\P_i\{X_n = j, \tau_j = m\} = \sum_{m \in \N_0}\P_i\{\tau_j = m\}\sum_{n \in \N_0}\P_j\{X_n = j\} = f_{ij}M_{jj}.
+%\E_i[\text{number of transitions to } j] &= 
+\end{align*}
+\end{proof}
  
 \end{document}
-=======
+
 % !TEX spellcheck = en_US
 % !TEX spellcheck = LaTeX
 \documentclass[a4paper,10pt,english]{article}
@@ -269,7 +312,7 @@ $\frac{dM(t)e^{-tQ}}{dt}=0,$ $M(t)e^{-tQ}$ is constant. $M(t)$ is any matrix sat
 A finite matrix $Q$ is $Q$ matrix if and only if $P(t)=e^{tQ}$ is a stochastic matrix for all $t \geq 0$. 
 \end{thm}
 \begin{proof}
-$P(t)=I+tQ+O(t^2)$ ($f(t)=O(t) \Rightarrow \frac{f(t)}{t} \leq c,$ for small $t,~c < \infty$ ). $q_{ij} \geq 0$ if and only if $P_{ij}(t) \geq 0,~ \forall i \neq j$ and $t \geq 0$ sufficiently small. $P(t)=P(\frac{t}{n})^n$. Note that if $Q$ has zero row sums, $Q^n$ also has zero row sums.\\
+$P(t)=I+tQ+O(t^2)$ ($f(t)=O(t) \to \frac{f(t)}{t} \leq c,$ for small $t,~c < \infty$ ). $q_{ij} \geq 0$ if and only if $P_{ij}(t) \geq 0,~ \forall i \neq j$ and $t \geq 0$ sufficiently small. $P(t)=P(\frac{t}{n})^n$. Note that if $Q$ has zero row sums, $Q^n$ also has zero row sums.\\
 \begin{flalign*}
 \sum_j [Q^n]_{ij}&= \sum_j \sum_k [Q^{n-1}]_{ik}Q_{kj}= \sum_j \sum_k Q_{kj}[Q^{n-1}]_{ik}=0.\\
 \sum_{j}P_{ij}(t)&=1+\sum_{n \in \mathbb{N}} \frac{t^n}{n!}\sum_j [Q^n]_{ij}=1+0=1.
@@ -279,8 +322,8 @@ Conversely $\sum_{j}P_{ij}(t)=1,~ \forall t \geq 0$, then $\sum_jQ_{ij}= \frac{d
 \subsection{Kolmogorov Differential Equations}
 \begin{lem}
 \begin{enumerate}
-\item{$\lim_{t \rightarrow 0} \frac{1-P_{ii}(t)}{t}=\nu_i$.}\\
-\item{$\lim_{t \rightarrow 0} \frac{P_{ij}(t)}{t}=q_{ij}$.}
+\item{$\lim_{t \to 0} \frac{1-P_{ii}(t)}{t}=\nu_i$.}\\
+\item{$\lim_{t \to 0} \frac{P_{ij}(t)}{t}=q_{ij}$.}
 \end{enumerate}
 \end{lem}
 \begin{lem}
@@ -295,16 +338,16 @@ $P_{ij}(t+h)=\sum_kP_{ik}(h)P_{kj}(t).$
 \begin{flalign*}
 P_{ij}(t+h)-P_{ij}(t)=\sum_{k \neq 1}P_{ik}(h)P_{kj}(t)-(1-P_{ii}(h))P_{ij}(t), 
 \end{flalign*}
-divide by $h$, $h \rightarrow 0$, we get $\frac{dP_{ij}(t)}{dt}=\lim_{h \rightarrow 0}P'_{ij}(t)= \sum_{k \neq i}q_{ik}P_{kj}(t)-\nu_iP_{ij}(t)$. Now the exchange of limit and summation has to be justified. 
+divide by $h$, $h \to 0$, we get $\frac{dP_{ij}(t)}{dt}=\lim_{h \to 0}P'_{ij}(t)= \sum_{k \neq i}q_{ik}P_{kj}(t)-\nu_iP_{ij}(t)$. Now the exchange of limit and summation has to be justified. 
 \begin{flalign*}
-&\liminf_{h \rightarrow 0} \sum_{k \neq 1}\frac{P_{ik}(h)}{h}P_{kj}(t) \geq \liminf_{h \rightarrow 0}\sum_{k \neq 1}\frac{P_{ik}(h)}{h}P_{kj}(t), k <N\\
+&\liminf_{h \to 0} \sum_{k \neq 1}\frac{P_{ik}(h)}{h}P_{kj}(t) \geq \liminf_{h \to 0}\sum_{k \neq 1}\frac{P_{ik}(h)}{h}P_{kj}(t), k <N\\
 &= \sum_{k \neq 1}q_{jk}P_{kj}(t),~k <N.
 \end{flalign*}
 This is true for any finite $N$. Take supremum over all $N$. We get \\
-$\liminf_{h \rightarrow 0} \sum_{k \neq 1}\frac{P_{ik}(h)}{h}P_{kj}(t) \geq \sum_{k \neq 1}q_{jk}P_{kj}(t)$. Suffices to show that $\limsup_{h \rightarrow 0} \sum_{k \neq 1}\frac{P_{ik}(h)}{h}P_{kj}(t) \leq \sum_{k \neq 1}q_{jk}P_{kj}(t)$. To that end, 
+$\liminf_{h \to 0} \sum_{k \neq 1}\frac{P_{ik}(h)}{h}P_{kj}(t) \geq \sum_{k \neq 1}q_{jk}P_{kj}(t)$. Suffices to show that $\limsup_{h \to 0} \sum_{k \neq 1}\frac{P_{ik}(h)}{h}P_{kj}(t) \leq \sum_{k \neq 1}q_{jk}P_{kj}(t)$. To that end, 
 \begin{flalign*}
-\text{LHS}& \leq \limsup_{h \rightarrow 0}[\sum_{k \neq 1, k<N}\frac{P_{ik}(h)}{h}P_{kj}(t)+\sum_{k \neq 1, k\geq N}\frac{P_{ik}(h)}{h} ]\\
-& = \limsup_{h \rightarrow 0}[\sum_{k \neq 1, k<N}\frac{P_{ik}(h)}{h}P_{kj}(t)+\frac{1-P_{ii}(h)}{h} \sum_{k \neq 1, k\geq N}\frac{P_{ik}(h)}{h} ]\\
+\text{LHS}& \leq \limsup_{h \to 0}[\sum_{k \neq 1, k<N}\frac{P_{ik}(h)}{h}P_{kj}(t)+\sum_{k \neq 1, k\geq N}\frac{P_{ik}(h)}{h} ]\\
+& = \limsup_{h \to 0}[\sum_{k \neq 1, k<N}\frac{P_{ik}(h)}{h}P_{kj}(t)+\frac{1-P_{ii}(h)}{h} \sum_{k \neq 1, k\geq N}\frac{P_{ik}(h)}{h} ]\\
 & = [\sum_{k \neq 1, k<N}q_{ik}P_{kj}(t)+\nu_i- \sum_{k \neq 1, k\geq N}q_{ik} ]\\
 &=\sum_{k \neq 1}q_{ik}P_{kj}(t). 
 \end{flalign*}
@@ -313,4 +356,3 @@ $\liminf_{h \rightarrow 0} \sum_{k \neq 1}\frac{P_{ik}(h)}{h}P_{kj}(t) \geq \sum
 \textbf{Kolmogorov Forward Equation:} Under suitablle reqularity conditions, $P'_{ij}(t)=\sum_{k \neq i}P_{ik}(t)q_{kj}-P_{ij}(t)\nu_i$, i.e. $\frac{dP(t)}{dt}=P(t)Q$.
 \end{thm}
 \end{document}
->>>>>>> 3ae3511b97af20b070d525442f60951d2a53ccda
