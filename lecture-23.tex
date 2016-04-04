@@ -2,248 +2,105 @@
 % !TEX spellcheck = LaTeX
 \documentclass[a4paper,10pt,english]{article}
 \input{header}
-\title{Lecture 22: Random Walks}
+\title{Lecture 23: Brownian Motion}
 \author{}
 
 \begin{document}
 \maketitle
 \section{Introduction}
-
-Essentially, if $X$ is an exchangeable sequence of random variables, then $(X_1,X_2,\cdots,X_n)$ has the same joint distribution as $(X_n, X_{n-1},\cdots, X_1)$. 
-In particular, an iid sequence of random variables is exchangeable. 
-%The first result we shall show that if $\E[X_1] >0 $ then the random walk will become positive in finite steps. 
-\begin{prop}
-Suppose $\{X_n: n \in \N\}$ is a sequence of iid random variables with positive mean. Let $S_n = \sum_{k=1}^n X_i$ be a random walk with step size $X_nz$. If 
-\begin{align*}N = \min \{n \in \N : S_n > 0\}\end{align*}
-Then $\E[N] < \infty$.
-\end{prop}
-\begin{proof} From duality principle we obtain that
-\begin{align*}
-\{N > n\} &= \{S_i \leq 0, i \in [n]\} = \left\{\sum_{k=0}^{i-1}X_{n-k} \leq 0, i \in [n]\right\} = \{S_n \leq S_{n-i}, i \in [n]\}.
-\end{align*}
-It follows that 
-\begin{align*} 
-\E[N] &= \sum_{n \in \N_0} \Pr\{N > n\}
-%&= \sum_{n=0}^\infty P[X_1 \leq 0, X_1+X_2 \leq 0, \cdots, X_1+X_2+\cdots+X_n \leq 0]  \label{Dual1}\\
-%&= \sum_{n=0}^\infty P[X_n \leq 0, X_n+X_{n-1} \leq 0, \cdots, X_n+X_{n-1}+\cdots+X_1 \leq 0] \label{Dual2}\\
-= \sum_{n \in \N_0} \Pr\{S_n \leq S_{n-i}, i \in [n]\}.
-\end{align*}
-%Where we used the duality principle to get (\ref{Dual2}). 
-We define the renewal instants to be when random walk hits a new low. (Why are these renewal instants?) 
-Hence, $n$ is a renewal instant after $0$ if $\{S_n \leq S_i: i \in [n]\}$. Hence, we have
-\begin{align*}
-\E[N] &= \sum_{n\in \N_0}\Pr\{\text{renewal happens at time } n\} = \sum_{n \in \N_0}\Pr\{\text{inter-renewal length} \geq n\}\\
-&= 1 + \E[\text{Number of renewals that occur}]
-\end{align*}
-%
-%Now let us count a renewal at time $n$ when $S_n \leq S_{n-1},S_{n} \leq S_{n-2}, \cdots, S_n \leq 0$. Then we get
-%\begin{flalign}
-%E[N] &= \sum_{n=0}^\infty P[\mbox{renewal happens at time n}]\\
-%&= 1 + E[\mbox{No of renewals that occur}]
-%\end{flalign}
-Since $\E X > 0$, it follows from strong law of large numbers that $S_n \to \infty$. Hence, the expected number of renewals that occur is finite. Thus $\E[N] < \infty$.
-\end{proof}
-\begin{defn}
-The number of distinct values of $(S_0,\cdots, S_n)$ is called \textbf{range}, denoted by $R_n$.
+\begin{defn} A continuous time stochastic process $\{X(t), t \geqslant 0\}$ is called \textbf{standard Brownian motion process} if the following hold.
+\begin{enumerate}[i)]
+\item $X(0) = 0$.
+\item Process has stationary and independent increments.
+\item For every $t > 0$, process is normally distributed with mean $0$ and variance $t$.
+\end{enumerate}
 \end{defn}
-\begin{prop}
-\begin{align*} \lim_{n \in \N} \frac{\E[R_n]}{n} = \Pr\{S_n \neq 0, \forall n \in \N\}\end{align*}
-\end{prop}
-\begin{proof}
-We define indicator function 
-\begin{align*}I_k &=1_{\{S_k \neq S_{k-i}, i \in [k]\}}.\end{align*}
-Then, we can write range $R_n$ in terms of indicator $I_k$ as 
-\begin{align*}R_n = 1 + \sum_{k=1}^nI_k\end{align*}
-Let $T = \{n > 0: S_n = 0\}$. Then, $\lim_{k \in \N} \Pr\{T > k\} = \Pr\{S_n \neq 0, \forall n \in \N\}$. 
-Further, using the duality principle, we can write
-\begin{flalign}
-\E[R_n] &= 1 + \sum_{k=1}^n \Pr\{S_i\neq 0, i \in [k]\} 
-%&= 1 + \sum_{k=1}^n P[S_1 \neq 0, S_2 \neq 0, \cdots, S_k \neq 0] \\
-= \sum_{k=0}^n \Pr\{T > k\}
-\end{flalign}
-%Where $T$ is the first time the RW returns to 0. 
-Result follows by dividing both sides by $n$ and taking limits.
-\end{proof}
 
-\begin{thm}[Simple Random Walk] For a simple random walk, where $\Pr\{X_1 = 1\} = p$ the following holds
+\begin{defn}
+Let $S_n$ be a simple symmetric random walk with step sizes $\{X_i: i \in \N\}$ being iid Rademacher random variables. That is,
 \begin{align*}
-\lim_{n \in \N}\frac{\E[R_n]}{n} &= 
-	\begin{cases}
-2p - 1, & p > \frac{1}{2}\\
-2(1-p)-1, & p \leq \frac{1}{2}.
-	\end{cases}
+\Pr\{X_i = 1\} &= \Pr\{X_i = -1\} = \frac{1}{2}.
+\end{align*}
+Let $\Delta t > 0$, and we choose $\Delta x = \sqrt{\Delta t}, n(t) = \frac{t}{\Delta t}$ to define \textbf{limiting scaled symmetric random walk}
+\begin{align*}
+X(t) \triangleq \lim_{\Delta t \to 0}\Delta xS_{n(t)}.
+\end{align*}
+\end{defn}
+\begin{lem} For scaled symmetric random walk $\Delta xS_{n(t)}$, we have 
+\begin{xalignat*}{3}
+&\E \Delta xS_{n(t)} = 0,&&\Var \Delta xS_{n(t)} = \frac{(\Delta x)^2}{\Delta t} t.
+\end{xalignat*}
+\end{lem}
+\begin{thm} Limiting scaled symmetric random walk $X(t)$ is a standard Brownian motion.
+\end{thm}
+\begin{proof} We will show that the limiting process satisfies all three criterion in the definition of standard Brownian motion. 
+\begin{enumerate}[i)]
+\item First condition holds trivially since $X(0) = S_0$. 
+\item Since step sizes are independent random variables, it follows that the random walk $\Delta xS_{n(t)}$ has independent increments. 
+Further, since step sizes have identical distribution, distribution of $S_{n(t)} - S_{n(s)}$ is same as distribution of $S_{n(t-s)}$ for $s,t$ multiples of $\Delta t$. 
+By continuity of probability, we conclude that $X(t)$ as stationary independent increments. 
+\item From previous lemma, it is clear that mean and variance of $X(t)$ are zero and $t$ respectively. 
+Further, it follows from central limit theorem that limit of $\frac{S_{n(t)}}{\sqrt{n(t)}}= \frac{X(t)}{\sqrt{t}}$ is standard normal random variable, as $n(t) \to \infty$.
+\end{enumerate}
+\end{proof}
+\begin{thm} Standard Brownian motion $X(t)$ is a.s. path-wise continuous and nowhere differentiable function.
+\end{thm}
+\begin{rem} Since standard Brownian motion satisfies independent increment property, it is a Markov process.
+\end{rem}
+\begin{rem} Due to stationary increments property, distribution of $X(t) - X(s)$ is same as distribution of $X(t-s)$.
+\end{rem}
+\begin{cor} Finite dimensional density of a standard Brownian motion at times $t_1 < t_2 < \ldots < t_n$ is given by 
+\begin{align*}
+f(x_1, x_2, \ldots, x_n) = \Pr\{X(t_i) = x_i, i \in [n]\} = \prod_{i \in [n]}f_{t_i - t_{i-1}}(x_i - x_{i-1}),
+\end{align*}
+where $t_0 = x_0 = 0$ and 
+\begin{align*}
+f_t(x) = \frac{1}{\sqrt{2 \pi t}}\exp\left(-\frac{x^2}{2t}\right).
+\end{align*}
+\end{cor}
+\begin{defn} A stochastic process $\{X(t), t\geqslant 0\}$ is called a \textbf{Gaussian process} if all finite dimensional distributions are multivariate normal.
+\end{defn}
+\begin{cor} Standard Brownian motion process is a Gaussian process.
+\end{cor}
+\begin{prop} Conditional density of standard Brownian motion $X(s)$ given $X(t) = B$ for $s < t$ is given by
+\begin{align*}
+f_{s|t}(x|B) &= K \exp\left(-\frac{t(x-Bs/t)^2}{2s(t-s)}\right), 
+\end{align*}
+for some positive normalization constant $K$.
+\end{prop}
+\begin{proof} Result follows from Bayes rule for densities applied to standard Brownian motion to get
+\begin{align*}
+f_{s|t}(x|B) &= \frac{f_s(x)f_{t-s}(B-x)}{f_t(B)} = \frac{1}{\sqrt{2\pi s(t-s)/t}}\exp\left(-\frac{x^2}{2s}-\frac{(B-x)^2}{2(t-s)} + \frac{B^2}{2t}\right)\\
+&=  \frac{1}{\sqrt{2\pi s(t-s)/t}}\exp\left(-\frac{t(x-sB/t)^2}{2s(t-s)}\right).
+\end{align*}
+\end{proof}
+\begin{cor} Conditional mean and variance of standard Brownian motion $X(s)$ given $X(t) = B$ for $s < t$ is given by 
+\begin{xalignat*}{3}
+&\E[X(s)|X(t) = B] = B \frac{s}{t}, && \Var[X(s)|X(t) = B] = s\left(1-\frac{s}{t}\right).
+\end{xalignat*}
+\end{cor}
+\begin{cor} Let $s/t = \alpha < 1$. Then, the conditional distribution of $X(s)$ given $X(t)$ is normal with mean $\alpha X(t)$ and variance $t \alpha(1-\alpha)$.
+\end{cor}
+\begin{thm} A continuous time stochastic process $\{X(t), t \geqslant 0\}$ is a standard Brownian motion process iff it is a zero mean Gaussian process with 
+\begin{align*}
+\Cov(X(t), X(s)) &= s \wedge t.
 \end{align*}
 \end{thm}
-\begin{proof}
-%Consider the simple random walk with $\Pr\{X_i = 1\} = p$. 
-When $p=\frac{1}{2}$, this random walk is recurrent and thus
+\begin{proof} Let $X(t)$ be a standard Brownian motion, then it is a zero mean Gaussian process. 
+Therefore, by linearity of covariance for independent random variables, we have
 \begin{align*}
-\Pr\{\text{No Return to }0\} = 0 = \lim_{n \in \N} \frac{\E[R_n]}{n}.
+\Cov(X(t),X(s))  = \Cov(X(t)-X(s),X(s)) + \Var X(s).
 \end{align*}
-When $p > \frac{1}{2}$, let $\alpha = \Pr\{\text{return to } 0|X_1 = 1\}$. Since $\E X > 0$, we know that $S_n \to \infty$ and hence $\Pr\{\text{return to } 0|X_1 = -1\} = 1$. We can write unconditioned probability of return of random walk to $0$ as 
-\begin{align*}
-\Pr\{\text{Return to }0\} = \alpha p+ 1-p.
-\end{align*}
-Conditioning on $X_2$ yields 
-\begin{align*}
-\Pr\{S_n = 0 \text{ for some }n|X_1 = 1\} &= p\Pr\{S_n = 0 \text{ for some }n| S_2  = 2\}  + (1-p).
-%\Pr\{S_n = 0 \text{ for some }n| S_2 = 0\}\\
-\end{align*}
-Further noticing that 
-\begin{align*}
-\Pr\{S_n = 0 \text{ for some }n| S_2  = 2\} &= \alpha \Pr\{S_{n+m} = 0 \text{ for some }n| S_m = 1 \text{ for some }m \},
-\end{align*}
-we conclude $\alpha = \alpha^2 p + 1-p$. 
-Solving for $\alpha$ yields $\alpha = \frac{1-p}{p}$, and hence the result follows. We can show similarly for the case when $p < 1/2$.
-%. Thus for $p > 1/2$,
-%\begin{align*}\lim_{n \in \N}\frac{\E[R_n]}{n} = 2p-1.\end{align*}
-%Similarly, we can show for $p \leq 1/2$, we have
-%\begin{align*}\lim_{n \in \N}\frac{\E[R_n]}{n} = 2(1-p)-1.\end{align*}
+Let $s \leq t$, then result follows from that $X(t) - X(s)$ is independent of $X(s)$ by independent increments property and that $X(s)$ is zero mean. 
 \end{proof}
+\begin{defn} Consider a standard Brownian motion process $\{X(t), t \geqslant 0\}$ in duration $[0,1]$. Conditional stochastic process $\{X(t), t \in [0,1]| X(1) = 0\}$ is called a \textbf{Brownian bridge}.
+\end{defn}
+\begin{prop} Brownian bridge is a zero-mean Gaussian process with 
+\begin{align*}
+\Cov(X(t), X(s)|X(1) = 0) &= s(1- t),\text{ for } s \in [t, 1].
+\end{align*}
+\end{prop}
 
-\begin{prop}
-In the symmetric random walk, the expected number of visits to state $k$ before returning to origin is equal to $1$ for all $k \neq 0$.
-\end{prop}
-\begin{proof}
-For $k>0$, let $N_j$ be the hitting time to state $j$ for random walk $S_n$. Further, let $Y$ denote the number of visits to state $k$ before the first return to origin. That is, 
-\begin{align*}Y = \sum_{n=1}^\infty I_n,\end{align*}
-where $I_n = 1_{\{S_k = n, N_0 > n\}}$.
-Thus, using duality principle and recurrence of symmetric random walk, we can write
-\begin{align*}
-\E[Y] &= \sum_{n=1}^\infty \Pr\{S_i > 0, i \in [n], S_n = k\}\\
-&= \sum_{n=1}^\infty \Pr\{S_n - S_{n-i} > 0, i \in [n], S_n = k\}\\
-%&= \sum_{n=1}^\infty \Pr\{S_n > S_{n-i}, i \in [n], S_n=k\}\\
-&= \sum_{n=1}^\infty \Pr\{N_k = n\} = \Pr\{S_n = k \text{ for some }n\} = 1.
-\end{align*}
-\end{proof}
-\subsection{ GI/GI/1 Queueing Model}
-Consider a $GI/GI/1$ queue. Customers arrive in accordance with a renewal process having an arbitrary interarrival distribution  $F$, and the service distribution is $G$. %Let the interarrival times be $X_1,~X_2 \hdots $ and let the service times be $Y_1,~Y_2 \hdots$ and let $D_n$ denote the delay in queue of the $n^\text{th}$ arrival. 
-\begin{prop}
-\label{prop_gigi1}
-Let $D_n$ be the delay in the queue of the $n^\text{th}$ customer in a GI/GI/1 queue with independent inter-arrival times $X_n$ and service times $Y_n$. We also define a random walk $S_n$ with steps $U_n = Y_n - X_{n+1}$ for all $n \in \N$. 
-%\begin{equation*}
-%S_n =\sum_{i=1}^{n}Y_n-X_{n+1},~n \in \N.
-%\end{equation*}
-Then, we can write
-\begin{align}
-\label{GIGI1_prop_eqn}
-\Pr\{D_{n+1} \geq c\} = \Pr\{S_j \geq c, \text{ for some }j \in [n]\}.
-\end{align}
-\end{prop}
-\begin{proof}
-The following recursion for $D_n$ is easy to verify
-\begin{align*}
- D_{n+1} &= (D_n+Y_n-X_{n+1})1_{\{D_n+Y_n - X_{n+1} \geq 0\}} = \max\{0,D_n+U_n\}.
-\end{align*}
-%Using definition $U_n := Y_n-X_{n+1}$ for all $n \in \N$, we can re-write this as
-%\begin{equation*}
-%D_{n+1}=\max\{0,D_n+U_n\},~ n \in \N.
-%\end{equation*}
-Iterating the above relation with $D_1 = 0$ yields
-\begin{align*}
-D_{n+1}&= \max\{0,U_n+\max\{0,D_{n-1}+U_{n-1}\}\}\\
-&=\max\{0,U_n,U_n+U_{n-1}+D_{n-1}\}.
-\end{align*}
-We can define a random walk $S_n$ with steps $U_n$ to write 
-\begin{align*}
-D_{n+1} &=\max\{0,S_n-S_{n-1},S_n-S_{n-2}, \ldots, S_n - S_0\}.
-\end{align*}
-Using the duality principle, we can rewrite delay as 
-%where in the last step we have used the fact that $D_1=0$. Hence, for $c>0$,
-\begin{align*}
-D_{n+1} &=\max\{0,S_1,S_2, \ldots , S_n\}.
-\end{align*}
-%where the last equality follows from duality. Thus the following proposition holds.
-\end{proof}
-\begin{cor} If $\E U_n \geq 0$, then for all $c$, we have 
-%\begin{align*}
-$\Pr\{D_{\infty} \geq c\} \triangleq \lim_{n \in \N}\Pr\{D_{n} \geq c\} = 1$.
-%\end{align*}
-\end{cor}
-\begin{proof}
-It follows from Proposition~\ref{prop_gigi1} that $\Pr\{D_{n+1} \geq c\}$ is nondecreasing in $n$. Hence, by MCT the limit exists and is denoted by $\Pr\{D_{\infty} \geq c\}=\lim_{n \in \N}\Pr\{D_{n} \geq c\}$. Therefore, by continuity of probability, we have from~\eqref{GIGI1_prop_eqn}, that
-\begin{align}
-\label{random_walk_gigi1}
-\Pr\{D_{\infty} \geq c\} &= \Pr\{S_n \geq c \text{ for some }n\}.
-\end{align}
-If $E[U_n]=E[Y_n]-E[X_{n+1}]$ is positive, then by strong law of large numbers the random walk $S_n$ will converge to positive infinity with probability 1. 
-The above will also be true when $E[U_n] = 0$, then the random walk is recurrent.
-%Hence,
-%\begin{equation*}
-%Pr(D_{\infty} \geq c) =1,~ \forall c ~\text{if}~ E[Y]>E[X].
-%\end{equation*}
-\end{proof}
-\begin{rem} Hence, we get that $E[Y_n]< E[X_{n+1}]$ implies the existence of a stationary distribution.
-\end{rem}
-
-\begin{prop}[Spitzer's Identity] Let $M_n=\max\{0,S_1,S_2, \ldots, S_n\}$ for $n \in \N$, then %We have the following proposition.
-\begin{align*}
-\E M_n &= \sum_{k=1}^{n} \frac{1}{k} \E S_k^+.
-\end{align*}
-\end{prop}
-\begin{proof}
-We can decompose $M_n$ as 
-\begin{equation*}
-M_n=1_{\{S_n>0\}}M_n+1_{\{S_n \leq 0\}}M_n.
-\end{equation*}
-We can rewrite first term in decomposition as, 
-\begin{equation*}
-1_{\{S_n>0\}}M_n= 1_{\{S_n>0\}}\max_{i \in [n]}S_i = 1_{\{S_n>0\}}(X_1+\max\{0,S_2 - S_1,\ldots, S_n - S_1\})
-\end{equation*}
-%By exchangeability, the joint distribution of $(X_1, \ldots, X_n)$ and $(X_n,X_1, \ldots, X_{n-1})$ are same.
-Hence, taking expectation and using exchangeability, we get 
-\begin{align*}
-%\label{sptiz_1}
-\E1_{\{S_n>0\}}M_n &= %\E 1_{\{S_n>0\}} X_1 + \E 1_{\{S_n>0\}} \max\{0,S_1,\ldots, S_{n-1}\} =   
-\E 1_{\{S_n>0\}} X_1 + \E1_{\{S_n>0\}}M_{n-1} .
-\end{align*}
-%By exchangeability, the joint distribution of $(X_1, \ldots, X_n)$ and $(X_n,X_1, \ldots, X_{n-1})$ are the same. 
-%\begin{equation}
-%\label{sptiz_2}
-% E[ 1_{\{S_n>0\}} \max\{0,X_2,\hdots X_2+\hdots +X_n\}]=E[1_{\{S_n >0\}}M_{n-1}].
-%\end{equation}
-Since $X_i,S_n$ has the same joint distribution for all $i$,
-\begin{align*}
-\E S_n^+ &= \E[S_n1_{\{S_n>0\}}]=\E\sum_{i=1}^{n}X_i 1_{\{S_n>0\}}]=n\E[X_11_{\{S_n>0\}}].
-\end{align*}
-%Hence,
-%\begin{equation}
-%\label{sptiz_3}
-%\E[X_11_{\{S_n>0\}}]=\frac{1}{n}\E[S_n 1_{\{S_n>0\}}] =\frac{1}{n}\E[S_n^+].
-%\end{equation}
-%From equations \ref{sptiz_1}, ~\ref{sptiz_2}, ~ \ref{sptiz_3}, we have that
-Therefore, it follows that
-\begin{align*}
-\E[1_{\{S_n>0\}}M_n] &=\E[1_{\{S_n>0\}}M_{n-1}]+\frac{1}{n}\E[S_n^+].
-\end{align*}
-Also, $S_n \leq 0$ implies that $M_n=M_{n-1}$, it follows that
-\begin{align*}
-1_{\{S_n\leq 0\}}M_n=1_{\{S_n\leq 0\}}M_{n-1}.
-\end{align*}
-Thus, we obtain the following recursion,
-\begin{align*}
-\E[M_n]&=\E[M_{n-1}]+\frac{1}{n}\E[S_n^+].
-\end{align*}
-Result follow from the fact that $M_1 =S_1^+$.
-%Upon recursion, we get
-% \begin{equation*}
-%\E[M_n]= \sum_{k=2}^{n} \frac{1}{k} \E[S_k^+]+\E[M_1].
-%\end{equation*}
-\end{proof}
-\begin{rem} Since $D_{n+1} = M_n$, we have 
-%From Proposition \ref{prop_gigi1}, with $M_n=\max\{0,S_1,\hdots S_n\}$
-% \begin{equation*}
-%Pr(D_{n+1} \geq c) = Pr(M_n \geq c).
-%\end{equation*}
-%Hence,
- %\begin{align*}
-$\E[D_{n+1}] =\E[M_n] = \sum_{k=1}^{n} \frac{1}{k}E[S_k^+]$.
-%\end{align*}
-%From Spitzer's identity we see that
-% \begin{equation*}
-%E[D_{n+1}]= \sum_{k=1}^{n} \frac{1}{k}E[S_k^+].
-%\end{equation*}
-\end{rem}
 \section{Martingales for Random Walks}
 %Let
 %\begin{align*}S_n = \sum_{k=1}^n X_k \quad n \geq 1\end{align*}
