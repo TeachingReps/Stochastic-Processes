@@ -64,9 +64,9 @@ f_t(x) = \frac{1}{\sqrt{2 \pi t}}\exp\left(-\frac{x^2}{2t}\right).
 \end{cor}
 \begin{prop} Conditional density of standard Brownian motion $X(s)$ given $X(t) = B$ for $s < t$ is given by
 \begin{align*}
-f_{s|t}(x|B) &= K \exp\left(-\frac{t(x-Bs/t)^2}{2s(t-s)}\right), 
+f_{s|t}(x|B) &= \frac{1}{\sqrt{2\pi s(t-s)/t}} \exp\left(-\frac{(x-Bs/t)^2}{2s(t-s)/t}\right), 
 \end{align*}
-for some positive normalization constant $K$.
+%for some positive normalization constant $K$.
 \end{prop}
 \begin{proof} Result follows from Bayes rule for densities applied to standard Brownian motion to get
 \begin{align*}
