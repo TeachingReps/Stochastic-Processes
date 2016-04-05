@@ -105,7 +105,7 @@ Let $s \leq t$, then result follows from that $X(t) - X(s)$ is independent of $X
 \Cov(X(s), X(t)|X(1) = 0) & = \E \left[X(t) \E[X(s) | X(t)]| X(1) = 0\right] = \frac{s}{t} \E \left[X(t)^2| X(1) = 0\right] = s(1-t).
 \end{align*}
 \end{proof}
-\begin{rem} Brownian bridge is a zero mean Gaussian process with covariance function $s(1-t)$ for $s \leq t$.
+\begin{rem} Brownian bridge is equivalent to a zero mean Gaussian process with covariance function $s(1-t)$ for $s \leq t$.
 \end{rem}
 \begin{prop} Let $\{X(t): t \geqslant 0\}$ is a Brownian motion, then $\{Z(t) : t \in [0, 1]\}$ is a Brownian bridge process when $Z(t) = X(t) - tX(1)$.
 \end{prop}
@@ -114,14 +114,87 @@ It suffices to show that it is zero mean and $\Cov(Z(s), Z(t)) = s(1-t)$ for $s 
 It is clear that $\E Z(t) = 0$ for all $t \in [0,1]$. 
 Further, for $s \leq t$, we have 
 \begin{align*}
-\Cov(Z(s),Z(t)) &= \Cov(X(s) - sX(1), X(t) - tX(1)) = s -st - st +st = s(1 - t).
+\Cov(Z(s),Z(t)) &= \Cov(X(s) - sX(1), X(t) - tX(1)) = s - st - st +st = s(1 - t).
 \end{align*}
 \end{proof}
-
-
+\begin{defn} 
+Let $\{X_i: i \in \N\}$ be a sequence of iid random variables, then we can define number of first $n$ random variables exceeding $s$ as 
+\begin{align*}
+N_n(s) &= \sum_{i \in [n]}1_{\{X_i \leq s \}},
+\end{align*}
+and \textbf{empirical distribution function}
+\begin{align*}
+F_n(s) &= \frac{1}{n}\sum_{i \in [n]}1_{\{X_i \leq s \}}.
+\end{align*}
+For each $n \in \N$, we can define a process $\{\alpha_n(s): s \in \R\}$, where $\alpha_n(s) = \sqrt{n}(F_n(s) - s )$. \textbf{Limiting process} is defined as $\alpha(s) = \lim_{n \in \N}\alpha_n(s)$ for all $s$.
+\end{defn}
+\begin{lem} $N_n(t) - N_n(s)$ given $N_n(s)$ is binomial $(n - N_n(s), (t-s)/(1-s))$.
+\end{lem}
+\begin{proof} Clearly, $N_n(t) - N_n(s)$ given $N_n(s)$ is sum of $n-N_n(s)$ Bernoulli random variables each with mean
+\begin{align*}
+\E[1_{\{X_i \in [s, t)\}}| X_i > s] = \frac{t-s}{1-s}.
+\end{align*}
+\end{proof}
+\begin{prop} Let $\{X_i : i \in \N\}$ be a sequence of iid uniform $(0,1)$ random variables. Then the following are true.
+\begin{enumerate}[i)]
+\item For a fixed $s \in (0,1)$, we have  $\lim_{n \in \N} F_n(s) = s$, a. s.
+\item Glivenko-Cantelli Theorem: 
+\begin{align*}
+\lim_{n \in \N}\sup_{s \in (0,1)}|F_n(s) - s| = 0,\text{ a. s.}
+\end{align*}
+\item For any $s \in (0,1)$, limiting random variable $\alpha(s) = \lim_{n \in \N}\alpha_n(s)$ is zero mean Gaussian with variance $s(1-s)$.
+%\begin{align*}
+%\Pr\left\{ F_n(s) > s + \frac{t}{\sqrt{n}} \right\} &= \frac{1}{\sqrt{2\pi s(1-s)}} \int_{x > t}\exp\left(-\frac{x^2}{2s(1-s)}\right).
+%\end{align*}
+That is, \item Point-wise limiting process $\alpha = \lim_{n \in \N}\alpha_n$ is a Brownian bridge process. 
+%zero mean Gaussian process with covariance 
+%\begin{align*}
+%\Cov(\alpha(s), \alpha(t)) &= s(1-t).
+%\end{align*}
+\end{enumerate}
+\end{prop}
+\begin{proof} Recall that $1_{\{X_i \leq s\}}$ is a Bernoulli random variable with mean $s$. 
+Hence, $N_n(s)$ is binomial $(n,s)$.
+\begin{enumerate}[i)]
+\item Follows from strong law of large numbers.
+\item Omitted.
+\item Follows from central limit theorem.
+\item It suffices to show $\E \alpha_n(s) = 0$ and $\Cov(\alpha_n(s), \alpha_n(t)) = s(1-t)$ for $s \in [t,1]$ for all $n \in \N$. 
+To this end, we observe that
+\begin{align*}
+\Cov(\alpha_n(s), \alpha_n(t)) &= \frac{1}{n} \E N_n(s) N_n(t) - nst.
+\end{align*}
+Further, we see for $s \in [t,1]$, 
+\begin{align*}
+\E[N_n(s) N_n(t)] &= \E[\E[N_n(s)N_n(t)|N_n(s)]] = \E\left[ N_n(s)\left(N_n(s) + (n-N_n(s))\frac{t-s}{1-s}\right)\right]\\
+& = \E N_n(s)^2\frac{1-t}{1-s} + n\frac{t-s}{1-s}\E N_n(s) = ns(1-t) + n^2st.
+\end{align*}
+Hence, the result follows.
+\end{enumerate}
+\end{proof}
+\begin{rem} This can be generalized to sequence of iid random variables $\{X_i :  i \in \N\}$ with a common continuous distribution function $F$, where $\{Y_i = F(X_i): i \in \N\}$ is an iid uniform $(0,1)$ random variable. %In this case, 
+%\begin{xalignat*}{5}
+%&N_n(s) = \sum_{i=1}^n1_{\{F(X_i) < s\}}, && F_n(s) = \frac{N_n(s)}{n},&& \alpha_n(s) = \sqrt{n}(F_n(s) - s).
+%\end{xalignat*}
+\end{rem}
+\begin{prop} Let $X$ be a sequence of iid random variables with common continuous distribution function $F$, then 
+\begin{align*}
+\lim_{n \in \N}\Pr\left\{\sqrt{n}\sup_{x}|F_n(x) - F(x)| < a\right\} & = \Pr\left\{\max_{t \in [0,1]}|Z(t)| < a\right\},
+\end{align*}
+where $\{Z(t) : t \geqslant 0\}$ is a Brownian bridge process.
+\end{prop}
+\begin{proof}
+Let $F(y_s) = s$, and define
+\begin{align*}
+\alpha_n(s) = \sqrt{n}(F_n(y_s)-F(y_s)) = \sqrt{n}(F_n(F^{-1}s) - s) = \sqrt{n}\left(\frac{1}{n}\sum_{i \in [n]}1_{\{F(X_i) < s\}} - s\right).
+\end{align*}
+Then, process $\{\alpha_n(s) : s \in [0,1]\}$ converges to Brownian bridge $\{Z(t) : t \in [0,1]\}$. 
+Hence, $\sup_x \sqrt{n}|F_n(x)-F(x)|$ converges to $\sup_{t \in [0,1]}|Z(t)|$ in distribution.
+\end{proof}
 \section{Hitting Times}
 \begin{defn} We denote by $T_a$, the first time a Brownian motion process $\{X(t): t \geqslant 0\}$ hits $a$.
 \end{defn}
+
 \section{Martingales for Random Walks}
 %Let
 %\begin{align*}S_n = \sum_{k=1}^n X_k \quad n \geq 1\end{align*}
