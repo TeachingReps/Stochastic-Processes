@@ -37,9 +37,9 @@ Let $\{X_i\}$ be a sequence of independent random variables with mean $1$. Let $
 \end{exmp}
 \begin{exmp}[Branching Process] 
 Let $\{X_n\}$ be a branching process. Let $X_0=1$. Then,
-\begin{equation*}
+\begin{align*}
 X_n = \sum_{i=1}^{X_{n-1}}Z_i,
-\end{equation*}
+\end{align*}
 where $Z_i$ represents the number of offspring of the $i^{\text{th}}$ individual of the $(n-1)^{\text{st}}$ generation. conditioning on $X_{n-1}$ yields, $\E[X_n]= \mu^n$ where $\mu$ is the mean number of offspring per individual. Then $\{Y_n = X_n / \mu^n: n \in \N\}$ is a martingale because $\E[Y_n]= 1$ and 
 \begin{align*}
 \E[Y_{n+1}|Y_1, \hdots Y_n] %&= \frac{1}{\mu^{n+1}}\E[X_{n+1}|Y_1, \hdots Y_n]\\
@@ -50,9 +50,9 @@ where $Z_i$ represents the number of offspring of the $i^{\text{th}}$ individual
 \end{exmp}
 \begin{exmp} [Doob's Martingale]
 Let $X,Y_1,Y_2 \hdots$ be arbitrary random variables such that $\E[|X|]< \infty$. Then
-\begin{equation*}
+\begin{align*}
 Z_n =\E[X|Y_1,Y_2, \hdots Y_n]
-\end{equation*}
+\end{align*}
 is a martingale. The integrability condition can be directly verified, and
 \begin{align*}
 \E[Z_{n+1}|Y_1,Y_2, \hdots Y_n]&= \E[\E[X|Y_1,\hdots Y_{n+1}]|Y_1,\hdots Y_{n}] = \E[X|Y_1,\hdots Y_{n}]]=Z_n.
@@ -61,41 +61,41 @@ is a martingale. The integrability condition can be directly verified, and
 \end{exmp}
 \begin{exmp}
 For any sequence of random variables $X_1,X_2 \hdots $, the random variables $X_i-\E[X_i|X_1 \hdots X_{i-1}]$ have zero mean. Define
-\begin{equation*}
+\begin{align*}
 Z_n =\sum_{i=1}^n X_i -\E[X_i|X_1,X_2, \hdots X_{i-1}] 
-\end{equation*}
+\end{align*}
  is  a martingale provided $\E[|Z_n|]< \infty$.  To verify the same, 
- \begin{flalign*}
+ \begin{align*}
 \E[Z_{n+1}|Z_1 \hdots Z_n]&= \E[Z_n+X_n-\E[X_n|X_1 \hdots X_{n-1}]]\\
 &= Z_n+\E[X_n-\E[X_n|X_1 \hdots X_{n-1}]]=Z_n.\\
-\end{flalign*}
+\end{align*}
 \end{exmp}
 \subsection{Stopping Times}
 \begin{defn}The positive integer values, possibly infinite, random variable $N$ is said to be a \textbf{random time} for the process $\{Z_n\}$ if the event $\{N=n\}$ is determined by the random variables $Z_1 \hdots Z_n$. If $\Pr\{N < \infty\}=1$, then the random time $N$ is said to be a \textbf{stopping time}. 
 \end{defn}
-\begin{defn}A \textbf{predictable sequence} $\{H_n:n\in \mathbb{N}\}$ for process $\{X_n\}$ is the one where $H_n$ is completely determined by $X_1,X_2,...,X_{n-1}$
+\begin{defn}A \textbf{predictable sequence} $\{H_n:n\in \N\}$ for process $\{X_n\}$ is the one where $H_n$ is completely determined by $X_1,X_2,...,X_{n-1}$
 \begin{align*}
-    \sum_{m=1}^{n}H_m(X_m-X{m-1}=(H\cdot X)_n
+    \sum_{m=1}^{n}H_m(X_m-X_{m-1})=(H\cdot X)_n
 \end{align*}
 \end{defn}
 \begin{thm}
-Let $\{X_n,n\geq 0\}$ be a super martingale if $\{H_n \geq 0: n \in \mathbb{N}\}$ is predictable and each $H_n$ is bounded then $(H \cdot X)_n$ is  super martingale
+Let $\{X_n,n\geq 0\}$ be a super martingale if $\{H_n \geq 0: n \in \N\}$ is predictable and each $H_n$ is bounded then $(H \cdot X)_n$ is  super martingale
 \end{thm}
 \begin{proof}
-\begin{flalign*}
-\mathbb{E}[(H\cdot X)_{n+1}|(H\cdot X)_1 ... (H \cdot X)_n]=&\mathbb{E}[H_{n+1}(X_{n+1}-X_n)+(H\cdot X)_n|(H\cdot X)_1 ... (H \cdot X)_n]\\
-=&H_{n+1}(\mathbb{E}[X_{n+1}|(H\cdot X)_1 ... (H \cdot X)_n]-X_n)+(H\cdot X)_n\\
+\begin{align*}
+\E[(H\cdot X)_{n+1}|(H\cdot X)_1 ... (H \cdot X)_n]=&\E[H_{n+1}(X_{n+1}-X_n)+(H\cdot X)_n|(H\cdot X)_1 ... (H \cdot X)_n]\\
+=&H_{n+1}(\E[X_{n+1}|(H\cdot X)_1 ... (H \cdot X)_n]-X_n)+(H\cdot X)_n\\
 \leq&(H\cdot X)_n
-\end{flalign*}
+\end{align*}
 \end{proof}
 \begin{defn}
-Let $T$ be a random time for the process $\{X_n:n\in \mathbb{N}\}$, then \textbf{stopping  process} $\{X_{T\wedge n}\}$ is defined as 
+Let $T$ be a random time for the process $\{X_n:n\in \N\}$, then \textbf{stopping  process} $\{X_{T\wedge n}\}$ is defined as 
 \begin{align*}
 X_{T\wedge n} = X_n1_{\{n \leq T\}} + X_T1_{\{n > T\}}.
 \end{align*}
 \end{defn}
 \begin{prop}
-If $T$ is a random time for the martingale $\{X_n:n\in \mathbb{N}\}$, then the stopping process $\{X_{T\wedge n}\}$ is a martingale.
+If $T$ is a random time for the martingale $\{X_n:n\in \N\}$, then the stopping process $\{X_{T\wedge n}\}$ is a martingale.
 \end{prop}
 \begin{proof}
 \begin{align*}
@@ -104,23 +104,23 @@ If $T$ is a random time for the martingale $\{X_n:n\in \mathbb{N}\}$, then the s
 \end{align*}
  $n\leq T$:\hspace{2 mm}  $X_{T\wedge n}= X_n$\\
  $n>T$: Since $n>T$ gives $n-1\geq T$ therefore $T\wedge n-1\geq T$ which implies $X_{T\wedge n}=X_{T}$ \\
- \begin{equation*}
+ \begin{align*}
      X_{T\wedge n}= X_0 +  \sum_{m=1}^{n} 1_{\{m\leq T\}}(X_m-X_{m-1})
- \end{equation*}
+ \end{align*}
      It is suffice to show $\{1_{n\leq T}\}$ is a predictable sequence which is true since 
-  \begin{equation*}
+  \begin{align*}
   \{n\leq T\}=\{T>n-1\}=\{T<n-1\}^c
-  \end{equation*}
+  \end{align*}
   Therefore from the previous theorem we have 
-  \begin{equation*}
-      \mathbb{E}[X_{T\wedge n}]=\mathbb{E}[X_{T\wedge 1}]=\mathbb{E}[X_{1}]
-  \end{equation*}
+  \begin{align*}
+      \E[X_{T\wedge n}]=\E[X_{T\wedge 1}]=\E[X_{1}]
+  \end{align*}
 
 
 %We claim that 
-%\begin{equation*}
+%\begin{align*}
 %\bar{Z}_n= \bar{Z}_{n-1}+1_{\{n \leq N\}}(Z_n-Z_{n-1})
-%\end{equation*}
+%\end{align*}
 %The above equation can be directly verified by considering the two cases separately by
 %\begin{align*}
 %\bar{Z}_n &= 
@@ -138,14 +138,14 @@ If $T$ is a random time for the martingale $\{X_n:n\in \mathbb{N}\}$, then the s
 
 \begin{rem}
 For any martingale $\{X_n: n \in \N\}$, we have $\E[X_{T\wedge n}]=\E[X_1]$, for all $n$.  Now assume that $T$ is a stopping time. It is immediate that 
-\begin{equation*}
+\begin{align*}
 \Pr\left\{\lim_{n\in \N}{X}_{T\wedge n} = X_N\right\} = 1.
-\end{equation*}
+\end{align*}
 \end{rem}
 But  is it true that
-\begin{equation*}
+\begin{align*}
 \lim_{n \in \N}\E[X_{T\wedge n}] = \E[X_N]?
-\end{equation*}
+\end{align*}
 It so turns out that the above is true under some additional regularity constraints only. %We state the following theorem without proof.
 \begin{thm}[Martingale Stopping Theorem]
 \label{MartStopThm}
@@ -185,7 +185,7 @@ Let $\mu=\E[X]$. Then $\{Z_n = \sum_{i=1}^{n}(X_i-\mu): n \in \N\}$ is a marting
 \end{align*}
 Observe that condition $3$  for Martingale stopping theorem to hold can be directly verified. Hence the result follows. 
 \end{proof}
-%\section{ Submartingales, Supermartingales and the Martingale Convergence Theorem}
+%\section{ Submartingales, supermartingales and the Martingale Convergence Theorem}
 %\begin{defn}
 %A stochastic process $\{Z_n,~  n \geq 1\}$ having $\E[|Z_n|]< \infty$ for all $n$ is said to be a submartingale if
 %\begin{equation}
@@ -194,14 +194,14 @@ Observe that condition $3$  for Martingale stopping theorem to hold can be direc
 %\end{equation}
 %and is said to be a supermartingale if
 %\begin{equation}
-%\label{Supermartingale}
+%\label{supermartingale}
 %\E[Z_{n+1}|Z_1 \hdots Z_n] \leq Z_n
 %\end{equation}
 %\end{defn}
 %From \ref{Submartingale}, for a submartingale
-%\begin{equation*}
+%\begin{align*}
 %\E[Z_{n+1}] \geq \E[Z_n]
-%\end{equation*}
+%\end{align*}
 %where the inequality is reversed for a supermartingale. 
 %\begin{thm}
 %\label{Stoppingtime_theorem}
@@ -210,58 +210,58 @@ Observe that condition $3$  for Martingale stopping theorem to hold can be direc
 %\item $\bar{Z}_n$ is uniformly bounded, or;
 %\item $N$ is bounded, or;
 %\item $\E[N]< \infty$, and there is an $M < \infty$ such that
-%\begin{equation*}
+%\begin{align*}
 %\E[|Z_{n+1}-Z_n| |Z_1, \hdots Z_n]<M,
-%\end{equation*}
+%\end{align*}
 %then,
-%\begin{eqnarray*}
+%\begin{align*}
 %\E[Z_N] \geq \E[Z_1] ~ \text {for a submartingale}\\
 %\E[Z_N] \leq \E[Z_1] ~ \text {for a supermartingale}.
-%\end{eqnarray*}
+%\end{align*}
 %\end{enumerate}
 %\end{thm}
 %\begin{proof}
 %We claim that 
-%\begin{equation*}
+%\begin{align*}
 %\bar{Z}_n= \bar{Z}_{n-1}+1_{N \geq n}(Z_n-Z_{n-1})
-%\end{equation*}
+%\end{align*}
 %The above equation can be directly verified by considering the two cases separately viz. 
 %\begin{enumerate}
 %\item $N \geq n$: $\bar{Z}_n=Z_n$.
 %\item $N < n:$ $\bar{Z}_{n-1}=\bar{Z}_{n}=Z_N$
 %\end{enumerate}
-%\begin{flalign*}
+%\begin{align*}
 %\E[\bar{Z}_{n+1}|Z_1 \hdots \bar{Z}_n]&=\E[\bar{Z}_{n}+1_{n \leq N}(Z_n-Z_{n-1})|Z_1 \hdots \bar{Z}_n]\\
 %&\stackrel{(a)}{=}\bar{Z}_{n}+1_{n \leq N} \E[(Z_n-Z_{n-1})|Z_1 \hdots \bar{Z}_n]\\
 %& \geq \bar{Z}_{n},
-%\end{flalign*}
+%\end{align*}
 %where in $(a)$ we have used the fact that $N$ is a random time. Also, we have $\E[\bar{Z}_{n}]=\E[Z_1]$, for all $n$.  Now assume that $N$ is a stopping time. It is immediate that
-%\begin{equation*}
+%\begin{align*}
 % \bar{Z}_n \rightarrow Z_N ~ \text{w.p}~ 1.
-%\end{equation*}
+%\end{align*}
 %But  is it true that
-%\begin{equation*}
+%\begin{align*}
 % \E[\bar{Z}_n] \rightarrow \E[Z_N] ~ \text{as n}~ \rightarrow \infty.
-%\end{equation*}
+%\end{align*}
 %which gives that 
-%\begin{equation*}
+%\begin{align*}
 %\E[Z_N ] \geq \E[Z_1].
-%\end{equation*}
+%\end{align*}
 %\end{proof}
 
 Before we state and prove martingale convergence theorem, we state some results which will be used in the proof of the theorem.
 \begin{lem}
 \label{StoppingTimeBound}
 If $\{Z_i, i \in \N \}$ is  a submartingale and $T$ is a stopping time such that $\Pr\{T \leq n\}=1$ then
-\begin{equation*}
+\begin{align*}
  \E Z_1 \leq \E Z_T \leq \E Z_n.
-\end{equation*}
+\end{align*}
 \end{lem}
 \begin{proof}
 It follows from Theorem \ref{MartStopThm} that since $T$ is bounded, $\E[Z_T] \geq \E[Z_1]$. Now, since $T$ is a stopping time, we see that for $\{T = k\}$
-\begin{eqnarray*}
+\begin{align*}
 \E[Z_n|Z_1, \hdots ,Z_T,T=k]&=\E[Z_n|Z_1 \hdots Z_k,T=k] = \E[Z_n|Z_1 \hdots Z_k] \geq Z_k = Z_T.
-\end{eqnarray*}
+\end{align*}
 %where $(a)$ follows from the fact that $N$ is  a stopping time. 
 Result follows by taking expectation on both sides.
 \end{proof}
@@ -277,112 +277,89 @@ The result is a direct consequence of Jensen's inequality.
 \end{proof}
 \begin{con}
 	Let ${X_n,n\geq0}$ be a sub martingale. Let $a< b$ and $N_0  = -1$.
-	   \begin{eqnarray*}
+	   \begin{align*}
 		N_{2k-1}=&\inf\{m>N_{2k-2}:X_m\leq a \}.\\
 		N_{2k}=&\inf\{m>N_{2k-1}:X_m\leq b \}.\\
-		\end{eqnarray*}
+		\end{align*}
 		The above quantities $N_{2k-1}$,$N_{2k}$ are stopping times and the set containing values of $m$ in the transition from $a$ to $b$ can be defined as
-		\begin{eqnarray*}
+		\begin{align*}
 		\{N_{2k-1}<m\leq N_{2k} \}=&\{N_{2k-1}<m-1\} \cap \{m>N_{2k}\}^{c}\\
 		=&\{m-1\geq N_{2k-1}\}\cap\{m-1\geq N_{2k}\}^{c}\\		
-		\end{eqnarray*}
+		\end{align*}
 		Since the above set depends on $\{m-1\}$ values instead of $\{m\}$ values, So
-		\begin{flalign*}
+		\begin{align*}
 			H_m=&1_{\{N_{2k-1}<m\leq  N_{2k}\}}\\
 			U_n=&\sup\{k:N_{2k}\leq n\}
-		\end{flalign*}
+		\end{align*}
 		 $H_m$ defines a predictable sequence and $U_n$ is the number of up crossings completed in time $n$.
 \end{con}
 \begin{lem}[Upcrossing inequality]
-	If \{$X_m:m\geq 0$\} is a sub martingale,then\\ 
-	\begin{flalign*}
-	(b-a)\mathbb{E}U_n\leq& \mathbb{E}Y_n-\mathbb{E}Y_0\\
-	where \hspace{2 mm}  Y_n:=&a+(X_n-a)^{+}\\
-    \end{flalign*}
+	If \{$X_m: m \in \N_0$\} is a sub martingale,then
+	\begin{align*}
+	(b-a)\E U_n\leq& \E Y_n-\E Y_0\\
+	\text{where }Y_n&:=a+ (X_n-a)^{+}
+    \end{align*}
     \end{lem}
 \begin{proof}
 Since $X_n$ is a submartingale so is $Y_n$, as it is  a convex function of $X_n$.Since each up crossing has a gain slightly  more than $b-a$ the following inequality exists \\
-\begin{flalign*}
+\begin{align*}
 (b-a)U_n\leq &(H\cdot Y)_n\\
 =&\sum_{m=1}^{n}1_{\{N_{2k-1}<m\leq N_{2k}\}}(Y_{m+1}-Y{m})\\
 =&\sum_{k=1}^{U_n}(Y_{N_{2k+1}}-Y_{N_{2k+1}})\\ 
-\end{flalign*}
+\end{align*}
    Now let $K_m=1-H_m$ then clearly,
-   \begin{equation*}
+   \begin{align*}
    	Y_n-Y_0=(H\cdot Y)_n+(K\cdot Y)_n\\
-   \end{equation*} 
+   \end{align*} 
    we have by the submartingale property of Y\\
-    \begin{equation*}
-    	\mathbb{E}[(K\cdot Y)_n] \geq \mathbb{E}[(K\cdot Y)_0]=0\\   	
-    \end{equation*} 
+    \begin{align*}
+    	\E[(K\cdot Y)_n] \geq \E[(K\cdot Y)_0]=0\\   	
+    \end{align*} 
     Therefore,
-    \begin{flalign*}
-    \mathbb{E}[(H\cdot Y)_n]+\mathbb{E}[(K\cdot Y)_n]=& \mathbb{E}[Y_n-Y_0]\\
-    \mathbb{E}[(H\cdot Y)_n]\leq& \mathbb{E}[Y_n-Y_0]\\
-    (b-a)\mathbb{E}U_n\leq& \mathbb{E}(Y_n-Y_0)
-    \end{flalign*}
+    \begin{align*}
+    \E[(H\cdot Y)_n]+\E[(K\cdot Y)_n]=& \E[Y_n-Y_0]\\
+    \E[(H\cdot Y)_n]\leq& \E[Y_n-Y_0]\\
+    (b-a)\E U_n\leq& \E(Y_n-Y_0).
+    \end{align*}
     \end{proof}
     \begin{thm}[Martingale Convergence Theorem]
     	\label{MartingaleConvergenceTheorem}
-    	If $X_n$ is a submartingale with $\underset{a\in A}{sup} \mathbb{E}[X_n^{+}]\leq \infty$ then $\underset{n\in \mathbb{N}}{lim} X_n=X$ a.s with $\mathbb{E}[X]<\infty$.
+    	If $X_n$ is a submartingale with ${\sup}_{a\in A} \E[X_n^{+}]\leq \infty$ then ${\lim}_{n\in \N} X_n=X$ a.s with $\E[X]<\infty$.
     	\end{thm}
     	\begin{proof}
-    		\begin{flalign*}\
+    		\begin{align*}
     			(X-a)^{+}\leq& X^{+}+|a|\\
-    			\mathbb{E}[U_n] \leq& \frac{\mathbb{E}[X_n^{+}] +|a|}{b-a}\\
-    			\end{flalign*}
-    			$\underset{n\to \infty}{lim} U_n=U$ since, $\mathbb{E} [X_n^{+}]< \infty$ gives $U<\infty$ a.s. This conclusion leads to  
-    			\begin{equation*}
-    			Pr\{\underset{a,b \in \mathbb{Q}}{\cup}\{\underset{n\in \mathbb{N}}{lim inf}  X_n<a<b<\underset{n\in \mathbb{N}}{lim sup}  X_n \}\} = 0;
-    			\end{equation*}
-    		  From the above probability we have a.s
-    		  \begin{equation*}
-    		  	\underset{n\in \mathbb{N}}{lim sup}  X_n=\underset{n\in \mathbb{N}}{lim inf}  X_n
-    		  	\end{equation*}
-    		  	Now the Fatou's lemma in measure theory guarantees \\
-    		  	\begin {equation*}
-    		  	\mathbb{E}[X^{+}]\leq \underset{n\in \mathbb{N}}{\lim inf}\mathbb{E}[X_n^{+}]<\infty
-    		  \end{equation*}
+    			\E[U_n] \leq& \frac{\E[X_n^{+}] +|a|}{b-a}\\
+    			\end{align*}
+    			$\lim_{n \in \N} U_n=U$ since, $\E [X_n^{+}] < \infty$ gives $U<\infty$ a.s. This conclusion leads to  
+    			\begin{align*}
+    			\Pr\{_{a,b \in \mathbb{Q}}{\cup}\{{\lim \inf}_{n\in \N}  X_n<a<b<{\lim \sup}_{n\in \N}  X_n \}\} = 0;
+    			\end{align*}
+    		  From the above probability we have a. s.
+    		  \begin{align*}
+    		  	{\lim \sup}_{n\in \N}  X_n &={\lim \inf}_{n\in \N}  X_n.
+    		  	\end{align*}
+    		  	Now the Fatou's lemma in measure theory guarantees
+    		  	\begin {align*}
+    		  	\E[X^{+}]\leq {\lim \inf}_{n\in \N}\E[X_n^{+}]<\infty
+    		  \end{align*}
     		  	which implies $X<\infty$  almost sure. To see $X>-\infty$, we observe that
-    		  	\begin{flalign*}
-    		  		\mathbb{E}[X_n^{-}]&=\mathbb{E}[X_n^{+}]-\mathbb{E}[X_n]\\
-    		  		&\leq \mathbb{E}[X_n^{+}]-\mathbb{E}[X_0]\\
-    		  		\end{flalign*} 
+    		  	\begin{align*}
+    		  		\E[X_n^{-}]&=\E[X_n^{+}]-\E[X_n]\\
+    		  		&\leq \E[X_n^{+}]-\E[X_0]\\
+    		  		\end{align*} 
     		  		The above inequality comes from the submartingale property of $X_n$. Now from another application of Fatou's lemma gives,
-    		  		\begin{equation*}
-    		  		\mathbb{E}[X^{-}]\leq \underset{n\in \mathbb{N}}{\lim inf}\mathbb{E}[X_n^{-}] \leq \underset{n\in \mathbb{N}}{\sup}\mathbb{E}[X_n^{+}]-\mathbb{E}[X_0]<\infty.
-    		  		\end{equation*}
+    		  		\begin{align*}
+    		  		\E[X^{-}]\leq {\lim \inf} _{n\in \N}\E[X_n^{-}] \leq {\sup}_{n\in \N}\E[X_n^{+}]-\E[X_0]<\infty.
+    		  		\end{align*}
     		\end{proof}
-%\begin{thm}[Kolmogorov's inequality for submartingales] If $\{Z_n,~ n \in \N \}$ is a submartingale, then
-%\begin{equation*}
-%\Pr\{\max\{Z_1,Z_2 \hdots Z_n\}>a\}\leq \frac{\E[Z_n]}{a},~ \text{for}~ a>0.
-%\end{equation*}
-%\end{thm}
-%\begin{proof}
-%Let $N = \min\{i \in [n]: Z_i >a\} \wedge n$. %, and define it to equal $n$ if $Z_i \leq a$ for %all $i=1, \hdots n$. 
-%Then, $\{\max\{Z_1 \hdots Z_n\}>a\} = \{Z_N > a\}$. Since $N \leq n$, from Markov inequality, we %have
-%\begin{align*}
-%\Pr\{\max\{Z_1 \hdots Z_n\}>a\}&=\Pr\{Z_N>a\} \leq \frac{\E[Z_N]}{a} \leq  \frac{\E[Z_n]}{a}.
-%\end{align*}
-%where the last inequality follows from Lemma \ref{StoppingTimeBound} as $N \leq n$ and $(*)$ follows from Markov's inequality.
-%\end{proof}
-%\begin{cor}
-%\label{MartingaleBoundCor}
-%Let $\{Z_n,~n \geq 1\}$ be a martingale. Then, for $a>0$:
-%\begin{enumerate}
-%\item $\Pr\{\max\{|Z_1|, \hdots |Z_n|\}>a\} \leq \E[|Z_n|]/a$;
-%\item $\Pr\{\max\{|Z_1|, \hdots |Z_n|\}>a\} \leq \E[Z_n^2]/a^2$.
-%\end{enumerate} 
-%\end{cor}
-%\begin{proof}
-%The proof the above statements follow from Lemma \ref{ConvexFuncSubmart} and Kolmogorov's %inequality for submartingales by considering the convex functions $f(x)=|x|$ and $f(x)=x^2$. 
-%\end{proof}
+
 %\begin{thm}[Martingale Convergence Theorem]
 %\label{MartingaleConvergenceTheorem}
 %If $\{Z_n,~n \geq 1\}$ is a martingale such that for some $M< \infty$
-%\begin{equation*}
+%\begin{align*}
 %\E[|Z_n|] \leq M, ~ \text{for all}~ n
-%\end{equation*}
+%\end{align*}
 %then, with probability 1, $\lim_{n \rightarrow \infty}Z_n$ exists and is finite.
 %\end{thm}
 %\begin{proof}
@@ -391,28 +368,28 @@ Since $X_n$ is a submartingale so is $Y_n$, as it is  a convex function of $X_n$
 %\label{KolmoBound}
 %\Pr(\cup_{k \leq n} \{|Z_{m+k}-Z_m|> \epsilon\} )
 %\end{equation}  
-%\begin{eqnarray*}
+%\begin{align*}
 %&\stackrel{(a)}{\leq }\E[(Z_{m+n}-Z_m)^2]/\epsilon^2
 %&=\E[Z_{m+n}^2-2Z_mZ_{m+n}+Z_m^2]/\epsilon^2.
-%\end{eqnarray*}
+%\end{align*}
 %Note that 
-%\begin{eqnarray*}
+%\begin{align*}
 %\E[Z_{m+n}Z_m]&=\E[\E[Z_mZ_{m+n}|Z_m]]\\
 %&=\E[Z_m\E[Z_{m+n}|Z_m]]\\
 %&=\E[Z_m^2].
-%\end{eqnarray*}
+%\end{align*}
 %From \ref{KolmoBound}, 
-%\begin{equation*}
+%\begin{align*}
 %\Pr(\cup_{k \leq n} \{|Z_{m+k}-Z_m|> \epsilon\}) \leq \frac{\E[Z_{m+n}^2]-\E[Z_m^2]}{\epsilon^2}.
-%\end{equation*}
+%\end{align*}
 %Letting $n \rightarrow \infty$
-%\begin{equation*}
+%\begin{align*}
 %\Pr(\cup_{k \leq 1} \{|Z_{m+k}-Z_m|> \epsilon\}) \leq \frac{\mu-\E[Z_m^2]}{\epsilon^2}.
-%\end{equation*}
+%\end{align*}
 %Hence,
-%\begin{equation*}
+%\begin{align*}
 %\Pr(\cup_{k \leq n} \{|Z_{m+k}-Z_m|> \epsilon\}) \rightarrow 0 ~\text{as}~ m \rightarrow \infty.
-%\end{equation*}
+%\end{align*}
 %Thus with probability 1, $\{Z_n\}$ will be  a Cauchy sequence, and thus $\lim_{n \rightarrow %\infty}Z_n$ will exist and be finite.`
 %\end{proof}
 %\begin{cor}
@@ -420,9 +397,9 @@ Since $X_n$ is a submartingale so is $Y_n$, as it is  a convex function of $X_n$
 %\end{cor}
 %\begin{proof}
 %Since $Z_n$ is non-negative,
-%\begin{equation*}
+%\begin{align*}
 %\E[|Z_n|]=\E[Z_n]=\E[Z_1].
-%\end{equation*}
+%\end{align*}
 %\end{proof}
 
 \end{document}
