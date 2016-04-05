@@ -97,10 +97,31 @@ Let $s \leq t$, then result follows from that $X(t) - X(s)$ is independent of $X
 \end{defn}
 \begin{prop} Brownian bridge is a zero-mean Gaussian process with 
 \begin{align*}
-\Cov(X(t), X(s)|X(1) = 0) &= s(1- t),\text{ for } s \in [t, 1].
+\Cov(X(s), X(t)|X(1) = 0) &= s(1- t),\text{ for } s \in [t, 1].
 \end{align*}
 \end{prop}
+\begin{proof} We use tower property of conditional expectations, and mean and variance of conditional Brownian motion to obtain
+\begin{align*}
+\Cov(X(s), X(t)|X(1) = 0) & = \E \left[X(t) \E[X(s) | X(t)]| X(1) = 0\right] = \frac{s}{t} \E \left[X(t)^2| X(1) = 0\right] = s(1-t).
+\end{align*}
+\end{proof}
+\begin{rem} Brownian bridge is a zero mean Gaussian process with covariance function $s(1-t)$ for $s \leq t$.
+\end{rem}
+\begin{prop} Let $\{X(t): t \geqslant 0\}$ is a Brownian motion, then $\{Z(t) : t \in [0, 1]\}$ is a Brownian bridge process when $Z(t) = X(t) - tX(1)$.
+\end{prop}
+\begin{proof} It is clear that $Z(t)$ is a Gaussian process. 
+It suffices to show that it is zero mean and $\Cov(Z(s), Z(t)) = s(1-t)$ for $s \leq t$. 
+It is clear that $\E Z(t) = 0$ for all $t \in [0,1]$. 
+Further, for $s \leq t$, we have 
+\begin{align*}
+\Cov(Z(s),Z(t)) &= \Cov(X(s) - sX(1), X(t) - tX(1)) = s -st - st +st = s(1 - t).
+\end{align*}
+\end{proof}
 
+
+\section{Hitting Times}
+\begin{defn} We denote by $T_a$, the first time a Brownian motion process $\{X(t): t \geqslant 0\}$ hits $a$.
+\end{defn}
 \section{Martingales for Random Walks}
 %Let
 %\begin{align*}S_n = \sum_{k=1}^n X_k \quad n \geq 1\end{align*}
