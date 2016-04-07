@@ -2,249 +2,234 @@
 % !TEX spellcheck = LaTeX
 \documentclass[a4paper,10pt,english]{article}
 \input{header}
-\title{Lecture 17: Queueing Networks}
+\title{Lecture 17: Reversed Processes}
 \author{}
 \begin{document}
 \maketitle
 
-\section{Migration Processes}
-
-\begin{cor}
-Consider an M/M/s queue with Poisson$(\lambda)$ arrivals and each server having exponential service time exp$(\mu)$ service. If $\lambda > s \mu$, then the output process in steady state is Poisson$(\lambda)$.
-\end{cor}
-\begin{proof}
-Let $X(t)$ denote the number of customers in the system at time $t$. Since M/M/s process is a birth and death process, it follows from the previous proposition that $\{X(t),~t \geq 0\}$ is time reversible. Now going forward in time, the time instants at which $X(t)$ increases by 1 are the arrival instants of a Poisson process. Hence, by time reversibility, the time Points at which $X(t)$ increases by 1 when we go backwards in time also constitutes a Poisson process. But these instants are exactly the departure instants of the forward process. Hence the result.
-\end{proof}
-\begin{lem}
-For an ergodic M/M/1 queue in steady state, the following are true.
-\begin{enumerate}
-\item The number of customers present in the system at time $t$ is independent of the sequence of past departures.
-\item For FCFS discipline, the waiting time spent in the system (waiting in the queue plus the service time) by a customer is independent of the departure process prior to its departure.
-\end{enumerate} 
-\end{lem} 
-\begin{proof}
-Proofs follow by looking at reversed process.
-\begin{enumerate}
-\item Since the arrival process is Poisson, the future arrivals are independent of the number of customers in the system at the current instant. Looking backwards in time, future arrivals are the past departures. Hence by time reversibility, the number of customers currently in the system are also independent of the past departures.
-\item Consider the case when a customer arrives into the system at time $T_1$. The customer leaves at time $T_2>T_1$.  Since the service discipline is assumed first come first serve and the arrival is Poisson, it is seen that the waiting time $T_2-T_1$ is independent of the customers coming after $T_1$. Looking at the reversed process, we see that $T_2-T_1$  will be independent of the arrivals after $T_2$ for the reversed process. But this is just the departure process before time $T_2$. Hence the result.
-\end{enumerate}
-\end{proof}
-
-\section{Tandem Queues}
-Time reversibility of M/M/s queues can be used to study what is called as a tandem, or sequential queueing system. For instance, consider a two server queueing system. Service time of server $i$ is distributed exponential$(\mu_i)$. Customers arrive according to a Poisson$(\lambda)$ process to the server 1. After being served at server 1, customers join server  2 for its service. Assume there is infinite waiting room at both servers. Since the departure process of server 1 is Poisson, as discussed previously, the arrival process to server 2 is also Poisson$(\lambda)$. Time reversibility concept can be used to give a much more stronger result.
-
-\begin{thm}
-For the ergodic tandem queue in steady state, the following are true.
-\begin{enumerate}
-\item The number of customers $N_1, N_2$ present at server 1 and server 2 respectively, are independent, and
+\section{Reversed Processes}
+\begin{defn} Let $X(t)$ be a stochastic process then $X(\tau-t)$ is the reversed process.
+\end{defn}
+\begin{lem} If $X(t)$ is a time homogeneous non-stationary Markov chain then the reversed process $X(\tau -t)$ is a non time-homogenous Markov chain.
+\end{lem}
+\begin{proof} Let $\F_m = \cup_{k \geq m}\{X_k = i_k\}$. Then, we can write
 \begin{align*}
-Pr\{N_1 = n_1, N_2 = n_2)\}={\rho_1}^{n_1}(1-\rho_1){\rho_2}^{n_2}(1-\rho_2).
+\Pr\{X_{m-1}=i|X_m=j,\F_{m+1}\} %&= \frac{\Pr\{X_{m-1}=i,X_m=j, \F_{m+1} \}}{\Pr\{X_m=j, \F_{m+1}\}}\\
+&=\frac{\Pr\{X_{m-1}=i|X_m=j\}\Pr\{\F_{m+1} |X_{m-1}=i,X_m=j \}}{\Pr\{\F_{m+1} |X_m=j\}}.
 \end{align*}
-\item For FCFS discipline, the waiting time at server 1 is independent of the waiting time at server 2.
-\end{enumerate}
-\end{thm}
-\begin{proof}
-Proofs follow by looking at reversed process.
-\begin{enumerate}
-\item By part 1 of previous lemma, we have that the number of customers at server 1 is independent of the past departures of server 1. But past departures are same as the arrival to server 2. Thus follows the independence of the number of customers in both servers. The formula for the joint density follows from the independence and the formula for the limiting probabilities of an M/M/1 queue. 
-\item By part 2 of the previous lemma, the waiting time of a customer at server 1 is independent of the past departures happening at server 1. But the past departures at server 1, in conjunction with the service times at server 2, determine customer's waiting time at server 2. Hence the result follows.
-\end{enumerate}
-\end{proof}
-%\subsection{Applications of the Reversed Chain to Queueing Theory}
-%The reversed chain can be quite a useful concept even when the process is not time reversible. To see this, we start with the following theorem. 
-%\begin{thm}
-%Let $Q$ denote the rate matrix for an irreducible continuous-time Markov chain. If we can find $Q^*$ of the same size as $Q$ and a vector $P \geq 0$ such that $\sum_i P_i =1$ and 
-%\begin{align*}
-%P_{i}q_{ij}^*=P_jq_{ji}^*, ~ i \neq j,
-%\end{align*} and
-%\begin{align*}
-%\sum_{j \neq i}q_{ij}=\sum_{j \neq i}q_{ij}^*, i \geq 0,
-%\end{align*} 
-%then $Q^*$ is the rate matrix for the reversed Markov chain and $P_i$ are the limiting probabilities for both  chains.
-%\end{thm}
-%\begin{proof}
-%Exercise.
-%\end{proof}
-\section{Network of Queues}
-\begin{thm}
-Consider irreducible Markov chain with transition matrix $P$. If one can find non-negative vector $\alpha$ and other transition matrix $P^*$ such that $\sum_j \alpha_j =1$ and $\alpha_iP_{ij}=\alpha_jP^*_{ji}$ then $\alpha$ is the stationary probability vector and $P^*$ is the transition matrix for the reversed chain.
-\end{thm}
-\begin{proof}
-Summing $\alpha_iP_{ij}=\alpha_jP_{ji}^*$ over $i$ gives, $\sum_{i}\alpha_iP_{ij}=\alpha_j$. Hence $\alpha_i$s are the stationary probabilities of the forward and reverse process. Since $P_{ji}^*=\frac{\alpha_iP_{ij}}{\alpha_j}$, $P_{ij}^*$ are the transition probabilities of the reverse chain.
-\end{proof} 
-
-\begin{thm}
-Let $Q$ denote the rate matrix for an irreducible Markov process. If we can find $Q^*$ of the same size as $Q$ and a vector $\pi \geq 0$ such that $\sum_i \pi_i =1$ and for $i \neq j \in I$, we have
+Result follows from Markov property of $X(t)$, i.e.
 \begin{align*}
-\pi_{i}Q_{ij} =\pi_jQ_{ji}^*, \text{ and } &
-\sum_{j \neq i}Q_{ij} =\sum_{j \neq i}Q_{ij}^*,
+Pr\{\F_{m+1} |X_m= j, X_{m-1} = i \} &=\Pr\{\F_{m+1}=i|X_m=j\}.
+\end{align*}
+\end{proof}
+%\begin{lem}  If $X(t)$ is a stationary Markov chain with transition matrix $P$ and equilibrium distribution $\alpha$, then the reversed chain $X(\tau -t)$ is a stationary Markov chain with same equilibrium distribution $\alpha$ and transition matrix $P^{\ast}$ such that
+%\begin{align*}
+%P^{\ast}_{ij} = \frac{\alpha_j}{\alpha_i}P_{ji}.
+%\end{align*}
+%\end{lem}
+%\begin{proof} Easy to verify from definition of reversibility that 
+%\begin{align*}
+%\Pr\{X(t+1) = j, X(t) = i\} = \Pr\{X(t+1) = i, X(t) = j\}.
+%\end{align*}
+%Also, it's easy to check that $\alpha P^{\ast} = \alpha$.
+%\end{proof}
+
+\begin{lem} If $X(t)$ is a stationary Markov process with generator matrix $Q$ and equilibrium distribution $\pi$, then the reversed process $X(\tau -t)$ is a stationary Markov process with same equilibrium distribution $\pi$ and generator matrix $Q^{\ast}$ such that
+\begin{align*}
+Q^{\ast}_{ij} = \frac{\pi_j}{\pi_i}Q_{ji}.
+\end{align*}
+\end{lem}
+\begin{proof} Easy to verify from definition of reversibility that 
+\begin{align*}
+\Pr\{X(t+h) = j, X(t) = i\} = \Pr\{X(t+h) = i, X(t) = j\}.
+\end{align*}
+Also, it's easy to check that $\pi Q^{\ast} = 0$.
+\end{proof}
+
+%%The sequence $\{X_n,X_{n-1} \hdots \}$ is called reverse process. Let $P^*$ denote the transition probability matrix. 
+%%\begin{flalign*}
+%%P_{ij}^*&=P(X_{n-1}=j|X_n=i)=\frac{P(X_{n-1}=j,X_n=i)}{P(X_n=i)}\\
+%%&=\frac{P(X_{n-1}=j)P(X_n=i|X_{n-1}=j)}{P(X_{n}=i)}\\
+%%&=\frac{P(X_{n-1}=j)}{P(X_{n}=i)}P_{ji}
+%%\end{flalign*}
+%%suppose we are considering a stationary Markov chain, $P(X_n=l)=P(X_{n-1}=l)=\alpha(l),~\forall l$, $\alpha(i){P^*}_{ij}=\alpha(j)(P)_{ji}$. 
+%\begin{lem} A stationary Markov chain with transition matrix $P$ is reversible if the reversed process follows the same probabilistic law as the original process, i.e. $P^*= P$. Any non-negative vector $\alpha$ satisfying $\alpha_iP_{ij}=\alpha_jP_{ji},~\forall i,j \in I$ and $\sum_{j \in I}\alpha_j=1$ is stationary distribution of this Markov chain. 
+%\end{lem}
+\begin{lem} A stationary Markov process with generator matrix $Q$ is reversible if the reverses process follows the same probabilistic law as the original process, i.e. $Q^*= Q$. Any non-negative vector $\pi$ satisfying $\pi_iQ_{ij}=\pi_jQ_{ji},~\forall i,j \in I$ and $\sum_{j \in I}\pi_j=1$ is stationary distribution of this Markov process. 
+\end{lem}
+%\begin{proof} Let $\pi$ be a stationary distribution of  Since $Q^{\ast}_{ij} = \frac{\pi_j}{\pi_i}Q_{ji}$ and the condition for time reversibility is given by $\pi_i Q_{ij}=\pi_jQ_{ji}$. This is true because,
+%
+%It is clear that $\pi$ is an equilibrium distribution of forward Markov process, since
+%\begin{align*}
+%\sum_{i} \pi_i Q_{ij}=\sum_i \pi_j Q_{ji}=\pi_j \sum \alpha_i = 1.
+%\end{align*}
+%Since stationary probabilities are the unique solution of the above, the claim follows.
+%\end{proof}
+%\begin{proof} The condition for time reversibility is given by $\alpha_i P_{ij}=\alpha_jP_{ji}$. This is true because,
+%\begin{align*}
+%\sum_{i} \alpha_i P_{ij}=\sum_i \alpha_j P_{ji}=\alpha_j \sum \alpha_i = 1.
+%\end{align*}
+%Since stationary probabilities are the unique solution of the above, the claim follows.
+%\end{proof}
+
+
+%\subsection{Time Reversibility of Discrete Time Markov Chains}
+%Consider a discrete time Markov chain with transition probability matrix $P$ and stationary probability vector $\alpha$.\\
+%\textbf{Claim:} The reversed process is a Markov chain.
+%\begin{proof}
+%\begin{flalign*}
+%&P(X_{m-1}=i|X_m=j,X_{m+1}=i_{m+1} \hdots )=\frac{P(X_{m-1}=i,X_m=j, \hdots )}{P(X_m=j, X_{m+1}=i_{m+1}\hdots )}\\
+%&=\frac{P(X_{m-1}=i,X_m=j)P(X_{m+1}=i_{m+1}\hdots |X_{m-1}=i,X_m=j  )}{P(X_m=j)P(X_{m+1}=i_{m+1} \hdots |X_m=j)}\\
+%&\stackrel{(a)}{=}\frac{P(X_{m-1}=i,X_m=j)P(X_{m+1}=i_{m+1}\hdots |X_m=j  )}{P(X_m=j)P(X_{m+1}=i_{m+1} \hdots |X_m=j)}\\
+%&=P(X_{m-1}=i|X_m=j).\\
+%\end{flalign*}
+%where $(a)$ follows from the Markov property.
+%\end{proof}
+%The sequence $\{X_n,X_{n-1} \hdots \}$ is called reverse process. Let $P^*$ denote the transition probability matrix. 
+%\begin{flalign*}
+%P_{ij}^*&=P(X_{n-1}=j|X_n=i)=\frac{P(X_{n-1}=j,X_n=i)}{P(X_n=i)}\\
+%&=\frac{P(X_{n-1}=j)P(X_n=i|X_{n-1}=j)}{P(X_{n}=i)}\\
+%&=\frac{P(X_{n-1}=j)}{P(X_{n}=i)}P_{ji}
+%\end{flalign*}
+%suppose we are considering a stationary Markov chain, $P(X_n=l)=P(X_{n-1}=l)=\alpha(l),~\forall l$, $\alpha(i){P^*}_{ij}=\alpha(j)(P)_{ji}$. If $P^*=P^T$ then the Markov chain is called time reversible. Thus the condition for time reversibility is given by $\alpha P_{ij}=\alpha_jP_{ji}$. Any non-negative vector $X$ satisfying $X_iP_{ij}=X_jP_{ji},~\forall i,j$ and $\sum_{j \in \mathcal{N}_0}X_j=1$ is stationary distribution of time-reversible Markov chain. This is true because,
+%\begin{flalign*}
+%\sum_{i} X_i P_{ij}=\sum_i X_j P_{ji}=X_j \sum X_i = 1.
+%\end{flalign*}
+%Since stationary probabilities are the unique solution of the above, the claim follows.\\
+
+
+
+\subsection{Example 4.7(E): Example 4.3(C) revisited}
+Example 4.3(C) was with regard to the age of a renewal process. $X_n$ the forward process there was such that it increases in steps of 1 until it hits a value chosen by the inter arrival distribution. Hence the reverse process should be such that it decreases in steps of 1 until it hits 1 and then jumps to a state as chosen by the inter arrival distribution. Thus letting $\pi_i$ as the probability of inter arrival, it seems likely that  $P_{1i}*=\pi_i, ~ P_{i,i-1}=1,~ i > 1$. We have that $P_{i,1}=\frac{\pi_i}{\sum_{j \geq 1}\pi_j}=1-P_{i,i+1}, ~ i \geq 1$. For the reversed chain to be given as above, we would need 
+\begin{flalign*}
+&\alpha_i P_{ij}=\alpha_j P_{ji}^*\\
+&\alpha_i \frac{\pi_i}{\sum_j \pi_j}=\alpha_1 \pi_i\\
+&\alpha_i=\alpha_1 P(X \geq i)\\
+&1=\sum_i \alpha_i=\alpha_1 E[X]; \alpha_i=\frac{P(X \geq i)}{E[X]}, 
+\end{flalign*}
+where $X$ is the inter arrival time. We need to verify that $\alpha_i P_{i,i+1}=\alpha_{i+1}P^*_{i+1,i}$ or equivalently $P(X \geq i)(1-\frac{\pi_i}{P(X \geq i)})=P(X \geq i)$ to complete the proof that the reversed process is the excess process and the limiting distributions are as given above. But that is immediate.
+
+
+%\subsection{Time Reversibility for CTMC}
+%\begin{prop}
+%Markov property holds going backward in time. i.e.
+%\begin{equation*}
+%Pr(X(t-s)=j|X(t)=i,X(y), y > t)=Pr(X(t-s)=j|X(t)=i).
+%\end{equation*}
+%\begin{proof}
+%\begin{flalign*}
+%&Pr(X(t-s)=j|X(t)=i, X(y), y>t)=\frac{Pr(X(t-s)=j, X(t)=i, X(y), y>t)}{Pr(X(t)=i, X(y), y>t)}\\
+%&\stackrel{(a)}{=}\frac{Pr(X(t-s)=j)Pr(X(t)=i|X(t-s)=j)Pr(X(y), y>t|X(t)=i)}{Pr(X(t)=i, X(y), y>t)}\\
+%&\stackrel{}{=}\frac{Pr(X(t-s)=j)Pr(X(t)=i|X(t-s)=j)}{Pr(X(t)=i)}\\
+%&\stackrel{}{=}Pr(X(t-s)=j|X(t)=i).\\
+%\end{flalign*}
+%where $(a)$ follows from the Markov property of forward chain.  
+%\end{proof}
+%\end{prop}
+%Now we would like to characterize the sojourn time in each state. Since the amount of time spent in each state is same whether in forward or backward direction, one expects the sojourn time for the reverse chain to be exponential with the same parameter $\nu_i$. We can verify this formally:
+%\begin{flalign*}
+%&Pr(\text{Process in state i during [t-s,t]}|X(t)=i)\\
+%&= {Pr(\text{Process in state i during [t-s,t]})}/{Pr(X(t)=i)}\\
+%&= \frac{Pr(X(t-s)=i)e^{-\nu_i s}}{Pr(X(t)=i)}=e^{-\nu_i s}.\\
+%\end{flalign*}
+%Next, we would like to characterize the transition probabilities of the reversed chain. The sequence of states visited by the reverse process constitutes a discrete-time Markov chain with transition probabilities $P_{ij}^*$ give by 
+%\begin{equation}
+%P_{ij}^*= \frac{\pi_jP_{ji}}{\pi_i},
+%\end{equation} 
+%where $\{\pi_i,~ i \geq 0\}$ are the stationary probabilities of the embeddede discrete time Markov chain with transition probabilities $P_{ij}$. Denote 
+%\begin{equation}
+%q_{ij}^*=\nu_iP_{ij}^*
+%\end{equation}
+%as the infinitesimal rates of the reversed process. Using the previous formula for $P_{ij}^*$ we see that
+%\begin{equation}
+%q_{ij}^*=\frac{\nu_i\pi_jP_{ji}}{\pi_i}.
+%\end{equation} 
+%Recall that 
+%\begin{equation}
+%P_{k}=\frac{\pi_k / \nu_k}{\sum_{i}\pi_i / \nu_i},
+%\end{equation}
+%we see that 
+%\begin{equation}
+%\frac{\pi_i}{\pi_j}=\frac{\nu_j P_j}{\nu_i P_i}.
+%\end{equation}
+%Hence, 
+%\begin{equation}
+%q_{ij}^*=\frac{\nu_j P_{j}P_{ji}}{P_i}= \frac{P_jq_{ji}}{P_i}.
+%\end{equation}
+%That is,
+%\begin{equation*}
+%P_{i}q_{ij}^*=P_{j}q_{ji}.
+%\end{equation*}
+%Form the above equation, it is obvious that 
+%\begin{equation*}
+%\sum_{i}P_i q_{ij}^*=0.
+%\end{equation*} 
+%This implies that $P_j,~j \geq 0$ are the stationary probabilities for the reverse chain as $P_j$s satisfy the balance equations.
+%\begin{defn}
+%A stationary CTMC is said to be time reversible if the reverse process follows the same probabilistic law as the original process. That is, if, for all $i,j$
+%\begin{equation*}
+%q_{ij}^*= q_{ij} \iff P_{i}q_{ij}=P_jq_{ji}.
+%\end{equation*} 
+%\end{defn} 
+
+
+\subsection{Simple Queues}
+\begin{cor} Number of customers in a simple M/M/1 queue at equilibrium is a reversible Markov process.
+\end{cor}
+
+\begin{thm}[PASTA] Poisson arrivals see time averages.
+\end{thm}
+\begin{thm}[Little's law] Consider a stable single server queue. Let $T_i$ be waiting time of customer $i$, $N(t)$ be the number of customers in the system at time $t$, and $A(t)$ be the number of customers that entered system in duration $[0,t)$, then
+\begin{align*}
+\lim_{t \to \infty}\frac{\int_{0}^tN(u)du}{t} &= \lim_{t \to \infty} \frac{\sum_{i=1}^{A(t)}T_i}{A(t)}.
 \end{align*} 
-then $Q^*$ is the rate matrix for the reversed Markov chain and $\pi_i$ are the limiting probabilities for both  processes.
 \end{thm}
+\begin{proof}
+Let $A(t), D(t)$ respectively denote the number of arrivals and departures in time $[0,t)$. Then, we have 
+\begin{align*}
+\sum_{i=1}^{D(t)}T_i \leq \int_{0}^tN(u)du \leq \sum_{i=1}^{A(t)}T_i.
+\end{align*}
+Further, for a stable queue we have
+\begin{align*}
+\lim_{t \to \infty}\frac{D(t)}{t} = \lim_{t \to \infty}\frac{A(t)}{t}.
+\end{align*}
+Combining these two results, the theorem follows.
+\end{proof}
+
+\subsection{Truncated Reversible Processes}
+
+%\begin{cor}
+%Consider an M/M/s queue with Poisson$(\lambda)$ arrivals and each server having exponential service time $\exp(\mu)$ service. If $\lambda > s \mu$, then the output process in steady state is Poisson$(\lambda)$.
+%\end{cor}
 %\begin{proof}
-%Exercise.
+%Let $X(t)$ denote the number of customers in the system at time $t$. Since M/M/s process is a birth and death process, it follows from the previous proposition that $\{X(t),~t \geq 0\}$ is time reversible. Now going forward in time, the time instants at which $X(t)$ increases by 1 are the arrival instants of a Poisson process. Hence, by time reversibility, the time Points at which $X(t)$ increases by 1 when we go backwards in time also constitutes a Poisson process. But these instants are exactly the departure instants of the forward process. Hence the result.
 %\end{proof}
-\subsection{Jackson Network}
-Consider a system of $k$ servers. To each server, customers arrive from outside the system, according to Poisson$(r_i)$. Once a customer is served at server $i$, the customer joins server $j$ with probability $P_{ij}$, $\sum_{i}P_{ij} \leq 1$. The probability of the customer departing the system is $1-\sum_{j}P_{ij}$. If we denote $\lambda_i$ as the total rate at which the customers join $i$, then $\lambda_i$s can be obtained as a solution to,
+\begin{prop}
+A time-reversible chain with limiting probabilities $\pi_j,~ j \in I$, that is truncated to the set $A\subseteq I$ and remains irreducible is also time reversible and has limiting probabilities 
 \begin{align*}
-\lambda_j=r_j+\sum_{i=1}^{k}\lambda_i P_{ij},~ j=1, \hdots k.
+\pi_j^A&=\frac{\pi_j}{\sum_{i \in A}\pi_i},~ j \in A.
 \end{align*}
-The model can be analysed by continuous-time Markov chain with states $(n_1,n_2, \hdots n_k)$, where $n_i$ denotes the number of customers in server $i$. From the tandem queue results, we expect the customers at each server to be independent random variables. We are interested in knowing the the joint probability,
-\begin{align*}
-Pr(n_1,n_2 \hdots n_k)=Pr(n_1)Pr(n_2) \hdots Pr(n_k),
-\end{align*}
-where $Pr(n_i)$ is the limiting probability that there are $n_i$ customers to serve at server $i$.
-\begin{conj}
-The reversed stochastic process is a network process of the same type as original. It has Poisson arrivals from outside the system to server $i$ at rate $\lambda_i(1-\sum_jP_{ij})$ and a departure from $i$ goes to $j$ with probability $\bar{P}_{ij}$ as given by
-\begin{align*}
-\bar{P}_{ij}=\frac{\lambda_j P_{ji}}{\lambda_i}.
-\end{align*}
-The service rate is exponential $\mu_i$. In addition, the limiting probabilities satisfy
-\begin{align*}
-Pr(n_1,n_2 \hdots n_k)=Pr(n_1)Pr(n_2)\hdots Pr(n_k).
-\end{align*}
-\end{conj}
- Consider transitions resulting from an outside arrival. Consider states $\underline{n}=(n_1,n_2 \hdots n_i, \hdots n_k)$ and $\underline{n}'=(n_1,\hdots n_i+1,\hdots n_k)$. Now
- \begin{align*}
- q_{n,n'}=r_i,
- \end{align*}
- and, if the conjecture is true,
- \begin{align*}
- q_{n',n}^*&=\mu_i(1-\sum_{j}\bar{P}_{ij})\\
- &=\mu_i \frac{(\lambda_i-\sum_{j}\lambda_j {P}_{ji})}{\lambda_i}\\
- &=\frac{\mu_i r_i}{\lambda_i}
- \end{align*}
- and 
- \begin{align*}
- P(\underline{n})=\Pi_j P_j(n_j),~ P(\underline{n}')=P_i(n_i+1)\Pi_{j \neq i}P_j(n_j).
- \end{align*}
- Hence, from the previous theorem, we need that
- \begin{align*}
-  r_i \Pi_j P_j(n_j)= \frac{\mu_i r_i}{\lambda_i}\Pi_{j \neq i}P_j(n_j).
- \end{align*} 
- That is,
- \begin{align*}
- P_i(n+1)= \frac{\lambda_i}{\mu_i}P_i(n)={(\frac{\lambda_i}{\mu_i})}^{n+1}P_i(0),
- \end{align*}
- and using the fact that 
- \begin{align*}
-\sum_{n=0}^{\infty}P_i(n)=1
- \end{align*}
- yields 
- \begin{align*}
-P_i(n) ={(\frac{\lambda_i}{\mu_i})}^n(1-\frac{\lambda_i}{\mu_i}).
-\end{align*}
-Thus $\frac{\lambda_i}{\mu_i}< 1$ and $P_i$ must be as given before for the conjecture to be true. Now consider transitions that result from a departure from server $j$ going to server $i$. That is, let $\underline{n}=(n_1,n_2 \hdots n_i, \hdots n_k)$ and $\underline{n}'=(n_1,\hdots n_i+1,\hdots n_j+1,\hdots n_k)$, where $n_j >0$. Since
-\begin{align*}
-q_{n,n'}=\mu_j P_{ji}
-\end{align*}
-and the conjecture yields
-\begin{align*}
-q_{n,n'}^*=\mu_i \bar{P}_{ij}.
-\end{align*}
-We need to show that 
-\begin{align*}
-P(\underline{n})\mu_j P_{ji}= P(\underline{n}')\mu_i \bar{P}_{ij}
-\end{align*}
-or, equivalently,
-\begin{align*}
-\lambda_j P_{ji}=\lambda_i \bar{P}_{ij}.
-\end{align*}
-which is the definition of $\bar{P}_{ij}$.
-The last lecture ended with a conjecture on the network of queues. First we state the following theorem.
-\begin{thm}
-Assuming that $\lambda_i < \mu_i$, for all $i$, in steady state, the number of customers at service $i$ are independent and the limiting probabilities are given by
-\begin{equation*}
-Pr(n_1,n_2, \hdots n_k) = \Pi_{i=1}^{k}{(\frac{\lambda_i}{\mu_i})}^n (1-\frac{\lambda_i}{\mu_i}).
-\end{equation*}
-\end{thm}
-Also, form the reversed chain, we have the following.
-\begin{cor}
-The process of customers departing the system from the server $i$, $i=1,2 \hdots k,$ are independent Poisson processes having respective rates $\lambda_i (1-\sum_j P_{ij} )$.
-\end{cor}
+\end{prop}
 \begin{proof}
-We have already shown that in the reverse process, customers arrive to server $i$ from outside the system according to independent Poisson processes having rates $\lambda_i(1-\sum_{i}P_{ij}),~ i \geq 1$. Since an arrival from outside corresponds to a departure out of the system from server $i$ in the forward process, the result follows. 
+We must show that 
+\begin{align*}
+\pi_i^AQ_{ij}&=\pi_j^AQ_{ji},~ i \in A,~ j \in A,
+\end{align*}
+or equivalently,
+\begin{align*} 
+\pi_iQ_{ij}&=\pi_jQ_{ji},~ i \in A,~ j \in A.
+\end{align*}
+But this is true as the original chain is time reversible.
 \end{proof}
+\begin{exmp}[Two queues with joint waiting room] Consider two independent M/M/1 queues with arrival and service rates $\lambda_i$ and $\mu_i$ respectively for $i \in [2]$. Then, joint distribution of two queues is
+\begin{align*}
+\pi(n_1,n_2) &= (1 -\rho_1)\rho_1^{n_1}(1-\rho_2)\rho_2^{n_2},~~n_1,n_2 \in \N_0. 
+\end{align*}
+Suppose both the queues are sharing a common waiting room, where if arriving customer finds $R$ waiting customer then it leaves. In this case,
+\begin{align*}
+\pi(n_1,n_2) &= (1 -\rho_1)\rho_1^{n_1}(1-\rho_2)\rho_2^{n_2},~~(n_1,n_2) \in A \subseteq \N_0\times\N_0. 
+\end{align*}
+\end{exmp}
 
 
-\section{The Erlang Loss Formula}
-consider a queueing system in which there are $k$ servers and customers arrive according to a Poisson process with rate $\lambda$. If an arriving customers find all the $k$ servers the customer is lost (do not eneter the system). The service times of server are assumed to be distributed according to some general distribution $G$. Assume that $G$ has a density $g$. Let $\lambda(t)$ denote the hazard rate function. That is,
-\begin{equation*}
-\lambda(t)=\frac{g(t)}{\bar{G}(t)}
-\end{equation*}
-is the instantaneous probability density that a $t$ unit old service will end. Assume that the states are ordered. i.e. $\underline{x}=(x_1,x_2, \hdots x_n)$, $x_1 \leq x_2 \leq \hdots x_n$, where $x_n$ denote the service time of $n^{\text{th}}$ customer ($n \leq k$). The process of successive states will be a Markov process in the sense that the conditional distribution of any future state, given the present state and all the past states, will depend only on the present. Even though the process is not a continuous-time Markov chain, we can extend and use the theory so far developed to analyse the process.
-\begin{cor}
-The reverse process is also a $k-$ server loss system with service distribution $G$ in which arrivals occur according to a Poisson process with rate $\lambda$. The state at any time represents the ordered residual service times of customers in service currently.
-\end{cor}  
-\begin{proof}
-We shall prove the above conjecture and obtain the limiting distribution. For any state $\underline{x}=(x_1,x_2 \hdots x_i, \hdots x_n)$ and $e_i(\underline{x})=(x_1,x_2 \hdots x_{i-1},x_{i+1} \hdots x_n)$. In the original process when the state is $\underline{x}$ it will instantaneously go to $e_i(\underline{x})$ with a probability density equal to $\lambda(x_i)$. Similarly, in the reversed process, we see that if the state is $e_i(\underline{x})$, then it will instantaneously go to $\underline{x}$ if a customer having service time $x_i$ instantaneously arrives. So,
-\begin{flalign*}
-\text{Forward}:~ \underline{x} \rightarrow e_i(\underline{x})~ \text{w.p. intensity~}\lambda(x_i);\\
-\text{Reverse}:~ e_i(\underline{x}) \rightarrow ~ \underline{x} \text{with joint prob. intensity~}\lambda g(x_i).
-\end{flalign*}
-Hence if $p(\underline{x})$ represents the limiting density, in accordance with Theorem 1.5 (Lecture 14), we would need that
-\begin{equation*}
-p(\underline{x})\lambda(x_i)=P(e_i(\underline{x}))\lambda g(x_i),
-\end{equation*}
-or, since $\lambda(x_i)=g(x_i)/\bar{G}(x_i)$,
-\begin{equation*}
-p(\underline{x})=p(e_i(\underline{x}))\lambda G(x_i).
-\end{equation*}
-Letting  $i=1$ and iterating the above yields,
-\begin{flalign*}
-p(\underline{x})&=\lambda G(x_1)p(e_1(\underline{x}))\\
-=&\lambda G(x_1)\lambda G(x_2)p(e_1(e_1(\underline{x})))\\
-& \vdots\\
-&=\Pi_{i=1}^{n}\lambda \bar{G}(x_i)P(\phi),
-\end{flalign*}
-where $P(\phi)$ is the limiting probability that the system is empty. Integrating over vector $\underline{x}$ yields
-\begin{flalign*}
-Pr(n~\text{in the system})&=P(\phi)\lambda^n {\int \int \hdots \int}_{x_1 \leq x_2 \hdots x_n}\Pi_{i=1}^n\bar{G}(x_i)dx_1 dx_2 \hdots dx_n\\
-&=P(\phi)\frac{\lambda^n}{n!} {\int \int \hdots \int}_{x_1, x_2, \hdots x_n}\Pi_{i=1}^n\bar{G}(x_i)dx_1 dx_2 \hdots dx_n\\
-&=P(\phi)\frac{{(\lambda E[S])}^n}{n!}, n 1,2 \hdots k, 
-\end{flalign*}
-where $E[S]=\int \bar{G}(x) dx$ is the mean service time. Upon using the fact that
-\begin{equation*}
-P(\phi)+\sum_{n=1}^k Pr(n~\text{in the system})=1.
-\end{equation*}
-we obtain
-\begin{equation}
-\label{EquilibriumDistribution}
- Pr(n~ \text{in the system})= \frac{ {(\lambda E[S])}^n /(n!)}{\sum_{i=0}^n {(\lambda E[S])}^i/(i!)}.
-\end{equation}
-This can be written as
-\begin{equation*}
- Pr(\underline{x})= \frac{ \lambda^n \Pi_{i=1}^n \bar{G}(x_i)}{\sum_{i=0}^n {(\lambda E[S])}^i/(i!)}.
-\end{equation*}
-Observe that the conditional distribution of the ordered ages given that there are $n$ customers in the system is
-\begin{flalign*}
-Pr(\underline{x}|n~ \text{in the system})&=\frac{p(\underline{x}}{Pr(n~ \text{in the system})}\\
-&n! \Pi_{i=1}^{n}\frac{\bar{G}(x_i)}{E[S]}.
-\end{flalign*}
-As $\bar{G}(x)/E[S]$ is just the density of the equilibrium distribution of $G$, if the conjecture is valid, the limiting distribution of the number of customers in the sysytem depends on $G$ only through its mean and given that there are $n$ customers in the system the ages are independnet and identically distributed according to the equilibrium distribution of $G$. To complete the proof of the conjecture, we must consider the transitions of the forward process from $\underline{x}$ to $(0,\underline{x})$ when $n<k$. Now 
-\begin{flalign*}
-& \text{Forward:} \underline{x} \rightarrow (0,\underline{x}) ~\text{with instantaneous density }~ \lambda;\\
-&\text{Reverse:} (0,\underline{x})  \rightarrow  \underline{x} ~  \underline{x} ~\text{with probability  } 1.
-\end{flalign*} 
-Hence in conjunction with Theorem 1.5 (Lecture 14) we must verify that 
-\begin{equation*}
-p(\underline{x})\lambda=p(0,\underline{x}),
-\end{equation*}
-which follows from ref{EquilibriumDistribution} since $\bar{G}(0)=1$.
-\end{proof}
-We have thus proven the following:
-\begin{thm}
-The limiting distribution of the number of customers in the system is given by
-\begin{equation}
-Pr(n ~ \text{in the system}) = Pr(n~ \text{in the system})= \frac{ {(\lambda E[S])}^n /(n!)}{\sum_{i=0}^n {(\lambda E[S])}^i/(i!)}.
-\end{equation}
-and given that there are $n$ in the system the ages (or the residual times) of these $n$ are independent and identically distributed according to the equilibrium distribution of $G$.
-\end{thm}
-The model considered is often called the Erlang loss system and \ref{EquilibriumDistribution} is called is called the Erlang loss formula. By using the reversed process, we also have the following corollary.
-\begin{cor}
-In Erlang loss model the departure process (including both customers completing service and those that are lost) is a Poisson process at rate $\lambda$. 
-\end{cor}
-\begin{proof}
-The corollary follows as in the reversed process arrivals of all customers (including that are lost) constitutes a Poisson process. 
-\end{proof}
 \end{document}

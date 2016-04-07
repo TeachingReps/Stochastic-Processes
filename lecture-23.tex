@@ -2,521 +2,183 @@
 % !TEX spellcheck = LaTeX
 \documentclass[a4paper,10pt,english]{article}
 \input{header}
-\title{Lecture 23: Brownian Motion}
+\title{Lecture 23: Martingale Concentration Inequalities}
 \author{}
 
 \begin{document}
 \maketitle
 \section{Introduction}
-\begin{defn} A continuous time stochastic process $\{X(t), t \geqslant 0\}$ is called \textbf{standard Brownian motion process} if the following hold.
-\begin{enumerate}[i)]
-\item $X(0) = 0$.
-\item Process has stationary and independent increments.
-\item For every $t > 0$, process is normally distributed with mean $0$ and variance $t$.
-\end{enumerate}
-\end{defn}
+
+\begin{lem}
+\label{StoppingTimeBound}
+If $\{X_n: n \in \N \}$ is  a submartingale and $N$ is a stopping time such that $\Pr\{N \leq n\}=1$ then
+\begin{align*}
+ \E X_1 \leq \E X_N \leq \E X_n.
+\end{align*}
+\end{lem}
+\begin{proof}
+It follows from optional stopping theorem that since $N$ is bounded, $\E[X_N] \geq \E[X_1]$. 
+Now, since $N$ is a stopping time, we see that for $\{N = k\}$
+\begin{align*}
+\E[X_n|X_1, \ldots, X_N, N = k ]&= \E[X_n|X_1, \ldots, X_k, N=k] = \E[X_n|X_1, \ldots, X_k] \geq X_k = X_N.
+\end{align*}
+%where $(a)$ follows from the fact that $N$ is  a stopping time. 
+Result follows by taking expectation on both sides.
+\end{proof}
+
+\begin{thm}[Kolmogorov's inequality for submartingales] If $\{X_n: n \in \N \}$ is a submartingale, then
+\begin{align*}
+\Pr\{\max\{X_1,X_2, \ldots, X_n\}>a\} &\leq \frac{\E[X_n]}{a},\text{ for } a>0.
+\end{align*}
+\end{thm}
+\begin{proof}
+We define a stopping time 
+\begin{align*}
+N &= \min\{i \in [n]: X_i >a\} \wedge n \leq n.
+\end{align*} %, and define it to equal $n$ if $Z_i \leq a$ for %all $i=1, \hdots n$. 
+It follows that, $\{\max\{X_1, \ldots, X_n\}>a\} = \{X_N > a\}$. 
+Using this fact and Markov inequality, we get
+\begin{align*}
+\Pr\{\max\{X_1, \ldots, X_n\}>a\} &=\Pr\{X_N>a\} \leq \frac{\E[X_N]}{a}.
+\end{align*}
+Since $N \leq n$ is a bounded stopping time, result follows from the previous Lemma \ref{StoppingTimeBound}.
+\end{proof}
+\begin{cor}
+\label{MartingaleBoundCor}
+Let $\{X_n : n \in \N \}$ be a martingale. Then, for $a>0$ the following hold.
+\begin{align*}
+\Pr\{\max\{|X_1|, \ldots, |X_n|\}>a\} &\leq \frac{\E[|X_n|]}{a},\\
+\Pr\{\max\{|X_1|, \ldots, |X_n|\}>a\} &\leq \frac{\E[X_n^2]}{a^2}.
+\end{align*}
+\end{cor}
+\begin{proof}
+The proof the above statements follow from and Kolmogorov's inequality for submartingales, and by considering the convex functions $f(x)=|x|$ and $f(x)=x^2$. 
+\end{proof}
+
+\begin{thm}[Strong Law of Large Numbers] Let $S_n$ be a random walk with iid step size $\{X_i: i \in \N\}$ with finite mean $\mu$. %, and let $S_n=\sum_{i=1}^{n}X_i$. 
+Then
+\begin{align*}
+\Pr\left\{\lim_{n \in \N}\frac{S_n}{n} = \mu\right\} = 1.
+\end{align*}
+\end{thm}
+\begin{proof}
+We will prove the theorem under the assumption that the moment generating function $\psi(t)=\E[e^{tX}]$ for random variable $X$ exists. 
+For a given $\epsilon>0$, we define
+\begin{align*}
+g(t) & \triangleq e^{t(\mu+\epsilon)}/\psi(t).
+\end{align*}
+Then, it is clear that $g(0) = 1$ and 
+\begin{align*}
+g'(0)& =\frac{ \psi(0)(\mu+\epsilon) -\psi'(0)  }{\psi^2(0)}=\epsilon >0.
+\end{align*}
+Hence, there exists a value $t_0>0$ such that $g(t_0)>1$. We now show that $S_n/n$ can be as large as $\mu+\epsilon$ only finitely often. 
+To this end, note that
+\begin{align}
+\label{SnBound}
+\left\{\frac{S_n}{n} \geq \mu+\epsilon \right\} &\subseteq \left\{ \frac{e^{t_0S_n}}{\psi(t_0)^n} \geq { g(t_0)}^n \right\}
+\end{align}
+However, $\frac{e^{t_0S_n}}{\psi^n(t_0)}$ is a product of independent non negative random variables with unit mean, and hence is a martingale. 
+By martingale convergence theorem, we have 
+\begin{align*}
+\lim_{n \in \N } \frac{e^{t_0S_n}}{\psi^n(t_0)} ~\text{ exists and is finite}.
+\end{align*}
+Since $g(t_0) >1$, it follows from~\eqref{SnBound} that
+\begin{align*}
+\Pr\left\{\frac{S_n}{n} \geq \mu+\epsilon ~\text{for an infinite number of n} \right\} &= 0.
+\end{align*}
+Similarly, be defining the function $f(t)=e^{t(\mu-\epsilon)}/\psi(t)$ and noting that since $f(0)=1$, $f'(0)=-\epsilon$, there exists a value $t_0<0$ such that $f(t_0)>1$, we can prove in the same manner that
+\begin{align*}
+\Pr\left\{\frac{S_n}{n} \leq \mu-\epsilon ~\text{for an infinite number of n} \right\} &= 0.
+\end{align*}
+Hence, result follows from combining both these results, and taking limit of arbitrary $\epsilon$ decreasing to zero.
+%Hence
+%\begin{align*}
+%\Pr\left\{\mu-\epsilon < \frac{S_n}{n} < \mu+\epsilon ~\text{for all but a finite number of $n$} \right\} &=1,
+%\end{align*}
+%or, since the above is true for all $\epsilon>0$,
+%\begin{align*}
+%\Pr\left\{\lim_{n \in \N}\frac{S_n}{n} =\mu\right\} &= 1.
+%\end{align*}
+\end{proof}
 
 \begin{defn}
-Let $S_n$ be a simple symmetric random walk with step sizes $\{X_i: i \in \N\}$ being iid Rademacher random variables. That is,
+A sequence of random variables $\{X_n : n \in \N\}$ with distribution functions $\{F_n: n \in \N \}$, is said to be \textbf{uniformly integrable} if for every $\epsilon>0$, there is a $y_\epsilon$ such that
 \begin{align*}
-\Pr\{X_i = 1\} &= \Pr\{X_i = -1\} = \frac{1}{2}.
-\end{align*}
-Let $\Delta t > 0$, and we choose $\Delta x = \sqrt{\Delta t}, n(t) = \frac{t}{\Delta t}$ to define \textbf{limiting scaled symmetric random walk}
-\begin{align*}
-X(t) \triangleq \lim_{\Delta t \to 0}\Delta xS_{n(t)}.
+\int_{|x|>y_\epsilon}|x|dF_{n}(x) < \epsilon ~\forall n \in \N.
 \end{align*}
 \end{defn}
-\begin{lem} For scaled symmetric random walk $\Delta xS_{n(t)}$, we have 
-\begin{xalignat*}{3}
-&\E \Delta xS_{n(t)} = 0,&&\Var \Delta xS_{n(t)} = \frac{(\Delta x)^2}{\Delta t} t.
-\end{xalignat*}
-\end{lem}
-\begin{thm} Limiting scaled symmetric random walk $X(t)$ is a standard Brownian motion.
-\end{thm}
-\begin{proof} We will show that the limiting process satisfies all three criterion in the definition of standard Brownian motion. 
-\begin{enumerate}[i)]
-\item First condition holds trivially since $X(0) = S_0$. 
-\item Since step sizes are independent random variables, it follows that the random walk $\Delta xS_{n(t)}$ has independent increments. 
-Further, since step sizes have identical distribution, distribution of $S_{n(t)} - S_{n(s)}$ is same as distribution of $S_{n(t-s)}$ for $s,t$ multiples of $\Delta t$. 
-By continuity of probability, we conclude that $X(t)$ as stationary independent increments. 
-\item From previous lemma, it is clear that mean and variance of $X(t)$ are zero and $t$ respectively. 
-Further, it follows from central limit theorem that limit of $\frac{S_{n(t)}}{\sqrt{n(t)}}= \frac{X(t)}{\sqrt{t}}$ is standard normal random variable, as $n(t) \to \infty$.
-\end{enumerate}
-\end{proof}
-\begin{thm} Standard Brownian motion $X(t)$ is a.s. path-wise continuous and nowhere differentiable function.
-\end{thm}
-\begin{rem} Since standard Brownian motion satisfies independent increment property, it is a Markov process.
-\end{rem}
-\begin{rem} Due to stationary increments property, distribution of $X(t) - X(s)$ is same as distribution of $X(t-s)$.
-\end{rem}
-\begin{cor} Finite dimensional density of a standard Brownian motion at times $t_1 < t_2 < \ldots < t_n$ is given by 
-\begin{align*}
-f(x_1, x_2, \ldots, x_n) = \Pr\{X(t_i) = x_i, i \in [n]\} = \prod_{i \in [n]}f_{t_i - t_{i-1}}(x_i - x_{i-1}),
-\end{align*}
-where $t_0 = x_0 = 0$ and 
-\begin{align*}
-f_t(x) = \frac{1}{\sqrt{2 \pi t}}\exp\left(-\frac{x^2}{2t}\right).
-\end{align*}
-\end{cor}
-\begin{defn} A stochastic process $\{X(t), t\geqslant 0\}$ is called a \textbf{Gaussian process} if all finite dimensional distributions are multivariate normal.
-\end{defn}
-\begin{cor} Standard Brownian motion process is a Gaussian process.
-\end{cor}
-\begin{prop} Conditional density of standard Brownian motion $X(s)$ given $X(t) = B$ for $s < t$ is given by
-\begin{align*}
-f_{s|t}(x|B) &= \frac{1}{\sqrt{2\pi s(t-s)/t}} \exp\left(-\frac{(x-Bs/t)^2}{2s(t-s)/t}\right), 
-\end{align*}
-%for some positive normalization constant $K$.
-\end{prop}
-\begin{proof} Result follows from Bayes rule for densities applied to standard Brownian motion to get
-\begin{align*}
-f_{s|t}(x|B) &= \frac{f_s(x)f_{t-s}(B-x)}{f_t(B)} = \frac{1}{\sqrt{2\pi s(t-s)/t}}\exp\left(-\frac{x^2}{2s}-\frac{(B-x)^2}{2(t-s)} + \frac{B^2}{2t}\right)\\
-&=  \frac{1}{\sqrt{2\pi s(t-s)/t}}\exp\left(-\frac{t(x-sB/t)^2}{2s(t-s)}\right).
-\end{align*}
-\end{proof}
-\begin{cor} Conditional mean and variance of standard Brownian motion $X(s)$ given $X(t) = B$ for $s < t$ is given by 
-\begin{xalignat*}{3}
-&\E[X(s)|X(t) = B] = B \frac{s}{t}, && \Var[X(s)|X(t) = B] = s\left(1-\frac{s}{t}\right).
-\end{xalignat*}
-\end{cor}
-\begin{cor} Let $s/t = \alpha < 1$. Then, the conditional distribution of $X(s)$ given $X(t)$ is normal with mean $\alpha X(t)$ and variance $t \alpha(1-\alpha)$.
-\end{cor}
-\begin{thm} A continuous time stochastic process $\{X(t), t \geqslant 0\}$ is a standard Brownian motion process iff it is a zero mean Gaussian process with 
-\begin{align*}
-\Cov(X(t), X(s)) &= s \wedge t.
-\end{align*}
-\end{thm}
-\begin{proof} Let $X(t)$ be a standard Brownian motion, then it is a zero mean Gaussian process. 
-Therefore, by linearity of covariance for independent random variables, we have
-\begin{align*}
-\Cov(X(t),X(s))  = \Cov(X(t)-X(s),X(s)) + \Var X(s).
-\end{align*}
-Let $s \leq t$, then result follows from that $X(t) - X(s)$ is independent of $X(s)$ by independent increments property and that $X(s)$ is zero mean. 
-\end{proof}
-\begin{defn} Consider a standard Brownian motion process $\{X(t), t \geqslant 0\}$ in duration $[0,1]$. Conditional stochastic process $\{X(t), t \in [0,1]| X(1) = 0\}$ is called a \textbf{Brownian bridge}.
-\end{defn}
-\begin{prop} Brownian bridge is a zero-mean Gaussian process with 
-\begin{align*}
-\Cov(X(s), X(t)|X(1) = 0) &= s(1- t),\text{ for } s \in [t, 1].
-\end{align*}
-\end{prop}
-\begin{proof} We use tower property of conditional expectations, and mean and variance of conditional Brownian motion to obtain
-\begin{align*}
-\Cov(X(s), X(t)|X(1) = 0) & = \E \left[X(t) \E[X(s) | X(t)]| X(1) = 0\right] = \frac{s}{t} \E \left[X(t)^2| X(1) = 0\right] = s(1-t).
-\end{align*}
-\end{proof}
-\begin{rem} Brownian bridge is equivalent to a zero mean Gaussian process with covariance function $s(1-t)$ for $s \leq t$.
-\end{rem}
-\begin{prop} Let $\{X(t): t \geqslant 0\}$ is a Brownian motion, then $\{Z(t) : t \in [0, 1]\}$ is a Brownian bridge process when $Z(t) = X(t) - tX(1)$.
-\end{prop}
-\begin{proof} It is clear that $Z(t)$ is a Gaussian process. 
-It suffices to show that it is zero mean and $\Cov(Z(s), Z(t)) = s(1-t)$ for $s \leq t$. 
-It is clear that $\E Z(t) = 0$ for all $t \in [0,1]$. 
-Further, for $s \leq t$, we have 
-\begin{align*}
-\Cov(Z(s),Z(t)) &= \Cov(X(s) - sX(1), X(t) - tX(1)) = s - st - st +st = s(1 - t).
-\end{align*}
-\end{proof}
-\begin{defn} 
-Let $\{X_i: i \in \N\}$ be a sequence of iid random variables, then we can define number of first $n$ random variables exceeding $s$ as 
-\begin{align*}
-N_n(s) &= \sum_{i \in [n]}1_{\{X_i \leq s \}},
-\end{align*}
-and \textbf{empirical distribution function}
-\begin{align*}
-F_n(s) &= \frac{1}{n}\sum_{i \in [n]}1_{\{X_i \leq s \}}.
-\end{align*}
-For each $n \in \N$, we can define a process $\{\alpha_n(s): s \in \R\}$, where $\alpha_n(s) = \sqrt{n}(F_n(s) - s )$. \textbf{Limiting process} is defined as $\alpha(s) = \lim_{n \in \N}\alpha_n(s)$ for all $s$.
-\end{defn}
-\begin{lem} $N_n(t) - N_n(s)$ given $N_n(s)$ is binomial $(n - N_n(s), (t-s)/(1-s))$.
-\end{lem}
-\begin{proof} Clearly, $N_n(t) - N_n(s)$ given $N_n(s)$ is sum of $n-N_n(s)$ Bernoulli random variables each with mean
-\begin{align*}
-\E[1_{\{X_i \in [s, t)\}}| X_i > s] = \frac{t-s}{1-s}.
-\end{align*}
-\end{proof}
-\begin{prop} Let $\{X_i : i \in \N\}$ be a sequence of iid uniform $(0,1)$ random variables. Then the following are true.
-\begin{enumerate}[i)]
-\item For a fixed $s \in (0,1)$, we have  $\lim_{n \in \N} F_n(s) = s$, a. s.
-\item Glivenko-Cantelli Theorem: 
-\begin{align*}
-\lim_{n \in \N}\sup_{s \in (0,1)}|F_n(s) - s| = 0,\text{ a. s.}
-\end{align*}
-\item For any $s \in (0,1)$, limiting random variable $\alpha(s) = \lim_{n \in \N}\alpha_n(s)$ is zero mean Gaussian with variance $s(1-s)$.
-%\begin{align*}
-%\Pr\left\{ F_n(s) > s + \frac{t}{\sqrt{n}} \right\} &= \frac{1}{\sqrt{2\pi s(1-s)}} \int_{x > t}\exp\left(-\frac{x^2}{2s(1-s)}\right).
-%\end{align*}
-That is, \item Point-wise limiting process $\alpha = \lim_{n \in \N}\alpha_n$ is a Brownian bridge process. 
-%zero mean Gaussian process with covariance 
-%\begin{align*}
-%\Cov(\alpha(s), \alpha(t)) &= s(1-t).
-%\end{align*}
-\end{enumerate}
-\end{prop}
-\begin{proof} Recall that $1_{\{X_i \leq s\}}$ is a Bernoulli random variable with mean $s$. 
-Hence, $N_n(s)$ is binomial $(n,s)$.
-\begin{enumerate}[i)]
-\item Follows from strong law of large numbers.
-\item Omitted.
-\item Follows from central limit theorem.
-\item It suffices to show $\E \alpha_n(s) = 0$ and $\Cov(\alpha_n(s), \alpha_n(t)) = s(1-t)$ for $s \in [t,1]$ for all $n \in \N$. 
-To this end, we observe that
-\begin{align*}
-\Cov(\alpha_n(s), \alpha_n(t)) &= \frac{1}{n} \E N_n(s) N_n(t) - nst.
-\end{align*}
-Further, we see for $s \in [t,1]$, 
-\begin{align*}
-\E[N_n(s) N_n(t)] &= \E[\E[N_n(s)N_n(t)|N_n(s)]] = \E\left[ N_n(s)\left(N_n(s) + (n-N_n(s))\frac{t-s}{1-s}\right)\right]\\
-& = \E N_n(s)^2\frac{1-t}{1-s} + n\frac{t-s}{1-s}\E N_n(s) = ns(1-t) + n^2st.
-\end{align*}
-Hence, the result follows.
-\end{enumerate}
-\end{proof}
-\begin{rem} This can be generalized to sequence of iid random variables $\{X_i :  i \in \N\}$ with a common continuous distribution function $F$, where $\{Y_i = F(X_i): i \in \N\}$ is an iid uniform $(0,1)$ random variable. %In this case, 
-%\begin{xalignat*}{5}
-%&N_n(s) = \sum_{i=1}^n1_{\{F(X_i) < s\}}, && F_n(s) = \frac{N_n(s)}{n},&& \alpha_n(s) = \sqrt{n}(F_n(s) - s).
-%\end{xalignat*}
-\end{rem}
-\begin{prop} Let $X$ be a sequence of iid random variables with common continuous distribution function $F$, then 
-\begin{align*}
-\lim_{n \in \N}\Pr\left\{\sqrt{n}\sup_{x}|F_n(x) - F(x)| < a\right\} & = \Pr\left\{\max_{t \in [0,1]}|Z(t)| < a\right\},
-\end{align*}
-where $\{Z(t) : t \geqslant 0\}$ is a Brownian bridge process.
-\end{prop}
-\begin{proof}
-Let $F(y_s) = s$, and define
-\begin{align*}
-\alpha_n(s) = \sqrt{n}(F_n(y_s)-F(y_s)) = \sqrt{n}(F_n(F^{-1}s) - s) = \sqrt{n}\left(\frac{1}{n}\sum_{i \in [n]}1_{\{F(X_i) < s\}} - s\right).
-\end{align*}
-Then, process $\{\alpha_n(s) : s \in [0,1]\}$ converges to Brownian bridge $\{Z(t) : t \in [0,1]\}$. 
-Hence, $\sup_x \sqrt{n}|F_n(x)-F(x)|$ converges to $\sup_{t \in [0,1]}|Z(t)|$ in distribution.
-\end{proof}
-\section{Hitting Times}
-\begin{defn} The first time a Brownian motion $\{X(t): t \geqslant 0\}$ hits $a$ is denoted by $T_a$.
-\end{defn}
-\begin{thm} Distribution of hitting time of a standard Brownian motion $X(t)$ is given by
-\begin{align*}
-\Pr\{T_a \leq t\} &= \frac{2}{\sqrt{2 \pi}}\int_{y > |a|/\sqrt{t}}\exp\left(-\frac{y^2}{2}\right)dy.
-\end{align*}
-\end{thm}
-\begin{proof} First, we observe that by symmetry we have
-\begin{align*}
-\Pr\{X(t) \geq a\} &= \Pr\{X(t) \geq a | T_a \leq t\}\Pr\{T_a \leq t\} = \frac{1}{2}\Pr\{T_a \leq t\}.%+  \Pr\{X(t) \geq a | T_a> t\}\Pr\{T_a > t\} 
-\end{align*}
-Since we know distribution of $X(t)$ is zero mean Gaussian with variance $t$, for $a > 0$ and substituting $y = x/\sqrt{t}$ we get
-\begin{align*}
-\Pr\{X(t) \geq a\} &= \frac{1}{\sqrt{2\pi}}\int_{y > a/\sqrt{t}}\exp(-\frac{y^2}{2})dy.
-\end{align*}
-By symmetry, $T_a$ for $a < 0$ has same distribution as $T_{-a}$ and hence the result follows.
-\end{proof}
-\begin{cor} Hitting time $T_a$ is finite a.s. but has infinite mean.
-\end{cor}
-\begin{proof} It follows from continuity of probability that 
-\begin{align*}
-\Pr\{T_a < \infty \} &= \lim_{t \to \infty}\Pr\{T_a \leq t\} = 1.
-\end{align*}
-Further, using definition of expectation, exchanging integrals, and lower bounding the integrand by its minimum, we get
-\begin{align*}
-\E T_a &= \int_{0}^{\infty}\Pr\{T_a > t \} dt %= \frac{2}{\sqrt{2\pi}}\int_{0}^{\infty}\int_{0}^{|a|/\sqrt{t}}e^{-y^2/2}dy dt 
-= \frac{2}{\sqrt{2\pi}}\int_{0}^{\infty}\int_{0}^{a^2/y^2} e^{-y^2/2} dt dy \geq \frac{2a^2e^{-\frac{1}{2}}}{\sqrt{2\pi}}\int_{0}^{1}\frac{1}{y^2}dy.
-\end{align*}
-\end{proof}
-\begin{rem} Hitting time $T_n$ for a symmetric random walk is finite a.s. and has infinite mean.
-\end{rem}
-
-\begin{rem} For a standard Brownian motion $X(t)$, 
-\begin{align*}
-\Pr\left\{\max_{s \in [0,1]}X(s) \geq a \right\} &= \Pr\{T_a \leq t\}.
-\end{align*}
-\end{rem}
-
-\section{Arcsine laws}
-\begin{thm} For a standard Brownian motion $X(t)$ and $0 < t_1 < t_2$, we have
-\begin{align*}
-\Pr\left\{  X(s) = 0, \text{ for some }s \in (t_1,t_2) \right\} &= 1 - \frac{2}{\pi}\arcsin\sqrt{x}.
-\end{align*}
-\end{thm}
-\begin{proof} We can condition the event $\{ X(s) = 0, \text{ for some }s \in [t_1,t_2] \}$ on $\{X(t_1) = x\}$, and use continuity of Brownian motion sample path and symmetry to get
-\begin{align*}
-\Pr\left\{X(s) = 0, \text{ for some }s \in (t_1,t_2) | X(t_1) = x\right\} &= \Pr\{T_{|x|} \leq t_2 - t_1\}.
-\end{align*}
-Result follows from evaluating unconditional probability since we know distribution of hitting time.
-\end{proof}
-
-\begin{cor} For a standard Brownian motion $X(t)$ and $x \in (0,1)$
-\begin{align*}
-\Pr\left\{  X(s) \neq 0, s \in (xt,t) \right\} &= \frac{2}{\pi}\arcsin\sqrt{x}.
-\end{align*}
-\end{cor}
-%\begin{prop} For $x \in (0,1)$ and a standard Brownian motion $X(t)$
-%\begin{align*}
-%\Pr\{X(t) \neq 0, t \in (xt, t)\} &= \frac{2}{\pi}\arcsin\sqrt{x}.
-%\end{align*}
-%\end{prop}
-
-
-\begin{defn} For a simple symmetric random walk $\{S_n: n \in \N_0\}$ with iid step sizes $\{X_n: n \in \N\}$, we can define a regenerative process $\{Y_n: n \in \N\}$ as 
-\begin{align*}
-Y_n = 1_{\{S_n > 0\}} - 1_{\{S_n < 0\}},~n \in \N.
-\end{align*}
-Here the renewal times are 
-\begin{align*}
-T_n &= \inf\{ i > T_{n-1}: S_i = 0\}.
-\end{align*}
-\end{defn}
-\begin{rem} Let $u_n \triangleq \Pr\{S_{2n} = 0\}$, then $u_n = \binom{2n}{n}\left(\frac{1}{2}\right)^{2n}$ and $u_n = \frac{2n-1}{2n}u_{n-1}$. By Stirling's approximation $n! \sim n^{n+0.5}e^{-n}\sqrt{2\pi}$, we get $u_n \approx 1/\sqrt{n\pi}$. That is, $\lim_{n \in \N}u_n = 0$
-\end{rem}
-\begin{lem}[Ballot Problem] For a simple symmetric random walk, the following holds for $n > m$
-\begin{align*}
-P_{n,m} &\triangleq \Pr\{T_1 > n+m | S_{n+m} = n-m\} = \frac{n-m}{n+m}.
-\end{align*}
+\begin{lem}
+If $\{X_n : n \in \N\}$ is uniformly integrable then there exists finite $M$ such that $\E[|X_n|]<M$ for all $n \in \N$.
 \end{lem}
 \begin{proof}
-We can write recursively,
+Let $y_1$ be as in the definition of uniform integrability. Then
 \begin{align*}
-P_{n,m} &= \Pr\{T_1 > n+m| X_{n+m} = 1, S_{n+m} = n-m\}\frac{n}{n+m} + \Pr\{T_1 > n+m| X_{n+m} = -1, S_{n+m} = n-m\}\frac{m}{n+m},\\
-&= \Pr\{T_1 > n+m-1 | S_{n+m-1} = n-m-1\}\frac{n}{n+m} + \Pr\{T_1 > n+m-1 | S_{n+m-1} = n-m+1 \}\frac{m}{n+m},\\
-&= P_{n-1,m}\frac{n}{n+m} +P_{n,m-1}\frac{m}{n+m}.
-\end{align*}
-Result follows by induction.
-\end{proof}
-\begin{lem} For a simple symmetric random walk $S_n$, with the associated renewal times are distributed as 
-\begin{align*}
-\Pr\{T_1 = 2n\} &= \frac{\binom{2n}{n}\left(\frac{1}{2}\right)^{2n}}{2n-1} = \frac{u_n}{2n-1}.
-\end{align*}
-\end{lem}
-\begin{proof} We observe that 
-\begin{align*}
-\Pr\{T_1 = 2n\} &= \Pr\{T_1 = 2n | S_{2n} = 0 \}u_n.
-\end{align*}
-Further, conditioning on last realization of $X_i$, we get the result by symmetry
-\begin{align*}
-\Pr\{T_1 = 2n | S_{2n} = 0 \} &= \frac{1}{2} \Pr\{T_1 = 2n | X_{2n} = -1,S_{2n} = 0 \} +  \frac{1}{2} \Pr\{T_1 = 2n | X_{2n} = 1, S_{2n} = 0 \} \\
-&=  \frac{1}{2} \Pr\{T_1 > 2n-1 | S_{2n-1} = 1\} +  \frac{1}{2} \Pr\{T_1 > 2n-1 | S_{2n-1} = -1\}  = P_{n,n-1}.
+E[|X_n|]&=\int_{|x|\leq y_1}|x|dF_n(x)+\int_{|x|>y_1}|x|dF_n(x) \leq y_1+1.
 \end{align*}
 \end{proof}
-\begin{lem} For a simple symmetric random walk $S_n$, 
-\begin{align*}
-\Pr\{T_1 > 2n\} &= u_n.
-\end{align*}
-\end{lem}
-\begin{proof} It is clear that 
-\begin{align*}
-\Pr\{T_1 > 2n\} &= 1 - \sum_{i=1}^{n}\Pr\{T_{1} = 2i \} = 1 - \sum_{i=1}^n\frac{u_k}{2k-1}.
-\end{align*}
-Result follows by induction since $u_{2n-1} = 2n u_n/(2n-1)$.
-\end{proof}
-\begin{cor} Simple symmetric random walk returns to $0$ with probability $1$.
-\end{cor}
-\begin{proof} Since $\Pr\{T_1 = \infty\}  = \lim_{n \in \N}u_n = 0$.
-\end{proof}
-\begin{lem} For $k \in [n]_0$, 
-\begin{align*}
-\Pr\{S_{2k} = 0, S_i \neq 0, i \in (2k, 2n]\} &= u_ku_{n-k}.
-\end{align*}
-\end{lem}
-\begin{proof} It is straightforward using Markov property of random walks,
-\begin{align*}
-\Pr\{S_{2k} = 0, S_{2i} \neq 0, i \in [k+1, n]\} &= \Pr\{S_2k = 0\}\Pr\{S_{2i} \neq 0, i \in [k+1, n] | S_{2k} = 0\} = u_ku_{n-k}.
-\end{align*}
-\end{proof}
-%\begin{thm}
-%\end{thm}
-%\begin{thm} For any $x \in (0,1)$, the proportion of time in $(0,2n)$ symmetric random walk is positive less than $x$ is given by 
-%\begin{align*}
-%\frac{1}{2n}\sum_{i\in [2n]}1_{\{S_i > 0\}} = \frac{2}{\pi}\arcsin\sqrt{x}.
-%\end{align*}
-%\end{thm}
-%\begin{proof} By Stirling's approximation, we have 
-%\begin{align*}
-%u_ku_{n-k} \sim \frac{1}{\pi\sqrt{k(n-k)}}.
-%\end{align*}
-%\end{proof}
-\begin{thm} For any $x \in (0,1)$ and large $n$
-\begin{align*}
-\Pr\{S_i \neq 0, i \in [2nx, 2n]\} \approx \frac{2}{\pi}\arcsin\sqrt{x}.
-\end{align*}
-\end{thm}
-\begin{proof} 
-Further, we can rewrite
-\begin{align*}
-\Pr\{S_i \neq 0, i \in [2nx, 2n]\} &= \sum_{i=0}^{nx-1}\Pr\{S_{2i} = 0, S_j \neq 0, j \in (2i,2n]\} = \sum_{k \in [0,nx-1]}u_ku_{n-k}.
-\end{align*}
-Result follows by Stirling's approximation, 
-\begin{align*}
-\sum_{k \in [0,nx-1]}u_ku_{n-k} \approx \frac{1}{\pi} \sum_{k/n \in [0,x-1/n]} \frac{1}{\sqrt{\frac{k}{n}(1-\frac{k}{n})}}\frac{1}{n} \approx \frac{1}{\pi} \int_{y \in [0,x]} \frac{1}{\sqrt{y(1-y)}}dy.
-\end{align*}
-\end{proof}
-\section{Martingales for Random Walks}
-%Let
-%\begin{align*}S_n = \sum_{k=1}^n X_k \quad n \geq 1\end{align*}
-%denote a random walk. Then we have the following results.
+
+\subsection{Generalized Azuma Inequality}
 \begin{prop}
-A random walk $S_n$ with step size $X_n \in [-M,M]\cap \Z$ for some finite $M$ is a recurrent DTMC iff $\E X = 0$.
+Let $\{X_n : n \in \N \}$ be a martingale with mean $X_0=0$, such that
+\begin{align*}
+-\alpha \leq X_n-X_{n-1} \leq \beta~ \forall ~n \in \N.
+\end{align*}
+Then, for any positive values $a$ and $b$
+\begin{align*}
+\label{GenAzumaLemma}
+\Pr\{X_n \geq a+bn ~ \text{for some }n\} \leq \exp\left(-\frac{8ab}{({\alpha+\beta})^2}\right).
+\end{align*}
 \end{prop}
 \begin{proof}
-If $\E X \neq 0$, the random walk is clearly transient since, it will diverge to $\pm \infty$ depending on the sign of $\E X$. 
-Conversely, if $\E X =0$, then $S_n$ is a martingale. 
-Assume that the process starts in state $i$. 
-We define
-\begin{xalignat*}{3}
-&A = \{-M, -M+1,\cdots,-2,-1\}, &&A_j = j + [M], ~j > i.
-\end{xalignat*}
-%\begin{align*}A_j = \{j, j+1,\cdots,j+M\}\end{align*}
-Let $N$ denote the hitting time to $A$ or $A_j$ by random walk $S_n$. 
-Since $N$ is a stopping time, by optional stopping theorem, we have
+For $n \geq 0$, we define 
 \begin{align*}
-\E_i[S_N] =\E_i[S_0] = i.
+W_n = \exp\{c(X_n-a-bn)\} = W_{n-1}e^{-cb}\exp\{c(X_n-X_{n-1})\}.
 \end{align*}
-Thus we have
+Since exponential is an invertible function, $\sigma(W_i, i \in [n]) = \sigma(X_i, i \in [n])$, and hence 
+%Using the fact that knowledge of $W_1,W_2, \hdots W_{n-1}$ is equivalent to that of $X_1,X_2, \ldots, X_{n-1}$, we obtain that 
 \begin{align*}
-i &= \E_i[S_N] %= \E_i[S_N|S_N \in A]\Pr\{S_N \in A\} + \E_i[S_N|S_N \in A_i]\Pr\{S_N \in A_j]\\
-\geq -M\P_i\{S_N \in A\} + j(1-\P_i\{S_N \in A_j\}). 
+\E[W_n|W_1 \hdots W_{n-1}]&=W_{n-1}e^{-cb}\E[\exp\{c(X_n-X_{n-1})\}|X_1 \hdots X_{n-1}].
 \end{align*}
-Rearranging this, we get a bound on probability of random walk $S_n$ hitting $A$ over $A_j$ as 
+Using Jensen's inequality for convex function $f(x) = e^x$, we obtain
 \begin{align*}
-\P_i\{S_n \in A \text{ for some } n\} \geq \P_i\{S_N \in A\} \geq \frac{j-i}{j+M}.
+\E[\exp\{c(X_n-X_{n-1})\}|X_1 \hdots X_{n-1}]
+&{\leq} W_{n-1}e^{-cb}\frac{\beta e^{-c\alpha} + \alpha e^{c\beta}}{\alpha+\beta} {\leq} W_{n-1}e^{-cb}e^{c^2{(\alpha+\beta)}^2/8}.
 \end{align*}
-%Thus we have 
-%\begin{align*}P[\mbox{process ever enters }A] \geq P[S_N \in A] \geq \frac{j-i}{j+M}\end{align*}
-Taking limit $j \to \infty$, we see that for any $i \geq 0$, we have 
-%\begin{align*}
-$\P_i\{S_n \in A \text{ for some }n \} = 1$.
-%\end{align*}
-Similarly, taking $B = \{1,2,\cdots, M\}$, we can show that for any $i \geq 0$, 
-%\begin{align*}
-$\P_i\{S_n \in B \text{ for some }n \} = 1.$
-%\end{align*}
-Result follows from combining the above two arguments to see that for any $i \geq 0$,
+where second inequality follows from with $\theta=\alpha/(\alpha+\beta),~x=c(\alpha+\beta)$. 
+Hence, fixing the value of $c$ as $c=8b/{(\alpha+\beta)}^2$ yields 
+\begin{align}
+E[W_n|W_1, \hdots W_{n-1}] \leq W_{n-1},
+\end{align}
+and so $\{W_n: n \in \N_0\}$ is a supermartingale. 
+For a fixed positive integer $k$, define the bounded stopping time $N$ by 
 \begin{align*}
-\P_i\{S_n \in A\cup B \text{ for some } n\} = 1.
+N= \min\{n: ~\text{either}~ X_n \geq a+bn ~ \text{or}~ n=k \}.
+\end{align*} 
+Now, using Markov inequality and optional stopping theorem, we get
+\begin{align*}
+\Pr\{X_N \geq a+bN\}&= \Pr\{W_N \geq 1\} \leq \E[W_N] \leq \E[W_0].
 \end{align*}
+But the above inequality is equivalent to
+\begin{align*}
+\Pr\{X_n \geq a+bn ~ \text{for some}~ n \leq k\} \leq e^{-8ab/{(\alpha+\beta)}^2}.
+\end{align*}
+Letting $k \rightarrow \infty$ gives the result.
 \end{proof}
-\begin{prop} Consider a random walk $S_n$ with mean step size $\E[X] \neq 0$. 
-For $A,B > 0$, let $P_A$ denote the probability that the walk hits a value greater than $A$ before it hits a value less than $-B$. Then, 
+\begin{thm}[Generalized Azuma Inequality] Let $\{X_n : n \in \N_0\}$ be a martingale with mean $X_0=0$, such that $-\alpha \leq X_n-X_{n-1} \leq \beta $ for all $n \in \N$. 
+Then, for any positive constant $c$ and integer $m$:
 \begin{align*}
-P_A \approx \frac{1-e^{-\theta B}}{e^{\theta A}-e^{\theta B}}.
+\Pr\{X_n \geq nc\text{ for some }n \geq m\} &\leq \exp\left(-2mc^2/{(\alpha+\beta)}^2\right),\\
+\Pr\{X_n \leq -nc\text{ for some }n \geq m\} &\leq \exp\left(-2mc^2/{(\alpha+\beta)}^2\right).
 \end{align*}
-Approximation is an equality when step size is unity and $A$ and $B$ are integer valued.
-\end{prop}
-\begin{proof}
-Now  For $A,B > 0$, we wish to compute the probability $P_A$ that the walk hits at least $A$ before it hits a value $\leq -B$. Let $\theta \neq 0$ s.t
-\begin{align*}E[e^{\theta X}] = 1\end{align*}
-Now let $Z_n = e^{\theta S_n}$. We can see that $Z_n$ is a martingale with mean 1. Define $N$ as
-\begin{align*}N = \min \{S_n \geq A \mbox{ or } S_n \leq -B\}\end{align*}
-From Doob's Theorem, $E[e^{S_N}] = 1$. Thus we get
-\begin{align*} 1 = E[e^{\theta S_N}|S_N \geq A]P_A + E[e^{\theta S_N}|S_N \leq -B](1-P_A)\end{align*}
-
-We can obtain an approximation for $P_A$ byneglecting the overshoots past $A$ or $-B$. Thus we get
-\begin{flalign*}
-E[e^{\theta S_N}|S_N\geq A] &\approx e^{\theta A} \\
-E[e^{\theta S_N}|S_N\leq -B] &\approx e^{-\theta B} \\
-\end{flalign*}
-Hence we get, 
-\end{proof}
-As an assignment, show that 
-\begin{align*}E[N] \approx \frac{AP_A - B(1-P_A)}{E[X]}\end{align*}
-
-\begin{exmp}\textbf{Gambler Ruin}
-Consider a simple random walk with probability of increment = $p$. As an exercise, show that $E\left[(q/p)^X\right] = 1$ and thus $e^\theta = q/p$. If $A$ and $B$ are integers, then there is no overshoot and hence, our approximations are exact. Thus
-\begin{align*}P_A = \frac{(q/p)^B - 1}{(q/p)^{A+B} -1}\end{align*}
- Suppose $E[X]<0$ and we wish to know if the random walk ever crosses $A$. Then
-\begin{flalign*}
-1 &= E[e^{\theta S_N}|S_N\geq A]P[\mbox{process crossed $A$ before $-B$}] \\
-&+ E[e^{\theta S_N}|S_N\leq -B]P[\mbox{process crossed $-B$ before $A$}]
-\end{flalign*}
-Now $E[X]<0$ implies $\theta > 0$ (Why?). Hence we have
-\begin{align*}1 \geq e^{\theta A} P[\mbox{process crossed $A$ before $-B$}]\end{align*}
-Taking $B$ to $\infty$ yields
-\begin{align*}P[\mbox{Random walk ever crosses A}] \leq e^{-\theta A}\end{align*}
-
-\end{exmp}
-\section{Application to G/G/1 Queues and Ruin}
-\subsection{The G/G/1 Queue}
-For the G/G/1 queue, the limiting distribution of delay is
-\begin{align*}P[D_\infty \geq A] = P[S_n \geq A \mbox{ for some } n]\end{align*}
-where 
-\begin{align*}S_n = \sum_{k=1}^n U_k, \quad U_k = Y_k-X_{k+1} \end{align*}
-Here $Y_i$ is the service time of the ith customer and $X_i$ is the interarrival duration between customer $i-1$ and customer $i$.
-Thus when $E[U] = E[Y] - E[X] < 0$, letting $\theta > 0$ such that
-\begin{align*}E[e^{\theta U}] = E[e^{\theta(Y-X)}] = 1\end{align*}
-We get
-\begin{align*}P[D_\infty \geq A] \leq e^{-\theta A}\end{align*} 
-
-Now the exact distribution of $D_\infty$ can be calculated when services are exponential. Hence assume $Y_i \sim exp(\mu)$. Once again,
-\begin{flalign*}
-1 &= E[e^{\theta S_N}|S_N\geq A]P[S_n\mbox{ crossed $A$ before $-B$}] \\
-&+ E[e^{\theta S_N}|S_N\leq -B]P[S_n\mbox{ crossed $-B$ before $A$}]
-\end{flalign*}
-Let us compute $E[e^{\theta S_N}|S_N \geq A]$ first. Let us condition this on $N=n$ and $X_{n+1} - \sum_{i=1}^{n-1} (Y_i - X_{i+1}) = c$. By the memoryless property, the conditional distribution of $Y_n$ given $Y_n > c+A$ is just $c+A$ plus an exponential with rate $\mu$. Thus we get
-\begin{flalign*}
-E[e^{\theta S_N}|S_N \geq A] &= E[e^{\theta(A+Y)}] \\
-&=\frac{\mu e^{\theta A}}{\mu - \theta}
-\end{flalign*}
-Now substituting back, we get
-\begin{flalign*}
-1 &= \frac{\mu e^{\theta A}}{\mu - \theta}P[S_n\mbox{ crossed $A$ before $-B$}] \\
-&+ E[e^{\theta S_N}|S_N\leq -B]P[S_n\mbox{ crossed $-B$ before $A$}]
-\end{flalign*}
-Now as $\theta > 0$, let $B\to \infty$ to get
-\begin{align*}1 = \frac{\mu e^{\theta A}}{\mu - \theta} P[S_n \mbox{ ever crosses }A]\end{align*}
-And hence
-\begin{align*}P[D_\infty \geq A] = \frac{\mu - \theta}{\mu}e^{-\theta A}\end{align*}
-
-\subsection{A Ruin Problem}
-Suppose claims made to an insurance company follow a renewal process with iid interarrival times $\{X_i\}$. Let the values of the claims also be iid and independent of the renewal process $N(t)$ of their occurence. Let $Y_i$ be the ith claim value. Thus the total value of claims till time $t$ is $\sum_{k=1}^{N(t)}Y_i$. Now let us suppose the insurance company receives money at constant rate $c$ per unit time, $c>0$. We wish to compute the probability of the insurance company, starting with capital $A$, will eventually be wiped out or \textbf{ruined}. Thus we require
-\begin{align*}p = P\left\{ \sum_{k=1}^{N(t)}Y_i > ct + A \mbox{ for some } t\geq 0\right\}\end{align*}
-As an assignment, show that the company will be ruined if $E[Y] \geq cE[X]$. So let us assume that $E[Y] < cE[X]$. Also the ruin occurs when a claim is made. After the $n$th claim, the company's fortune is
-\begin{align*}A + c\sum_{k=1}^n X_k -\sum_{k=1}^n Y_k \end{align*}
-Letting $S_n = \sum_{k=1}^n Y_i - cX_i$ and $p(A) = P[S_n > A \mbox{ for some }n]$. As $S_n$ is a random walk, we see that 
-\begin{align*}p(A) = P[D_\infty > A]\end{align*}
-
-Now the results from the G/G/1 queue apply.
-
-\section{Blackwell Theorem on the Line}
-Let $S_n$ denote a random walk where $0<\mu=E[X] < \infty$. Let 
-\begin{align*}U(t)=\#\{n: S_n \leq t\} = \sum_{n=1}^\infty I_n\end{align*}
-Where $I_n=1$ if $S_n \leq t$ and zero else. Observe that if $X_n$ are nonnegative, then $U(t) = N(t)$. Let $u(t) = E[U(t)]$. Now we prove an analog of Blackwell Renewal Theorem. 
-
-\begin{thm}
-\textbf{(Blackwell renewal theorem)} If $\mu > 0$ and $X_i$ are not lattice, then
-\begin{align*}u(t+a) - u(t) \to a/\mu \quad t\to \infty \quad \mbox{for }a>0\end{align*}
 \end{thm}
-Let us define a few concepts. We say an \textbf{ascending ladder variable of ladder height $S_n$} occurs at time $n$ when
-\begin{align*}S_n > \max(S_0,S_1,\cdots, S_{n-1})\end{align*}
-where $S_0 = 0$. We may deduce that since $X_i$ are iid random variables, then the random variables $(N_i,S_{N_i}-S_{N_{i-1}})$ are iid; where $N_i$ denotes the time between the $(i-1)$th and ith random variable. We may analogously define descending ladder variables. Now let $p(p_*)$ denote the probability of ever achieving an ascending/descending ladder variable.
-\begin{align*}p = P\{S_n > 0 \mbox{ for some }n\},\quad p_* = P\{S_n < 0 \mbox{ for some }n\}\end{align*}
-At each ascension/descension there is a probability $p$ (resp $p_*$) of achieving another one. Hence the number of ascensions/descensions is geometrically distributed. The number of ascending ladder variables (ascensions) will have finite mean iff $p < 1$. Now as $E[X] > 0$, by SLLN, we deduce that $w.p.1$, there will be infinitely many ascending ladder variables but finitely many descending ones. That is $p =1$ and $p_* < 1$.
-
 \begin{proof}
-The successive ascending ladder heights are a renewal process. Let $Y(t)$ be the excess time. Now given the value of $Y(t)$, the distribution of $U(t+a) - U(t)$ is independent of $t$. (Why?). Hence let us denote
-\begin{align*}E[U(t+a) - U(t)|Y(t)] = g(Y(t))\end{align*}
-for some function $g$. Now taking expectations yields
-\begin{align*}u(t+a) - u(t) = E[g(Y(t))]\end{align*}
-
-Now since $Y(t) \to^d Y_\infty$ where $Y_\infty$ has the equilibrium distribution, we have $E[g(Y(t))] \to E[g(Y_\infty)]$. The result would be true if we show $g$ is continuous and bounded. We leave that as an exercise. For now, we deduce that the limit exists. Let
-\begin{align*}h(a) = \lim_{t \to \infty}u(t+a) - u(t)\end{align*}
-This also implies $h(a+b) = h(a) + h(b)$. Thus for some constant $c$, 
-\begin{align*}h(a) = ca\end{align*}
-
-Now to get $c$, let $N_t$ denote the first $n$ for which $S_n > t$. If $X_i$ are upper bounded by $M$, then
-\begin{align*}t < \sum_{i=1}^{N_t} X_i \leq t+M\end{align*}
-Taking expectations, and using Wald's Lemma, yields
-\begin{align*}t < E[N_t]\mu \leq t+M\end{align*}
-Thus 
-\begin{align*}\frac{E[N_t]}{t} \to \frac{1}{\mu}\end{align*}
-If $X_i$ are unbounded, use the truncation arguments done while proving Elementary renewal theorem. Now $U(t)$ can be expressed as
-\begin{align*}U(t) = N_t -1 +N_t^*\end{align*}
-where $N_t^*$ is the number of times $S_n \leq t$ after having crossed $t$. Since $N_t^*$ is not greater than the number of points occuring after $N_t$ when the random walk is less than $S_{N_t}$, we get
-\begin{align*}E[N_t^*] \leq E[\mbox{number of $n$ such that $S_n < 0$}]\end{align*}
-
-Hence if we argue that RHS of above is finite, then
-\begin{align*}\frac{u(t)}{t} \to \frac{1}{\mu}\end{align*}
-
-From the first proposition in Random walks, we have $E[N] <\infty$ where $N$ is the first value of $n$ for which $S_n > 0$. At time $N$, with positive probability $1-p^*$, no future value of random walk will fall below $S_N$. Thus,
-\begin{align*}E[\mbox{number of $n$ where $S_n < 0$}] \leq \frac{E[N|X_1<0]}{1-p^*} < \infty\end{align*}
-
-Now follow the steps illustrated in the Blackwell renewal theorem (original) proof to arrive at the desired result.
-
+Observe that if there is an $n$ such that $n \geq m$ and $X_n \geq nc$ then for that $n, X_n \geq nc \geq mc/2+nc/2$. 
+Using this fact and previous proposition for $a = mc/2$ and $b = c/2$, we get
+\begin{align*}
+\Pr\{X_n \geq nc\text{ for some }n \geq m\} &\leq \Pr\{X_n \geq mc/2+(c/2)n~ \text{for some} ~ n\}\leq \exp\left\{-\frac{8(mc/2)(c/2)}{(\alpha+\beta)^2}\right\}.
+\end{align*}
+%where the last inequality follows from Proposition \ref{GenAzumaLemma}. 
+This proves first inequality, and second inequality follows by considering the martingale $\{-X_n: n \in \N_0\}$.
 \end{proof}
+
 \end{document}
