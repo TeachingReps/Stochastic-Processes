@@ -194,6 +194,35 @@ Hence, $\sup_x \sqrt{n}|F_n(x)-F(x)|$ converges to $\sup_{t \in [0,1]}|Z(t)|$ in
 \section{Hitting Times}
 \begin{defn} We denote by $T_a$, the first time a Brownian motion process $\{X(t): t \geqslant 0\}$ hits $a$.
 \end{defn}
+\begin{thm} Distribution of hitting time of a standard Brownian motion $X(t)$ is given by
+\begin{align*}
+\Pr\{T_a \leq t\} &= \frac{2}{\sqrt{2 \pi}}\int_{y > |a|/\sqrt{t}}\exp\left(-\frac{y^2}{2}\right)dy.
+\end{align*}
+\end{thm}
+\begin{proof} First, we observe that by symmetry we have
+\begin{align*}
+\Pr\{X(t) \geq a\} &= \Pr\{X(t) \geq a | T_a \leq t\}\Pr\{T_a \leq t\} = \frac{1}{2}\Pr\{T_a \leq t\}.%+  \Pr\{X(t) \geq a | T_a> t\}\Pr\{T_a > t\} 
+\end{align*}
+Since we know distribution of $X(t)$ is zero mean Gaussian with variance $t$, for $a > 0$ and substituting $y = x/\sqrt{t}$ we get
+\begin{align*}
+\Pr\{X(t) \geq a\} &= \frac{1}{\sqrt{2\pi}}\int_{y > a/\sqrt{t}}\exp(-\frac{y^2}{2})dy.
+\end{align*}
+By symmetry, $T_a$ for $a < 0$ has same distribution as $T_{-a}$ and hence the result follows.
+\end{proof}
+\begin{cor} Hitting time $T_a$ is finite a.s. but has infinite mean.
+\end{cor}
+\begin{proof} It follows that 
+\begin{align*}
+\lim_{t \to \infty}
+\end{align*}
+\end{proof}
+\begin{rem} Hitting time $T_n$ for a symmetric random walk is finite a.s. and has infinite mean.
+\end{rem}
+\begin{prop} For $x \in (0,1)$ and a standard Brownian motion $X(t)$
+\begin{align*}
+\Pr\{X(t) \neq 0, t \in (xt, t)\} &= \frac{2}{\pi}\arcsin\sqrt{x}.
+\end{align*}
+\end{prop}
 
 \section{Martingales for Random Walks}
 %Let
