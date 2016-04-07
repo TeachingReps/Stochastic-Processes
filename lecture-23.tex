@@ -195,6 +195,58 @@ Hence, $\sup_x \sqrt{n}|F_n(x)-F(x)|$ converges to $\sup_{t \in [0,1]}|Z(t)|$ in
 \begin{defn} We denote by $T_a$, the first time a Brownian motion process $\{X(t): t \geqslant 0\}$ hits $a$.
 \end{defn}
 
+
+\begin{rem} For a standard Brownian motion $X(t)$, 
+\begin{align*}
+\Pr\left\{\max_{s \in [0,1]}X(s) \geq a \right\} &= \Pr\{T_a \leq t\}.
+\end{align*}
+\end{rem}
+\begin{thm} For a standard Brownian motion $X(t)$, 
+\begin{align*}
+\Pr\left\{  X(s) = 0, \text{ for some }s \in (t_1,t_2) \right\} &= 1 - \frac{2}{\pi}\arcsin\sqrt{x}.
+\end{align*}
+\end{thm}
+\begin{proof} We can condition the event $\{ X(s) = 0, \text{ for some }s \in [t_1,t_2] \}$ on $\{X(t_1) = x\}$, and use continuity of Brownian motion sample path and symmetry to get
+\begin{align*}
+\Pr\left\{X(s) = 0, \text{ for some }s \in (t_1,t_2) | X(t_1) = x\right\} &= \Pr\{T_{|x|} \leq t_2 - t_1\}.
+\end{align*}
+Result follows from evaluating unconditional probability since we know distribution of hitting time.
+\end{proof}
+
+\begin{cor} For a standard Brownian motion $X(t)$ and $x \in (0,1)$
+\begin{align*}
+\Pr\left\{  X(s) \neq 0, s \in (xt,t) \right\} &= \frac{2}{\pi}\arcsin\sqrt{x}.
+\end{align*}
+\end{cor}
+
+\section{Arcsine laws for Symmetric Random Walks}
+\begin{defn} For a simple symmetric random walk $\{S_n: n \in \N_0\}$ with iid step sizes $\{X_n: n \in \N\}$, we can define a regenerative process $\{Y_n: n \in \N\}$ as 
+\begin{align*}
+Y_n = 1_{\{S_n > 0\}} - 1_{\{S_n < 0\}},~n \in \N.
+\end{align*}
+Here the renewal times are 
+\begin{align*}
+T_n &= \inf\{ i > T_{n-1}: S_i = 0\}.
+\end{align*}
+\end{defn}
+\begin{rem} Let $u_n = \Pr\{S_{2n} = 0\}$, then $u_n = \binom{2n}{n}\left(\frac{1}{2}\right)^{2n}$ and $u_n = \frac{2n-1}{2n}u_{n-1}$.
+\end{rem}
+\begin{lem} For a simple symmetric random walk $S_n$, with the associated renewal times are distributed as 
+\begin{align*}
+\Pr\{T = 2n\} &= \frac{\binom{2n}{n}\left(\frac{1}{2}\right)^{2n}}{2n-1} = \frac{u_n}{2n-1}.
+\end{align*}
+\end{lem}
+\begin{proof} We observe that 
+\begin{align*}
+\Pr\{T = 2n\} &= \Pr\{T = 2n | \sum_{i \in [2n]}1_{\{ X_i = -1\}} = n\}u_n.
+\end{align*}
+Further, conditioning on last realization of $X_i$ we get
+\begin{align*}
+\Pr\{T = 2n |  \sum_{i \in [2n]}1_{\{ X_i = -1\}} = n\} &= \frac{1}{2}\Pr\{T = 2n | X_{2n} = 1,  \sum_{i \in [2n-1]}1_{\{ X_i = -1\}} = n\} \\
+&+ \frac{1}{2}\Pr\{T = 2n | X_{2n} = -1,  \sum_{i \in [2n-1]}1_{\{ X_i = -1\}} = n-1 \}.
+\end{align*}
+\end{proof}
+
 \section{Martingales for Random Walks}
 %Let
 %\begin{align*}S_n = \sum_{k=1}^n X_k \quad n \geq 1\end{align*}
