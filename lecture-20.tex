@@ -3,7 +3,7 @@
 \documentclass[a4paper,10pt,english]{article}
 %\uspackage{tfrupee}
 \input{header}
-\title{Lecture 19: Random Walks}
+\title{Lecture 20: Random Walks}
 \author{}
 \begin{document}
 \maketitle
@@ -45,6 +45,9 @@ A \textbf{finite permutation} of $\N$ is a map $\pi: \N \to \N$ such that $\pi(i
 %$X_1, \hdots ,X_n$ is exchangeable if $X_{i_1}, \hdots X_{i_n}$ has the same joint distribution for all permutations $(i_1,i_2 \hdots i_n)$ of $(1, \hdots ,n)$. The infinite sequence of random variables $X_1, X_2 \hdots$ is said to be exchangeable if every finite subsequence $X_1, \hdots ,X_n$ is exchangeable.
 %\end{defn}
 \begin{exmp}
+	Let $(S,\mathcal{S})=(\mathbb{Z},\mathcal{P}(\mathbb{Z}))$ and let $(\Omega,\F,P)$ be as constructed above. Define $X_i(\omega)=\omega_i$ and $S_n(\omega)=X_1(\omega)+ \hdots +X_n(\omega)$. Then the event $A=\{\omega | S_n(\omega) \in [-10,10] i.o.\}$ is an exchangeable event because $S_n(\omega)=S_n(\pi\omega)$. Similarly the product, minimum and maximum can also be shown to be exchangeable events.
+\end{exmp}
+\begin{exmp}
 Suppose balls are selected randomly, without replacement, from an urn consisting of $n$ balls of which $k$ are white. For $i \in [n]$, let
 \begin{align*}
    X_i &= 1_{\{ i^{\text{th}}\text{ selection is white}\}},
@@ -57,7 +60,7 @@ In particular, let $A = \{ i \in [n]: X_i = 1\}$. Then, we know that $|A| = k$, 
 This joint distribution is independent of set of exact locations $A$, and hence exchangeable. 
 Further, we can show that all $X_i$ are identically distributed, since
 \begin{align*}
-\Pr\{X_1= 1, X_2, \ldots, X_n\} = \Pr\{X_i = 1, X_1, \ldots, X_{i-1}, X_i, \ldots, X_n\}. 
+\Pr\{X_1= 1, X_2, \ldots, X_n\} = \Pr\{X_i = 1, X_1, \ldots, X_{i-1}, X_{i+1}, \ldots, X_n\}. 
 \end{align*}
 Further, it can be seen that
 \begin{align*}
