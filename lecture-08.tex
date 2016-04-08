@@ -87,7 +87,16 @@ The following holds:
 \end{prop}
 
 \subsubsection{Example:}
-Let $\{X_n: n \in \mathbb{N}\}$ be iid discrete observed. A pattern $x_1,x_2 \hdots x_k$ is said to occur at time $n$ if $X_n=x_k,~X_{n-1}=x_{k-1}, \hdots X_{n-k+1}=x_1. $. If we have iid tosses and consider $N(n)$ as the number of times pattern $0,1,0,1$ appear in $n$ tosses, with $P(H)=p=1-q,$~the process is a delayed renewal processes. To find the mean number of tosses for the first time the pattern $0,1,0,1$ appear, \\
+Let $\{X_n: n \in \mathbb{N}\}$ be iid discrete observed. A pattern $x_1,x_2 \hdots x_k$ is said to occur at time $n$ if $X_n=x_k,~X_{n-1}=x_{k-1}, \hdots X_{n-k+1}=x_1.$ This forms a renewal process with inter arrivals being lattice random variables with $d=1$. The probability of a renewal at $n$ is thus $\prod_{i=1}^k P[X=x_i].$ From Blackwell's theorem for a strictly positive lattice random variable, we have 
+\begin{align}
+\lim_{n\to \infty} P[\text{pattern at $n$}]= \frac{1}{\E[\text{time between renewals}]},
+\end{align}
+from which it follows that 
+\begin{align}
+\E[\text{time between renewals}] = \frac{1}{\prod_{i=1}^k P[X=x_i]}.
+\end{align}
+
+If we have iid tosses and consider $N(n)$ as the number of times pattern $0,1,0,1$ appear in $n$ tosses, with $P(H)=p=1-q,$~the process is a delayed renewal processes. To find the mean number of tosses for the first time the pattern $0,1,0,1$ appear, \\
 
 \begin{flalign*}
 \mathbb{E}[\text{first time pattern}~ 0,1,0,1 ~ \text{appears}]&= \mathbb{E}[\text{first time pattern}~ 0,1 ~ \text{appears}]  \\

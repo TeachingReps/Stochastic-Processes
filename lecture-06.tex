@@ -61,13 +61,20 @@ where (a) follows from the fact that if a sequence $\{x_i\}$ converges to $c$, t
 
 Therefore, we can conclude $c = 1/\mu$ by elementary renewal theorem.
 
-When $F$ is lattice with period $d$, the limit in~\eqref{eq:LimitBlackwell} doesn't exist. (See Example \ref{eg:lattice limit}). However, the theorem is true for lattice trivially by elementary renewal theorem.
+When $F$ is lattice with period $d$, the limit in~\eqref{eq:LimitBlackwell} doesn't exist. (See Example \ref{eg:lattice limit}). However, the theorem is true for lattice trivially by elementary renewal theorem. Indeed, since $\frac{m(t)}{t} \to \frac{1}{\mu}$, we have that $m(nd)-m((n-1)d) \to \frac{1}{\mu}[nd-(n-1)d] = \frac{d}{\mu}.$
 \end{proof}
 
 \begin{exmp}
 \label{eg:lattice limit}
 For a trivial lattice example where the $\lim_{t\to \infty} m(t+a)-m(t)$ does not exist, consider a renewal process with $\Pr\{X_n = 1\} = 1$, that is, there is a renewal at every positive integer time instant with probability 1. Then $F$ is lattice with $d=1.$ Now, for $a=0.5$, and $t_n = n+(-1)^n 0.5$, we see that $\lim_{t_n \to \infty} m(t_n+a)-m(t_n)$ does not exist, and hence $\lim_{t \to \infty} m(t+a)-m(t)$ does not exist.
 \end{exmp}
+
+\begin{rem}
+In the lattice case, if the inter arrivals are strictly positive, that is, there can be no more than one renewal at each $nd$, then we have that 
+\begin{align}
+\lim_{n\to \infty} P[{\text{renewal at nd}}] = \frac{d}{\mu}.
+\end{align}
+\end{rem}
 
 
 \subsection{Directly Riemann Integrable}
