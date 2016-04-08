@@ -108,6 +108,13 @@ From Key Renewal theorem, we have
 &= \frac{1}{\mu} \int_{x=0}^{\infty} \int_{t=0}^{x}(x-t) dF(x) dt\\
 &= \frac{\mathbb{E}[X^2]}{2\mu}.
 \end{flalign*}
+
+\begin{rem}
+It can also be established that $\lim_{t\to \infty}\frac{\int_0^t Y(\tau) d\tau}{t} = \frac{EX^2}{2\mu}$ since, for each sample path $\{Y(t)= y(t)\}$ and sample values $\{x_i,i\in\mathbb{N}\}$, we have $\int_0^ty(\tau)d\tau = \frac{1}{2}\sum_{i=1}^{n(t)}x_i^2+\int_{\tau=s_{n(t)}}^t y(\tau)d\tau$.
+\end{rem}
+
+
+
 \begin{prop}
 If the inter arrival time is nonlattice and $\mathbb{E}[X^2] < \infty$, we have 
 \begin{flalign*}

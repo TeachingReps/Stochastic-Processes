@@ -236,6 +236,34 @@ elementary renewal theorem, and the result follows since $\epsilon >
 	 	\end{flalign*}
 	 	by the similar arguments given in the proof of the theorem \ref{theorem}. Thus the remark follows. For more insights refer Chapter 3 in \textit{Stochastic Processes} by \textit{Sheldon M. Ross}.
 \end{rem}
+
+\subsubsection{Applications of the Renewal Reward Theorem}
+To determine the average value of the age of a renewal process, consider the following reward system: Assume we are paid money at a rate equal to the age of the process. That is, at time $t$, we are paid at rate $A(t)$ and so the total earning by time $s$ is $\int_0^s A(t)dt.$ From the renewal reward theorem, we have 
+\begin{align*}
+\lim_{s\to \infty}\frac{\int_0^s A(t)dt}{s} = \frac{\E[\text{Reward per cycle}]}{\E[\text{Time of a cycle}]}.
+\end{align*}
+Now, since reward per cycle is $\int_0^X t dt = \frac{X^2}{2}$, we have that
+\begin{align*}
+\lim_{s\to \infty}\frac{\int_0^s A(t)dt}{s} = \frac{\E[X^2]}{2\E[X]}.
+\end{align*}
+A similar analysis to calculate the average excess time, where the reward per cycle is $\int_0^X (X-t)dt$ gives 
+\begin{align*}
+\lim_{s\to \infty}\frac{\int_0^s Y(t)dt}{s} = \frac{\E[X^2]}{2\E[X]}.
+\end{align*}
+Now since $X_{N(t)+1}=A(t)+Y(t)$, we see that its average value is given by
+\begin{align*}
+\lim_{s\to \infty}\frac{\int_0^s X_{N(t)+1}dt}{s} = \frac{\E[X^2]}{\E[X]}.
+\end{align*}
+It can be shown, under certain regularity conditions, that 
+\begin{align*}
+\lim_{t\to \infty} \E[R_{N(t)+1}] = \frac{\E[R_1 X_1]}{\E[X_1]}.
+\end{align*}
+Defining a cycle reward to equal the cycle length, we have 
+\begin{align*}
+\lim_{t\to \infty} \E[X_{N(t)+1}] = \frac{\E[X^2]}{\E[X]}.
+\end{align*}
+We see that this limit is always greater than $\E[X]$, except when $X$ is constant. Such a result was to be expected in view of the inspection paradox.
+
  
  \subsubsection{Example:} Suppose for an alternating renewal process, we earn at a rate of one per unit time  when the system is on and the reward for a cycle is the the time system is ON during that cycle.\\
  $ \lim_{t \rightarrow \infty} \frac{\text{Amount of ON time in } [0,t]}{t} = \lim_{t \rightarrow \infty} \frac{R(t)}{t}=\frac{\E[X]}{\E[X]+\E[Y]} = \lim_{t \rightarrow \infty}P(\text{ON at time t})$. 
