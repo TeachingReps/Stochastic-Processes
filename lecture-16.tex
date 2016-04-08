@@ -33,8 +33,8 @@ Conversely, let $\pi$ be the distribution that satisfies the detailed balanced c
 summing up both sides over $j \in I$, we see that this distribution is the equilibrium distribution.
 Let $j_i \in I$ for $i \in [m]$, and we write
 \begin{align*}
-\Pr\{X(t+i-1) = j_i, i \in [m]\} &= \pi(j_0)\prod_{i=1}^mP_(j_{i-1},j_{i}),\\
-\Pr\{X(t'+i-1) = j_{m-i+1}, i \in [m]\} &= \pi(i_m)\prod_{i=m}^{1}P(j_i,j_{i-1}).
+\Pr\{X(t+i-1) = j_{i-1}, i \in [m]\} &= \pi(j_0)\prod_{i=1}^mP_(j_{i-1},j_{i}),\\
+\Pr\{X(t'+i-1) = j_{m-i+1}, i \in [m]\} &= \pi(i_m)\prod_{j=m}^{1}P(j_i,j_{i-1}).
 \end{align*}
 From detailed balanced equations~\eqref{eqn:DetBalCdnMC} it follows that RHS of above two equations are identical. Taking $\tau = t+t'+m$, we deduce that $X(t)$ is reversible.
 \end{proof}
@@ -212,7 +212,7 @@ As limit $n \rightarrow \infty$, we get the desire result.
 \end{align*}
 Result follows from Markov property of $X(t)$, i.e.
 \begin{align*}
-Pr\{\F_{m+1} |X_m= j, X_{m-1} = i \} &=\Pr\{\F_{m+1}=i|X_m=j\}.
+Pr\{\F_{m+1} |X_m= j, X_{m-1} = i \} &=\Pr\{\F_{m+1}|X_m=j\}.
 \end{align*}
 \end{proof}
 %\begin{lem}  If $X(t)$ is a stationary Markov chain with transition matrix $P$ and equilibrium distribution $\alpha$, then the reversed chain $X(\tau -t)$ is a stationary Markov chain with same equilibrium distribution $\alpha$ and transition matrix $P^{\ast}$ such that
