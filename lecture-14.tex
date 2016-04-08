@@ -126,7 +126,7 @@ A \textbf{generator matrix} denoted by $Q \in \R^{I \times I}$ is defined in ter
 \item $q_{ij}=\nu_i p_{ij}$. 
 \end{enumerate}
 \end{defn}
-\begin{lem} A matrix $Q$ is generator matrix for a CTMC iff for each $i \in I$,
+\begin{lem} A matrix $Q$ is a generator matrix for a CTMC iff for each $i \in I$,
  \begin{enumerate}
 \item $0 \leq -q_{ii} < \infty$, 
 \item $q_{ij} \geq 0$,
@@ -147,7 +147,7 @@ Let $Q$ be a finite sized matrix. Let $P(t)=e^{tQ}$. Then $\{P(t),~ t \geq 0\}$ 
 $\frac{dM(t)e^{-tQ}}{dt}=0,$ $M(t)e^{-tQ}$ is constant. $M(t)$ is any matrix satisfying the forward equation.
 \end{proof}
 \begin{thm}
-A finite matrix $Q$ is generator matrix for a CTMC iff $P(t)=e^{tQ}$ is a stochastic matrix for all $t \geq 0$. 
+A finite matrix $Q$ is a generator matrix for a CTMC iff $P(t)=e^{tQ}$ is a stochastic matrix for all $t \geq 0$. 
 \end{thm}
 \begin{proof}
 $P(t)=I+tQ+O(t^2)$ ($f(t)=O(t) \Rightarrow \frac{f(t)}{t} \leq c,$ for small $t,~c < \infty$ ). $q_{ij} \geq 0$ if and only if $P_{ij}(t) \geq 0,~ \forall i \neq j$ and $t \geq 0$ sufficiently small. $P(t)=P(\frac{t}{n})^n$. Note that if $Q$ has zero row sums, $Q^n$ also has zero row sums.\\
@@ -162,19 +162,43 @@ Conversely $\sum_{j}P_{ij}(t)=1,~ \forall t \geq 0$, then $\sum_jQ_{ij}= \frac{d
 \subsection{Kolmogorov Differential Equations}
 \begin{lem} For a CTMC with transition probability matrix $P(t)$, the following properties hold.
 \begin{enumerate}
-\item Limiting values of transition probabilities are related to generator matrix $Q$, i.e.
-\begin{align*}
+\item Limiting values of the transition probabilities are related to the generator matrix $Q$, i.e.
+\begin{align}
+\label{eq:limP}
 \lim_{t \downarrow 0} \frac{P(t)-I}{t} &= Q.
-\end{align*}
+\end{align}
 %\begin{xalignat*}{3}
 %&\lim_{t \downarrow 0} \frac{1-P_{ii}(t)}{t} =\nu_i,&&
 %\lim_{t \downarrow 0} \frac{P_{ij}(t)}{t} =q_{ij}.
 %\end{xalignat*}
-\item Transition probability matrix has the semi group property, i.e.
-\begin{align*}
+\item The transition probability matrix has the semi group property, i.e.
+\begin{align}
 P(t+s) &= P(t)P(s), ~~s,t \geq 0.
-\end{align*}
+\label{eqn:chapkolmogorov}
+\end{align}
 \end{enumerate}
+\begin{proof}
+Since the probability of two of more transitions in $(0,t]$ is $o(t)$ it follows that $P_{ii}(t) = e^{-\nu_i t}+o(t)$, that is, the probability of being in state $i$ at time $t$ having started in state $i$ is the sum of the probability of either no transitions in $(0,t]$ and the probability of being in $i$ after two or more transitions, the latter being $o(t)$. Thus, we have
+\begin{align}
+\underset{t\downarrow 0}{\mathrm{lim }} \frac{1-P_{ii}(t) }{t} = \nu_i,
+\end{align}
+which asserts the diagonal terms in \eqref{eq:limP}, since $\nu_i = -q_{ii}.$
+Similarly, for the off-diagonal terms, let $i\not = j,$ we have 
+\begin{align}
+P_{ij}(t) &= P(X(t)=j|\text{one transition in }(0,t])(1-e^{-\nu_i t})+ o(t)\\
+&= P_{ij} \cdot (1-e^{-\nu_it})+o(t).
+\end{align}
+Dividing by $t$ and taking limits now establishes \eqref{eq:limP}.
+
+Akin to the Chapman-Kolmogorov equations for the DTMC, we have
+\begin{align*}
+P_{ij}(t+s) &= P(X(t+s)=j|X(0)=i)\\
+&=\sum_k P(X(t+s)=j|X(0)=i,X(t)=k)P(X(t)=k|X(0)=i)\\
+&=\sum_k P_{kj}(s)P_{ik}(t),
+\end{align*}
+establishing \eqref{eqn:chapkolmogorov}.
+
+\end{proof}
 \end{lem}
 
 \subsection{Chapman Kolmogorov Equation for CTMC}
@@ -217,6 +241,6 @@ Conversely,
 \end{align*}
 \end{proof}
 \begin{thm}
-\textbf{Kolmogorov Forward Equation:} Under suitablle reqularity conditions, $P'_{ij}(t)=\sum_{k \neq i}P_{ik}(t)q_{kj}-P_{ij}(t)\nu_i$, i.e. $\frac{dP(t)}{dt}=P(t)Q$.
+\textbf{Kolmogorov Forward Equation:} Under suitable regularity conditions, $P'_{ij}(t)=\sum_{k \neq i}P_{ik}(t)q_{kj}-P_{ij}(t)\nu_i$, i.e. $\frac{dP(t)}{dt}=P(t)Q$.
 \end{thm}
 \end{document}

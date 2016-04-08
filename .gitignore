@@ -5,3 +5,5 @@
 *.log
 *.pdf
 *.out
+
+*.gz

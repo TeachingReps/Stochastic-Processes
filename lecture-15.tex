@@ -65,8 +65,9 @@ Since $N_j(m)\rightarrow \infty$ as $m \rightarrow \infty$, it follows from the 
 %\lim_{t \to \infty}\Pr\{ \text{CTMC is on at time } t | X(0) = i\} = \lim_{t \to \infty}P_{ij}(t) = \lim_{t \to \infty}\frac{\Pr\{\text{CTMC is on during time }[0,t] |X(0) = t\}}{t} = \frac{\E \tau_j }{\E T_{jj}}.
 %\end{align*} 
 \end{proof}
+
 \begin{rem}
-Limiting probability $\pi_j$ is long-run proportion of time the process is in state $j$.
+The limiting probability $\pi_j$ is the long-run proportion of time the process is in state $j$.
 \end{rem}
 
 %\begin{defn} We denote \textbf{stationary distribution} of an irreducible and positive recurrent CTMC $P(t)$ by $\pi$ such that for all $t > 0$
@@ -103,7 +104,11 @@ Another way of arriving at the limiting probabilities are by forward equations
 \begin{equation}
 P_{ij}'(t)=\sum_{k \neq j}q_{kj}P_{ik}(t)-\nu_iP_{ij}(t).
 \end{equation}
-Assume that the limiting probabilities exist. Then, it is easy to observe that $P_{ij}'(t) \rightarrow 0$ as $t \rightarrow \infty$. Letting $t \rightarrow \infty$, assuming that the limit and summation can be exchanged, we get the expression for $\pi_j$. 
+Assume that the limiting probabilities exist. Then, since $P_{ij}(t)$ are necessarily bounded, it is easy to observe that $P_{ij}'(t) \rightarrow 0$ as $t \rightarrow \infty$. Letting $t \rightarrow \infty$, assuming that the limit and summation can be exchanged, we get 
+\begin{align}
+\nu_j \pi_j = \sum_{k\not=j} q_{kj} \pi_k = \sum_k \nu_k P_{kj} \pi_k.
+\end{align}
+Letting $\gamma_j :=\pi_j \nu_j$, we see that $\gamma_j$ satisfies the relations for the steady state equation of the embedded Markov chain, but for a scale factor. Hence $\gamma_j = \frac{\alpha_j}{\sum_k \alpha_k}$, and we obtain the expression for $\pi_j$. 
 \end{rem}
 \begin{rem}
 In any interval $(0,t)$, the number of transitions into state $j$ must equal to within 1 the number of transitions out of state $j$. Hence, in the long run, The rate at which transitions occur into state $j$ = The rate at which transitions occur out of state $j$. That is,
@@ -173,16 +178,24 @@ Markov chain is a semi Markov process  with
 \end{flalign*}
 
 Let $H_i$ the distribution of time the semi Markov process stays in state $i$ before transition. We have $H_j(t)= \sum_i P_{ij}F_{ij}(t)$, $\mu_i = \int_0 ^ \infty X dH_i(x)$. Let $X_n$ denote the $n^{\text{th}}$ state visited. Then $\{X_n\}$ is a Markov chain with transition probability $P$ called the embedded Markov chain of the semi Markov process. \\
-\textbf{Definition:} If the embedded Markov chain is irreducible, then Semi Markov process is said to be irreducible. Let $T_{ii}$ denote the time between successive transitions to state $i$. Let $\mu_{ii}=E[T_{ii}]$.
+\begin{defn}If the embedded Markov chain is irreducible, then the Semi Markov process is said to be irreducible. 
+\end{defn}
+Let $T_{ii}$ denote the time between successive transitions to state $i$. Let $\mu_{ii}=E[T_{ii}]$.
 \begin{thm}
-If semi Markov process ius irreducible and if $T_{ii}$ has non-lattice distribution with $\mu_{ii}< \infty$ then, 
+If the semi Markov process is irreducible and if $T_{ii}$ has non-lattice distribution with $\mu_{ii}< \infty$ then, 
 \begin{flalign*}
 \pi_i=\lim_{t \rightarrow \infty}P(Z(t)=i|Z(0)=j)
 \end{flalign*}
 exists and is independent of the initial state. Furthermore, $\pi_i=\frac{\mu_i}{\mu_{ii}}$.
 \end{thm}
-\textbf{Corollary 4.8.2} If the semi-Markov process is irreducible and $\mu_{ii}<\infty$, then with probability 1,
+\begin{cor}
+If the semi-Markov process is irreducible and $\mu_{ii}<\infty$, then with probability 1,
 $\frac{\mu_i}{\mu_{ii}}=\frac{\lim_{t \rightarrow \infty} \text{Amount of time in [0,t]}}{t}~\text{a.s}$.\\
+\end{cor}
+
+
+
+
 \begin{thm}
 Suppose conditions of the previous thmrem hold and the embedded Markov chain is positive recurrent. Then $\pi_i= \frac{\alpha_i\mu_i}{\sum_{i}\alpha_j \mu_j}$. 
 \end{thm} 
@@ -204,16 +217,16 @@ Since $N_i(m)\rightarrow \infty$ as $m \rightarrow \infty$, it follows from the 
 If Semi Markov process is irreducible  and non lattice, then $\lim_{t \rightarrow \infty}P(Z(t)=i,Y(t)>x,S(t)=j|Z(0)=k)=\frac{P_{ij}\int_x^\infty F_{ij}^c(y)d(y)}{\mu_{ii}}$. Let $Y(t)$ denote the time from $t$ until the next transition. $S(t)$ state entered at the first transition after $t$. 
 \end{thm}
 \begin{proof}
-The trick lies in defining the "ON" time. 
+The trick lies in defining the ``ON" time. 
 \begin{flalign*}
 E[\text{ON time in a cycle}]=E[(X_{ij}-x)^+].
 \end{flalign*}
 \end{proof}
-\textbf{Corollary:} 
+\begin{cor}
 \begin{flalign*}
 \lim_{t \rightarrow \infty} P(Z(t)=i, Y(t) >x|Z(0)=k)= \frac{\int_{x}^{\infty}H_i^c(y)d(y)}{\mu_{ii}}.
 \end{flalign*}
-
+\end{cor}
 
 
 Since a Continuous Time Markov Chain (CTMC) is a semi-Markov chain with $F_{ij}(t)=1-e^{\nu_i t}$. From the theory of semi-Markov process, if the embedded Markov chain with transition probabilities $P_{ij}$ is irreducible and positive recurrent, then the limiting process,

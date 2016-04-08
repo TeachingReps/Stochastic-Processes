@@ -35,8 +35,8 @@ total time is greater than $x,$ and zero otherwise. The system is either totally
 during a cycle (if the renewal interval is greater than $x$), or totally OFF 
 otherwise. Formally,
 \begin{align*}
-Z_n= &\text{ON time in $n^{th}$ cycle} = X_n \mathbb{I}_{X_n>x} \\
-Y_n= &\text{OFF time in $n^{th}$ cycle} = X_n \mathbb{I}_{X_n\leq x}.
+Z_n= &\text{ ON time in $n^{\text{th}}$ cycle} = X_n \mathbb{I}_{X_n>x} \\
+Y_n= &\text{ OFF time in $n^{\text{th}}$ cycle} = X_n \mathbb{I}_{X_n\leq x}.
 \end{align*}
 Now we have,
 \begin{flalign*}
@@ -44,7 +44,7 @@ Now we have,
 &= \Pr\{ \text{on at time } t \}.
 \end{flalign*}
 
-In view of Corollary \ref{cor:Limiting ON probability}, we conclude that 
+From alternating renewal process theorem, we conclude that 
 \begin{flalign*}
 \lim_{t\to \infty}\Pr\{X_{N(t)+1}>x\} &= \frac{\E[\text{on time in cycle}]}{\mu} \\
 &= \frac{\E[X\mathbb{I}_{X>x}]}{\mu}\\
@@ -52,6 +52,10 @@ In view of Corollary \ref{cor:Limiting ON probability}, we conclude that
 &\geq \Pr[X_1\geq x],
 \end{flalign*}
 where the last step follows from Chebyshev's inequality stated below.
+
+\begin{rem}
+The inspection paradox states, in essence, that if we pick a point $t$, it is more likely that an inter-renewal interval with larger length will contain $t$ than the smaller ones. For instance, if $X_i$ were equally likely to be $\epsilon$ or $1-\epsilon$, we see that the mean of any inter arrival length is 1 for any value of $\epsilon\in(0,1)$. However, for small values $\epsilon$, it is more likely that a given $t$ will be in an interval of length $1-\epsilon$ than in an interval of length $\epsilon$.
+\end{rem}
 
 \subsubsection*{Chebyshev's Sum Inequality:}
  If $f:\mathbb{R} \rightarrow \mathbb{R}^{+}$ and $g : \mathbb{R} \rightarrow \mathbb{R}^{+}$ are functions with the same
@@ -104,10 +108,33 @@ From Key Renewal theorem, we have
 &= \frac{1}{\mu} \int_{x=0}^{\infty} \int_{t=0}^{x}(x-t) dF(x) dt\\
 &= \frac{\mathbb{E}[X^2]}{2\mu}.
 \end{flalign*}
+
+\begin{rem}
+It can also be established that $\lim_{t\to \infty}\frac{\int_0^t Y(\tau) d\tau}{t} = \frac{EX^2}{2\mu}$ since, for each sample path $\{Y(t)= y(t)\}$ and sample values $\{x_i,i\in\mathbb{N}\}$, we have $\int_0^ty(\tau)d\tau = \frac{1}{2}\sum_{i=1}^{n(t)}x_i^2+\int_{\tau=s_{n(t)}}^t y(\tau)d\tau$.
+\end{rem}
+
+
+
 \begin{prop}
-If the inter arrival time is nonlattice and $\mathbb{E}[X^2] < \infty$, by corollary , we have $\mu (m(t)+1) = t + \mathbb{E}[Y(t)]$
+If the inter arrival time is nonlattice and $\mathbb{E}[X^2] < \infty$, we have 
 \begin{flalign*}
-\lim_{t \rightarrow \infty} (m(t)-\frac{t}{\mu}) = \frac{\mathbb{E}[X^2]}{2\mu^2}-1.
+\lim_{t \rightarrow \infty} \left(m(t)-\frac{t}{\mu}\right) = \frac{\mathbb{E}[X^2]}{2\mu^2}-1.
 \end{flalign*} 
+\begin{proof}
+This follows since $\mu (m(t)+1) = t + \mathbb{E}[Y(t)].$
+\end{proof}
+
 \end{prop}
+
+
+
+
+
+
+
+
+
+
+
+
 \end{document}
