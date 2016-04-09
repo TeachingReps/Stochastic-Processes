@@ -139,12 +139,12 @@ If $T$ is a random time for the martingale $\{X_n:n\in \N\}$, then the stopping 
 \begin{rem}
 For any martingale $\{X_n: n \in \N\}$, we have $\E[X_{T\wedge n}]=\E[X_1]$, for all $n$.  Now assume that $T$ is a stopping time. It is immediate that 
 \begin{align*}
-\Pr\left\{\lim_{n\in \N}{X}_{T\wedge n} = X_N\right\} = 1.
+\Pr\left\{\lim_{n\in \N}{X}_{T\wedge n} = X_T\right\} = 1.
 \end{align*}
 \end{rem}
 But  is it true that
 \begin{align*}
-\lim_{n \in \N}\E[X_{T\wedge n}] = \E[X_N]?
+\lim_{n \in \N}\E[X_{T\wedge n}] = \E[X_T]?
 \end{align*}
 It so turns out that the above is true under some additional regularity constraints only. %We state the following theorem without proof.
 \begin{thm}[Martingale Stopping Theorem]
@@ -272,14 +272,14 @@ If $\{Z_n,n \in \N\}$ is a martingale and $f$ is a convex function, then $\{f(Z_
 \begin{proof}
 The result is a direct consequence of Jensen's inequality.
 \begin{align*}
-\E[f(Z_n)|Z_1, \hdots Z_n] &\geq f(\E[Z_{n+1}|Z_1, \hdots Z_n])=f(Z_n).
+\E[f(Z_{n+1})|Z_1, \hdots Z_n] &\geq f(\E[Z_{n+1}|Z_1, \hdots Z_n])=f(Z_n).
 \end{align*}
 \end{proof}
 \begin{con}
 	Let ${X_n,n\geq0}$ be a sub martingale. Let $a< b$ and $N_0  = -1$.
 	   \begin{align*}
 		N_{2k-1}=&\inf\{m>N_{2k-2}:X_m\leq a \}.\\
-		N_{2k}=&\inf\{m>N_{2k-1}:X_m\leq b \}.\\
+		N_{2k}=&\inf\{m>N_{2k-1}:X_m\geq b \}.\\
 		\end{align*}
 		The above quantities $N_{2k-1}$,$N_{2k}$ are stopping times and the set containing values of $m$ in the transition from $a$ to $b$ can be defined as
 		\begin{align*}
