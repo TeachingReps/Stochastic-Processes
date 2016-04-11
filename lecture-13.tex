@@ -19,7 +19,7 @@ Then $\{X_n\}_{n \geq 0}$ is positive recurrent.(L $\equiv$ "potential function"
 \end{thm}
 \begin{proof}
 As DTMC is irreducible than enough to show that some state is positive recurrent.
-By renewal theory, for ant DTMC, for all $x \in \mathbb{N}_0$,
+By renewal theory, for any DTMC, for all $x \in \mathbb{N}_0$,
 \begin{align}
 \lim\limits_{N \rightarrow \infty} \mathbb{E}\Big[ \sum_{n=1}^{N} \boldsymbol{1}_{\{X_n=x\}} \Big] = \frac{1}{\mu _{xx}} 
 \end{align}
@@ -98,9 +98,9 @@ By Foster's theorem, define the Lyapunov function:
 & \leq \frac{1}{2} \sum_{i=1}^{N}\Big[ \{X_i(t-1) + A_i(t-1) - R_i(t-1)\}^2 - (X_i(t-1))^2 \Big]
 \end{align*}
 Therefore 
-\[\mathbb{E}\Big[ L(X(t)) - L(X(t-1)) | X(t-1) = x \Big]  \leq \frac{1}{2} \sum_{i=1}^{N} \mathbb{E} \Big[ (x_i + A_i(t-1) - R_i(t))^2 - x_i^2 | X(t-1) = x \Big]\]
+\[\mathbb{E}\Big[ L(X(t)) - L(X(t-1)) | X(t-1) = x \Big]  \leq \frac{1}{2} \sum_{i=1}^{N} \mathbb{E} \Big[ (x_i + A_i(t-1) - R_i(t-1))^2 - x_i^2 | X(t-1) = x \Big]\]
 \begin{align*}
-&= \frac{1}{2} \sum_{i=1}^{N} \Bigg[ 2x_i \mathbb{E} \Big[ (A_i(t-1) - R_i(t)| X(t-1) = x \Big] + \mathbb{E} \Big[ (A_i(t-1) - R_i(t-1))^2 | X(t-1) = x \Big] \Bigg]\\
+&= \frac{1}{2} \sum_{i=1}^{N} \Bigg[ 2x_i \mathbb{E} \Big[ (A_i(t-1) - R_i(t-1)| X(t-1) = x \Big] + \mathbb{E} \Big[ (A_i(t-1) - R_i(t-1))^2 | X(t-1) = x \Big] \Bigg]\\
 &= \sum_{i=1}^{N}x_i \lambda _i - \sum_{i=1}^{N}x_i R_i(t-1) + \frac{N}{2}(1+C)\\
 &= \sum_{i=1}^{N}x_i \lambda _i + \frac{N}{2}(1+C) - \max _i x_i\\
 & \leq \frac{N}{2}(1+C) + (\max _i x_i)(\sum_{i=1}^{N} \lambda _i - 1)\\
