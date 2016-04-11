@@ -41,7 +41,7 @@ consider
 &= \mathbb{E}[L(X_0)] + \sum_{n=1}^{N}\mathbb{E}[L(X_n)-L(X_{n-1})]\boldsymbol{1}_{\{L(X_{n-1})>k\}} + \sum_{n=1}^{N}\mathbb{E}[L(X_n)-L(X_{n-1})]\boldsymbol{1}_{\{L(X_{n-1})\leq k\}}\\
 &\leq \mathbb{E}[L(X_0)] + \sum_{n=1}^{N}\mathbb{E}[-\epsilon \        \boldsymbol{1}_{\{L(X_{n-1})>k\}}] + \sum_{n=1}^{N}\mathbb{E}[K \ \boldsymbol{1}_{\{L(X_{n-1})\leq k\}}]\\
 &\Rightarrow \Bigg[\mathbb{E}\sum_{n=1}^{N} \boldsymbol{1}_{\{L(X_{n-1})\leq k\}}\Bigg](K + \epsilon) \geq -\mathbb{E}[L(X_0)] + \epsilon N\\\\
-&\Rightarrow \frac{1}{N} \Bigg[\mathbb{E}\sum_{n=1}^{N} \boldsymbol{1}_{\{L(X_{n-1})\leq k\}}\Bigg] \geq -\frac{\mathbb{E}[L(X_0)]}{K+\epsilon} + \frac{\epsilon}{K+\epsilon}\\\\
+&\Rightarrow \frac{1}{N} \Bigg[\mathbb{E}\sum_{n=1}^{N} \boldsymbol{1}_{\{L(X_{n-1})\leq k\}}\Bigg] \geq -\frac{\mathbb{E}[L(X_0)]}{N(K+\epsilon)} + \frac{\epsilon}{K+\epsilon}\\\\
 &\Rightarrow \limsup_{N\rightarrow \infty}\frac{1}{N} \Bigg[\mathbb{E}\sum_{n=1}^{N} \boldsymbol{1}_{\{L(X_{n-1})\leq k\}}\Bigg] \geq \frac{\epsilon}{K+\epsilon}
 \end{align*}
 Let $F = \{x \in \mathbb{N}_0: L(x) \leq k\}, \ |F| < \infty$. Now,
