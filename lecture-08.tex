@@ -10,7 +10,7 @@
 
 \section{Age-dependent Branching Process }
 
-Suppose an organism lives upto a time period of $X \sim F$ and produces $N \sim P$ number of  offspring. Let $X(t)$ denote the number of organisms alive at time $t$. The stochastic process $\{X(t),~ t \geq 0\}$ is called an age-dependent branching process. We are interested in computing $M(t)=\mathbb{E}[X(t)]$ when $m=\mathbb{E}[N] =\sum_{j \in \mathbb{N}}{j P_j}$. 
+Suppose an organism lives upto a time period of $X \sim F$ and produces $N \sim P$ number of  offspring. Let $X(t)$ denote the number of organisms alive at time $t$. The stochastic process $\{X(t),~ t \geq 0\}$ is called an age-dependent branching process. Let X(t) be the number of individuals alive at time t. We are interested in computing $M(t)=\mathbb{E}[X(t)]$ when $m=\mathbb{E}[N] =\sum_{j \in \mathbb{N}}{j P_j}$. Another application of studying such a process is " growth of a tree ", which is used by biologists to see how population grows. 
 
 \begin{thm}
 If $X(0)=1$, $m>1$ and $F$ is non lattice, then
@@ -24,20 +24,39 @@ where $\alpha > 0$ is unique such that $\int_{0}^{\infty}xe^{-\alpha x } dF(x) =
 \begin{proof}
 Condition on $T_1$, the life time of first organism,
 \begin{flalign*}
-M(t)&=\int_{0}^{\infty}\mathbb{E}[X(t)|T_1=y]dF(y)\\
-&\stackrel{(a)}{=}\int_{y=0}^{t} 1 dF(y) + \int_{y=t}^{\infty} m M(t-y)dF(y).
+M(t)&=\mathbb{E}[X(t)] = \mathbb{E}[\mathbb{E}(X(t)|T_1)]\\
+&=\int_{0}^{\infty}\mathbb{E}[X(t)|T_1=y]dF(y)\\
+On splitting, \\
+&=\int_{0}^{t}\mathbb{E}[X(t)|T_1=y]dF(y) + \int_{t}^{\infty}\mathbb{E}[X(t)|T_1=y]dF(y)\\
+&\stackrel{(a)}{=}\int_{y=0}^{t} m M(t-y) dF(y) + \int_{y=t}^{\infty} 1 dF(y).
 \end{flalign*}
 
-Thus we get the following
+Thus we get 
+
 \begin{flalign}
 \label{renew}
 M(t)= F^c(t)+m\int_{0}^{t}M(t-y)dF(y)
 \end{flalign}
 
-Let $\alpha$ denote the unique positive number such that $\int_{0}^{\infty}xe^{-\alpha x } dF(x) = \frac{1}{m}$ and $G(y)=m\int_{0}^{y}e^{-alpha y} dF(y)$. Upon multiplying both sides of equation (\ref{renew}) by  $e^{-\alpha t}$ and defining $f(t)=e^{-\alpha t}M(t)$, $h(t)=e^{-\alpha t}F^{c}(t)$,  
+We got a differential equation in M(t) and when we solve it, we get M(t). \\
+Let $\alpha$ denote the unique positive number such that $\int_{0}^{\infty}xe^{-\alpha x } dF(x) = \frac{1}{m}$ and $G(y)=m\int_{0}^{y}e^{-\alpha y} dF(y)$. \\
+Upon multiplying both sides of equation (\ref{renew}) by  $e^{-\alpha t}$ \\
+Let us define,
+\begin{align*}
+f(t) := e^{-\alpha t}M(t) \\
+h(t) :=e^{-\alpha t}F^{c}(t)\\ 
+G(y) :=\int_{0}^{y} m e^{- \alpha y} dF(y) 
+\end{align*}
+Thus considering equation (\ref{renew}) and multiplying both sides by $e^{-\alpha t}$, we get 
+\begin{align*}
+	e^{- \alpha t} M(t)=e^{- \alpha t} F^c(t)+m\int_{0}^{t} e^{- \alpha t} M(t-y)dF(y)\\
+	f(t) = h(t) + m\int_{0}^{t} e^{- \alpha (t-y)} e^{- \alpha y} M(t-y)dF(y)\\
+	f(t) = h(t) + (f*G)t
+\end{align*}
 
 \begin{flalign*}
 f&=h+f*G\\
+Recursively ,\\
 &=h+G*(h+f*G)\\
 \vdots
 &=h+h*\sum_{i=1}^{\infty}G_i\\
@@ -53,14 +72,19 @@ f(t) \rightarrow \frac{\int_{o}^{\infty}e^{-\alpha t}F^c(t) dt }{\int_{0}^{\inft
 \int_{o}^{\infty}e^{-\alpha t}F^c(t) dt &= \int_{0}^{\infty} e^{-\alpha t}\int_{t}^{\infty}dF(x)dt \\
 &=  \int_{0}^{\infty} \int_{0}^{x} e^{-\alpha t} dt  dF(x)\\
 &= \int_{0}^{\infty} (1- e^{-\alpha x}) dF(x) \\
-&= \frac{1}{\alpha}(1-\frac{1}{m}) ~~ (\text{by the definition of} ~\alpha).
+&= \frac{1}{\alpha}(1-\frac{1}{m}) ~~ (\text{by the definition of} ~\alpha).\\
+&= \frac{m-1}{\alpha m}
 \end{flalign*}
 
-Also $\int_{0}^{\infty}xdG(x) = m \int_{0}^{\infty}xe^{-\alpha x}dF(x)$. Hence the result follows.
+Also $\int_{0}^{\infty}xdG(x) = m \int_{0}^{\infty}xe^{-\alpha x}dF(x)$. Therefore,
+\begin{align*}
+	\lim_{t \rightarrow \infty} m(t) = \frac{(m-1)}{\alpha m^2 \int_{0}^{\infty}x e^{-\alpha x} dF(x)}
+\end{align*}
 
 \end{proof} 
 
 \section{Delayed Renewal Process}
+We come across such a  process when initial arrival time has a different distribution and the next arrival times have a different distribution i.e., "delayed start to a renewal process".\\
 Let $\{X_n: n \in \mathbb{N}\}$ be independent but $X_1 \sim G$ and $X_i \sim F,~ i \geq 2$ then the counting process $\{N_D(t): t \geq 0\}$ is called general renewal process or delayed renewal process. Let $S_0=0$ and $S_n =\sum_{i=1}^{n}X_i$. We have 
 \begin{flalign*}
 N_D(t) = \sup \{n \in \mathbb{N}: S_n \leq t\},\\
@@ -77,8 +101,8 @@ The following holds:
 \item $\lim_{t \rightarrow \infty} \frac{N_D(t)}{t} = \frac{1}{\mu} $.
 \item $\lim_{t \rightarrow \infty} \frac{m_D(t)}{t} = \frac{1}{\mu} $.
 \item If $F$ is non-lattice, $lim_{t \rightarrow \infty} m_D(t+a)-m_D(t)=\frac{a}{\mu_F}$.
-\item If $F$ and $G$ are lattice with period $d$, $\mathbb{E}$[ $\#$of renewals at $nd$ ] =$\frac{d}{\mu_F}.$
-\item If $F$ is nonlattice, $\mu < \infty$ and $h$ dRi, then 
+\item If $F$ and $G$ are lattice with period $d$, $\mathbb{E}$[ $ Number $of renewals at $nd$ ] =$\frac{d}{\mu_F}.$
+\item If $F$ is nonlattice, $\mu < \infty$ and $h$ is dRi, then 
 \begin{flalign*}
 \lim_{t \rightarrow \infty} \int_{0}^{t}h(t-x)dm_D(x) = \frac{\int_{0}^{\infty}h(t) dt}{\mu}.
 \end{flalign*}
@@ -86,17 +110,11 @@ The following holds:
 \end{prop}
 
 \subsubsection{Example:}
-Let $\{X_n: n \in \mathbb{N}\}$ be iid discrete observed. A pattern $x_1,x_2 \hdots x_k$ is said to occur at time $n$ if $X_n=x_k,~X_{n-1}=x_{k-1}, \hdots X_{n-k+1}=x_1.$ This forms a renewal process with inter arrivals being lattice random variables with $d=1$. The probability of a renewal at $n$ is thus $\prod_{i=1}^k P[X=x_i].$ From Blackwell's theorem for a strictly positive lattice random variable, we have 
-\begin{align}
-\lim_{n\to \infty} P[\text{pattern at $n$}]= \frac{1}{\E[\text{time between renewals}]},
-\end{align}
-from which it follows that 
-\begin{align}
-\E[\text{time between renewals}] = \frac{1}{\prod_{i=1}^k P[X=x_i]}.
-\end{align}
-
-If we have iid tosses and consider $N(n)$ as the number of times pattern $0,1,0,1$ appear in $n$ tosses, with $P(H)=p=1-q,$~the process is a delayed renewal processes. To find the mean number of tosses for the first time the pattern $0,1,0,1$ appear, \\
-
+Let $\{X_n: n \in \mathbb{N}\}$ be iid discrete observed. A pattern $x_1,x_2 \hdots x_k$ is said to occur at time $n$ if $X_n=x_k,~X_{n-1}=x_{k-1}, \hdots X_{n-k+1}=x_1. $. If we have iid tosses and consider $N(n)$ as the number of times pattern $0,1,0,1$ appear in $n$ tosses, with $P(H)=p=1-q,$~the process is a delayed renewal processes. To find the mean number of tosses for the first time the pattern $0,1,0,1$ appear, \\
+\begin{align*}
+\lim_{n \rightarrow \infty}P[Renewal at toss n] &= 1.P[Renewal at toss n] + 0.P[No Renewal at toss n]\\
+&= \frac{1}{p^2 q^2}.
+\end{align*}
 \begin{flalign*}
 \mathbb{E}[\text{first time pattern}~ 0,1,0,1 ~ \text{appears}]&= \mathbb{E}[\text{first time pattern}~ 0,1 ~ \text{appears}]  \\
 &+\mathbb{E}[\text{time between patterns}~ 0,1,0,1 ]\\
