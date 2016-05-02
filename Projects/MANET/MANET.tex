@@ -1,3 +1,15 @@
+Skip to content
+Personal Open source Business Explore
+Sign upSign inPricingBlogSupport
+This repository
+Search
+ Watch 20  Star 0  Fork 6 TeachingReps/stochastic-processes
+ Code  Issues 0  Pull requests 1  Pulse  Graphs
+Branch: master Find file Copy pathstochastic-processes/Projects/MANET/MANET.tex
+01b39f3  3 hours ago
+@vinkumbr vinkumbr Uploading Project Report
+1 contributor
+RawBlameHistory     348 lines (324 sloc)  19.9 KB
 % !TEX spellcheck = en_US
 % !TEX spellcheck = LaTeX
 \documentclass[a4paper,10pt,english]{article}
@@ -25,12 +37,12 @@
 \tableofcontents
 \section{Introduction}
 \par Mobile communication today has evolved to handle high data rates and the need of the hour is to have reliable seamless communication. MANETs have become popular at this juncture and are ubiquitous due to the presence of mobiles and laptops. However a persistent problem in MANETs is to maintain connectivity given that the nodes are moving at high speeds. Such scenarios also arise in sensor networks and tactical networks such as UAVs, ships etc. wherein connectivity could be a single point of failure for the whole system.
-\par In this project, we take a minor step in addressing these issues. We look into the networking properties of a bunch of nodes which are randomly moving on an integer lattice. We evaluate properties of this network such as the mean time for connectivity and the expected time for all the nodes to get certain information from a broadcasting node. In certain applications, the environment in which the nodes are present can be approximated to a lattice by restricting the communicating radius of the nodes.
-\par An alternate application of these results could be in the process of secret sharing wherein a particular secret is divided among multiple parties(say $n$) and the whole secret could be recovered only if atleast a certain number(say $k$) of the individual parties come together. In this case the expected time for $k$-connectivity of the underlying graph is the same as the expected time for the secret to be leaked. 
+\par In this project, we take a minor step in the direction of addressing these issues. We look into the networking properties of a set of nodes which randomly move on an integer lattice. We evaluate properties of this network such as the mean time for connectivity and the expected time for all the nodes to get information from a broadcasting node. In some applications, the network configuration can be approximated to a lattice by restricting the communication radius of the nodes.
+\par An alternate application of these results could be in the process of secret sharing, wherein a secret is divided among multiple parties(say $n$) and the whole secret could be recovered only if atleast a certain number(say $k$) of the individual parties come together. In this case, expected time for the secret to be leaked is same as the expected time for $k$-connectivity of the underlying graph of nodes.
 \par In Section \ref{model}, we describe the network as well as the mobility model we are working with. In Section \ref{MC}, we describe the initial Markov chain approach to determine the expected time for connectivity. In Section \ref{bcast}, we give a characterization of the broadcast time in a finite lattice and analyze it when the source node is fixed or mobile. We show some simulations for multiple nodes in Section \ref{sim} and conclude with Sections \ref{concl} and \ref{fw}.
 
 \section{System model}\label{model}
-Our model consists of $m$ nodes distributed independently on an integer lattice from 0 to $L-1$. Each node executes a random walk. Let $X_i(n)$ denotes the location of node $i$ at time instant $n$. In the symmetric random walk, we have 
+Our model consists of $m$ nodes distributed independently on an integer lattice from 0 to $L-1$. Each node executes a random walk. Let $X_i(n)$ denote the location of node $i$ at time instant $n$. In the symmetric random walk, we have 
 \begin{equation}
 X_i(n+1)=
 \begin{cases}
@@ -55,9 +67,9 @@ X_i(n)   &w.p.\hspace{.5cm} 1-p\\
 X_i(n)-1 &w.p.\hspace{.5cm} \frac{p}{2}.
 \end{cases}
 \end{equation}
-A node present at 0($L$-1) jumps to either 1($L$-2) or $L$-1(0) with probability $\frac{1}{2}$ in the symmetric case. Similarly in the asymmetric random walk, it jumps to the same states but with respective probabilities. In this report, we refer to this as the \textit{torus boundary conditions}.
-\par It can easily be noted that with these boundary conditions, the motion of the nodes in 0 to $L$-1 can be viewed as the nodes executing the random walks on a circle with $L$ vertices from 0 to $L$-1. This is shown in figure \ref{circ}. Random walks on a circle have been studied widely(see \cite{circle2},\cite{diaconis}). However they do not address the case when there are multiple nodes on the circle. Typically questions like the last node to be visited once every vertex is covered are answered.
-\par Two nodes moving on the circle are said to be connected when they are co-located at a lattice point at a particular time. We assume that when two nodes get connected each node gets the information that the other has before the next time instant.
+A node present at 0($L$-1) jumps to either 1($L$-2) or $L$-1(0) with probability $\frac{1}{2}$ in the symmetric case. Similarly in the asymmetric random walk, it jumps to the same states but with the corresponding probabilities. In this report, we refer to this as the \textit{torus boundary conditions}.
+\par It can be easily noted that with these boundary conditions, the motion of the nodes in 0 to $L$-1 can be viewed as the nodes executing the random walks on a circle with $L$ vertices from 0 to $L$-1. This is shown in figure \ref{circ}. Random walks on a circle have been studied widely(see \cite{circle2},\cite{diaconis}). However they do not address the case when there are multiple nodes on the circle. Typically questions like the last node to be visited once every vertex is covered are answered.
+\par Two nodes moving on the circle are said to be connected when they are co-located at a lattice point at a particular time. We assume that when two nodes get connected each node gets the information that the other has, before the next time instant.
 
 \begin{figure}\label{circ}
 	\centering
@@ -67,7 +79,7 @@ A node present at 0($L$-1) jumps to either 1($L$-2) or $L$-1(0) with probability
 \end{figure}
 
 
-\section{Connectivity- Markov chain approach}\label{MC}
+\section{Connectivity - Markov chain approach}\label{MC}
 The Markov chain for locations of various nodes needs to be positive recurrent to guarantee connectivity of the nodes. We now proceed with this line of thought to arrive at an expression for probability of the Markov chain recurring to the connected state \cite{ross}.\\
 On a circle, we have irreducible and finite state space but not periodicity.
 But if there are odd number of points on the circle, then the underlying Markov chain is aperiodic and hence positive recurrent.
@@ -284,36 +296,39 @@ In general, for the asymmetric random walk, the expected time for two nodes on d
 \end{pmatrix}.
 \end{equation}
 
+Having done the mathematical analysis for a two node setup, we now use the simulations to get some insight into the broadcast time for a multi node setup.
+
 \section{Simulations}\label{sim}
-The two main parameters that determine the broadcast time in a multi node setup are number of nodes and torus length.
+The two main parameters that determine the broadcast time in a multi node setup are number of nodes and torus length.\\
+The initial positions of the moving nodes are chosen uniformly randomly from $0$ to $L/2$. The nodes move in the one dimensional space from $\frac{-L}{2}$ to $\frac{L}{2}$.
 
 \begin{figure}[!ht]
 	\begin{center}
 		\includegraphics[scale = 0.40]{fixed_move_2nodes.eps}
-		\caption{Average broadcast time obtained for 2 node setup, the moving nodes following symmetric random walk. The plots are obtained after 10,000 runs.}
+		\caption{Average broadcast time obtained for 2 node setup, the moving nodes following symmetric random walk. The plots are obtained after averaging the broadcast time over 10,000 runs.}
 		\label{2node}
 	\end{center}
 \end{figure}
-In Figure \ref{2node}, the limit of the torus length has been varied for a two node setup. Broadcast time for a fixed source is compared with that of the moving source. For a moving source scenario, broadcast time is higher compared to that of stationary source no matter, for a given torus length. The difference between broadcast times for the two scenarios at a given torus length varies as a function of $\sqrt{L/2}$.
+In Figure \ref{2node}, the limit of the torus length has been varied for a two node setup. Broadcast time for a fixed source is compared with that of the moving source. For a moving source scenario, broadcast time is higher compared to that of stationary source, for a given torus length. The difference between broadcast times for the two scenarios at a given torus length varies as a function of $\sqrt{L/2}$. The value on the X-axis represents $\frac{L}{2}$. For example, a value of 10 means that the nodes can move from -10 to 10 and the number of vertices on the corresponding circle is 21. The same notion of torus limit has been used throughout the simulations.
 
 \begin{figure}[!ht]
 \centering
 		\includegraphics[scale = 0.5]{multi_node_torus.eps}
-		\caption{Average broadcast time obtained for multi node setup where the moving nodes follow symmetric random walk. The plots are obtained after 10,000 runs}
+		\caption{Average broadcast time obtained for multi node setup where the moving nodes follow symmetric random walk. The plots are obtained after 10,000 runs.}
 		\label{multinode_torus}
 \end{figure}
 
-In Figure \ref{multinode_torus}, the number of nodes have been varied to find out the broadcast time for a given length of the torus. As the torus length is increased, the broadcast time increases because the nodes now have more locations to be at. Also, it has been observed that the relationship between broadcast time and the number of nodes is less linear for smaller torus length compared to that of higher torus lengths.
+In Figure \ref{multinode_torus}, the number of nodes have been varied to find out the broadcast time for a given length of the torus. As the torus length is increased, the broadcast time increases because the nodes now have more locations to be positioned at. Also, it has been observed that the relationship between broadcast time and the number of nodes is less linear for smaller torus length compared to that of higher torus lengths.
 
 \begin{figure}[!h]
 	\begin{center}
 		\includegraphics[scale = 0.5]{sticky_comp.eps}
-		\caption{Average broadcast time obtained for multi node setup obtained as a function of laziness/stickiness. The plots are obtained after 10,000 runs for a torus length of 21.}
+		\caption{Average broadcast time obtained for multi node setup obtained as a function of laziness/stickiness. The plots are obtained after 10,000 runs for a torus limit of 10, i.e., 21 vertices on the circle.}
 		\label{stickiness}
 	\end{center}
 \end{figure}
 
-In Figure \ref{stickiness}, broadcast time is plotted as a function of laziness of the nodes. The probability of a node being stationary has been increased for a given number of nodes. It was expected that there will be an optimum amount of stickiness for a given network setup but no such thing has been observed. The broadcast time simply increases with increasing laziness in the network.  
+In Figure \ref{stickiness}, broadcast time is plotted as a function of laziness of the nodes. Stickiness factor is the probability of node being stationary. This probability has been increased for a given set of nodes with a randomly chosen initial configuration. It was expected that there will be an optimum amount of stickiness for a given network setup but no such thing has been observed. The broadcast time increases with increasing laziness in the network.  
 \FloatBarrier
 
 
@@ -346,3 +361,5 @@ There are several possible extensions of this work.
 \end{thebibliography}
 
 \end{document}
+Status API Training Shop Blog About
+© 2016 GitHub, Inc. Terms Privacy Security Contact Help
