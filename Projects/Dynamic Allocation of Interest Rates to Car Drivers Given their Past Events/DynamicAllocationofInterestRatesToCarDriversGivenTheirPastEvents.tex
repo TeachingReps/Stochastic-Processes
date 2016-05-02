@@ -1,0 +1,234 @@
+\documentclass[a4paper,english,12pt]{article}
+\input{header}
+
+%opening
+\title{\textbf{Dynamic Allocation of Interest Rates to Car Drivers Given their Past Events}}
+\author{K Chatan Kumar\\SR No:12804}
+
+\begin{document}
+\maketitle
+
+\section{Motivation}
+Insurance companies always receives accident from automobile accidents. If the frequency of these claims are high, then insurance companies need to pay more money to insured people. this is risky and sometimes companies become bankrupt. As risk management is one of the foremost important thing in the business, this problem worth studying.
+
+\section{System Model}
+Suppose there are $N$ car drivers insured to some insurance company each having premium rates $r_i, i\in \{1, \dots, N\}$. Suppose each driver had some number of accidents $A_i, i\in\{1,\dots,N\} \sim poisson(\lambda)$ and corresponding claims $X_i, i\in\{1,\dots,N\}$ in every year. Here are the some useful terminologies:
+\begin{itemize}
+\item $r_i^\tau, r_i^{\tau-1}, r_i^{\tau+1}, i\in\{1,\dots,N\}$ is the premium rates of driver $i$ in present, previous and next years respectively.
+\item $A_i^\tau, A_i^{\tau-1}, A_i^{\tau+1}, i\in\{1,\dots,N\}$ is the number of accidents of driver $i$ in present, previous and next years respectively.
+\end{itemize}
+\section{Problem Statement}
+In this project I want to model the premium rates of each driver based on their accidents in the previous years and expected amount that the company has to pay to the drivers. Here are the cases I want to look at:
+
+\begin{itemize}
+\item Case 1: If number of accidents of driver $i$ in present year is greater than number of accidents in previous year, than premium rate for next year is greater than premium rate of present year i.e.,  
+\begin{equation*}
+A_i^\tau > A_i^{\tau-1} \rightarrow r_i^{\tau+1} > r_i^\tau.
+\end{equation*}
+\item Case 2: Similarly, if $ A_i^\tau < A_i^{\tau-1} \rightarrow r_i^{\tau+1} < r_i^\tau. $.
+\item Case 3: If $ A_i^\tau = A_i^{\tau-1} \rightarrow r_i^{\tau+1} = r_i^\tau. $.
+\item Case 4: If driver $i$ doesn't cause any accidents (that means no claims to company), than company will pay some incentive $x_i(r_i^\tau)$ to the customer, it is a some function of present year premium rate $r_i^\tau$.
+\end{itemize}
+
+Now I wanted to find out $r_i^{\tau+1}$ and $x_i(r_i^\tau)$ with two things under consideration.
+\begin{itemize}
+\item Company doesn't bankrupt. This means in Case 2, if company select $r_i^{\tau+1}$ too less compared to $r_i^\tau$ i.e., $r_i^{\tau+1} << r_i^\tau $, there might be a chance that company incur losses.
+\item Customer satisfaction. This means in Case 1, if if company select $r_i^{\tau+1}$ much higher compared to $r_i^\tau$ i.e., $r_i^{\tau+1} >> r_i^\tau $, then customers may unsatisfied with the rate and withdraw their policy. Still in this case company may incur losses by losing customers.
+\end{itemize}
+And also I want to find out total expected amount that the company has to pay every year to their customers by considering above 4 cases. At last I will include all of 4 cases in  a group of $N$, i.e., drivers with more accidents, less accidents, equal accidents and no accidents in $N$ number of drivers and try to evaluate it as a whole.  
+
+\subsection{Justification}
+By this model, the driver more prone to accidents will have to pay more premium amount than the one who have less number of accidents. Which makes him more cautious while driving.
+\section{Plan}
+\begin{itemize}
+\item Week 1: Literature survey.
+\item Week 2: Mathematical modeling of problem.
+\item Week 3: Solving for optimal $r_i^{t+1}$.
+\item Week 4: Finding total expected amount that the company has to pay every year to their customers and I will try to incorporate more things in this problem if time permits.
+\end{itemize}
+\section{Literature Survey}
+The study of insurance models are very important as it deals with lot of things like risk theory, utility theory, outstanding claim reserves, surplus process and ruin process related to real world insurance companies. In the literature researchers working on different problems related to health insurance, automoblie insurance, life insurance, etc. People are trying to design different policies to get profits. When it comes to automobile insurence, companies trying to model customes premiums basedon their risk factors like distance travel, speed of automobile, gender, airbag deployment etc, to estimate the vulnerability of the customer. So I choose to model premium rate of customers based on their past events.  
+\newpage
+%=======================================================================================================================
+\section{Mathematical Modeling of Problem}
+Suppose there are $N$ number of car drivers having some number of accidents over the period $\tau$ is denoted by $A_i, i\in\{1,\dots,N\}$. For simplicity let's denote this $\tau$ as one year. So the terminology becomes:
+\begin{itemize}
+\item $r_i^\tau, r_i^{\tau-1}, r_i^{\tau+1},\  i\in\{1,\dots,N\}$ is the premium rates of driver $i$ in present, previous and next years respectively.
+\item $A_i^\tau, A_i^{\tau-1}, A_i^{\tau+1},\  i\in\{1,\dots,N\}$ is the number of accidents of driver $i$ in present, previous and next years respectively.
+\end{itemize}
+Now if a car driver $i$ had $A_i^\tau$ number of accidents in present year and his claim sizes for each accident are given by $X_j^\tau, \ j\in\{1,\dots,A_i^\tau\}$. Then the total claim size of the driver $i$ in present year is given by
+\begin{equation}
+Y_i^\tau=\sum_{j=1}^{A_i^\tau}X_j.
+\end{equation}
+Let's assume that insurance company doesn't pay complete claim made by the customer(i.e., customers may claim even for a little damage). Instead company will pay to the customer based on the damage done to the automobile. Suppose $d_{ij}^\tau(x),\ i\in\{1,\dots,N\} $ denote the damage of customer $i$ during accident $j$ in the present year, then the total claim size of the driver $i$ in present year is given by
+\begin{equation}
+Y_i^\tau=\sum_{j=1}^{A_i^\tau}X_jd_{ij}^\tau(x).
+\end{equation}
+Here $0\leq d_{ij}^\tau(x)\leq 1$, i.e., if $d_{ij}^\tau(x)=1$ then damage is more so company recover complete claim. If $d_{ij}^\tau(x)=0$ damage is almost nill so, company doesn't recover anything. Similarly for the previous year
+\begin{equation}
+Y_i^{\tau-1}=\sum_{j=1}^{A_i^{\tau-1}}X_jd_{ij}^{\tau-1}(x).
+\end{equation}
+Now $p_i^\tau(t)=r_i^\tau t$ denote the total premium payed by the customer $i$ in present year. Here $r_i^\tau$ premium rate for the customer $i$ in present year. Suppose if the company intended to make profits, then the below condition needs to be satisfied
+\begin{equation}
+r_i^\tau t-Y_i^{\tau}>0.
+\end{equation}
+Now expected amount of claims of customer $i$ in present year is given by
+\begin{align*}
+\mathbb{E}[Y_i^\tau]&=\mathbb{E}\left[\mathbb{E}\left[Y_i^\tau|A_i^\tau\right]\right]\\
+			       &=\mathbb{E}\left[\mathbb{E}\left[\sum_{j=1}^{A_i^\tau}X_jd_{ij}^\tau(x)|A_i^\tau\right]\right]\\
+			       &=\mathbb{E}\left[A_i^\tau\right]\mathbb{E}\left[X_jd_i^\tau(x)\right]
+\end{align*}
+Here last inequality came from Wald's equation. Now we already know that $A_i^\tau$ has poisson distribution with mean $\lambda t$ also we know that claim sizes and damage done during accident both are inependent. Then expected amount of claims becomes
+\begin{equation}
+\mathbb{E}[Y_i^\tau]=\lambda t \mathbb{E}\left[X_j\right]\mathbb{E}\left[d_i^\tau(x)\right]
+\end{equation}
+similarly for previous year $\mathbb{E}[Y_i^{\tau-1}]=\lambda t \mathbb{E}\left[X_j\right]\mathbb{E}\left[d_i^{\tau-1}(x)\right]$.
+Now the loss function of company with respect to player $i$ in present year is given by
+\begin{align}
+L_i^\tau(t)&=p_i^\tau(t)-\mathbb{E}\left[Y_i^{\tau}\right]\\
+	        &=r_i^\tau t - \lambda t \mathbb{E}\left[X_j\right]\mathbb{E}\left[d_i^\tau(x)\right].
+\end{align}
+If the company wishese to make profits, then it should choose $r_i^\tau$ in such a way that,
+\begin{align}
+r_i^\tau&>\lambda  \mathbb{E}\left[X_j\right]\mathbb{E}\left[d_i^\tau(x)\right]\\
+r_i^{\tau-1}&>\lambda  \mathbb{E}\left[X_j\right]\mathbb{E}\left[d_i^{\tau-1}(x)\right]
+\end{align}
+From (8) and (9) we can choose $r_i^\tau$ and $r_i^{\tau-1}$ as
+\begin{align}
+r_i^\tau&=(1+\rho)\lambda  \mathbb{E}\left[X_j\right]\mathbb{E}\left[d_i^\tau(x)\right]\\
+r_i^{\tau-1}&=(1+\rho)\lambda  \mathbb{E}\left[X_j\right]\mathbb{E}\left[d_i^{\tau-1}(x)\right]
+\end{align}
+where $0<\rho<1$ is a safety factor for the company.
+Suppose every time $i$ customer claims are constant say $X_i$ (because his claims are for the automobile and assume the single policy for automobile in all years) and $\mathbb{E}\left[d_i^\tau(x)\right]=\mu_{d_i}^\tau$. Then 
+\begin{align}
+r_i^\tau&=(1+\rho)\lambda X_i\mu_{d_i}^\tau\\
+r_i^{\tau-1}&=(1+\rho)\lambda  X_i\mu_{d_i}^{\tau-1}
+\end{align}
+\subsection{Finding $r_i^{\tau+1}$}
+Now define the premium rate for the next year to the customer $i$ based on the amounts paid by the insurance company during present and previous years i.e.,
+\begin{align}
+\mathbb{E}[Y_i^\tau]&=\lambda t \mathbb{E}\left[X_j\right]\mathbb{E}\left[d_i^\tau(x)\right]\\
+\mathbb{E}[Y_i^{\tau-1}]&=\lambda t \mathbb{E}\left[X_j\right]\mathbb{E}\left[d_i^{\tau-1}(x)\right].
+\end{align}
+The next year rate $r_i^{\tau+1}$ must satisfy three cases:
+\begin{itemize}
+\item if $\mathbb{E}[Y_i^\tau]>\mathbb{E}[Y_i^{\tau-1}] \rightarrow r_i^\tau> r_i^{\tau-1}$
+\item if $\mathbb{E}[Y_i^\tau]<\mathbb{E}[Y_i^{\tau-1}] \rightarrow r_i^\tau< r_i^{\tau-1}$
+\item if $\mathbb{E}[Y_i^\tau]=\mathbb{E}[Y_i^{\tau-1}] \rightarrow r_i^\tau=r_i^{\tau-1}$
+\end{itemize}
+Consider the risk function $R_i(\mu_{d_i}^\tau,\mu_{d_i}^{\tau-1})$ of for the customer as
+\begin{align}
+R_i(\mu_{d_i}^\tau,\mu_{d_i}^{\tau-1}) &= \frac{\mathbb{E}[Y_i^\tau]}{\mathbb{E}[Y_i^{\tau-1}]}\\
+							   &=\frac{\mu_{d_i}^\tau}{\mu_{d_i}^{\tau-1}}.
+\end{align}
+That is nothing but rate at which risk is increasing (if $\mu_{d_i}^\tau >\mu_{d_i}^{\tau-1}$) and rate at which risk is decreasing (if $\mu_{d_i}^\tau >\mu_{d_i}^{\tau-1}$).
+Now estimate $r_i^{\tau+1}$ by multiplying  $r_i^{\tau}$ with risk function
+\begin{equation}
+r_i^{\tau+1}=r_i^{\tau}R_i(\mu_{d_i}^\tau,\mu_{d_i}^{\tau-1})
+\end{equation}
+\begin{itemize}
+\item Case(i): if $\mu_{d_i}^\tau = 0$ and $\mu_{d_i}^{\tau-1} \neq 0$ then $r_i^{\tau+1}=0$, which is a not a valid case.
+\item Case(ii): if $\mu_{d_i}^\tau \neq 0$ and $\mu_{d_i}^{\tau-1} = 0$ then $r_i^{\tau+1}=\infty$, which is an invalid valid case.
+\item Case(iii): if $\mu_{d_i}^\tau = 0$ and $\mu_{d_i}^{\tau-1} = 0$ then $r_i^{\tau+1}$ is undifined which is an invalid valid case.
+\item Case(iv): if $\mu_{d_i}^\tau = 1$ and $\mu_{d_i}^{\tau-1} = 1$ then $r_i^{\tau+1}= r_i^\tau$ which is correct. So for this case $r_i^{\tau+1}= r_i^\tau$ holds trivially.
+\end{itemize}
+For case(i), case(ii) and case(iii) define risk function as
+\begin{equation}
+R_i(\mu_{d_i}^\tau,\mu_{d_i}^{\tau-1})=\frac{\mu_{d_i}^\tau+\epsilon}{\mu_{d_i}^{\tau-1}+\epsilon}.
+\end{equation}
+Where $\epsilon$ is very small value.
+%========================================================================================================================
+\subsection{The Distribution of an Individual Payment}
+Let us consider one customer. If the customer suffers damage potentially coved by the insurance company, then we call it as loss event. If $Y_i^\tau$ is the claim of the customer given that a loss event occurred during some period (i.e., consider the total claims during a certain perid as a single loss event) and $q$ is the probability of lass event. Then total loss to the customer is given by
+\begin{equation}
+  Y_i^\tau=\begin{cases}
+    Y_i^\tau  & \text{with probability} \ q,\\
+    0  & \text{with probability} \ 1-q.
+  \end{cases}
+\end{equation}
+This may be written as
+\begin{equation}
+S^\tau=\sum_{i=1}^{N}Y_i^\tau I,
+\end{equation}
+where $N_t$ is the total number of claims which is $poisson(\lambda_c)$ and  the indicator of loss event is
+\begin{equation}
+  I=\begin{cases}
+    1  & \text{with probability} \ q,\\
+    0  & \text{with probability} \ 1-q.
+  \end{cases}
+\end{equation}
+If the insurance company covers the whole possible loss, the amount paid by the insurance company equals $S_i^\tau$. If the damage is not covered full, the amount paid is part of $S_i^\tau$.
+\subsection{Exponential Distribution}
+Let us consider that $Y_i^\tau$ follows exponential distribution(because of the memoryless property)
+\begin{equation}
+  f_i(y)=\begin{cases}
+    0, & \text{if $y<0$}.\\
+    ae^{-ay}, & \text{if $y\geq 0$}.
+  \end{cases}
+\end{equation}
+Then the CDF is given by
+\begin{equation}
+  F_i(y)=\begin{cases}
+    0, & \text{if $y<0$}.\\
+    1-e^{-ay}, & \text{if $y\geq 0$};
+  \end{cases}
+\end{equation}
+the tail, i.e.,
+\begin{align*}
+\mathbb{P}(Y_i^\tau>y)&=e^{-ax},\\
+\mathbb{P}(Y_i^\tau\leq y)&=1-e^{-ax},
+\end{align*}
+and
+\begin{equation*}
+\mathbb{E}[Y_i^\tau]=\frac{1}{a} \ and \ var[Y_i^\tau]=\frac{1}{a^2}.
+\end{equation*}
+%========================================================================================================================
+\section{Approximation using Brownian Motion}
+Let $w_t, t\geq0,$ be a continuous random process with independent increments such that $w_0=0$. Suppose that for any interval $\Delta$ , the increment $w_{\Delta}$ is a normal random variable with zero mean and varience $|\Delta|$, where $|\Delta|$ is length of $\Delta$. Such a process is called standard Wiener process or Brownian motion.
+
+We define a Brownian motion with drift parameter $\mu$ and variance $\sigma^2$ as the process
+\begin{equation}
+Z_t=\mu t+\sigma w_t.
+\end{equation}  
+Where $w_t$ is the standard Brownian motion and $Z_t \sim \mathcal{N}(\mu t,\sigma^2t)$.
+\subsection{Modeling of Surplus process}
+Let
+\begin{equation} 
+c_t=r^\tau t
+\end{equation}
+is the premium collected by time $t$. Where $r^\tau$ is the rate at which premiums are collected. Total claim paid during the period is denoted by $S^\tau$ Then surplus at time $t$ is given by
+\begin{equation}
+R_t=r^\tau t-S^\tau.
+\end{equation}
+In some situations, a Brownian motion with drift, may be a good model for the process $R_t.$ Brownian motion approximation may work when $S^\tau$ is a compound poisson process. Let
+\begin{equation}
+S^\tau=\sum_{i=1}^{N_t}X_i^\tau,
+\end{equation}
+where $N_t$ is a homogeneous Poisson process with rate $\lambda_c$ and $X_i^\tau$ is the size if $i$th claim.
+
+Let $\mathbb{E}[X_i^\tau]=m$ and $\mathbb{E}[(X_i^\tau)^2]=\beta$. In our case
+\begin{align*}
+\mathbb{E}[S^\tau]&=\mathbb{E}\left[\sum_{i=1}^{N_t}X_i^\tau\right]\\
+				&=\mathbb{E}[N_t]\mathbb{E}[X_i^\tau]\\
+				&=m\lambda_c t,
+\end{align*}
+and
+\begin{align*}
+var[S^\tau]&=\mathbb{E}[var[X_i^\tau]N_t]+var[\mathbb{E}[X_i^\tau]N_t]\\
+				&=var[X_i^\tau]\mathbb{E}[N_t]+(\mathbb{E}[X_i^\tau])^2var[N_t]\\
+				&=(\mathbb{E}[X_i^\tau])^2\mathbb{E}[N_t]\\
+				&=\beta\lambda_c t.
+\end{align*}
+To approximate $R_t$ by $Z_t$ we should set $\mathbb{E}[Z_t]=\mathbb{E}[R_t]$ and $var[Z_t]=var[R_t]$. This amounts to
+\begin{align*}
+\mathbb{E}[Z_t]&=\mathbb{E}[R_t]\\
+\mu t &=r^\tau -m\lambda_c t\\
+\mu=r^\tau-m\lambda_c,
+\end{align*}
+and
+\begin{align*}
+var[Z_t]=var[R_t]\\
+\sigma^2t=\beta\lambda_c t\\
+\sigma^2=\beta\lambda_c,
+\end{align*}
+\end{document}

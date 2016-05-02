@@ -1,0 +1,30 @@
+function[H_time]=optStrategy(W,m,P_11,P_01)
+    flag=0;
+    H_time=0;
+    t=1;
+    while(flag~=1)
+        I0=find(W==0);
+        [m0,i0]=max(P_01(I0));
+        for i=I0
+            p=P_01(i);
+            W(i)=binornd(1,p);
+        end
+        I1=find(W==1);
+        [m1,i1]=max(P_11(I1));
+        for i=I1
+            p=P_11(i);
+            W(i)=binornd(1,p);
+        end
+        if(m0>=m1)
+            i_t=i0;
+        else
+            i_t=i1;
+        end
+        if(W(i_t)==1)
+            flag=1;
+            H_time=t;
+            break;
+        end
+        t=t+1;
+    end
+end
