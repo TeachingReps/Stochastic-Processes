@@ -1,0 +1,8 @@
+bdcast1.m
+    Simulation for fixed source, moving destination
+bdcast2.m
+    Simulation for moving source, moving destination
+bdcast3.m
+    Multiple nodes, symmetric random walk, number of nodes and torus length varied
+bdcast4.m
+    Multiple nodes, lazy random walk, stickiness factor and number of nodes varied for a fixed torus limit

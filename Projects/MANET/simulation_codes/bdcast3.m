@@ -1,6 +1,7 @@
-%Take two nodes, moving source and moving destination
-%Broadcast time is the expected time that the moving destination will
-%take to reach the moving source from its initial position
+%Vary number of nodes, moving source and moving destination
+%Broadcast time is the expected time for all the nodes to 
+%receive the information from the original source (here node 1)
+%or any node which has already received the information
 
 time_slots = 10^5;
 num_runs = 10^4;
