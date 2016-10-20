@@ -119,16 +119,16 @@ We need to know the distribution of $N(t)$.
 	Let $\bar{N}(t)$ denote the renewal process with inter-arrival times $\bar{X}_n$. Note that since $X_i$'s are \emph{iid}, so are $\bar{X}_i$ (which will be evident from the proof of the distribution function of the number of arrivals till time t). In fact, the arrivals now happen at multiples of $\alpha$. And yes, they stack. Moreover, $X_n \geq \bar{X}_n$.
 	
 	\begin{align*}
-	Pr\{Number ~of ~arrivals ~at ~time ~0 ~= n\} &= Pr\{\bar{X_1}=\bar{X_2}=\ldots=\bar{X_n}=0,\bar{X_{n+1}}=\alpha\} \\
-	&= Pr\{X_1 < \alpha,X_2 < \alpha,\ldots,X_n < \alpha,X_{n+1} \geq \alpha\} \\
-	&= \prod_{i=1}^{n} Pr\{X_i < \alpha\} . Pr\{X_{n+1} \geq \alpha \}  \\
-	&= \left(1- Pr\{X_1 \geq \alpha \}\right) ^{n} . Pr\{X_1 \geq \alpha\}.
+	\Pr\{Number ~of ~arrivals ~at ~time ~0 ~= n\} &= \Pr\{\bar{X_1}=\bar{X_2}=\ldots=\bar{X_n}=0,\bar{X_{n+1}}=\alpha\} \\
+	&= \Pr\{X_1 < \alpha,X_2 < \alpha,\ldots,X_n < \alpha,X_{n+1} \geq \alpha\} \\
+	&= \prod_{i=1}^{n} \Pr\{X_i < \alpha\} . \Pr\{X_{n+1} \geq \alpha \}  \\
+	&= \left(1- \Pr\{X_1 \geq \alpha \}\right) ^{n} . \Pr\{X_1 \geq \alpha\}.
 	\end{align*}
 	where the third equality follows from the fact that $ X_i, i \in \N$ are mutually independent, fourth equality follows from the fact that $ X_i, i \in \N$ are identical.
 	\\
-	The number of arrivals till time $t$ therefore is Geometric with mean $\frac{1}{P[X_n \geq \alpha]}$. Thus 
+	The number of arrivals till time $t$ therefore is Geometric with mean $\frac{1}{\Pr\{X_n \geq \alpha\}}$. Thus 
 	\begin{align*}
-	\E[\bar{N}(t)] = \frac{\lfloor\frac{t}{\alpha} \rfloor + 1}{P[X_n \geq \alpha]} \leq \frac{\frac{t}{\alpha} + 1}{P[X_n \geq \alpha]} < \infty.
+	\E[\bar{N}(t)] = \frac{\lfloor\frac{t}{\alpha} \rfloor + 1}{\Pr\{X_n \geq \alpha\}} \leq \frac{\frac{t}{\alpha} + 1}{\Pr\{X_n \geq \alpha\}} < \infty.
 	\end{align*}
 	Since $\E[N(t)] \leq \E[\bar{N}(t)]$ which follows from $N(t) \leq \bar{N}(t)$, we are done.
 \end{proof} 

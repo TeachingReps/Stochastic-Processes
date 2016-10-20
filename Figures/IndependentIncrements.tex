@@ -1,18 +1,19 @@
 \begin{tikzpicture}
-[node distance=1cm, draw=black, thick, >=stealth',
+[xscale=1.2, yscale=0.7,
+node distance=1cm, draw=black, thick, >=stealth',
 axes/.style=,
 codeword/.style={rectangle, draw=black, inner sep=0pt, minimum height=0.8cm, minimum width=0.5cm}]
 
 \begin{scope}[axes]
 \draw[->] (0,0) -- (9,0) node[right] {$t$} coordinate (time);
 \draw[->] (0,0) -- (0,8) node[above] {$N(t)$} coordinate (number of  events);
-\foreach \x/\xtext in {0.5/S_{n-3}, 1.5/S_{n-2}, 2.2/S_{n-1},3.2/S_{n}, 4/t_1, 5.1/S_{n+1}, 6/S_{n+2}, 7/t}
+\foreach \x/\xtext in {0.5/S_{n-3}, 1.5/S_{n-2}, 2.2/S_{n-1},3.2/S_{n}, 4/s, 5.1/S_{n+1}, 6/S_{n+2}, 7/t}
 	\draw[xshift=\x cm] (0pt,1pt) -- (0pt,-1pt) node[below,fill=white] {$\xtext$};
 \foreach \y/\ytext in {1/n-3,2/n-2, 3/n-1, 4/n,5/n+1,6/n+2,7/n+3}
 	\draw[yshift=\y cm] (1pt,0pt) -- (-1pt,0pt) node[left,fill=white] {$\ytext$};
 \end{scope}
 \draw[] (0,0)--(.5,0)--(.5,1)--(1.5,1)--(1.5,2)--(2.2,2)--(2.2,3)--(3.2,3)--(3.2,4)--(5.1,4)--(5.1,5)--(6,5)--(6,6)--(7.5,6)--(7.5,7)--(9,7);
-\draw[<->] (4,0) -- node[midway,left]{$N({t_1})$}(4,4);
+\draw[<->] (4,0) -- node[midway,left]{$N(s)$}(4,4);
 \draw[<->] (7,0) -- node[midway,left]{$N(t)$}(7,6);
 \draw[<->] (3.2,4.1)--node[near start, above]{$X'_{n+1}$}(4,4.1);
 \draw[<->] (4,4.1) --node[midway,above]{$X''_{n+1}$}(5.1,4.1);

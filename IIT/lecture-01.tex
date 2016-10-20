@@ -1,8 +1,8 @@
 % !TEX spellcheck = en_US
 % !TEX spellcheck = LaTeX
 \documentclass[a4paper,10pt,english]{article}
-\input{header}
-\title{Lecture 02: Poisson Process}
+\input{../header}
+\title{Lecture 01: Poisson Process}
 \author{}
 
 \begin{document}
@@ -20,7 +20,7 @@
 
 \begin{figure}[hhhh]
 \center
-	\input{Figures/Poisson}
+	\input{../Figures/Poisson}
 	\caption{Sample path of a simple point process.}
 	\label{Fig:Poisson}
 \end{figure}
@@ -244,7 +244,7 @@ Since $g(x) = \Pr\{X > x\}$  is non-increasing in $x \in \R_+$, we have $g(x) = 
 
 \begin{figure}[hhhh]
 \center
-	\input{Figures/IndependentIncrements}
+	\input{../Figures/IndependentIncrements}
   	\caption{Stationary independent increment property of Poisson process.}
 	\label{Fig:IndependentIncrements}
 \end{figure}
@@ -335,7 +335,7 @@ f_{n}(s) =\frac{\lambda (\lambda s)^{n-1}} {(n-1)!} e^{-\lambda s}.
 %Process $N(t)$ is of real interest, and we can compute the distribution of $N(t)$ for each $t$ from the distribution of $S_n$ in the following.
 %\begin{figure}[hhhh]
 %\center
-	%\include{./Figures/Poisson}
+	%\include{../Figures/Poisson}
  %% \caption{}\label{}
 %\end{figure}
 \begin{thm} For each $t >0$, the distribution of Poisson process $N(t)$ with parameter $\lambda$ is given by
@@ -394,11 +394,11 @@ First result follows from the telescopic sum and the second from the following o
 Fix $t > 0$ and let $M = \{\omega \in \Omega: N(t)(\omega) = \infty \}$ be a subset of the sample space. Let $\omega \in M$, then $S_{n}(\omega)\leqslant t$ for all $n \in \N$. This implies $\lim\sup_n\frac{S_{n}}{n} = 0$  and $\omega \not\in \{\lim_n \frac{S_{n}}{n} = \frac{1}{\lambda} \}.$ Hence, the probability measure for set $M$ is zero. 
 \end{proof}
 
-\begin{prop}[Characterization 2] Let $\{I_i \subseteq \R_+: 1 \leq i \leq k\}$ be a sequence of disjoint intervals. A stationary independent increment point process $\{N(t),~t\geqslant 0\}$, such that $N(0) = 0$ is Poisson process iff 
+\begin{prop}[Characterization 2] Let $\{I_i \subseteq \R: 1 \leq i \leq k\}$ be a sequence of disjoint intervals. A stationary independent increment point process $\{N(t),~t\geqslant 0\}$, such that $N(0) = 0$ is Poisson process iff 
 %\begin{figure}[h!]
 %\center
   %% Requires \usepackage{graphicx}
-  %\includegraphics[width=2.8in, height=0.9in]{./Figures/SPQT.png}\\
+  %\includegraphics[width=2.8in, height=0.9in]{../Figures/SPQT.png}\\
  %% \caption{}\label{}
 %\end{figure}
 \begin{align*}
