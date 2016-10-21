@@ -1,0 +1,411 @@
+% !TEX spellcheck = en_US
+% !TEX spellcheck = LaTeX
+\documentclass[a4paper,10pt,english]{article}
+\input{../header}
+\title{Lecture 01: Renewal Theory}
+\author{}
+
+\begin{document}
+\maketitle
+
+\section{Simple point processes}
+\begin{defn} A stochastic process $\{N(t), t\geqslant 0\}$ is a \textbf{point process} if
+\begin{enumerate}
+  \item $N(0) = 0$, and 
+  \item for each $\omega \in \Omega$, the map $t\mapsto N(t)$ is non-decreasing, integer valued, and right continuous.% and at points of discontinuity $(N(t)- N(t^{-}))\leqslant 1,~~\forall \omega \in \Omega$. 
+\end{enumerate}
+\end{defn} 
+\begin{defn} A \textbf{simple point process} is a point process of jump size 1.
+\end{defn}
+
+\begin{figure}[hhhh]
+\center
+	\input{Figures/Poisson}
+	\caption{Sample path of a simple point process.}
+	\label{Fig:Poisson}
+\end{figure}
+\begin{defn} We can define a random variable $S_n$ as the time of $n^{\text{th}}$ discontinuity, written
+\begin{xalignat*}{3}
+&S_0 = 0, \text{ and}&&S_n = \inf\{t \geq 0: N(t) = n\}, n \in \N.
+\end{xalignat*}
+The points of discontinuity corresponds to the arrival instants of the point process. 
+\end{defn}
+\begin{lem} Simple point process $\{N(t), t \geqslant 0\}$ and arrival process $\{S_n: n \in \N\}$ are inverse processes. That is,
+\begin{align*}
+\{S_n \leqslant t\} = \{N(t) \geqslant n\}.
+\end{align*}
+\end{lem}
+\begin{proof} Let $\omega \in \{S_n \leqslant t\}$, then $N(S_n) = n$ by definition. 
+%from right continuity of the counting process. 
+Since $N$ is a non-decreasing process, we have $N(t) \geq N(S_n) = n$. 
+%It follows that $\{S_n \leqslant t\} \subseteq \{N(t) \geqslant n\}$.
+Conversely, let $\omega \in \{N(t) \geqslant n\}$, then it follows from definition that $S_n \leq t$.
+\end{proof}
+\begin{cor} The following identity is true.
+\begin{align*}
+\{S_n \leqslant t, S_{n+1} > t\} = \{N(t) = n\}.
+\end{align*}
+\end{cor}
+\begin{proof}
+It is easy to see that 
+\begin{align*}
+\{S_{n+1} > t \} &= \{S_{n+1} \leqslant t\}^c = \{N(t) \geqslant n+1\}^c = \{N(t) < n+1\}.
+\end{align*}
+Hence, the result follows by writing 
+\begin{align*}
+\{N(t) = n\} &= \{N(t) \geqslant n, N(t) < n+1\} = \{S_n \leqslant t, S_{n+1} > t\}.
+\end{align*}
+\end{proof}
+\begin{lem}
+Let $F_n(x)$ be the distribution function for $S_n$, then 
+\begin{align*}
+P_n(t) \triangleq \Pr\{N(t) = n\} = F_{n}(t)-F_{n+1}(t).
+\end{align*}
+\end{lem}
+\begin{proof} It suffices to observe that following is a union of disjoint events,
+\begin{align*}
+\{S_n \leqslant t, S_{n+1} > t\} \cup \{S_{n} \leqslant t, S_{n+1} \leqslant t\} = \{S_n \leqslant t \}.
+\end{align*}
+\end{proof}
+\begin{defn} The inter arrival time between $(n-1)^{th}$ and $n^{th}$ arrival is denoted by $X_n$ and written as
+\begin{align*}
+X_n = S_n - S_{n-1}.
+\end{align*}
+\end{defn}
+\begin{rem} For a simple point process, we have
+\begin{align*}
+\Pr\{X_{n} = 0\} &= \Pr\{X_n\leqslant 0\} = 0.
+\end{align*}
+%This is equivalent to a point process not having an atom at any point on the line. 
+Notice that, generalized point processes in higher dimension don't have any inter-arrival time interpretation. 
+\end{rem}
+\begin{defn}
+For an interval $I = (s,t]$, the number of arrivals in the interval $I$ is defined as $N(I) = N(t) - N(s)$. 
+\end{defn}
+\begin{defn} 
+A point process $\{N(t), t\geqslant 0\}$ is called \textbf{stationary increment point process}, 
+if for any collection of mutually exclusive intervals $\{I_j: j \in [n]\}$ and any $t \geqslant 0$ 
+\begin{align*}
+\Pr\cap_{j\in[n]}\{N(I_j) = k_j\} &= \Pr\cap_{j \in [n]}\{N(t + I_j)\}.
+\end{align*}
+%, the joint distribution of $(N(t_{n})-N(t_{n-1}),N(t_{n-1})-N(t_{n-2}),...,N(s))$ is identical to the joint distribution of $(N(t_{n}+t)-N(t_{n-1}+t),...,N(s+t)), ~ \forall t \geqslant 0$.
+\end{defn}
+
+\begin{defn} 
+A point process $\{N(t), t\geqslant 0\}$ is called \textbf{stationary independent increment process}, if it has stationary increments and the increments are independent random variables.
+\end{defn}
+
+\begin{rem}
+For any collection of points  $t_0 = 0 < s<t_{2} < \ldots < t_{n}$, 
+we can define mutually exclusive intervals $I_j = (t_{j-1}, t_j]$ for $j \in [n]$. 
+Then, a stationary independent increment point process is the one that has the joint probability distribution, a product of marginals and each marginal depends solely on the interval length $|I_j| = t_j - t_{j-1}$. 
+That is, 
+\begin{align*}
+\Pr\cap_{j \in [n]}\{N(I_j) = n_j\} &= \prod_{j \in [n]}\Pr\{N(|I_j|) = n_j\}.
+\end{align*} 
+\end{rem}
+
+\begin{lem} 
+An arrival process $\{S_n, n \in \N_0\}$ has stationary and independent increments iff 
+the sequence of inter-arrival times $\{X_n: n \in \N\}$ are \emph{iid} random variables.
+\end{lem}
+\begin{proof} 
+We first suppose that $\{X_n: n \in \N\}$ is a sequence of \emph{iid} random variables. 
+Then $S_{n+m} - S_m$ has the same distribution as $S_n$ and is independent of $(X_1, \ldots, X_m)$. 
+Conversely, we suppose that $\{S_n: n \in \N_0\}$ has stationary, independent increments. 
+Then, $\{X_n: n \in \N\}$ is a sequence of \emph{iid} random variables by looking at $X_n = S_n - S_{n-1}$.   
+\end{proof}
+
+\begin{lem} If a simple point process $\{N(t), t \geqslant 0\}$ has stationary and independent increments then 
+the sequence of inter-arrival times $\{X_n: n \in \N\}$ are \emph{iid} random variables.
+\end{lem}
+\begin{proof} 
+%Suppose first that $(X_1,X_2,\ldots)$ is a sequence of \emph{iid} random variables, 
+%and then $S_{n+m} - S_m$ has same distribution as $S_n$ and is independent of $(X_1, \ldots, X_m)$. 
+%Then, for the ordered disjoint intervals $\{I_j = (a_j ,b_j]: j \in [n]\}$ such that $b_{j-1} \leq a_j$ for each $j$, and $K_j \triangleq \sum_{i = 1}^{j}k_i$, we have
+%\begin{align*}
+%\{N(I_j) = k_j\} &= \{N(b_j) - N(a_j) = k_j\} = \{S_{N(a_j)+k_j+1} - S_{N(a_j)} > |I_j|, S_{N(a_j)+k_j} - S_{N(a_j)} \leqslant |I_j|\}
+%\end{align*}
+%Then, for the ordered disjoint intervals $\{I_j = (t_{j-1} ,t_j]: j \in [n]\}$ and $K_j \triangleq \sum_{i = 1}^{j}k_i$, we have 
+%\begin{align*}
+%\Pr\cap_{j \in [n]}\{N(I_j) = k_j\} &= \Pr\cap_{j \in [n]}\{ N(t_j) =  K_j\}\\
+%&= \Pr\cap_{j \in [n]}\{X_{K_j+1}+ S_{K_j} - S_{K_{j-1}} > |I_j|, S_{K_j} - S_{K_{j-1}} \leqslant |I_j|\}. 
+%\end{align*}
+First, we notice that 
+\begin{align*}
+\{X_{n} > y\} = \{ N(S_{n-1}) \leqslant N(S_{n-1} + y) < N(S_{n})\} = \{N(S_{n-1}+y)-N(S_{n-1}) = 0\}. 
+\end{align*}
+To show that each inter-arrival time is identically distributed, we utilize the stationary increment property of the counting process $N(t)$, to observe 
+\begin{align*}
+%\{S_n - S_{n-1} > x\} &= \{N(S_{n-1}+x) - N(S_{n-1}) = 0\}\\
+\Pr\{S_n - S_{n-1} > x\} &%= \Pr\{N(S_{n-1}+x) - N(S_{n-1}) = 0\}
+= \int_{0}^{\infty}\Pr\{N(x) = 0\}dF_{n-1}(t) = \Pr\{N(x) = 0\} = \Pr\{X_1 > x\}.
+\end{align*}
+%If $\{X_n\}$ are \emph{iid}, then $S_n$ are independent. 
+%Hence, for disjoint intervals $I_j = (a_j, b_j]$, we have 
+%\begin{align*}
+%\Pr\cap_{j=1}^{n}\{N(I_j) = n_j\} &= \Pr\cap_{j=1}^{n}\{ S_{n_j} - S_{}\leq a_j, S_{n_j+1} > b_{j}\} = \int_{}.
+%\end{align*}
+To show that inter-arrival times are independent, it suffices to show that $X_{n}$ is independent of $S_{n-1}$. 
+% to show that all inter-arrival times are independent. 
+Using the independent increments property, we see that 
+%\begin{align*}
+%\{S_n \leqslant x, S_{n+1} - S_n > y\} &= \{S_n \leqslant x, N(y+S_n) - N(S_n) = 0\},\\
+%&=\{n = N(S_n) \leqslant N(x), N(y+S_n)-N(S_n)\}. 
+%\end{align*}
+%Further, we observe that
+\begin{align*}
+\Pr\{S_{n-1} \leqslant x, X_{n} > y\} &%= \Pr\{N(S_{n-1} + y) - N(S_{n-1}) = 0, S_{n-1} \leqslant x\} 
+= \int_{0}^{x}\Pr\{N(y+t) - N(t) = 0|S_{n-1} = t\}dF_{n-1}(t)\\
+&= \int_{0}^{x}\Pr\{N(y+t) - N(t) = 0|N(t) = n-1, N(s) < n-1, s < t \}dF_{n-1}(t) \\
+&= \Pr\{X_n > y\}F_{n-1}(x).
+\end{align*}
+
+\end{proof}
+
+\section{Renewal Theory}
+One of the characterization for the Poisson process is of it being a counting process with \emph{iid} exponential inter-arrival times. Now we shall relax the ``exponential" part. 
+\begin{defn} A counting process $\{N(t),t \geq 0\}$ with \emph{iid} general inter-arrival times is called a \textbf{renewal process}.
+\end{defn}
+As a result, we no longer have the nice properties such as Independent and stationary increments that Poisson processes had. However, we can still get some great results which also apply to Poisson Processes. 
+
+\begin{defn}[Inter-arrival Times] Let $\{X_i: i \in \N\}$ be a sequence of non-negative \emph{iid} random variables with a common distribution $F$, with 
+	\begin{enumerate}
+		%\item Positive inter-arrival time,% i.e. $X_n \geq 0$,
+		\item finite mean $\mu$, %i.e. $(0 \leq \mu = \E[X_1] < \infty)$, and
+		\item $F(0) < 1$.%= \Pr\{X_n \leq 0\} = \Pr\{X_n = 0\} < 1$.
+	\end{enumerate}
+\end{defn}
+Second condition implies non-degenerate renewal process, if $F(0)$ is equal to $1$ then it is a trivial process. We interpret $X_n$ as the time between $(n - 1)^{\text{st}}$ and the $n^{\text{th}}$ renewal event. 
+
+\begin{defn}[Renewal Instants] Let $S_n$ denote the time of $n^{\text{th}}$ renewal, and assume $S_0 = 0$. Then, we have
+\begin{align*} 
+S_n = \sum_{i=1}^n X_i, \quad n\in \N. 
+\end{align*}
+\end{defn}
+\begin{defn}[Renewal process] Let $\{N(t), t \geq 0\}$ be the counting process that counts number of events by time $t$. Then,
+	\begin{align*} 
+	N(t) = \sup\{n \in \N_0 : S_n \leq t\} = \sum_{n \in \N}1_{\{S_n \leq t\}}.
+	\end{align*} 
+	This counting process $\{N(t), t \geq 0\}$ is called a renewal process.
+\end{defn}
+\begin{lem}[Inverse Relationship]
+	There is an inverse relationship between time of $n^{\text{th}}$ event $S_n$, and the counting process $N(t)$. That is
+	\begin{align}
+	\label{eq:InverseRelationship}
+	\{S_n \leq t\} \iff \{N(t) \geq n\}.
+	\end{align}
+	%since $N(t) = \sum_{n \in \N}1_{\{S_n \leq t\}}$.
+\end{lem}
+
+\begin{lem}[Finiteness of $N(t)$]
+	We are interested in knowing how many renewals occur per unit time. From SLLN, we have 
+	\begin{align*} 
+	\frac{S_n}{n} \to \mu \quad \mbox{a.s.}
+	\end{align*} 
+	Since $\mu > 0$, we must have $S_n$ growing arbitrarily large as $n$ increases. Thus,
+	$S_n$ can be finite for at most finitely many $n$. Therefore, $N(t)$ must be finite,
+	and
+	\begin{align*} 
+	N(t) = \max\{n \in \N_0 : S_n \leq t\}.
+	\end{align*} 
+\end{lem}
+
+\subsection{Distribution of N(t)}
+We need to know the distribution of $N(t)$. 
+\begin{lem} Counting process $N(t)$ assumes non-negative integer values with distribution
+	\begin{align*}
+	\Pr\{N(t) = n\} = \Pr\{S_n \leq t\} - \Pr\{S_{n+1} \leq t\} = F_n(t) - F_{n+1}(t).
+	\end{align*}
+\end{lem}
+\begin{proof} It follows from~\eqref{eq:InverseRelationship}.
+\end{proof}
+\begin{defn} Let $F_n$ be the distribution of renewal instant $S_n$ i.e. $\Pr\{S_n \leq t\} = F_n(t)$.
+\end{defn}
+\begin{lem} Distribution $F_n$ of renewal instant $S_n$  is given inductively by
+	\begin{xalignat*}{3}
+		&F_1 = F,&&F_n = F_{n-1}\ast F,
+	\end{xalignat*}
+	where $\ast$ denotes convolution.
+\end{lem}
+\begin{proof} It follows from induction over sum of \emph{iid} random variables.
+\end{proof}
+%Denote $F_n = F^{*(n)}$ where $*$ denotes convolution. Essentially, $F^{*(n)}$ is the distribution of $S_n$.
+\begin{defn} We define $m(t) = \E[N(t)]$ to be the \textbf{renewal function}.
+\end{defn}
+%We are interested in the following quantity.
+%\begin{xalignat*}{3}
+%	&m(t) = \E[N(t)].
+%	%, &&M_{N(t)}(\theta) = \E[e^{\theta N(t)}].
+%\end{xalignat*}
+
+\begin{prop} Renewal function can be expressed in terms of distribution of renewal instants as
+	\begin{align*} 
+	m(t) = \sum_{n \in \N} F_n(t).
+	\end{align*}
+\end{prop}
+\begin{proof} 
+	\begin{align*}
+	m(t) &= \E[N(t)] \\ 
+	&= \sum_{n \in \N} \Pr\{N(t) \geq n\} \\ 
+	&= \sum_{n \in \N} \Pr\{S_n \leq t\} = \sum_{n \in \N} F_n(t).
+	\end{align*}
+	where the second equality follows from the fact that the expectation of a random variable being represented in terms of the \emph{ccdf} of the corresponding random variable, the third equality follows from the inverse relationship as seen in \eqref{eq:InverseRelationship}.	\\
+	Alternatively,
+	\begin{align*}
+	m(t) &= \E[N(t)]. \\
+	&= \E \left[\sum_{n \in \N} \mathbb{I}_{\{S_n \leq t\}} \right] \\
+	&= \sum_{n \in \N} \E \left[ \mathbb{I}_{\{S_n \leq t\}} \right] \\
+	&= \sum_{n \in \N} \Pr\{S_n \leq t\} = \sum_{n \in \N} F_n(t).
+	\end{align*}
+	where the third equality follows from the Monotone Convergence Theorem.
+\end{proof}
+
+\begin{prop} Renewal function is bounded for all finite times.
+	%\begin{align*} 
+	%m(t) < \infty \quad \forall 0 \leq t < \infty
+	%\end{align*}
+\end{prop}
+\begin{proof}
+	Since we assumed that $\Pr\{X_n = 0\} < 1$, it follow from continuity of probabilities that there exists $\alpha > 0$, such that $\Pr\{X_n \geq \alpha\} >0$. Define
+	\begin{align*}
+	\bar{X}_n = \alpha 1_{\{X_n \geq \alpha\}}.
+	\end{align*}
+	Let $\bar{N}(t)$ denote the renewal process with inter-arrival times $\bar{X}_n$. Note that since $X_i$'s are \emph{iid}, so are $\bar{X}_i$ (which will be evident from the proof of the distribution function of the number of arrivals till time t). In fact, the arrivals now happen at multiples of $\alpha$. And yes, they stack. Moreover, $X_n \geq \bar{X}_n$.
+	
+	\begin{align*}
+	\Pr\{Number ~of ~arrivals ~at ~time ~0 ~= n\} &= \Pr\{\bar{X_1}=\bar{X_2}=\ldots=\bar{X_n}=0,\bar{X_{n+1}}=\alpha\} \\
+	&= \Pr\{X_1 < \alpha,X_2 < \alpha,\ldots,X_n < \alpha,X_{n+1} \geq \alpha\} \\
+	&= \prod_{i=1}^{n} \Pr\{X_i < \alpha\} . \Pr\{X_{n+1} \geq \alpha \}  \\
+	&= \left(1- \Pr\{X_1 \geq \alpha \}\right) ^{n} . \Pr\{X_1 \geq \alpha\}.
+	\end{align*}
+	where the third equality follows from the fact that $ X_i, i \in \N$ are mutually independent, fourth equality follows from the fact that $ X_i, i \in \N$ are identical.
+	\\
+	The number of arrivals till time $t$ therefore is Geometric with mean $\frac{1}{\Pr\{X_n \geq \alpha\}}$. Thus 
+	\begin{align*}
+	\E[\bar{N}(t)] = \frac{\lfloor\frac{t}{\alpha} \rfloor + 1}{\Pr\{X_n \geq \alpha\}} \leq \frac{\frac{t}{\alpha} + 1}{\Pr\{X_n \geq \alpha\}} < \infty.
+	\end{align*}
+	Since $\E[N(t)] \leq \E[\bar{N}(t)]$ which follows from $N(t) \leq \bar{N}(t)$, we are done.
+\end{proof} 
+
+\subsection{Elementary Renewal Theorem}
+Basic renewal theorem implies $N(t)/t$ converges to $1/\mu$ almost surely. Now, we are interested in convergence of $\E[N(t)]/t$. Note that this is not obvious, since almost sure convergence doesn't imply convergence in mean. Consider the following example.
+\begin{exmp}
+	\begin{align*}
+	Y_n = \begin{cases}
+	n, & \mbox{ w.p.  } 1/n,\\
+	0, & \mbox{ w.p.  } 1- 1/n.
+	\end{cases}
+	\end{align*}
+	Then, $\Pr\{ Y_n = 0 \} = 1 - 1/n$. %Then $\sum \Pr\{Y_n > \epsilon\} < \infty$. Hence by Borel Cantelli Lemma, $Y_n \to 0$
+	That is $Y_n \to 0$ a.s. However, $\E[Y_n] = 1$ for all $n \in \N$. So $\E[Y_n] \to 1$.
+\end{exmp}
+Even though, basic renewal theorem does \textbf{NOT} imply it, we still have $\E[N(t)]/t$ converging to $1/\mu$.
+
+\begin{thm}[Elementary Renewal Theorem] Let $m(t)$ denote mean $\E[N(t)]$ of renewal process $N(t)$, then under the hypotheses of basic renewal theorem, we have 
+	\begin{align*}
+	\lim_{t \to \infty}\frac{m(t)}{t} = \frac{1}{\mu}.
+	\end{align*}
+\end{thm}
+\begin{proof}
+	Take $\mu < \infty$. We know that $S_{N(t)+1} > t$. Therefore, taking expectations on both sides and using Proposition~\ref{prop:WaldRenewal}, we have 
+	\begin{align*}
+	\mu (m(t) + 1) > t.
+	\end{align*}
+	Dividing both sides by $\mu t$ and taking $\liminf$ on both sides, we get
+	\begin{align}
+	\label{eq:LiminfMean}
+	\liminf_{t \to \infty} \frac{m(t)}{t} \geq \frac{1}{\mu}.
+	\end{align}
+	
+	%Thus we now have to show 
+	%\[\limsup_{t \to \infty} \frac{m(t)}{t} \leq \frac{1}{\mu}\]
+	We employ a truncated random variable argument to show the reverse inequality. We define truncated inter-arrival times $\{\bar{X}_n\}$ as 
+	\begin{align*}
+	\bar{X}_n = X_n 1_{\{X_n \leq M\}} + M1_{\{X_n > M\}}.
+	\end{align*}
+	We will call $\E[\bar{X}_n] = \mu_M$. Further, we can define arrival instants $\{\bar{S}_n\}$ and renewal process $\bar{N}(t)$ for this set of truncated inter-arrival times $\{\bar{X}_n\}$ as 
+	\begin{align*}
+	\bar{S}_n &= \sum_{k=1}^n \bar{X}_k, & \bar{N}(t) &= \sup\{n \in \N_0: \bar{S}_n \leq t\}.
+	\end{align*}
+	Note that since $S_n \geq \bar{S}_n$, number of arrivals would be higher for renewal process with truncated random variables, i.e. 
+	\begin{align}
+	\label{eq:TruncRenewalInequality}
+	N(t) \leq \bar{N}(t).
+	\end{align}
+	Further, due to truncation of inter-arrival time, next renewal happens with-in $M$ units of time, i.e.
+	\begin{align*}
+	\bar{S}_{N(t)+1} \leq t+M.
+	\end{align*}
+	Taking expectations on both sides in the above align, using Proposition~\ref{prop:WaldRenewal}, dividing both sides by $t \mu_M$ and taking $\limsup$ on both sides, we obtain
+	\begin{align*}
+	\limsup_{t \to \infty}\frac{\bar{m(t)}}{t} \leq \frac{1}{\mu_M}.
+	\end{align*}
+	Taking expectations on both sides of~\eqref{eq:TruncRenewalInequality} and letting $M$ go arbitrary large on RHS, we get
+	\begin{align}
+	\label{eq:LimsupMean}
+	\limsup_{t \to \infty}\frac{m(t)}{t} \leq \frac{1}{\mu}.
+	\end{align}
+	%Now observe that LHS is independent of $M$. Take limits $M \to \infty$, noting that $\mu_M \to \mu$ (Why?) to get
+	%\[\limsup_{t \to \infty}\frac{m(t)}{t} \leq \frac{1}{\mu}\]
+	%Putting it all together,
+	%\[\lim_{t \to \infty}\frac{m(t)}{t} = \frac{1}{\mu}\]
+	Result for finite $\mu$ follows from~\eqref{eq:LiminfMean} and~\eqref{eq:LiminfMean}. When $\mu$ grows arbitrary large, results follow from~\eqref{eq:LiminfMean}, where RHS is zero. 
+\end{proof}
+
+
+\section{Poisson process}
+\begin{defn} A simple point process $\{N(t),~ t\geqslant 0\} $ is called a \textbf{Poisson process} with a finite positive rate $\lambda$, if inter-arrival times $\{X_{n}: n \in \N\}$ are \emph{iid} random variables with an exponential distribution of rate $\lambda$. That is, it has a distribution function $F$, such that 
+ \begin{align*}
+ F(x) = \Pr\{X_{1}\leqslant x\} = 
+	\begin{cases}
+		1-e^{-\lambda x}, & x\geqslant 0   \\
+		0,  & \text{ else}.
+	\end{cases}
+\end{align*}
+\end{defn}
+
+\begin{figure}[hhhh]
+\center
+	\input{Figures/IndependentIncrements}
+  	\caption{Stationary independent increment property of Poisson process.}
+	\label{Fig:IndependentIncrements}
+\end{figure}
+\begin{prop} A Poisson process $\{N(t), t\geqslant 0\}$ is simple point process with stationary independent increments.
+\end{prop}
+\begin{proof}
+It is clear that Poisson process is a simple point process. 
+To show that $N(t)$ has stationary independent increment property, it suffices to show that $N_t-N(s) \perp N(s)$ and $N(t) - N(s) \sim N(t-s)$. 
+This follows from the fact that we can use induction to show stationary independent increment property for for any finite disjoint time-intervals.
+
+Let arrival time-instants $\{S_n: n \in \N_0\}$ and inter-arrival times $\{X_n: n \in \N\}$ be defined as before. 
+Given any time $s$, we can define the following variables
+\begin{xalignat*}{3}
+&X'_{N(s)+1} = s - S_{N(s)},&&X''_{N(s)+1} = S_{N(s)+1} - s.
+\end{xalignat*}
+It is clear that $s$ partitions $X_{N(s)+1}$ in two parts such that $X_{N(s)+1} = X^{'}_{N(s)}+1 + X^{''}_{N(s)+1}$ as seen in Figure~\ref{Fig:IndependentIncrements} for the case when $N(s) = n$. 
+We look at joint distribution of $X'_{N(s)+1}, X''_{N(s)+1}$ and notice that
+\begin{align*}
+\{X'_{N(s)+1}  > x, X''_{N(s)+1} > y\} %&= \bigcup_{n \in \N_0}\{X' \leq x, X'' > y, N(s) = n\},\\
+&= \bigcup_{n \in \N_0}\{ S_n <  s -x , S_{n+1} > s + y, N(s) = n\}\\
+&= \bigcup_{n \in \N_0}\{ S_n <  s -x , S_{n+1} > s + y\}.
+\end{align*}
+From the fact that inter-arrival times are \emph{iid} exponentially distributed with rate $\lambda$, we conclude that
+\begin{align*}
+\Pr\{X'_{N(s)} > x, X''_{N(s)+1} > y\} &= \sum_{n \in \N_0}\int_{u=0}^{s-x}\Pr\{X_{n+1} > s + y + u \}dF_n(u),\\
+&= \int_{u=0}^{s-x}(1 - F_1(s+y+u))\sum_{n \in \N_0}dF_n(u) = \int_{u=0}^{s-x}e^{-\lambda(s+y+u)}\lambda du,\\
+&= (1-F_1(y))(F_1(s) - F_1(2s-x)).
+\end{align*}
+Therefore,  $X_{N(s)+1}^{''}$ is independent of $X_{N(s)+1}^{'}$ and has same distribution as $X_{n+1}$. 
+The memoryless property of exponential distribution is crucially used. 
+Further, we see that independent increment holds only if inter-arrival time is exponential. 
+Therefore, 
+\begin{align*}
+\{ N(s) = n \} &\iff  \{ S_n = s + X'_{n+1} \}, \\
+\{ N(t) - N(s) \geqslant m \} &\iff \{ X''_{n+1} + \sum_{i=n+2}^{n+m} X_i \leqslant t - s \}.
+\end{align*}
+Since, $\{X_i: i \geqslant n+2\}\cup\{X_{n+1}^{''}\}$ are independent of $\{X_i: i \leqslant n\}\cup{X_{n+1}^{'}}$, we have $N(t)-N(s) \perp N(s)$. Further, since $X_{n+1}^{''}$ has same distribution as $X_{n+1}$, we get $N(t) - N(s) \sim N(t-s)$. By induction we can extend this result to $(N(t_{n})-N(t_{n-1}),...,N(s))$. 
+\end{proof}
+
+
+\end{document}
