@@ -45,9 +45,59 @@ F(x) = (P \circ X^{-1})(-\infty,x], \forall x \in \R.
 \E[g(X)] = \int_{x \in \R} g(x) dF(x) .%= \int_{\omega \in \Omega} g(x) d(P \circ X^{-1})(-\infty, x].
 \end{align*}
 \end{defn}
+
 \section{Stochastic Processes}
-\begin{defn} A  collection of random variables $\{X_t: t \in T\}$ each defined on the same probability space $(\Omega, \F, P)$ is called a \textbf{random process} for an arbitrary index set $T$.
+\begin{defn} A  collection of random variables $\{X_t \in S: t \in T\}$ each defined on the same probability space $(\Omega, \F, P)$ is called a \textbf{random process} for an arbitrary index set $T$ and arbitrary state space $S$. 
 \end{defn}
+\subsection{Deterministic and stochastic models}
+Evolution of a \textbf{deterministic} system is characterized by a set of equations, with each run leading to the same outcome given the same initial conditions. 
+Evolution of a \textbf{stochastic} system is at least partially random, and each run of the process leads to potentially a different outcome. 
+Each of these different runs are called a \textbf{realization} or a \textbf{sample path} of the stochastic process.
+
+We are interested in modeling, analysis, and design of stochastic systems. 
+%\begin{itemize}
+%\item Physics
+\begin{exmp}[Movement of gas molecules] 
+Movements of gas molecules when environment has fluctuating densities due to temperature variations.
+\end{exmp}
+%\item Chemistry
+\begin{exmp}[Chemical reactions] 
+Evolution of number of molecules due to chemical reaction, where the time to form new molecules is uncertain and it depends on density of other molecules. 
+\end{exmp}
+\begin{exmp}[Financial commodities] 
+Financial commodities like stock prices, currency exchange rates fluctuate with time. 
+These can be modeled by random walks. 
+\end{exmp}
+\begin{exmp}[Photon Detection] 
+Machines that detect photons, have a dead time post a successful detection. This adds uncertainty in estimating photon density. 
+These processes can be modeled by an \emph{on-off} process. 
+\end{exmp}
+\begin{exmp}[Epidemics] 
+A contagious disease can spread very quickly across a region. 
+This is similar to a content getting viral on internet. 
+\end{exmp}
+\begin{exmp}[Earthquake occurrences] 
+Counting number of earthquakes that occur everyday at a certain location. 
+These can be modeled by a counting process. 
+\end{exmp}
+\begin{exmp}[Population growth] 
+A mother cell takes a random amount of time to subdivide and create a daughter cell. 
+A daughter cell takes certain random time to mature, and become a mother cell. 
+A mother cell dies after certain number of sub-divisions. 
+\end{exmp}
+\begin{exmp}[Page Rank] 
+Popularity of a page depends on how quickly one can reach it from other pages on the Internet. 
+\end{exmp}
+%\end{itemize}
+
+\subsection{Classification}
+If the state space $T$ is countable, the stochastic process is called \textbf{discrete}-time stochastic process or random sequence. 
+When the state space $T$ is uncountable, it is called \textbf{continuous}-time stochastic process. 
+However, $T$ doesn't have to be time, it can be indicating space, and then the stochastic process is spatial process. 
+State space $S$ can also be countable or uncountable. 
+Further, $S$ can be uncountable in space and $T$ in time, leading to spatio-temporal processes. 
+
+\subsection{Specification}
 To define a measure on collection of random variables, we need to know its joint distribution $F: \R^T \to [0,1]$. To this end, for any $x \in \R^T$we need to know
 \begin{align*}
 F(x) = P\left(\displaystyle {\bigcap_{t \in T}\{\omega \in \Omega: X_t(\omega) \leq x_t\}}\right).
