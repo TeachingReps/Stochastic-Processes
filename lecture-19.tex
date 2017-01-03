@@ -322,18 +322,18 @@ Since $X_n$ is a submartingale so is $Y_n$, as it is  a convex function of $X_n$
     (b-a)\E U_n\leq& \E(Y_n-Y_0).
     \end{align*}
     \end{proof}
-    \begin{thm}[Martingale Convergence Theorem]
-    	\label{MartingaleConvergenceTheorem}
-    	If $X_n$ is a submartingale with ${\sup}_{a\in A} \E[X_n^{+}]\leq \infty$ then ${\lim}_{n\in \N} X_n=X$ a.s with $\E[X]<\infty$.
-    	\end{thm}
-    	\begin{proof}
-    		\begin{align*}
-    			(X-a)^{+}\leq& X^{+}+|a|\\
-    			\E[U_n] \leq& \frac{\E[X_n^{+}] +|a|}{b-a}\\
-    			\end{align*}
+\begin{thm}[Martingale Convergence Theorem]
+\label{MartingaleConvergenceTheorem}
+If $X_n$ is a submartingale with ${\sup}_{a\in A} \E[X_n^{+}]\leq \infty$ then ${\lim}_{n\in \N} X_n=X$ a.s with $\E[X]<\infty$.
+\end{thm}
+\begin{proof}    		
+\begin{align*}
+(X-a)^{+}\leq& X^{+}+|a|,\\
+\E[U_n] \leq& \frac{\E[X_n^{+}] +|a|}{b-a}.
+\end{align*}
     			$\lim_{n \in \N} U_n=U$ since, $\E [X_n^{+}] < \infty$ gives $U<\infty$ a.s. This conclusion leads to  
     			\begin{align*}
-    			\Pr\{_{a,b \in \mathbb{Q}}{\cup}\{{\lim \inf}_{n\in \N}  X_n<a<b<{\lim \sup}_{n\in \N}  X_n \}\} = 0;
+    			\Pr\{_{a,b \in \mathbb{Q}}{\cup}\{{\lim \inf}_{n\in \N}  X_n<a<b<{\lim \sup}_{n\in \N}  X_n \}\} = 0.
     			\end{align*}
     		  From the above probability we have a. s.
     		  \begin{align*}
@@ -341,12 +341,12 @@ Since $X_n$ is a submartingale so is $Y_n$, as it is  a convex function of $X_n$
     		  	\end{align*}
     		  	Now the Fatou's lemma in measure theory guarantees
     		  	\begin {align*}
-    		  	\E[X^{+}]\leq {\lim \inf}_{n\in \N}\E[X_n^{+}]<\infty
+    		  	\E[X^{+}]\leq {\lim \inf}_{n\in \N}\E[X_n^{+}]<\infty,
     		  \end{align*}
     		  	which implies $X<\infty$  almost sure. To see $X>-\infty$, we observe that
     		  	\begin{align*}
     		  		\E[X_n^{-}]&=\E[X_n^{+}]-\E[X_n]\\
-    		  		&\leq \E[X_n^{+}]-\E[X_0]\\
+    		  		&\leq \E[X_n^{+}]-\E[X_0].
     		  		\end{align*} 
     		  		The above inequality comes from the submartingale property of $X_n$. Now from another application of Fatou's lemma gives,
     		  		\begin{align*}
