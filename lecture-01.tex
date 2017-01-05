@@ -9,7 +9,7 @@
 \maketitle
 
 \section{Probability Review}
-\begin{defn}
+%\begin{defn}
 A \textbf{probability space} $(\Omega, \F, P)$ consists of set of all possible outcomes denoted by $\Omega$ and called a \textbf{sample space}, a collection of subsets $\F$ of sample space, and a non-negative set function probability $P: \F \to [0,1]$, with the following properties.
 \begin{enumerate}
 \item The collection of subsets of $\F$ is a $\sigma$-algebra, that is it contains an empty set and is closed under complements and countable unions.
@@ -18,98 +18,294 @@ A \textbf{probability space} $(\Omega, \F, P)$ consists of set of all possible o
 P(\bigcup_{n}A_n) = \sum_nP(A_n).
 \end{align*}
 \end{enumerate}
-\end{defn}
-There is a natural order of inclusion on sets through which we can define monotonicity of probability set function $P$. To define continuity of this set function, we need to define limits of sets. 
-\begin{defn} For a sequence of sets $\{A_n: n \in \N\}$, we define \textbf{limit superior} and \textbf{limit inferior} of this sequence respectively as 
+%\end{defn}
+There is a natural order of inclusion on sets through which we can define monotonicity of probability set function $P$. To define continuity of this set function, we %need to 
+define limits of sets. 
+%\begin{defn} 
+For a sequence of sets $\{A_n: n \in \N\}$, we define \textbf{limit superior} and \textbf{limit inferior} of this sequence respectively as 
 \begin{xalignat*}{3}
 &\lim\sup_nA_n = \bigcap_n\bigcup_{k \geq n}A_k, && \lim\inf_nA_n = \bigcup_n\bigcap_{k \geq n}A_k.
 \end{xalignat*}
 We say that limit exists if the limit superior and limit inferior are equal, and is equal to the limit of the sequence of sets.
-\end{defn}
-\begin{lem} Probability set function is monotone and continuous.
-\end{lem}
-\begin{defn} A real valued \textbf{random variable} $X$ on a probability space $(\Omega, \F, P)$ is a function $X: \Omega \to \R$ such that for every $x \in  \R$, we have $\{ \omega \in \Omega: X(\omega) \leq x \} = X^{-1}(-\infty, x] \in \F$.
-\end{defn}
-\begin{defn} For a random variable $X$ defined on probability space $(\Omega, \F, P)$, the distribution function $F: \R \to [0,1]$ is defined as 
+%\end{defn}
+\begin{thm} Probability set function is monotone and continuous.
+\end{thm}
+\begin{proof}
+Let $A \subseteq B$ both subsets be elements of $\mathcal{F}$, then from the additivity of probability over disjoint sets $A$ and $B \setminus A$, we have 
 \begin{align*}
-F(x) = (P \circ X^{-1})(-\infty,x], \forall x \in \R.
+P(B) &= P(A \cup B\setminus A) = P(A) + P(B\setminus A) \geq P(A). 
 \end{align*}
-\end{defn}
-\begin{lem} Distribution function $F$ of a random variable $X$ is non-negative, monotone increasing, continuous from the right, and has countable points of discontinuities. Further, if $P \circ X^{-1}(\R) = 1$, then
+Monotonicity follows from non-negativity of probability set function, that is since $P(B \setminus A) > 0$. 
+For continuity from below, we take an increasing sequence of sets $\{A_n: n \in \N\}$, such that $A_n \subseteq A_{n+1}$ for all $n$. 
+Then, it is clear that $A_n \uparrow A = \cup_{n}A_n$. 
+We can define disjoint sets $\{E_n: n \in \N\}$, where 
+\begin{xalignat*}{3}
+&E_1 = A_1,&& E_n = A_{n} \setminus A_{n-1},~n \geq 2.
+\end{xalignat*}
+The disjoint sets $E_n$'s satisfy $\cup_{i=1}^nE_i = A_n$ for all $n \in \N$ and $\cup_{n}E_n = \cup_nA_n$.
+From the above property and the additivity of probability set function over disjoint sets, it follows that 
+\begin{align*}
+P(A) &= P\cup_{n}E_n = \sum_{n \in \N}P(E_n) = \lim_{n \in \N}\sum_{i=1}^nP(E_i) =  \lim_{n \in \N}P\cup_{i=1}^nE_i =  \lim_{n \in \N}P(A_n).
+\end{align*}
+For continuity from below, we take decreasing sequence of sets $\{A_n: n \in \N\}$, such that $A_{n+1} \subseteq A_{n}$ for all $n$. 
+We can form increasing sequence of sets $\{B_n: n \in \N\}$ where $B_n = A_n^c$. 
+Then, the continuity from above follows from continuity from above. 
+\end{proof}
+%\begin{defn} 
+A real valued \textbf{random variable} $X$ on a probability space $(\Omega, \F, P)$ is a function $X: \Omega \to \R$ such that for every $x \in  \R$, we have $\{ \omega \in \Omega: X(\omega) \leq x \} = X^{-1}(-\infty, x] \in \F$.
+%\end{defn}
+%\begin{defn} 
+%For a random variable $X$ defined on probability space $(\Omega, \F, P)$, 
+The \textbf{distribution function} $F: \R \to [0,1]$ for this random variable $X$ is defined as 
+\begin{align*}
+F(x) = (P \circ X^{-1})(-\infty,x],~\forall x \in \R.
+\end{align*}
+Let $g: \R \to \R$ be a function. Then, the \textbf{expectation} of $g(X)$ is defined as 
+\begin{align*}
+\E g(X) = \int_{x \in \R} g(x) dF(x) .%= \int_{\omega \in \Omega} g(x) d(P \circ X^{-1})(-\infty, x].
+\end{align*}
+%\end{defn}
+\begin{thm} Distribution function $F$ of a random variable $X$ is non-negative, monotone increasing, continuous from the right, and has countable points of discontinuities. Further, if $P \circ X^{-1}(\R) = 1$, then
 \begin{xalignat*}{5}
 &\lim_{x \to -\infty}F(x) = 0,&& \lim_{x \to \infty}F(x) = 1.
 \end{xalignat*}
-\end{lem}
-\begin{defn} Let $X$ be a random variable on a probability space $(\Omega, \F, P)$ with a distribution function $F$. Let $g: \R \to \R$ be a function. Then, the expectation of $g(X)$ is defined as 
+\end{thm}
+\begin{proof}
+Non-negativity and monotonicity of distribution function follows from non-negativity and monotonicity of probability set function, 
+and the fact that for $x_1 < x_2$
 \begin{align*}
-\E[g(X)] = \int_{x \in \R} g(x) dF(x) .%= \int_{\omega \in \Omega} g(x) d(P \circ X^{-1})(-\infty, x].
+X^{-1}(-\infty, x_1] \subseteq X^{-1}(-\infty, x_2]. 
 \end{align*}
-\end{defn}
+Let $x_n \downarrow x$ be a decreasing sequence of real numbers. 
+Then, the right continuity of distribution function follows from the continuity from above of probability set functions. 
+We take decreasing sets $\{A_n: n \in \N\}$, where 
+\begin{align*}
+A_n &= \{\omega \in \Omega: X(\omega) \leq x_n\}.
+\end{align*}
+\end{proof}
+%\begin{defn} 
+%Let $X$ be a random variable on a probability space $(\Omega, \F, P)$ with a distribution function $F$. 
+%Let $g: \R \to \R$ be a function. Then, the \textbf{expectation} of $g(X)$ is defined as 
+%\begin{align*}
+%\E[g(X)] = \int_{x \in \R} g(x) dF(x) .%= \int_{\omega \in \Omega} g(x) d(P \circ X^{-1})(-\infty, x].
+%\end{align*}
+%\end{defn}
 
-\section{Stochastic Processes}
-\begin{defn} A  collection of random variables $\{X_t \in S: t \in T\}$ each defined on the same probability space $(\Omega, \F, P)$ is called a \textbf{random process} for an arbitrary index set $T$ and arbitrary state space $S$. 
-\end{defn}
-\subsection{Deterministic and stochastic models}
+\section{Deterministic and stochastic models}
 Evolution of a \textbf{deterministic} system is characterized by a set of equations, with each run leading to the same outcome given the same initial conditions. 
 Evolution of a \textbf{stochastic} system is at least partially random, and each run of the process leads to potentially a different outcome. 
 Each of these different runs are called a \textbf{realization} or a \textbf{sample path} of the stochastic process.
-
+\begin{shaded*}
 We are interested in modeling, analysis, and design of stochastic systems. 
-%\begin{itemize}
+Following are some of the stochastic systems from different disciplines of science and engineering. 
+\begin{itemize}
 %\item Physics
-\begin{exmp}[Movement of gas molecules] 
-Movements of gas molecules when environment has fluctuating densities due to temperature variations.
-\end{exmp}
+%\begin{exmp}
+%\item %[Movement of gas molecules] 
+%Movements of gas molecules when environment has fluctuating densities due to temperature variations.
+%\end{exmp}
 %\item Chemistry
-\begin{exmp}[Chemical reactions] 
+%\begin{exmp}
+\item %[Chemical reactions] 
 Evolution of number of molecules due to chemical reaction, where the time to form new molecules is uncertain and it depends on density of other molecules. 
-\end{exmp}
-\begin{exmp}[Financial commodities] 
+%\end{exmp}
+%\begin{exmp}
+\item %[Financial commodities] 
 Financial commodities like stock prices, currency exchange rates fluctuate with time. 
 These can be modeled by random walks. 
-\end{exmp}
-\begin{exmp}[Photon Detection] 
-Machines that detect photons, have a dead time post a successful detection. This adds uncertainty in estimating photon density. 
+One can provide probabilistic predictions and optimal buying and selling strategies using these models.
+%\end{exmp}
+%\begin{exmp}
+\item %[Photon Detection] 
+Machines that detect photons, have a dead time post a successful detection. 
+This adds uncertainty in estimating photon density. 
 These processes can be modeled by an \emph{on-off} process. 
-\end{exmp}
-\begin{exmp}[Epidemics] 
+%\end{exmp}
+%\begin{exmp}
+\item %[Epidemics] 
 A contagious disease can spread very quickly across a region. 
 This is similar to a content getting viral on internet. 
-\end{exmp}
-\begin{exmp}[Earthquake occurrences] 
+One can model spread of epidemics on network by Urn models. 
+%\end{exmp}
+%\begin{exmp}
+\item %[Earthquake occurrences] 
 Counting number of earthquakes that occur everyday at a certain location. 
-These can be modeled by a counting process. 
-\end{exmp}
-\begin{exmp}[Population growth] 
+These can be modeled by a counting process, and inter-arrival time of the quakes can be estimated to make probabilistic predictions. 
+%\end{exmp}
+%\begin{exmp}
+\item %[Population growth] 
 A mother cell takes a random amount of time to subdivide and create a daughter cell. 
 A daughter cell takes certain random time to mature, and become a mother cell. 
 A mother cell dies after certain number of sub-divisions. 
-\end{exmp}
-\begin{exmp}[Page Rank] 
+One is interested in finding out the asymptotic behavior of population density. 
+%\end{exmp}
+%\begin{exmp}
+\item %[Page Rank] 
 Popularity of a page depends on how quickly one can reach it from other pages on the Internet. 
-\end{exmp}
-%\end{itemize}
+Equilibrium distribution of certain random walks on graphs can be used to estimate page ranks on the web.
+%\end{exmp}
+\end{itemize}
+\end{shaded*}
+
+\section{Stochastic Processes}
+%\begin{defn} 
+A  collection of random variables $\{X_t \in \mathcal{X}: t \in T\}$ each defined on the same probability space $(\Omega, \F, P)$ is called a \textbf{random process} for an arbitrary index set $T$ and arbitrary state space $\mathcal{X}$. 
+%\end{defn}
 
 \subsection{Classification}
 If the state space $T$ is countable, the stochastic process is called \textbf{discrete}-time stochastic process or random sequence. 
 When the state space $T$ is uncountable, it is called \textbf{continuous}-time stochastic process. 
-However, $T$ doesn't have to be time, it can be indicating space, and then the stochastic process is spatial process. 
-State space $S$ can also be countable or uncountable. 
-Further, $S$ can be uncountable in space and $T$ in time, leading to spatio-temporal processes. 
+However, $T$ doesn't have to be time, if the index set is space, and then the stochastic process is spatial process. 
+When $T = \R^n \times [0, \infty)$, stochastic process $X(t)$ is a spatio-temporal process. 
+State space $\mathcal{X}$ can also be countable or uncountable. 
+\begin{shaded*}
+We list some examples of each such stochastic process. 
+\begin{itemize} 
+\item Discrete random sequence: brand switching, discrete time queues, number of people at bank each day.
+\item Continuous random sequence: stock prices, currency exchange rates, waiting time in queue of $n$th arrival, workload at arrivals in time sharing computer systems.
+\item Discrete random process:  counting processes, population sampled at birth-death instants, number of people in queues.
+\item Continuous random process: water level in a dam, waiting time till service in a queue, location of a mobile node in a network.
+\end{itemize}
+\end{shaded*}
 
 \subsection{Specification}
-To define a measure on collection of random variables, we need to know its joint distribution $F: \R^T \to [0,1]$. To this end, for any $x \in \R^T$we need to know
+To define a measure on collection of random variables, we need to know it's joint distribution $F: \R^T \to [0,1]$. 
+To this end, for any $x \in \R^T$we need to know
 \begin{align*}
 F(x) = P\left(\displaystyle {\bigcap_{t \in T}\{\omega \in \Omega: X_t(\omega) \leq x_t\}}\right).
 \end{align*}
-When the index set $T$ is infinite, any function of the above form would be zero if $x_t$ is finite for all $t \in T$. Therefore, we only look at the values of $F(x)$ when $x_t \in \R$ for indices $t$ in a finite set $S$ and is $x_t = \infty$  for all $t \notin S$. This leads to finite-dimensional distributions as defined below.
-\begin{defn}  For any finite set $S \subseteq T$ and $x_S = \{x_t \in \R : t \in S\}$, we can define a \textbf{finite dimensional distribution}
+When the index set $T$ is infinite, any function of the above form would be zero if $x_t$ is finite for all $t \in T$. 
+Therefore, we only look at the values of $F(x)$ when $x_t \in \R$ for indices $t$ in a finite set $S$ and $x_t = \infty$  for all $t \notin S$. 
+%This leads to finite-dimensional distributions as defined below. 
+%\begin{defn}  
+We can define a \textbf{finite dimensional distribution} for any finite set $S \subseteq T$ and $x_S = \{x_s \in \R : s \in S\}$, 
 \begin{align*}
-F_S(x) = P\left(\displaystyle {\bigcap_{t \in S}\{\omega \in \Omega: X_t(\omega) \leq x_t\}}\right).
+F_S(x) = P\left(\displaystyle {\bigcap_{s \in S}\{\omega \in \Omega: X_s(\omega) \leq x_s\}}\right).
 \end{align*}
-\end{defn}
+%\end{defn}
 Set of all finite dimensional distributions of the stochastic process $\{X_t: t \in T\}$ characterizes its distribution completely.
+Simpler characterizations of a stochastic process $X(t)$ are in terms of its moments. 
+That is, the first moment such as mean, and the second moment such as correlations and covariance functions. 
+\begin{xalignat*}{5}
+&m_X(t) \triangleq \E X_t, && R_X(t,s) \triangleq \E X_tX_s,&& C_X(t,s) \triangleq \E (X_t - m_X(t))(X_s-m_X(s)).
+\end{xalignat*}
+\begin{shaded*}
+Some examples of simple stochastic processes. 
+\begin{enumerate}[i\_]
+\item $X_t = A \cos 2\pi t$, where $A$ is random. 
+The finite dimensional distribution is given by 
+\begin{align*}
+F_S(x) &= P\left(\left\{A\cos 2\pi s \leq x_s, s \in S\right\}\right). %P\left(\left\{A \leq \min_{s \in S\setminus\{(2k+1)\frac{\pi}{2}, k \in \Z\}}\frac{x_s}{\cos 2\pi_s}\right\}\right).
+\end{align*}
+The moments are given by 
+\begin{xalignat*}{5}
+&m_X(t) = (\E A)\cos 2\pi t, && R_X(t,s) =  (\E A^2) \cos 2\pi t\cos 2\pi s,&& C_X(t,s) =\text{Var}(A) \cos 2\pi t\cos 2\pi s.
+\end{xalignat*}
+\item $X_t = \cos(2\pi t+ \Theta)$, where $\Theta$ is random and uniformly distributed between $(-\pi, \pi]$. 
+The finite dimensional distribution is given by 
+\begin{align*}
+F_S(x) &= P\left(\left\{\cos(2\pi s + \Theta) \leq x_s, s \in S\right\}\right). %P\left(\left\{A \leq \min_{s \in S\setminus\{(2k+1)\frac{\pi}{2}, k \in \Z\}}\frac{x_s}{\cos 2\pi_s}\right\}\right).
+\end{align*}
+The moments are given by 
+\begin{xalignat*}{5}
+&m_X = 0, && R_X(t,s) =  \frac{1}{2}\cos2\pi (t-s),&& C_X(t,s) = R_X(t,s).
+\end{xalignat*}
+\item $X_n = U^n$ for $n \in \N$, where $U$ is uniformly distributed in the open interval $(0,1)$.
+\item $Z_t = At +B$ where $A$ and $B$ are independent random variables. 
+\end{enumerate}
+\end{shaded*}
 
+\subsection{Independence}
+Recall, given the probability space $(\Omega, \F, P)$, two events $A, B \in \F$ are \textbf{independent events} if 
+\begin{align*}
+P(A\cap B) = P(A)P(B).
+\end{align*}
+Random variables $X,Y$ defined on the above probability space, are \textbf{independent random variables} if for all $x,y \in \R$
+\begin{align*}
+P\{X(\omega) \leq x, Y(\omega) \leq y\} = P\{X(\omega) \leq x\}P\{Y(\omega) \leq y\}.
+\end{align*}
+Two stochastic process $X_t, Y_t$ for common index set $T$ are \textbf{independent stochastic processes} if for all %$m,n \in \N$ and 
+finite subsets $I, J \subseteq T$ %such that $|I| =m, |J| = n$, 
+\begin{align*}
+P\left(\{X_i \leq x_i, i \in I \}\cap\{Y_j \leq y_j, j \in J\}\right) = P\left(\{X_i \leq x_i, i \in I\}\right)P\left(\{Y_j \leq y_j, j \in J\}\right).
+\end{align*}
+
+\subsection{Examples of Tractable Stochastic Processes}
+In general, it is very difficult to characterize a stochastic process completely in terms of its finite dimensional distribution. 
+However, we have listed few analytically tractable examples below, where we can completely characterize the stochastic process. 
+\subsubsection{Independent and identically distributed processes}
+Let $\{X_t: t \in T\}$ be an independent and identically distributed (\emph{iid}) random process, with common distribution $F(x)$. 
+Then, the finite dimensional distribution for this process for any finite $S \subseteq T$ can be written as 
+\begin{align*}
+F_S(x) &= P\left(\{X_s(\omega) \leq x_s, s \in S\}\right) = \prod_{s \in S}F(x_s).
+\end{align*}
+It's easy to verify that the first and the second moments are independent of time indices. 
+Since $X_t = X_0$ in distribution, 
+\begin{xalignat*}{5}
+&m_X = \E X_0 , && R_X = \E X_0^2, && C_X = \text{Var}(X_0).
+\end{xalignat*}
+
+%\subsubsection{Independent increments process}
+\subsubsection{Stationary Processes}
+A stochastic process $X_t$ is \textbf{stationary} if all finite dimensional distributions are shift invariant, that is for finite $S \subseteq T$ and $t > 0$, we have 
+\begin{align*}
+F_S(x) &= P(\{X_s(\omega) \leq x_s, s \in S\}) = P(\{X_{s+t}(\omega) \leq x_s, s \in S\}) = F_{t+S}(x).
+\end{align*}
+In particular, all the moments are shift invariant. 
+Since $X_t = X_0$ and $(X_t,X_s) = (X_{t-s}, X_{0})$ in distribution, we have 
+\begin{xalignat*}{5}
+&m_X = \E X_0 , && R_X(t-s,0) = \E X_{t-s}X_0, && C_X(t-s,0) = R_X(t-s,0) - m_X^2.
+\end{xalignat*}
+
+\subsubsection{Markov Processes}
+A stochastic process $X_t$ is \textbf{Markov} if conditioned on the present state, future is independent of the past.  
+That is, for any ordered index set $T$ containing any two indices $u > t$, we have  %such that $t < u$, % \in T$, 
+\begin{align*}
+P(\{X_u(\omega) \leq x_u| X_s, s \leq t\}) = P(\{X_{u}(\omega) \leq x_u| X_t\}).
+\end{align*}
+We will study this process in detail in coming lectures. 
+
+\subsubsection{L\'evy Processes}
+A stochastic process $X_t$ indexed by positive reals is \textbf{L\'evy} if the following conditions hold. 
+\begin{enumerate}[i\_]
+\item $X_{0}=0$, almost surely.
+\item The increments are independent: For any $ 0\leq t_{1}<t_{2}<\cdots <t_{n}<\infty$, $X_{t_{2}}-X_{t_{1}},X_{t_{3}}-X_{t_{2}},\ldots ,X_{t_{n}}-X_{t_{n-1}}$ are independent.
+\item The increments are stationary: For any $s<t$,  $X_{t}-X_{s}$, is equal in distribution to $X_{t-s}$.
+\item Continuous in probability: For any $\epsilon > 0$ and $t\geq 0$ it holds that $\lim _{h\rightarrow 0}P(|X_{t+h}-X_{t}|>\epsilon )=0$. 
+\end{enumerate}
+\begin{shaded*}
+Two examples of L\'evy processes are Poisson process and Wiener process. 
+The distribution of Poisson process at time $t$ is Poisson with rate $\lambda t$ and the distribution of Wiener process at time $t$ is zero mean Gaussian with variance $t$. 
+\end{shaded*}
+\begin{thm} A L\'evy process has infinite divisibility. 
+That is, for all $n \in \N$ %the following equality holds 
+\begin{align*}
+\E e^{\theta X_t} &= \left(\E e^{\theta X_{{t}/{n}}}\right)^n.
+\end{align*}
+Further, if the process has finite moments $\mu_n(t) = \E X_t^n$ then the following Binomial identity holds
+\begin{align*}
+\mu_n(t+s) &= \sum_{k=0}^n\binom{n}{k}\mu_k(t)\mu_{n-k}(s).
+\end{align*}
+\end{thm}
+\begin{proof}
+The first equality follows from the independent and stationary increment property of the process, 
+and the fact that we can write 
+\begin{align*}
+X_t &= \sum_{k=1}^nX_{\frac{kt}{n}}-X_{\frac{(k-1)t}{n}}.
+\end{align*}
+Second property also follows from the the independent and stationary increment property of the process, 
+and the fact that we can write 
+\begin{align*}
+X_{t+s}^n &= (X_{t} + X_{t+s}-X_{t})^n = \sum_{k=0}^n\binom{n}{k}X_t^k(X_{t+s}-X_t)^{n-k}.
+\end{align*}
+
+\end{proof}
+%In particular, all the moments are shift invariant. 
+%Since $X_t = X_0$ and $(X_t,X_s) = (X_{t-s}, X_{0})$ in distribution, we have 
+%\begin{xalignat*}{5}
+%&m_X = \E X_0 , && R_X(t-s,0) = \E X_{t-s}X_0, && C_X(t-s,0) = R_X(t-s,0) - m_X^2.
+%\end{xalignat*}
+\end{document}
 \section{Examples of Stochastic Processes}
 \begin{exmp}[Queues] Queues are complex stochastic processes and consist of two stochastic processes arrival and service, coupled through a buffer. 
 Number of arrivals and arrival instants could be discrete or continuous random variable. 
@@ -158,7 +354,7 @@ Queues have applications in operations research, industrial engineering, telecom
 \begin{defn}[Poisson Process]
 A simple point process $\{N(t),~ t\geqslant0\} $ is called a \textbf{Poisson process} with rate $0< \lambda< \infty$, if inter-arrival times $\{X_{n},~n\geqslant 1\}$ are \emph{iid} $\exp(\lambda)$ random variables, i.e.
  \begin{equation*}
-  \Pr\{X_{1}\leqslant x\} = 
+  P\{X_{1}\leqslant x\} = 
 	\begin{cases}
 		1-e^{-\lambda x}, & x\geqslant 0   \\
 		0,  & \text{ else}.
@@ -170,13 +366,13 @@ A simple point process $\{N(t),~ t\geqslant0\} $ is called a \textbf{Poisson pro
 \begin{align*}
 \{S_{n}\leqslant t\} &=  \{N(t)\geqslant n \},\\
 \{S_{n}\leqslant t, S_{n+1}> t \} &= \{N(t)= n\},\quad\mathrm{and} \\
-\Pr\{X_{n} = 0\} &= \Pr\{X_n\leqslant 0\} = 0.
+P\{X_{n} = 0\} &= P\{X_n\leqslant 0\} = 0.
 \end{align*}
 Also, by Strong Law of Large Numbers (SLLN), 
 \begin{equation*}
 \lim_{n \to \infty} \frac{S_{n}}{n} = E[X_{1}] = \frac{1}{\lambda}\quad\mathrm{a.s.} 
 \end{equation*}
-Therefore, we have $S_n \rightarrow \infty$, a.s. This implies $\Pr\{\omega: N(t)(\omega) < \infty\} =1$. To see this, let's pick an $\omega \in \Omega$ such that $ N(t)(\omega) = \infty$, then $S_{n}(\omega)\leqslant t,\quad \forall n$. This implies $S_{\infty}(\omega)\leqslant t$  and $\omega \not\in \{\omega: S_{n}(\omega) \rightarrow \infty \}.$ Hence, probability measure for such $omega$'s is zero and the claim follows. 
+Therefore, we have $S_n \rightarrow \infty$, a.s. This implies $P\{\omega: N(t)(\omega) < \infty\} =1$. To see this, let's pick an $\omega \in \Omega$ such that $ N(t)(\omega) = \infty$, then $S_{n}(\omega)\leqslant t,\quad \forall n$. This implies $S_{\infty}(\omega)\leqslant t$  and $\omega \not\in \{\omega: S_{n}(\omega) \rightarrow \infty \}.$ Hence, probability measure for such $omega$'s is zero and the claim follows. 
 
 
 \subsection{Moment Generating Function and Density Function of $S_n$}
@@ -226,19 +422,19 @@ Process $N(t)$ is of real interest, and we can compute the distribution of $N(t)
 %\end{figure}
 \begin{thm}[Poisson process] Process $N(t)$ is Poisson distributed with parameter $\lambda$ for each $t$. That is,
 	\begin{equation*}
-	\Pr\{N(t)=n)\}= e^{-\lambda t}\frac{(\lambda t)^{n}}{n!}.
+	P\{N(t)=n)\}= e^{-\lambda t}\frac{(\lambda t)^{n}}{n!}.
 	\end{equation*}
 \end{thm}
 \begin{proof}
 
 \begin{eqnarray*}
-   \Pr\{N(t) =n\}&=&  \Pr\{S_{n}\leqslant t, S_{n+1} >t)\\
-   &=&  \int^{t}_{0} \Pr\left\{ {S_{n+1}>t}|{S_{n}=s}\right\}f_{S_n}(s)  ds\\
-   &\stackrel{(a)}{=}& \int^{t}_{0} \Pr\{X_{n+1}>t-s\} f_{S_n}(s) ds\\
+   P\{N(t) =n\}&=&  P\{S_{n}\leqslant t, S_{n+1} >t)\\
+   &=&  \int^{t}_{0} P\left\{ {S_{n+1}>t}|{S_{n}=s}\right\}f_{S_n}(s)  ds\\
+   &\stackrel{(a)}{=}& \int^{t}_{0} P\{X_{n+1}>t-s\} f_{S_n}(s) ds\\
    &=&  \int^{t}_{0}e^{-\lambda(t- s)} \frac{\lambda^{n}s^{n-1}}{(n-1)!}e^{-\lambda s}  ds\\
    &=&\frac{e^{-\lambda t} (\lambda t)^{n}}{n !}.
 \end{eqnarray*}
- where (a) follows from the memoryless property of exponential distribution. %($\Pr\{X_{n+1}>s+t|X_{k+1}>t)=\Pr\{X_{k+1}>s)$).\\
+ where (a) follows from the memoryless property of exponential distribution. %($P\{X_{n+1}>s+t|X_{k+1}>t)=P\{X_{k+1}>s)$).\\
 \end{proof}
 
 \textbf{Remark:} The Poisson process is not a stationary process. That is, the finite dimensional distributions (fdd) are not shift invariant. In the following section, we show that the Poisson process is a \textit{stationary,  independent increment} process. To this end, we will use an important property of exponential distribution- namely memoryless property. Memoryless property of exponential distribution will facilitate the computation of fdd of the Poisson process via one dimensional marginal distribution. 
@@ -247,7 +443,7 @@ Process $N(t)$ is of real interest, and we can compute the distribution of $N(t)
 \end{prop}
 
 %\begin{eqnarray*}    
-%            \Pr\{N(t1}& = &n_{1}),..., N(tk}=n_{k}\hspace{1.0cm} fdd
+%            P\{N(t1}& = &n_{1}),..., N(tk}=n_{k}\hspace{1.0cm} fdd
 %             \end{eqnarray*}
 %
 %We will S.t Poisson process has another very important property- Stationary indep. increment process\\
@@ -277,24 +473,24 @@ Process $N(t)$ is of real interest, and we can compute the distribution of $N(t)
 %$S>0, t> 0$\\
 %\begin{eqnarray*}
 %% \nonumber to remove numbering (before each equation)
-%  \Pr\{X>S +t / X>t) &=& \Pr\{X>S) \\
+%  P\{X>S +t / X>t) &=& P\{X>S) \\
 %  In \hspace{0.2cm}reliability\hspace{0.2cm} theory & x& life time\\
-%  \Pr\{X>t+S/ X>t) &\leqslant& \Pr\{X>S)
+%  P\{X>t+S/ X>t) &\leqslant& P\{X>S)
 %\end{eqnarray*}
 %Class of distr. satisfying ``New better than used distr''\\
 %\begin{eqnarray*}
 %X>t+s>S\\
-%\Pr\{X>s+t)/ X>t)\\
-%&=& \frac{\Pr\{X>S+t, X>t)}{\Pr\{X>t)}\\
-%&=& \frac{\Pr\{X>S+t)}{\Pr\{X>t)}\\
+%P\{X>s+t)/ X>t)\\
+%&=& \frac{P\{X>S+t, X>t)}{P\{X>t)}\\
+%&=& \frac{P\{X>S+t)}{P\{X>t)}\\
 %&=& e^{-\lambda S}\\
-%&=& \Pr\{X>S)
+%&=& P\{X>S)
 %\end{eqnarray*}
 \begin{proof}
-Let $X$ be a random variable with a distribution function $F$ with memoryless property defined on $\mathbb{R}^{+}$. Let $g(t) \triangleq \Pr\{X > t\} = 1 - F(t)$. Due to memoryless property of $F$, we notice that
+Let $X$ be a random variable with a distribution function $F$ with memoryless property defined on $\mathbb{R}^{+}$. Let $g(t) \triangleq P\{X > t\} = 1 - F(t)$. Due to memoryless property of $F$, we notice that
 \begin{eqnarray*}
-  \Pr\{X>s\} &=& \Pr\{ X > t+s| X>t\} \\
-  \Pr\{X>s\} &=& \frac{ \Pr\{ X>t+s, X>t\}}{\Pr\{X>t\}}.
+  P\{X>s\} &=& P\{ X > t+s| X>t\} \\
+  P\{X>s\} &=& \frac{ P\{ X>t+s, X>t\}}{P\{X>t\}}.
 \end{eqnarray*}
 Since $\{X > t + s\} =\{ X>t+s, X>t\}$, we have $g(t+s) = g(t)g(s)$ and hence $g(0) = g^2(0)$. Therefore, $g(0)$ is either unity or zero. Note, that $g$ is a right continuous (RC) function and is non-negative. 
 
@@ -315,7 +511,7 @@ Now, we can show that $g$ is exponential for any real positive $t$ by taking a s
 \begin{equation*}
 	g(t) \stackrel{(a)}{=} \lim_{n\rightarrow \infty} g(t_n) =   \lim_{n\rightarrow \infty} e^{\beta t_{n}}= e^{\beta t}.
 \end{equation*}
-Since $\Pr\{X > x\}$  is decreasing  with $x$, $\beta $ is negative.  
+Since $P\{X > x\}$  is decreasing  with $x$, $\beta $ is negative.  
 \end{proof}
 \begin{figure}[hhhh]
 \center
