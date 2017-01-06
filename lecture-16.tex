@@ -2,427 +2,258 @@
 % !TEX spellcheck = LaTeX
 \documentclass[a4paper,10pt,english]{article}
 \input{header}
-\title{Lecture 16: Reversibility}
+\title{Lecture 15 : Limiting Probabilities and Uniformization }%Time Reversibility of Discrete Time Markov Chains}
 \author{}
 \begin{document}
 \maketitle
 
-\section{Reversibility}
+\section{Limiting Probabilities}
+We denote by $\{S_n: n \in \N_0\}$ the jump times of CTMC and the probability transition of the embedded Markov chain is denoted by $P = \{p_{ij}: i \neq j \in I\}$. 
 \begin{defn}
-A stochastic process $X(t)$ is \textbf{reversible} if $(X(t_i): i \in [n])$ has the same distribution as $(X(\tau-t_i): i \in [n])$ for all $t_i, \tau \in I, i \in [n]$.
+If the embedded Markov chain is irreducible and positive recurrent then the stationary distribution $\alpha$ of the embedded Markov chain is a unique solution to
+\begin{align}
+\label{eq:StationaryDistribution}
+\alpha = \alpha P,~ \sum_{i}\alpha_i = 1.
+\end{align}
 \end{defn}
-\begin{lem} A reversible process is stationary.
-\end{lem}
-\begin{proof}
-Since $X(t)$ is reversible, both $(X(t_i): i\in [n])$ and $(X(\tau+t_i): i \in [n])$ have the same distribution as $(X(-t_i): i \in [n])$.
-\end{proof}
-\begin{thm} A stationary Markov chain with state space $I$ and probability transition matrix $P$ is reversible iff there exists a probability distribution $\pi$, that satisfy the detailed balanced conditions
+We denote the mean of inter-arrival time by 
+\begin{align*}
+\frac{1}{\nu_i} = \E[S_{n+1} - S_{n}|X(S_n) = i].
+\end{align*} 
+\begin{defn} First return time to a state $i$ for a stochastic process $\{X(t), t \geqslant 0\}$ is 
+\begin{align*}
+T_{ii} = \inf\{t > S_1 : X(0) = i, X(t) = i\}.
+\end{align*}
+\end{defn}
+\begin{thm} For a CTMC with the irreducible and positive recurrent embedded Markov chain with the stationary distribution $\alpha$, following holds for the limiting process,
 \begin{align}
-\label{eqn:DetBalCdnMC}
-\pi_iP_{ij} &= \pi_jP_{ji},~~~ \forall i,j \in I.
+\label{eq:LimitingProbability}
+ \pi_j \triangleq \lim_{t \rightarrow \infty } P_{ij}(t)= \frac{\alpha_j / \nu_j}{\sum_j \alpha_j /\nu_j},
 \end{align}
-When such a distribution $\pi$ exists, it is the equilibrium distribution of the process.
+From~\eqref{eq:LimitingProbability} and~\eqref{eq:StationaryDistribution}, we see that $\{\pi_j\}$ is the unique non-negative solution to 
+\begin{equation}
+\nu_j\pi_j=\sum_i \nu_i\pi_iP_{ij},~ \sum_j \pi_j =1.
+\end{equation}
 \end{thm}
-\begin{proof} We assume that $X(t)$ is reversible, and hence stationary. We denote the stationary distribution by $\pi$, and by reversibility of $X(t)$ we have
+\begin{proof} 
+For any CTMC on state space $I$, return to a state $i \in I$ is a renewal process. 
+We can define an alternating renewal process with on and off times characterized by the time CTMC spends in state $j$ and otherwise respectively.
+Therefore, by alternating delayed renewal process theory, we have
 \begin{align*}
-\Pr\{X(t) = i , X(t+1) = j\} &= \Pr\{X(t) = j, X(t+1) = i\},
-\end{align*}
-and hence we obtain the detailed balanced conditions~\eqref{eqn:DetBalCdnMC}. 
+\lim_{t \to \infty}\Pr\{ \text{CTMC is on at time } t\} = \lim_{t \to \infty}P_{ij}(t) = \frac{\E \tau_j }{\E T_{jj}}.
+\end{align*} 
 
-Conversely, let $\pi$ be the distribution that satisfies the detailed balanced conditions, then
-summing up both sides over $j \in I$, we see that this distribution is the equilibrium distribution.
-Let $j_i \in I$ for $i \in [m]$, and we write
+The time spent in state $j \in I$ during $k^\text{th}$ visit to this state is defined by
 \begin{align*}
-\Pr\{X(t+i-1) = j_{i-1}, i \in [m]\} &= \pi(j_0)\prod_{i=1}^mP_(j_{i-1},j_{i}),\\
-\Pr\{X(t'+i-1) = j_{m-i+1}, i \in [m]\} &= \pi(i_m)\prod_{j=m}^{1}P(j_i,j_{i-1}).
+\tau_j(k) = \inf\{ t > 0: X() = j\}.
 \end{align*}
-From detailed balanced equations~\eqref{eqn:DetBalCdnMC} it follows that RHS of above two equations are identical. Taking $\tau = t+t'+m$, we deduce that $X(t)$ is reversible.
-\end{proof}
-\begin{thm} A stationary Markov process with state space $I$ and generator matrix $Q$ is reversible iff there exists a probability distribution $\pi$, that satisfy the detailed balanced conditions
-\begin{align}
-\label{eqn:DetBalCdnMP}
-\pi_iQ_{ij} &= \pi_jQ_{ji},~~~ \forall i,j \in I.
-\end{align}
-When such a distribution $\pi$ exists, it is the equilibrium distribution of the process.
-\end{thm}
-\begin{proof} We assume that $X(t)$ is reversible, and hence stationary. We denote the stationary distribution by $\pi$, and by reversibility of $X(t)$ we have
+Number of visits to state $j$ in the first $m$ transitions of the CTMC is defined by
 \begin{align*}
-\Pr\{X(t) = i , X(t+\tau) = j\} &= \Pr\{X(t) = j, X(t+\tau) = i\},
+N_j(m) = \sum_{l=1}^m1_{\{X(S_l) = j\}}.
 \end{align*}
-and hence we obtain the detailed balanced conditions~\eqref{eqn:DetBalCdnMP} by taking limit $\tau \to 0$. 
-
-Conversely, let $\pi$ be the distribution that satisfies the detailed balanced conditions, then
-summing up both sides over $j \in I$, we see that this distribution is the equilibrium distribution. 
-Consider now the behavior of stationary process $X(t)$ in $[-T,T]$. 
-Process may start at time $-T$ in state $j_1$ and sees $m$ states by time $T$. 
-For $i \in [m-1]$, we can define 
-\begin{xalignat*}{5}
-&S_1 = -T,&&S_{i+1} = \inf\{t > S_{i}: X(t) \neq X(S_{i})\},&&S_{m+1} = T. 
+The proportion of time in state $j$ during the first $m$ transitions of the CTMC is 
+\begin{align*}
+\beta(m) &= \frac{\frac{N_j(m)}{m}\sum_{k=1}^{N_j(m)}\frac{\tau_j(k)}{N_j(m)}}{\sum_j \frac{N_j(m)}{m}\sum_{k=1}^{N_j(m)}\frac{\tau_j(k)}{N_j(m)}}.%,\\
+%&= \frac{\frac{N_i(m)}{m}\sum_{j=1}^{N_i(m)}Y_i(j)}{\sum_l \frac{N_i(m)}{m} \sum_{j=1}^{N_i(m)}Y_i(j) }.\\
+\end{align*}
+Since $N_j(m)\rightarrow \infty$ as $m \rightarrow \infty$, it follows from the strong law of large numbers that 
+\begin{xalignat*}{3}
+&\lim_{m \in \N}\frac{\sum_{k=1}^{N_j(m)}\tau_j(k)}{N_j(m)} = \E \tau_j, && \lim_{m \in \N}\frac{N_j(m)}{m} = \alpha_j.
 \end{xalignat*}
-That is, the process spends period $S_{i+1} - S_{i}$ in state $j_{i}$ for $i \in [m]$, and transitions to state $j_{i+1}$ at instant $S_{i+1}$ for $i \in [m-1]$. 
-Probability of this event is
-\begin{align*}
-\Pr\{X(t) = j_{i}, ~~t \in [S_{i}, S_{i+1}), i \in [m] \} &= \pi(j_1)\prod_{i=1}^{m-1}Q(j_{i},j_{i+1})\prod_{i=1}^me^{-\nu(j_i)(S_{i+1}-S_i)}. 
-\end{align*}
-Consider the stationary process that start in state $j_m$ at time $\tau-T$ %and sees $m$ states 
-such that, for $i \in [m]$
-\begin{align*}
-X(t) = j_{i}, &~~t \in [\tau-S_{i+1}, \tau-S_{i}).
-\end{align*}
-Probability of this event is
-\begin{align*}
-\Pr\{X(t) = j_{i}, ~~t \in [\tau-S_{i+1}, \tau-S_{i}), i \in [m]\} &= \pi(j_m)\prod_{i=2}^mQ(j_i,j_{i-1})\prod_{i=1}^me^{-\nu(j_i)(S_{i+1}-S_i)}.
-\end{align*}
-From detailed balance equation~\eqref{eqn:DetBalCdnMP} it follows that
-\begin{align*}
-\pi(j_1)\prod_{i=1}^{m-1}Q(j_{i},j_{i+1})&= \pi(j_m)\prod_{i=2}^mQ(j_i,j_{i-1}).
-\end{align*}
-Hence, it follows that $X(t)$ is reversible.
-%stays in this state for $h_m$ duration before jumps to state $-T+h_m$
-%Equality in above equation follows from detailed balance equations and the RHS is probability of event that process starts at time $-T$ in state $j_m$ and transitions $m-1$ times, 
-%where it stays in state $j_i$ for time $h_i$ and transitions to state $j_{i-1}$ afterwards. 
-%From detailed balanced equations it follows that RHS of above two equations are identical. Taking $\tau = t+t'+m$, we deduce that $X(t)$ is reversible.
+%and $ (E[\text{number of transitions between visits to state }i])^{-1}=\alpha_i$. Letting $m \rightarrow \infty$, result follows.
+%\begin{align*}
+%\lim_{t \to \infty}\Pr\{ \text{CTMC is on at time } t | X(0) = i\} = \lim_{t \to \infty}P_{ij}(t) = \lim_{t \to \infty}\frac{\Pr\{\text{CTMC is on during time }[0,t] |X(0) = t\}}{t} = \frac{\E \tau_j }{\E T_{jj}}.
+%\end{align*} 
 \end{proof}
 
-\begin{defn} \textbf{Probability flux} from state $i$ to state $j$ is defined as $\pi_iQ_{ij}$.
-\end{defn}
-
-\begin{lem} For a stationary Markov process, probability flux balances across a cut $A \subseteq I$, that is
-\begin{align*}
-\sum_{i \in A}\sum_{j \notin A} \pi_iQ_{ij} &= \sum_{i \in A}\sum_{j \notin A} \pi_jQ_{ji}.
-\end{align*}
-\end{lem}
-\begin{proof} From full balance condition $\pi Q = 0$, we get
-\begin{align*}
-\sum_{j \in A}\sum_{i \in I}\pi_iQ_{ij} = \sum_{j \in A}\sum_{i \in I}\pi_j Q_{ji} = 0.
-\end{align*}
-Further, we have the following identity
-\begin{align*}
-\sum_{j \in A}\sum_{i \in A}\pi_iQ_{ij} = \sum_{j \in A}\sum_{i \in A}\pi_j Q_{ji}.
-\end{align*}
-Subtracting the second identity from the first, we get the result.
-\end{proof}
-\begin{rem} For $A= \{i\}$, the above equation reduces to full balance equations
-\begin{align*}
-\sum_{i \in I}\pi_i Q_{ij} - \pi_jQ_{jj} = \sum_{i \neq j}\pi_iQ_{ij} = \sum_{i \neq j}\pi_j Q_{ji} = -\pi_jQ_{jj}.
-\end{align*}
+\begin{rem}
+The limiting probability $\pi_j$ is the long-run proportion of time the process is in state $j$.
 \end{rem}
 
-
-\begin{exmp}[An Ergodic Random Walk] Any ergodic, positive recurrent random walk is time reversible. The transition probability matrix is $P_{i,i+1}+P_{i-1,i}=1$. For every $n$ transitions from $i+1$ to $i$, there must be at least $n-1$ transitions from $i$ to $i+1$. The rate of transitions from $i+1$ to $i$ must hence be same as the number of transitions from $i$ to $i+1$. So the process is time reversible.
-\end{exmp}
-
-\begin{prop}
-An ergodic birth and death process is time reversible in steady state.
-\end{prop}
-\begin{proof}
-To prove the above, we must show that the rate at which the process goes from state $i$ to $i+1$ is equal to the rate of going from $i+1$ to $i$. But during any time interval of length $t$, the number of transitions from $i$ to $i+1$ should be within $1$ of the number of transitions from $i+1$ to $i$ (since the process is birth and death process. Hence, as $t \rightarrow \infty$,  both rates will be equal. 
-\end{proof}
-
-\begin{exmp}[The Metropolis Algorithm] Let $\{a_j \in \R_+,~ j \in [m]\}$ be set of positive numbers and let $A=\sum_{i=1}^{m}a_i$. Suppose our main goal is to simulate a sequence of independent random variables with $\pi_j = \frac{a_j}{A}$, where  $m$ is large and $A$ is difficult to compute directly. To generate such a sequence of random variables whose distribution converges to $\pi$, we simulate a Markov chain whose limiting probabilities are $\pi$. 
-%The Metropolis algorithm provides a convenient approach. 
-Let $Q$ be an irreducible transition probability matrix on the integers $[n]$ such that $Q = Q^T$. Generate a Markov chain $\{X_n\}$ such that the transition probabilities are given by 
-\begin{align*}
-P_{ij} = \begin{cases}
-       Q_{ij}\min\left(1,\frac{a_j}{a_i}\right), & j \neq i,\\
-       Q_{ii}+\sum_{j \neq i}Q_{ij}\left\{1-\min\left(1,\frac{a_j}{a_i}\right)\right\}, & j = i.
-     \end{cases}
-\end{align*} 
-It can be directly verified that the chain is irreducible and that $\pi$ is the equilibrium distribution.
-\end{exmp}
-
-%\begin{exmp}[Edge weighted graphs] Consider a graph having a positive number $w_{ij}$ associated with each edge $(i,j)$, and suppose that a particle moves from vertex to vertex in the following manner: If the particle is presently at vertex  $i$ then it will next move to vertex $j$ with probability
-%\begin{equation*}
-%P_{ij}=\frac{w_{ij}}{\sum_{j}w_{ij}}
-%\end{equation*}
-%where $w_{ij}$ is 0 if $(i,j)$ is not an edge of the graph. The Markov chain describing the sequence of vertices visited by the particle is called a random walk on an edge weighted graph. 
-%\end{exmp}
-%\begin{prop}
-%Consider a random walk on an edge weighted graph with a finite number of vertices. If this Markov chain is irreducible then it is, in steady state, time reversible with stationary probabilities given by 
-%\begin{equation*}
-%\alpha_i = \frac{\sum_{i}w_{ij}}{\sum_{j}\sum_{i}w_{ij}}.
-%\end{equation*}
-%\end{prop}
-%\begin{proof}
-%The time reversibility equation
-%\begin{equation*}
-%\alpha_iP_{ij}=\alpha_{j}P_{ji}
-%\end{equation*}
-%reduces to 
-%\begin{equation*}
-% \frac{\alpha_i w_{ij}}{\sum_{k}w_{ik}}=\frac{\alpha_j w_{ji}}{\sum_{k}w_{jk}}
-%\end{equation*}
-%But noting that $w_{ij}=w_{ji}$ and $\sum_{i}\alpha_i = 1$, we get the desired result.
-%\end{proof}
-
-\begin{defn}
-Consider a finite undirected graph $G = (I, E)$ with edge weights $w: E \to \R_+$. We can consider a random walk on this graph with states being location of particle on one of the nodes of this graph. Probability of movement of this particle from node $i$ to node $j$ on edge $E = (i,j)$ is defined by 
-\begin{align*}
-P_{ij} = \frac{w_{ij}}{\sum_{\{i,k\} \in E}w_{ik}}.
-\end{align*}
-The Markov chain describing the sequence of vertices visited by the particle is called a \textbf{random walk on an edge weighted graph}. 
-\end{defn}
-\begin{lem} Reversible Markov chain is equivalent to random walk on undirected graphs.
-\end{lem}
-\begin{proof} First we show that random walk on undirected graphs is a reversible Markov chain. Let 
-\begin{align*}
-\pi_i = \frac{w_i}{w_G}, \text{ where } w_G = \sum_{i \in I}w_i =  \sum_{i \in I}\sum_{\{i,j\} \in E}w_{ij}.
-\end{align*} Then, it is easy to check that this is an equilibrium distribution and
-\begin{align*}
-\pi_iP_{ij} &= \pi_jP_{ji}.
-\end{align*} 
-
-Conversely, let $X(t)$ be a reversible Markov chain on finite state-space $I$ and transition matrix $P$. We create a graph $G = (I,E)$, where $\{i,j\} \in E$ if $P_{ij} > 0$. We define 
-\begin{align*}
-w_{ij} \triangleq \pi_i P_{ij} = \pi_jP_{ji} = w_{ji}.
-\end{align*}
-With this choice of weights $w_i = \pi_i$, the transition matrix associated with this network is $P$.
-\end{proof}
-
-\subsection{Necessary condition for time reversibility}
-If we try to prove the equations necessary for time reversibility, $x_iP_{ij}=x_jP_{ji}$ for all $i,j \in I$, for any arbitrary Markov chain, one may not end up getting any solution. This is so because, if $P_{ij}P_{jk}>0$, then $\frac{x_i}{x_k}=\frac{P_{kj}P_{ji}}{P_{ij}P_{jk}} \neq \frac{P_{ki}}{P_{ik}}$.\\
-Thus we see that a necessary condition for time reversibility is $P_{ij}P_{jk}P_{ki}=P_{ik}P_{kj}P_{ji},~ \forall i,j,k$. In fact we can show the following.
-\begin{thm}
-A stationary Markov chain is time reversible if and only if starting in state $i$
-, any path back to state $i$ has the same probability as the reversed path, for all $i$. That is, if
-\begin{flalign*}
-P_{i i_1}P_{i_1 i_2}\hdots P_{i_k i}=P_{i,i_k}P_{i_k i_{k-1}} \hdots P_{i_1,i}.
-\end{flalign*} 
-\end{thm}
-
-\begin{proof}
-The proof of necessity is as indicated above. To see the sufficiency part, fix states $i,j$
-\begin{flalign*}
-&\sum_{i_1,i_2,\hdots i_{k}}P_{ii_1}\hdots P_{i_k,j}P_{j,i}=\sum_{i_1,i_2,\hdots i_{k}}P_{i,j}P_{j,i_k}\hdots P_{i_1 i}\\
-&(P^k)_{ij}P_{ji}=P_{ij}(P^k)_{ji}\\
-&\frac{\sum_{k=1}^{n}(P^k)_{ij}P_{ji}}{n}= \frac{\sum_{k=1}^{n}P_{ij}(P^k)_{ji}}{n}
-\end{flalign*}
-As limit $n \rightarrow \infty$, we get the desire result.
-\end{proof}
-
-\section{Reversed Processes}
-\begin{defn} Let $X(t)$ be a stochastic process then $X(\tau-t)$ is the reversed process.
-\end{defn}
-\begin{lem} If $X(t)$ is a time homogeneous non-stationary Markov chain then the reversed process $X(\tau -t)$ is a non time-homogenous Markov chain.
-\end{lem}
-\begin{proof} Let $\F_m = \cup_{k \geq m}\{X_k = i_k\}$. Then, we can write
-\begin{align*}
-\Pr\{X_{m-1}=i|X_m=j,\F_{m+1}\} %&= \frac{\Pr\{X_{m-1}=i,X_m=j, \F_{m+1} \}}{\Pr\{X_m=j, \F_{m+1}\}}\\
-&=\frac{\Pr\{X_{m-1}=i|X_m=j\}\Pr\{\F_{m+1} |X_{m-1}=i,X_m=j \}}{\Pr\{\F_{m+1} |X_m=j\}}.
-\end{align*}
-Result follows from Markov property of $X(t)$, i.e.
-\begin{align*}
-Pr\{\F_{m+1} |X_m= j, X_{m-1} = i \} &=\Pr\{\F_{m+1}|X_m=j\}.
-\end{align*}
-\end{proof}
-%\begin{lem}  If $X(t)$ is a stationary Markov chain with transition matrix $P$ and equilibrium distribution $\alpha$, then the reversed chain $X(\tau -t)$ is a stationary Markov chain with same equilibrium distribution $\alpha$ and transition matrix $P^{\ast}$ such that
-%\begin{align*}
-%P^{\ast}_{ij} = \frac{\alpha_j}{\alpha_i}P_{ji}.
-%\end{align*}
-%\end{lem}
-%\begin{proof} Easy to verify from definition of reversibility that 
-%\begin{align*}
-%\Pr\{X(t+1) = j, X(t) = i\} = \Pr\{X(t+1) = i, X(t) = j\}.
-%\end{align*}
-%Also, it's easy to check that $\alpha P^{\ast} = \alpha$.
-%\end{proof}
-
-\begin{lem} If $X(t)$ is a stationary Markov process with generator matrix $Q$ and equilibrium distribution $\pi$, then the reversed process $X(\tau -t)$ is a stationary Markov process with same equilibrium distribution $\pi$ and generator matrix $Q^{\ast}$ such that
-\begin{align*}
-Q^{\ast}_{ij} = \frac{\pi_j}{\pi_i}Q_{ji}.
-\end{align*}
-\end{lem}
-\begin{proof} Easy to verify from definition of reversibility that 
-\begin{align*}
-\Pr\{X(t+h) = j, X(t) = i\} = \Pr\{X(t+h) = i, X(t) = j\}.
-\end{align*}
-Also, it's easy to check that $\pi Q^{\ast} = 0$.
-\end{proof}
-
-%%The sequence $\{X_n,X_{n-1} \hdots \}$ is called reverse process. Let $P^*$ denote the transition probability matrix. 
-%%\begin{flalign*}
-%%P_{ij}^*&=P(X_{n-1}=j|X_n=i)=\frac{P(X_{n-1}=j,X_n=i)}{P(X_n=i)}\\
-%%&=\frac{P(X_{n-1}=j)P(X_n=i|X_{n-1}=j)}{P(X_{n}=i)}\\
-%%&=\frac{P(X_{n-1}=j)}{P(X_{n}=i)}P_{ji}
-%%\end{flalign*}
-%%suppose we are considering a stationary Markov chain, $P(X_n=l)=P(X_{n-1}=l)=\alpha(l),~\forall l$, $\alpha(i){P^*}_{ij}=\alpha(j)(P)_{ji}$. 
-%\begin{lem} A stationary Markov chain with transition matrix $P$ is reversible if the reversed process follows the same probabilistic law as the original process, i.e. $P^*= P$. Any non-negative vector $\alpha$ satisfying $\alpha_iP_{ij}=\alpha_jP_{ji},~\forall i,j \in I$ and $\sum_{j \in I}\alpha_j=1$ is stationary distribution of this Markov chain. 
-%\end{lem}
-\begin{lem} A stationary Markov process with generator matrix $Q$ is reversible if the reverses process follows the same probabilistic law as the original process, i.e. $Q^*= Q$. Any non-negative vector $\pi$ satisfying $\pi_iQ_{ij}=\pi_jQ_{ji},~\forall i,j \in I$ and $\sum_{j \in I}\pi_j=1$ is stationary distribution of this Markov process. 
-\end{lem}
-%\begin{proof} Let $\pi$ be a stationary distribution of  Since $Q^{\ast}_{ij} = \frac{\pi_j}{\pi_i}Q_{ji}$ and the condition for time reversibility is given by $\pi_i Q_{ij}=\pi_jQ_{ji}$. This is true because,
+%\begin{defn} We denote \textbf{stationary distribution} of an irreducible and positive recurrent CTMC $P(t)$ by $\pi$ such that for all $t > 0$
+%\begin{align}
+%\label{eq:StationaryCTMCDistribution}
+%\pi = \pi P(t),~~ \sum_{i}\pi_i = 1.
+%\end{align}
+%\end{defn}
 %
-%It is clear that $\pi$ is an equilibrium distribution of forward Markov process, since
-%\begin{align*}
-%\sum_{i} \pi_i Q_{ij}=\sum_i \pi_j Q_{ji}=\pi_j \sum \alpha_i = 1.
-%\end{align*}
-%Since stationary probabilities are the unique solution of the above, the claim follows.
-%\end{proof}
-%\begin{proof} The condition for time reversibility is given by $\alpha_i P_{ij}=\alpha_jP_{ji}$. This is true because,
-%\begin{align*}
-%\sum_{i} \alpha_i P_{ij}=\sum_i \alpha_j P_{ji}=\alpha_j \sum \alpha_i = 1.
-%\end{align*}
-%Since stationary probabilities are the unique solution of the above, the claim follows.
-%\end{proof}
+%Since a Continuous Time Markov Chain (CTMC) is a semi-Markov chain with $F_{ij}(t)=1-e^{\nu_i t}$. From the theory of semi-Markov process, if the embedded Markov chain with transition probabilities $P_{ij}$ is irreducible and positive recurrent, then the limiting process,
+%\begin{align}
+%\label{eq:LimitingProbability}
+%\pi_j \triangleq \lim_{t \rightarrow \infty } P_{ij}(t)= \frac{\alpha_j / \nu_j}{\sum_j \alpha_j /\nu_j},
+%\end{align}
+%where $\alpha_i$ is the stationary distribution of the embedded Markov chain. From \ref{eq:LimitingProbability} and \ref{eq:StationaryDistribution}, we see that $\{\pi_j\}$ is the unique non-negative solution to 
+%\begin{equation}
+%\nu_j\pi_j=\sum_i \nu_i\pi_iP_{ij},~ \sum_j \pi_j =1.
+%\end{equation}
 
-
-%\subsection{Time Reversibility of Discrete Time Markov Chains}
-%Consider a discrete time Markov chain with transition probability matrix $P$ and stationary probability vector $\alpha$.\\
-%\textbf{Claim:} The reversed process is a Markov chain.
-%\begin{proof}
-%\begin{flalign*}
-%&P(X_{m-1}=i|X_m=j,X_{m+1}=i_{m+1} \hdots )=\frac{P(X_{m-1}=i,X_m=j, \hdots )}{P(X_m=j, X_{m+1}=i_{m+1}\hdots )}\\
-%&=\frac{P(X_{m-1}=i,X_m=j)P(X_{m+1}=i_{m+1}\hdots |X_{m-1}=i,X_m=j  )}{P(X_m=j)P(X_{m+1}=i_{m+1} \hdots |X_m=j)}\\
-%&\stackrel{(a)}{=}\frac{P(X_{m-1}=i,X_m=j)P(X_{m+1}=i_{m+1}\hdots |X_m=j  )}{P(X_m=j)P(X_{m+1}=i_{m+1} \hdots |X_m=j)}\\
-%&=P(X_{m-1}=i|X_m=j).\\
-%\end{flalign*}
-%where $(a)$ follows from the Markov property.
-%\end{proof}
-%The sequence $\{X_n,X_{n-1} \hdots \}$ is called reverse process. Let $P^*$ denote the transition probability matrix. 
-%\begin{flalign*}
-%P_{ij}^*&=P(X_{n-1}=j|X_n=i)=\frac{P(X_{n-1}=j,X_n=i)}{P(X_n=i)}\\
-%&=\frac{P(X_{n-1}=j)P(X_n=i|X_{n-1}=j)}{P(X_{n}=i)}\\
-%&=\frac{P(X_{n-1}=j)}{P(X_{n}=i)}P_{ji}
-%\end{flalign*}
-%suppose we are considering a stationary Markov chain, $P(X_n=l)=P(X_{n-1}=l)=\alpha(l),~\forall l$, $\alpha(i){P^*}_{ij}=\alpha(j)(P)_{ji}$. If $P^*=P^T$ then the Markov chain is called time reversible. Thus the condition for time reversibility is given by $\alpha P_{ij}=\alpha_jP_{ji}$. Any non-negative vector $X$ satisfying $X_iP_{ij}=X_jP_{ji},~\forall i,j$ and $\sum_{j \in \mathcal{N}_0}X_j=1$ is stationary distribution of time-reversible Markov chain. This is true because,
-%\begin{flalign*}
-%\sum_{i} X_i P_{ij}=\sum_i X_j P_{ji}=X_j \sum X_i = 1.
-%\end{flalign*}
-%Since stationary probabilities are the unique solution of the above, the claim follows.\\
-
-
-
-\subsection{Example 4.7(E): Example 4.3(C) revisited}
-Example 4.3(C) was with regard to the age of a renewal process. $X_n$ the forward process there was such that it increases in steps of 1 until it hits a value chosen by the inter arrival distribution. Hence the reverse process should be such that it decreases in steps of 1 until it hits 1 and then jumps to a state as chosen by the inter arrival distribution. Thus letting $\pi_i$ as the probability of inter arrival, it seems likely that  $P_{1i}*=\pi_i, ~ P_{i,i-1}=1,~ i > 1$. We have that $P_{i,1}=\frac{\pi_i}{\sum_{j \geq 1}\pi_j}=1-P_{i,i+1}, ~ i \geq 1$. For the reversed chain to be given as above, we would need 
+\begin{lem}
+For an irreducible CTMC with transition probability $P(t)$, if the initial state is chosen according to the limiting probability distribution $\pi$, then the resultant process will be stationary. That is,
+\begin{equation*}
+\pi P(t)=\pi,~ \text{for all}~ t > 0.
+\end{equation*}
+\end{lem}
+\begin{proof}
 \begin{flalign*}
-&\alpha_i P_{ij}=\alpha_j P_{ji}^*\\
-&\alpha_i \frac{\pi_i}{\sum_j \pi_j}=\alpha_1 \pi_i\\
-&\alpha_i=\alpha_1 P(X \geq i)\\
-&1=\sum_i \alpha_i=\alpha_1 E[X]; \alpha_i=\frac{P(X \geq i)}{E[X]}, 
+\sum_{i}P_{ij}(t)\pi_i &=\sum_{i}P_{ij}(t)\lim_{s \rightarrow \infty}P_{ki}(s) =\lim_{s \rightarrow \infty} \sum_{i}P_{ij}(t)P_{ki}(s) =\lim_{s \rightarrow \infty}P_{kj}(t+s) =\pi_j.
 \end{flalign*}
-where $X$ is the inter arrival time. We need to verify that $\alpha_i P_{i,i+1}=\alpha_{i+1}P^*_{i+1,i}$ or equivalently $P(X \geq i)(1-\frac{\pi_i}{P(X \geq i)})=P(X \geq i)$ to complete the proof that the reversed process is the excess process and the limiting distributions are as given above. But that is immediate.
+\end{proof} 
+
+\begin{rem}
+Another way of arriving at the limiting probabilities are by forward equations
+\begin{equation}
+P_{ij}'(t)=\sum_{k \neq j}q_{kj}P_{ik}(t)-\nu_iP_{ij}(t).
+\end{equation}
+Assume that the limiting probabilities exist. Then, since $P_{ij}(t)$ are necessarily bounded, it is easy to observe that $P_{ij}'(t) \rightarrow 0$ as $t \rightarrow \infty$. Letting $t \rightarrow \infty$, assuming that the limit and summation can be exchanged, we get 
+\begin{align}
+\nu_j \pi_j = \sum_{k\not=j} q_{kj} \pi_k = \sum_k \nu_k P_{kj} \pi_k.
+\end{align}
+Letting $\gamma_j :=\pi_j \nu_j$, we see that $\gamma_j$ satisfies the relations for the steady state equation of the embedded Markov chain, but for a scale factor. Hence $\gamma_j = \frac{\alpha_j}{\sum_k \alpha_k}$, and we obtain the expression for $\pi_j$. 
+\end{rem}
+\begin{rem}
+In any interval $(0,t)$, the number of transitions into state $j$ must equal to within 1 the number of transitions out of state $j$. Hence, in the long run, The rate at which transitions occur into state $j$ = The rate at which transitions occur out of state $j$. That is,
+\begin{equation}
+\nu_i \pi_i =\sum_{ i}\pi_i q_{ij}. 
+\end{equation} 
+ Hence,
+ \begin{equation}
+ \nu_iP_{ij}=\sum_{i}\pi_iq_{ij},~ \sum_j \pi_j =1.
+ \end{equation}
+ are called balance equations.
+\end{rem}
+
+\section{Uniformization}
+Consider a continuous-time Markov chain in which the mean time spent in a state is the same for all states. That is, say $\nu_i=\nu$ for all states $i$. Let $N(t)$ denote the number of state transitions by time $t$. Since the amount of time spent in each state is  exponential $\nu$, $\{N(t), ~ t \geq 0 \}$ is a Poisson process with parameter $\nu$. To compute the transition probabilities $P_{ij}(t)$, we can condition on $N(t)$ as follows:
+\begin{flalign*}
+P_{ij}(t)&=Pr(X(t)=j|X(0)=i)\\
+&=\sum_{n \in \mathbb{N}_0} Pr(X(t)=j,N(t)=n|X(0)=i)\\
+&=\sum_{n \in \mathbb{N}_0} Pr( N(t)=n|X(0)=i) Pr(X(t)=j|X(0)=i,N(t)=n).
+\end{flalign*}
+Hence,
+\begin{equation*}
+P_{ij}(t)= \sum_{n \in \mathbb{N}_0} P_{ij}^{(n)}e^{-\nu t}\frac{(\nu t)^n}{n !}.
+\end{equation*}
+The above equation helps to compute $P_{ij}(t)$ approximately by computing an appropriate partial sum. But its application is limited as the rates are all assumed to be equal. But it so turns out that most Markov chains can be put in that form by allowing hypothetical transitions from a state to itself.
+\subsection{Uniformization step}
+Consider a CTMC with bounded $\nu_i$s. Choose $\nu$ such that 
+\begin{equation}
+\label{eq: UniformizationBound}
+\nu_i \leq \nu,
+\end{equation}
+for all $i$. Since from each stage, the Markov chain leaves at rate $\nu_i$, we could equivalently assume that the transitions occur at a rate $\nu$ but only $\frac{\nu_i}{\nu}$ are real transitions and the remaining transitions are fictitious. Any Markov chain satisfying \eqref{eq: UniformizationBound} can be thought of as being in a process that spends an exponential amount of time with rate $\nu$ in state $i$ and then makes a transition to state $j$ with probability $P_{ij}^*$, where
+\begin{equation}
+P_{ij}^* = \left\{
+     \begin{array}{lr}
+       1-\frac{\nu_i}{\nu} & : j =i\\
+       \frac{\nu_i}{\nu}P_{ij} & : j \neq i.
+     \end{array}
+   \right.
+\end{equation}   
+The transition probabilities are computed by 
+\begin{equation*}
+P_{ij}(t)=\sum_{n=0}^{\infty}P_{ij}^{*n}e^{\nu t} \frac{{(\nu t)}^n}{n!}
+\end{equation*}
+This technique of uniformizing the rate in which a transition occurs from each state to state by introducing self transitions is called uniformization.
 
 
-%\subsection{Time Reversibility for CTMC}
-%\begin{prop}
-%Markov property holds going backward in time. i.e.
-%\begin{equation*}
-%Pr(X(t-s)=j|X(t)=i,X(y), y > t)=Pr(X(t-s)=j|X(t)=i).
-%\end{equation*}
-%\begin{proof}
-%\begin{flalign*}
-%&Pr(X(t-s)=j|X(t)=i, X(y), y>t)=\frac{Pr(X(t-s)=j, X(t)=i, X(y), y>t)}{Pr(X(t)=i, X(y), y>t)}\\
-%&\stackrel{(a)}{=}\frac{Pr(X(t-s)=j)Pr(X(t)=i|X(t-s)=j)Pr(X(y), y>t|X(t)=i)}{Pr(X(t)=i, X(y), y>t)}\\
-%&\stackrel{}{=}\frac{Pr(X(t-s)=j)Pr(X(t)=i|X(t-s)=j)}{Pr(X(t)=i)}\\
-%&\stackrel{}{=}Pr(X(t-s)=j|X(t)=i).\\
-%\end{flalign*}
-%where $(a)$ follows from the Markov property of forward chain.  
-%\end{proof}
-%\end{prop}
-%Now we would like to characterize the sojourn time in each state. Since the amount of time spent in each state is same whether in forward or backward direction, one expects the sojourn time for the reverse chain to be exponential with the same parameter $\nu_i$. We can verify this formally:
-%\begin{flalign*}
-%&Pr(\text{Process in state i during [t-s,t]}|X(t)=i)\\
-%&= {Pr(\text{Process in state i during [t-s,t]})}/{Pr(X(t)=i)}\\
-%&= \frac{Pr(X(t-s)=i)e^{-\nu_i s}}{Pr(X(t)=i)}=e^{-\nu_i s}.\\
-%\end{flalign*}
-%Next, we would like to characterize the transition probabilities of the reversed chain. The sequence of states visited by the reverse process constitutes a discrete-time Markov chain with transition probabilities $P_{ij}^*$ give by 
-%\begin{equation}
-%P_{ij}^*= \frac{\pi_jP_{ji}}{\pi_i},
-%\end{equation} 
-%where $\{\pi_i,~ i \geq 0\}$ are the stationary probabilities of the embeddede discrete time Markov chain with transition probabilities $P_{ij}$. Denote 
-%\begin{equation}
-%q_{ij}^*=\nu_iP_{ij}^*
-%\end{equation}
-%as the infinitesimal rates of the reversed process. Using the previous formula for $P_{ij}^*$ we see that
-%\begin{equation}
-%q_{ij}^*=\frac{\nu_i\pi_jP_{ji}}{\pi_i}.
-%\end{equation} 
-%Recall that 
-%\begin{equation}
-%P_{k}=\frac{\pi_k / \nu_k}{\sum_{i}\pi_i / \nu_i},
-%\end{equation}
-%we see that 
-%\begin{equation}
-%\frac{\pi_i}{\pi_j}=\frac{\nu_j P_j}{\nu_i P_i}.
-%\end{equation}
-%Hence, 
-%\begin{equation}
-%q_{ij}^*=\frac{\nu_j P_{j}P_{ji}}{P_i}= \frac{P_jq_{ji}}{P_i}.
-%\end{equation}
-%That is,
-%\begin{equation*}
-%P_{i}q_{ij}^*=P_{j}q_{ji}.
-%\end{equation*}
-%Form the above equation, it is obvious that 
-%\begin{equation*}
-%\sum_{i}P_i q_{ij}^*=0.
-%\end{equation*} 
-%This implies that $P_j,~j \geq 0$ are the stationary probabilities for the reverse chain as $P_j$s satisfy the balance equations.
-%\begin{defn}
-%A stationary CTMC is said to be time reversible if the reverse process follows the same probabilistic law as the original process. That is, if, for all $i,j$
-%\begin{equation*}
-%q_{ij}^*= q_{ij} \iff P_{i}q_{ij}=P_jq_{ji}.
-%\end{equation*} 
-%\end{defn} 
 
 
-\subsection{Simple Queues}
-\begin{cor} Number of customers in a simple M/M/1 queue at equilibrium is a reversible Markov process.
+
+\subsection{Semi Markov Processes}
+Consider a stochastic process with states $0,1,2 \hdots$ such that whenever it enters state $i$,
+\begin{enumerate}
+\item {The next state it enters is state $j$ with probability $P_{ij}$.}\\
+\item {Given the next state is going to be $j$, the time until the next transition from state $i$ to state $j$ has distribution $F_{ij}$. If we denote the state at time $t$ to be $Z(t)$, $\{Z(t), t \geq 0\}$ is called a Semi Markov process.}
+\end{enumerate}
+
+Markov chain is a semi Markov process  with 
+
+\begin{flalign*} 
+  F_{ij}(t) = \left\{
+     \begin{array}{lr}
+       0 & : t \leq 1 \\
+       1 & : t > 1.
+     \end{array}
+   \right.
+\end{flalign*}
+
+Let $H_i$ the distribution of time the semi Markov process stays in state $i$ before transition. We have $H_j(t)= \sum_i P_{ij}F_{ij}(t)$, $\mu_i = \int_0 ^ \infty X dH_i(x)$. Let $X_n$ denote the $n^{\text{th}}$ state visited. Then $\{X_n\}$ is a Markov chain with transition probability $P$ called the embedded Markov chain of the semi Markov process. \\
+\begin{defn}If the embedded Markov chain is irreducible, then the Semi Markov process is said to be irreducible. 
+\end{defn}
+Let $T_{ii}$ denote the time between successive transitions to state $i$. Let $\mu_{ii}=E[T_{ii}]$.
+\begin{thm}
+If the semi Markov process is irreducible and if $T_{ii}$ has non-lattice distribution with $\mu_{ii}< \infty$ then, 
+\begin{flalign*}
+\pi_i=\lim_{t \rightarrow \infty}P(Z(t)=i|Z(0)=j)
+\end{flalign*}
+exists and is independent of the initial state. Furthermore, $\pi_i=\frac{\mu_i}{\mu_{ii}}$.
+\end{thm}
+\begin{cor}
+If the semi-Markov process is irreducible and $\mu_{ii}<\infty$, then with probability 1,
+$\frac{\mu_i}{\mu_{ii}}=\frac{\lim_{t \rightarrow \infty} \text{Amount of time in [0,t]}}{t}~\text{a.s}$.\\
 \end{cor}
 
-\begin{thm}[PASTA] Poisson arrivals see time averages.
-\end{thm}
-\begin{thm}[Little's law] Consider a stable single server queue. Let $T_i$ be waiting time of customer $i$, $N(t)$ be the number of customers in the system at time $t$, and $A(t)$ be the number of customers that entered system in duration $[0,t)$, then
-\begin{align*}
-\lim_{t \to \infty}\frac{\int_{0}^tN(u)du}{t} &= \lim_{t \to \infty} \frac{\sum_{i=1}^{A(t)}T_i}{A(t)}.
-\end{align*} 
+
+
+
+\begin{thm}
+Suppose conditions of the previous thmrem hold and the embedded Markov chain is positive recurrent. Then $\pi_i= \frac{\alpha_i\mu_i}{\sum_{i}\alpha_j \mu_j}$. 
+\end{thm} 
+\begin{proof}
+Define the notation as follows:
+
+$Y_i(j)=$ amount of time spent in state $i$ during $j^\text{th}$ visit to that state. $i,j \geq 0$. \\
+$N_i(m)=$ number of visits to state $i$ in the first $m$ transitions of the semi-Markov process.\\
+
+The proportion of time in $i$ during the first $m$ transitions:\\
+
+\begin{flalign*}
+P_{i=m}&= \frac{\sum_{j=1}^{N_i(m)}Y_i(j)}{\sum_l \sum_{j=1}^{N_i(m)}Y_i(j) }\\
+&= \frac{\frac{N_i(m)}{m}\sum_{j=1}^{N_i(m)}Y_i(j)}{\sum_l \frac{N_i(m)}{m} \sum_{j=1}^{N_i(m)}Y_i(j) }\\
+\end{flalign*}
+Since $N_i(m)\rightarrow \infty$ as $m \rightarrow \infty$, it follows from the strong law of large numbers that $\frac{\sum_{i=2}^{N_i(m)}Y_i(j)}{N_i(m)}\rightarrow \mu_i$ and $\frac{N_i(m)}{m}\rightarrow (E[\text{number of transitions between visits to state }i])^{-1}=\alpha_i$. Letting $m \rightarrow \infty$, result follows.
+\end{proof}
+\begin{thm}
+If Semi Markov process is irreducible  and non lattice, then $\lim_{t \rightarrow \infty}P(Z(t)=i,Y(t)>x,S(t)=j|Z(0)=k)=\frac{P_{ij}\int_x^\infty F_{ij}^c(y)d(y)}{\mu_{ii}}$. Let $Y(t)$ denote the time from $t$ until the next transition. $S(t)$ state entered at the first transition after $t$. 
 \end{thm}
 \begin{proof}
-Let $A(t), D(t)$ respectively denote the number of arrivals and departures in time $[0,t)$. Then, we have 
-\begin{align*}
-\sum_{i=1}^{D(t)}T_i \leq \int_{0}^tN(u)du \leq \sum_{i=1}^{A(t)}T_i.
-\end{align*}
-Further, for a stable queue we have
-\begin{align*}
-\lim_{t \to \infty}\frac{D(t)}{t} = \lim_{t \to \infty}\frac{A(t)}{t}.
-\end{align*}
-Combining these two results, the theorem follows.
+The trick lies in defining the ``ON" time. 
+\begin{flalign*}
+E[\text{ON time in a cycle}]=E[(X_{ij}-x)^+].
+\end{flalign*}
 \end{proof}
+\begin{cor}
+\begin{flalign*}
+\lim_{t \rightarrow \infty} P(Z(t)=i, Y(t) >x|Z(0)=k)= \frac{\int_{x}^{\infty}H_i^c(y)d(y)}{\mu_{ii}}.
+\end{flalign*}
+\end{cor}
 
-\subsection{Truncated Reversible Processes}
 
-%\begin{cor}
-%Consider an M/M/s queue with Poisson$(\lambda)$ arrivals and each server having exponential service time $\exp(\mu)$ service. If $\lambda > s \mu$, then the output process in steady state is Poisson$(\lambda)$.
-%\end{cor}
-%\begin{proof}
-%Let $X(t)$ denote the number of customers in the system at time $t$. Since M/M/s process is a birth and death process, it follows from the previous proposition that $\{X(t),~t \geq 0\}$ is time reversible. Now going forward in time, the time instants at which $X(t)$ increases by 1 are the arrival instants of a Poisson process. Hence, by time reversibility, the time Points at which $X(t)$ increases by 1 when we go backwards in time also constitutes a Poisson process. But these instants are exactly the departure instants of the forward process. Hence the result.
-%\end{proof}
-\begin{prop}
-A time-reversible chain with limiting probabilities $\pi_j,~ j \in I$, that is truncated to the set $A\subseteq I$ and remains irreducible is also time reversible and has limiting probabilities 
-\begin{align*}
-\pi_j^A&=\frac{\pi_j}{\sum_{i \in A}\pi_i},~ j \in A.
-\end{align*}
-\end{prop}
+Since a Continuous Time Markov Chain (CTMC) is a semi-Markov chain with $F_{ij}(t)=1-e^{\nu_i t}$. From the theory of semi-Markov process, if the embedded Markov chain with transition probabilities $P_{ij}$ is irreducible and positive recurrent, then the limiting process,
+\begin{align}
+\label{eq:LimitingProbability}
+\pi_j \triangleq \lim_{t \rightarrow \infty } P_{ij}(t)= \frac{\alpha_j / \nu_j}{\sum_j \alpha_j /\nu_j},
+\end{align}
+where $\alpha_i$ is the stationary distribution of the embedded Markov chain. From \ref{eq:LimitingProbability} and \ref{eq:StationaryDistribution}, we see that $\{\pi_j\}$ is the unique non-negative solution to 
+\begin{equation}
+\nu_j\pi_j=\sum_i \nu_i\pi_iP_{ij},~ \sum_j \pi_j =1.
+\end{equation}
+
+\begin{rem}
+From the theory of semi-Markov process, it also follows that $\pi_j$ also equals the long-run proportion of time the process is in state $j$.
+\end{rem}
+\begin{rem}
+If the initial state is chosen according to the limiting probabilities $\{\pi_j\}$ then the resultant process will be stationary. That is,
+\begin{equation*}
+\sum_i \pi_iP_{ij}(t)=\pi_j,~ \text{for all}~ t.
+\end{equation*}
 \begin{proof}
-We must show that 
-\begin{align*}
-\pi_i^AQ_{ij}&=\pi_j^AQ_{ji},~ i \in A,~ j \in A,
-\end{align*}
-or equivalently,
-\begin{align*} 
-\pi_iQ_{ij}&=\pi_jQ_{ji},~ i \in A,~ j \in A.
-\end{align*}
-But this is true as the original chain is time reversible.
-\end{proof}
-\begin{exmp}[Two queues with joint waiting room] Consider two independent M/M/1 queues with arrival and service rates $\lambda_i$ and $\mu_i$ respectively for $i \in [2]$. Then, joint distribution of two queues is
-\begin{align*}
-\pi(n_1,n_2) &= (1 -\rho_1)\rho_1^{n_1}(1-\rho_2)\rho_2^{n_2},~~n_1,n_2 \in \N_0. 
-\end{align*}
-Suppose both the queues are sharing a common waiting room, where if arriving customer finds $R$ waiting customer then it leaves. In this case,
-\begin{align*}
-\pi(n_1,n_2) &= (1 -\rho_1)\rho_1^{n_1}(1-\rho_2)\rho_2^{n_2},~~(n_1,n_2) \in A \subseteq \N_0\times\N_0. 
-\end{align*}
-\end{exmp}
-
-
+\begin{flalign*}
+\sum_{i}P_{ij}(t)\pi_i &=\sum_{i}P_{ij}(t)\lim_{s \rightarrow \infty}P_{ki}(s)\\
+&=\lim_{s \rightarrow \infty} \sum_{i}P_{ij}(t)P_{ki}(s)\\
+&=\lim_{s \rightarrow \infty}P_{ki}(t+s)\\
+&=\pi_j.
+\end{flalign*}
+\end{proof} 
+\end{rem}
 \end{document}

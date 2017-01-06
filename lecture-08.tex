@@ -2,125 +2,139 @@
 % !TEX spellcheck = LaTeX
 \documentclass[a4paper,10pt,english]{article}
 \input{header}
-\title{Lecture 08: Branching Processes and Delayed Renewal Process}
+\title{Lecture 07: Inspection Paradox and Limiting Mean Excess Time}
 \author{}
 
 \begin{document}
 \maketitle
 
-\section{Age-dependent Branching Process }
-
-Suppose an organism lives upto a time period of $X \sim F$ and produces $N \sim P$ number of  offspring. Let $X(t)$ denote the number of organisms alive at time $t$. The stochastic process $\{X(t),~ t \geq 0\}$ is called an age-dependent branching process. Let X(t) be the number of individuals alive at time t. We are interested in computing $M(t)=\mathbb{E}[X(t)]$ when $m=\mathbb{E}[N] =\sum_{j \in \mathbb{N}}{j P_j}$. Another application of studying such a process is " growth of a tree ", which is used by biologists to see how population grows. 
-
-\begin{thm}
-If $X(0)=1$, $m>1$ and $F$ is non lattice, then
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5  
+\section{The Inspection Paradox}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Define $X_{N(t)+1}=A(t)+Y(t)$ as the length of the renewal interval containing $t$, in other words, the length of current renewal interval. Inspection paradox says that $P(X_{N(t)+1} >x)\geq \bar{F}(x)$. That is, for any $x$, the length of the current renewal interval to be greater than $x$ is always more likely than that for an ordinary renewal interval. Formally,
 \begin{flalign*}
-\lim_{t \rightarrow \infty} e^{-\alpha t}M(t)= \frac{m-1}{m^2 \alpha \int_{0}^{\infty}xe^{-\alpha x dF(x)}},
+\Pr\{X_{N(t)+1}>x\}&= \int_{0}^t\Pr\{X_{N(t)+1} > x | S_{N(t)} = y, N(t)=n\}dF_{(S_{N(t)}, N(t))}.
+%&= P(X_2 >x)\\
+%&= \bar{F}(x).
 \end{flalign*}
-
-where $\alpha > 0$ is unique such that $\int_{0}^{\infty}xe^{-\alpha x } dF(x) = \frac{1}{m}$.
-\end{thm}
-
-\begin{proof}
-Condition on $T_1$, the life time of first organism,
+Now we have,
 \begin{flalign*}
-M(t)&=\mathbb{E}[X(t)] = \mathbb{E}[\mathbb{E}(X(t)|T_1)]\\
-&=\int_{0}^{\infty}\mathbb{E}[X(t)|T_1=y]dF(y)\\
-On splitting, \\
-&=\int_{0}^{t}\mathbb{E}[X(t)|T_1=y]dF(y) + \int_{t}^{\infty}\mathbb{E}[X(t)|T_1=y]dF(y)\\
-&\stackrel{(a)}{=}\int_{y=0}^{t} m M(t-y) dF(y) + \int_{y=t}^{\infty} 1 dF(y).
+\Pr\{X_{N(t)+1}>x | S_{N(t)}=y, N(t)=n\} & = \Pr\{X_{N(t)+1}>x | X_1+\cdots+X_n=y, X_{n+1}>t-y\} \\
+& = \Pr\{X_{n+1}>x | X_{n+1}>t-y\} \\
+& = \frac{\Pr\{X_{n+1}>\text{max}(x,t-y)\}}{\Pr\{X_{n+1}>t-y\}} \\
+& \geq \bar{F}(x). 
 \end{flalign*}
-
-Thus we get 
-
-\begin{flalign}
-\label{renew}
-M(t)= F^c(t)+m\int_{0}^{t}M(t-y)dF(y)
-\end{flalign}
-
-We got a differential equation in M(t) and when we solve it, we get M(t). \\
-Let $\alpha$ denote the unique positive number such that $\int_{0}^{\infty}xe^{-\alpha x } dF(x) = \frac{1}{m}$ and $G(y)=m\int_{0}^{y}e^{-\alpha y} dF(y)$. \\
-Upon multiplying both sides of equation (\ref{renew}) by  $e^{-\alpha t}$ \\
-Let us define,
+So we get that,
+\begin{flalign*}
+\Pr\{X_{N(t)+1}>x\}\geq \Pr\{X_{1}>x\}.
+\end{flalign*}
+One can also look into a weaker version of inspection paradox involving
+the limiting distribution of $X_{N(t)+1}$, consider an alternating 
+renewal process for which the ON time is the total time of the cycle if that 
+total time is greater than $x,$ and zero otherwise. The system is either totally ON 
+during a cycle (if the renewal interval is greater than $x$), or totally OFF 
+otherwise. Formally,
 \begin{align*}
-f(t) := e^{-\alpha t}M(t) \\
-h(t) :=e^{-\alpha t}F^{c}(t)\\ 
-G(y) :=\int_{0}^{y} m e^{- \alpha y} dF(y) 
+Z_n= &\text{ ON time in $n^{\text{th}}$ cycle} = X_n \mathbb{I}_{X_n>x} \\
+Y_n= &\text{ OFF time in $n^{\text{th}}$ cycle} = X_n \mathbb{I}_{X_n\leq x}.
 \end{align*}
-Thus considering equation (\ref{renew}) and multiplying both sides by $e^{-\alpha t}$, we get 
-\begin{align*}
-	e^{- \alpha t} M(t)=e^{- \alpha t} F^c(t)+m\int_{0}^{t} e^{- \alpha t} M(t-y)dF(y)\\
-	f(t) = h(t) + m\int_{0}^{t} e^{- \alpha (t-y)} e^{- \alpha y} M(t-y)dF(y)\\
-	f(t) = h(t) + (f*G)t
-\end{align*}
-
+Now we have,
 \begin{flalign*}
-f&=h+f*G\\
-Recursively ,\\
-&=h+G*(h+f*G)\\
-\vdots
-&=h+h*\sum_{i=1}^{\infty}G_i\\
-&=h+h*m_G.
+\Pr \{X_{N(t)+1}>x\} &= \Pr\{\text{length of the interval containing } t>x\}\\
+&= \Pr\{ \text{on at time } t \}.
 \end{flalign*}
 
-Or, $f(t)=h(t)+\int_{0}^{t}h(t-s)dm_G(s)$. It can be shown that $h(t)$ is dRi and hence by Key Renewal thmrem, 
+From alternating renewal process theorem, we conclude that 
 \begin{flalign*}
-f(t) \rightarrow \frac{\int_{o}^{\infty}e^{-\alpha t}F^c(t) dt }{\int_{0}^{\infty}xdG(x) }.
+\lim_{t\to \infty}\Pr\{X_{N(t)+1}>x\} &= \frac{\E[\text{on time in cycle}]}{\mu} \\
+&= \frac{\E[X\mathbb{I}_{X>x}]}{\mu}\\
+&= \frac{\int_{x}^\infty y dF(y)}{\mu}\\
+&\geq \Pr[X_1\geq x],
+\end{flalign*}
+where the last step follows from Chebyshev's inequality stated below.
+
+\begin{rem}
+The inspection paradox states, in essence, that if we pick a point $t$, it is more likely that an inter-renewal interval with larger length will contain $t$ than the smaller ones. For instance, if $X_i$ were equally likely to be $\epsilon$ or $1-\epsilon$, we see that the mean of any inter arrival length is 1 for any value of $\epsilon\in(0,1)$. However, for small values $\epsilon$, it is more likely that a given $t$ will be in an interval of length $1-\epsilon$ than in an interval of length $\epsilon$.
+\end{rem}
+
+\subsubsection*{Chebyshev's Sum Inequality:}
+ If $f:\mathbb{R} \rightarrow \mathbb{R}^{+}$ and $g : \mathbb{R} \rightarrow \mathbb{R}^{+}$ are functions with the same
+ monotonicity then for any random variable $X$, $f(X)$ and $g(X)$ are positive and
+ $$\E[f(X)g(X)] \geq \E[f(X)]\E[g(X)].$$
+\textbf{Remark:} \\
+ This inequality gives us that
+ $$\E[X\mathbb{I}_{X\geq x}] \geq \E[X]\Pr[X\geq x].$$
+
+\subsection{Example:}
+ Suppose the number of commodities desired by a customer at a store follows a distribution $G$. The ordering policy of the store is as follows: For some fixed $s,~S$, if the inventory level after serving a customer is $x$, then the amount ordered is
+ 
+ 
+
+     \begin{displaymath}
+        \left\{
+         \begin{array}{lr}
+           S-x & \text{if } x <s\\
+           0 & \text{if } x \geq s
+         \end{array}
+       \right.
+    \end{displaymath} 
+
+Let $L(t)$ denote the inventory level at time $t$. We are interested in finding $\lim_{t \rightarrow \infty}\mathbb{P}(L(t) \geq y)$. 
+Let $X_n$ denote inter-restocking times. Let $\{L(t)\geq y\}$ denote ON period. $X_n$ forms an 
+alternating renewal process with the above mentioned ON time. 
+From alternating renewal process theorem, we have 
+
+\begin{flalign*}
+\lim_{t \rightarrow \infty}\mathbb{P}(L(t) \geq y) &= \frac{\mathbb{E}[\text{ON time}]}{\mathbb{E}[X_1]}\\
+&=\frac{\mathbb{E}[\sum_{i=1}^{N_y}X_i]}{\mathbb{E}[\sum_{i=1}^{N_s}X_i]}=\frac{\mathbb{E}[N_x]}{\mathbb{E}[N_s]}.
 \end{flalign*}
 
+where $N_y= \min\{n \in \mathbb{N}: \sum_{i=1}^{n}D_i > S-y\}$  and $D_1,D_2 \hdots$ denote the successive customer demands. Since $D_i$ are iid, we can interpret $N_y-1$ as the number of renewals till time $S-y$. $D_i$ is the inter arrival time of the process. Thus   
+
 \begin{flalign*}
-\int_{o}^{\infty}e^{-\alpha t}F^c(t) dt &= \int_{0}^{\infty} e^{-\alpha t}\int_{t}^{\infty}dF(x)dt \\
-&=  \int_{0}^{\infty} \int_{0}^{x} e^{-\alpha t} dt  dF(x)\\
-&= \int_{0}^{\infty} (1- e^{-\alpha x}) dF(x) \\
-&= \frac{1}{\alpha}(1-\frac{1}{m}) ~~ (\text{by the definition of} ~\alpha).\\
-&= \frac{m-1}{\alpha m}
+\lim_{t \rightarrow \infty}\mathbb{P}(L(t) \geq y) =\frac{m_G(S-x)+1}{m_G(S-s)+1}, s \leq x \leq S.
+\end{flalign*}
+\section{Limiting Mean Excess Time}
+Consider a nonlattice renewal process and we are interested in computing the mean excess time of the process. We start by writing the renewal equation of mean excess life time, $\mathbb{E}[Y(t)]$.
+\begin{flalign*}
+\mathbb{E}[Y(t)]&= \mathbb{E}[Y(t)|S_{N(t)}=0]F^c(t)+ \int_{0}^{t} \mathbb{E}[Y(t)|S_{N(t)}=y]F^c(t-y)dm(y)\\
+&=\mathbb{E}[X_1-t |X_1>t]F^c(t)+ \int_{0}^{t} \mathbb{E}[X-(t-y)|X>t-y]F^c(t-y)dm(y).
+\end{flalign*}
+From Key Renewal theorem, we have 
+
+\begin{flalign*}
+\lim_{t \rightarrow \infty}\mathbb{E}[Y(t)]&=\frac{1}{\mu} \int_{0}^{\infty} \mathbb{E}[X-t|X-t >0]F^c(t) dt\\
+&= \frac{1}{\mu} \int_{t=0}^{\infty} \int_{x=t}^{\infty}(x-t) dF(x) dt\\
+&= \frac{1}{\mu} \int_{x=0}^{\infty} \int_{t=0}^{x}(x-t) dF(x) dt\\
+&= \frac{\mathbb{E}[X^2]}{2\mu}.
 \end{flalign*}
 
-Also $\int_{0}^{\infty}xdG(x) = m \int_{0}^{\infty}xe^{-\alpha x}dF(x)$. Therefore,
-\begin{align*}
-	\lim_{t \rightarrow \infty} m(t) = \frac{(m-1)}{\alpha m^2 \int_{0}^{\infty}x e^{-\alpha x} dF(x)}
-\end{align*}
+\begin{rem}
+It can also be established that $\lim_{t\to \infty}\frac{\int_0^t Y(\tau) d\tau}{t} = \frac{EX^2}{2\mu}$ since, for each sample path $\{Y(t)= y(t)\}$ and sample values $\{x_i,i\in\mathbb{N}\}$, we have $\int_0^ty(\tau)d\tau = \frac{1}{2}\sum_{i=1}^{n(t)}x_i^2+\int_{\tau=s_{n(t)}}^t y(\tau)d\tau$.
+\end{rem}
 
-\end{proof} 
 
-\section{Delayed Renewal Process}
-We come across such a  process when initial arrival time has a different distribution and the next arrival times have a different distribution i.e., "delayed start to a renewal process".\\
-Let $\{X_n: n \in \mathbb{N}\}$ be independent but $X_1 \sim G$ and $X_i \sim F,~ i \geq 2$ then the counting process $\{N_D(t): t \geq 0\}$ is called general renewal process or delayed renewal process. Let $S_0=0$ and $S_n =\sum_{i=1}^{n}X_i$. We have 
-\begin{flalign*}
-N_D(t) = \sup \{n \in \mathbb{N}: S_n \leq t\},\\
-P(N_D(t)=n) &= P(S_n \leq t)-P(S_{n+1} \leq t)\\
-&=G*F^{n-1}(t)-G*F^n(t),\\
-m_D(t)=\mathbb{E}[N_D(t)]= \sum_{n \in \mathbb{N}} G*F^{n-1}(t).
-\end{flalign*}
-
-Taking the Laplace transform of $m_D(t)$, denoted as $\tilde{m}_D(s) = \frac{\tilde{G}(s)}{1-\tilde{F}(s)}$.
 
 \begin{prop}
-The following holds:
-\begin{enumerate}
-\item $\lim_{t \rightarrow \infty} \frac{N_D(t)}{t} = \frac{1}{\mu} $.
-\item $\lim_{t \rightarrow \infty} \frac{m_D(t)}{t} = \frac{1}{\mu} $.
-\item If $F$ is non-lattice, $lim_{t \rightarrow \infty} m_D(t+a)-m_D(t)=\frac{a}{\mu_F}$.
-\item If $F$ and $G$ are lattice with period $d$, $\mathbb{E}$[ $ Number $of renewals at $nd$ ] =$\frac{d}{\mu_F}.$
-\item If $F$ is nonlattice, $\mu < \infty$ and $h$ is dRi, then 
+If the inter arrival time is nonlattice and $\mathbb{E}[X^2] < \infty$, we have 
 \begin{flalign*}
-\lim_{t \rightarrow \infty} \int_{0}^{t}h(t-x)dm_D(x) = \frac{\int_{0}^{\infty}h(t) dt}{\mu}.
-\end{flalign*}
-\end{enumerate}
+\lim_{t \rightarrow \infty} \left(m(t)-\frac{t}{\mu}\right) = \frac{\mathbb{E}[X^2]}{2\mu^2}-1.
+\end{flalign*} 
+\begin{proof}
+This follows since $\mu (m(t)+1) = t + \mathbb{E}[Y(t)].$
+\end{proof}
+
 \end{prop}
 
-\subsubsection{Example:}
-Let $\{X_n: n \in \mathbb{N}\}$ be iid discrete observed. A pattern $x_1,x_2 \hdots x_k$ is said to occur at time $n$ if $X_n=x_k,~X_{n-1}=x_{k-1}, \hdots X_{n-k+1}=x_1. $. If we have iid tosses and consider $N(n)$ as the number of times pattern $0,1,0,1$ appear in $n$ tosses, with $P(H)=p=1-q,$~the process is a delayed renewal processes. To find the mean number of tosses for the first time the pattern $0,1,0,1$ appear, \\
-\begin{align*}
-\lim_{n \rightarrow \infty}P[Renewal at toss n] &= 1.P[Renewal at toss n] + 0.P[No Renewal at toss n]\\
-&= \frac{1}{p^2 q^2}.
-\end{align*}
-\begin{flalign*}
-\mathbb{E}[\text{first time pattern}~ 0,1,0,1 ~ \text{appears}]&= \mathbb{E}[\text{first time pattern}~ 0,1 ~ \text{appears}]  \\
-&+\mathbb{E}[\text{time between patterns}~ 0,1,0,1 ]\\
-&=  p^{-1}q^{-1}+ p^{-2}q^{-2}.
-\end{flalign*}
 
-Similarly we can show that $\mathbb{E}[\text{first time}~ k \text{heads} ] = \sum_{i=1}^{n} p^{-i}$.
+
+
+
+
+
+
+
+
+
 
 \end{document}

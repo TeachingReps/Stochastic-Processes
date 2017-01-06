@@ -1,112 +1,358 @@
+% !TEX spellcheck = en_US
+% !TEX spellcheck = LaTeX
 \documentclass[a4paper,10pt,english]{article}
-\input{header}
-%opening
-\title{Lecture 13: Foster-Lyapunov Theorem}
-\date{}%01 Mar 2016}
+\include{header}
+\title{Lecture 12 : Convergence of DTMCs and Coupling theorem}
 \author{}
-
 \begin{document}
 \maketitle
-\section{Foster's Theorem}
-\begin{thm}[Foster,1950]
-Let $\{X_n\}_{n \geq 0}$ be a irreducible DTMC on $\mathbb{N}_0$ if there exist a function $L : \mathbb{N}_0 \longrightarrow \mathbb{R}_+$ with $\mathbb{E}[L(X_0)] < \infty$, such that for some $K>k\geq0$, and $\epsilon>0$:
-\begin{enumerate}
-\item $|\{x \in \mathbb{N}_0 : L(x) \leq k\}| < \infty$
-\item $\mathbb{E}[L(X_n)|X_{n-1}] < K$,when $L(X_{n-1}) \leq k$.
-\item $\mathbb{E}[L(X_n)-L(X_{n-1})|X_{n-1}] < -\epsilon$ if $L(X_{n-1})\geq k$
-\end{enumerate}
-Then $\{X_n\}_{n \geq 0}$ is positive recurrent.(L $\equiv$ "potential function" or energy or lyapunov function).
+%\section{Discrete Time Markov Chains Contd.}
+
+\section{Total Variation Distance}
+\begin{defn} Given two probability distributions $p$ and $q$ defined on a countable space $I$, their \textbf{total variation distance} is defined as
+\begin{align*}
+d_{TV}(p,q) &\triangleq \dfrac{1}{2}\norm{p-q}_1.
+\end{align*}
+\end{defn}
+\begin{lem} For a countable set $I$, and distributions $p, q \in \Delta(I)$, we have 
+\begin{align*}
+d_{TV}(p,q) = \sup\{ p(S) - q(S) : S \subseteq I \}.
+\end{align*}
+\end{lem}
+\begin{proof} 
+Let $A = \{ i \in I: p(i) - q(i) \geq 0\}$. Then, we can write
+\begin{align*}
+d_{TV}(p,q) = \frac{1}{2}\left(\sum_{i \in A}p(i) - q(i) + \sum_{i \notin A} q(i) - p(i) \right)= \frac{1}{2}\left(p(A) - p(A^c) - q(A) + q(A^c) \right) = p(A)-q(A).
+\end{align*}
+Let $S \subseteq I$, then we have
+\begin{align*}
+p(S)-q(S) &\leq p(S\cap A) - q(S \cap A) \leq p(A) - q(A) = d_{TV}(p,q).
+\end{align*}
+Hence, the result follows.
+%\begin{align*}
+%d_{TV}(p,q) \leq \sup\{p(S)-q(S): S \subseteq I \}.
+%\end{align*}
+\end{proof}
+\begin{defn}[Convergence in total variation] Let $\{X_n : n \in \N_0\}$ be an $I$-valued stochastic process with marginal distribution $\pi(n)_i = \Pr\{X_n = i\}$ for all $i \in I$. 
+If  there exists a probability distribution $\pi \in \Delta(I)$, such that 
+\begin{align*}
+\lim_{n \in \N} d_{TV}(\pi(n), \pi) = \lim_{n \in \N} \sum_{i \in I} \lvert\pi(n)_i - \pi_i\rvert = 0.
+\end{align*}
+Then, we say that $\lim_{n \in \N}\pi(n) = \pi$ in total variation distance.
+\end{defn}
+\begin{lem} If $X_{n} \to \pi$, then for all bounded functions $f: I \to \R$, 
+we have
+\begin{align*}
+\lim_{n \in \N} \E[f(X_n)] = \sum_{i \in I} \pi_i f(i).
+\end{align*}
+\end{lem}
+\begin{proof} Let $\sup_{i \in I}|f(i)| \leq K$ be a finite upper bound on chosen $f$. Then it follows from convergence in total variation, and observing that 
+\begin{align*}
+ \lvert\E[f(X_n)]  - \sum_{i \in I}\pi_if(i) \rvert&=  \lvert\sum_{i \in I}f(i)(\pi(n)_i - \pi_i) \rvert \leq Kd_{TV}(\pi(n),\pi).
+\end{align*}
+\end{proof}
+\begin{thm}[Convergence in total variation of DTMC]
+Let $X \in I^{\N_0}$ be an ergodic (irreducible, aperiodic, and positive recurrent) DTMC on countable state space $I$ with stationary distribution $\pi \in \Delta(I)$. Then for all initial distributions on $X_0$, distribution of $X_n$ converges in total variation to $\pi$.
 \end{thm}
 \begin{proof}
-As DTMC is irreducible than enough to show that some state is positive recurrent.
-By renewal theory, for any DTMC, for all $x \in \mathbb{N}_0$,
-\begin{align}
-\lim\limits_{N \rightarrow \infty} \mathbb{E}\Big[ \sum_{n=1}^{N} \boldsymbol{1}_{\{X_n=x\}} \Big] = \frac{1}{\mu _{xx}} 
-\end{align}
-where 
-\begin{equation*}
-\mu _{xx}=
-\begin{cases}
-	\infty \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ if \ $x$ \ is \ transient\\
-	\sum_{m \geq 0}m f^{m}_{xx} \ \ \ \ \ \ \ \ if \ $x$ \ is \ recurrent \\
-\end{cases}
-\end{equation*}
-consider the RHS of equation $(1)$
+Let $X_0 = i$, then $\pi(n)_j = \P_i\{X_n = j\} = P^n_{ij}$ for all $j \in I$. We write 
 \begin{align*}
-\lim\limits_{N \rightarrow \infty} \mathbb{E}\Big[ \sum_{n=1}^{N} \boldsymbol{1}_{\{X_n=x\}} \Big] > 0 \Longleftrightarrow x \ is \ positive \ recurrent  
+d_{TV}(\pi(n),\pi) = \frac{1}{2}\sum_{j \in I}|P_{ij}^n - \pi|.
 \end{align*}
-consider
+This follows from ergodicity of the DTMC.
+ \end{proof}
+ 
+\section{The Coupling method}
+\begin{defn} Consider two stochastic processes $X \in I^{\N}$ and $Y \in I^{\N}$ on state space $I$. %, defined on the same probability space.\\
+Processes $X$ and $Y$ are said to \textbf{coupled} if  there exists an a.s. finite random time $\tau$ such that for all $n \geq \tau$, we have $X_n = Y_n$ a.s. Moreover, $\tau$ is called a \textbf{coupling time} of the process.
+\end{defn}
+\begin{thm}[Coupling Inequality] Let $\tau$ be a coupling time for coupled processes $X$ and $Y$  with marginal distributions $p_n,q_n \in \Delta(I)$ for $X_n,Y_n$ respectively. Then for all $n \in \N$, we have 
 \begin{align*}
-& 0 \leq \mathbb{E}[L(X_n)] = \mathbb{E}[L(X_0)] +   \sum_{n=1}^{N}\mathbb{E}[L(X_n)-L(X_{n-1})]\\
-&= \mathbb{E}[L(X_0)] + \sum_{n=1}^{N}\mathbb{E}[L(X_n)-L(X_{n-1})]\boldsymbol{1}_{\{L(X_{n-1})>k\}} + \sum_{n=1}^{N}\mathbb{E}[L(X_n)-L(X_{n-1})]\boldsymbol{1}_{\{L(X_{n-1})\leq k\}}\\
-&\leq \mathbb{E}[L(X_0)] + \sum_{n=1}^{N}\mathbb{E}[-\epsilon \        \boldsymbol{1}_{\{L(X_{n-1})>k\}}] + \sum_{n=1}^{N}\mathbb{E}[K \ \boldsymbol{1}_{\{L(X_{n-1})\leq k\}}]\\
-&\Rightarrow \Bigg[\mathbb{E}\sum_{n=1}^{N} \boldsymbol{1}_{\{L(X_{n-1})\leq k\}}\Bigg](K + \epsilon) \geq -\mathbb{E}[L(X_0)] + \epsilon N\\\\
-&\Rightarrow \frac{1}{N} \Bigg[\mathbb{E}\sum_{n=1}^{N} \boldsymbol{1}_{\{L(X_{n-1})\leq k\}}\Bigg] \geq -\frac{\mathbb{E}[L(X_0)]}{N(K+\epsilon)} + \frac{\epsilon}{K+\epsilon}\\\\
-&\Rightarrow \limsup_{N\rightarrow \infty}\frac{1}{N} \Bigg[\mathbb{E}\sum_{n=1}^{N} \boldsymbol{1}_{\{L(X_{n-1})\leq k\}}\Bigg] \geq \frac{\epsilon}{K+\epsilon}
+d_{TV} (p_n,q_n) &\leq \Pr\{\tau > n\}.
 \end{align*}
-Let $F = \{x \in \mathbb{N}_0: L(x) \leq k\}, \ |F| < \infty$. Now,
+\end{thm}
+\begin{proof} Consider a finite subset $I_0 \subseteq I$ and $A = \{X_n \in I_0\}, B = \{Y_n \in I_0\}$, and $C = \{\tau \leq n\}$. Then, from definition of coupling time, we have $X_n = Y_n$ a.s. on $C$. Hence, we can write 
 \begin{align*}
-& \limsup_{N\rightarrow \infty}\frac{1}{N} \Bigg[\mathbb{E}\sum_{n=1}^{N} \boldsymbol{1}_{\{L(X_{n-1})\leq k\}}\Bigg]\\\\
-&=\limsup_{N\rightarrow \infty}\frac{1}{N} \Bigg[\mathbb{E}\sum_{n=1}^{N}\sum_{x \in F} \boldsymbol{1}_{\{X_{n-1}\leq k\}}\Bigg] \leq \sum_{x \in F} \Bigg[ \limsup_{N\rightarrow \infty}\frac{1}{N} \mathbb{E}\sum_{n=1}^{N} \boldsymbol{1}_{\{X_{n-1}\leq k\}}\Bigg]\\\\ 
-&=\sum_{x \in F} \Bigg[ \limsup_{N\rightarrow \infty}\frac{1}{N} \mathbb{E}\sum_{n=1}^{N} \boldsymbol{1}_{\{X_{n-1}\leq k\}}\Bigg] \geq \frac{\epsilon}{K+\epsilon}>0
+p_n(I_0) - q_n(I_0) &= %\Pr(A \cap C) + \Pr(A \setminus C) - \Pr(B \cap C) - \Pr(B \setminus C) = 
+\Pr(A \setminus C) - \Pr(B \setminus C) \leq \Pr\{X_n \in I_0, \tau > n\} \leq \Pr\{\tau > n\}.
 \end{align*}
-Therefore there exist some $x \in F$ such that ,
-\[\limsup_{N\rightarrow \infty}\frac{1}{N} \mathbb{E}\Bigg[ \sum_{n=1}^{N} \boldsymbol{1}_{\{X_{n-1}\leq k\}}\Bigg] \geq \frac{\epsilon}{(K+\epsilon)|F|}>0\]\\\\
-Therefore there exist some $x \in F$ such that ,
-\[\lim_{N\rightarrow \infty}\frac{1}{N} \mathbb{E}\Bigg[\sum_{n=1}^{N} \boldsymbol{1}_{\{X_{n-1}\leq k\}}\Bigg] >0\]
 \end{proof}
-\section{Applications of Foster's theorem: Queue scheduling/Max-weight scheduling}
-Consider $N$ queue served by a single server in discrete time(Figure 1).
-At time slot t = 1,2,3....\\
-$A_i(t) \in \mathbb{N}_0$ packets arrive to each queue $i \in [N]$ independently.\\
-\begin{figure}
-\centering
-\includegraphics[scale=0.6]{Figures/saa.png}
-\caption{N queues single server, server chooses one queue and serve upto one packet}
-\label{fig: example 1.1}
-\end{figure}
-\begin{enumerate}
-\item $\mathbb{E}[A_i(t)] = \lambda _i$
-\item $\mathbb{P}[A_i(t)=0] > 0$
-\item $\mathbb{E}[A_i(t)^2] \leq C$
-\end{enumerate}
-Server picks one queue $Q(t) \in [N]$ for service. Let $R_i(t) =  \boldsymbol{1}\{Q(t) = i\}$.One packet is served from $Q(t)$ if it is not empty.Let $X_i(t)$ = number of packets in queue $i$ just before time slot $t$.\\
-\[X_i(t+1) = (X_i(t) + A_i(t) - R_i(t))_+\]
-Where \[a_+ = max(0,a)\]
-aslo \[X_i(t+1) = X_i(t) + A_i(t) - R_i(t) + L_i(t)       \]Where 
-\begin{equation*}
-L_i(t) = 
-\begin{cases}
-  1 \ \ \ \,service \ attempted \ when \ i \ is \ empty\\
-  0 \ \ \ \,otherwise 
-\end{cases}
-\end{equation*}
-Mean rate of arrivals to system : $= \sum_{i=1}^{N} \lambda _i
-$\\
-Maximum rate of departure $= 1$, we will assume $ \sum_{i=1}^{N} \lambda _i < 1$.
-\begin{thm}[Max-weight scheduling algorithm, 1992]
-\[Q(t) = \arg \max _{i \in N} X_i(t)  \] 
-that is serve  the longest queue.Under MAX-WT ,$X(t) = (X_i(t))_{i=1}^{N}$ is a DTMC which is irreducible and aperiodic on state space $\mathbb{N}_0^N$.As long as $\sum_{i=1}^{N} \lambda _i < 1$, $\{X_n\}$ is positive recurrent.
+\begin{rem} Variation distance is bounded based on the coupling time.
+ \end{rem}
+\begin{thm}[Convergence in total variation of DTMC]
+Let $X = \{X_n \in I: n \in \N_0 \}$ be a homogenous ergodic DTMC with transition probability matrix $P$ and stationary distribution $\pi \in \Delta(I)$. Then, for any initial distribution on $X_0$, distribution of $X_n$ converges in total variation to the stationary distribution.
+%\begin{align*}
+%\lim_{n \in \N} \sum_{i \in I} \lvert P[X_n = i] - \pi(i) \rvert = 0.
+%\end{align*}
 \end{thm}
 \begin{proof}
-By Foster's theorem, define the Lyapunov function:
-\[L(x) = \frac{1}{2} \sum_{i=1}^{N}x_i^2\] consider
+We will provide an alternative proof using the coupling argument. 
+Let $X$ and $Y$ be two independent ergodic DTMCs with transition matrix $P$, stationary distribution $\pi$, and initial states $i$ and $j$ respectively. 
+We construct the product DTMC $Z_n = (X_n, Y_n)$ for all $n \in \N_0$. Then, $\{Z_n: n \in \N_0\}$ has transition probabilities,
 \begin{align*}
-& L(X(t)) - L(X(t-1))\\
-&= \frac{1}{2} \sum_{i=1}^{N}\Big[ (X_i(t))^2 - (X_i(t-1))^2 \Big]\\
-&= \frac{1}{2} \sum_{i=1}^{N}\Big[ \{X_i(t-1) + A_i(t-1) - R_i(t-1) + L_i(t-1)\}^2 - (X_i(t-1))^2 \Big]\\
-& \leq \frac{1}{2} \sum_{i=1}^{N}\Big[ \{X_i(t-1) + A_i(t-1) - R_i(t-1)\}^2 - (X_i(t-1))^2 \Big]
+\Pr\{Z_n = (k,l)|Z_{n-1} = (i,j)\} = P_{ik} P_{jl}.
 \end{align*}
-Therefore 
-\[\mathbb{E}\Big[ L(X(t)) - L(X(t-1)) | X(t-1) = x \Big]  \leq \frac{1}{2} \sum_{i=1}^{N} \mathbb{E} \Big[ (x_i + A_i(t-1) - R_i(t-1))^2 - x_i^2 | X(t-1) = x \Big]\]
+
+We will first show that DTMC $Z$ is irreducible, aperiodic, and positive recurrent. 
+To this end, we notice that $\pi_z(i,j) = \pi_i \pi_j$ is a stationary distribution, since
 \begin{align*}
-&= \frac{1}{2} \sum_{i=1}^{N} \Bigg[ 2x_i \mathbb{E} \Big[ (A_i(t-1) - R_i(t-1)| X(t-1) = x \Big] + \mathbb{E} \Big[ (A_i(t-1) - R_i(t-1))^2 | X(t-1) = x \Big] \Bigg]\\
-&= \sum_{i=1}^{N}x_i \lambda _i - \sum_{i=1}^{N}x_i R_i(t-1) + \frac{N}{2}(1+C)\\
-&= \sum_{i=1}^{N}x_i \lambda _i + \frac{N}{2}(1+C) - \max _i x_i\\
-& \leq \frac{N}{2}(1+C) + (\max _i x_i)(\sum_{i=1}^{N} \lambda _i - 1)\\
-&= C_1 - \epsilon (\max _i x_i)
+\pi_z(i,j) &=  \pi_i \pi_j = \sum_{k \in I}\pi_kP_{ki} \sum_{l \in I}\pi_lP_{lj} = \sum_{(k,l) \in I \times I}\pi_z(k,l)P_{ki}P_{lj}.
 \end{align*}
-Foster's theorem applies with $k = \max \{\frac{\|x\|_2 ^2}{2}\}$
+Next, we define a stopping time $\tau$ for the process $Z$, as 
+\begin{align*}
+\tau = \inf\{n \in \N_0 : X_n = Y_n \}.
+\end{align*}
+Since $\tau$ is stopping time for ergodic DTMC $Z$, it follows that $\Pr\{\tau < \infty\} = 1$. 
+Consider a process $W$ defined as 
+\begin{align*}
+W_n &= X_n1_{\{ n \leq \tau\}} + Y_n1_{\{n > \tau\}}~\forall n \in \N_0.
+\end{align*}
+It turns out that $W$  is a homogenous DTMC with transition matrix $P$ and initial state $i$. 
+That is, it inherits all the statistical properties of $X$. 
+Further, $\tau$ is a coupling time for $Y$ and $W$, and hence by coupling inequality, we have 
+\begin{align*}
+ \sum_{m \in I} \lvert \Pr\{W_n = m\} - \Pr\{Y_n = m\} \rvert \leq 2\Pr\{\tau < n\}.
+\end{align*}
+Since $\Pr\{\tau > n\} \to 0$ and $\Pr\{Y_n = m\} \to \pi_m$ as limit $n \in \N$, we see that
+\begin{align*}
+\lim_{n \in \N} \Pr\{W_n = i\} &= \pi_i. 
+\end{align*}
+%\textbf{CLAIM:}\\
+%${X_n'}_{n \geq 0}$. It inherits all the properties of $X_n^{(1)}$.\\
+%Also, $\tau$ is a coupling time for $\{X_n^{(1)}\}_{n \geq 0}$ and $\{X_n^{(2)}\}_{n \geq 0}$.\\
+%From the coupling inequality,\\
+%\begin{align*}
+% \sum_{i \in N_0} \lvert \Pr(X_n' = i) - P(X_n^{(2)} = i) \rvert \leq P[\tau < n]\\
+% n \longrightarrow \infty:  \Pr(X_n^{(2)} = i) \longrightarrow \Pi(i),  P[\tau > n] \longrightarrow 0\\
+% n \longrightarrow \infty \to \Pr(X_n' = i) = \Pi(i) 
+%\end{align*}
 \end{proof}
+%\textbf{CLAIMS:}
+%\begin{itemize}
+%	\item $\{Z_n\}_{n \geq 0}$ is irreducible and aperiodic.
+%	\item $\{Z_n\}_{n \geq 0}$ is positive recurrent.
+%\end{itemize}
+%\textbf{Proof:}\\
+\begin{rem} We can get bounds on the rate of convergence by bounding $\P\{\tau > n\}$/
+\end{rem}
+\begin{exmp} 
+Let $X$ and $Y$ be two binomial distributions with parameters $(n,p)$ and $(n,q)$ respectively, for $p > q$. 
+We are interested in finding the relation between $\Pr\{X > k\}$ and $\Pr\{Y > k\}$  for all $k \in I$. 
+
+Consider $n$ Bernoulli random variables, $Z_1,Z_2, \ldots,Z_n$ with probability $\Pr\{Z_i = 1\} = p$. 
+%We construct Bernoulli random variables $W_1,W_2, \ldots,W_n$ such that $\Pr\{W_i = 1\} = q$. 
+Consider random variables $U_1, U_2, \ldots, U_n$ each Bernoulli with probability $q/p$ and independent of random variables $Z_1,Z_2, \ldots, Z_n$, and defining for all $i \in [n]$
+\begin{align*}
+W_i = U_iZ_i.
+\end{align*}
+Hence, we see that $W_i \leq Z_i$ is Bernoulli with parameter $\E W_i = q = \Pr\{W_i = 1\}$.
+Observing that $Y = \sum_i W_i \leq \sum_i Z_i  = X$, it follows that $\Pr\{Y > k\} \leq  \Pr\{X > k\}$. 
+\end{exmp}
+\section{Mean time spent in the transient states}
+Consider a DTMC $X$ defined on a finite state space $I$ with probability transition matrix $P$. Let $T \subseteq I$ be the set of transient states. 
+We define a probability transition matrix $Q$ for transient states as 
+\begin{align*}
+Q_{ij} = P_{ij},~~i,j \in T.
+%Q_{t \times t} &= P_{[t] \times [t]}\\
+%Q_{t \times t} &= \begin{bmatrix} p_{11}&-&-&-&p_{1t}\\ p_{21}&-&-&-&p_{2t} \\ -&-&-&-&-\\ p_{t1}&-&-&-&p_{tt} \end{bmatrix}
+\end{align*}
+\begin{rem} All row sums of $Q$ cannot equal $1$. 
+At least one row should not sum up to $1$, else it contradicts the claim that $Q$ is a transition matrix for the set of transient states. Hence, $I-Q$ is invertible. 
+\end{rem}
+\begin{defn}
+For $i,j \in T$, we define \textbf{fundamental matrix} $M$ such that
+\begin{align*}
+M_{ij} &\triangleq \E_i\sum_{n\in \N_0} 1_{\{X_n = j\}} = \sum_{n \in \N_0}P^n_{ij}.
+\end{align*}
+\end{defn}
+\begin{lem} Fundamental matrix $M$ for transient states of a DTMC $X$ can be expressed in terms of its transition matrix $Q$ as
+\begin{align*}
+M = (I - Q)^{-1}.
+\end{align*}
+\end{lem}
+Further, we can rewrite $M$ as 
+\begin{align*}
+M_{ij} &= 1_{\{i = j\}} + \sum_{n \in \N}\sum_{k \in I}\P_i\{X_n = j, X_1 = k\} = I_{ij} + \sum_{k \in I}P_{ik}\sum_{n \in \N_0}P^n_{kj}\\
+&= I_{ij} + \sum_{k \in T} P_{ik}M_{kj} + \sum_{k \notin T} P_{ik}\sum_{n \in \N_0}P^n_{kj}.
+\end{align*}
+Since $T$ is a set of transient states, $P_{ij} = 0$ for $i \notin T$ and $j \in T$, we get 
+\begin{align*}
+M &= I + QM.
+\end{align*}
+%$M$ is called the fundamental matrix.\\
+\begin{defn} We define expected time to visit any transient state $j \in T$, starting from initial transient state $i \in T$ as 
+\begin{align*}
+f_{ij} &= \E_i1_{\{X_n = j \text{ for some } n \in \N_0 \}}
+\end{align*}
+\end{defn}
+\begin{lem} For all $i, \in T$, we have $f_{ij} = \frac{M_{ij}}{M_{jj}}$.
+\end{lem}
+\begin{proof} 
+Let $\tau_j = \inf\{ n \in \N_0 : X_n = j \}$. 
+Since $j \in T$, we know $\Pr\{\tau_j < \infty \} = 1$, hence we can write 
+\begin{align*}
+f_{ij} &= \P_i\{\tau_j < \infty\} = \sum_{m \in \N_0}\P_i\{\tau_j = m\}.
+\end{align*}
+Further, we observe
+\begin{align*}
+M_{ij} &= \sum_{m \in \N_0}\sum_{n \geq m}\P_i\{X_n = j, \tau_j = m\} = \sum_{m \in \N_0}\P_i\{\tau_j = m\}\sum_{n \in \N_0}\P_j\{X_n = j\} = f_{ij}M_{jj}.
+%\E_i[\text{number of transitions to } j] &= 
+\end{align*}
+\end{proof}
+ 
 \end{document}
 
+% !TEX spellcheck = en_US
+% !TEX spellcheck = LaTeX
+\documentclass[a4paper,10pt,english]{article}
+\include{header}
+\title{Lecture 12 : Continuous Time Markov Chains}
+\author{}
+\begin{document}
+\maketitle
+
+\section{Markov Process}
+\begin{defn}
+For a countable set $I$ a continuous time stochastic process $\{X(t) \in I, ~ t \geqslant 0\}$ is a \textbf{Markov process} if
+\begin{align*}
+\Pr\{X(t+s) = j |X(u),~ u \in [0,s]\} &= \Pr\{X(t+s) = j |X(s)\}, \text{ for all } s, t \geqslant 0 \text{ and } i, j \in I.
+\end{align*}
+We define the \textbf{transition probability} from state $i$ at time $s$ to state $j$ at time $s+t$ as 
+\begin{align*}
+P_{ij}(s, s+t) = \Pr\{X(s+t) = j | X(s) = i\}.
+\end{align*}
+The CTMC has \textbf{homogeneous} transitions if $P_{ij}(s,s+t) = P_{ij}(0,t)$ for all $i,j \in I, s,t \geqslant 0$ and we denote the transition probability by $P_{ij}(t)$. 
+\end{defn}
+
+\subsection{Sojourn Times and Jump Transitions}
+Suppose $X(0)=i$, and  for all $u \in [0,s]$, we have $X(u)=i$. We are interested in knowing probabilities of the form $\Pr\{X(v)=i,~v \in [s,s+t] | X(u)=i, ~ u \in [0,s]\}$. To this end, we define sojourn times in any state.
+\begin{defn}
+Sojourn times of a CTMC $\{X(t), t \geqslant 0\}$ is defined by
+\begin{align*}
+\tau_i \triangleq \{t \geqslant 0: X(t) \neq i|X(0)=i\}, i \in \N_0. 
+\end{align*}
+\end{defn}
+\begin{lem}
+For a homogeneous CTMC, sojourn time $\tau_i$ is a continuous memoryless random variable. %and exponentially distributed. 
+\end{lem}
+\begin{proof}
+We observe that,
+\begin{align*}
+\Pr\{\tau_i \geqslant s+t | \tau_i > s\} &=\Pr\{X(v)=i,~v \in [s,s+t) | X(u)=i,  i \in [0, s]\}\\
+&= \Pr\{X(v)=i,~v \in [0,t) | X(0)=i\} = \Pr\{\tau_i \geqslant t \}.
+\end{align*}
+\end{proof}
+We could sample the process at these instants and construct a DTMC and study the same. 
+\begin{defn}
+Jump transition probabilities of a CTMC $\{X(t), t \geqslant 0\}$ are defined by
+\begin{align*}
+p_{ij} \triangleq \Pr\{X(\tau_i)  = j | X(0) =  i \}, ~i,j \in \N_0.
+\end{align*}
+\end{defn}
+\begin{lem}
+For a CTMC, jump transition probabilities $p_{ij}$ add to unity for all $i \in \N_0$.
+\end{lem}
+\begin{proof}
+\end{proof}
+
+\subsection{Alternative way of constructing CTMC}
+\begin{prop} A continuous time stochastic process $\{X(t) \in \N_0, t \geqslant 0 \}$ is a CTMC iff \begin{enumerate}
+\item sojourn time $\tau_i$ is distributed with $\exp(\nu_i)$, and 
+\item jump transition probabilities $p_{ij}$ is such that $\sum_{i \neq j}p_{ij}=1$.
+\end{enumerate}
+\end{prop}
+\begin{proof}
+\end{proof}
+\begin{rem}
+Transition probabilities $p_{ij}$ and sojourn times $\tau_i$ are independent. 
+\end{rem}
+\begin{rem} Inverse of mean sojourn time $\nu_i$ is called rate of state $i$, and typically $\nu_i < \infty$.  
+\end{rem}
+\begin{rem} If $\nu_i = \infty$, we call the state to be instantaneous. 
+\end{rem}
+\begin{rem}  A CTMC is a DTMC with exponential sojourn time in each state.
+\end{rem}
+\begin{defn} A CTMC is called \textbf{regular} if 
+\begin{align*}
+\Pr\{ \text{ number of transitions in } [0,t] \text{ is finite}\} = 1,~ \forall t < \infty.
+\end{align*} 
+\end{defn}
+\begin{exmp} Consider the following example of a non-regular CTMC. $p_{i,i+1}=1, \nu_i = i^2$. Show that it is not regular.
+\end{exmp}
+
+\section{Generator Matrix}
+\begin{defn}
+A \textbf{generator matrix} denoted by $Q$ is defined in terms of sojourn times $\nu_i$ and jump transition probabilities $p_{ij}$ of a CTMC as
+\begin{enumerate}
+\item {$q_{ij}=\nu_i p_{ij}$, $\forall i \neq j$, } 
+\item { $q_{ii}= -\nu_i$.}
+\end{enumerate}
+\end{defn}
+\begin{lem} Generator matrix $Q$ has following properties.
+ \begin{enumerate}
+\item {$0 \leq -q_{ii} < \infty,~ \forall i$.} 
+\item { $q_{ij} \geq 0,~ \forall i \neq j$.}
+\item { $\sum_{j}q_{ij}=0,~ \forall i$.}
+\end{enumerate}
+\end{lem}
+
+From the $Q$ matrix, we can construct the whole CTMC.  In DTMC, we had the result $P^{(n)}(i,j)=(P^n)_{i,j}$. We can generalize this notion  in the case of CTMC as follows: $P=e^{Q}\triangleq \sum_{k \in \mathbb{N}_0}\frac{Q^k}{k !}$.  Observe that $e^{Q_1+Q_2}=e^{Q_1}e^{Q_2},~ e^{nQ}=(e^Q)^n=P^n$.\\
+\begin{thm}
+Let $Q$ be a finite sized matrix. Let $P(t)=e^{tQ}$. Then $\{P(t),~ t \geq 0\}$ has the following properties:\begin{enumerate}
+\item {$P(s+t)=P(s)P(t),~ \forall s,~t$ (semi group property).}
+\item {$P(t),~t \geq 0$ is the unique solution to the forward equation, $\frac{dP(t)}{dt}=P(t)Q,~P(0)=I$.}
+\item {And the backward equation $\frac{dP(t)}{dt}=QP(t),~P(0)=I$.}\\
+\item {For all $k \in \mathbb{N}$, $\frac{d^kP(t)}{d^k(t)}|_{t=0}=Q^k$.}
+\end{enumerate}
+\end{thm}  
+\begin{proof}
+$\frac{dM(t)e^{-tQ}}{dt}=0,$ $M(t)e^{-tQ}$ is constant. $M(t)$ is any matrix satisfying the forward equation.
+\end{proof}
+\begin{thm}
+A finite matrix $Q$ is $Q$ matrix if and only if $P(t)=e^{tQ}$ is a stochastic matrix for all $t \geq 0$. 
+\end{thm}
+\begin{proof}
+$P(t)=I+tQ+O(t^2)$ ($f(t)=O(t) \to \frac{f(t)}{t} \leq c,$ for small $t,~c < \infty$ ). $q_{ij} \geq 0$ if and only if $P_{ij}(t) \geq 0,~ \forall i \neq j$ and $t \geq 0$ sufficiently small. $P(t)=P(\frac{t}{n})^n$. Note that if $Q$ has zero row sums, $Q^n$ also has zero row sums.\\
+\begin{flalign*}
+\sum_j [Q^n]_{ij}&= \sum_j \sum_k [Q^{n-1}]_{ik}Q_{kj}= \sum_j \sum_k Q_{kj}[Q^{n-1}]_{ik}=0.\\
+\sum_{j}P_{ij}(t)&=1+\sum_{n \in \mathbb{N}} \frac{t^n}{n!}\sum_j [Q^n]_{ij}=1+0=1.
+\end{flalign*}  
+Conversely $\sum_{j}P_{ij}(t)=1,~ \forall t \geq 0$, then $\sum_jQ_{ij}= \frac{dP_{ij}(t)}{dt}=0$.
+\end{proof}
+\subsection{Kolmogorov Differential Equations}
+\begin{lem}
+\begin{enumerate}
+\item{$\lim_{t \to 0} \frac{1-P_{ii}(t)}{t}=\nu_i$.}\\
+\item{$\lim_{t \to 0} \frac{P_{ij}(t)}{t}=q_{ij}$.}
+\end{enumerate}
+\end{lem}
+\begin{lem}
+For all $s,~t \geq 0$, $P_{ij}(t+s)=\sum_{k \in \mathbb{N}_0 P_{ik}(t)P_{kj}(s)}$
+\end{lem}
+\subsection{Chapman Kolmogorov Equation for CTMC}
+\begin{thm}
+\textbf{Kolmogorov Backward equation:} For all $i,j,t \geq 0$, $P'_{ij}(t)= \sum_{k \neq i}q_{ik}P_{kj}(t)-\nu_iP_{ij}(t)$ ,  $\frac{dP(t)}{dt}=QP(t)$
+\end{thm}
+\begin{proof}
+$P_{ij}(t+h)=\sum_kP_{ik}(h)P_{kj}(t).$
+\begin{flalign*}
+P_{ij}(t+h)-P_{ij}(t)=\sum_{k \neq 1}P_{ik}(h)P_{kj}(t)-(1-P_{ii}(h))P_{ij}(t), 
+\end{flalign*}
+divide by $h$, $h \to 0$, we get $\frac{dP_{ij}(t)}{dt}=\lim_{h \to 0}P'_{ij}(t)= \sum_{k \neq i}q_{ik}P_{kj}(t)-\nu_iP_{ij}(t)$. Now the exchange of limit and summation has to be justified. 
+\begin{flalign*}
+&\liminf_{h \to 0} \sum_{k \neq 1}\frac{P_{ik}(h)}{h}P_{kj}(t) \geq \liminf_{h \to 0}\sum_{k \neq 1}\frac{P_{ik}(h)}{h}P_{kj}(t), k <N\\
+&= \sum_{k \neq 1}q_{jk}P_{kj}(t),~k <N.
+\end{flalign*}
+This is true for any finite $N$. Take supremum over all $N$. We get \\
+$\liminf_{h \to 0} \sum_{k \neq 1}\frac{P_{ik}(h)}{h}P_{kj}(t) \geq \sum_{k \neq 1}q_{jk}P_{kj}(t)$. Suffices to show that $\limsup_{h \to 0} \sum_{k \neq 1}\frac{P_{ik}(h)}{h}P_{kj}(t) \leq \sum_{k \neq 1}q_{jk}P_{kj}(t)$. To that end, 
+\begin{flalign*}
+\text{LHS}& \leq \limsup_{h \to 0}[\sum_{k \neq 1, k<N}\frac{P_{ik}(h)}{h}P_{kj}(t)+\sum_{k \neq 1, k\geq N}\frac{P_{ik}(h)}{h} ]\\
+& = \limsup_{h \to 0}[\sum_{k \neq 1, k<N}\frac{P_{ik}(h)}{h}P_{kj}(t)+\frac{1-P_{ii}(h)}{h} \sum_{k \neq 1, k\geq N}\frac{P_{ik}(h)}{h} ]\\
+& = [\sum_{k \neq 1, k<N}q_{ik}P_{kj}(t)+\nu_i- \sum_{k \neq 1, k\geq N}q_{ik} ]\\
+&=\sum_{k \neq 1}q_{ik}P_{kj}(t). 
+\end{flalign*}
+\end{proof}
+\begin{thm}
+\textbf{Kolmogorov Forward Equation:} Under suitablle reqularity conditions, $P'_{ij}(t)=\sum_{k \neq i}P_{ik}(t)q_{kj}-P_{ij}(t)\nu_i$, i.e. $\frac{dP(t)}{dt}=P(t)Q$.
+\end{thm}
+\end{document}

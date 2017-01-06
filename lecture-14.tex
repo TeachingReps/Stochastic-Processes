@@ -1,246 +1,112 @@
-% !TEX spellcheck = en_US
-% !TEX spellcheck = LaTeX
 \documentclass[a4paper,10pt,english]{article}
 \input{header}
-\title{Lecture 14 : Continuous Time Markov Chains}
+%opening
+\title{Lecture 13: Foster-Lyapunov Theorem}
+\date{}%01 Mar 2016}
 \author{}
+
 \begin{document}
 \maketitle
-
-\section{Markov Process}
-\begin{defn}
-For a countable set $I$ a continuous time stochastic process $\{X(t) \in I, ~ t \geqslant 0\}$ is a \textbf{Markov process} if
-\begin{align*}
-\Pr\{X(t+s) = j |X(u),~ u \in [0,s]\} &= \Pr\{X(t+s) = j |X(s)\}, \text{ for all } s, t \geqslant 0 \text{ and } i, j \in I.
-\end{align*}
-We define the \textbf{transition probability} from state $i$ at time $s$ to state $j$ at time $s+t$ as 
-\begin{align*}
-P_{ij}(s, s+t) = \Pr\{X(s+t) = j | X(s) = i\}.
-\end{align*}
-\end{defn}
-\begin{defn}
-The Markov process has \textbf{homogeneous} transitions if $P_{ij}(s,s+t) = P_{ij}(0,t)$ for all $i,j \in I, s,t \geqslant 0$ and we denote the transition probability by $P_{ij}(t)$. 
-This continuous Markov process with homogeneous jump transition probabilities is referred to as \textbf{continuous time Markov chain (CTMC)}. 
-\end{defn}
-\begin{defn}
-A distribution $\pi$ is an \textbf{equilibrium distribution} of a Markov process if
-\begin{align*}
-\pi P(t) &= \pi,~~ \forall t \geqslant 0. 
-\end{align*}
-\end{defn}
-
-\subsection{Sojourn Times and Jump Transitions}
-For any stochastic process with countable state space $I$, we are interested in knowing probabilities of the form $\Pr\{X(v)=i,~v \in [s,s+t] | X(u)=i, ~ u \in [0,s]\}$.
-%Suppose $X(0)=i$, and  for all $u \in [0,s]$, we have $X(u)=i$.  
-To this end, we define sojourn times in any state and and jump transition probabilities from it.
-\begin{defn}
-\textbf{Sojourn time} of a stochastic process $\{X(t), t \geqslant 0\}$ is defined by
-\begin{align*}
-\tau_i \triangleq \inf\{t \geqslant 0: X(t) \neq i|X(0)=i\}, i \in I. 
-\end{align*}
-\end{defn}
-\begin{defn}
-\textbf{Jump times} of a stochastic process $\{X(t), t \geqslant 0\}$ are defined by
-\begin{xalignat*}{3}
-&S_n \triangleq \inf\{t \geqslant 0: X(t) \neq X(S_{n-1})\},&& S_0 = 0. 
-\end{xalignat*}
-\end{defn}
-\begin{defn} A discrete time process $\{X^J(n): n \in \N_0\}$ is called \textbf{jump process} derived from continuous time stochastic process $\{X(t): t \geqslant 0\}$ by
-\begin{align*}
-X^J(n) = X(S_n). 
-\end{align*}
-\end{defn}
-\begin{defn}
-\textbf{Jump transition probabilities} of a stochastic process $\{X(t), t \geqslant 0\}$ are defined by
-\begin{align*}
-p_{ij}(n) \triangleq \Pr\{X(S_n)  = j | X(S_{n-1}) =  i \}, ~i,j \in I.
-\end{align*}
-\end{defn}
-\begin{lem}\label{Lemma:MemorylessSojourn}
-For a homogeneous CTMC, sojourn time $\tau_i$ is a continuous memoryless random variable. %and exponentially distributed. 
-\end{lem}
-\begin{proof}
-We observe that,
-\begin{align*}
-\Pr\{\tau_i \geqslant s+t | \tau_i > s\} &=\Pr\{X(v)=i,~v \in [s,s+t) | X(u)=i,  i \in [0, s]\}\\
-&= \Pr\{X(v)=i,~v \in [0,t) | X(0)=i\} = \Pr\{\tau_i \geqslant t \}.
-\end{align*}
-\end{proof}
-\begin{lem}\label{Lemma:JumpProb}
-For any stochastic process, jump transition probabilities $p_{ij}(\tau_i)$ add to unity for all $i \in I$.
-\end{lem}
-\begin{proof}
-It follows from simple law of total probability.
-\end{proof}
-%We could sample the homogenous Markov process at sojourn times and study the resulting DTMC. 
-\subsection{Alternative construction of CTMC}
-\begin{prop} A stochastic process $\{X(t) \in I, t \geqslant 0 \}$ is a CTMC iff 
-\begin{enumerate}[a.]
-\item sojourn times are independent and identically distributed with an exponential distribution with rate $\nu_i$, and 
-\item jump transition probabilities $p_{ij}(\tau_i)$ are independent of $\tau_i$, such that $\sum_{i \neq j}p_{ij}=1$.
-\end{enumerate}
-\end{prop}
-\begin{proof}
-Necessity of two conditions follows from Lemma~\ref{Lemma:MemorylessSojourn} and~\ref{Lemma:JumpProb}. 
-For sufficiency, we assume both conditions and show that Markov property holds and the transition probability is homogeneous. 
-To this end, we observe
-\begin{align*}
-\{ X(u) = i, u \in [0,s] \} = \{ \tau_i > s \}.
-\end{align*}
-Hence, we can write for small $t > 0$, 
-\begin{align*}
-\Pr\{ X(t+s) = j | X(u) = i, u \in [0,s] \} 
-%&= \frac{\Pr\{ X(t+s) = j, \tau_i \in (s, s+t) \}}{\Pr\{\tau_i > s\}}\\
-&= \int_0^{t}\frac{\Pr\{\tau_i = s+u\}\Pr\{\tau_j > t-u\}}{\Pr\{\tau_i > s\}}p_{ij} + o(t).
-%\sum_{k \neq i}\frac{\Pr\{ X(t+s) = j, \tau_i \in (s,s+t), X(\tau_i) = k \}}{\Pr\{\tau_i > s\}}\\
-%&= \int_0^{t}\sum_{k \neq i}\Pr\{ X(t+s) = j| X(u+s) = k\} p_{ik} e^{-\nu_iu}du.
-\end{align*}
-Since $\tau_i$'s are independent and memoryless, it follows that
-\begin{align*}
-\Pr\{ X(t+s) = j | X(u) = i, u \in [0,s] \} 
-&= \Pr\{X(t) = j | X(0) = i\}, ~~\forall s, t \geqslant 0.
-\end{align*}
-\end{proof}
-\begin{rem}
-Transition probabilities $p_{ij}$ and sojourn times $\tau_i$ are independent. 
-\end{rem}
-\begin{rem} Inverse of mean sojourn time $\nu_i$ is called rate of state $i$, and typically $\nu_i < \infty$.  
-\end{rem}
-\begin{rem} If $\nu_i = \infty$, we call the state to be instantaneous. 
-\end{rem}
-\begin{rem}  A CTMC is a DTMC with exponential sojourn time in each state.
-\end{rem}
-\begin{defn} A CTMC is called \textbf{regular} if 
-\begin{align*}
-\Pr\{ \text{ number of transitions in } [0,t] \text{ is finite}\} = 1,~ \forall t < \infty.
-\end{align*} 
-\end{defn}
-\begin{exmp} Consider the following example of a non-regular CTMC. $p_{i,i+1}=1, \nu_i = i^2$. Show that it is not regular.
-\end{exmp}
-
-\section{Generator Matrix}
-\begin{defn}
-A \textbf{generator matrix} denoted by $Q \in \R^{I \times I}$ is defined in terms of sojourn times $\{\nu_i, i \in I\}$ and jump transition probabilities $\{p_{ij}, i \neq j \in I\}$ of a CTMC as
+\section{Foster's Theorem}
+\begin{thm}[Foster,1950]
+Let $\{X_n\}_{n \geq 0}$ be a irreducible DTMC on $\mathbb{N}_0$ if there exist a function $L : \mathbb{N}_0 \longrightarrow \mathbb{R}_+$ with $\mathbb{E}[L(X_0)] < \infty$, such that for some $K>k\geq0$, and $\epsilon>0$:
 \begin{enumerate}
-\item $q_{ii}= -\nu_i$,
-\item $q_{ij}=\nu_i p_{ij}$. 
+\item $|\{x \in \mathbb{N}_0 : L(x) \leq k\}| < \infty$
+\item $\mathbb{E}[L(X_n)|X_{n-1}] < K$,when $L(X_{n-1}) \leq k$.
+\item $\mathbb{E}[L(X_n)-L(X_{n-1})|X_{n-1}] < -\epsilon$ if $L(X_{n-1})\geq k$
 \end{enumerate}
-\end{defn}
-\begin{lem} A matrix $Q$ is a generator matrix for a CTMC iff for each $i \in I$,
- \begin{enumerate}
-\item $0 \leq -q_{ii} < \infty$, 
-\item $q_{ij} \geq 0$,
-\item $\sum_{j \in I}q_{ij}=0$.
-\end{enumerate}
-\end{lem}
-
-From the $Q$ matrix, we can construct the whole CTMC.  In DTMC, we had the result $P^{(n)}(i,j)=(P^n)_{i,j}$. We can generalize this notion  in the case of CTMC as follows: $P=e^{Q}\triangleq \sum_{k \in \mathbb{N}_0}\frac{Q^k}{k !}$.  Observe that $e^{Q_1+Q_2}=e^{Q_1}e^{Q_2},~ e^{nQ}=(e^Q)^n=P^n$.\\
-\begin{thm}
-Let $Q$ be a finite sized matrix. Let $P(t)=e^{tQ}$. Then $\{P(t),~ t \geq 0\}$ has the following properties:\begin{enumerate}
-\item {$P(s+t)=P(s)P(t),~ \forall s,~t$ (semi group property).}
-\item {$P(t),~t \geq 0$ is the unique solution to the forward equation, $\frac{dP(t)}{dt}=P(t)Q,~P(0)=I$.}
-\item {And the backward equation $\frac{dP(t)}{dt}=QP(t),~P(0)=I$.}\\
-\item {For all $k \in \mathbb{N}$, $\frac{d^kP(t)}{d^k(t)}|_{t=0}=Q^k$.}
-\end{enumerate}
-\end{thm}  
-\begin{proof}
-$\frac{dM(t)e^{-tQ}}{dt}=0,$ $M(t)e^{-tQ}$ is constant. $M(t)$ is any matrix satisfying the forward equation.
-\end{proof}
-\begin{thm}
-A finite matrix $Q$ is a generator matrix for a CTMC iff $P(t)=e^{tQ}$ is a stochastic matrix for all $t \geq 0$. 
+Then $\{X_n\}_{n \geq 0}$ is positive recurrent.(L $\equiv$ "potential function" or energy or lyapunov function).
 \end{thm}
 \begin{proof}
-$P(t)=I+tQ+O(t^2)$ ($f(t)=O(t) \Rightarrow \frac{f(t)}{t} \leq c,$ for small $t,~c < \infty$ ). $q_{ij} \geq 0$ if and only if $P_{ij}(t) \geq 0,~ \forall i \neq j$ and $t \geq 0$ sufficiently small. $P(t)=P(\frac{t}{n})^n$. Note that if $Q$ has zero row sums, $Q^n$ also has zero row sums.\\
-\begin{flalign*}
-\sum_j [Q^n]_{ij}&= \sum_j \sum_k [Q^{n-1}]_{ik}Q_{kj}= \sum_j \sum_k Q_{kj}[Q^{n-1}]_{ik}=0.\\
-\sum_{j}P_{ij}(t)&=1+\sum_{n \in \mathbb{N}} \frac{t^n}{n!}\sum_j [Q^n]_{ij}=1+0=1.
-\end{flalign*}  
-Conversely $\sum_{j}P_{ij}(t)=1,~ \forall t \geq 0$, then $\sum_jQ_{ij}= \frac{dP_{ij}(t)}{dt}=0$.
+As DTMC is irreducible than enough to show that some state is positive recurrent.
+By renewal theory, for any DTMC, for all $x \in \mathbb{N}_0$,
+\begin{align}
+\lim\limits_{N \rightarrow \infty} \mathbb{E}\Big[ \sum_{n=1}^{N} \boldsymbol{1}_{\{X_n=x\}} \Big] = \frac{1}{\mu _{xx}} 
+\end{align}
+where 
+\begin{equation*}
+\mu _{xx}=
+\begin{cases}
+	\infty \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ if \ $x$ \ is \ transient\\
+	\sum_{m \geq 0}m f^{m}_{xx} \ \ \ \ \ \ \ \ if \ $x$ \ is \ recurrent \\
+\end{cases}
+\end{equation*}
+consider the RHS of equation $(1)$
+\begin{align*}
+\lim\limits_{N \rightarrow \infty} \mathbb{E}\Big[ \sum_{n=1}^{N} \boldsymbol{1}_{\{X_n=x\}} \Big] > 0 \Longleftrightarrow x \ is \ positive \ recurrent  
+\end{align*}
+consider
+\begin{align*}
+& 0 \leq \mathbb{E}[L(X_n)] = \mathbb{E}[L(X_0)] +   \sum_{n=1}^{N}\mathbb{E}[L(X_n)-L(X_{n-1})]\\
+&= \mathbb{E}[L(X_0)] + \sum_{n=1}^{N}\mathbb{E}[L(X_n)-L(X_{n-1})]\boldsymbol{1}_{\{L(X_{n-1})>k\}} + \sum_{n=1}^{N}\mathbb{E}[L(X_n)-L(X_{n-1})]\boldsymbol{1}_{\{L(X_{n-1})\leq k\}}\\
+&\leq \mathbb{E}[L(X_0)] + \sum_{n=1}^{N}\mathbb{E}[-\epsilon \        \boldsymbol{1}_{\{L(X_{n-1})>k\}}] + \sum_{n=1}^{N}\mathbb{E}[K \ \boldsymbol{1}_{\{L(X_{n-1})\leq k\}}]\\
+&\Rightarrow \Bigg[\mathbb{E}\sum_{n=1}^{N} \boldsymbol{1}_{\{L(X_{n-1})\leq k\}}\Bigg](K + \epsilon) \geq -\mathbb{E}[L(X_0)] + \epsilon N\\\\
+&\Rightarrow \frac{1}{N} \Bigg[\mathbb{E}\sum_{n=1}^{N} \boldsymbol{1}_{\{L(X_{n-1})\leq k\}}\Bigg] \geq -\frac{\mathbb{E}[L(X_0)]}{N(K+\epsilon)} + \frac{\epsilon}{K+\epsilon}\\\\
+&\Rightarrow \limsup_{N\rightarrow \infty}\frac{1}{N} \Bigg[\mathbb{E}\sum_{n=1}^{N} \boldsymbol{1}_{\{L(X_{n-1})\leq k\}}\Bigg] \geq \frac{\epsilon}{K+\epsilon}
+\end{align*}
+Let $F = \{x \in \mathbb{N}_0: L(x) \leq k\}, \ |F| < \infty$. Now,
+\begin{align*}
+& \limsup_{N\rightarrow \infty}\frac{1}{N} \Bigg[\mathbb{E}\sum_{n=1}^{N} \boldsymbol{1}_{\{L(X_{n-1})\leq k\}}\Bigg]\\\\
+&=\limsup_{N\rightarrow \infty}\frac{1}{N} \Bigg[\mathbb{E}\sum_{n=1}^{N}\sum_{x \in F} \boldsymbol{1}_{\{X_{n-1}\leq k\}}\Bigg] \leq \sum_{x \in F} \Bigg[ \limsup_{N\rightarrow \infty}\frac{1}{N} \mathbb{E}\sum_{n=1}^{N} \boldsymbol{1}_{\{X_{n-1}\leq k\}}\Bigg]\\\\ 
+&=\sum_{x \in F} \Bigg[ \limsup_{N\rightarrow \infty}\frac{1}{N} \mathbb{E}\sum_{n=1}^{N} \boldsymbol{1}_{\{X_{n-1}\leq k\}}\Bigg] \geq \frac{\epsilon}{K+\epsilon}>0
+\end{align*}
+Therefore there exist some $x \in F$ such that ,
+\[\limsup_{N\rightarrow \infty}\frac{1}{N} \mathbb{E}\Bigg[ \sum_{n=1}^{N} \boldsymbol{1}_{\{X_{n-1}\leq k\}}\Bigg] \geq \frac{\epsilon}{(K+\epsilon)|F|}>0\]\\\\
+Therefore there exist some $x \in F$ such that ,
+\[\lim_{N\rightarrow \infty}\frac{1}{N} \mathbb{E}\Bigg[\sum_{n=1}^{N} \boldsymbol{1}_{\{X_{n-1}\leq k\}}\Bigg] >0\]
 \end{proof}
-
-%%%%%%%%
-\subsection{Kolmogorov Differential Equations}
-\begin{lem} For a CTMC with transition probability matrix $P(t)$, the following properties hold.
+\section{Applications of Foster's theorem: Queue scheduling/Max-weight scheduling}
+Consider $N$ queue served by a single server in discrete time(Figure 1).
+At time slot t = 1,2,3....\\
+$A_i(t) \in \mathbb{N}_0$ packets arrive to each queue $i \in [N]$ independently.\\
+\begin{figure}
+\centering
+\includegraphics[scale=0.6]{Figures/saa.png}
+\caption{N queues single server, server chooses one queue and serve upto one packet}
+\label{fig: example 1.1}
+\end{figure}
 \begin{enumerate}
-\item Limiting values of the transition probabilities are related to the generator matrix $Q$, i.e.
-\begin{align}
-\label{eq:limP}
-\lim_{t \downarrow 0} \frac{P(t)-I}{t} &= Q.
-\end{align}
-%\begin{xalignat*}{3}
-%&\lim_{t \downarrow 0} \frac{1-P_{ii}(t)}{t} =\nu_i,&&
-%\lim_{t \downarrow 0} \frac{P_{ij}(t)}{t} =q_{ij}.
-%\end{xalignat*}
-\item The transition probability matrix has the semi group property, i.e.
-\begin{align}
-P(t+s) &= P(t)P(s), ~~s,t \geq 0.
-\label{eqn:chapkolmogorov}
-\end{align}
+\item $\mathbb{E}[A_i(t)] = \lambda _i$
+\item $\mathbb{P}[A_i(t)=0] > 0$
+\item $\mathbb{E}[A_i(t)^2] \leq C$
 \end{enumerate}
+Server picks one queue $Q(t) \in [N]$ for service. Let $R_i(t) =  \boldsymbol{1}\{Q(t) = i\}$.One packet is served from $Q(t)$ if it is not empty.Let $X_i(t)$ = number of packets in queue $i$ just before time slot $t$.\\
+\[X_i(t+1) = (X_i(t) + A_i(t) - R_i(t))_+\]
+Where \[a_+ = max(0,a)\]
+aslo \[X_i(t+1) = X_i(t) + A_i(t) - R_i(t) + L_i(t)       \]Where 
+\begin{equation*}
+L_i(t) = 
+\begin{cases}
+  1 \ \ \ \,service \ attempted \ when \ i \ is \ empty\\
+  0 \ \ \ \,otherwise 
+\end{cases}
+\end{equation*}
+Mean rate of arrivals to system : $= \sum_{i=1}^{N} \lambda _i
+$\\
+Maximum rate of departure $= 1$, we will assume $ \sum_{i=1}^{N} \lambda _i < 1$.
+\begin{thm}[Max-weight scheduling algorithm, 1992]
+\[Q(t) = \arg \max _{i \in N} X_i(t)  \] 
+that is serve  the longest queue.Under MAX-WT ,$X(t) = (X_i(t))_{i=1}^{N}$ is a DTMC which is irreducible and aperiodic on state space $\mathbb{N}_0^N$.As long as $\sum_{i=1}^{N} \lambda _i < 1$, $\{X_n\}$ is positive recurrent.
+\end{thm}
 \begin{proof}
-Since the probability of two of more transitions in $(0,t]$ is $o(t)$ it follows that $P_{ii}(t) = e^{-\nu_i t}+o(t)$, that is, the probability of being in state $i$ at time $t$ having started in state $i$ is the sum of the probability of either no transitions in $(0,t]$ and the probability of being in $i$ after two or more transitions, the latter being $o(t)$. Thus, we have
-\begin{align}
-\underset{t\downarrow 0}{\mathrm{lim }} \frac{1-P_{ii}(t) }{t} = \nu_i,
-\end{align}
-which asserts the diagonal terms in \eqref{eq:limP}, since $\nu_i = -q_{ii}.$
-Similarly, for the off-diagonal terms, let $i\not = j,$ we have 
-\begin{align}
-P_{ij}(t) &= P(X(t)=j|\text{one transition in }(0,t])(1-e^{-\nu_i t})+ o(t)\\
-&= P_{ij} \cdot (1-e^{-\nu_it})+o(t).
-\end{align}
-Dividing by $t$ and taking limits now establishes \eqref{eq:limP}.
-
-Akin to the Chapman-Kolmogorov equations for the DTMC, we have
+By Foster's theorem, define the Lyapunov function:
+\[L(x) = \frac{1}{2} \sum_{i=1}^{N}x_i^2\] consider
 \begin{align*}
-P_{ij}(t+s) &= P(X(t+s)=j|X(0)=i)\\
-&=\sum_k P(X(t+s)=j|X(0)=i,X(t)=k)P(X(t)=k|X(0)=i)\\
-&=\sum_k P_{kj}(s)P_{ik}(t),
+& L(X(t)) - L(X(t-1))\\
+&= \frac{1}{2} \sum_{i=1}^{N}\Big[ (X_i(t))^2 - (X_i(t-1))^2 \Big]\\
+&= \frac{1}{2} \sum_{i=1}^{N}\Big[ \{X_i(t-1) + A_i(t-1) - R_i(t-1) + L_i(t-1)\}^2 - (X_i(t-1))^2 \Big]\\
+& \leq \frac{1}{2} \sum_{i=1}^{N}\Big[ \{X_i(t-1) + A_i(t-1) - R_i(t-1)\}^2 - (X_i(t-1))^2 \Big]
 \end{align*}
-establishing \eqref{eqn:chapkolmogorov}.
-
+Therefore 
+\[\mathbb{E}\Big[ L(X(t)) - L(X(t-1)) | X(t-1) = x \Big]  \leq \frac{1}{2} \sum_{i=1}^{N} \mathbb{E} \Big[ (x_i + A_i(t-1) - R_i(t-1))^2 - x_i^2 | X(t-1) = x \Big]\]
+\begin{align*}
+&= \frac{1}{2} \sum_{i=1}^{N} \Bigg[ 2x_i \mathbb{E} \Big[ (A_i(t-1) - R_i(t-1)| X(t-1) = x \Big] + \mathbb{E} \Big[ (A_i(t-1) - R_i(t-1))^2 | X(t-1) = x \Big] \Bigg]\\
+&= \sum_{i=1}^{N}x_i \lambda _i - \sum_{i=1}^{N}x_i R_i(t-1) + \frac{N}{2}(1+C)\\
+&= \sum_{i=1}^{N}x_i \lambda _i + \frac{N}{2}(1+C) - \max _i x_i\\
+& \leq \frac{N}{2}(1+C) + (\max _i x_i)(\sum_{i=1}^{N} \lambda _i - 1)\\
+&= C_1 - \epsilon (\max _i x_i)
+\end{align*}
+Foster's theorem applies with $k = \max \{\frac{\|x\|_2 ^2}{2}\}$
 \end{proof}
-\end{lem}
-
-\subsection{Chapman Kolmogorov Equation for CTMC}
-\begin{thm}[Kolmogorov Backward equation] For a CTMC with transition probability matrix $P(t)$, we have
-\begin{align*}
-%P'_{ij}(t)= \sum_{k \neq i}q_{ik}P_{kj}(t)-\nu_iP_{ij}(t) ,  i,j \in I
-\frac{dP(t)}{dt}=QP(t), ~~t \geqslant 0.
-\end{align*}
-\end{thm}
-\begin{proof} Since, transition probability matrix $P(t)$ for a CTMC has a semi-group property, 
-%we have
-%\begin{align*}
-%P_{ij}(t+h)=\sum_{k \in I}P_{ik}(h)P_{kj}(t),~~i,j \in I.
-%\end{align*}
-%Re-arranging terms, 
-we can write
-\begin{align*}
-%P_{ij}(t+h)-P_{ij}(t)=\sum_{k \neq i}P_{ik}(h)P_{kj}(t)-(1-P_{ii}(h))P_{ij}(t).
-\frac{P(t+h) - P(t)}{h} &= \frac{(P(h)- I)}{h}P(t) = P(t)\frac{(P(h) - I)}{h}.
-\end{align*}
-%Dividing above equation by $h$,  and 
-Taking limits $h \downarrow 0$, we get 
-\begin{align*}
-\frac{dP_{ij}(t)}{dt} = \sum_{k \neq i}q_{ik}P_{kj}(t)-\nu_iP_{ij}(t). 
-\end{align*}
-Now the exchange of limit and summation has to be justified. For any finite $k < N$, we have
-\begin{align*}
-\liminf_{h \downarrow 0} \sum_{k \neq i}\frac{P_{ik}(h)}{h}P_{kj}(t) \geq \sum_{k \neq i, k < N}\liminf_{h \downarrow 0}\frac{P_{ik}(h)}{h}P_{kj}(t) = \sum_{k \neq i, k < N}q_{jk}P_{kj}(t).
-\end{align*}
-Since, above is true for any finite $N$, taking supremum over all $N$, we get 
-\begin{align*}
-\liminf_{h \downarrow 0} \sum_{k \neq 1}\frac{P_{ik}(h)}{h}P_{kj}(t) \geq \sum_{k \neq i}q_{jk}P_{kj}(t).
-\end{align*}
-%Suffices to show that $\limsup_{h \rightarrow 0} \sum_{k \neq 1}\frac{P_{ik}(h)}{h}P_{kj}(t) \leq \sum_{k \neq 1}q_{jk}P_{kj}(t)$. 
-Conversely,
-\begin{align*}
-\limsup_{h \downarrow 0}\sum_{k \neq i}\frac{P_{ik}(h)}{h}P_{kj}(t) &\leq \limsup_{h \downarrow 0}\left(\sum_{k \neq i, k<N}\frac{P_{ik}(h)}{h}P_{kj}(t)+\sum_{k\geq N}\frac{P_{ik}(h)}{h}\right)\\
-& = \limsup_{h \downarrow 0}\left(\sum_{k \neq i, k<N}\frac{P_{ik}(h)}{h}P_{kj}(t)+\frac{1-P_{ii}(h)}{h} -\sum_{k \neq i, k < N}\frac{P_{ik}(h)}{h} \right)\\
-&= \sum_{k \neq i, k<N}q_{ik}P_{kj}(t)+\nu_i- \sum_{k \neq i, k < N}q_{ik}. %&=\sum_{k \neq 1}q_{ik}P_{kj}(t). 
-\end{align*}
-\end{proof}
-\begin{thm}
-\textbf{Kolmogorov Forward Equation:} Under suitable regularity conditions, $P'_{ij}(t)=\sum_{k \neq i}P_{ik}(t)q_{kj}-P_{ij}(t)\nu_i$, i.e. $\frac{dP(t)}{dt}=P(t)Q$.
-\end{thm}
 \end{document}
+

@@ -1,321 +1,307 @@
-% !TEX spellcheck = en_US
-% !TEX spellcheck = LaTeX
 \documentclass[a4paper,10pt,english]{article}
-\include{header}
-\title{Lecture 11 : Discrete Time Markov Chains}
+\input{header}
+
+\title{ Lecture 10: Discrete Time Markov Chains}
 \author{}
+
 \begin{document}
 \maketitle
-\section{Discrete Time Markov Chains Contd}
-\begin{thm}
-An irreducible, aperiodic Markov Chain with countable state space $I$ is of one of the following types:
-\begin{enumerate}[i)]
-\item All the states are either transient or null recurrent. That is, $\lim_{n \in \N}P_{ij}^n = 0$  and there exists no stationary distribution.
-\item All the states are positive recurrent. There exists a unique stationary distribution $\pi \in \Delta(I)$,
-\begin{align*}
- \pi_j &= \lim_{n \in \N} P^n_{ij} > 0,~ j \in I.
- \end{align*}
-\end{enumerate}
-\end{thm}
-\begin{proof} Let $\{X_n: n \in \N\}$ be an irreducible, aperiodic Markov chain with state space $I$. 
-\begin{enumerate}[i)]
-\item 
-If the states are transient or null recurrent and $P \in \Delta(I)$ is a stationary distribution, 
-then for any $n \in \N$, we have
-\begin{align*}
-P_j = \sum_{i \in I} \Pr\{X_n = j|X_0 = i\} \Pr\{X_0 = i\} = \sum_{i \in I} \pi_i P_{ij}^n.
-\end{align*} 
-Since, $\pi_j = 0$ for all $j \in I$, we have $P_j=0$ for every $j \in I$. 
-This contradicts the assumption that $P_j$ is a probability distribution. 
-\item 
-%We will initially prove the second case. 
-From renewal reward theorem, $\lim_{n \in \N}P_{ij}^{(n)} = 1/\mu_{jj}$ exists, which we take as $\pi_j$. Further, for any finite set $A \subseteq I$, we have
-\begin{align*}
-\sum_{j \in A} P_{ij}^{(n)}&\leq \sum_{j \in I} P_{ij}^{(n)} = 1.
-\end{align*}
-Taking limit $n \in \N$ on both sides, we conclude that $\sum_{j \in A}\pi_j  \leq 1$ for all $A$ finite. Taking limit with respect to $A$, we conclude,  
-\begin{align*}
-\sum_{j \in I} \pi_j \leq 1.
-\end{align*}
-Further, we can write for all $A \subseteq I$,
-\begin{align*}
-P_{ij}^{n+1} &= \sum_{k \in I}P_{ik}^nP_{kj} \geq \sum_{k \in A}P_{ik}^nP_{kj}.
-\end{align*}
-Applying limit $n \in \N$ on both sides, %$P_{ij}^{n+1} \geq \sum_{k=0}^{M}P_{ik}^nP_{kj}$, 
-we get $\pi_j \geq \sum_{k \in A} \pi_kP_{kj}$ for all $A$ finite. 
-Hence, taking limits with respect to $A$, we get for all $j \in I$,
-\begin{align*}
-\pi_j &\geq \sum_{k\in I} \pi_kP_{kj}.
-\end{align*}	
-Assuming that the inequality is strict for some $j \in I$, we can sum the inequalities over $j$. 
-Since, summands are non-negative we can exchange summation orders to get
-\begin{align*}
-\sum_{j \in I} \pi_j &> \sum_{j \in I} \sum_{k \in I}\pi_kP_{kj} = \sum_{k \in I} \pi_k \sum_{j \in I} P_{kj} = \sum_{k \in I} \pi_k.
-%&(summation \: can\: be\: interchanged \:since\: \pi_k\: and\: P_{kj}\: are\: non-negative.)\\
-\end{align*}	
-This is a contradiction. Therefore, for all $j \in I$
-\begin{align*}
-&\pi_j = \sum_{k \in I} \pi_k P_{kj}.
-\end{align*}
-Defining normalized $P_j = \frac{\pi_j}{\sum_{k \in I}\pi_k}$, 
-we see that $\{P_j,j \in I\}$ is a stationary distribution and so at least one stationary distribution exists. 
-Let $\{P_j,j \in I\}$ be any stationary distribution. Let $\{P_j,j \in I\}$ be the probability distribution of $X_0$, then for any finite subset $A \subseteq I$, we get 
-\begin{align*}
-P_j &= \Pr\{X_n = j\} = \sum_{i \in I} \Pr\{X_n = j|X_0 = i\} P\{X_0 = i\} = \sum_{i=0}^{\infty} P_{ij}^nP_i \geq \sum_{i \in A} P_{ij}^nP_i.
-\end{align*}
-As before, we take limit $n \in \N$, followed by limit of increasing subsets $A \uparrow I$, to obtain
-\begin{align*}
-P_j &\geq \sum_{i \in I} \pi_j P_i = \pi_j.
-\end{align*}
-To show $P_j \leq \pi_j$, we use the fact that $P_{ij}^n \leq 1$. Let $A \subseteq I$ be a finite subset, then
-\begin{align*}
-P_j &= \sum_{i \in I} P_{ij}^nP_i = \sum_{i \in A}P_{ij}^nP_i + \sum_{i \in A^c}P_{ij}^nP_i \leq \sum_{i \in A} P_{ij}^{n}P_i + \sum_{i \in A^c} P_i.
-\end{align*}
-Using our standard approach of taking limit $n \in \N$, followed by $A \subseteq I$, we obtain
-\begin{align*}
-%&n \in \N \Rightarrow P_j \leq \sum_{i=0}^{M}\pi_jP_i + \sum_{i=M+1}^{\infty} P_i, \forall M\\
-%&\because \sum_{0}^{\infty}P_i = 1, M \to \infty \Rightarrow 
-P_j &\leq \sum_{i=0}^{\infty} \pi_j P_i = \pi_j.
-\end{align*}
-\end{enumerate}
-%Thus for the first case, no stationary distribution exists and the proof is complete.
-\end{proof}
+\section{Introduction}
+\begin{defn}[DTMC]
+A stochastic process $\{X_n, n \in \mathbb{N}_0\}$, where $X_n \in \mathcal{S}$, where $\mathcal{S}$ is assumed at most countable, is called a DTMC (Discrete Time Markov Chain) if
+\[P[X_{n+1} = j| X_n = i, X_{n-1} =i_{n-1}, \cdots, X_0 = i_0] = P[X_{n+1} = j|X_n = i] = p_{ij}^{(n)}\] 
+\[\forall i_0, i_1,\cdots i_{n-1}, i,j \in \mathcal{S}, \quad \forall n \in \mathbb{N}_0\]
+\end{defn}
 
-\begin{cor} An irreducible, aperiodic DTMC defined on a finite state space $I$ will be positive recurrent.
-\end{cor}
+If $p_{ij}^{(n)} = p_{ij}$, \textit{i.e.,} $\mathbb{P}[X_{n+1}=j|X_n=i]$ does not depend on $n$ for every $n$ then we say the DTMC is homogeneous. Henceforth we shall only work with homogeneous DTMCs. 
+
+\begin{defn}[Transition Probability Matrix]
+  $\{p_{ij}\}$ are called transition probabilities as they define the
+  probability of transiting from state $i$ to state $j$ in one step.
+  We can create a matrix $P$ out of the transition probabilities where
+  the $i^{th}$ row and $j^{th}$ column equal $p_{ij}$. Such a matrix
+  is called a \textbf{Transition Probability Matrix} or \textbf{TPM}.
+\end{defn}
+If a non-negative matrix $P$ has the property that for all $i \in \mathcal{S}$, $\sum_{j \in \mathcal{S}} p_{ij} \leq 1$; then it is called a \textbf{sub-stochastic} matrix. If true with equality, then it is called a \textbf{stochastic} matrix. If in addition, $P^T$ is stochastic, then $P$ is called a \textbf{doubly stochastic}.
+
+% \subsection{Example: M/G/1 Queue}
+% In this queue, arrivals occurs as per a Poisson Process but service times are distributed \emph{iid} $G$. And there is only one server. Let $X(t)$ count the number of customers in the system at time t. Consider $\{X(t), t\geq 0\}$. Let $X_n = X(D_n^+)$ be the number of customers left behind by nth departure.
+
+% \begin{prop}
+% $X_n$ is a DTMC.
+% \end{prop}
+% To see this, let $Y_n$ denote the number of customers arriving during service time of  $(n+1)$th customer. Assume service time $\sim G$. Then
+% \[X_{n+1} = X(D_{n+1}^+) = (X_n - 1)^+ + Y_n\]
+
+% Hence writing the TPM (here take $i\geq 1$)
+% \begin{flalign*}
+% &P[X_{n+1} = j| X_n = i, X_{n-1} = i_{n-1}, \cdots, X_0 =i_0] \\
+% & =  P[i +Y_n -1 = j| X_n = i, X_{n-1} = i_{n-1}, \cdots, X_0 =i_0] \\
+% & = P[Y_n = j+1-i] := p_{ij}
+% \end{flalign*}
+%  For $i=0$, $p_{0j} = P[Y_n =j]$. As the arrival process is Poisson, we can compute the TPM hence.
+
+% \subsection{Example: G/M/1 Queue}
+% In this queue, arrivals occur as per a renewal process with interarrival times $\sim G$. The service times are exponentially distributed. Our strategy, therefore is the analogous one, where we sample the queue after the nth arrival. With this in mind, let $X_n = X(A_n^-) $ which is the number of customers seen by the nth arrival. We get
+% \[X_{n+1} = (X_n-Y_n+1)^+\]
+% From this, the TPM may be calculated.
+
+\section{Chapman Kolmogorov Equations}
+Define
+\[p_{ij}^{(n)} = P[X_{n+m} = j | X_m = i] \quad \forall m \in \mathbb{N},\quad i,j \in \mathcal{S}\]
+Then we have by conditioning and the Markov property
+\[ p_{ij}^{(m+n)} = \sum_{k \in \mathcal{S}} p_{ik}^{(m)}p_{kj}^{(n)} \]
 \begin{proof}
-Suppose that the DTMC is not positive recurrent, then 
-\begin{align*}
-\lim_{n \in \N}P_{ij}^{(n)} &= 0.
-\end{align*}
-Interchanging limit and finite summation gives
-\begin{align*}
-0 = \sum_{j \in I}\lim_{n \in \N}P_{ij}^{(n)}  = \lim_{n \in \N}\sum_{j \in I}P_{ij}^{(n)} = 1.
-\end{align*}
-This is a contradiction. 
-Hence the DTMC mentioned above is positive recurrent.
+\begin{flalign*}
+p_{ij}^{(n+m)} =  & P[X_{n+m} = j| X_0 = i]\\
+=& \sum_{k \in \mathcal{S}} P[X_{n+m} = j,X_m=k| X_0 = i]\\
+=& \sum_{k \in \mathcal{S}}  P[X_{n+m} = j|X_m=k, X_0 = i].P[X_m=k|X_0=i]\\
+=& \sum_{k \in \mathcal{S}}  P[X_{n+m} = j|X_m=k].P[X_m=k|X_0=i]\\
+=& \sum_{k \in \mathcal{S}}  P[X_{n} = j|X_0=k].P[X_m=k|X_0=i]\\
+=& \sum_{k \in \mathcal{S}}  p_{ik}^{(m)}p_{kj}^{(n)}.\\
+\end{flalign*}
+The third equality is just using the property of conditional expectation. The fourth equality is by using the Markov property and the fifth equality is by the time homogeneity of the DTMC.
 \end{proof}
+If $P$ is the TPM, this result may be compactly written as $P^{(n)} = P^n$. As a result, $p_{ij}^{(n)} = P^n(i,j)$.
 
-\begin{cor} For an irreducible and aperiodic DTMC with stationary distribution $\pi$, we have $\E_i[T_i] = 1/\pi_i$ for any state $i \in I$, where $\E_i[T_i]$ denotes the expected number of time steps to return to the state $i$.
-\end{cor}
-
-\subsection{Ergodic theorem for DTMCs}
-\begin{prop} Let $\{X_n\}$ be an irreducible, aperiodic and positive recurrent DTMC on countable state space $I$ with stationary distribution $\pi$. 
-Let $f : I \to R$, such that $\sum_{i \in I} \arrowvert f(i) \arrowvert \pi_i < \infty$, that is $f$ is integrable over $I$ with respect to $\pi$.  
-Then for any initial distribution of $X_0$, 
-\begin{align*}
-\lim_{n\in \N}\frac{1}{n} \sum_{i=1}^{n} f(X_i) = \sum_{i \in I} \pi_if(i) \text{ almost surely}.
-\end{align*}
-\end{prop}
-
-\begin{proof}
-
-Fix $X_0 = i \in I$. Let $(\tau_1, \tau_2, \ldots)$ be successive instants at which state $i$ is visited, i.e. $\tau_0 = 0$. 
-%Notice these are renewal instants.
-For all $p \geq 0$,  let $R_{p+1} = \sum_{n = \tau_p + 1}^{\tau_{(p + 1)}} f(X_n)$ be the net reward earned at the end of cycle $(p+1)$. 
-Each cycle forms a renewal. 
-By the strong Markov property, these cycles are independent. 
-At each of these stopping times, Markov chain is in state $i$. 
-Average reward earned during the first $k$ cycles is given by
-\begin{align*}	
-\frac{1}{n} \sum_{k=1}^{n} R_k &= \frac{1}{n} \sum_{k=1}^{n} \sum_{\tau_{k-1} + 1}^{\tau_k} f(X_i)= \frac{1}{n} \sum_{t=1}^{\tau_n} f(X_t).
-\end{align*}
-From renewal reward theorem and applying previous corollary, we get
-\begin{align*}
-\lim_{n \in \N}\frac{\sum_{k=1}^nR_k}{n} &= \frac{\E_i[\text{reward in one renewal cycle}]}{\E_i[\text{renewal cycle length}]} = \pi_i\E_i[\sum_{n=1}^{\tau_1}f(X_n)].
-\end{align*}
-We focus on the mean reward in one renewal cycle, assuming $f$ is non-negative,
-\begin{align*}
-%&E_0[cycle \: length] = \frac{1}{\pi_0}\: (from \: Corollary \: 2)\\
-%&E_0[cycle \: reward] = E_0[\sum_{n=0}^{\tau_1}f(X_n)]\\
-\E_i[\text{cycle reward}] &= \E_i\sum_{n=1}^{\tau_1} \sum_{j \in I} f(j) 1_{\{X_n = j\}} = \sum_{j \in I} f(j) \E_i\sum_{n=1}^{\tau_1} 1_{\{X_n = j\}}.
-\end{align*}
-To calculate the reward given above, we need to find the expected number of visits to state $j$ between successive visits to state $i$. 
-We denote the average number of visits to state $j$ by  
-$Y_j = \lim_{n \in \N}\frac{\sum_{t=1}^{n} 1_{\{X_t = j\}}}{n}$. %Let us call it $\circledR$.\\
-We can compute $Y_j$ in two ways.
-\begin{enumerate}
-	\item DTMC undergoes a renewal each time it hits state $j$. 
-	So, from elementary renewal theorem, 
-	\begin{align*}
-	Y_j &= \E_i1_{\{X_n = j\}} = 1/(1/\pi_j) = \pi_j.
-	\end{align*}
-	\item Without loss of generality, renewal occurs whenever DTMC hits state $i$. Hence, $\E_i\tau_1 = 1/\pi_i$ and by renewal reward theorem, we obtain
-	\begin{align*}
-	Y_j &= \frac{\E_i[\sum_{n=1}^{\tau_1} 1_{\{X_n = j\}}]}{1/\pi_i}.
-	\end{align*}
-\end{enumerate}
-Combining above two, we get $\E_i[\sum_{t=1}^{\tau_1} 1_{\{X_t = j\}}] = \frac{\pi_j}{\pi_i}$ and the result follows. 
-%$\frac{1}{\tau_n} \sum_{t=0}^{\tau_n} f(X_t) \stackrel {n \in \N}{\to} \frac{\sum_{j \in I} f(j) \pi_j/\pi_i}{1/\pi_i}$
-\end{proof}
-\end{document}
-%
-%% !TEX spellcheck = en_US
-%% !TEX spellcheck = LaTeX
-%\documentclass[a4paper,10pt,english]{article}
-%\input{header}
-%\title{Lecture 11 : Time Reversibility of Discrete Time Markov Chains}
-%\author{}
-%\begin{document}
-%\maketitle
-%\section{Discrete Time Markov Chains Contd.}
-
-\subsection{Time Reversibility of Discrete Time Markov Chains}
-
-Consider a discrete time Markov chain with transition probability matrix $P$ and stationary probability vector $\pi$.\\
-\textbf{Claim:} The reversed process is a Markov chain.
-\begin{proof}
-\begin{align*}
-&P(X_{m-1}=i|X_m=j,X_{m+1}=i_{m+1} \hdots )=\frac{P(X_{m-1}=i,X_m=j, \hdots )}{P(X_m=j, X_{m+1}=i_{m+1}\hdots )}\\
-&=\frac{P(X_{m-1}=i,X_m=j)P(X_{m+1}=i_{m+1}\hdots |X_{m-1}=i,X_m=j  )}{P(X_m=j)P(X_{m+1}=i_{m+1} \hdots |X_m=j)}\\
-&\stackrel{(a)}{=}\frac{P(X_{m-1}=i,X_m=j)P(X_{m+1}=i_{m+1}\hdots |X_m=j  )}{P(X_m=j)P(X_{m+1}=i_{m+1} \hdots |X_m=j)}\\
-&=P(X_{m-1}=i|X_m=j).\\
-\end{align*}
-where $(a)$ follows from the Markov property.
-\end{proof}
-The sequence $\{X_n,X_{n-1} \hdots \}$ is called reverse process. Let $P^*$ denote the transition probability matrix. 
-\begin{align*}
-P_{ij}^*&=P(X_{n-1}=j|X_n=i)=\frac{P(X_{n-1}=j,X_n=i)}{P(X_n=i)}\\
-&=\frac{P(X_{n-1}=j)P(X_n=i|X_{n-1}=j)}{P(X_{n}=i)}\\
-&=\frac{P(X_{n-1}=j)}{P(X_{n}=i)}P_{ji}
-\end{align*}
-suppose we are considering a stationary Markov chain, $P(X_n=l)=P(X_{n-1}=l)=\pi(l),~\forall l$, $\pi(i){P^*}_{ij}=\pi(j)(P)_{ji}$. If $P^*=P^T$ then the Markov chain is called time reversible. Thus the condition for time reversibility is given by $\pi P_{ij}=\pi_jP_{ji}$. Any non-negative vector $X$ satisfying $X_iP_{ij}=X_jP_{ji},~\forall i,j$ and $\sum_{j \in \mathcal{N}_0}X_j=1$ is stationary distribution of time-reversible Markov chain. This is true because,
-\begin{align*}
-\sum_{i} X_i P_{ij}=\sum_i X_j P_{ji}=X_j \sum X_i = 1.
-\end{align*}
-Since stationary probabilities are the unique solution of the above, the claim follows.\\
-
-\textbf{Example 4.7(A) An Ergodic Random Walk}: Any ergodic, positive recurrent random walk is time reversible. The transition probability matrix is $P_{i,i+1}+P_{i-1,i}=1$. For every two transitions from $i+1$ to $i$, there must be one transition from $i$ to $i+1$. The rate of transitions from $i+1$ to $i$ must hence be same as the number of transitions from $i$ to $i+1$. So the process is time reversible.
-
-\textbf{Example 4.7(B) The Metropolis Algorithm: } Let $a_j,~ j=1, \hdots m$ be positive numbers and let $A=\sum_{i=1}^{m}a_i$. Suppose that $m$ is large and $A$ is difficult to compute. One way to compute it by simulating a sequence of random variables is by generating a Markov chain whose limiting probabilities are $p_j$s. The Metropolis algorithm provides a convenient approach. \\
-Let $Q$ be an irreducible transition probability matrix on the integers $1, \hdots n$ such that $q_{ij}=q_{ji}$ and for all $i$ and $j$. Generate a Markov chain $\{X_n\}$ such that the transition probabilities are given by 
-\begin{align*}
-P_{ij} = \left\{
-     \begin{array}{lr}
-       q_{ij}\min(1,a_j/a_i) & : j \neq i\\
-       q_{ii}+\sum_{j \neq i}q_{ij}\{1-\min(1,a_j/a_i)\} & : j = i.
-     \end{array}
-   \right.
-\end{align*} 
-It can be directly verified that the chain is irreducible and hence verify that $p_j$s are the limiting probabilities.
-
-\textbf{Edge weighted graphs:} Consider a graph having a positive number $w_{ij}$ associated with each edge $(i,j)$, and suppose that a particle moves from vertex to vertex in the following manner: If the particle is presently at vertex  $i$ then it will next move to vertex $j$ with probability
+\subsection{Strong Markov Property (SMP)}
+Let $T$ be an integer valued stopping time with respect to the stochastic process $\{X_n,n\geq 0\}$ such that $\mathbb{P}[T<\infty]=1$. Then the process $X_n$ that satisfies the \textit{Strong Markov Property} (SMP) \textit{if},
+\[P[X_{T+1} = j|X_{T} = i, \cdots,X_0 =i_0] = P[X_{T+1} = j|X_{T} = i] \quad \forall j,i,\ldots,i_0 \in \mathcal{S} \quad or \quad \mathbb{N}_0\]
+Markov chains, for instance, satisfy them (hence the name). Let $X_n$ be a DTMC. Then
+\begin{flalign*}
+&P[X_{T+1} = j|X_{T} = i, \cdots, X_0 =i_0] \\
+&= \sum_{n \in \mathbb{N}_0}  P[X_{T+1} = j, T=n|X_{T} = i, \cdots, X_0 =i_0] \\
+&= \sum_{n \in \mathbb{N}_0} P[X_{n+1} = j|X_{n} = i, \cdots, X_0 =i_0, T=n] P[T=n|X_{T} = i, \cdots, X_0 =i_0]  \\
+&= \sum_{n \in \mathbb{N}_0} p_{ij} P[T=n|X_{T} = i, \cdots, X_0 =i_0] \\
+&= p_{ij}
+\end{flalign*}
+As an exercise, if we try to use the Markov property on arbitrary random variable $T$, the SMP may not hold. For example, define $T$ which is not a stopping time like,
+\[T=\inf \{n \geq 0|X_{n+1}=s,\]
+then,
 \begin{equation*}
-P_{ij}=\frac{w_{ij}}{\sum_{j}w_{ij}}
+\mathbb{P}[X_{T+1}=s|X_T=i,X_{T-1}=j]=
+\begin{cases}
+1,\quad if \, p_{is}>0\\
+0, \quad if \, p_{is}=0,\\
+\end{cases}
+\neq  \mathbb{P}[X_1=s|X_0=i].
 \end{equation*}
-where $w_{ij}$ is 0 if $(i,j)$ is not an edge of the graph. The Markov chain describing the sequence of vertices visited by the particle is called a random walk on an edge weighted graph. 
+A useful application of the SMP is as follows. Let $i_0$ be a fixed state. Let $\tau_n$ denote the time at which the DTMC visits $i_0$ for the nth time. Then $\{X_{\tau_n + m}: \quad m \in \mathbb{N}_0\}$ is a stochastic replica of $\{X_m:\quad m \in \mathbb{N}_0\}$ with $X_0 = i_0$ and can be studied as such.
+
+\section{Communicating classes}
+\begin{defn}
+State $j$ is said to be \textbf{accessible} from state $i$ if $p_{ij}^{(n)} >0$ for some $n \geq 1$. If two states are accessible to each other, they are said to \textbf{communicate} with each other. If state $i$ and $j$ communicate, we denote it by $i \iff j$. A set of states that communicate are called a \textbf{communicating class}.
+\end{defn}
+
 \begin{prop}
-Consider a random walk on an edge weighted graph witha finite number of vertices. If this Markov chain is irreducible then it is, in steady state, time reversible with stationary probabilities given by 
-\begin{equation*}
-\pi_i = \frac{\sum_{i}w_{ij}}{\sum_{j}\sum_{i}w_{ij}}.
-\end{equation*}
+Communication is an equivalence relation. 
 \end{prop}
 \begin{proof}
-The time reversibility equation
-\begin{equation*}
-\pi_iP_{ij}=\pi_{j}P_{ji}
-\end{equation*}
-reduces to 
-\begin{equation*}
- \frac{\pi_i w_{ij}}{\sum_{k}w_{ik}}=\frac{\pi_j w_{ji}}{\sum_{k}w_{jk}}
-\end{equation*}
-But noting that $w_{ij}=w_{ji}$ and $\sum_{i}\pi_i = 1$, we get the desired result.
- 
-\end{proof}
-\subsubsection*{Necessary condition for time reversibility}
-If we try to prove the equations necessary for time reversibility, $X_iP_{ij}=X_jP_{jk}$ for all $i,j$, for any arbitrary Markov chain, one may not end up getting any solution. This is so because, if $P_{ij}P_{jk}>0$, then $\frac{X_i}{X_k}=\frac{P_{ji}P_{kj}}{P_{jk}P_{ij}} \neq \frac{P_{kj}}{P_{jk}}$.\\
-Thus we see that a necessary condition for time reversibility is $P_{ij}P_{jk}P_{ki}=P_{ik}P_{kj}P_{ji},~ \forall i,j,k$. In fact we can show the following.
-\begin{thm}
-A stationary Markov chain is time reversible if and only if starting in state $i$
-, any path back to state $i$ has the same probability as the reversed path, for all $i$. That is, if
-\begin{align*}
-P_{i i_1}P_{i_1 i_2}\hdots P_{i_k i}=P_{i,i_k}P_{i_k i_{k-1}} \hdots P_{i_1,i}.
-\end{align*} 
-\end{thm}
-\begin{proof}
-The proof of necessity is as indicated above. To see the sufficiency part, fix states $i,j$
-\begin{align*}
-&\sum_{i_1,i_2,\hdots i_{k}}P_{ii_1}\hdots P_{i_k,j}P_{j,i}=\sum_{i_1,i_2,\hdots i_{k}}P_{i,j}P_{j,i_k}\hdots P_{i_1 i}\\
-&(P^k)_{ij}P_{ji}=P_{ij}(P^k)_{ji}\\
-&\frac{\sum_{k=1}^{n}(P^k)_{ij}P_{ji}}{n}= \frac{\sum_{k=1}^{n}P_{ij}(P^k)_{ji}}{n}
-\end{align*}
-As limit $n \in \N$, we get the desire result.
+Reflexivity and Symmetry are obvious. For transitivity, suppose $i \iff j$ and $j \iff k$. Suppose $p_{ij}^{(m)} >0$ and $p_{jk}^{(n)} >0$. Then by Chapman Kolmogorov, we have
+\[p_{ik}^{(m+n)} = \sum_{l \in \mathbb{N}_0} p_{il}^{(m)}p_{lk}^{(n)} \geq p_{ij}^{(m)}p_{jk}^{(n)} >0  \]
+Hence transitivity is assured.
 \end{proof}
 
-\begin{thm}
-Consider irreducible Markov chain with transition matrix $P$. If one can find non-negative vector $\pi$ and other transition matrix $P^*$ such that $\sum_j \pi_j =1$ and $\pi_iP_{ij}=\pi_jP^*_{ji}$ then $\pi$ is the stationary probability vector and $P^*$ is the transition matrix for the reversed chain.
-\end{thm}
-\begin{proof}
-Summing $\pi_iP_{ij}=\pi_jP_{ji}^*$ over $i$ gives, $\sum_{i}\pi_iP_{ij}=\pi_j$. Hence $\pi_i$s are the stationary probabilities of the forward and reverse process. Since $P_{ji}^*=\frac{\pi_iP_{ij}}{\pi_j}$, $P_{ij}^*$ are the transition probabilities of the reverse chain.
-\end{proof} 
+\subsection{Irreducibility and Periodicity}
+A consequence of the previous result is that communicating classes are disjoint or identical. A DTMC with only one class is called an \textbf{irreducible} Markov chain.
+\begin{defn}
+The period of state $i$ is defined as
+\[d(i) = \gcd\{n \in \mathbb{N}_0 : p_{ii}^{(n)} > 0\}\]
+If the period is $1$, we say the state is \textbf{aperiodic}.
+\end{defn}
 
-\subsection{Example 4.7(E): Example 4.3(C) revisited}
-Example 4.3(C) was with regard to the age of a renewal process. $X_n$ the forward process there was such that it increases in steps of 1 until it hits a value chosen by the inter arrival distribution. Hence the reverse process should be such that it decreases in steps of 1 until it hits 1 and then jumps to a state as chosen by the inter arrival distribution. Thus letting $P_i$ as the probability of inter arrival, it seems likely that  $P_{1i}*=P_i, ~ P_{i,i-1}=1,~ i > 1$. We have that $P_{i,1}=\frac{P_i}{\sum_{j \geq 1}P_j}=1-P_{i,i+1}, ~ i \geq 1$. For the reversed chain to be given as above, we would need 
-\begin{align*}
-&\pi_i P_{ij}=\pi_j P_{ji}^*\\
-&\pi_i \frac{P_i}{\sum_j P_j}=\pi_1 P_i\\
-&\pi_i=\pi_1 P(X \geq i)\\
-&1=\sum_i \pi_i=\pi_1 E[X]; \pi_i=\frac{P(X \geq i)}{E[X]}, 
-\end{align*}
-where $X$ is the inter arrival time. We need to verify that $\pi_i P_{i,i+1}=\pi_{i+1}P^*_{i+1,i}$ or equivalently $P(X \geq i)(1-\frac{P_i}{P(X \geq i)})=P(X \geq i)$ to complete the proof that the reversed process is the excess process and the limiting distributions are as given above. But that is immediate.
-\subsection{Semi Markov Processes}
-Consider a stochastic process with states $0,1,2 \hdots$ such that whenever it enters state $i$,
+\begin{prop}
+If $i \iff j$, then $d(i) = d(j)$. Basically periodicity is a class property.
+\end{prop}
+\begin{proof}
+Let $m$ and $n$ be such that $p_{ij}^{(m)}p_{ji}^{(n)} > 0$. Suppose $p_{ii}^{(s)} > 0$. Then
+\[ p_{jj}^{(n+m)} \geq p_{ji}^{(n)}p_{ij}^{(m)} > 0 \]
+\[ p_{jj}^{(n+s+m)} \geq p_{ji}^{(n)}p_{ii}^{(s)}p_{ij}^{(m)} > 0 \]
+Hence $d(j) | n+m$ and $d(j) | n+s+m$ which implies $d(j) | s$. Hence $d(j) | d(i)$. By symmetrical arguments, we get $d(i) | d(j)$. Hence $d(i) = d(j)$.
+Source of proof is from \emph{Sheldon Ross: Stochastic Processes}.
+\end{proof}
+
+\section{Transient and Recurrent States}
+\begin{defn}
+Let $f_{ij}^{(n)}$ denote the probability that starting from state $i$, the first transition into state $j$ happens at time $n$. Then let
+\[f_{ij} = \sum_{n=1}^\infty f_{ij}^{(n)}\]
+Here $f_{ij}$ would therefore denote the probability of ever entering state $j$ given that we start at state $i$. State $j$ is said to be \textbf{transient} if $f_{jj} < 1$ and \textbf{recurrent} if $f_{jj}=1$. 
+\end{defn}
+A few remarks:
 \begin{enumerate}
-\item {The next state it enters is state $j$ with probability $P_{ij}$.}\\
-\item {Given the next state is going to be $j$, the time until the next transition from state $i$ to state $j$ has distribution $F_{ij}$. If we denote the state at time $t$ to be $Z(t)$, $\{Z(t), t \geq 0\}$ is called a Semi Markov process.}
+	\item A transient state is visited a finite amount of times almost surely.
+	\item A recurrent state is visited infinitely often almost surely.
+	\item In a finite state DTMC, not all states may be transient. 
+\end{enumerate}
+\begin{prop}
+A state $j$ is recurrent iff
+\[\sum_{k=1}^\infty p_{jj}^{(k)} = \infty\]
+\end{prop}
+\begin{proof}
+$[\Rightarrow]$ We begin with the idea that
+\begin{flalign*}
+p_{ii}^{(k)}=&\mathbb{P}_i[X_k=i]\\
+=& \mathbb{E}_i[\mathbbm{1}\{X_k=i\}].
+\end{flalign*}
+Then, assuming that the infinite summation can be pushed inside the expectation 
+\[\sum_{k=1}^{\infty}p_{ii}^{(k)}=\mathbb{E}_i\Big[\sum_{k=1}^{\infty}\mathbbm{1}\{X_k=i\}\Big].\]
+Thus, $\sum_{k=1}^\infty p_{jj}^{(k)}$ represents the expected number of times we return to a state $j$ starting from state $j$, which we know to be equal to $\infty$ if the state is recurrent from remark (2).\\\\
+$[\Leftarrow]$ For the reverse argument we will show that if $\sum_{k=1}^{\infty}p_{ii}^{(k)}<\infty$ then the state $i$ will be transient, which should suffice to prove our claim. First we observe that for a transient state $j$, if $M_j$ is the number of visits to the state $j$, then
+\[P[M_j=m|X_0=j]=f_{jj}^m(1-f_{jj}).\] 
+This is true because the time of the $k^{th}$ visit to the state $j$ is a stopping time $\forall k \in \mathbb{N}$. Hence the probabilities will multiply. Hence starting from state $j$ we visit the state $j$ with probability $f_{jj}$. Moreover, we visit the state $j$ exactly $m$ number of times (and no more) with probability $f_{jj}^m(1-f_{jj}).$\\
+Hence now again if we calculate the expected number of times the state $j$ is visited starting from state $j$ can be calculated by the following elementary exercise.
+\begin{flalign*}
+\mathbb{E}_j[M_j=m|X_0=j]= & \sum_{m=1}^{\infty}mf_{jj}^m(1-f_{jj})\\
+=&\frac{f_{jj}}{(1-f_{jj})}\\
+=&
+\begin{cases}
+\infty \quad if \quad f_{jj}=1 \Leftrightarrow j \quad  recurrent,\\
+C<\infty \quad if \quad f_{jj} \neq 1 \Leftrightarrow j \quad transient.
+\end{cases}
+\end{flalign*}
+\end{proof}
+\begin{prop}
+Transience and recurrence are class properties.
+\end{prop}
+\begin{proof}
+Let us start with proving recurrence is a class property. Let $i$ be a recurrent state and let $i \iff j$. Hence there exist some $m,n >0$, such that $p_{ij}^{(m)} > 0$ and $p_{ji}^{(n)}>0$. As a consequence of the recurrence, $\sum_{s \in \mathbb{N}_0} p_{ii}^{(s)} = \infty$. Now
+\begin{flalign*}
+\sum_{s \in \mathbb{N}_0} p_{jj}^{(m+n+s)} &\geq \sum_{s \in \mathbb{N}_0} p_{ji}^{(n)} p_{ii}^{(s)} p_{ij}^{(m)} \\
+&\geq \infty
+\end{flalign*}
+Hence $j$ is recurrent. Now, if $i$ were transient instead, we have
+\begin{flalign*}
+\sum_{s \in \mathbb{N}_0}  p_{jj}^{(s)} &\leq \frac{\sum_{s \in \mathbb{N}_0} p_{ii}^{(m+n+s)} }{ p_{ji}^{(n)} p_{ij}^{(m)}}\\
+&< \infty
+\end{flalign*}
+Hence $j $ is transient.
+\end{proof}
+\begin{cor}
+If $j$ is recurrent, then for any state $i$ such that $i\Leftrightarrow j$, $f_{ij} = 1$.
+\end{cor}
+\section{Limit Theorems}
+Let $N_j(t)$ denote the number of transitions into state $j$ up to time $t$. If $j$ recurrent and $X_0 = j$ then $N_j(t)$ is a renewal process with interarrival distribution, $\{P[\text{interarrival time} =n]\}_{n\geq 1}=\{f_{jj}^{(n)}\}_{n \geq 1}.$
+
+If $X_0 = i \neq j$, $i \iff j$ and $j$ is recurrent, then $N_j(t)$ is a
+delayed renewal process with first interarrival distribution
+$\{f_{ij}^{(n)}\}_{n \geq 1}$.
+
+Hence from Renewal Theory, we have the following results. If $i \iff j$ then
+\begin{enumerate}
+	\item 
+	\[P\left[ \lim_{t \to \infty} \frac{N_j(t)}{t}= \frac{1}{\mu_{jj}} \vline X_0 = i\right] = 1\]
+	where
+ \[\mu_{jj} = \left\{\begin{array}{l l}
+	\infty & j \mbox{ transient} \\
+	\sum_n n f_{jj}^{(n)} & j \mbox{ recurrent}	
+	\end{array}\right.\]
+      Here, $\mu_{jj}$ is the expected number of transitions needed to
+      return to state $j$ beginning from $j$.
+    \item
+      \[\lim_{n \to \infty} \frac{\sum_{k=1}^n p_{ij}^{(k)}}{n} =
+      \lim_{n \to \infty} \frac{\E[N_j(n)] }{n} =
+      \frac{1}{\mu_{jj}}\]
+
+	\item If $j$ is aperiodic (\textit{i.e.,} $d(j)=1$), then \[ \lim_{n \to \infty} p_{ij}^{(n)} = \lim_{n \to \infty} \E[\# \mbox{ renewals at $n$}]  = \frac{1}{\mu_{jj}}\]
+	\item If $j$ is periodic with period $d$, then \[ \lim_{n \to \infty} p_{ij}^{(nd)}= \lim_{n \to \infty} \E[\# \mbox{ renewals at $nd$}] = \frac{d}{\mu_{jj}}.\]
 \end{enumerate}
 
-Markov chain is a semi Markov process  with 
+\section{Positive and Null recurrence}
+A recurrent state $j$ is said to be \textbf{positive recurrent} if $\mu_{jj} < \infty$ and \textbf{null recurrent} if $\mu_{jj} = \infty$. Let
+\[\pi_j = \lim_{n \to \infty} p_{jj}^{(nd)}\]
+where d is the period of state $j$. Then $\pi_j > 0$ if and only if $j$ is positive recurrent and $\pi_j = 0$ if  $j$ is null-recurrent. 
 
-\begin{align*} 
-  F_{ij}(t) = \left\{
-     \begin{array}{lr}
-       0 & : t \leq 1 \\
-       1 & : t > 1.
-     \end{array}
-   \right.
-\end{align*}
+\begin{prop}
+Positive recurrence and null recurrence are class properties.
+\end{prop}
+\begin{defn}
+An state that is aperiodic and positive recurrent is called \textbf{ergodic}.
+\end{defn}
 
-Let $H_i$ the distribution of time the semi Markov process stays in state $i$ before transition. We have $H_j(t)= \sum_i P_{ij}F_{ij}(t)$, $\mu_i = \int_0 ^ \infty X dH_i(x)$. Let $X_n$ denote the $n^{\text{th}}$ state visited. Then $\{X_n\}$ is a Markov chain with transition probability $P$ called the embedded Markov chain of the semi Markov process. \\
-\textbf{Definition:} If the embedded Markov chain is irreducible, then Semi Markov process is said to be irreducible. Let $T_{ii}$ denote the time between successive transitions to state $i$. Let $\mu_{ii}=E[T_{ii}]$.
-\begin{thm}
-If semi Markov process ius irreducible and if $T_{ii}$ has non-lattice distribution with $\mu_{ii}< \infty$ then, 
-\begin{align*}
-P_i=\lim_{t \in \N}P(Z(t)=i|Z(0)=j)
-\end{align*}
-exists and is independent of the initial state. Furthermore, $P_i=\frac{\mu_i}{\mu_{ii}}$.
-\end{thm}
-\textbf{Corollary 4.8.2} If the semi-Markov process is irreducible and $\mu_{ii}<\infty$, then with probability 1,
-$\frac{\mu_i}{\mu_{ii}}=\frac{\lim_{t \in \N} \text{Amount of time in [0,t]}}{t}~\text{a.s}$.\\
-\begin{thm}
-Suppose conditions of the previous thmrem hold and the embedded Markov chain is positive recurrent. Then $P_i= \frac{\pi_i\mu_i}{\sum_{i}\pi_j \mu_j}$. 
-\end{thm} 
-\begin{proof}
-Define the notation as follows:
+\begin{defn}
+  A probability distribution $\{\pi_j\}_{j \in \mathbb{N}_0}$ is said to
+  be \textbf{stationary} for the DTMC if $\forall j \in \mathbb{N}_0$
+\[\pi_j = \sum_{k \in \mathbb{N}_0} \pi_k p_{kj}\]
+More compactly, $\pi$ is stationary if $\pi = \pi P$ where $P$ is the TPM.
+\end{defn}
 
-$Y_i(j)=$ amount of time spent in state $i$ during $j^\text{th}$ visit to that state. $i,j \geq 0$. \\
-$N_i(m)=$ number of visits to state $i$ in the first $m$ transitions of the semi-Markov process.\\
+A thing to note is that if we start the DTMC with the stationary distribution, the distribution remains the same throughout the chain. That is, if we started the chain with $X_0 \sim \pi$ where $\pi$ is the stationary distribution, we would have for every $n \geq 1$, $X_n \sim \pi$. Moreover since $X_n$ is a DTMC, we have $X_n, X_{n+1}, ... X_{n+m}$ have the same joint distribution. Hence it is a stationary process. More precisely,
+\[(X_1,\ldots,X_s)\sim(X_{t+1},\ldots,X_{t+s}) \quad \forall t \geq 0.\]
 
-The proportion of time in $i$ during the first $m$ transitions:\\
-
-\begin{align*}
-P_{i=m}&= \frac{\sum_{j=1}^{N_i(m)}Y_i(j)}{\sum_l \sum_{j=1}^{N_i(m)}Y_i(j) }\\
-&= \frac{\frac{N_i(m)}{m}\sum_{j=1}^{N_i(m)}Y_i(j)}{\sum_l \frac{N_i(m)}{m} \sum_{j=1}^{N_i(m)}Y_i(j) }\\
-\end{align*}
-Since $N_i(m)\in \N$ as $m \in \N$, it follows from the strong law of large numbers that $\frac{\sum_{i=2}^{N_i(m)}Y_i(j)}{N_i(m)}\rightarrow \mu_i$ and $\frac{N_i(m)}{m}\rightarrow (E[\text{number of transitions between visits to state }i])^{-1}=\pi_i$. Letting $m \in \N$, result follows.
-\end{proof}
-\begin{thm}
-If Semi Markov process is irreducible  and non lattice, then $\lim_{t \in \N}P(Z(t)=i,Y(t)>x,S(t)=j|Z(0)=k)=\frac{P_{ij}\int_x^\infty F_{ij}^c(y)d(y)}{\mu_{ii}}$. Let $Y(t)$ denote the time from $t$ until the next transition. $S(t)$ state entered at the first transition after $t$. 
+\begin{thm}[Classification of DTMCs]
+  An irreducible aperiodic DTMC is of one of the following two types:
+\begin{enumerate}
+	\item All states are either transient or null recurrent, in which case \[\lim_{n \to \infty} p_{ij}^{(n)} = 0 \quad \forall i,j \in \mathbb{N}_0\] and there exists no stationary distribution.
+	\item All states are positive recurrent (the DTMC is ergodic), wherein
+          \[ \pi_j := \lim_{n \to \infty} p_{ij}^{(n)} > 0 \quad
+          \forall i,j \in \mathbb{N}_0.\]
+          Moreover, $(\pi_j)_{j \in \N_0}$ is the unique stationary
+          distribution for the DTMC.
+\end{enumerate}
 \end{thm}
 \begin{proof}
-The trick lies in defining the "ON" time. 
-\begin{align*}
-E[\text{ON time in a cycle}]=E[(X_{ij}-x)^+].
-\end{align*}
+  Suppose that all states are either transient or null recurrent (note
+  that exactly one of these will hold since there is only one
+  communicating class). This implies that $\mu_{jj} = \infty$ for each
+  $j \in \N_0$, and by Limit theorem $3$, we have that
+  $\lim_{n \to \infty} p_{ij}^{(n)} = 1/\mu_{jj} = 0$ for each
+  $i,j \in \N_0$.  
+
+  Suppose, in this case, that a stationary distribution existed, say
+  $\pi$. We then have $\pi_j = \sum_{i \in \N_0}\pi_i p_{ij}^{(n)}$,
+  with $p_{ij}^{(n)} \leq 1$ $\forall n, i$. By the Dominated
+  Convergence Theorem (DCT), for all $j \in \N_0$
+  \[ \pi_j =\sum_{i \in \N_0} \pi_i \lim_{n \to \infty} p_{ij}^{(n)} =
+  0, \]
+  which contradicts $\pi$ being a stationary distribution, proving the
+  first part of the theorem.  \\
+
+  For the second part, assume that all states are positive recurrent
+  and, thus, $\pi_j := \lim_{n \to \infty} p_{ij}^{(n)} =\frac{1}{\mu_{jj}}> 0$. We will
+  show that $\pi$ is a stationary distribution for the DTMC and that
+  it is unique. Observe that
+  $\sum_{j=0}^Mp_{ij}^{(n)} \leq \sum_{j \in \mathbb{N}_0}p_{ij}^{(n)}
+  = 1$
+  for any fixed $M$.  Taking limits as $n \to \infty$ and then
+  $M \to \infty$ on both sides yields \[\sum_{j=0}^M \lim_{n \to \infty}p_{ij}^{(n)} \leq 1\]
+\[\Rightarrow\sum_{j=0}^\infty \pi_j \leq 1.\]
+Now we have, 
+\begin{flalign*}
+p_{ij}^{(n+1)} &= \sum_{k \in \mathbb{N}_0} p_{ik}^{(n)}p_{kj}  \\
+\Rightarrow \quad \lim_{n \to \infty}p_{ij}^{(n+1)} &= \lim_{n \to \infty}\sum_{k \in \mathbb{N}_0} p_{ik}^{(n)}p_{kj} \\
+&\geq \lim_{n \to \infty}\sum_{k =0}^M p_{ik}^{(n)}p_{kj} \quad \mbox{(for any $M$)}\\
+\Rightarrow \pi_j &\geq \sum_{k=0}^M \pi_k p_{kj} \quad \mbox{(by DCT)}\\
+\Rightarrow \pi_j &\geq \sum_{k \in \mathbb{N}_0} \pi_k p_{kj}. \quad \mbox{($M \to \infty$)}\\
+\Rightarrow \pi &\geq  \pi P.
+\end{flalign*}
+To show equality, suppose that the inequality above is strict for some
+state $j$ in $\N_0$. Then, observe that
+\[ \sum_{j \in \mathbb{N}_0} \pi_j > \sum_{j \in \mathbb{N}_0} \sum_{k
+  \in \mathbb{N}_0} \pi_k p_{kj} = \sum_{k \in \mathbb{N}_0} \pi_k
+\sum_{j \in \mathbb{N}_0} p_{kj} = \sum_{k \in \mathbb{N}_0} \pi_k\]
+which is a contradiction. Hence it is an equality
+$\forall j \in \N_0$, showing that $\pi$ must be a stationary
+distribution. 
+
+To prove uniqueness of $\pi$ as a stationary distribution, suppose
+$\lambda$ is another stationary distribution that works here. Since
+$\lambda$ is stationary, suppose we start the DTMC with this
+distribution. Then we get
+\begin{flalign*}
+\lambda_j &= P[X_n = j] \\
+&=\sum_{i=0}^\infty P[X_n =j | X_0 =i]P[X_0=i] \\
+&= \sum_{i=0}^\infty p_{ij}^{(n)} \lambda_i \\
+&\geq \sum_{i=0}^M p_{ij}^{(n)} \lambda_i
+\end{flalign*}  
+Let $n$ and then $M$ approach $\infty$. This yields
+\[ \lambda_j \geq \sum_{i=0}^\infty \pi_j \lambda_i = \pi_j.\]
+Now consider again,
+\begin{flalign*}
+\lambda_j &=  \sum_{i=0}^\infty p_{ij}^{(n)} \lambda_i \\
+&= \sum_{i=0}^M p_{ij}^{(n)} \lambda_i  + \sum_{i=M+1}^\infty p_{ij}^{(n)} \lambda_i \\
+&\leq \sum_{i=0}^M p_{ij}^{(n)} \lambda_i  + \sum_{i=M+1}^\infty \lambda_i \\
+\end{flalign*}
+Once again, letting $n$ and then $M$ approach $\infty$ yields the result.
 \end{proof}
-\textbf{Corollary:} 
-\begin{align*}
-\lim_{t \in \N} P(Z(t)=i, Y(t) >x|Z(0)=k)= \frac{\int_{x}^{\infty}H_i^c(y)d(y)}{\mu_{ii}}.
-\end{align*}
 
 \end{document}

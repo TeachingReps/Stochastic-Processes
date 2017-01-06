@@ -2,269 +2,125 @@
 % !TEX spellcheck = LaTeX
 \documentclass[a4paper,10pt,english]{article}
 \input{header}
-\title{Lecture 09: Equilibrium Renewal Processes and Renewal Reward Processes}
+\title{Lecture 08: Branching Processes and Delayed Renewal Process}
 \author{}
 
 \begin{document}
 \maketitle
-\section{Renewal theory Contd. -- Delayed Renewal processes }
 
-\subsection{Example:}
+\section{Age-dependent Branching Process }
 
-\begin{color}{blue} {\bf (Optional -- not covered in class)} \end{color}
+Suppose an organism lives upto a time period of $X \sim F$ and produces $N \sim P$ number of  offspring. Let $X(t)$ denote the number of organisms alive at time $t$. The stochastic process $\{X(t),~ t \geq 0\}$ is called an age-dependent branching process. Let X(t) be the number of individuals alive at time t. We are interested in computing $M(t)=\mathbb{E}[X(t)]$ when $m=\mathbb{E}[N] =\sum_{j \in \mathbb{N}}{j P_j}$. Another application of studying such a process is " growth of a tree ", which is used by biologists to see how population grows. 
 
-Consider two coins and suppose  that each time is coin flipped, it lands tail with some unknown probability $p_i,~i=1,2.$ We are interested in coming up with a strategy that ensures that long term proportion of tails is $\min\{p_1,~p_2\}.$ One strategy is as follows: Set $n = 1$. In the $n^\text{th}$ round of coin flipping, flip the first coin till $n$ consecutive tails are obtained. Then flip the second coin till $n$ consecutive tails are obtained. Increment $n$ and repeat. \\
-
-{\bf Claim.} $\lim_{m \to \infty} \frac{\# \mbox{tails in the first
-    $m$ tosses}}{m} = \min\{p_1, p_2\}$ with probability $1$.\\
-
-The proof is as follows. Let $p=\max\{p_1,p_2\}$ and $\alpha p
-=\min\{p_1,p_2\}$. There is nothing to prove if $\alpha = 1$, so let
-$\alpha < 1$. Call the coin with $P(T)=p$, the bad coin and the other,
-the good coin. Let $B_n$ denote the number of flips in the
-$n^\text{th}$ round of tossing the bad coin, and $G_n$ the number of
-flips in the $n^\text{th}$ round of tossing the good coin. We first
-prove the following lemma.
- \begin{lem}
-   For any $\epsilon > 0$ with $\epsilon^{-1} \in \N$,
- $P(B_n \geq \epsilon G_n ~\text{for infinitely many rounds}~ n)=0$.
- \end{lem} 
- \begin{proof}
-   For any $n \in \N$,
- \begin{flalign*}
-   P\left(G_n \leq  \frac{B_n}{\epsilon}\right)&=\E[P(G_n \leq \frac{B_n}{\epsilon}|B_n)]\\
-   &=\E[ \sum_{i=1}^{\frac{B_n}{\epsilon}}P(G_n = i |B_n)]\\
-   &\leq\E[ \sum_{i=1}^{\frac{B_n}{\epsilon}} (\alpha p)^n]\\
-   &= \E[{\frac{B_n}{\epsilon}}](\alpha p)^n \\
-   &=\epsilon^{-1} \left( \sum_{i=1}^n \frac{1}{p^{i}}\right) (\alpha
-   p)^n = \epsilon^{-1} \frac{p^{-n} - 1}{1 - p} (\alpha p)^n,
- \end{flalign*}
- where the inequality follows from the fact that $\{G_m = i\}$ implies
- that $i \geq m$ and that in cycle $m$, the coin flips numbered
- $i-m+1$ to $i$ are all tails. Hence,
- \[ \sum_{n=1}^\infty P\left(G_n \leq \frac{B_n}{\epsilon}\right) \leq
- \epsilon^{-1} \sum_{n=1}^\infty \frac{\alpha^{n}}{1 - p} < \infty.\]
- By the Borel-Cantelli lemma, it
- follows that $P(B_n \geq \epsilon G_n \text{for infinitely many
-   $n$}) = 0$.
- \end{proof}
- With probability $1$, all but a finite number of rounds have at most
- an $\epsilon$ fraction of bad coin tosses, implying that $\lim_{m \to
-   \infty} \frac{\# \mbox{bad coin tosses in the first $m$ tosses}}{m}
- \leq \epsilon$. Now taking a decreasing sequence $\epsilon_k = 1/k$,
- $k = 1, 2, 3, \ldots$, and using the continuity of probability, we
- get that with probability $1$, $\lim_{m \to \infty} \frac{\#
-   \mbox{bad coin tosses in the first $m$ tosses}}{m} = 0$. This
- proves the claim using the strong law of large numbers for tosses of
- the good coin.
-
- \subsection{Distribution of the Last Renewal Time for a Delayed Renewal Process}
- In the same manner as we derived the key lemma, refer Theorem 1.9 in lecture 6, for the last renewal time distribution of a standard renewal process, we can show for a delayed renewal process:
- \begin{flalign*}
- P(S_{N(t)} \leq s)&=G^c(t) P(S_{N(t)} \leq s|S_{N(t)} = 0) + \int_{0}^{t}P(S_{N(t)} \leq s|S_{N(t)}=u)F^c(t-u)dm(u)\\
- &= G^c(t) +\int_{0}^{s}F^c(t-u)dm(u).
- \end{flalign*}
- Let $F_e(x)=\frac{\int_{0}^{x}F^c(y)dy}{\mu},~ x \geq 0$, known as
- the \textit{equilibrium distribution} of $F$. Observe that the moment generating function of $F_e(x)$ is $\tilde{F}_e(s) =
- \frac{1-\tilde{F}(s)}{s\mu}$.
- \begin{proof}
- By definition, $\tilde{F}_e(s) = \E\left[\mathrm{e}^{-sX}\right]$, where $ X $ is a random variable with probability distribution function $ F_e(x) $. So,
- \begin{flalign*}
- \tilde{F}_e(s) &= \int_{0}^{\infty}\mathrm{e}^{-sx}dF_e(x)\\
- &= \frac{1}{\mu}\int_{0}^{\infty}\mathrm{e}^{-sx}F^c(x)dx\\
- &= \frac{1}{s\mu} - \frac{1}{\mu}\int_{0}^{\infty}\mathrm{e}^{-sx}F(x)dx\\
- &= \frac{1}{s\mu} - \frac{1}{s\mu}\int_{0}^{\infty}\mathrm{e}^{-sx}dF(x)\\
- &= \frac{1}{s\mu} - \frac{1}{s\mu}\tilde{F}(s),
- \end{flalign*}
- where the third and fourth equalities follows from the basic integration techniques.
- \end{proof}
- And also observe that $F_e$ is the limiting
- distribution of the age and the excess time for the renewal process
- governed by $F$. If $G=F_e$, then the delayed renewal process is
- called the \textit{equilibrium renewal process}. Suppose we start
- observing a renewal process at some arbitrary time $t$. Then, the
- observed renewal process is the equilibrium renewal process. Let
- $Y_e(t)$ denote the excess time for the (delayed) equilibrium renewal
- process.
- \begin{thm}
- For the equilibrium renewal process,
- \begin{enumerate}
- \item $m_e(t) =\frac{t}{\mu}$.\\
- \item $P(Y_e(t) \leq x) = F_e(x)$.\\
- \item $\{N_e(t), t \geq 0\}$ has stationary increments.
-  \end{enumerate}
-\begin{proof}
-To prove $ (1) $, observe that $\tilde{m}_e(s)=\frac{\tilde{G}(s)}{1-\tilde{F}(s)} = \frac{\tilde{F_e}(s)}{1-\tilde{F}(s)} = \frac{1}{s\mu}$. Hence, if $m_e(t) = \frac{t}{\mu}$ then, 
-\begin{flalign*}
-\tilde{m}_e(s) &= \int_{0}^{\infty}\mathrm{e}^{-st}dm_e(t)\\ 
-&= \frac{1}{\mu} \int_{0}^{\infty}\mathrm{e}^{-st}dt\\
-&= \frac{1}{s\mu}.
-\end{flalign*}	
-Since moment generating function is a one-to-one map, $m_e(t) = \frac{t}{\mu}$ is unique. \\
-$ (2) $ 
-\begin{flalign*}
-P(Y_e(t) >x) &= P(Y_e(t) >x|S_{N_e(t)}=0)P(S_{N_e(t)}=0) +P(Y_e(t) >x|S_{N_e(t)}=s)F^c(t-s)\frac{ds}{\mu}\\
- &= P(X_1 >t+x,X_1>t) +P(X_2 >t+x-s|X_2 >t-s)F^c(t-s)\frac{ds}{\mu}\\
-&= {F_e}^c(t+x)+\int_{0}^{t}F^c(t+x-s)\frac{ds}{\mu}\\
-&= 1 - \frac{1}{\mu} \int_{0}^{t+x}F^c(y)dy - \frac{1}{\mu} \int_{t+x}^{x}F^c(y)dy\\
-&= 1 - \frac{1}{\mu} \int_{0}^{x}F^c(y)dy\\
-&= F_e^c(x).
-\end{flalign*}
-$ (3) $ $N_e(t+s)-N_e(s) =$ Number of renewals in time interval of length $t$. When we start observing at $s$, the observed renewal process is delayed renewal process with initial distribution being the original distribution.
-\end{proof}
-\end{thm}
-\emph{Question}: What can you say about the equilibrium renewal process when $ F $ is distributed exponentially with the parameter $ \lambda $?
-\\
-\emph{Answer}: Let's look at the distribution of the first inter-arrival distribution, $ F_e $. So,
-\begin{flalign*}
-  F_e(x) &= \frac{1}{\mu} \int_{0}^{x}F^c(y)dy \\
-  &= \lambda \int_{0}^{x} \mathrm{e}^{-y\lambda} dy \\
-  &= 1 - \mathrm{e}^{-x\lambda},
-\end{flalign*}	
-where the first equality follows from the definition of $ F_e $ for equilibrium renewal process, the second equality follows from the fact that the mean of exponential distribution is inverse of the parameter $ \lambda $.\\
-Thus even $ F_e $ is distributed exponentially with the parameter $ \lambda $. So with all the properties of equilibrium renewal process, $ F_e $ and $ F $ being distributed exponentially with the same parameter $ \lambda $, says that this is a poisson process (not a delayed renewal process).
-
-\subsection{Renewal Reward Process}
-\textbf{Definition:} Consider a renewal process $\{N(t), t \geq 0\}$ with inter arrival times $\{X_n: n \in \N\}$ having distribution $F$ and rewards $\{R_n: n \in \N\}$ where $R_n$ is the reward at the end of $X_n$. Let $(X_n,R_n)$ be \emph{iid}. Then $R(t)=\sum_{i=1}^{N(t)}R_i$ is reward process (total reward earned by time $t$). 
 \begin{thm}
-	\label{theorem}
-Let $\E[|R|]$ and $\E[|X|]$ be finite.
-\begin{enumerate}
-\item $\lim_{t \rightarrow \infty} \frac{R(t)}{t} = \frac{\E[R]}{\E[X]} ~a.s.$
-\item  $\lim_{t \rightarrow \infty} \frac{\E[R(t)]}{t} = \frac{\E[R]}{\E[X]}$.
-\end{enumerate}
+If $X(0)=1$, $m>1$ and $F$ is non lattice, then
+\begin{flalign*}
+\lim_{t \rightarrow \infty} e^{-\alpha t}M(t)= \frac{m-1}{m^2 \alpha \int_{0}^{\infty}xe^{-\alpha x dF(x)}},
+\end{flalign*}
+
+where $\alpha > 0$ is unique such that $\int_{0}^{\infty}xe^{-\alpha x } dF(x) = \frac{1}{m}$.
 \end{thm}
 
 \begin{proof}
-$ (1) $ Write
+Condition on $T_1$, the life time of first organism,
 \begin{flalign*}
-\frac{R(t)}{t}&=\frac{\sum_{i=1}^{N(t)}R_i}{t}\\
-&=\left(\frac{\sum_{i=1}^{N(t)}R_i}{N(t)} \right) \left(\frac{N(t)}{t}\right).
+M(t)&=\mathbb{E}[X(t)] = \mathbb{E}[\mathbb{E}(X(t)|T_1)]\\
+&=\int_{0}^{\infty}\mathbb{E}[X(t)|T_1=y]dF(y)\\
+On splitting, \\
+&=\int_{0}^{t}\mathbb{E}[X(t)|T_1=y]dF(y) + \int_{t}^{\infty}\mathbb{E}[X(t)|T_1=y]dF(y)\\
+&\stackrel{(a)}{=}\int_{y=0}^{t} m M(t-y) dF(y) + \int_{y=t}^{\infty} 1 dF(y).
 \end{flalign*}
-By the strong law of large numbers (almost sure convergence law) we obtain that, 
-\begin{flalign*}
-	\lim_{t \rightarrow \infty} \frac{\sum_{i=1}^{N(t)}R_i}{N(t)} = \E[R],
-\end{flalign*}
-and by the basic renewal theorem (almost sure convergence law) we obtain that, 
-\begin{flalign*}
-	\lim_{t \rightarrow \infty} \frac{N(t)}{t} = \frac{1}{\E[X]}.
-\end{flalign*} 
-Thus $ (1) $ is proven.
-\\
-$ (2) $ \\
-Notice that $ N(t)+1 $ is a stopping time for the sequence \{$ R_1,R_2,\dots $\}. This is true since
-\begin{flalign*}
-	\{N(t)+1 = n\} &= \{X_1+X_2+\cdots+X_{n-1} \leq t , X_n > t \}\\
-	&= \{R_1+R_2+\cdots+R_{n-1} = R(t) , R_n \neq 0 \}.
-\end{flalign*}
-Moreover $ N(t)+1 $ is a stopping time for the sequence \{$ X_1,X_2,\dots $\}. So by algebra and Wald's lemma,
-\begin{flalign*}
-\E[R(t)] &= \E\left[\sum_{i=1}^{N(t)}R_i\right] \\
-&= \E\left[\sum_{i=1}^{N(t)+1}R_i\right]-\E[R_{N(t)+1}]\\ 
-&= (m(t)+1)\E[R_1]-\E[R_{N(t)+1}].
-\end{flalign*}
-Let $g(t)=\E[R_{N(t)+1}].$ So 
-\begin{equation}
- \frac{\E[R(t)]}{t} = \frac{(m(t)+1)}{t}\E[R_1]-\frac{g(t)}{t}, \nonumber
-\end{equation}
-and the result will follow from the elementary renewal theorem if we can show that $ \frac{g(t)}{t} \rightarrow 0 $ as $ t \rightarrow \infty. $ So,
-\begin{flalign*}
-g(t) &= \E[R_{N(t)+1}1\{S_{N(t)}=0\}]+\E[R_{N(t)+1}1\{S_{N(t)}>0\}]\\
-&=\E[R_{N(t)+1}|S_{N(t)}=0]P(X_1>t)+\int_{0}^{t}\E[R_{N(t)+1}|S_{N(t)}=u]F^c(t-u)dm(u),
-\end{flalign*}
-where the second equality follows from the fact that the interarrival times $ X_n, n \in \N $, are \emph{iid} with distribution $ F $. \\ 
-However,
-\begin{flalign*}
-	\E[R_{N(t)+1}|S_{N(t)}=0] &= \E[R_1|X_1>t], \\
-	\E[R_{N(t)+1}|S_{N(t)}=u] &= \E[R_n|X_1>t-u], 
-\end{flalign*}
-and so
-\begin{flalign*}
-g(t) &= \E[R_1|X_1>t]F^c(t)+\int_{0}^{t}\E[R_n|X_1>t-u]F^c(t-u)dm(u)\\
-&= \E[R_1|X_1>t]F^c(t)+\int_{0}^{t}\E[R_1|X_1>t-u]F^c(t-u)dm(u),
-\end{flalign*}
-where the second equality follows from the fact that $ R_n, n \in \N $, are \emph{iid}. \\
-Now, let
-\begin{equation}
-h(t)=\E[R_1|X_1>t]F^c(t) = \int_{x=t}^{\infty} \E[R_1|X_1=x]dF(x), \nonumber
-\end{equation}
-and note that since
-\begin{equation}
-\E[|R_1|] = \int_{x=0}^{\infty} \E[|R_1||X_1=x]dF(x) < \infty, \nonumber
-\end{equation}
-it follows that $h(t) \rightarrow 0$ as $t \rightarrow \infty.$ Hence, choosing $T$ such that $|h(u)| \leq \epsilon$ whenever $ u \geq T$, we have for all $t \geq T$ that
-\begin{flalign*}
-\frac{|g(t)|}{t} &\leq \frac{|h(t)|}{t} +\int_{0}^{t-T}\frac{|h(t-s)|}{t}dm(s)+\int_{t-T}^{t}\frac{|h(t-s)|}{t}dm(s)\\
-&\leq \frac{\epsilon}{t}+ \frac{\epsilon m(t-T)}{t}+ \E[|R_1|]\frac{(m(t)-m(t-T))}{t} .
-\end{flalign*}
-Hence $\lim_{t \rightarrow \infty}\frac{g(t)}{t}= \frac{\epsilon}{\E[X]}$ by the
-elementary renewal theorem, and the result follows since $\epsilon >
-0$ is arbitrary.
- \end{proof}
 
-\begin{rem}
-	 	$ (1) ~$ $R_{N(t)+1}$ has different distribution than $R_1$.\\
-	 	\emph{Analysis:} Notice that $R_{N(t)+1}$ is related to $X_{N(t)+1}$ which is the length of the renewal interval containing the point $t$. Since larger renewal intervals have a greater chance of containing $t$, it follows that $X_{N(t)+1}$ tends to be larger than a ordinary renewal interval. Formally,
-	 	\begin{flalign*}
-	 		\Pr\{X_{N(t)+1} > x\}&= \sum_{n \in \N_0} \left( \left[ \int_{0}^t\Pr\{X_{N(t)+1} > x | S_{N(t)} = y, N(t)=n\}F^c(t-y)dm(y) \right] \Pr\{N(t)=n\} \right).
-	 	\end{flalign*}
-	 	Now we have,
-	 	\begin{flalign*}
-	 		\Pr\{X_{N(t)+1}>x | S_{N(t)}=y, N(t)=n\} & = \Pr\{X_{N(t)+1}>x | X_1+\cdots+X_n=y, X_{n+1}>t-y\} \\
-	 		& = \Pr\{X_{n+1}>x | X_{n+1}>t-y\} \\
-	 		& = \frac{\Pr\{X_{n+1}>\text{max}(x,t-y)\}}{\Pr\{X_{n+1}>t-y\}} \\
-	 		& \geq F^c(x). 
-	 	\end{flalign*}
-	 	So we get that,
-	 	\begin{flalign*}
-	 		\Pr\{X_{N(t)+1}>x\}\geq \Pr\{X_1>x\}.
-	 	\end{flalign*}
-	 	Thus the remark follows.\\
-	 	$ (2) ~$ $R(t)$ is the gradual reward during a cycle, 
-	 	\begin{flalign*}
-	 		\frac{\sum_{n=1}^{N(t)}R_n}{t} \leq  \frac{R(t)}{t} \leq \frac{\sum_{n=1}^{N(t)+1}R_n}{t}.
-	 	\end{flalign*}
-	 	\emph{Analysis:} The part 1 of the theorem \ref{theorem} under this regime follows since
-	 	\begin{flalign*}
-	 		\lim_{t \rightarrow \infty} \frac{\sum_{n=1}^{N(t)}R_n}{t} = \frac{\E\left[R\right]}{\E\left[X\right]},\\
-	 		\lim_{t \rightarrow \infty} \frac{\sum_{n=1}^{N(t)+1}R_n}{t} = \frac{\E\left[R\right]}{\E\left[X\right]},
-	 	\end{flalign*}
-	 	by the similar arguments given in the proof of the theorem \ref{theorem}.\\
-	 	The part 2 of the theorem \ref{theorem} under this regime follows since
-	 	\begin{flalign*}
-	 		\lim_{t \rightarrow \infty} \frac{\E\left[R_{N(t)+1}\right]}{t} = 0,
-	 	\end{flalign*}
-	 	by the similar arguments given in the proof of the theorem \ref{theorem}. Thus the remark follows. For more insights refer Chapter 3 in \textit{Stochastic Processes} by \textit{Sheldon M. Ross}.
-\end{rem}
+Thus we get 
 
-\subsubsection{Applications of the Renewal Reward Theorem}
-To determine the average value of the age of a renewal process, consider the following reward system: Assume we are paid money at a rate equal to the age of the process. That is, at time $t$, we are paid at rate $A(t)$ and so the total earning by time $s$ is $\int_0^s A(t)dt.$ From the renewal reward theorem, we have 
-\begin{align*}
-\lim_{s\to \infty}\frac{\int_0^s A(t)dt}{s} = \frac{\E[\text{Reward per cycle}]}{\E[\text{Time of a cycle}]}.
-\end{align*}
-Now, since reward per cycle is $\int_0^X t dt = \frac{X^2}{2}$, we have that
-\begin{align*}
-\lim_{s\to \infty}\frac{\int_0^s A(t)dt}{s} = \frac{\E[X^2]}{2\E[X]}.
-\end{align*}
-A similar analysis to calculate the average excess time, where the reward per cycle is $\int_0^X (X-t)dt$ gives 
-\begin{align*}
-\lim_{s\to \infty}\frac{\int_0^s Y(t)dt}{s} = \frac{\E[X^2]}{2\E[X]}.
-\end{align*}
-Now since $X_{N(t)+1}=A(t)+Y(t)$, we see that its average value is given by
-\begin{align*}
-\lim_{s\to \infty}\frac{\int_0^s X_{N(t)+1}dt}{s} = \frac{\E[X^2]}{\E[X]}.
-\end{align*}
-It can be shown, under certain regularity conditions, that 
-\begin{align*}
-\lim_{t\to \infty} \E[R_{N(t)+1}] = \frac{\E[R_1 X_1]}{\E[X_1]}.
-\end{align*}
-Defining a cycle reward to equal the cycle length, we have 
-\begin{align*}
-\lim_{t\to \infty} \E[X_{N(t)+1}] = \frac{\E[X^2]}{\E[X]}.
-\end{align*}
-We see that this limit is always greater than $\E[X]$, except when $X$ is constant. Such a result was to be expected in view of the inspection paradox.
+\begin{flalign}
+\label{renew}
+M(t)= F^c(t)+m\int_{0}^{t}M(t-y)dF(y)
+\end{flalign}
 
- 
- \subsubsection{Example:} Suppose for an alternating renewal process, we earn at a rate of one per unit time  when the system is on and the reward for a cycle is the the time system is ON during that cycle.\\
- $ \lim_{t \rightarrow \infty} \frac{\text{Amount of ON time in } [0,t]}{t} = \lim_{t \rightarrow \infty} \frac{R(t)}{t}=\frac{\E[X]}{\E[X]+\E[Y]} = \lim_{t \rightarrow \infty}P(\text{ON at time t})$. 
+We got a differential equation in M(t) and when we solve it, we get M(t). \\
+Let $\alpha$ denote the unique positive number such that $\int_{0}^{\infty}xe^{-\alpha x } dF(x) = \frac{1}{m}$ and $G(y)=m\int_{0}^{y}e^{-\alpha y} dF(y)$. \\
+Upon multiplying both sides of equation (\ref{renew}) by  $e^{-\alpha t}$ \\
+Let us define,
+\begin{align*}
+f(t) := e^{-\alpha t}M(t) \\
+h(t) :=e^{-\alpha t}F^{c}(t)\\ 
+G(y) :=\int_{0}^{y} m e^{- \alpha y} dF(y) 
+\end{align*}
+Thus considering equation (\ref{renew}) and multiplying both sides by $e^{-\alpha t}$, we get 
+\begin{align*}
+	e^{- \alpha t} M(t)=e^{- \alpha t} F^c(t)+m\int_{0}^{t} e^{- \alpha t} M(t-y)dF(y)\\
+	f(t) = h(t) + m\int_{0}^{t} e^{- \alpha (t-y)} e^{- \alpha y} M(t-y)dF(y)\\
+	f(t) = h(t) + (f*G)t
+\end{align*}
+
+\begin{flalign*}
+f&=h+f*G\\
+Recursively ,\\
+&=h+G*(h+f*G)\\
+\vdots
+&=h+h*\sum_{i=1}^{\infty}G_i\\
+&=h+h*m_G.
+\end{flalign*}
+
+Or, $f(t)=h(t)+\int_{0}^{t}h(t-s)dm_G(s)$. It can be shown that $h(t)$ is dRi and hence by Key Renewal thmrem, 
+\begin{flalign*}
+f(t) \rightarrow \frac{\int_{o}^{\infty}e^{-\alpha t}F^c(t) dt }{\int_{0}^{\infty}xdG(x) }.
+\end{flalign*}
+
+\begin{flalign*}
+\int_{o}^{\infty}e^{-\alpha t}F^c(t) dt &= \int_{0}^{\infty} e^{-\alpha t}\int_{t}^{\infty}dF(x)dt \\
+&=  \int_{0}^{\infty} \int_{0}^{x} e^{-\alpha t} dt  dF(x)\\
+&= \int_{0}^{\infty} (1- e^{-\alpha x}) dF(x) \\
+&= \frac{1}{\alpha}(1-\frac{1}{m}) ~~ (\text{by the definition of} ~\alpha).\\
+&= \frac{m-1}{\alpha m}
+\end{flalign*}
+
+Also $\int_{0}^{\infty}xdG(x) = m \int_{0}^{\infty}xe^{-\alpha x}dF(x)$. Therefore,
+\begin{align*}
+	\lim_{t \rightarrow \infty} m(t) = \frac{(m-1)}{\alpha m^2 \int_{0}^{\infty}x e^{-\alpha x} dF(x)}
+\end{align*}
+
+\end{proof} 
+
+\section{Delayed Renewal Process}
+We come across such a  process when initial arrival time has a different distribution and the next arrival times have a different distribution i.e., "delayed start to a renewal process".\\
+Let $\{X_n: n \in \mathbb{N}\}$ be independent but $X_1 \sim G$ and $X_i \sim F,~ i \geq 2$ then the counting process $\{N_D(t): t \geq 0\}$ is called general renewal process or delayed renewal process. Let $S_0=0$ and $S_n =\sum_{i=1}^{n}X_i$. We have 
+\begin{flalign*}
+N_D(t) = \sup \{n \in \mathbb{N}: S_n \leq t\},\\
+P(N_D(t)=n) &= P(S_n \leq t)-P(S_{n+1} \leq t)\\
+&=G*F^{n-1}(t)-G*F^n(t),\\
+m_D(t)=\mathbb{E}[N_D(t)]= \sum_{n \in \mathbb{N}} G*F^{n-1}(t).
+\end{flalign*}
+
+Taking the Laplace transform of $m_D(t)$, denoted as $\tilde{m}_D(s) = \frac{\tilde{G}(s)}{1-\tilde{F}(s)}$.
+
+\begin{prop}
+The following holds:
+\begin{enumerate}
+\item $\lim_{t \rightarrow \infty} \frac{N_D(t)}{t} = \frac{1}{\mu} $.
+\item $\lim_{t \rightarrow \infty} \frac{m_D(t)}{t} = \frac{1}{\mu} $.
+\item If $F$ is non-lattice, $lim_{t \rightarrow \infty} m_D(t+a)-m_D(t)=\frac{a}{\mu_F}$.
+\item If $F$ and $G$ are lattice with period $d$, $\mathbb{E}$[ $ Number $of renewals at $nd$ ] =$\frac{d}{\mu_F}.$
+\item If $F$ is nonlattice, $\mu < \infty$ and $h$ is dRi, then 
+\begin{flalign*}
+\lim_{t \rightarrow \infty} \int_{0}^{t}h(t-x)dm_D(x) = \frac{\int_{0}^{\infty}h(t) dt}{\mu}.
+\end{flalign*}
+\end{enumerate}
+\end{prop}
+
+\subsubsection{Example:}
+Let $\{X_n: n \in \mathbb{N}\}$ be iid discrete observed. A pattern $x_1,x_2 \hdots x_k$ is said to occur at time $n$ if $X_n=x_k,~X_{n-1}=x_{k-1}, \hdots X_{n-k+1}=x_1. $. If we have iid tosses and consider $N(n)$ as the number of times pattern $0,1,0,1$ appear in $n$ tosses, with $P(H)=p=1-q,$~the process is a delayed renewal processes. To find the mean number of tosses for the first time the pattern $0,1,0,1$ appear, \\
+\begin{align*}
+\lim_{n \rightarrow \infty}P[Renewal at toss n] &= 1.P[Renewal at toss n] + 0.P[No Renewal at toss n]\\
+&= \frac{1}{p^2 q^2}.
+\end{align*}
+\begin{flalign*}
+\mathbb{E}[\text{first time pattern}~ 0,1,0,1 ~ \text{appears}]&= \mathbb{E}[\text{first time pattern}~ 0,1 ~ \text{appears}]  \\
+&+\mathbb{E}[\text{time between patterns}~ 0,1,0,1 ]\\
+&=  p^{-1}q^{-1}+ p^{-2}q^{-2}.
+\end{flalign*}
+
+Similarly we can show that $\mathbb{E}[\text{first time}~ k \text{heads} ] = \sum_{i=1}^{n} p^{-i}$.
+
 \end{document}
