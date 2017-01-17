@@ -4,361 +4,85 @@
 \input{header}
 
 %opening
-\title{Lecture 04: Compound Poisson Processes}
+\title{Lecture 05: Compound Poisson Processes}
 \author{}
 \date{}
 \begin{document}
 \maketitle
 
-\section{Queueing Theory}
-Consider the scenario of a bus stop or a movie ticket counter. Each person arrives to the queue at a random time and has to wait another random amount of time before he is serviced. A natural question to ask is regarding the expected total waiting time of all the people in the queue. To answer this question, we first formalize the idea of a queue.
-\subsection{A Preliminary example}
-Consider a queue where the customers are arriving according to a Poisson Process $N(t)$ of rate $\lambda$. Recall that $N(t)$ is a random variable that denotes the number of arrivals till time $t$ with $S_n$ the time instant of $n^{\text{th}}$ arrival. 
-If $N(t)=n$, then the total expected waiting time is given by
-\begin{align}
-\label{eqn:WaitingTime}
-\E\left[\sum_{i=1}^{N(t)}(t-S_i)\right]=\E\left[\E\left[\sum_{i=1}^{n}(t-S_i)\Big|N(t)=n\right]\right]
-\end{align}
-Recall that given the number of arrivals in a particular time duration, the arrivals are order statistics of uniformly distributed random variables in that time interval. 
-Let $U_1, U_2, \ldots, U_n$ be \emph{iid}  uniform on $[0,t]$, and let $U_{(1)},U_{(2)},\ldots,U_{(n)}$ be their order statistics. 
-Then
-\begin{align*}
-\E\left[\sum_{i=1}^{n}(t-S_i)|N(t)=n\right] &= \E\left[\sum_{i=1}^{n}(t-U_{(i)})\Big| N(t)=n\right]
-	= nt-\E\left[\sum_{i=1}^{n}U_i \Big| N(t)=n\right]
-	= \frac{nt}{2}.
-\end{align*}
-Substituting conditional expectation in equation~\ref{eqn:WaitingTime}, we obtain
-\begin{align*}
-\E\left[\sum_{i=1}^{N(t)}(t-S_i)\right] %&= \E\left[\frac{N(t)t}{2}\right]\\
-&= \E\left[N(t)\right]\frac{t}{2} = \frac{\lambda t^2}{2}.
-\end{align*}
-
-\subsection{Notations}
-\begin{figure}[hhhh]
-	\center
-	\input{Figures/queue}
-	\caption{A general queue}
-	\label{Fig:queue}
-\end{figure}
-A queue is denoted as $G_1/G_2/K_1/K_2$
-where
-\begin{enumerate}
-	\item $G_1$ denotes the arrival distribution, %: Memoryless-M, General-G, Deterministic
-	\item $G_2$ denotes the service distribution, %: Memoryless-M, General-G, Deterministic
-	\item $K_1$ denotes the number of servers,  and%: finite or infinite
-	\item $K_2$ denotes the size of the buffer.%: usually infinite and hence omitted in the notation
-\end{enumerate}
-\begin{rem}
-Typical arrival and service distributions are taken to be independent. 
-\end{rem}
-\begin{rem} Memoryless, general and deterministic distributions are denoted by $M$, $G$, and $D$ respectively. 
-\end{rem}
-\begin{rem}
-Number of servers and buffer sizes can be finite of infinite.
-\end{rem}
-\begin{rem}
-Service policy of the queue could be first in first out (FIFO), last in first out (LIFO), or Processor sharing. 
-%We will only consider the First In First Out scenario here.
-\end{rem}
-
-\subsection{$M/G/\infty$ Queue}
-The $M/G/\infty$ queue has a memoryless arrival distribution with infinite number of servers and a general service distribution $G$. 
-Since, this queue has infinite servers, each arriving customer can enter an idle server immediately on arrival. 
-We are interested in computing waiting time distribution of any customer in this queue.
-To this end, we can diving incoming customers into following two types.
-\begin{enumerate}
-	\item \textbf{Type-1 customer} whose service is finished by time $t$.
-	\item \textbf{Type-2 customer} who doesn't complete the service by time $t$.
-\end{enumerate}
-%The service distribution $G$ is nothing but
-%\begin{align*}
-%\Pr\{S_n\leq s\}=G(s)
-%\end{align*}
-Probability of a customer who arrived at time $s$ and leaves by time $t$ is given by 
-\begin{align*}
-P(s) &= \Pr\{\text{service time } \leq t  - s \} = G(t-s)\textbf{1}_{\{s\leq t\}}. 
-\end{align*}
-Let $N_1(t)$ be the number of type-1 customers that arrived in duration $[0,t)$. 
-Then
-\begin{align*}
-\E\left[N_1(t)\right]=p\E\left[N(t)\right],
-\end{align*}
-where $p=\frac{1}{t}\int_{0}^{t}P(s)ds$.
-
-
-\subsection{Busy Period of $M/G/1$ Queue}
-The $M/G/\infty$ queue has a memoryless arrival distribution with single server and a general service distribution $G$. 
-We consider FIFO service policy at the server.
-For a queue with single server and FIFO service policy, arriving customer enters the service only if the server is free.
-If the server is serving other customer, arriving customers wait in the queue. 
-\begin{defn} We define \textbf{busy period} of a queue by the duration when server is busy, and denote it by $B$. It starts when an incoming arrival finds and idle server, and ends when there are no more customers in the system.
-\end{defn}
-
-We are interested in characterizing the distribution of busy period $B$, in terms of following system parameters.
-We denote rate of Poisson arrival by $\lambda$, and number of customers that arrive in time duration $[0,t)$ by $N(t)$.
-%Recall, our notation for $\Pr\{N(t) = n\} = P_n(t)$.
-Service times $\{Y_i: i \in \N\}$ of individual customers are assumed \emph{iid} with distribution $G$ and independent of the arrivals.
-We denote sum of $k$ service times by $T_k = \sum_{i \in [k]}Y_i$.
-Since service time are iid, we can denote distribution of sum of $k$ iid service times by $G_k$, the $k$-fold convolution of $G$.
-Without loss of generality, we start the busy period at time $0$ when an arriving customer sees an idle server.
-We denote arrival instant of $k^{\text{th}}$ additional customer during a busy period, by $S_k$.%, the time until $k$ additional customers have arrived after time $0$.
-% i.e there have been $k$+1 arrivals into the system.
-\begin{lem}
-\label{Lemma:Equivalence}
-Busy period is of duration $t$ and consists of $n$ services if and only if
-\begin{enumerate}
-	\item $S_k \leq T_k$ for all $k \in [n-1]$,
-	\item $T_n=t$,
-	\item $N(t)=n-1$.
-\end{enumerate}
-\end{lem}
-\begin{thm}
-Distribution of busy period of an $M/G/1$ queue is given by
-\begin{align*}
-\Pr\{B \leq t\}  = \sum_{n \in \N}\int_{0}^te^{-\lambda u}\frac{(\lambda u)^{n-1}}{n!}dG_n(u).
-\end{align*}
-\end{thm}
-\begin{proof}
-%We wish to compute the Probability that the busy period lasts for time t and consists of n services i.e.
-From Lemma~\ref{Lemma:Equivalence}, we can write
-\begin{align*}
-\Pr\left\{B \leq t , N(t) = n-1\right\} 
-%& = \Pr\left\{ S_k \leq \sum_{i=1}^{k}Y_i, k \in [n-1], \sum_{i=1}^{n}Y_i=t, N(t)=n-1 \right\}\\
-& = \int_{0}^{t}\Pr\left\{ S_k \leq T_k , k\in [n-1] \Big| N(u)=n-1, T_n=u \right\}dG_n(u) P_{n-1}(u) .
-%\nonumber\\
-%&  \times \underbrace{\Pr\left\{N(t)=n-1, \sum_{i=1}^{n}Y_i=t\right\}}_{dG_n(t) P_{n-1}(t)}
-\end{align*}
-%where $G_n$ is the n time convolution of the service distribution. Also note that the service distribution of n customers is independent of the value of $N(t)$.
-Further, from total probability law, we know that
-\begin{align*}
-\Pr\{B \leq t\} &=\sum_{n \in \N}\Pr\{B \leq t, N(t)=n-1\}.
-\end{align*}
-Hence, it suffices to show that $\Pr\{ S_k \leq T_k , k\in [n-1] | N(u)=n-1, T_n=u \} = 1/n$. 
-Recall that given $N(u) = n-1$, arrival instants $\{S_k: k \in [n-1]\}$ are order statistics of $n-1$ iid uniform random variables  $\{U_i: i \in [n-1]\}$ in $[0,u)$. 
-Clearly, $\{u-U_i: i \in [n-1]\}$ are also iid uniform random variables in $[0,u)$, and order statistics of these random variables would be $\{S_{n-k}: k \in [n-1]\}$.
-Then, using Lemma~\ref{Lemma:Final} we can write
-\begin{align*}
-\Pr\left\{S_k \leq T_k, k \in [n-1]\Big| T_n=u\right\}
-&= \Pr\left\{u-S_{n-k} \leq u - (T_n - T_{n-k}),k \in[n-1] \Big| T_n=u\right\}
-=\frac{1}{n}.
-\end{align*}
-%Again in Eq. (2) denote 
-%\begin{align*}
-%	B(t,n)&=\Pr(\{B=t\}  \cap \{N(B)=n-1\})\\
-%&= 	\int_{0}^{t}\frac{1}{n}\times dG_n(t) P_{n-1}(t)\\
-%&= \int_{0}^{t}\frac{1}{n}\times dG_n(t)\times \frac{e^{-\lambda t}(\lambda t)^n}{(n-1)!}\\
-%\end{align*}
-%The distribution of the length of a busy period is then given by
-%\begin{align}
-%\Pr(B\leq t)=\sum_{n=1}^{\infty}B(t,n)
-%\end{align}
-\end{proof}
-
-\begin{lem}
-\label{Lemma:Uniform}
-Let $\{Y_i \geq 0,i \in [n]\}$ be \emph{iid} random variables. 
-Then, for all $A \subseteq [n]$, we have
-\begin{align*}
- \E\left[\sum_{i \in A}Y_i \Big| \sum_{i \in [n]}Y_i=y\right]=\frac{|A|y}{n}.
-\end{align*}
-\end{lem}
-\begin{proof} Since $Y_i$'s are iid, we notice that
-\begin{align*}
-y = \E\left[\sum_{i \in [n]}Y_i \Big| \sum_{i \in [n]}Y_i=y\right] = n \E\left[Y_i \Big| \sum_{i \in [n]}Y_i=y\right].
-% =  \E\left[\sum_{i \in A}Y_i \Big| \sum_{i \in [n]}Y_i=y\right] +  \E\left[\sum_{i \in A^c}Y_i \Big| \sum_{i \in [n]}Y_i=y\right].
-\end{align*}
-Hence, we can conclude the result.
-%\begin{align*}
-%\E\left[\sum_{i \in A}Y_i \Big| \sum_{i \in [n]}Y_i=y\right] & = |A| \E\left[Y_i \Big| \sum_{i \in [n]}Y_i=y\right] = \frac{ky}{n}.
-%\end{align*}
-\end{proof}
-
-\begin{lem}
-\label{Lemma:Reduction}
-Let \{$U_i,i \in[n]$\} be iid random variables in $[0,t)$ and $\{U_{(i)},i \in [n]\}$ be their order statistics. Then conditioned on $U_{(n)}=u,\{U_i,i \in[n-1]\}$ are the order statistics of $n-1$ uniform random variables in $[0,u)$.
-\end{lem}
-\begin{proof}
-For order statistics of $n$ uniform random variables in $[0,t)$ and for $u_1 \leq \ldots \leq u_n$, we get
-\begin{align*}
-\Pr\{U_{(1)} \leq u_1, \ldots, U_{(n)} \leq u_n\} = n!\prod_{i=1}^{n}\frac{u_i}{t}
-\end{align*}
-Further, distribution of $U_{(n)} = \max_{i \in [n]} U_i$ is given by 
-\begin{align*}
-\Pr\{U_{(n)} \leq u\} = \left(\frac{u}{t}\right)^n.
-\end{align*}
-Combining these two results, we get
-\begin{align*}
-\Pr\{U_{(1)} \leq u_1, \ldots, U_{(n-1)} \leq u_{n-1} | U_{n} = u\} = (n-1)!\prod_{i=1}^{n-1}\frac{u_i}{u}.
-\end{align*}
-\end{proof}
-
-\begin{lem}
-\label{Lemma:CndUniform}
-Let $\tau_1,\tau_2,\ldots,\tau_n$ denote the ordered statistics of $n$ iid uniformly distributed random variables in $(0,t)$. Let $\{Y_i,i \in [n]\}$ be iid non-negative random variables independent of $\tau_1,\tau_2,\ldots,\tau_n$. Then for $y \in (0,t)$, we have
-\begin{align}
-\Pr\left\{\sum_{i\in [k]}Y_i \leq \tau_k,k \in [n] \Big| \sum_{i\in [n]}Y_i=y \right\} = 
-1-\frac{y}{t}.
-\end{align}
-\end{lem}
-\begin{proof}
-We will prove this by induction on $n$. For base step of $n = 1$, inductive hypothesis is true since
-\begin{align*}
-\Pr(Y_1 < \tau_1 | Y_1=y) &= \Pr(y < \tau_1).
-\end{align*}
-We assume the inductive hypothesis to be true for $n-1$. 
-Defining $T_k = \sum_{i \in [k]}Y_i$, %we can write
-%\begin{align*}
-%\Pr\left\{T_k \leq \tau_k,k\in [n] \Big| T_n=y, T_{n-1} = s \right\} 
-%& = \int_{0}^{t} \Pr\left\{ T_k \leq \tau_k,k\in [n] \Big| T_n = y, T_{n-1} = s, \tau_n = u\right\} d\Pr\{\tau_n \leq u\}.
-%% | T_n=y,T_{n-1}=s\}.
-%\end{align*}
-%Using the Lemma~\ref{Lemma:Reduction}, we can write the integrand for $ y \in (0,u)$ as 
-and using Lemma~\ref{Lemma:Reduction}, we can write
-\begin{align*}
-\Pr\left\{ T_k \leq \tau_k,k\in [n] \Big| T_n = y, T_{n-1} = s, \tau_n = u \right\}= 
-%\begin{cases}
-\Pr\left\{T_k \leq \tau_k^{\ast},k \in [n-1] \Big| T_{n-1}=s \right\}.
-%& y < u\\.
-%0 & y \geq u.
-%\end{cases}
-\end{align*}
-where $\tau_k^*$ are order statistics of $n-1$ iid uniform random variables in $[0,u)$. 
-From inductive hypothesis, it follows that %for $y \in [0,u)$, we have
-%From Lemma \ref{unif}
-%\begin{align*}
-%\Rightarrow  \Pr(*) = 
-%\begin{cases}
-%1-\frac{s}{u} & y < u\\
-%0 & y \geq u.
-%\end{cases}
-%\end{align*}
-\begin{align*}
-\Pr\left\{T_k \leq \tau_k,k\in [n] \Big| T_n, T_{n-1}, \tau_n \right\}=
-%\begin{cases}
-\left(1-\frac{T_{n-1}}{\tau_n}\right)1_{\{T_n < \tau_n\}}.%,\\
-%0, & y \geq u.
-%\end{cases}
-\end{align*}
-Using Lemma~\ref{Lemma:Uniform}, we can write
-\begin{align*}
-\Pr\left\{T_k \leq \tau_k, k\in [n] \Big| T_n,  \tau_n\right\} &= \E\left[\left(1-\frac{T_{n-1}}{\tau_n} \right)1_{\{T_n \leq \tau_n\}}\Big| T_n, \tau_n\right]
-%\\& = 1-\frac{1}{u}\E\left[\sum_{i=1}^{n-1}Y_i \Big| \sum_{i=1}^{n}Y_i=y\right] 
-= \left(1-\frac{(n-1)T_n}{n\tau_n}\right)1_{\{T_n \leq \tau_n\}}.
-\end{align*}
-Since $\tau_n$ is maximum of $n$ uniform random variables distributed on $[0,t)$, we can write
-\begin{align*}
-\Pr\{\tau_n \leq x\} &= \left(\frac{x}{t}\right)^n, \text{ for } x \in [0, t).
-\end{align*}
-Hence, by taking expectation with respect to $\tau_n$, we can write
-\begin{align*}
-\Pr\left\{T_k \leq \tau_k ,k\in [n] \Big| T_n \right\} %&= \E\left[1-\frac{n-1}{n}\frac{T_n}{\tau_n}\Big| T_n<\tau_n\right]\Pr\{ T_n<\tau_n\}\\
-&= \Pr\{ T_n \leq \tau_n\} -\frac{n-1}{n}T_n\E\left[\frac{1}{\tau_n}1_{\{T_n \leq \tau_n\}}\right]\\
-&= 1 - \left(\frac{T_n}{t}\right)^n - (n-1)T_n\int_{T_n}^{t}\frac{x^{n-2}}{t^n}dx = 1 - \frac{T_n}{t}.
-\end{align*}
-%Therefore
-%\begin{align*}
-%	\E\left[\frac{1}{\tau_n}\Big| \tau_n>y\right]\Pr\{\tau_n>y\}&=\\
-%	&=\frac{n}{n-1}\left(\frac{t^{n-1}-y^{n-1}}{t^n}\right)
-%\end{align*}
-%Hence
-%\begin{align*}
-%	\Pr\left\{\sum_{i\in [k]}Y_i &\leq \tau_k ,k\in [n] \Big| \sum_{i\in [n]}Y_i=y \right\}\\
-%	&= 1-\left(\frac{y}{t}\right)^n-\frac{yt^{n-1}-y^{n-1}}{t^n}\\
-%	&= 1-\frac{y}{t}
-%\end{align*}
-\end{proof}
-
-\begin{lem}
-\label{Lemma:Final}
-Let $\tau_1, \tau_2, \ldots, \tau_{n-1}$ be the order statistics of $n-1$ \emph{iid} random variables distributed uniformly in $[0,t)$. Let $\{Y_i,i\in [n]\}$	be \emph{iid} nonnegative random variables that are also independent of $\tau_1, \tau_2, \ldots, \tau_{n-1}$. Then
-\begin{align*}
-\Pr(\sum_{i \in [k]}Y_i < \tau_k,k \in [n-1] |\sum_{i \in [n]}Y_i=t)=\frac{1}{n}
-\end{align*}
-\end{lem}
-\begin{proof} Using definition of $T_k = \sum_{i \in [k]}Y_i$ and Lemma~\ref{Lemma:CndUniform}, we can write
-\begin{align*}
-\Pr\left\{ T_k<\tau_k ,k \in [n-1] \Big| T_n=t, T_{n-1} \right\}
-&= \Pr\left\{T_k<\tau_k,k \in [n-1] \Big| T_{n-1}\right\}=\left(1-\frac{T_{n-1}}{t}\right) \textbf{1}_{\{T_{n-1} < t\}}.
-\end{align*}
-Hence using Lemma~\ref{Lemma:Uniform}, we have
-\begin{align*}
-\Pr\left\{T_k<\tau_k,k \in [n-1] \Big| T_n=t\right\} &= \E\left[\left(1-\frac{T_{n-1}}{t}\right) \textbf{1}_{\{T_{n-1} < t\}} \Big|T_n=t\right] = 1-\frac{(n-1)t}{nt} =\frac{1}{n}.
-\end{align*}
-\end{proof}
-
 \section{Compound Poisson Process}
-\begin{defn}
-A stochastic Process $\{Z_t,t \geqslant 0\}	$ is said to be a compound Poisson Process if it can be represented as $Z_t=\sum_{i=1}^{N_t}X_i$ for all $t\geq 0$ where $\{N_t,t\geq 0\}$ is a Poisson Process and $\{X_i, i\in \N\}$ are \emph{iid} random variables independent of $\{N_t, t\geq 0\}$.
-\end{defn}
-Alternately it can also be defined in the following way.
-\begin{defn}
-A compound Poisson Process is a point Process \{$Z_t,t \geq 0$\} having the following properties.
+%\begin{defn}
+A \textbf{compound Poisson process} is a real-valued point process \{$Z_t,t \geq 0$\} having the following properties.
 \begin{enumerate}
-	\item For all $\omega \in \Omega, t \longmapsto Z_t(\omega)$ has finitely many jumps in finite intervals.
-	\item For all $t,s \geq 0; Z_{t+s}-Z_t$ is independent of $\{Z_u, u\leq t\}$.
-	\item For all $t,s \geq 0$, distribution of $Z_{t+s}-Z_t$ depends only on $s$ and not on $t$.
+	\item finite jumps: for all $\omega \in \Omega, t \longmapsto Z_t(\omega)$ has finitely many jumps in finite intervals.
+	\item independent increments: for all $t,s \geq 0; Z_{t+s}-Z_t$ is independent of past $\{Z_u, u\leq t\}$. 
+	\item stationary increments: for all $t,s \geq 0$, distribution of $Z_{t+s}-Z_t$ depends only on $s$ and not on $t$.
 \end{enumerate}	
-\end{defn}
-\begin{defn} A compound Poisson Process is stationary and independent increments point Process with jump points $S_n=\inf \{t>0 | N(t)=n\}$, and associated jump sizes $X_n$ independent of jump instants.% are the jump sizes associated with the Process.
-\end{defn}
-
-\subsection{Examples}
-\begin{exmp} Arrival of customers in a store is a Poison Process $N_t
-$. Let the amount spent by each customer be \emph{iid} random variables independent of the arrival Process. Amount of money spent by first $n$ customers is
+%\end{defn}
+For each $\omega \in \Omega$, we can define time and size of $n$th jump
 \begin{xalignat*}{3}
-&Y_n=\sum_{i=1}^{n}X_i, i \in [n],&&Y_0=0.
+&S_0(\omega) = 0&&S_n(\omega) = \inf\{t > 0 : Z_t(\omega) > Z_{S_{n-1}}(\omega)\},~n \in \N,\\
+&X_0(\omega) = 0&&X_n(\omega) = Z_n(\omega) - Z_{n-1}(\omega).
+\end{xalignat*}
+Let $N_t, t \geqslant 0$ be the counting process associated with the number of jumps in $[0,t)$. 
+Then, $S_n$ are the arrival instants of $n$th jumps. 
+%\begin{defn}
+\begin{prop}
+A stochastic Process $\{Z_t,t \geqslant 0\}	$ is a compound Poisson Process iff its jump times form a Poisson process and the jump sizes form an \textit{iid} random sequence independent of the jump times. 
+%can be represented as $Z_t=\sum_{i=1}^{N_t}X_i$ for all $t\geq 0$ where $\{N_t,t\geq 0\}$ is a Poisson process and $\{X_i, i\in \N\}$ are \textit{iid} random variables independent of $\{N_t, t\geq 0\}$.
+\end{prop}
+\begin{proof} 
+From independent increment property of compound Poisson processes, it follows that $Z_{t+s} - Z_t = 0$ is independent of the past $Z_{u}, u \leqslant t$. 
+Further, it follows from the stationary increment property that the distribution of $Z_{t+s}- Z_t = 0$ is independent of $t$. 
+It follows that $N_t$ is a Poisson process. 
+Similarly, it follows that $X_1, X_2, \dots$ are \textit{iid} random variables, independent of $S_1, S_2, \dots$. 
+
+Conversely, let $Z_t = \sum_{i =1}^{N_t}X_i$ where $N_t$ is a Poisson process independent of the random \textit{iid} sequence $X_1, X_2, \dots$. 
+It is easy to check that $Z_t$ has finitely many jumps in finite intervals. 
+Further, one can show independent and stationary increment properties. 
+\end{proof}
+%\end{defn}
+%Alternately it can also be defined in the following way.
+%%\begin{defn}
+%A compound Poisson Process is a point Process \{$Z_t,t \geq 0$\} having the following properties.
+%\begin{enumerate}
+%	\item For all $\omega \in \Omega, t \longmapsto Z_t(\omega)$ has finitely many jumps in finite intervals.
+%	\item For all $t,s \geq 0; Z_{t+s}-Z_t$ is independent of $\{Z_u, u\leq t\}$.
+%	\item For all $t,s \geq 0$, distribution of $Z_{t+s}-Z_t$ depends only on $s$ and not on $t$.
+%\end{enumerate}	
+%%\end{defn}
+%\begin{defn} 
+%A compound Poisson Process is stationary and independent increments point Process with jump points $S_n=\inf \{t>0 | N(t)=n\}$, and associated jump sizes $X_n$ independent of jump instants.% are the jump sizes associated with the Process.
+%\end{defn}
+
+\begin{shaded*}
+%\begin{exmp} 
+\begin{itemize}
+\item Arrival of customers in a store is a Poison process $N_t$. 
+Each customer $i$ spends an \textit{iid} amount $X_i$ independent of the arrival process. 
+Amount of money spent $Y_n$ by first $n$ customers is
+\begin{xalignat*}{3}
+&Y_0=0,&&Y_n=\sum_{i=1}^{n}X_i, i \in [n].
 \end{xalignat*}
 Now define $Z_t=Y_{N_t}$ as the amount spent by the customers arriving in time $t$. Then $\{Z_t,t\geq 0\}$ is a compound Poisson Process.
-\end{exmp}
+%\end{exmp}
 
-\begin{exmp}  Let the time between successive failures of a machine be independent and  exponentially distributed. The cost of repair is \emph{iid} random at each failure. Then the total cost of repair in a certain time t is a compound Poisson Process.
-\end{exmp}
-
-\begin{exmp}  Let $X_i\in E$ where $E$ is a countable set. Let $N_t^e$  be the number of jumps of size $e$ in time $[0,t)$.
-\begin{rem} Observe that $\{N_t^e, e\in E\}$ are independent Poisson with rate \{$\lambda_e: e\in E$\}  where $\lambda_e=\lambda \Pr\{X_i=e\}$.
-\end{rem}
-We define $Z_t=\sum_{e\in E}eN_t^e$, to obtain
-\begin{align}\label{obs}
-\E\left[e^{-\theta Z_t}\right]=\E\left[\prod_{e\in E}e^{-\theta e N_t^e}\right]=\prod_{e\in E}\E\left[e^{-\theta e N_t^e}\right]
-\end{align}
-However, we have
-\begin{align*}
-\E\left[e^{-\theta N_t}\right] &= \sum_{n=0}^{\infty}e^{-\theta n}e^{-\lambda t}\frac{(\lambda t)^n}{n!} 
-%= e^{-\lambda t} e^{\lambda te^{-\theta}}
-= e^{-\lambda t(1-e^{-\theta})}.
-\end{align*}
-Substituting this back in equation~\eqref{obs}, we obtain
-\begin{align*}
-\E\left[e^{-\theta Z_t}\right] &= \prod_{e\in E}e^{-\lambda_et(1-e^{-\theta e})}\\
-&= \exp\left[-t\sum_{e\in E}\lambda(1-e^{-\theta e})\Pr\{X_i=e\}\right]
-\end{align*}
-\end{exmp}
-
-\begin{exmp} If $X_i$ \emph{iid} with mean $\mu$, then we can find mean off $Z_t$ as
-\begin{align*}
- \E\left[Z_t\right] = \E\left[\E[Z_t|N_t]\right]&=\E\left[\E\left[\sum_{i=1}^{N_t}X_i|N_t\right]\right] = \mu\E N_t = \lambda \mu t.
-\end{align*}
-\end{exmp}
-
-\begin{exmp}  If $X_i$ are \emph{iid} with a distribution function $\varphi$, then we can write moment generating function of $Z_t$ in terms of moment generating function $f(\theta) = E[e^{-\theta X_1}]$ of $X_1$ as
-\begin{align*}
-\E\left[e^{-\theta Z_t}\right] &= \E\left[\E\left[e^{-\theta\sum_{i=1}^{n-1}X_i}\right]\big|N_t\right] 
-%= \sum_{n=0}^{\infty}P_n(t)f(\theta)^n\\
-= \sum_{n=0}^{\infty}e^{\lambda t}\frac{(-\lambda t)^n}{n!}f(\theta)^n
-%&= e^{-\lambda t}e^{\lambda t f(\theta)}\\
-= e^{-\lambda t (1-f(\theta))}\\
-&= \exp\left[-t\int_{0}^{\infty}(1-e^{-\theta u})\lambda d\varphi(u)\right].
-\end{align*}
-\end{exmp}
+%\begin{exmp}  
+\item Let the time between successive failures of a machine be independent and exponentially distributed. 
+The cost of repair is \textit{iid} random at each failure. 
+Then the total cost of repair in a certain time $t$ is a compound Poisson Process. 
+%\end{exmp}
+\end{itemize}
+\end{shaded*}
 
 %\section{Compound Poisson Process}
 %One of the characterizations of Poisson Process was single arrival in an infinitesimal time. We can generalize that definition to have a random number of arrivals $X_n$ at every arrival instant $S_n$.
-%\begin{defn}[Compound Poisson Process] Let $\left\{X_i\right\}$ be \emph{iid} random variables. Let $N(t), t\geq 0$ be a Poisson Process with parameter $\lambda$ independent of $X_i, i\geq 1$. Then the Process $X(t)$ defined as
+%%\begin{defn}[Compound Poisson Process] Let $\left\{X_i\right\}$ be \textit{iid} random variables. Let $N(t), t\geq 0$ be a Poisson Process with parameter $\lambda$ independent of $X_i, i\geq 1$. Then the Process $X(t)$ defined as
 %	\begin{align*}
 %		X(t) = \sum_{i=1}^{N(t)} X_i
 %	\end{align*}
 %	is called a \textbf{compound Poisson Process}.
-%\end{defn}
+%%\end{defn}
 %\subsection{properties of the compound Poisson Process}
 %\subsubsection{Mean}
 %\begin{align*}
@@ -371,22 +95,6 @@ Substituting this back in equation~\eqref{obs}, we obtain
 %\subsubsection{MGF}
 %We leave it as an exercise to show that $M_{X(t)}(\theta)=E[e^{\theta X(t)}] = e^{(M_X(\theta)-1)\lambda t}$.
 
-\subsubsection{A nice counterexample}
-A Poisson Process is not uniquely determined by it's distribution. Let $X_t = Y_t + f(Z+t)$, where $Y_t$ is a Poisson Process and 
-\begin{align*}
-	f(t) = t 1_{\{t \in \mathbb{Q}\}}.
-\end{align*}
-Let $Z$ be a continuous random variable. Then we can show that $\Pr\{X_t \neq Y_t) = 0$. This is true since
-\begin{flalign*}
-	\Pr\{X_t \neq Y_t\} &= \Pr\{\omega \in \Omega: \quad t+Z(\omega) \in \mathbb{Q}\} \\
-	&= \Pr\{\omega \in \Omega:  Z(\omega) \in \mathbb{Q} - t\} = 0.
-\end{flalign*}
-The last part follows since $\mathbb{Q}-t$ is a countable set of individual events with Probability zero. We can also show that $X(t)$ and $Y(t)$ have same fdds.
-\begin{align*}
-	\Pr\{X_{t_1}= Y_{t_1}, X_{t_2}= Y_{t_2}\}
-	= \sum_{n_{1},n_{2}}\Pr\{X_{t_1} = n_1, X_{t_2}= n_2, Y_{t_1}=n_1, Y_{t_2}=n_2 \}  = 1.
-\end{align*}
-$\{X_{t}(\omega)\}$ can take non-integer values and is not non-decreasing. Two Process can have same distribution but sample path behavior can be quite different.
 %\section{Compound (Batch) Poisson Process}
 %
 %\begin{eqnarray*}
@@ -429,17 +137,128 @@ $\{X_{t}(\omega)\}$ can take non-integer values and is not non-decreasing. Two P
 %\end{eqnarray*}
 
 
-\section{Non-Homogeneous Poisson Process}
-From the characterization of Poisson Process just stated, we can generalize to non-homogeneous Poisson Process. In this case, the rate of Poisson Process $\lambda$ is time varying. It is not clear from the first two characterizations, how to generalize the definition of Poisson Process to the non-homogeneous case. We used third characterization of Poisson Process for this generalization. 
+\section{Non-stationary Poisson Process}
+From the characterization of Poisson process just stated, we can generalize to non-homogeneous Poisson Process. 
+In this case, the rate of Poisson Process $\lambda$ is time varying. 
+%It is not clear from the first two characterizations, how to generalize the definition of Poisson process to the non-homogeneous case. 
+%We used third characterization of Poisson process for this generalization. 
 
-\begin{defn}[Non-Homogeneous Poisson Process]\label{defn:NonHomogeneousPoisson} A point Process $\{N(t),~t\geqslant 0\}$ is said to be \textbf{non-homogeneous Poisson Process} with instantaneous rate $m(t)$ if it has stationary independent increments, and 
+An integer valued counting process $\{N(t),~t\geqslant 0\}$ is said to be possibly \textbf{non-stationary Poisson process} if it has unit jumps and independent increments. 
+That is,
+\begin{enumerate} 
+\item for each $\omega \in \Omega$, the map $t \mapsto N_t(\omega)$ has jumps of unit size only,
+\item for any $t,s \geq 0$, the random variable $N_{t+s} - N_t$ is independent of the past $\{N_u, u \leqslant t\}$. 
+\end{enumerate}
+	
+Let $m(t) = \E N_t$ for all $t \geqslant 0$. 
+From non-decreasing property of counting processes, it follows that the mean is also non-decreasing in time $t$. 
+From right continuity of counting process and the monotone convergence theorem, it follows that mean function is also right continuous. 
+The \textbf{time inverse} of mean is defined as
+\begin{align*}
+\tau(t) &= \inf\{ s > 0 : m(s) > t\},~ t \geqslant 0. 
+\end{align*}
+Since, inverse of a non-decreasing function is also non-decreasing, we conclude that $\tau(t)$ is non-decreasing function of time $t$. 
+
+\begin{thm} 
+Let $N_t$ be a non-stationary Poisson process, such that $m(t) = \E N_t$ is continuous. 
+Then, 
+\begin{align*}
+M_t(\omega) \triangleq N_{\tau(t)}(\omega),~~t \geqslant 0, \omega \in \Omega, 
+\end{align*}
+is a stationary Poisson process with unit rate. 
+\end{thm}
+\begin{proof}
+Fix $t > s \geq 0$ and let $s' \triangleq \tau(s)$ and $t' \triangleq \tau(t) - \tau(s)$.  
+Then, by definition of $M_t, t', s'$ and independent increment property of non-stationary Poisson process $N_t$, we have 
+\begin{align*}
+\E[M_{t}-M_s | M_u; u \leqslant s] &= \E[N_{t'}-N_{s'} | N_u; u \leqslant s'] = m(t') - m(s') = m(\tau(t)) - m(\tau(s)) = t-s.
+\end{align*}
+It follows that $M_t$ is a simple counting process with independent and stationary increments and unit rate.  
+\end{proof}
+\begin{cor}
+Let $m(t)$ be a continuous non-decreasing function. 
+Then, $S_1, S_2, \dots$ are the arrival instants in a non-stationary Poisson process $N_t$ with mean function $m(t) = \E N_t$ iff $m(S_1), m(S_2), \dots$ are the arrivals instants of a stationary Poisson process of unit rate.
+\end{cor}
+\begin{proof}
+We can write the $n$th arrival instant  $S'_n$ of unit-rate stationary Poisson process $M_t$, in terms of the $n$th arrival instant $S_n$ of non-stationary Poisson process $N_t$ as
+\begin{align*}
+S'_n &= \inf\{t > 0: {\tau(t)} > S_n\} = \inf\{ t > 0: m(S_n) > t\} = m(S_n).
+\end{align*}
+\end{proof}
+This corollary implies that $S_n \in [s,t)$ if and only if $m(S_n) \in [m(s), m(t))$. 
+Therefore, number of arrivals in $[s,t)$ equals number of arrivals for unit-rate stationary Poisson process in $[m(s), m(t))$. 
+Hence, we conclude that for $b(s,t) = m(t) - m(s)$
+\begin{align*}
+\Pr\{N_{t}-N_s = k\} &= e^{-b(s,t)}\frac{b(s,t)^k}{k!},~k \in \N_0.
+\end{align*}
+We will see that the inter-arrival times for the non-stationary Poisson process $N_t$, defined as
+\begin{xalignat*}{3}
+&T_0 = 0, &&T_n = S_n - S_{n-1},~n \in \N,
+\end{xalignat*}
+are not independent anymore. 
+\begin{prop} 
+For a non-stationary Poisson process with continuous mean function $m(t)$, we have
+\begin{align*}
+\Pr\{T_{n+1} > t|S_1, S_2, \dots, S_n\} &= \exp\left(-m(S_n+t) + m(S_n)\right).
+\end{align*}
+\end{prop}
+\begin{proof}
+We define events $A = \{m(S_{n+1}) > m(S_n+t)\}$ and $B = \{m(S_{n+1}) \geq m(S_n+t)\}$. 
+Then, we have 
+%\begin{align*}
+$A \subseteq \{T_{n+1} > t\} \subseteq B$.
+%\end{align*}
+Hence, we can write 
+\begin{align*}
+\Pr\{A|S_1, S_2, \dots, S_n\} &\leq \Pr\{T_{n+1} > t |S_1, S_2,\dots, S_n\}.
+\end{align*}
+The arrival instants $S_1, \dots, S_n$ determine $m(S_1), \dots, m(S_n), m(S_n+t)$. 
+Further, since $m(S_{n+1}) - m(S_n)$ is the inter-arrival time of the stationary Poisson process $M(t)$, 
+it is independent of $S_1,S_2,\dots, S_n$
+\begin{align*}
+\Pr\{A|S_1,\dots, S_n\} &= \Pr\{m(S_{n+1})-m(S_n) > m(S_n+t) - m(S_n) |S_1,\dots,S_n\} = \exp\left(-m(S_{n}+t)+m(S_n)\right).
+\end{align*}
+Result follows from the continuity of the exponential distribution. 
+\end{proof}
+
+\section{Laplace Functional}
+The \textbf{Laplace functional} $\L$ of a point process $\Phi$ and associated counting process $N$ is defined for all non-negative function $f: \R^d \to \R$ as 
+\begin{align*}
+\L_{\Phi}(f) &= \E \exp\left(-\int_{\R^d}f(x)N(dx)\right).
+\end{align*}
+For simple function $f(x) = \sum_{i = 1}^{k}t_i1\{x \in A_i\}$, we can write the Laplace functional 
+\begin{align*}
+\L_{\Phi}(f) &= \E\exp(-\sum_{i}t_iN(A_i)),
+\end{align*}
+as a function of the vector $(t_1, t_2, \dots, t_k)$, a joint Laplace transform of the random vector $(N(A_1), \dots, N(A_k))$. 
+This way, one can compute all finite dimensional distribution of the counting process $N$. 
+\begin{prop}
+The Laplace functional of the Poisson process with intensity measure $\Lambda$ is 
+\begin{align*}
+\L_{\Phi}(f) &= \exp\left(-\int_{\R^d}(1-e^{-f(x)})\Lambda(dx)\right).
+\end{align*}  
+\end{prop}
+\begin{proof}
+For a bounded Borel measurable set $A \subseteq \R^d$, consider $g(x) = f(x)1\{x \in A\}$. 
+Then,
+\begin{align*}
+\L_{\Phi}(g) &= e^{-\Lambda(A)}\sum\exp\left(-\int_{\R^d}(1-e^{-f(x)})\Lambda(dx)\right).
+\end{align*}  
+\end{proof}
+
+
+\end{document}
+
+
+%\begin{defn}[Non-Homogeneous Poisson Process]\label{defn:NonHomogeneousPoisson} 
+A point Process $\{N(t),~t\geqslant 0\}$ is said to be \textbf{nonhomogeneous Poisson Process} with instantaneous rate $m(t)$ if it has stationary independent increments, and 
 	\begin{eqnarray*}\label{eq:NonHomogeneousPoisson}
 		\Pr\{N(t)=0\}&=&1-m(t)+o(t). \\
 		\Pr\{N(t+\delta)-N(t)=0\} &=& 1-m(t)\delta+o(\delta). \\
 		\Pr\{N(t+\delta)-N(t)=1\} &=& m(t)\delta+o(\delta). \\
 		\Pr\{N(t+\delta)-N(t)>1\} &=& o(\delta). \\
 	\end{eqnarray*}
-\end{defn}
+%\end{defn}
 
 \begin{prop}[Non-Homogeneous Distribution] Distribution of non-homogeneous Poisson Process $N(t)$ with instantaneous rate $m(t)$ is given by
 	\begin{align*}
@@ -489,5 +308,3 @@ From the characterization of Poisson Process just stated, we can generalize to n
 	%\end{eqnarray*}
 	We have shown $\Pr\{N(t)=0\} = \exp(-\bar{m}(t))$. By induction, we can show the result for any $n$.
 \end{proof}
-
-\end{document}
