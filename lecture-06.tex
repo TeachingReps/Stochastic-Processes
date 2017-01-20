@@ -2,38 +2,47 @@
 % !TEX spellcheck = LaTeX
 \documentclass[a4paper,10pt, english]{article}
 \input{header}
-\title{Lecture 05: Renewal Theory}
+\title{Lecture 06: Renewal Theory}
 \author{}
 
 \begin{document}
 \maketitle
 
 \section{Renewal Theory}
-One of the characterization for the Poisson process is of it being a counting process with \emph{iid} exponential inter-arrival times. Now we shall relax the ``exponential" part. 
-\begin{defn} A counting process $\{N(t),t \geq 0\}$ with \emph{iid} general inter-arrival times is called a \textbf{renewal process}.
-\end{defn}
-As a result, we no longer have the nice properties such as Independent and stationary increments that Poisson processes had. However, we can still get some great results which also apply to Poisson Processes. 
+One of the characterization for the Poisson process is of it being a counting process with \emph{iid} exponential inter-arrival times. 
+Now we shall relax the ``exponential" part. 
+As a result, we no longer have the nice properties such as independent and stationary increments that Poisson processes had. 
+However, we can still get some great results which also apply to Poisson Processes. 
 
-\begin{defn}[Inter-arrival Times] Let $\{X_i: i \in \N\}$ be a sequence of non-negative \emph{iid} random variables with a common distribution $F$, with 
-	\begin{enumerate}
-		%\item Positive inter-arrival time,% i.e. $X_n \geq 0$,
-		\item finite mean $\mu$, %i.e. $(0 \leq \mu = \E[X_1] < \infty)$, and
-		\item $F(0) < 1$.%= \Pr\{X_n \leq 0\} = \Pr\{X_n = 0\} < 1$.
-	\end{enumerate}
-\end{defn}
-Second condition implies non-degenerate renewal process, if $F(0)$ is equal to $1$ then it is a trivial process. We interpret $X_n$ as the time between $(n - 1)^{\text{st}}$ and the $n^{\text{th}}$ renewal event. 
-
-\begin{defn}[Renewal Instants] Let $S_n$ denote the time of $n^{\text{th}}$ renewal, and assume $S_0 = 0$. Then, we have
+%\begin{defn}[Inter-arrival Times] 
+We will consider \textbf{inter-arrival times} $\{X_i: i \in \N\}$ to be a sequence of non-negative \emph{iid} random variables with a common distribution $F$, 
+with finite mean $\mu$ and $F(0) < 1$. 
+We interpret $X_n$ as the time between $(n - 1)^{\text{st}}$ and the $n^{\text{th}}$ renewal event. 
+%	\begin{enumerate}
+%		%\item Positive inter-arrival time,% i.e. $X_n \geq 0$,
+%		\item finite mean $\mu$, %i.e. $(0 \leq \mu = \E[X_1] < \infty)$, and
+%		\item $F(0) < 1$.%= \Pr\{X_n \leq 0\} = \Pr\{X_n = 0\} < 1$.
+%	\end{enumerate}
+%\end{defn}
+%\begin{defn}[Renewal Instants] 
+Let $S_n$ denote the time of $n^{\text{th}}$ \textbf{renewal instant} and assume $S_0 = 0$. 
+Then, we have
 \begin{align*} 
 S_n = \sum_{i=1}^n X_i, \quad n\in \N. 
 \end{align*}
-\end{defn}
-\begin{defn}[Renewal process] Let $\{N(t), t \geq 0\}$ be the counting process that counts number of events by time $t$. Then,
+%\end{defn}
+Second condition on inter-arrival times implies non-degenerate renewal process. 
+If $F(0)$ is equal to $1$ then it is a trivial process. 
+%\begin{defn} 
+A counting process $\{N(t),t \geq 0\}$ with \emph{iid} general inter-arrival times is called a \textbf{renewal process}, written as 
+%\end{defn}
+%\begin{defn}[Renewal process] Let $\{N(t), t \geq 0\}$ be the counting process that counts number of events by time $t$. Then,
 	\begin{align*} 
 	N(t) = \sup\{n \in \N_0 : S_n \leq t\} = \sum_{n \in \N}1_{\{S_n \leq t\}}.
 	\end{align*} 
-	This counting process $\{N(t), t \geq 0\}$ is called a renewal process.
-\end{defn}
+%This counting process $\{N(t), t \geq 0\}$ is called a renewal process.
+%\end{defn}
+
 \begin{lem}[Inverse Relationship]
 	There is an inverse relationship between time of $n^{\text{th}}$ event $S_n$, and the counting process $N(t)$. That is
 	\begin{align}
@@ -44,20 +53,38 @@ S_n = \sum_{i=1}^n X_i, \quad n\in \N.
 \end{lem}
 
 \begin{lem}[Finiteness of $N(t)$]
-	We are interested in knowing how many renewals occur per unit time. From SLLN, we have 
+For all $t > 0$, the number of renewals $N(t)$ in time $[0,t)$ is finite. 
+\end{lem}
+\begin{proof}
+We are interested in knowing how many renewals occur per unit time. From SLLN, we have 
 	\begin{align*} 
 	\frac{S_n}{n} \to \mu \quad \mbox{a.s.}
-	\end{align*} 
-	Since $\mu > 0$, we must have $S_n$ growing arbitrarily large as $n$ increases. Thus,
-	$S_n$ can be finite for at most finitely many $n$. Therefore, $N(t)$ must be finite,
-	and
+	\end{align*}
+Since $\mu > 0$, we must have $S_n$ growing arbitrarily large as $n$ increases. 
+Thus, $S_n$ can be finite for at most finitely many $n$. 
+Indeed, we have
+\begin{align*}
+\{N(t) \geq n, n \in \N\} &= \{S_n \leq t, n \in \N\} = \left\{\frac{S_n}{n} \leq \frac{t}{n}, n \in \N \right\} \subseteq\{\mu \leq 0\} = \emptyset. 
+\end{align*}
+Therefore, $N(t)$ must be finite, and
 	\begin{align*} 
 	N(t) = \max\{n \in \N_0 : S_n \leq t\}.
 	\end{align*} 
-\end{lem}
+\end{proof}
 
-\subsection{Distribution of N(t)}
-We need to know the distribution of $N(t)$. 
+\subsection{Distribution Functions}
+%\begin{defn} 
+The distribution of renewal instant $S_n$ is denoted by $F_n(t) \triangleq \Pr\{S_n \leq t\}$ for all $t \geq 0$.
+%\end{defn}
+\begin{lem} The distribution function $F_n$ for renewal instant $S_n$ can be computed inductively 
+\begin{xalignat*}{3}
+&F_1 = F,&&F_n = F_{n-1}\ast F,
+\end{xalignat*}
+where $\ast$ denotes convolution.
+\end{lem}
+\begin{proof} It follows from induction over sum of \emph{iid} random variables.
+\end{proof}
+%We need to know the distribution of $N(t)$. 
 \begin{lem} Counting process $N(t)$ assumes non-negative integer values with distribution
 	\begin{align*}
 	\Pr\{N(t) = n\} = \Pr\{S_n \leq t\} - \Pr\{S_{n+1} \leq t\} = F_n(t) - F_{n+1}(t).
@@ -65,45 +92,36 @@ We need to know the distribution of $N(t)$.
 \end{lem}
 \begin{proof} It follows from~\eqref{eq:InverseRelationship}.
 \end{proof}
-\begin{defn} Let $F_n$ be the distribution of renewal instant $S_n$ i.e. $\Pr\{S_n \leq t\} = F_n(t)$.
-\end{defn}
-\begin{lem} Distribution $F_n$ of renewal instant $S_n$  is given inductively by
-	\begin{xalignat*}{3}
-		&F_1 = F,&&F_n = F_{n-1}\ast F,
-	\end{xalignat*}
-	where $\ast$ denotes convolution.
-\end{lem}
-\begin{proof} It follows from induction over sum of \emph{iid} random variables.
-\end{proof}
 %Denote $F_n = F^{*(n)}$ where $*$ denotes convolution. Essentially, $F^{*(n)}$ is the distribution of $S_n$.
-\begin{defn} We define $m(t) = \E[N(t)]$ to be the \textbf{renewal function}.
-\end{defn}
+%\begin{defn} 
+Mean of the counting process $N(t)$ is called the \textbf{renewal function} denoted by $m(t) = \E[N(t)]$. 
+%\end{defn}
 %We are interested in the following quantity.
 %\begin{xalignat*}{3}
 %	&m(t) = \E[N(t)].
 %	%, &&M_{N(t)}(\theta) = \E[e^{\theta N(t)}].
-%\end{xalignat*}
-
+%\end{xalignat*} 
 \begin{prop} Renewal function can be expressed in terms of distribution of renewal instants as
 	\begin{align*} 
 	m(t) = \sum_{n \in \N} F_n(t).
 	\end{align*}
 \end{prop}
 \begin{proof} 
-	\begin{align*}
-	m(t) &= \E[N(t)] \\ 
-	&= \sum_{n \in \N} \Pr\{N(t) \geq n\} \\ 
-	&= \sum_{n \in \N} \Pr\{S_n \leq t\} = \sum_{n \in \N} F_n(t).
-	\end{align*}
-	where the second equality follows from the fact that the expectation of a random variable being represented in terms of the \emph{ccdf} of the corresponding random variable, the third equality follows from the inverse relationship as seen in \eqref{eq:InverseRelationship}.	\\
-	Alternatively,
-	\begin{align*}
-	m(t) &= \E[N(t)]. \\
-	&= \E \left[\sum_{n \in \N} \mathbb{I}_{\{S_n \leq t\}} \right] \\
-	&= \sum_{n \in \N} \E \left[ \mathbb{I}_{\{S_n \leq t\}} \right] \\
-	&= \sum_{n \in \N} \Pr\{S_n \leq t\} = \sum_{n \in \N} F_n(t).
-	\end{align*}
-	where the third equality follows from the Monotone Convergence Theorem.
+Using the inverse relationship between counting process and the arrival instants, we can write 
+\begin{align*}
+m(t) &= \E[N(t)] = \sum_{n \in \N} \Pr\{N(t) \geq n\} = \sum_{n \in \N} \Pr\{S_n \leq t\} = \sum_{n \in \N} F_n(t).
+\end{align*}
+%where the second equality follows from the fact that the expectation of a random variable being represented in terms of the \emph{ccdf} of the corresponding random variable. 
+%The third equality follows from the inverse relationship as seen in \eqref{eq:InverseRelationship}. 
+%	Alternatively,
+%	\begin{align*}
+%	m(t) &= \E[N(t)]. \\
+%	&= \E \left[\sum_{n \in \N} \mathbb{I}_{\{S_n \leq t\}} \right] \\
+%	&= \sum_{n \in \N} \E \left[ \mathbb{I}_{\{S_n \leq t\}} \right] \\
+%	&= \sum_{n \in \N} \Pr\{S_n \leq t\} = \sum_{n \in \N} F_n(t).
+%	\end{align*}
+%	where the third equality follows from the Monotone Convergence Theorem. 
+We can exchange integrals and summations since the integrand is positive using monotone convergence theorem.
 \end{proof}
 
 \begin{prop} Renewal function is bounded for all finite times.
@@ -111,20 +129,33 @@ We need to know the distribution of $N(t)$.
 	%m(t) < \infty \quad \forall 0 \leq t < \infty
 	%\end{align*}
 \end{prop}
+%\begin{proof}
+%Since $F(0) < 1$ and $F$ is right continuous, there exists a $b > 0$ such that $F(b) < 1$. 
+%Choose a $k \in \N$ such that $t \leq kb$. 
+%Then,
+%\begin{align*}
+%\{S_k \leq t \} \subseteq \{S_k \leq kb\} \subseteq \Omega \setminus \bigcap_{j =1}^{k}\{X_j > b\}.
+%\end{align*} 
+%From independence of inter-arrival times $X_j$ it follows that 
+%\begin{align*}
+%\Pr\{S_k \leq t \} \leq  1 - \prod_{j = 1}^{k}\bar{F}(b) = 1 - \beta.
+%\end{align*} 
+%\end{proof}
 \begin{proof}
-	Since we assumed that $\Pr\{X_n = 0\} < 1$, it follow from continuity of probabilities that there exists $\alpha > 0$, such that $\Pr\{X_n \geq \alpha\} >0$. Define
-	\begin{align*}
-	\bar{X}_n = \alpha 1_{\{X_n \geq \alpha\}}.
-	\end{align*}
-	Let $\bar{N}(t)$ denote the renewal process with inter-arrival times $\bar{X}_n$. Note that since $X_i$'s are \emph{iid}, so are $\bar{X}_i$ (which will be evident from the proof of the distribution function of the number of arrivals till time t). In fact, the arrivals now happen at multiples of $\alpha$. And yes, they stack. Moreover, $X_n \geq \bar{X}_n$.
-	
-	\begin{align*}
-	\Pr\{Number ~of ~arrivals ~at ~time ~0 ~= n\} &= \Pr\{\bar{X_1}=\bar{X_2}=\ldots=\bar{X_n}=0,\bar{X_{n+1}}=\alpha\} \\
-	&= \Pr\{X_1 < \alpha,X_2 < \alpha,\ldots,X_n < \alpha,X_{n+1} \geq \alpha\} \\
-	&= \prod_{i=1}^{n} \Pr\{X_i < \alpha\} . \Pr\{X_{n+1} \geq \alpha \}  \\
-	&= \left(1- \Pr\{X_1 \geq \alpha \}\right) ^{n} . \Pr\{X_1 \geq \alpha\}.
-	\end{align*}
-	where the third equality follows from the fact that $ X_i, i \in \N$ are mutually independent, fourth equality follows from the fact that $ X_i, i \in \N$ are identical.
+Since we assumed that $\Pr\{X_n = 0\} < 1$, it follow from continuity of probabilities that there exists $\alpha > 0$, such that $\Pr\{X_n \geq \alpha\} >0$. Define
+\begin{align*}
+\bar{X}_n = \alpha 1_{\{X_n \geq \alpha\}}.
+\end{align*}
+Let $\bar{N}(t)$ denote the renewal process with inter-arrival times $\bar{X}_n$. 
+Note that since $X_i$'s are \emph{iid}, so are $\bar{X}_i$ (which will be evident from the proof of the distribution function of the number of arrivals till time t). 
+In fact, the arrivals now happen at multiples of $\alpha$. And yes, they stack. 
+Moreover, $X_n \geq \bar{X}_n$, and we can write 	
+\begin{align*}
+\Pr\{\bar{N}(0) = n\} &= \Pr\{\bar{X}_1=\bar{X}_2=\dots=\bar{X}_n=0,\bar{X}_{n+1}=\alpha\} = \Pr\{X_1 < \alpha,X_2 < \alpha,\ldots,X_n < \alpha,X_{n+1} \geq \alpha\}\\
+&= \prod_{i=1}^{n} \Pr\{X_i < \alpha\} . \Pr\{X_{n+1} \geq \alpha \} \\
+&= \left(1- \Pr\{X_1 \geq \alpha \}\right) ^{n} . \Pr\{X_1 \geq \alpha\}.
+\end{align*}
+where the third equality follows from the fact that $ X_i, i \in \N$ are mutually independent, fourth equality follows from the fact that $ X_i, i \in \N$ are identical.
 	\\
 	The number of arrivals till time $t$ therefore is Geometric with mean $\frac{1}{\Pr\{X_n \geq \alpha\}}$. Thus 
 	\begin{align*}
@@ -192,9 +223,9 @@ Hence Renewal theorems can be used to compute these long term averages. We'll ha
 
 \subsection{Wald's Lemma}
 Before we get into Wald's Lemma, let us first define what a stopping time is.
-\begin{defn}[Stopping Time]
+%\begin{defn}[Stopping Time]
 	Let $\{X_n: n\in \N\}$ be independent random variables. Then $T$, an integer random variable, is called a stopping time with respect to this sequence if $\{N=n\}$ depends only on $\{X_1,\cdots,X_n\}$ and is independent of $\{X_{n+1}, X_{n+2},\cdots\}$. 
-\end{defn}
+%\end{defn}
 Intuitively, if we observe the $X_n$'s in sequential order and $N$ denotes the number observed before stopping then. Then, we have stopped after observing, $\{X_1, \ldots, X_N\}$, and before observing $\{X_{N+1}, X_{N+2}, \ldots\}$. 
 The intuition behind a stopping time is that it's value is determined by past and present events but NOT by future events. 
 \begin{exmp}
