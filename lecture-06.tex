@@ -56,20 +56,23 @@ A counting process $\{N(t),t \geq 0\}$ with \emph{iid} general inter-arrival tim
 For all $t > 0$, the number of renewals $N(t)$ in time $[0,t)$ is finite. 
 \end{lem}
 \begin{proof}
-We are interested in knowing how many renewals occur per unit time. From SLLN, we have 
-	\begin{align*} 
-	\frac{S_n}{n} \to \mu \quad \mbox{a.s.}
-	\end{align*}
-Since $\mu > 0$, we must have $S_n$ growing arbitrarily large as $n$ increases. 
-Thus, $S_n$ can be finite for at most finitely many $n$. 
-Indeed, we have
-\begin{align*}
-\{N(t) \geq n, n \in \N\} &= \{S_n \leq t, n \in \N\} = \left\{\frac{S_n}{n} \leq \frac{t}{n}, n \in \N \right\} \subseteq\{\mu \leq 0\} = \emptyset. 
+We are interested in knowing how many renewals occur per unit time. 
+From strong law of large numbers, we know that the set 
+\begin{align*} 
+\left\{\frac{S_n}{n} \neq \mu, n \in \N\right\}
 \end{align*}
+has probability measure unity. 
+Further, since $\mu > 0$, we must have $S_n$ growing arbitrarily large as $n$ increases. 
+Thus, $S_n$ can be finite for at most finitely many $n$. 
+Indeed, we have the following set 
+\begin{align*}
+\{N(t) \geq n, n \in \N\} &= \{S_n \leq t, n \in \N\} = \left\{\frac{S_n}{n} \leq \frac{t}{n}, n \in \N \right\}.% \subseteq\{\mu \leq 0\} = \emptyset. 
+\end{align*}
+has measure zero. 
 Therefore, $N(t)$ must be finite, and
-	\begin{align*} 
-	N(t) = \max\{n \in \N_0 : S_n \leq t\}.
-	\end{align*} 
+%\begin{align*} 
+$N(t) = \max\{n \in \N_0 : S_n \leq t\}$.
+%\end{align*} 
 \end{proof}
 
 \subsection{Distribution Functions}
@@ -90,7 +93,8 @@ where $\ast$ denotes convolution.
 	\Pr\{N(t) = n\} = \Pr\{S_n \leq t\} - \Pr\{S_{n+1} \leq t\} = F_n(t) - F_{n+1}(t).
 	\end{align*}
 \end{lem}
-\begin{proof} It follows from~\eqref{eq:InverseRelationship}.
+\begin{proof} 
+It follows from the inverse relationship between renewal instants and the renewal process~\eqref{eq:InverseRelationship}.
 \end{proof}
 %Denote $F_n = F^{*(n)}$ where $*$ denotes convolution. Essentially, $F^{*(n)}$ is the distribution of $S_n$.
 %\begin{defn} 
@@ -147,13 +151,16 @@ Since we assumed that $\Pr\{X_n = 0\} < 1$, it follow from continuity of probabi
 \bar{X}_n = \alpha 1_{\{X_n \geq \alpha\}}.
 \end{align*}
 Let $\bar{N}(t)$ denote the renewal process with inter-arrival times $\bar{X}_n$. 
-Note that since $X_i$'s are \emph{iid}, so are $\bar{X}_i$ (which will be evident from the proof of the distribution function of the number of arrivals till time t). 
-In fact, the arrivals now happen at multiples of $\alpha$. And yes, they stack. 
-Moreover, $X_n \geq \bar{X}_n$, and we can write 	
+Note that since $X_i$'s are \emph{iid}, so are $\bar{X}_i$'s. % (which will be evident from the proof of the distribution function of the number of arrivals till time t). 
+Further, we have $\bar{X}_n \leq X_n$ and hence $\bar{N}(t) \geq N(t)$ for all sample paths. 
+In fact, for the new process, the arrivals occur at multiples of $\alpha$. 
+The number of arrivals at each multiple of $\alpha$ is \emph{iid} and we can write 
+%Moreover, $X_n \geq \bar{X}_n$, and we can write 	
 \begin{align*}
-\Pr\{\bar{N}(0) = n\} &= \Pr\{\bar{X}_1=\bar{X}_2=\dots=\bar{X}_n=0,\bar{X}_{n+1}=\alpha\} = \Pr\{X_1 < \alpha,X_2 < \alpha,\ldots,X_n < \alpha,X_{n+1} \geq \alpha\}\\
-&= \prod_{i=1}^{n} \Pr\{X_i < \alpha\} . \Pr\{X_{n+1} \geq \alpha \} \\
-&= \left(1- \Pr\{X_1 \geq \alpha \}\right) ^{n} . \Pr\{X_1 \geq \alpha\}.
+\Pr\{\bar{N}(0) = n\} %&= \Pr\{\bar{X}_1=\bar{X}_2=\dots=\bar{X}_n=0,\bar{X}_{n+1}=\alpha\} 
+&= \Pr\{X_1 < \alpha,X_2 < \alpha,\ldots,X_n < \alpha,X_{n+1} \geq \alpha\}
+%&= \prod_{i=1}^{n} \Pr\{X_i < \alpha\} . \Pr\{X_{n+1} \geq \alpha \} \\
+= \left(1- \Pr\{X_1 \geq \alpha \}\right) ^{n} \Pr\{X_1 \geq \alpha\}.
 \end{align*}
 where the third equality follows from the fact that $ X_i, i \in \N$ are mutually independent, fourth equality follows from the fact that $ X_i, i \in \N$ are identical.
 	\\
