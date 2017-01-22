@@ -9,13 +9,13 @@
 \maketitle
 
 \section{Renewal Theory}
-One of the characterization for the Poisson process is of it being a counting process with \emph{iid} exponential inter-arrival times. 
+One of the characterization for the Poisson process is of it being a counting process with \textit{iid} exponential inter-arrival times. 
 Now we shall relax the ``exponential" part. 
 As a result, we no longer have the nice properties such as independent and stationary increments that Poisson processes had. 
 However, we can still get some great results which also apply to Poisson Processes. 
 
 %\begin{defn}[Inter-arrival Times] 
-We will consider \textbf{inter-arrival times} $\{X_i: i \in \N\}$ to be a sequence of non-negative \emph{iid} random variables with a common distribution $F$, 
+We will consider \textbf{inter-arrival times} $\{X_i: i \in \N\}$ to be a sequence of non-negative \textit{iid} random variables with a common distribution $F$, 
 with finite mean $\mu$ and $F(0) < 1$. 
 We interpret $X_n$ as the time between $(n - 1)^{\text{st}}$ and the $n^{\text{th}}$ renewal event. 
 %	\begin{enumerate}
@@ -34,7 +34,7 @@ S_n = \sum_{i=1}^n X_i, \quad n\in \N.
 Second condition on inter-arrival times implies non-degenerate renewal process. 
 If $F(0)$ is equal to $1$ then it is a trivial process. 
 %\begin{defn} 
-A counting process $\{N(t),t \geq 0\}$ with \emph{iid} general inter-arrival times is called a \textbf{renewal process}, written as 
+A counting process $\{N(t),t \geq 0\}$ with \textit{iid} general inter-arrival times is called a \textbf{renewal process}, written as 
 %\end{defn}
 %\begin{defn}[Renewal process] Let $\{N(t), t \geq 0\}$ be the counting process that counts number of events by time $t$. Then,
 	\begin{align*} 
@@ -85,7 +85,7 @@ The distribution of renewal instant $S_n$ is denoted by $F_n(t) \triangleq \Pr\{
 \end{xalignat*}
 where $\ast$ denotes convolution.
 \end{lem}
-\begin{proof} It follows from induction over sum of \emph{iid} random variables.
+\begin{proof} It follows from induction over sum of \textit{iid} random variables.
 \end{proof}
 %We need to know the distribution of $N(t)$. 
 \begin{lem} Counting process $N(t)$ assumes non-negative integer values with distribution
@@ -115,7 +115,7 @@ Using the inverse relationship between counting process and the arrival instants
 \begin{align*}
 m(t) &= \E[N(t)] = \sum_{n \in \N} \Pr\{N(t) \geq n\} = \sum_{n \in \N} \Pr\{S_n \leq t\} = \sum_{n \in \N} F_n(t).
 \end{align*}
-%where the second equality follows from the fact that the expectation of a random variable being represented in terms of the \emph{ccdf} of the corresponding random variable. 
+%where the second equality follows from the fact that the expectation of a random variable being represented in terms of the \textit{ccdf} of the corresponding random variable. 
 %The third equality follows from the inverse relationship as seen in \eqref{eq:InverseRelationship}. 
 %	Alternatively,
 %	\begin{align*}
@@ -146,60 +146,64 @@ We can exchange integrals and summations since the integrand is positive using m
 %\end{align*} 
 %\end{proof}
 \begin{proof}
-Since we assumed that $\Pr\{X_n = 0\} < 1$, it follow from continuity of probabilities that there exists $\alpha > 0$, such that $\Pr\{X_n \geq \alpha\} >0$. Define
+Since we assumed that $\Pr\{X_n = 0\} < 1$, it follow from continuity of probabilities that there exists $\alpha > 0$, such that $\Pr\{X_n \geq \alpha\} = \beta >0$. Define
 \begin{align*}
 \bar{X}_n = \alpha 1_{\{X_n \geq \alpha\}}.
 \end{align*}
-Let $\bar{N}(t)$ denote the renewal process with inter-arrival times $\bar{X}_n$. 
-Note that since $X_i$'s are \emph{iid}, so are $\bar{X}_i$'s. % (which will be evident from the proof of the distribution function of the number of arrivals till time t). 
-Further, we have $\bar{X}_n \leq X_n$ and hence $\bar{N}(t) \geq N(t)$ for all sample paths. 
-In fact, for the new process, the arrivals occur at multiples of $\alpha$. 
-The number of arrivals at each multiple of $\alpha$ is \emph{iid} and we can write 
-%Moreover, $X_n \geq \bar{X}_n$, and we can write 	
+Note that since $X_i$'s are \textit{iid}, so are $\bar{X}_i$'s, which are bivariate random variables taking values in $\{0, \alpha\}$ with probabilities $1-\beta$ and $\beta$ respectively. % (which will be evident from the proof of the distribution function of the number of arrivals till time t). 
+Let $\bar{N}(t)$ denote the renewal process with inter-arrival times $\bar{X}_n$, with arrivals at integer multiples of $\alpha$. 
+Since $\bar{X}_n \leq X_n$, we have $\bar{N}(t) \geq N(t)$ for all sample paths. 
+Hence, it follows that $\E N(t) \leq \E \bar{N}(t)$, and we will show that $\E\bar{N}(t)$ is finite. 
+%The number of arrivals at each arrival instant $k\alpha$ is \textit{iid} and we can write 
+%%Moreover, $X_n \geq \bar{X}_n$, and we can write 	
+%\begin{align*}
+%\Pr\{\bar{N}(0) = n\} %&= \Pr\{\bar{X}_1=\bar{X}_2=\dots=\bar{X}_n=0,\bar{X}_{n+1}=\alpha\} 
+%&= \Pr\{X_1 < \alpha,X_2 < \alpha,\ldots,X_n < \alpha,X_{n+1} \geq \alpha\} = (1-\beta)^n\beta.
+%%&= \prod_{i=1}^{n} \Pr\{X_i < \alpha\} . \Pr\{X_{n+1} \geq \alpha \} \\
+%%= \left(1- \Pr\{X_1 \geq \alpha \}\right) ^{n} \Pr\{X_1 \geq \alpha\}.
+%\end{align*}
+We can write the joint distribution of number of arrivals at each arrival instant $l\alpha$, as 
 \begin{align*}
-\Pr\{\bar{N}(0) = n\} %&= \Pr\{\bar{X}_1=\bar{X}_2=\dots=\bar{X}_n=0,\bar{X}_{n+1}=\alpha\} 
-&= \Pr\{X_1 < \alpha,X_2 < \alpha,\ldots,X_n < \alpha,X_{n+1} \geq \alpha\}
-%&= \prod_{i=1}^{n} \Pr\{X_i < \alpha\} . \Pr\{X_{n+1} \geq \alpha \} \\
-= \left(1- \Pr\{X_1 \geq \alpha \}\right) ^{n} \Pr\{X_1 \geq \alpha\}.
+\Pr\{\bar{N}(0)=n_1, \bar{N}(\alpha) = n_2\} &= \Pr\{X_i \leq \alpha, i \leq n_1, X_{n_1+1} \geq \alpha, X_i < \alpha, n_1 +2 \leq i \leq n_2, X_{n_2+1} \geq \alpha \}\\
+&=  (1-\beta)^{n_1}\beta(1-\beta)^{n_2-1}\beta
 \end{align*}
-where the third equality follows from the fact that $ X_i, i \in \N$ are mutually independent, fourth equality follows from the fact that $ X_i, i \in \N$ are identical.
-	\\
-	The number of arrivals till time $t$ therefore is Geometric with mean $\frac{1}{\Pr\{X_n \geq \alpha\}}$. Thus 
-	\begin{align*}
-	\E[\bar{N}(t)] = \frac{\lfloor\frac{t}{\alpha} \rfloor + 1}{\Pr\{X_n \geq \alpha\}} \leq \frac{\frac{t}{\alpha} + 1}{\Pr\{X_n \geq \alpha\}} < \infty.
-	\end{align*}
-	Since $\E[N(t)] \leq \E[\bar{N}(t)]$ which follows from $N(t) \leq \bar{N}(t)$, we are done.
+%where the third equality follows from the fact that $ X_i, i \in \N$ are mutually independent, fourth equality follows from the fact that $ X_i, i \in \N$ are identical.
+%\\
+It follows that the number of arrivals is independent at each arrival instant $k\alpha$ and geometrically distributed with mean $1/\beta$ and $(1-\beta)/\beta)$ for $k \geq 1$ and $k = 0$ respectively.  
+%The number of arrivals till time $t$ therefore is Geometric with mean $\frac{1}{\Pr\{X_n \geq \alpha\}}$. 
+Thus 
+\begin{align*}
+\E[\bar{N}(t)] = \frac{\lceil\frac{t}{\alpha} \rceil}{\beta} \leq \frac{\frac{t}{\alpha} + 1}{\beta} < \infty.
+\end{align*}
+%Since $\E[N(t)] \leq \E[\bar{N}(t)]$ which follows from $N(t) \leq \bar{N}(t)$, we are done.
 \end{proof} 
 
 \section{Limit Theorems}
 
 \begin{lem}
-	Let $N(\infty) := \lim_{t \to \infty} N(t)$. Then, it is easy to see that $\Pr\{N(\infty) = \infty\} = 1$.	
+Let $N(\infty) := \lim_{t \to \infty} N(t)$. Then, $\Pr\{N(\infty) = \infty\} = 1$.	
 \end{lem}
 
 \begin{proof}
-	It suffices to show $\Pr\{N(\infty) < \infty\} = 0$. We have
-	\begin{flalign*}
-	\Pr\{N(\infty) < \infty\} &= \Pr\{\bigcup_{n \in \N} \{N(\infty) < n\}\}\\
-	&= \Pr\{\bigcup_{n \in \N} \{S_n = \infty\}\} = \Pr\{\bigcup_{n \in \N} \{X_n = \infty\}\} \\
-	&\leq \sum_{n \in \N}\Pr\{X_n = \infty\} =0.
-	\end{flalign*}
-	The last step follows from the fact that $\E[X_n] < \infty$.
+It suffices to show $\Pr\{N(\infty) < \infty\} = 0$. 
+Since $\E[X_n] < \infty$, we have $\Pr\{X_n = \infty\} = 0$ and 
+\begin{flalign*}
+\Pr\{N(\infty) < \infty\} &= \Pr\bigcup_{n \in \N} \{N(\infty) < n\}= \Pr\bigcup_{n \in \N} \{S_n = \infty\} = \Pr\{\bigcup_{n \in \N} \{X_n = \infty\}\} \leq \sum_{n \in \N}\Pr\{X_n = \infty\} =0.
+\end{flalign*}
+%The last step follows from the fact that $\E[X_n] < \infty$.
 \end{proof}
+Notice that $N(t)$ increases to infinity with time. 
+We are interested in rate of increase of $N(t)$ with $t$. 
 
 \begin{thm}[Basic Renewal Theorem]
-	\begin{align*}
-	\lim_{t \to \infty} \frac{N(t)}{t} = \frac{1}{\mu} \quad \mbox{almost surely}.
-	\end{align*}
+\begin{align*}
+\lim_{t \to \infty} \frac{N(t)}{t} = \frac{1}{\mu} \quad \mbox{almost surely}.
+\end{align*}
 \end{thm}
-[
-Notice that $N(t)$ increases to infinity with time. We are interested in rate of increase of $N(t)$ with $t$. Note that $S_{N(t)}$ represents the time of last renewal before $t$, and $S_{N(t)+1}$ represents the time of first renewal after time $t$. ] \\
-
 \begin{proof}
-	% Need picture here
-	%0 ------- S_{N(t)}---t ---- S_{N(t)+1} ------------
+Note that $S_{N(t)}$ represents the time of last renewal before $t$, and $S_{N(t)+1}$ represents the time of first renewal after time $t$.
 	\begin{figure}[h!]
-		\includegraphics[width=\linewidth]{Figures/lecture_5_fig_1.png}
+		\includegraphics[width=.9\linewidth]{Figures/lecture_5_fig_1.png}
 		\caption{Time-line visualization}
 	\end{figure}
 	Consider $S_{N(t)}$. By definition, we have
@@ -210,14 +214,15 @@ Notice that $N(t)$ increases to infinity with time. We are interested in rate of
 	\[\lim_{t \to \infty}\frac{S_{N(t)}}{N(t)} = \mu \quad \mbox{a.s.}\] 
 	Also
 	\[\lim_{t \to \infty} \frac{S_{N(t)+1}}{N(t)} = \lim_{t \to \infty} \frac{S_{N(t)+1}}{N(t)+1}.\frac{N(t)+1}{N(t)} \]
-	Hence by Squeeze Theorem, the result follows.
+Hence by squeeze theorem, the result follows.
 \end{proof}
 
-
-\subsubsection{Example}
-Suppose, you are in a casino with infinitely many games. Every game has a probability of win $X$, \emph{iid} uniformly distributed between $(0,1)$. One can continue to play a game or switch to another one. We are interested in a strategy that maximizes the long-run proportion of wins.
-
-Let $N(n)$ denote the number of losses in $n$ plays. Then fraction of wins $P_W(n)$ is given by 
+\begin{shaded*}
+Suppose, you are in a casino with infinitely many games. 
+Every game has a probability of win $X$, \textit{iid} uniformly distributed between $(0,1)$. 
+One can continue to play a game or switch to another one. We are interested in a strategy that maximizes the long-run proportion of wins.
+Let $N(n)$ denote the number of losses in $n$ plays. 
+Then the fraction of wins $P_W(n)$ is given by 
 \begin{align*}
 P_W(n) = \frac{n-N(n)}{n}.
 \end{align*}
@@ -227,78 +232,90 @@ We pick a strategy where any game is selected to play, and continue to be played
 &= \frac{1}{\E\left[\frac{1}{1-X}\right]} = \frac{1}{\infty} = 0
 \end{align*}
 Hence Renewal theorems can be used to compute these long term averages. We'll have many such theorems in the following sections.
+\end{shaded*}
 
 \subsection{Wald's Lemma}
-Before we get into Wald's Lemma, let us first define what a stopping time is.
+%Before we get into Wald's Lemma, let us first define what a stopping time is.
 %\begin{defn}[Stopping Time]
-	Let $\{X_n: n\in \N\}$ be independent random variables. Then $T$, an integer random variable, is called a stopping time with respect to this sequence if $\{N=n\}$ depends only on $\{X_1,\cdots,X_n\}$ and is independent of $\{X_{n+1}, X_{n+2},\cdots\}$. 
+%Let $\{X_n: n\in \N\}$ be independent random variables. 
+An integer random variable $T$ is called a \textbf{stopping time} with respect to the \textit{independent} random sequence $\{X_n: n \in \N\}$ if the event $\{N=n\}$ depends only on $\{X_1,\cdots,X_n\}$ and is independent of $\{X_{n+1}, X_{n+2},\cdots\}$. 
 %\end{defn}
+
 Intuitively, if we observe the $X_n$'s in sequential order and $N$ denotes the number observed before stopping then. Then, we have stopped after observing, $\{X_1, \ldots, X_N\}$, and before observing $\{X_{N+1}, X_{N+2}, \ldots\}$. 
 The intuition behind a stopping time is that it's value is determined by past and present events but NOT by future events. 
-\begin{exmp}
-	For instance, while traveling on the bus, the random variable measuring ``Time until bus crosses Majestic and after that one stop" is a stopping time as it's value is determined by events before it happens. On the other hand ``Time until bus stops before Majestic is reached'' would not be a stopping time  in the same context. This is because we have to cross this time, reach Majestic and then realise we have crossed that point. 
-\end{exmp}
-\begin{exmp} Consider $X_n \in \{0,1\}$ \emph{iid} Bernoulli$(1/2)$. Then $N = min \{n \in \N:\quad \sum_{i=1}^n X_i = 1\}$ is a stopping time. For instance, $Pr\{N=2\} = Pr\{X_1=0,X_2=1\}$ and hence $ N $ is a stopping time by definition.
-\end{exmp}
-\begin{exmp}[Random Walk Stopping Time] Consider $X_n$ \emph{iid} bivariate random variables with 
+\begin{shaded*}
+\begin{enumerate}
+\item For instance, while traveling on the bus, the random variable measuring ``Time until bus crosses Majestic and after that one stop" is a stopping time as it's value is determined by events before it happens. On the other hand ``Time until bus stops before Majestic is reached'' would not be a stopping time  in the same context. This is because we have to cross this time, reach Majestic and then realize we have crossed that point. 
+\item Consider $X_n \in \{0,1\}$ \textit{iid} Bernoulli$(1/2)$. Then $N = \min \{n \in \N:\quad \sum_{i=1}^n X_i = 1\}$ is a stopping time. For instance, $\Pr\{N=2\} = \Pr\{X_1=0,X_2=1\}$ and hence $N$ is a stopping time by definition.
+ \item \textbf{Random Walk Stopping Time} Consider $X_n$ \textit{iid} bivariate random variables with 
 	\begin{align*}
 	\Pr\{X_n = 1\} = \Pr\{X_n = -1\} = \frac{1}{2}. 
 	\end{align*}
 	Then $N = min \{n \in \N:\quad \sum_{i=1}^n X_i = 1\}$ is a stopping time.
-\end{exmp}
-
-\emph{Properties of stopping time}: Let $N_1,N_2$ be two stopping times with respect to $\{X_i : i \in \N \} $ then,
-\begin{itemize}
-	\item $N_1+N_2$ is a stopping time.
-	\item $\min \{N_1,N_2\} $ is a stopping time.
-\end{itemize}
+\end{enumerate}
+\end{shaded*}
+\subsubsection{Properties of stopping time}
+Let $N_1,N_2$ be two stopping times with respect to independent random sequence $\{X_i : i \in \N \}$ then,
+\begin{enumerate}[i\_]
+\item $N_1+N_2$ is a stopping time.
+\item $\min \{N_1,N_2\} $ is a stopping time.
+\end{enumerate}
 \begin{proof}
-\begin{itemize}
-	\item 
-	\begin{align*}
-	\{N_1+N_2 \leq n\} &= \bigcup_{i=0}^{n} \{N_1+N_2 = i\}
-	\\
-	&= \bigcup_{i=0}^{n} \bigcup_{k=0}^{i} \{N_1 = k\} \cap \{N_2 = i-k\}
-	\\
-	& \indep \{X_{n+1},X_{n+2},\ldots\}.
-	\end{align*}
-	Hence, $N_1+N_2$ is a stopping time.
-	\item 
-	\begin{align*}
-	\{\min \{N_1,N_2\} > n\} = \{N_1 > n\} \cap \{N_2 > n\}.
-	\\
-	From ~De ~Morgan's ~Law ~we ~get ~\{\min \{N_1,N_2\} \leq n\} &= \{N_1 \leq n\} \cap \{N_2 \leq n\}
-	\\
-	& \indep \{X_{n+1},X_{n+2},\ldots\}.
-	\end{align*}
-	Hence, $\min \{N_1,N_2\} $ is a stopping time.
-\end{itemize}
+Let $\{X_i : i \in \N \} $ be an independent random sequence, and $N_1,N_2$ associated stopping times.  
+\begin{enumerate}[i\_]
+\item It suffices to show that the event $\{N_1+N_2=n\}$ depends only on random variables $\{X_1, \dots, X_n\}$ and independent of $\{X_{n+1}, \dots\}$. 
+To this end, we observe that 
+\begin{align*}
+\{N_1+N_2 = n \} &= \bigcup_{k=0}^{n} \{N_1 = k,N_2 = n-k\}.
+\end{align*}
+Result follows since the events $\{N_1 = k\}$ and $\{N_2=n-k\}$ depend solely on $\{X_1, \dots, X_n\}$ for all $k \in \{0, \dots, n\}$. 
+%Hence, $N_1+N_2$ is a stopping time.
+\item It suffices to show that the event $\min \{N_1,N_2\} > n\}$ depends solely on $\{X_1, \dots, X_n\}$. 
+\begin{align*}
+\min \{N_1,N_2\} > n\} = \{N_1 > n\} \cap \{N_2 > n\}.
+%	From ~De ~Morgan's ~Law ~we ~get ~\{\min \{N_1,N_2\} \leq n\} &= \{N_1 \leq n\} \cap \{N_2 \leq n\}
+%	\\
+%	& \indep \{X_{n+1},X_{n+2},\ldots\}.
+\end{align*}
+The result follows since the events $\{N_1 > n\}$ and $\{N_2 > n\}$ depend solely on $\{X_1, \dots, X_n\}$. 
+\end{enumerate}
 \end{proof}
 
 \begin{lem}[Wald's Lemma]
-	Let $\{X_i:\quad i\in \N\}$ be \emph{iid} random variables with finite mean $\E[X_1]$ and let $N$ be a stopping time with respect to this set of variables, such that $\E[N] < \infty$. Then,
-	\[\E\left[\sum_{n=1}^N X_n\right] = \E[X_1]\E[N]\]
+Let $\{X_i:\quad i\in \N\}$ be \textit{iid} random variables with finite mean $\E[X_1]$ and let $N$ be a stopping time with respect to this set of variables, such that $\E[N] < \infty$. 
+Then,
+\begin{align*}
+\E\left[\sum_{n=1}^N X_n\right] &= \E[X_1]\E[N].
+\end{align*}
 \end{lem}
-\begin{proof}
-	\begin{align}
-	\E\left[\sum_{n=1}^N X_n\right] &= \E\left[\sum_{n \in \N} X_n 1_{\{N \geq n\}}\right]  \\
-	&= \sum_{n \in \N} \E\left[X_n 1_{\{N \geq n\}}\right]. \label{tricky}
-	\end{align}
-	I'd like to point out here that in step (\ref{tricky}), you cannot always exchange infinite sums and expectations. But here you can do so, because of the application of Monotone Convergence Theorem. Refer Ross/Wolff for more information. Regardless, to proceed, we need to show that $N \geq n$ is independent of $X_k, \quad k \geq n$. To this end, observe that 
-	\begin{align*}
-	\{N \geq k\} = \{N < k\}^c = \{N \leq k-1\}^c = \left(\bigcup_{i=1}^{k-1} \{N = i\}\right)^c. 
-	\end{align*}
-	Since, $N$ is a stopping time and by definition $\{N=i\}$ depends only on $\{X_1,\ldots, X_i\}$. Therefore, $\{N \geq k\}$ depends only on $\{X_1,\ldots, X_{k-1}\}$, and is independent of the future and present samples. Therefore, we can write
-	\begin{align*}
-	\sum_{n \in \N} \E\left[X_n 1_{\{N \geq n\}}\right] &= \sum_{n \in \N} \E\left[X_n\right]\E\left[ 1_{\{N \geq n\}}\right] \\
-	&= \E\left[X_1\right] \sum_{n \in \N} \Pr\{N \geq n\} \\
-	&= \E[X_1]\E[N].
-	\end{align*} 
-	where the third equality follows from the fact that the expectation of a random variable being represented in terms of the \emph{ccdf} of the corresponding random variable.
+\begin{proof} 
+We first show that the event $\{N \geq n\}$ is independent of $X_k$, for any $k \geq n$. 
+To this end, observe that 
+\begin{align*}
+\{N \geq k\} = \{N < k\}^c = \{N \leq k-1\}^c = \left(\bigcup_{i=1}^{k-1} \{N = i\}\right)^c. 
+\end{align*}
+Recall that $N$ is a stopping time and the event $\{N=i\}$ depends only on $\{X_1,\ldots, X_i\}$, by definition.  
+Therefore, $\{N \geq k\}$ depends only on $\{X_1,\ldots, X_{k-1}\}$, and is independent of the future and present samples. 
+Hence, we can write the $N$th renewal instant for a stopping time $N$ as 
+\begin{align*}
+\E\left[\sum_{n=1}^N X_n\right] &= \E\left[\sum_{n \in \N} X_n 1_{\{N \geq n\}}\right] = \sum_{n \in \N} \E X_n \E\left[1_{\{N \geq n\}}\right] = \E X_1\E\left[ \sum_{n \in \N} 1_{\{N \geq n\}}\right] = \E[X_1]\E[N].
+\end{align*}
+We exchanged limit and expectation in the above step, which is not always allowed. 
+We were able to do it since the summand is positive and we apply monotone convergence theorem. 
+%I'd like to point out here that in step (\ref{tricky}), you cannot always exchange infinite sums and expectations. 
+%But here you can do so, because of the application of 
+%Refer Ross/Wolff for more information. 
+%Therefore, we can write
+%	\begin{align*}
+%	\sum_{n \in \N} \E\left[X_n 1_{\{N \geq n\}}\right] &= \sum_{n \in \N} \E\left[X_n\right]\E\left[ 1_{\{N \geq n\}}\right] \\
+%	&= \E\left[X_1\right] \sum_{n \in \N} \Pr\{N \geq n\} \\
+%	&= \E[X_1]\E[N].
+%	\end{align*} 
+%where the third equality follows from the fact that the expectation of a random variable being represented in terms of the \textit{ccdf} of the corresponding random variable.
 \end{proof}
 
 \begin{prop}[Wald's Lemma for Renewal Process] \label{prop:WaldRenewal}
-	Let $\{X_n, n \in \N\}$ be \emph{iid} inter-arrival times of a renewal process $N(t)$ with $\E[X_1] < \infty$, and let $m(t) = \E[N(t)]$ be its renewal function. Then, $N(t)+1$ is a stopping time and 
+	Let $\{X_n, n \in \N\}$ be \textit{iid} inter-arrival times of a renewal process $N(t)$ with $\E[X_1] < \infty$, and let $m(t) = \E[N(t)]$ be its renewal function. Then, $N(t)+1$ is a stopping time and 
 	\begin{align*}
 	\E\left[\sum_{i=1}^{N(t)+1}X_i\right] = \E[X_1][1+m(t)].
 	\end{align*}
@@ -335,10 +352,10 @@ Even though, basic renewal theorem does \textbf{NOT} imply it, we still have $\E
 	\mu (m(t) + 1) > t.
 	\end{align*}
 	Dividing both sides by $\mu t$ and taking $\liminf$ on both sides, we get
-	\begin{align}
-	\label{eq:LiminfMean}
-	\liminf_{t \to \infty} \frac{m(t)}{t} \geq \frac{1}{\mu}.
-	\end{align}
+\begin{align*}
+%\label{eq:LiminfMean}
+\liminf_{t \to \infty} \frac{m(t)}{t} \geq \frac{1}{\mu}.
+\end{align*}
 	
 	%Thus we now have to show 
 	%\[\limsup_{t \to \infty} \frac{m(t)}{t} \leq \frac{1}{\mu}\]
@@ -377,7 +394,7 @@ Even though, basic renewal theorem does \textbf{NOT} imply it, we still have $\E
 
 \subsection{Central Limit for Renewal Processes}
 \begin{thm}
-Let $X_n$ be \emph{iid} random variables with $\mu = \E[X_n] < \infty$ and $\sigma^2 = Var(X_n) < \infty$. Then
+Let $X_n$ be \textit{iid} random variables with $\mu = \E[X_n] < \infty$ and $\sigma^2 = Var(X_n) < \infty$. Then
 \[\frac{N(t)-\frac{t}{\mu}}{\sigma \sqrt{\frac{t}{\mu^3}}} \to^d N(0,1) \]
 \end{thm}
 \begin{proof}
