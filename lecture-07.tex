@@ -2,29 +2,135 @@
 % !TEX spellcheck = LaTeX
 \documentclass[a4paper,10pt,english]{article}
 \input{header}
-\title{Lecture 07: Key Renewal Theorem and Applications}
+\title{Lecture 07: Regenerative Processes and Renewal Theory}
 \author{}
 \begin{document}
 \maketitle
-\section{Key Renewal Theorem and Applications}
-\begin{defn}[Lattice Random Variable] A non-negative random variable $X$ is said to be \textbf{lattice} if there exists $d \geq 0$ such that 
+
+\section{Regenerative Processes}
+A stochastic process $Z = \{Z_t, t \geqslant 0 \}$ with the state space $E$ is said to be \textbf{regenerative} if there exists a sequence $S = \{S_n: n \in \N\}$ of stopping times such that 
+\begin{enumerate}[(a)]
+\item \textbf{regeneration times:} $S$ is a renewal process, 
+\item \textbf{regenerative property:} for any $n,m \in \N$ and any bounded function $f : E^n \to \R$, we have
+\begin{align*}
+\E[f(Z_{S_m+t_1}, \dots, Z_{S_m+t_n})|Z_u, u \leqslant S_m] &= \E f(Z_{t_1},\dots,Z_{t_n}).
+\end{align*}
+\end{enumerate}
+The definition says that probability law is independent of the past and shift invariant at renewal times. 
+That is after each renewal instant, the process becomes a probabilistic replica of the process starting from zero. 
+Let $F$ be the distribution of inter-renewal times, then for an open subset $A \subseteq E$ and $t \geqslant 0$, we define 
+\begin{xalignat*}{3}
+&K(t,A)= P\{S_1 > t, Z_t \in A\} && f(t) = P\{Z_t \in A\}.
+\end{xalignat*} 
+By the regeneration property applied at renewal instant $S_1$, we have
+\begin{align*}
+P\{Z_t \in A|S_1\} &= f(t-S_1) \text{ on } \{S_1 \leqslant t\}.
+\end{align*}
+Hence, we have the \textbf{renewal equation}
+\begin{align*}
+f(t) &= K(t,A) + \int_{0}^{t}dF(s)f(t-s) = K + F \ast f.
+\end{align*}
+We assume that the distribution function $F$ and the Kernel $K$ are known, and we wish to find $f$, and characterize its asymptotic behavior. 
+
+\begin{thm} 
+The renewal equation has a unique solution $f = m \ast g$, where $m(t) = \sum_{n \in \N_0}F_n(t)$ is the renewal function associated with the inter-renewal time distribution $F$. 
+\end{thm}
+\begin{proof}
+It follows from the renewal equation that 
+\begin{align*}
+F\ast(m\ast g) &= \sum_{n \in \N}F_n \ast g = m \ast g - g.
+\end{align*}
+Hence, it is clear that $m \ast g$ is a solution to the renewal equation. 
+For uniqueness, let $f$ be another solution, then $h = f - m \ast g$ satisfies $h = F \ast h$, and hence $h = F_n \ast h$ for all $n \in \N$. 
+From finiteness of $m(t)$, it follows that $F_n(t) \to 0$ as $n$ grows. 
+Hence, $\lim_{n\in\N}(F_n\ast h)(t) = 0$ for each $t$. 
+\end{proof}
+
+\begin{prop} 
+Let $Z$ be a regenerative process with state space $E$. 
+Then for any $t \geq 0$ and open $A \subseteq E$, 
+\begin{align*}
+P\{Z_t \in A\} &= \int_{0}^tdm(s)K(t-s,A),
+\end{align*}
+where $m$ is the renewal function and $K$ is the kernel function. 
+\end{prop}
+
+\begin{thm}[Key Lemma] Let $N(t)$ be a renewal process, with mean $m(t)$, \emph{iid} inter-renewal times $\{X_n\}$ with distribution function $F$, and $n^{\mathrm{th}}$ renewal instant $S_n$. Then,
 \begin{equation*}
-\sum_{n\in\N}\Pr\{X = nd\} = 1.
+\Pr\{S_{N(t)}\leq s\}=\bar{F}(t)+\int_{0}^{s}\bar{F}(t-y)dm(y),\quad\quad t\geq s \geq 0.
 \end{equation*}
-For a lattice $X$, its period is defined as 
+\end{thm} 
+\begin{proof} We can see that event of time of last renewal prior to $t$ being smaller than another time $s$ can be partitioned into disjoint events corresponding to number of renewals till time $t$. Each of these disjoint events is equivalent to occurrence of $n^{\mathrm{th}}$ renewal before time $s$ and $(n+1)^{\mathrm{st}}$ renewal past time $t$. That is,
 \begin{equation*}
-d = \sup\{ d \in\R^+: \sum_{n\in\N}\Pr\{X = nd\} = 1 \}.
+	\{S_{N(t)} \leq s\} = \bigcup_{n \in \N_0}\{ S_{N(t)} \leq s, N(t)=n\} = \bigcup_{n \in \N_0}\{ S_n \leq s, S_{n+1} > t\} .
 \end{equation*}
-If $X$ is a lattice random variable, its distribution function $F$ is also called lattice.
-\end{defn}
+Recognizing that $S_0 = 0$, $S_1 = X_1$, and that $S_{n+1} = S_n + X_{n+1}$, we can write
+\begin{equation*}
+	\Pr\{S_{N(t)} \leq s\} = \Pr\{X_1 > t\} + \sum_{n \in \N}\Pr\{ X_{n+1} + S_n > t, S_n \leq s\} .
+\end{equation*}
+We recall $F_n$, $n$-fold convolution of $F$, is the distribution function of $S_n$. Conditioning on $\{S_n = y\}$, we can write
+\begin{align*}
+	\Pr\{S_{N(t)} \leq s\} &= \bar{F}(t) + \sum_{n \in \N}\int_{y=0}^{s}\Pr\{ X_{n+1} > t - S_n, S_n \leq s| S_n = y\}dF_n(y),\\
+	&= \bar{F}(t) + \sum_{n \in \N}\int_{y=0}^{s}\bar{F}(t-y)dF_n(y).
+\end{align*}
+Using monotone convergence theorem to interchange integral and summation, and noticing that $m(y) = \sum_{n\in\N}F_n(y)$, the result follows.
+%\begin{flalign*}
+%\Pr\{S_{N(t)} \leq s\} = \Pr\{X_1 > t\} +\sum_{n \in \N}\int_{y=0}^{s}\Pr\{ S_{n+1} > t|S_n=y\}dF_n(y)\\
+%&= \Pr\{X_1 > t\} +\sum_{n \in \N}\int_{y=0}^{s}\Pr\{ X_{n+1} > t-y\}dF_n(y)\\
+%&= \Pr\{X_1 > t\} +\sum_{n \in \N}\int_{y=0}^{s}\bar{F}(t-y)dF_n(y)\\
+%&\stackrel{(a)}{=} \Pr\{X_1 >t) +\int_{y=0}^{s}\bar{F}(t-y)\sum_{n \in \N}dF_n(y),\\
+%\end{flalign*}
+%where the order of summation is exchanged by virtue of the fact that the summands are non-negative and the sum is finite (Fubini's theorem).
+\end{proof}
+\begin{shaded*}
+%\begin{rem}\label{Remark:DensityLastRenewal} 
+Key lemma tells us that distribution of $S_{N(t)}$ has probability mass at $0$ and density between $(0,t]$, that is,
+\begin{align*}
+\Pr\{S_{N(t)}=0\}&=\bar{F}(t),& dF_{S_{N(t)}}(y)&=\bar{F}(t-y)dm(y)~\quad 0 < y \leq t.
+\end{align*}
+%\end{rem}
+%\begin{rem} 
+Density of $S_{N(t)}$ has interpretation of renewal taking place in the infinitesimal neighborhood of $y$, and next inter-arrival after time $t-y$. To see this, we notice 
+\begin{equation*}
+dm(y)=\sum_{n \in \N}dF_n(y) =\sum_{n \in \N}\Pr\{n^{\text{th}} \text{renewal occurs in} (y,y+dy)\}.
+\end{equation*}
+Combining interpretation of density of inter-arrival time $dF(t)$, we get
+\begin{equation*}
+dF_{S_{N(t)}}(y)=\Pr\{\text{renewal occurs in }(y,y+dy) \text{ and next arrival after}~ t-y\}.
+\end{equation*}
+%\end{rem}
+\end{shaded*}
+
+\begin{lem} 
+Let $F$ be the inter-renewal distribution such that $\inf\{x: F(x) = 1\} = \infty$, then for any $b > 0$ 
+\begin{align*}
+\sup_{t} \{m(t)-m(t-b) \}< \infty.
+\end{align*} 
+\end{lem}
+\begin{proof}
+We know that $m \ast F = m - 1$, so $m \ast (1- F) = 1$. 
+Since the function $1-F$ is monotone, 
+\begin{align*}
+1 &= \int_0^tdm(s)[1-F(t-s)] \geq [m(t) - m(t-b)](1-F(b)),
+\end{align*}
+where $b$ is chosen so that $F(b) < 1$. Hence, the result follows. 
+%\begin{align*}
+%\sup_{t}[m(t) - m(t-b)] = \beta_b < \infty.
+%\end{align*}
+\end{proof}
+
 %\subsection{Blackwell's Theorem}
-\begin{thm}[Blackwell's Theorem] Let $N(t)$ be a renewal process with mean $m(t)$, and inter-arrival times with distribution $F$ and mean $\mu$. If $F$ is not lattice, then for all $a \geq 0$
+\begin{thm}[Blackwell's Theorem] 
+Let the inter-renewal times have distribution $F$, mean $\mu$, and the associated renewal function $m(t)$, such that $\inf\{x: F(x) = 1\} = \infty$. 
+%Let $m(t)$ be the renewal function and the associated inter-arrival times with distribution $F$ and mean $\mu$. 
+If $F$ is not lattice, then for all $a \geq 0$
 \begin{equation*}
 \lim_{t \to \infty} m(t+a) -m(t) = \frac{a}{\mu}.
 \end{equation*}
 If $F$ is lattice with period $d$, then 
 \begin{equation*}
-\lim_{n \to \infty} \E[\text{number of renewals at } nd] = \frac{d}{\mu}.
+%\lim_{n \to \infty} \E[\text{number of renewals at } nd] = \frac{d}{\mu}.
+\lim_{n \to \infty} m(t+d) - m(t) = \frac{d}{\mu}.
 \end{equation*}
 \end{thm}
 \begin{proof} 
@@ -57,48 +163,43 @@ Note that $\sum_{i=1}^nx_i = m(n)$ and $\lim_{n \in \N}x_n = g(1) = c$, hence we
 %\lim_{n \to \infty}x_n = c \Rightarrow 
 \lim_{n \in \N}\frac{\sum_{i=1}^nx_i}{n} = \lim_{n \in \N}\frac{m(n)}{n} \stackrel{(a)}{=} c,
 \end{equation*}
-where (a) follows from the fact that if a sequence $\{x_i\}$ converges to $c$, then the running average sequence $a_n = \frac{1}{n}\sum_{i=1}^n x_i$ also converges to $c$, as $n \to \infty.$
-
+where (a) follows from the fact that if a sequence $\{x_i\}$ converges to $c$, then the running average sequence $a_n = \frac{1}{n}\sum_{i=1}^n x_i$ also converges to $c$, as $n \to \infty$. 
 Therefore, we can conclude $c = 1/\mu$ by elementary renewal theorem.
 
-When $F$ is lattice with period $d$, the limit in~\eqref{eq:LimitBlackwell} doesn't exist. (See Example \ref{eg:lattice limit}). However, the theorem is true for lattice trivially by elementary renewal theorem. Indeed, since $\frac{m(t)}{t} \to \frac{1}{\mu}$, we have that $m(nd)-m((n-1)d) \to \frac{1}{\mu}[nd-(n-1)d] = \frac{d}{\mu}.$
+When $F$ is lattice with period $d$, the limit in~\eqref{eq:LimitBlackwell} doesn't exist. (See the following example). %\ref{eg:lattice limit}). 
+However, the theorem is true for lattice trivially by elementary renewal theorem. Indeed, since $\frac{m(t)}{t} \to \frac{1}{\mu}$, we have that $m(nd)-m((n-1)d) \to \frac{1}{\mu}[nd-(n-1)d] = \frac{d}{\mu}.$
 \end{proof}
 
-\begin{exmp}
-\label{eg:lattice limit}
+\begin{shaded*}
+%\label{eg:lattice limit}
 For a trivial lattice example where the $\lim_{t\to \infty} m(t+a)-m(t)$ does not exist, consider a renewal process with $\Pr\{X_n = 1\} = 1$, that is, there is a renewal at every positive integer time instant with probability 1. Then $F$ is lattice with $d=1.$ Now, for $a=0.5$, and $t_n = n+(-1)^n 0.5$, we see that $\lim_{t_n \to \infty} m(t_n+a)-m(t_n)$ does not exist, and hence $\lim_{t \to \infty} m(t+a)-m(t)$ does not exist.
-\end{exmp}
+\end{shaded*}
 
-\begin{rem}
+%\begin{rem}
 In the lattice case, if the inter arrivals are strictly positive, that is, there can be no more than one renewal at each $nd$, then we have that 
 \begin{align}
 \lim_{n\to \infty} P[{\text{renewal at nd}}] = \frac{d}{\mu}.
 \end{align}
-\end{rem}
-
+%\end{rem}
 
 \subsection{Directly Riemann Integrable}
-\begin{defn}%[Directly Riemann Integrable] 
-A function $h: [0,\infty] \rightarrow \R$ is \textbf{directly Riemann integrable} if the partial sums obtained by summing the infimum and supremum of $h$, taken over intervals obtained by partitioning the positive axis, are finite and both converge to the same limit, for all finite positive interval lengths. That is,
+%\begin{defn}%[Directly Riemann Integrable] 
+A function $h: [0,\infty] \rightarrow \R$ is \textbf{directly Riemann integrable} and denoted by $g \in \D$ if the partial sums obtained by summing the infimum and supremum of $h$, taken over intervals obtained by partitioning the positive axis, are finite and both converge to the same limit, for all finite positive interval lengths. That is,
 \begin{equation*}
 	\lim_{\delta \rightarrow 0} \delta \sum_{n \in \N}\sup_{ u \in [(n-1)\delta,n\delta]}h(u)=\lim_{\delta \rightarrow 0} \delta \sum_{n \in \N}\inf_{ u \in [(n-1)\delta,n\delta]}h(u)  
 \end{equation*}   
  If both limits exist and are equal, then the integral value is equal to the limit. 
-\end{defn}
-	Compare this definition with the definition of Riemann integrals. A function $g: [0, M] \rightarrow \R $ for $0<M<\infty$ is Riemann integrable if 
+%\end{defn}
+Compare this definition with the definition of Riemann integrals. 
+A function $g: [0, M] \rightarrow \R $ for $0<M<\infty$ is Riemann integrable if 
    \begin{eqnarray*}
   \lim_{\delta \rightarrow 0} \delta \sum_{k=0}^{M/\delta}\sup_{ u \in [(n-1)\delta,n\delta]}g(u)=\lim_{\delta \rightarrow 0} \delta \sum_{k=0}^{M/\delta}\inf_{ u \in [(n-1)\delta,n\delta]}g(u)  
   \end{eqnarray*} 
    and in that case, limit is the value of the integral. For $h$ defined on $[0,\infty]$, $\int_{0}^{\infty}h(u)du = \lim_{M \rightarrow \infty}\int_{0}^{M}h(u)du$, if the limit exists. For many functions, this limit may not exist.
 
-
-
-\begin{rem}
+%\begin{rem}
 A directly Riemann integral function over $[0,\infty)$ is also Riemann integral, but the converse need not be true. For instance $h(t) = \sum_{n\in\N}1_{\left[n-\frac{1}{(2n^2)},\,n+\frac{1}{(2n^2)}\right]}(t)$ is Riemann integral, but $\delta \sum_{n \in \N}\sup_{ u \in [(n-1)\delta,n\delta]}h(u)$ is always infinite for every $\delta>0.$
-\end{rem}  
-
-
-   
+%\end{rem}  
 \begin{prop}%[Sufficiency for Directly Riemann Integrable] 
 Following are sufficient conditions for a function $h$ to be directly Riemann integrable.
   \begin{enumerate}
@@ -113,6 +214,68 @@ Following are sufficient conditions for a function $h$ to be directly Riemann in
 \end{equation*}
 \end{prop}
 
+%\begin{defn}[Lattice Random Variable] 
+A non-negative random variable $X$ is said to be \textbf{lattice} if there exists $d \geq 0$ such that 
+\begin{equation*}
+\sum_{n\in\N}\Pr\{X = nd\} = 1.
+\end{equation*}
+For a lattice $X$, its period is defined as 
+\begin{equation*}
+d = \sup\{ d \in\R^+: \sum_{n\in\N}\Pr\{X = nd\} = 1 \}.
+\end{equation*}
+If $X$ is a lattice random variable, its distribution function $F$ is also called lattice.
+%\end{defn}
+
+\begin{thm}[Key Renewal Theorem] 
+Let the inter-renewal distribution $F$ with $F(\infty) = 1$ and $h \in \D$. 
+Denoting mean of inter-renewal time by $\mu$, we have for non-lattice $F$
+%Let $N(t)$ be a renewal process having mean $m(t)$, and \emph{iid} inter-arrival times with mean $\mu$ and distribution function $F$. If $F$ is non-lattice, and if a function $h(t)$ is directly Riemann integrable, then
+\begin{equation}
+\label{eqn:Key Renewal Theorem}
+\lim_{t \rightarrow \infty} \int_{0}^{\infty}h(t-x)dm(x)=\frac{1}{\mu}\int_{0}^{\infty}h(t)dt. 
+\end{equation}
+If $F$ is lattice with period $d$ and $\sum_{k \in \N_0}h(t+kd)$ converges, then 
+\begin{align*}
+\lim_{n \rightarrow \infty} \int_{0}^{\infty}h(t+nd-x)dm(x)=\frac{d}{\mu}\sum_{n \in \N_0}h(t+kd). 
+\end{align*}
+%where 
+%\begin{xalignat*}{3}
+%&m(t) = \sum_{n \in \N}F_n(t),&& \mu= \int_{0}^{\infty}\bar{F}(t).
+%\end{xalignat*}
+\end{thm}
+%\begin{proof}
+%We know that $m \ast F = m - 1$, so $m \ast (1- F) = 1$. 
+%Since the function $1-F$ is monotone, 
+%\begin{align*}
+%1 &= \int_0^tdm(s)[1-F(t-s)] \geq [m(t) - m(t-b)](1-F(b)),
+%\end{align*}
+%where $b$ is chosen so that $F(b) < 1$. Hence, we have
+%\begin{align*}
+%\sup_{t}[m(t) - m(t-b)] = \beta_b < \infty.
+%\end{align*}
+%\end{proof}
+\begin{prop}[Equivalence] Blackwell's theorem and key renewal theorem are equivalent.
+\end{prop}
+\begin{proof} Let's assume key renewal theorem is true. We select $h$ as a simple function with value unity on interval $[0, a]$ and zero elsewhere. That is,
+\begin{equation*}
+h(x) = 1_{\{ x \in [0,a]\}}.
+\end{equation*}
+It is easy to see that this function is directly Riemann integrable. %With this selection of $h$, Blackwell's theorem follows.
+
+To see how we can prove the key renewal theorem from Blackwell's theorem, observe from Blackwell's theorem that,
+\begin{align*}
+\lim_{t \to \infty}\frac{dm(t)}{dt} \stackrel{(a)}= \lim_{a \to 0}\lim_{t \to \infty} \frac{m(t
++a)-m(t)}{a}=\frac{1}{\mu}.
+\end{align*}     
+where in $(a)$ we can exchange the order of limits under certain regularity conditions. 
+We defer the formal proof for a later stage.
+\end{proof}
+%\begin{rem} 
+Key renewal theorem is very useful in computing the limiting value of some function $g(t)$, probability or expectation of an event at an arbitrary time $t$, for a renewal process. This value is computed by conditioning on the time of last renewal prior to time $t$.
+%\end{rem}
+
+\section{Key Renewal Theorem and Applications}
+
 \subsection{Key Renewal Theorem}
 \begin{thm}[Key Renewal Theorem] Let $N(t)$ be a renewal process having mean $m(t)$, and \emph{iid} inter-arrival times with mean $\mu$ and distribution function $F$. If $F$ is non-lattice, and if a function $h(t)$ is directly Riemann integrable, then
 \begin{equation}
@@ -126,67 +289,6 @@ where
 \end{thm}
 %\textbf{Remark:} and we can deduce one theorem from the other. 
 
-\begin{prop}[Equivalence] Blackwell's theorem and key renewal theorem are equivalent.
-\end{prop}
-\begin{proof} Let's assume key renewal theorem is true. We select $h$ as a simple function with value unity on interval $[0, a]$ and zero elsewhere. That is,
-\begin{equation*}
-h(x) = 1_{\{ x \in [0,a]\}}.
-\end{equation*}
-It is easy to see that this function is directly Riemann integrable. %With this selection of $h$, Blackwell's theorem follows.
-
-
-
-To see how we can prove the key renewal theorem from Blackwell's theorem, observe from Blackwell's theorem that,
-\begin{align*}
-\lim_{t \to \infty}\frac{dm(t)}{dt} \stackrel{(a)}= \lim_{a \to 0}\lim_{t \to \infty} \frac{m(t
-+a)-m(t)}{a}=\frac{1}{\mu}.
-\end{align*}     
-where in $(a)$ we can exchange the order of limits under certain regularity conditions. 
-We defer the formal proof for a later stage.
-\end{proof}
-\begin{rem} Key renewal theorem is very useful in computing the limiting value of some function $g(t)$, probability or expectation of an event at an arbitrary time $t$, for a renewal process. This value is computed by conditioning on the time of last renewal prior to time $t$.
-\end{rem}
-\begin{thm}[Key Lemma] Let $N(t)$ be a renewal process, with mean $m(t)$, \emph{iid} inter-renewal times $\{X_n\}$ with distribution function $F$, and $n^{\mathrm{th}}$ renewal instant $S_n$. Then,
-\begin{equation*}
-\Pr\{S_{N(t)}\leq s\}=\bar{F}(t)+\int_{0}^{s}\bar{F}(t-y)dm(y),\quad\quad t\geq s \geq 0.
-\end{equation*}
-\end{thm} 
-\begin{proof} We can see that event of time of last renewal prior to $t$ being smaller than another time $s$ can be partitioned into disjoint events corresponding to number of renewals till time $t$. Each of these disjoint events is equivalent to occurrence of $n^{\mathrm{th}}$ renewal before time $s$ and $(n+1)^{\mathrm{st}}$ renewal past time $t$. That is,
-\begin{equation*}
-	\{S_{N(t)} \leq s\} = \bigcup_{n \in \N_0}\{ S_{N(t)} \leq s, N(t)=n\} = \bigcup_{n \in \N_0}\{ S_n \leq s, S_{n+1} > t\} .
-\end{equation*}
-Recognizing that $S_0 = 0$, $S_1 = X_1$, and that $S_{n+1} = S_n + X_{n+1}$, we can write
-\begin{equation*}
-	\Pr\{S_{N(t)} \leq s\} = \Pr\{X_1 > t\} + \sum_{n \in \N}\Pr\{ X_{n+1} + S_n > t, S_n \leq s\} .
-\end{equation*}
-We recall $F_n$, $n$-fold convolution of $F$, is the distribution function of $S_n$. Conditioning on $\{S_n = y\}$, we can write
-\begin{align*}
-	\Pr\{S_{N(t)} \leq s\} &= \bar{F}(t) + \sum_{n \in \N}\int_{y=0}^{s}\Pr\{ X_{n+1} > t - S_n, S_n \leq s| S_n = y\}dF_n(y),\\
-	&= \bar{F}(t) + \sum_{n \in \N}\int_{y=0}^{s}\bar{F}(t-y)dF_n(y).
-\end{align*}
-Using monotone convergence theorem to interchange integral and summation, and noticing that $m(y) = \sum_{n\in\N}F_n(y)$, the result follows.
-%\begin{flalign*}
-%\Pr\{S_{N(t)} \leq s\} = \Pr\{X_1 > t\} +\sum_{n \in \N}\int_{y=0}^{s}\Pr\{ S_{n+1} > t|S_n=y\}dF_n(y)\\
-%&= \Pr\{X_1 > t\} +\sum_{n \in \N}\int_{y=0}^{s}\Pr\{ X_{n+1} > t-y\}dF_n(y)\\
-%&= \Pr\{X_1 > t\} +\sum_{n \in \N}\int_{y=0}^{s}\bar{F}(t-y)dF_n(y)\\
-%&\stackrel{(a)}{=} \Pr\{X_1 >t) +\int_{y=0}^{s}\bar{F}(t-y)\sum_{n \in \N}dF_n(y),\\
-%\end{flalign*}
-%where the order of summation is exchanged by virtue of the fact that the summands are non-negative and the sum is finite (Fubini's theorem).
-\end{proof}
-\begin{rem}\label{Remark:DensityLastRenewal} Key lemma tells us that distribution of $S_{N(t)}$ has probability mass at $0$ and density between $(0,t]$, that is,
-\begin{align*}
-\Pr\{S_{N(t)}=0\}&=\bar{F}(t),& dF_{S_{N(t)}}(y)&=\bar{F}(t-y)dm(y)~\quad 0 < y \leq t.
-\end{align*}
-\end{rem}
-\begin{rem} Density of $S_{N(t)}$ has interpretation of renewal taking place in the infinitesimal neighborhood of $y$, and next inter-arrival after time $t-y$. To see this, we notice 
-\begin{equation*}
-dm(y)=\sum_{n \in \N}dF_n(y) =\sum_{n \in \N}\Pr\{n^{\text{th}} \text{renewal occurs in} (y,y+dy)\}.
-\end{equation*}
-Combining interpretation of density of inter-arrival time $dF(t)$, we get
-\begin{equation*}
-dF_{S_{N(t)}}(y)=\Pr\{\text{renewal occurs in }(y,y+dy) \text{ and next arrival after}~ t-y\}.
-\end{equation*}
-\end{rem}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Alternating Renewal Processes}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
