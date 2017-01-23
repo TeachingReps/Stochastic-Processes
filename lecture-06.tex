@@ -328,17 +328,22 @@ We were able to do it since the summand is positive and we apply monotone conver
 \end{proof}
 
 \subsection{Elementary Renewal Theorem}
-Basic renewal theorem implies $N(t)/t$ converges to $1/\mu$ almost surely. Now, we are interested in convergence of $\E[N(t)]/t$. Note that this is not obvious, since almost sure convergence doesn't imply convergence in mean. Consider the following example.
-\begin{exmp}
-	\begin{align*}
-	Y_n = \begin{cases}
-	n, & \mbox{ w.p.  } 1/n,\\
-	0, & \mbox{ w.p.  } 1- 1/n.
-	\end{cases}
-	\end{align*}
-	Then, $\Pr\{ Y_n = 0 \} = 1 - 1/n$. %Then $\sum \Pr\{Y_n > \epsilon\} < \infty$. Hence by Borel Cantelli Lemma, $Y_n \to 0$
-	That is $Y_n \to 0$ a.s. However, $\E[Y_n] = 1$ for all $n \in \N$. So $\E[Y_n] \to 1$.
-\end{exmp}
+Basic renewal theorem implies $N(t)/t$ converges to $1/\mu$ almost surely. Now, we are interested in convergence of $\E[N(t)]/t$. Note that this is not obvious, since almost sure convergence doesn't imply convergence in mean. 
+\begin{shaded*}
+Consider the following example. 
+Let $X_n$ be a Bernoulli random variable with $\Pr\{X_n = 1\} = 1/n$. 
+Let $Y_n = nX_n$. 
+%Then, 
+%	\begin{align*}
+%	Y_n = \begin{cases}
+%	n, & \mbox{ w.p.  } 1/n,\\
+%	0, & \mbox{ w.p.  } 1- 1/n.
+%	\end{cases}
+%	\end{align*}
+Then, $\Pr\{ Y_n = 0 \} = 1 - 1/n$. %Then $\sum \Pr\{Y_n > \epsilon\} < \infty$. Hence by Borel Cantelli Lemma, $Y_n \to 0$
+That is $Y_n \to 0$ a.s. However, $\E[Y_n] = 1$ for all $n \in \N$. 
+So $\E[Y_n] \to 1$.
+\end{shaded*}
 Even though, basic renewal theorem does \textbf{NOT} imply it, we still have $\E[N(t)]/t$ converging to $1/\mu$.
 
 \begin{thm}[Elementary Renewal Theorem] Let $m(t)$ denote mean $\E[N(t)]$ of renewal process $N(t)$, then under the hypotheses of basic renewal theorem, we have 
@@ -359,37 +364,41 @@ Even though, basic renewal theorem does \textbf{NOT} imply it, we still have $\E
 	
 	%Thus we now have to show 
 	%\[\limsup_{t \to \infty} \frac{m(t)}{t} \leq \frac{1}{\mu}\]
-	We employ a truncated random variable argument to show the reverse inequality. We define truncated inter-arrival times $\{\bar{X}_n\}$ as 
-	\begin{align*}
-	\bar{X}_n = X_n 1_{\{X_n \leq M\}} + M1_{\{X_n > M\}}.
-	\end{align*}
-	We will call $\E[\bar{X}_n] = \mu_M$. Further, we can define arrival instants $\{\bar{S}_n\}$ and renewal process $\bar{N}(t)$ for this set of truncated inter-arrival times $\{\bar{X}_n\}$ as 
-	\begin{align*}
-	\bar{S}_n &= \sum_{k=1}^n \bar{X}_k, & \bar{N}(t) &= \sup\{n \in \N_0: \bar{S}_n \leq t\}.
-	\end{align*}
-	Note that since $S_n \geq \bar{S}_n$, number of arrivals would be higher for renewal process with truncated random variables, i.e. 
-	\begin{align}
-	\label{eq:TruncRenewalInequality}
-	N(t) \leq \bar{N}(t).
-	\end{align}
-	Further, due to truncation of inter-arrival time, next renewal happens with-in $M$ units of time, i.e.
-	\begin{align*}
-	\bar{S}_{N(t)+1} \leq t+M.
-	\end{align*}
-	Taking expectations on both sides in the above align, using Proposition~\ref{prop:WaldRenewal}, dividing both sides by $t \mu_M$ and taking $\limsup$ on both sides, we obtain
-	\begin{align*}
-	\limsup_{t \to \infty}\frac{\bar{m(t)}}{t} \leq \frac{1}{\mu_M}.
-	\end{align*}
-	Taking expectations on both sides of~\eqref{eq:TruncRenewalInequality} and letting $M$ go arbitrary large on RHS, we get
-	\begin{align}
-	\label{eq:LimsupMean}
-	\limsup_{t \to \infty}\frac{m(t)}{t} \leq \frac{1}{\mu}.
-	\end{align}
+We employ a truncated random variable argument to show the reverse inequality. We define truncated inter-arrival times $\{\bar{X}_n\}$ as 
+\begin{align*}
+\bar{X}_n = X_n 1_{\{X_n \leq M\}} + M1_{\{X_n > M\}}.
+\end{align*}
+We will call $\E[\bar{X}_n] = \mu_M$. Further, we can define arrival instants $\{\bar{S}_n\}$ and renewal process $\bar{N}(t)$ for this set of truncated inter-arrival times $\{\bar{X}_n\}$ as 
+\begin{align*}
+\bar{S}_n &= \sum_{k=1}^n \bar{X}_k, & \bar{N}(t) &= \sup\{n \in \N_0: \bar{S}_n \leq t\}.
+\end{align*}
+Note that since $S_n \geq \bar{S}_n$, the number of arrivals would be higher for renewal process $\bar{N}(t)$ with truncated random variables, i.e. 
+\begin{align}
+\label{eq:TruncRenewalInequality}
+N(t) \leq \bar{N}(t).
+\end{align}
+Further, due to truncation of inter-arrival time, next renewal happens with-in $M$ units of time, i.e.
+\begin{align*}
+\bar{S}_{\bar{N}(t)+1} \leq t+M.
+\end{align*}
+Taking expectations on both sides in the above equation, using Wald's lemma for renewal processes, %using Proposition~\ref{prop:WaldRenewal}, 
+dividing both sides by $t \mu_M$, and taking $\limsup$ on both sides, we obtain
+\begin{align*}
+\limsup_{t \to \infty}\frac{\bar{m}(t)}{t} \leq \frac{1}{\mu_M}.
+\end{align*}
+Taking expectations on both sides of~\eqref{eq:TruncRenewalInequality} and letting $M$ go arbitrary large on RHS, we get
+\begin{align*}
+%\label{eq:LimsupMean}
+\limsup_{t \to \infty}\frac{m(t)}{t} \leq \frac{1}{\mu}.
+\end{align*}
 	%Now observe that LHS is independent of $M$. Take limits $M \to \infty$, noting that $\mu_M \to \mu$ (Why?) to get
 	%\[\limsup_{t \to \infty}\frac{m(t)}{t} \leq \frac{1}{\mu}\]
 	%Putting it all together,
 	%\[\lim_{t \to \infty}\frac{m(t)}{t} = \frac{1}{\mu}\]
-	Result for finite $\mu$ follows from~\eqref{eq:LiminfMean} and~\eqref{eq:LiminfMean}. When $\mu$ grows arbitrary large, results follow from~\eqref{eq:LiminfMean}, where RHS is zero. 
+Result follows for finite $\mu$ from combining liminf and limsup of the $m(t)/t$
+%~\eqref{eq:LiminfMean} and~\eqref{eq:LiminfMean}. 
+When $\mu$ grows arbitrary large, results follow from liminf of $m(t)/t$, %~\eqref{eq:LiminfMean}, 
+where RHS is zero. 
 \end{proof}
 
 \subsection{Central Limit for Renewal Processes}
