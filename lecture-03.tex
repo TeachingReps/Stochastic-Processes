@@ -39,11 +39,25 @@ A stochastic process $\{N(t), t\geqslant 0\}$ is a \textbf{counting process} if
 \end{enumerate}
 %\begin{defn} 
 The points of discontinuity correspond to the arrival instants of the point process $N(t)$. 
-\textbf{Time of $n^{\text{th}}$ arrival} is a random variable denoted $S_n$, such that  
+The \textbf{$n$th arrival instant} is a random variable denoted $S_n$, such that  
 \begin{xalignat*}{3}
 &S_0 = 0, &&S_n = \inf\{t \geq 0: N(t) \geqslant n\},~n \in \N.
 \end{xalignat*}
 %\end{defn}
+%\begin{defn} 
+The \textbf{inter arrival time} between $(n-1)${th} and $n${th} arrival is denoted by $X_n$ and written as
+\begin{align*}
+X_n = S_n - S_{n-1}.
+\end{align*}
+%\end{defn}
+%\begin{rem} 
+For a simple point process, we have
+\begin{align*}
+P\{X_{n} = 0\} &= P\{X_n\leqslant 0\} = 0.
+\end{align*}
+%This is equivalent to a point process not having an atom at any point on the line. 
+General point processes in higher dimension don't have any inter-arrival time interpretation. 
+%\end{rem}
 \begin{figure}[hhhh]
 \center
 	\input{Figures/Poisson}
@@ -91,64 +105,49 @@ P_n(t) \triangleq P\{N(t) = n\} = F_{n}(t)-F_{n+1}(t).
 \end{align*}
 \end{proof}
 
-%\begin{defn} 
-The \textbf{inter arrival time} between $(n-1)^{th}$ and $n^{th}$ arrival is denoted by $X_n$ and written as
-\begin{align*}
-X_n = S_n - S_{n-1}.
-\end{align*}
-%\end{defn}
-%\begin{rem} 
-For a simple point process, we have
-\begin{align*}
-P\{X_{n} = 0\} &= P\{X_n\leqslant 0\} = 0.
-\end{align*}
-%This is equivalent to a point process not having an atom at any point on the line. 
-Notice that, generalized point processes in higher dimension don't have any inter-arrival time interpretation. 
-%\end{rem}
 %\begin{defn}
 For an interval $I = (s,t]$, the number of arrivals in the interval $I$ is defined as $N(I) = N(t) - N(s)$. 
 %\end{defn}
 %\begin{defn} 
-A point process $\{N(t), t\geqslant 0\}$ has \textbf{stationary increments}, 
-if for any collection of mutually exclusive intervals $\{I_j: j \in [n]\}$ and any $t \geqslant 0, k_j \in \N_0$ for all $j \in [n]$ 
+Consider an arbitrary collection of mutually exclusive intervals $\{I_j: j \in [n]\}$, time index $t \geqslant 0$, and set of positive integers $\{k_j \in \N_0 : j \in [n]\}$. 
+A counting process $\{N(t), t\geqslant 0\}$ has \textbf{stationary increments} if
 \begin{align*}
 P\{N(I_j) = k_j, j \in [n]\} &= P\{N(t + I_j) = k_j, j \in [n]\}.
 \end{align*}
 %, the joint distribution of $(N(t_{n})-N(t_{n-1}),N(t_{n-1})-N(t_{n-2}),...,N(s))$ is identical to the joint distribution of $(N(t_{n}+t)-N(t_{n-1}+t),...,N(s+t)), ~ \forall t \geqslant 0$.
 %\end{defn}
 %\begin{defn} 
-A point process $\{N(t), t\geqslant 0\}$ has \textbf{stationary  and independent increments}, if for any $k_j\in \N_0, j \in [n]$
+A counting process $\{N(t), t\geqslant 0\}$ has \textbf{independent increments} if %for any $k_j\in \N_0, j \in [n]$
 %if it has stationary increments and the increments are independent random variables.
 \begin{align*}
-P\{N(t+I_j) = k_j, j \in [n]\} &= \prod_{j \in [n]}P\{N(I_j) = k_j\}.
+P\{N(I_j) = k_j, j \in [n]\} &= \prod_{j \in [n]}P\{N(I_j) = k_j\}.
 \end{align*}
 %\end{defn}
-%\begin{rem}
-For any collection of points  $t_0 = 0 < s<t_{2} < \ldots < t_{n}$, 
-we can define mutually exclusive intervals $I_j = (t_{j-1}, t_j]$ for $j \in [n]$. 
-Then, a stationary independent increment point process is the one that has the joint probability distribution, a product of marginals and each marginal depends solely on the interval length $|I_j| = t_j - t_{j-1}$. 
-That is, 
-\begin{align*}
-P\{N(I_j) = n_j,{j \in [n]}\} &= \prod_{j \in [n]}P\{N(|I_j|) = n_j\}.
-\end{align*} 
-%\end{rem}
+%%\begin{rem}
+%%For any collection of points  $t_0 = 0 < t_1 <t_{2} < \ldots < t_{n}$, we can define mutually exclusive intervals $I_j = (t_{j-1}, t_j]$ for $j \in [n]$. 
+%A stationary and independent increment counting process is the one that has the joint probability distribution, a product of marginals and each marginal depends solely on the interval length $|I_j|$. 
+%That is, 
+%\begin{align*}
+%P\{N(I_j) = n_j,{j \in [n]}\} &= \prod_{j \in [n]}P\{N(|I_j|) = n_j\}.
+%\end{align*} 
+%%\end{rem}
 
 \begin{lem} 
 An arrival process $\{S_n, n \in \N_0\}$ has stationary and independent increments iff 
-the sequence of inter-arrival times $\{X_n: n \in \N\}$ are \emph{iid} random variables.
+the sequence of inter-arrival times $\{X_n: n \in \N\}$ are \textit{iid} random variables.
 \end{lem}
 \begin{proof} 
-We first suppose that $\{X_n: n \in \N\}$ is a sequence of \emph{iid} random variables. 
+We first suppose that $\{X_n: n \in \N\}$ is a sequence of \textit{iid} random variables. 
 Then $S_{n+m} - S_m$ has the same distribution as $S_n$ and is independent of $(X_1, \ldots, X_m)$. 
 Conversely, we suppose that $\{S_n: n \in \N_0\}$ has stationary, independent increments. 
-Then, $\{X_n: n \in \N\}$ is a sequence of \emph{iid} random variables by looking at $X_n = S_n - S_{n-1}$.   
+Then, $\{X_n: n \in \N\}$ is a sequence of \textit{iid} random variables by looking at $X_n = S_n - S_{n-1}$.   
 \end{proof}
 
 \begin{lem} If a simple counting process $\{N(t), t \geqslant 0\}$ has stationary and independent increments then 
-the sequence of inter-arrival times $\{X_n: n \in \N\}$ are \emph{iid} random variables.
+the sequence of inter-arrival times $\{X_n: n \in \N\}$ are \textit{iid} random variables.
 \end{lem}
 \begin{proof} 
-%Suppose first that $(X_1,X_2,\ldots)$ is a sequence of \emph{iid} random variables, 
+%Suppose first that $(X_1,X_2,\ldots)$ is a sequence of \textit{iid} random variables, 
 %and then $S_{n+m} - S_m$ has same distribution as $S_n$ and is independent of $(X_1, \ldots, X_m)$. 
 %Then, for the ordered disjoint intervals $\{I_j = (a_j ,b_j]: j \in [n]\}$ such that $b_{j-1} \leq a_j$ for each $j$, and $K_j \triangleq \sum_{i = 1}^{j}k_i$, we have
 %\begin{align*}
@@ -169,7 +168,7 @@ To show that each inter-arrival time is identically distributed, we utilize the 
 P\{S_n - S_{n-1} > x\} &%= P\{N(S_{n-1}+x) - N(S_{n-1}) = 0\}
 = \int_{0}^{\infty}P\{N(x) = 0\}dF_{n-1}(t) = P\{N(x) = 0\} = P\{X_1 > x\}.
 \end{align*}
-%If $\{X_n\}$ are \emph{iid}, then $S_n$ are independent. 
+%If $\{X_n\}$ are \textit{iid}, then $S_n$ are independent. 
 %Hence, for disjoint intervals $I_j = (a_j, b_j]$, we have 
 %\begin{align*}
 %P\cap_{j=1}^{n}\{N(I_j) = n_j\} &= P\cap_{j=1}^{n}\{ S_{n_j} - S_{}\leq a_j, S_{n_j+1} > b_{j}\} = \int_{}.
@@ -192,6 +191,19 @@ P\{S_{n-1} \leqslant x, X_{n} > y\} &%= P\{N(S_{n-1} + y) - N(S_{n-1}) = 0, S_{n
 \end{proof}
 
 \section{Poisson process}
+%\begin{defn} 
+A simple counting process $\{N(t),~ t\geqslant 0\} $ is called a \textbf{Poisson process} with a finite positive rate $\lambda$, 
+if the inter-arrival times $\{X_{n}: n \in \N\}$ are \textit{iid} random variables with an exponential distribution of rate $\lambda$. 
+That is, it has a distribution function $F$, such that 
+ \begin{align*}
+ F(x) = P\{X_{1}\leqslant x\} = 
+	\begin{cases}
+		1-e^{-\lambda x}, & x\geqslant 0   \\
+		0,  & \text{ else}.
+	\end{cases}
+\end{align*}
+%\end{defn}
+
 \begin{lem} A unique non-negative right continuous function $f: \R \to \R$ satisfying equation
 \begin{align*}
  f(t+s) = f(t)f(s), \text{ for all } t,s \in \R
@@ -261,18 +273,7 @@ Let $g(t) \triangleq 1 - F(t)$. It follows from the memoryless property of $F$, 
 Since $g(x) = P\{X > x\}$  is non-increasing in $x \in \R_+$, we have $g(x) = e^{\theta x}$, where $\theta < 0$.
 \end{proof}
 
-%\begin{defn} 
-A simple counting process $\{N(t),~ t\geqslant 0\} $ is called a \textbf{Poisson process} with a finite positive rate $\lambda$, 
-if the inter-arrival times $\{X_{n}: n \in \N\}$ are \emph{iid} random variables with an exponential distribution of rate $\lambda$. 
-That is, it has a distribution function $F$, such that 
- \begin{align*}
- F(x) = P\{X_{1}\leqslant x\} = 
-	\begin{cases}
-		1-e^{-\lambda x}, & x\geqslant 0   \\
-		0,  & \text{ else}.
-	\end{cases}
-\end{align*}
-%\end{defn}
+
 \subsection{Age and Excess Time}
 At any time $t$, the instant of last and next arrivals are $S_{N(t)}$ and $S_{N(t)+1}$ respectively. 
 \textbf{Age} of a counting process defined as age from the last arrival, and the \textbf{excess} is defined as remaining time till next arrival, 
@@ -290,7 +291,7 @@ We look at joint distribution of $(A(s), Y(s))$ and notice that
 &= \bigcup_{n \in \N_0}\{ S_n <  s -x , S_{n+1} > s + y, N(s) = n\}\\
 &= \bigcup_{n \in \N_0}\{ S_n <  s -x , S_{n+1} > s + y\}.
 \end{align*}
-From the fact that inter-arrival times are \emph{iid} exponentially distributed with rate $\lambda$, we conclude that
+From the fact that inter-arrival times are \textit{iid} exponentially distributed with rate $\lambda$, we conclude that
 \begin{align*}
 P\{A(s)> x, Y(s) > y\} &= \sum_{n \in \N_0}\int_{u=0}^{s-x}P\{X_{n+1} > s + y - u \}dF_n(u),\\
 &= \int_{u=0}^{s-x}(1 - F_1(s+y+u))\sum_{n \in \N_0}dF_n(u) = \int_{u=0}^{s-x}e^{-\lambda(s+y-u)}\lambda du,\\
@@ -363,11 +364,11 @@ Using the conditions in the theorem, the result follows.
 \end{lem}
 % UNCOMMENT THIS %
 %\begin{proof} 
-%Since $S_n = \sum_{k=1}^nX_k$, where $X_k$ are \emph{iid}, the moment generating function $\mathbb{E} [ e^{\theta S_{n}} ]$ of $S_n$ is 
+%Since $S_n = \sum_{k=1}^nX_k$, where $X_k$ are \textit{iid}, the moment generating function $\mathbb{E} [ e^{\theta S_{n}} ]$ of $S_n$ is 
 % \begin{align*}
 %  \mathbb{E} [ e^{\theta S_{n}} ] = \left(\mathbb{E}[e^{\theta X_{1}}]\right)^{n}. 
 % \end{align*} 
-%Since each $X_k$ is \emph{iid} exponential with rate $\lambda$, it is easy to see that moment generating function of inter-arrival time $X_1$ is 
+%Since each $X_k$ is \textit{iid} exponential with rate $\lambda$, it is easy to see that moment generating function of inter-arrival time $X_1$ is 
 % \begin{align*}
 %  \mathbb{E} [ e^{\theta X_1} ] = 
 %		\begin{cases}
@@ -383,7 +384,7 @@ f_{n}(s) =\frac{\lambda (\lambda s)^{n-1}} {(n-1)!} e^{-\lambda s}.
 \end{align*}
 \end{thm}
 % UNCOMMENT THIS %
-%\begin{proof} Notice that $X_i$'s are \emph{iid} and $S_1 = X_1$. In addition, we know that $S_n = X_n + S_{n-1}$. Since, $X_n$ is independent of $S_{n-1}$, we know that distribution of $S_n$ would be convolution of distribution of $S_{n-1}$ and $X_1$. Since $X_n$ and $S_1$ have identical distribution, we have $f_{n}=f_{n-1}*f_{1}$. The result follows from straightforward induction.
+%\begin{proof} Notice that $X_i$'s are \textit{iid} and $S_1 = X_1$. In addition, we know that $S_n = X_n + S_{n-1}$. Since, $X_n$ is independent of $S_{n-1}$, we know that distribution of $S_n$ would be convolution of distribution of $S_{n-1}$ and $X_1$. Since $X_n$ and $S_1$ have identical distribution, we have $f_{n}=f_{n-1}*f_{1}$. The result follows from straightforward induction.
 %\end{proof}
 
 %Process $N(t)$ is of real interest, and we can compute the distribution of $N(t)$ for each $t$ from the distribution of $S_n$ in the following.
