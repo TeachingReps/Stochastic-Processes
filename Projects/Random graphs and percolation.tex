@@ -1,0 +1,28 @@
+\documentclass[a4paper,english,12pt]{article}
+\input{header}
+\usepackage{amsmath, amsfonts}
+
+%opening
+\title{Random graphs and Percolation}
+\author{}
+
+\begin{document}
+\maketitle
+
+\section{Motivation}
+Random Networks arise when nodes are randomly spread on the plane and connected randomly according to some rule which in most of the cases gives a structure that resembles many real natural systems as well as artificial complex systems.
+\section{System Model}
+The model assumes that each node is in a stochastic motion independent of the motion of other every other node. We assume that nodes can detect other nodes within distance $r$. 
+\section{Problem Statement}
+Consider the model in which nodes are initially distributed according to a Simple Point Process with intensity $\lambda$ over $\mathbb{R}^2$ and are moving in continuous time according to some Stochastic Process (will mention later). We show that there exists a sufficiently large value of $\lambda$ such that the target will eventually be detected almost surely.
+\subsection{Justification}
+As compared to the existing literature the problem is very trivial and thus our target is to solve the problem with much simpler techniques.
+\newpage
+\section{General guide lines}
+\begin{itemize}
+\item Understanding Brownian Motion.
+\item Try and verify whether the theorems regarding Brownian motion are valid for Standard Normal.
+\item Decide the type of Stochastic motion of the nodes to be dealt with.
+\end{itemize}
+
+\end{document}
