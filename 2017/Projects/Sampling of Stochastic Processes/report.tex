@@ -1,0 +1,28 @@
+\documentclass[a4paper,english,12pt]{article}
+\input{header}
+\definecolor{lightgray}{gray}{0.9}
+\title{Sampling of Stochastic Processes}
+\author{Prathamesh Mayekar, Devyani Gupta }
+
+
+\usepackage{mathtools}
+\DeclarePairedDelimiter{\ceil}{\lceil}{\rceil}
+\begin{document}
+\maketitle 
+
+
+\section{Introduction}
+Consider a stochastic process $\{\mathcal{X}_t: t \in \mathbb{N}_0\}$. We wish to answer the following question, "If there is a constraint on the samples drawn of this stochastic process of the form that the distance between any two samples be atleast $k$ intervals then, how do you sample optimally such that the randomness in the stochastic process conditioned on the sample points is minimum?"
+
+
+
+\section{Motivating Example}
+This question is motivated from the following model. Consider a sensor observing the process $\{\mathcal{X}_t: t \in \mathbb{N}_0\}$. The sensor takes $k$ time units to transmit the symbol. The sensor is memoryless (thus at time  $t$ sensor does not have the values $X_{t-i} \quad \forall i >0 $). Thus the sensor has the option of sending a particular symbol $X_t$ (in which case symbols $X_{t+1}$...$X_{t+k-1}$ can not be transmitted ) or drop the symbol $X_t$ in which case the next symbol has the oppurtunity to be transmitted. In this case we will get sampled version of the stochastic processes in which case the two samples are atleast $k$ time intervals apart at the receiver. In this case we would ideally like to sample such that probability of randomness is minimized.
+
+\section{Approach}
+We would first need to define a quantitative metric to capture this open ended question. One possible approach would be to compute the entropy rate of the sampled stochastic process given by $$\delta=\lim_{n \rightarrow \infty} \frac{H(X_1,...., X_n)}{n},$$ and try and minimize this rate.
+Look at some other possible metrics from the signal processing literature.
+
+
+
+\end{document}
