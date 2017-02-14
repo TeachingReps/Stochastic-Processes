@@ -9,25 +9,98 @@
 \maketitle
 
 
-\section{Conditional Distribution of Arrivals}
-%\begin{rem} 
-A Poisson process is not a stationary process. That is, the finite dimensional distributions are not shift invariant. 
-This is clear from looking at the first moment, which is a function of time. 
-%\end{rem}
-%In the following section, we show that the Poisson process is a \textit{stationary,  independent increment} process. To this end, we will use an important property of exponential distribution- namely memoryless property. Memoryless property of exponential distribution will facilitate the computation of fdd of the Poisson process via one dimensional marginal distribution. 
-\begin{lem} For any finite time $t > 0$, a Poisson process is finite almost surely.
-\end{lem}
-\begin{proof} By strong law of large numbers, we have 
+\section{Characterizations of Poisson process}
+
+It is clear that $t$ partitions $X_{N(t)+1}$ in two parts such that $X_{N(t)+1} = A(t) + Y(t)$ as seen in Figure~\ref{Fig:IndependentIncrements} for the case when $N(s) = n$. 
+\begin{figure}[hhhh]
+\center
+\input{Figures/IndependentIncrements}
+  \caption{Stationary and independent increment property of Poisson process.}
+\label{Fig:IndependentIncrements}
+\end{figure}
+
+\begin{prop} A Poisson process $\{N(t), t\geqslant 0\}$ is simple counting process with stationary independent increments.
+\end{prop}
+\begin{proof}
+It is clear that Poisson process is a simple counting process. 
+To show that $N(t)$ has stationary and independent increments, it suffices to show that $N(t)-N(s)$ is independent of $N(s)$ and the distribution of increment $N(t) - N(s)$ is identical to that of $N(t-s)$. 
+This follows from the fact that we can use induction to show stationary and independent increment property for for any finite disjoint time-intervals. 
+%Let arrival time-instants $\{S_n: n \in \N_0\}$ and inter-arrival times $\{X_n: n \in \N\}$ be defined as before. 
+%Given any time $s$, we can define the following variables
+%\begin{xalignat*}{3}
+%&A(s) = s - S_{N(s)},&&Y(s) = S_{N(s)+1} - s.
+%\end{xalignat*}
+%It is clear that $s$ partitions $X_{N(s)+1}$ in two parts such that $X_{N(s)+1} = A(s) + Y(s)$ as seen in Figure~\ref{Fig:IndependentIncrements} for the case when $N(s) = n$. 
+
+We can write the distribution of $N(t)-N(s)$ given $N(s)$ in terms of the following events involving inter-arrival times and excess times as 
 \begin{align*}
-\lim_{n \to \infty} \frac{S_{n}}{n} = E[X_{1}] = \frac{1}{\lambda}\quad\mathrm{a.s.} 
+%\{ N(s) = n \} &\iff  \{ S_n + A(s)  = s\}, \\
+P\{ N(t) - N(s) \geqslant m | N(s) = n \} &= P\{ Y(s) + S_{n+m} - S_{n+1} \leqslant t - s | S_n + A(s) = s \}.
 \end{align*}
-%Therefore, we have $S_n \rightarrow \infty$, a.s. This implies $P\{N(t) < \infty\} =1$. To see this, 
-Fix $t > 0$ and let $M = \{\omega \in \Omega: N(t)(\omega) = \infty \}$ be a subset of the sample space. Let $\omega \in M$, then $S_{n}(\omega)\leqslant t$ for all $n \in \N$. This implies $\lim\sup_n\frac{S_{n}}{n} = 0$  and $\omega \not\in \{\lim_n \frac{S_{n}}{n} = \frac{1}{\lambda} \}.$ Hence, the probability measure for set $M$ is zero. 
+Further, we see that independent increment holds only if inter-arrival time is exponential. 
+%Therefore, 
+%\begin{align*}
+%\{ N(s) = n \} &\iff  \{ S_n = s + A(s) \}, \\
+%\{ N(t) - N(s) \geqslant m \} &\iff \{ Y(s) + \sum_{i=n+2}^{n+m} X_i \leqslant t - s \}.
+%\end{align*}
+Since, $\{X_i: i \geqslant n+2\}\cup\{Y(s)\}$ are independent of $\{X_i: i \leqslant n\}\cup{A(s)}$, we have $N(t)-N(s)$ independent of $N(s)$. 
+Further, since $Y(s)$ has same distribution as $X_{n+1}$, we get $N(t) - N(s)$ having same distribution as $N(t-s)$. 
+By induction, we can extend this result to $(N(t_{n})-N(t_{n-1}),...,N(s))$. 
 \end{proof}
+
+\begin{thm}[Characterization 1] A simple counting process with stationary and independent increment is a Poisson process with parameter $\lambda$ when
+\begin{xalignat*}{3}
+&\lim_{t \downarrow 0}\frac{P\{N(t) = 1\}}{t} = \lambda,&&\lim_{t \downarrow 0}\frac{P\{N(t) \geq 2\}}{t} = 0.
+\end{xalignat*}
+\end{thm}
+\begin{proof}
+It suffices to show that first inter-arrival times $X_1$ is exponentially distributed with parameter $\lambda$. 
+Notice that, the probability $P_0(t)$ of no arrivals in a time duration $[0,t)$ satisfies the semi-group property. 
+That is,
+\begin{align*}
+P_0(t+s) = P\{N(t+s) - N(t) = 0, N(t) = 0\} = P_0(t)P_0(s).
+\end{align*}
+Using the conditions in the theorem, the result follows.
+\end{proof}
+
+
+
+%
+%%\begin{rem} 
+%A Poisson process is not a stationary process. That is, the finite dimensional distributions are not shift invariant. 
+%This is clear from looking at the first moment, which is a function of time. 
+%%\end{rem}
+%%In the following section, we show that the Poisson process is a \textit{stationary,  independent increment} process. To this end, we will use an important property of exponential distribution- namely memoryless property. Memoryless property of exponential distribution will facilitate the computation of fdd of the Poisson process via one dimensional marginal distribution. 
+%\begin{lem} For any finite time $t > 0$, a Poisson process is finite almost surely.
+%\end{lem}
+%\begin{proof} By strong law of large numbers, we have 
+%\begin{align*}
+%\lim_{n \to \infty} \frac{S_{n}}{n} = E[X_{1}] = \frac{1}{\lambda}\quad\mathrm{a.s.} 
+%\end{align*}
+%%Therefore, we have $S_n \rightarrow \infty$, a.s. This implies $P\{N(t) < \infty\} =1$. To see this, 
+%Fix $t > 0$ and let $M = \{\omega \in \Omega: N(t)(\omega) = \infty \}$ be a subset of the sample space. Let $\omega \in M$, then $S_{n}(\omega)\leqslant t$ for all $n \in \N$. This implies $\lim\sup_n\frac{S_{n}}{n} = 0$  and $\omega \not\in \{\lim_n \frac{S_{n}}{n} = \frac{1}{\lambda} \}.$ Hence, the probability measure for set $M$ is zero. 
+%\end{proof}
+%
+%\begin{prop}[Characterization 2] 
+%Let $\{I_i \subseteq \R_+: i \in [k]\}$ be a finite collection of disjoint intervals. 
+%A stationary independent increment simple point process $\{N(t),~t\geqslant 0\}$, such that $N(0) = 0$ is Poisson process iff 
+%%\begin{figure}[h!]
+%%\center
+%  %% Requires \usepackage{graphicx}
+%  %\includegraphics[width=2.8in, height=0.9in]{./Figures/SPQT.png}\\
+% %% \caption{}\label{}
+%%\end{figure}
+%\begin{align*}
+%  P\bigcap_{i=1}^k \{N(I_i)= n_{i}\} = \prod_{i=1}^{k}\frac{(\lambda|I_i|)^{n_{i}}}{n_{i}!} e^{-\lambda |I_i|}.
+%\end{align*}
+%\end{prop}
+
+%In the following section, we show that the Poisson process is a \textit{stationary,  independent increment} process. To this end, we will use an important property of exponential distribution- namely memoryless property. Memoryless property of exponential distribution will facilitate the computation of fdd of the Poisson process via one dimensional marginal distribution. 
+
 
 \begin{prop}[Characterization 2] 
 Let $\{I_i \subseteq \R_+: i \in [k]\}$ be a finite collection of disjoint intervals. 
-A stationary independent increment simple point process $\{N(t),~t\geqslant 0\}$, such that $N(0) = 0$ is Poisson process iff 
+A stationary and independent increment simple counting process $\{N(t),~t\geqslant 0\}$ with $N(0) = 0$ is Poisson process iff 
 %\begin{figure}[h!]
 %\center
   %% Requires \usepackage{graphicx}
@@ -38,6 +111,10 @@ A stationary independent increment simple point process $\{N(t),~t\geqslant 0\}$
   P\bigcap_{i=1}^k \{N(I_i)= n_{i}\} = \prod_{i=1}^{k}\frac{(\lambda|I_i|)^{n_{i}}}{n_{i}!} e^{-\lambda |I_i|}.
 \end{align*}
 \end{prop}
+\begin{proof} 
+It is clear that Poisson process satisfies the above conditions. 
+Further, since $P\{N(t)=0\} = e^{-\lambda t}$, it follows that the counting process with stationary and independent increment is Poisson with rate $\lambda$.  
+\end{proof}
 
 \begin{prop}\label{Prop:SIIPoisson}
 Let $\{N(t), t\geqslant 0\}$ be a Poisson process with $\{I_i \subseteq \R_+: i \in [n]\}$ a set of finite disjoint intervals with $I = \cup_{i \in [n]}I_i$, and $\{k_i \in \N_0: i \in [n]\}$ and $k = \sum_{i \in [n]}k_i$. 
@@ -47,12 +124,13 @@ P\{N(I_i) = k_i, i\in [n] | N(I) = k\} &= k!\prod_{i \in [n]}\frac{1}{k_i!}\left
 \end{align*}
 \end{prop}
 \begin{proof}
-It follows from the stationary independent increment property of Poisson processes that
+It follows from the stationary and independent increment property of Poisson processes that
 \begin{align*}
 P\{N(I_i) = k_i, i\in [n] | N(I) = k\} &= \frac{P\bigcap_{i \in [n]}\{N(I_i) = k_i\}}{P\{N(I) = k\}} = \frac{\prod_{i \in [n]}P\{N(I_i) = k_i\}}{P\{N(I)= k\}}.
 \end{align*}
 \end{proof}
 
+\subsection{Conditional distribution of arrivals}
 \begin{prop} 
 For a Poisson process $\{N(t), t\geqslant 0\}$, distribution of first arrival instant $S_1$ conditioned on $\{N(t)=1\}$ is uniform between $[0,t)$.
 \end{prop}
@@ -90,19 +168,21 @@ P\{S_1 \leq s | N(t) = 1\} &= P\{ N(s) = 1, N(t-s) = 0 | N(t) = 1\}1{\{s < t\}} 
 %\end{proof}
 %This property of Poisson process can be generalized for any set of arrival instants.
 \begin{prop}%[Conditional Distribution of Arrival Instants] 
-For a Poisson process $\{N(t), t\geqslant 0\}$, joint distribution of arrival instant $\{S_1, \ldots, S_n\}$ conditioned on $\{N(t)=n\}$ is identical to joint distribution of order statistics of $n$ \emph{iid} uniformly distributed random variables between $[0,t]$.
+For a Poisson process $\{N(t), t\geqslant 0\}$, joint distribution of arrival instant $\{S_1, \ldots, S_n\}$ conditioned on $\{N(t)=n\}$ is identical to joint distribution of order statistics of $n$ \textit{iid} uniformly distributed random variables between $[0,t]$.
 \end{prop}
-\begin{proof} Let $\{ s_0 = 0 < s_1 < s_2 <\ldots < s_n < t \}$ be a finite sequence of non-negative increasing numbers between $0$ and $t$. Then, by Proposition~\ref{Prop:SIIPoisson}, we get
-\begin{align*}
-P\{S_i \leq s_i, i \in [n] | N(t) = n\} &= P\{N((0, s_i]) \geq i, i \in [n] | N(t) = n\}.
-%\\&=\frac{1}{t^n}\sum_{a_1 + \ldots + a_n = n, a_i \geq i} \prod_{i \in [n]}\frac{(s_i - s_{i-1})^{a_i}}{a_i!}.
-\end{align*}
-\end{proof}
-\begin{proof}[Alternative proof] Let $\{ s_i \in (0, t) : i \in [n]\}$ be a sequence of increasing numbers. If we denote $s_{0} = 0$, then we can write 
+%\begin{proof} Let $\{ s_0 = 0 < s_1 < s_2 <\ldots < s_n < t \}$ be a finite sequence of non-negative increasing numbers between $0$ and $t$. Then, by Proposition~\ref{Prop:SIIPoisson}, we get
+%\begin{align*}
+%P\{S_i \leq s_i, i \in [n] | N(t) = n\} &= P\{N((0, s_i]) \geq i, i \in [n] | N(t) = n\}.
+%%\\&=\frac{1}{t^n}\sum_{a_1 + \ldots + a_n = n, a_i \geq i} \prod_{i \in [n]}\frac{(s_i - s_{i-1})^{a_i}}{a_i!}.
+%\end{align*}
+%\end{proof}
+\begin{proof} 
+Let $\{ s_i \in (0, t) : i \in [n]\}$ be a sequence of increasing numbers. If we denote $s_{0} = 0$, then we can write 
 \begin{align*}
 \bigcap_{i=1}^n\{S_i = s_i\}\cap\{N(t) = n\} \iff \bigcap_{i=1}^n\{X_i = s_i - s_{i-1}\}\cap\{X_{n+1} > t - s_n\}.
 \end{align*}
-Note that all the events on RHS are independent events. Therefore, it is easy to compute the joint distribution of $\{S_1,\ldots, S_n\}$, as 
+Note that all the events on RHS are independent. 
+Hence, it is easy to compute the joint distribution of $\{S_1,\ldots, S_n\}$ as 
 \begin{align*}
 P\bigcap_{i=1}^n\{S_i \leq s_i\}\cap\{N(t) = n\} &= \int_{0}^{s_1}du_1\cdots\int_{0}^{s_n}du_n \prod_{i=1}^n\lambda \exp(-\lambda (u_i-u_{i-1})\exp(-\lambda (t-u_n))\\
 &= \lambda^n\exp(-\lambda t)\prod_{i=1}^ns_i.
@@ -127,28 +207,28 @@ n!\prod_{i=1}^n\frac{s_i}{t} & s < t\\
     %\lim _{h\rightarrow 0} \frac{ \lambda h e^{-s_{1}\lambda}h \lambda e^{-(s_{2}-s_{1})\lambda},... e^{-(t-s_{n})\lambda}}{h^{n}(\lambda t)^{n}\frac{e^{-\lambda t}}{n!}}=\frac{n!}{t^{n}}.
 %\end{eqnarray*}
 %where (a) follows as $X_i$s are independent. 
-Let $U_{1},\ldots,U_{n}$ are \emph{iid} Uniform random variables in $[0,t]$. Then, the order statistics  of $U_1 \ldots, U_n$ has an identical joint distribution to $n$ arrival instants conditioned on $\{N(t)=n\}$.\end{proof}
+Let $U_{1},\ldots,U_{n}$ be \textit{iid} uniform random variables in $[0,t]$. Then, the order statistics  of $U_1 \ldots, U_n$ has an identical joint distribution to $n$ arrival instants conditioned on $\{N(t)=n\}$.\end{proof}
 
-\section{Age and excess time}
-\begin{defn} For a point process $\{N(t), t \geqslant 0\}$, we can define age process $\{A(t), t \geqslant 0\}$ and excess time process $\{Y(t), t \geqslant 0\}$ as 
-\begin{xalignat*}{3}
-&A(t) = t - S_{N(t)},&&Y(t) = S_{N(t)+1} - t.
-\end{xalignat*}
-\end{defn}
-\begin{prop}
-For a Poisson process with rate $\lambda$, the corresponding age and excess time are both exponentially distributed with rate $\lambda$ irrespective of time $t$.
-\end{prop}
-\begin{proof} Using stationary independent increment property of Poisson process, we can write complementary distribution of excess time process as 
-\begin{align*}
-P\{Y(t) > y\} &= \sum_{n \in \N_0}P\{Y(t) > y, N(t) = n\} = \sum_{n \in \N_0}P\{N(t+y) - N(t) = 0, N(t) = n\}\\
-&= P\{N(y) = 0\}\sum_{n \in \N_0}P\{N(t) = n\} = P\{N(y) = 0\}.
-\end{align*}
-Similarly, we can write complementary distribution for the age process as
-\begin{align*}
-P\{A(t) \geq x\} &= \sum_{n \in \N_0}P\{A(t) \geq x, N(t) = n\} = \sum_{n \in \N_0}P\{N(t) - N(t-x) = 0, N(t) = n\}\\
-&= \sum_{n \in \N_0}P\{N(t-x) = n\}P\{N(x) = 0\} = P\{N(x) = 0\}.
-\end{align*}
-\end{proof}
+%\section{Age and excess time}
+%\begin{defn} For a point process $\{N(t), t \geqslant 0\}$, we can define age process $\{A(t), t \geqslant 0\}$ and excess time process $\{Y(t), t \geqslant 0\}$ as 
+%\begin{xalignat*}{3}
+%&A(t) = t - S_{N(t)},&&Y(t) = S_{N(t)+1} - t.
+%\end{xalignat*}
+%\end{defn}
+%\begin{prop}
+%For a Poisson process with rate $\lambda$, the corresponding age and excess time are both exponentially distributed with rate $\lambda$ irrespective of time $t$.
+%\end{prop}
+%\begin{proof} Using stationary independent increment property of Poisson process, we can write complementary distribution of excess time process as 
+%\begin{align*}
+%P\{Y(t) > y\} &= \sum_{n \in \N_0}P\{Y(t) > y, N(t) = n\} = \sum_{n \in \N_0}P\{N(t+y) - N(t) = 0, N(t) = n\}\\
+%&= P\{N(y) = 0\}\sum_{n \in \N_0}P\{N(t) = n\} = P\{N(y) = 0\}.
+%\end{align*}
+%Similarly, we can write complementary distribution for the age process as
+%\begin{align*}
+%P\{A(t) \geq x\} &= \sum_{n \in \N_0}P\{A(t) \geq x, N(t) = n\} = \sum_{n \in \N_0}P\{N(t) - N(t-x) = 0, N(t) = n\}\\
+%&= \sum_{n \in \N_0}P\{N(t-x) = n\}P\{N(x) = 0\} = P\{N(x) = 0\}.
+%\end{align*}
+%\end{proof}
 %We give some more properties of the Poisson process.
 \section{Superposition and decomposition of Poisson processes}
 \begin{thm}[Sum of Independent Poissons] Let $\{N_1(t), t \geqslant  0\}$ and $\{N_2(t), t \geqslant  0\}$ be two independent Poisson processes with rats $\lambda_{1}$ and $\lambda_{2}$ respectively. Then, the process $N(t)= N_{1}(t) +N_{2}(t)$ is Poisson with rate $\lambda_{1}+\lambda_{2}$.
@@ -247,4 +327,28 @@ In general, we need to show finite dimensional distributions factorize. That is,
    =P\left(\bigcap_{i=1}^n\{N_{1}(t_{i})\in A_{i}\}\right)P\left(\bigcap_{j=1}^m\{N_{2}(s_{j})\in B_{j}\}\right).
 \end{align*}
 \end{proof}
+
+\appendix
+\section{Order statistics}
+For any $n$ length sequence $a \in \R^n$, the \textbf{order statistics} is a permutation $\sigma: [n] \to [n]$ such that 
+\eq{
+a_{\sigma(1)} \leq a_{\sigma(2)} \leq \dots \leq a_{\sigma(n)}.
+}
+For, $k \in [n]$, we call $a_{\sigma(k)}$ as the \textbf{$k$th order statistic} of the sequence $a$. 
+In particular, first order statistic is the minimum, and the $n$th order statistic is the maximum of a $n$ length sequence. 
+\begin{lem}
+Let $X = (X_1, X_2, \dots, X_n)$ be an $n$-length sequence of \textit{iid} random variables with common distribution and density functions $F$ and $f$ respectively. 
+Then, the joint density of order statistics of sequence $X$ for $x \in \R^n$ is
+\eq{
+f_{X\circ\sigma}(x) &= n!\prod_{i=1}^nf(x_i).
+} 
+\end{lem}
+
+\begin{lem}
+Let $X = (X_1, X_2, \dots, X_n)$ be an $n$-length sequence of \textit{iid} random variables with common distribution and density functions $F$ and $f$ respectively.   
+Then, the density function of $k$th order statistic of sequence $X$ for $x \in \R$ is
+\eq{
+f_{X_{\sigma(k)}}(x) &= \binom{n}{k}F(x)^{k-1}\bar{F}(x)^{n-k}f(x).
+} 
+\end{lem}
 \end{document}
