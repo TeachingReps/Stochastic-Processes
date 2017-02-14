@@ -96,57 +96,95 @@ This is a contradiction.
 Hence the DTMC mentioned above is positive recurrent.
 \end{proof}
 
-\begin{cor} For an irreducible and aperiodic DTMC with stationary distribution $\pi$, we have $\E_i[T_i] = 1/\pi_i$ for any state $i \in I$, where $\E_i[T_i]$ denotes the expected number of time steps to return to the state $i$.
+Let $S_0 = 0$. 
+For a state $i \in E$, we can define following stopping times for a Markov chain $X$ as 
+\eq{
+S_n(i)  &\triangleq \inf\{ n > S_{n-1}: X_n = i\}.
+}
+Clearly, $S(i) = \{S_n(i): n \in \N\}$ is a delay renewal process. 
+From strong Markov property it follows that $X$ is a regenerative process with renewal points $\{S_n: n \in \N\}$. 
+We can define the inter-renewal duration, the number of time steps to return to the state $i$ as 
+\eq{T_n(i) \triangleq S_n(i) - S_{n-1}(i).} 
+\begin{cor} 
+For an irreducible and aperiodic Markov chain with stationary distribution $\pi$ on countable state space $E$, we have 
+\eq{
+\E_i[T_1(i)] &\triangleq \E[T_1(i)| X_0 = i] = \frac{1}{\pi_i},~i \in E.
+} 
+%for any state $i \in I$, 
+%where $\E_i[T_1((i)] = \E[T_1(i)| X_0 = i]$ denotes the expected . 
 \end{cor}
+Further, we can define the number of visits to state $j$ during on renewal duration as 
+\eq{
+N_{ij} &= \sum_{k=1}^{S_1(i)}1\{X_n = j\}.
+}
+\begin{prop} 
+For an aperiodic and irreducible Markov chain $X$ with stationary distribution $\pi$ on countable state space $E$, 
+the mean number of visits during return to state $i$ is given 
+\eq{
+\E_iN_{ij} &= \frac{\pi_j}{\pi_i}.
+}
+\end{prop}
+\begin{proof} 
+Let $X_0 = i \in E$, then from renewal reward theorem for renewal instants $S(j)$ and definition of $\pi$, we can write 
+\eq{
+\lim_{n \in \N}P_i\{X_n = j\} &= \lim_{n \in \N}\frac{\sum_{k=1}^{n}1\{X_k = j\}}{n} = \frac{1}{\E_j[T_1(j)]} = \pi_j.
+}
+Result follows from rewriting of the above expression for renewal instants $S(i)$ as 
+\eq{
+\lim_{n \in \N}P_i\{X_n = j\} &= \lim_{n \in \N}\frac{\sum_{k=1}^{n}1\{X_k = j\}}{n} = \frac{\E_i\sum_{k=1}^{S_1(i)}1\{X_k = i\}}{\E_iS_1(i)} = \frac{\E_iN_{ij}}{\E_iT_1(i)} = \pi_i \E_iN_{ij}.
+}
+\end{proof}
 
-\subsection{Ergodic theorem for DTMCs}
-\begin{prop} Let $\{X_n\}$ be an irreducible, aperiodic and positive recurrent DTMC on countable state space $I$ with stationary distribution $\pi$. 
-Let $f : I \to R$, such that $\sum_{i \in I} \arrowvert f(i) \arrowvert \pi_i < \infty$, that is $f$ is integrable over $I$ with respect to $\pi$.  
+\subsection{Ergodic theorem for Markov Chains} 
+
+\begin{prop} Let $\{X_n\}$ be an irreducible, aperiodic and positive recurrent Markov chain on countable state space $I$ with stationary distribution $\pi$. 
+Let $f : I \to \R$, such that $\sum_{i \in I} \arrowvert f(i) \arrowvert \pi_i < \infty$, that is $f$ is integrable over $I$ with respect to $\pi$.  
 Then for any initial distribution of $X_0$, 
-\begin{align*}
+\eq{
 \lim_{n\in \N}\frac{1}{n} \sum_{i=1}^{n} f(X_i) = \sum_{i \in I} \pi_if(i) \text{ almost surely}.
-\end{align*}
+}
 \end{prop}
 
 \begin{proof}
-
-Fix $X_0 = i \in I$. Let $(\tau_1, \tau_2, \ldots)$ be successive instants at which state $i$ is visited, i.e. $\tau_0 = 0$. 
+Fix $X_0 = i \in I$. Let $S(i)$ be sequence of successive instants at which state $i$ is visited, with $S_0(i) = 0$. 
 %Notice these are renewal instants.
-For all $p \geq 0$,  let $R_{p+1} = \sum_{n = \tau_p + 1}^{\tau_{(p + 1)}} f(X_n)$ be the net reward earned at the end of cycle $(p+1)$. 
+For all $p \geq 0$,  let $R_{p+1} = \sum_{n = S_p(i) + 1}^{S_{(p + 1)}} f(X_n)$ be the net reward earned at the end of cycle $(p+1)$. 
 Each cycle forms a renewal. 
 By the strong Markov property, these cycles are independent. 
 At each of these stopping times, Markov chain is in state $i$. 
-Average reward earned during the first $k$ cycles is given by
-\begin{align*}	
-\frac{1}{n} \sum_{k=1}^{n} R_k &= \frac{1}{n} \sum_{k=1}^{n} \sum_{\tau_{k-1} + 1}^{\tau_k} f(X_i)= \frac{1}{n} \sum_{t=1}^{\tau_n} f(X_t).
-\end{align*}
+%Average reward earned during the first $k$ cycles is given by 
+%\begin{align*}	
+%\frac{1}{n} \sum_{k=1}^{n} R_k &= \frac{1}{n} \sum_{k=1}^{n} \sum_{\tau_{k-1} + 1}^{\tau_k} f(X_i)= \frac{1}{n} \sum_{t=1}^{\tau_n} f(X_t).
+%\end{align*}
 From renewal reward theorem and applying previous corollary, we get
 \begin{align*}
-\lim_{n \in \N}\frac{\sum_{k=1}^nR_k}{n} &= \frac{\E_i[\text{reward in one renewal cycle}]}{\E_i[\text{renewal cycle length}]} = \pi_i\E_i[\sum_{n=1}^{\tau_1}f(X_n)].
+\lim_{n \in \N}\frac{\sum_{k=1}^nR_k}{n} &= %\frac{\E_i[\text{reward in one renewal cycle}]}{\E_i[\text{renewal cycle length}]} = 
+\pi_i\E_i[\sum_{n=1}^{S_1(i)}f(X_n)] = \pi_i\E_i\sum_{n=1}^{S_1(i)}\sum_{j \in E}f(j)1\{X_n = j\}.
 \end{align*}
-We focus on the mean reward in one renewal cycle, assuming $f$ is non-negative,
+Assuming $f$ is non-negative, and substituting the mean number of visits to state $j$ during successive return to state $j$,  we can write 
 \begin{align*}
 %&E_0[cycle \: length] = \frac{1}{\pi_0}\: (from \: Corollary \: 2)\\
 %&E_0[cycle \: reward] = E_0[\sum_{n=0}^{\tau_1}f(X_n)]\\
-\E_i[\text{cycle reward}] &= \E_i\sum_{n=1}^{\tau_1} \sum_{j \in I} f(j) 1_{\{X_n = j\}} = \sum_{j \in I} f(j) \E_i\sum_{n=1}^{\tau_1} 1_{\{X_n = j\}}.
+%\E_i[\text{cycle reward}] &= \E_i\sum_{n=1}^{\tau_1} \sum_{j \in I} f(j) 1_{\{X_n = j\}} = \sum_{j \in I} f(j) \E_i\sum_{n=1}^{\tau_1} 1_{\{X_n = j\}}.
+\lim_{n \in \N}\frac{\sum_{k=1}^nR_k}{n} &= \pi_i\E_i\sum_{j \in E}\sum_{n=1}^{S_1(i)}f(j)1\{X_n = j\} = \pi_i\sum_{j \in \E}\E_iN_{ij}f(j)= \sum_{j \in \E}\pi_jf(j). 
 \end{align*}
-To calculate the reward given above, we need to find the expected number of visits to state $j$ between successive visits to state $i$. 
-We denote the average number of visits to state $j$ by  
-$Y_j = \lim_{n \in \N}\frac{\sum_{t=1}^{n} 1_{\{X_t = j\}}}{n}$. %Let us call it $\circledR$.\\
-We can compute $Y_j$ in two ways.
-\begin{enumerate}
-	\item DTMC undergoes a renewal each time it hits state $j$. 
-	So, from elementary renewal theorem, 
-	\begin{align*}
-	Y_j &= \E_i1_{\{X_n = j\}} = 1/(1/\pi_j) = \pi_j.
-	\end{align*}
-	\item Without loss of generality, renewal occurs whenever DTMC hits state $i$. Hence, $\E_i\tau_1 = 1/\pi_i$ and by renewal reward theorem, we obtain
-	\begin{align*}
-	Y_j &= \frac{\E_i[\sum_{n=1}^{\tau_1} 1_{\{X_n = j\}}]}{1/\pi_i}.
-	\end{align*}
-\end{enumerate}
-Combining above two, we get $\E_i[\sum_{t=1}^{\tau_1} 1_{\{X_t = j\}}] = \frac{\pi_j}{\pi_i}$ and the result follows. 
-%$\frac{1}{\tau_n} \sum_{t=0}^{\tau_n} f(X_t) \stackrel {n \in \N}{\to} \frac{\sum_{j \in I} f(j) \pi_j/\pi_i}{1/\pi_i}$
+%To calculate the reward given above, we need to find the expected number of visits to state $j$ between successive visits to state $i$. 
+%We denote the average number of visits to state $j$ by  
+%$Y_j = \lim_{n \in \N}\frac{\sum_{t=1}^{n} 1_{\{X_t = j\}}}{n}$. %Let us call it $\circledR$.\\
+%We can compute $Y_j$ in two ways.
+%\begin{enumerate}
+%	\item DTMC undergoes a renewal each time it hits state $j$. 
+%	So, from elementary renewal theorem, 
+%	\begin{align*}
+%	Y_j &= \E_i1_{\{X_n = j\}} = 1/(1/\pi_j) = \pi_j.
+%	\end{align*}
+%	\item Without loss of generality, renewal occurs whenever DTMC hits state $i$. Hence, $\E_i\tau_1 = 1/\pi_i$ and by renewal reward theorem, we obtain
+%	\begin{align*}
+%	Y_j &= \frac{\E_i[\sum_{n=1}^{\tau_1} 1_{\{X_n = j\}}]}{1/\pi_i}.
+%	\end{align*}
+%\end{enumerate}
+%Combining above two, we get $\E_i[\sum_{t=1}^{\tau_1} 1_{\{X_t = j\}}] = \frac{\pi_j}{\pi_i}$ and the result follows. 
+%%$\frac{1}{\tau_n} \sum_{t=0}^{\tau_n} f(X_t) \stackrel {n \in \N}{\to} \frac{\sum_{j \in I} f(j) \pi_j/\pi_i}{1/\pi_i}$
 \end{proof}
 \end{document}
 %
