@@ -37,6 +37,11 @@ A stochastic process $\{N(t), t\geqslant 0\}$ is a \textbf{counting process} if
   \item $N(0) = 0$, and 
   \item for each $\omega \in \Omega$, the map $t\mapsto N(t)$ is non-decreasing, integer valued, and right continuous.% and at points of discontinuity $(N(t)- N(t^{-}))\leqslant 1,~~\forall \omega \in \Omega$. 
 \end{enumerate}
+
+\begin{lem} 
+A counting process has finitely many jumps in a finite interval $[0,t)$.
+\end{lem}
+
 %\begin{defn} 
 The points of discontinuity correspond to the arrival instants of the point process $N(t)$. 
 The \textbf{$n$th arrival instant} is a random variable denoted $S_n$, such that  
@@ -105,6 +110,7 @@ P_n(t) \triangleq P\{N(t) = n\} = F_{n}(t)-F_{n+1}(t).
 \end{align*}
 \end{proof}
 
+\section{Stationary and independent increments}
 %\begin{defn}
 For an interval $I = (s,t]$, the number of arrivals in the interval $I$ is defined as $N(I) = N(t) - N(s)$. 
 %\end{defn}
@@ -139,7 +145,7 @@ the sequence of inter-arrival times $\{X_n: n \in \N\}$ are \textit{iid} random 
 \begin{proof} 
 We first suppose that $\{X_n: n \in \N\}$ is a sequence of \textit{iid} random variables. 
 Then $S_{n+m} - S_m$ has the same distribution as $S_n$ and is independent of $(X_1, \ldots, X_m)$. 
-Conversely, we suppose that $\{S_n: n \in \N_0\}$ has stationary, independent increments. 
+Conversely, we suppose that $\{S_n: n \in \N_0\}$ has stationary and independent increments. 
 Then, $\{X_n: n \in \N\}$ is a sequence of \textit{iid} random variables by looking at $X_n = S_n - S_{n-1}$.   
 \end{proof}
 
@@ -158,15 +164,15 @@ the sequence of inter-arrival times $\{X_n: n \in \N\}$ are \textit{iid} random 
 %P\cap_{j \in [n]}\{N(I_j) = k_j\} &= P\cap_{j \in [n]}\{ N(t_j) =  K_j\}\\
 %&= P\cap_{j \in [n]}\{X_{K_j+1}+ S_{K_j} - S_{K_{j-1}} > |I_j|, S_{K_j} - S_{K_{j-1}} \leqslant |I_j|\}. 
 %\end{align*}
-First, we notice that 
+First, we notice that from inverse relationship, we have 
 \begin{align*}
 \{X_{n} > y\} = \{ N(S_{n-1}) \leqslant N(S_{n-1} + y) < N(S_{n})\} = \{N(S_{n-1}+y)-N(S_{n-1}) = 0\}. 
 \end{align*}
-To show that each inter-arrival time is identically distributed, we utilize the stationary increment property of the counting process $N(t)$, to observe 
+To show that each inter-arrival time is identically distributed, we utilize the stationarity of the increments of the counting process $N(t)$, to observe 
 \begin{align*}
 %\{S_n - S_{n-1} > x\} &= \{N(S_{n-1}+x) - N(S_{n-1}) = 0\}\\
-P\{S_n - S_{n-1} > x\} &%= P\{N(S_{n-1}+x) - N(S_{n-1}) = 0\}
-= \int_{0}^{\infty}P\{N(x) = 0\}dF_{n-1}(t) = P\{N(x) = 0\} = P\{X_1 > x\}.
+P\{S_n - S_{n-1} > y\} &%= P\{N(S_{n-1}+x) - N(S_{n-1}) = 0\}
+= \int_{0}^{\infty}P\{N(y) = 0\}dF_{n-1}(t) = P\{N(y) = 0\} = P\{X_1 > y\}.
 \end{align*}
 %If $\{X_n\}$ are \textit{iid}, then $S_n$ are independent. 
 %Hence, for disjoint intervals $I_j = (a_j, b_j]$, we have 
@@ -175,7 +181,7 @@ P\{S_n - S_{n-1} > x\} &%= P\{N(S_{n-1}+x) - N(S_{n-1}) = 0\}
 %\end{align*}
 To show that inter-arrival times are independent, it suffices to show that $X_{n}$ is independent of $S_{n-1}$. 
 % to show that all inter-arrival times are independent. 
-Using the independent increments property, we see that 
+Since the increments of the counting process $N(t)$ are independent, we see that 
 %\begin{align*}
 %\{S_n \leqslant x, S_{n+1} - S_n > y\} &= \{S_n \leqslant x, N(y+S_n) - N(S_n) = 0\},\\
 %&=\{n = N(S_n) \leqslant N(x), N(y+S_n)-N(S_n)\}. 
@@ -203,39 +209,7 @@ That is, it has a distribution function $F$, such that
 	\end{cases}
 \end{align*}
 %\end{defn}
-
-\begin{lem} A unique non-negative right continuous function $f: \R \to \R$ satisfying equation
-\begin{align*}
- f(t+s) = f(t)f(s), \text{ for all } t,s \in \R
- \end{align*}
- is $f(t) = e^{\theta t}$, where $\theta = \log f(1)$.
-\end{lem}
-\begin{proof}[Omit]
-Clearly, we have $f(0) = f^2(0)$. Since $f$ is non-negative, it means $f(0) = 1$. By definition of $\theta$ and induction for $m,n \in \Z^+$, we see that 
-\begin{xalignat*}{3}
-&f(m) = f(1)^m = e^{\theta m},&& e^{\theta} = f(1) = f(1/n)^n.
- \end{xalignat*}
-Let $q \in \Q$, then it can be written as $m/n, n \neq 0$ for some $m,n \in \Z^+$. 
-Hence, it is clear that for all $q \in \Q^+$, we have $f(q) = e^{\theta q}$.
-either unity or zero. Note, that $f$ is a right continuous function and is non-negative. 
-%We will show that $g$ is an exponential function. That is, $g(t) = e^{\theta t}$ for some $\theta \geqslant 0$. We will prove this in stages. First, we show this is true for $t \in \mathbb{Z}^+$. Notice that we can obtain via induction
-%\begin{eqnarray*}
-%	g(2) &=& g(1) g(1) = g^{2}(1), \mathrm{ and }\\
-%	g(m) &=& [g(1)]^{m}.
-%\end{eqnarray*}
-%Since $g(1)$ is non negative, there exists a $\beta$ such that $g(1)=e^{\beta}$ and $g(m)= e^{m \beta}, m \in \mathbb{Z}_{+}$. Next we show that for any $n \in \mathbb{Z}_{+}$,        
-%\begin{align*}
-%	g(1) =  g\left(\frac{1}{n}+..., +\frac{1}{n}\right) = \left[g\left(\frac{1}{n}\right)\right]^{n}.
-%\end{align*}
-%Therefore, for same $\beta$ we used for $g(1)$, we have $g\left(\frac{1}{n}\right) = e^{\frac{\beta}{n}}$. Now, we show that $g$ is exponential for any $t \in \mathbb{Q}^+$. To this end, we see that for any $m, n \in \mathbb{Z}_{+}$, we have 
-%\begin{align*}
-%	g\left(\frac{m}{n}\right) = \left[g\left(\frac{1}{n}\right)\right]^{m}= e^{\frac{m \beta}{n}}.
-%\end{align*}
-Now, we can show that $f$ is exponential for any real positive $t$ by taking a sequence of rational numbers $\{t_n\}$ decreasing to $t$. From right continuity of $g$, we obtain 
-\begin{align*}
-	g(t) = \lim_{t_n \downarrow t} g(t_n) =   \lim_{t_n \downarrow t} e^{\beta t_{n}}= e^{\beta t}.
-\end{align*}
-\end{proof}
+\subsection{Memoryless distribution}
 %\begin{defn} 
 A random variable $X$ with continuous support on $\R_+$, is called \textbf{memoryless} if %for all $t,s \in \R_+$, we have
 \begin{align*}
@@ -245,10 +219,10 @@ A random variable $X$ with continuous support on $\R_+$, is called \textbf{memor
 \begin{prop} The unique memoryless distribution function with continuous support on $\R_+$ is the exponential distribution.
 \end{prop}
 \begin{proof}
-Let $X$ be a random variable with a distribution function $F: \R_+ \to [0,1]$ with the memoryless property. 
-Let $g(t) \triangleq 1 - F(t)$. It follows from the memoryless property of $F$, that
+Let $X$ be a random variable with a memoryless distribution function $F: \R_+ \to [0,1]$.  
+It follows that $\bar{F}(t) \triangleq 1 - F(t)$ satisfies the semi-group property 
 \begin{align*}
- g(t+s) = g(t)g(s).
+ \bar{F}(t+s) = \bar{F}(t)\bar{F}(s).
  %P\{X>s\} &= P\{ X > t+s| X>t\} \\&= \frac{ P\{ X>t+s, X>t\}}{P\{X>t\}}.
 \end{align*}
 %Since $\{X > t + s\} =\{ X>t+s, X>t\}$, we have $g(t+s) = g(t)g(s)$ and hence $g(0) = g^2(0)$. Therefore, $g(0)$ is either unity or zero. Note, that $g$ is a right continuous function and is non-negative. 
@@ -270,96 +244,20 @@ Let $g(t) \triangleq 1 - F(t)$. It follows from the memoryless property of $F$, 
 %\begin{align*}
 %	g(t) \stackrel{(a)}{=} \lim_{n\rightarrow \infty} g(t_n) =   \lim_{n\rightarrow \infty} e^{\beta t_{n}}= e^{\beta t}.
 %\end{align*}
-Since $g(x) = P\{X > x\}$  is non-increasing in $x \in \R_+$, we have $g(x) = e^{\theta x}$, where $\theta < 0$.
-\end{proof}
-
-
-\subsection{Age and Excess Time}
-At any time $t$, the instant of last and next arrivals are $S_{N(t)}$ and $S_{N(t)+1}$ respectively. 
-\textbf{Age} of a counting process defined as age from the last arrival, and the \textbf{excess} is defined as remaining time till next arrival, 
-\begin{xalignat*}{3}
-&A(t) = t - S_{N(t)} && Y(t) = S_{N(t)+1} - t.
-\end{xalignat*}
-It is clear that $t$ partitions $X_{N(t)+1}$ in two parts such that $X_{N(t)+1} = A(t) + Y(t)$ as seen in Figure~\ref{Fig:IndependentIncrements} for the case when $N(s) = n$. 
-\begin{lem} 
-Age and residual processes for a Poisson process are independent and the corresponding residual process has distribution same as inter-arrival distribution
-\end{lem}
-\begin{proof}
-We look at joint distribution of $(A(s), Y(s))$ and notice that
-\begin{align*}
-\{A(s) > x, Y(s)> y\} %&= \bigcup_{n \in \N_0}\{X' \leq x, X'' > y, N(s) = n\},\\
-&= \bigcup_{n \in \N_0}\{ S_n <  s -x , S_{n+1} > s + y, N(s) = n\}\\
-&= \bigcup_{n \in \N_0}\{ S_n <  s -x , S_{n+1} > s + y\}.
-\end{align*}
-From the fact that inter-arrival times are \textit{iid} exponentially distributed with rate $\lambda$, we conclude that
-\begin{align*}
-P\{A(s)> x, Y(s) > y\} &= \sum_{n \in \N_0}\int_{u=0}^{s-x}P\{X_{n+1} > s + y - u \}dF_n(u),\\
-&= \int_{u=0}^{s-x}(1 - F_1(s+y+u))\sum_{n \in \N_0}dF_n(u) = \int_{u=0}^{s-x}e^{-\lambda(s+y-u)}\lambda du,\\
-&= (1-F_1(y))(F_1(s) - F_1(x)).
-\end{align*}
-Therefore,  $Y(s)$ is independent of $A(s)$ and has same distribution as $X_{n+1}$. 
-The memoryless property of exponential distribution is crucially used. 
-\end{proof}
-
-\begin{figure}[hhhh]
-\center
-	\input{Figures/IndependentIncrements}
-  	\caption{Stationary independent increment property of Poisson process.}
-	\label{Fig:IndependentIncrements}
-\end{figure}
-
-\begin{prop} A Poisson process $\{N(t), t\geqslant 0\}$ is simple counting process with stationary independent increments.
-\end{prop}
-\begin{proof}
-It is clear that Poisson process is a simple counting process. 
-To show that $N(t)$ has stationary independent increment property, it suffices to show that $N(t)-N(s)$ is independent of $N(s)$ and the distribution of increment $N(t) - N(s)$ is identical to that of $N(t-s)$. 
-This follows from the fact that we can use induction to show stationary independent increment property for for any finite disjoint time-intervals.
-%Let arrival time-instants $\{S_n: n \in \N_0\}$ and inter-arrival times $\{X_n: n \in \N\}$ be defined as before. 
-%Given any time $s$, we can define the following variables
-%\begin{xalignat*}{3}
-%&A(s) = s - S_{N(s)},&&Y(s) = S_{N(s)+1} - s.
-%\end{xalignat*}
-%It is clear that $s$ partitions $X_{N(s)+1}$ in two parts such that $X_{N(s)+1} = A(s) + Y(s)$ as seen in Figure~\ref{Fig:IndependentIncrements} for the case when $N(s) = n$. 
-We can write the distribution of $N(t)-N(s)$ and $N(s)$ in terms of the following events involving inter-arrival times, age, and renewal
-\begin{align*}
-%\{ N(s) = n \} &\iff  \{ S_n + A(s)  = s\}, \\
-\{ N(t) - N(s) \geqslant m, N(s) = n \} &\iff \{ Y(s) + S_{n+m} - S_{n+1} \leqslant t - s, S_n + A(s) = s \}.
-\end{align*}
-Further, we see that independent increment holds only if inter-arrival time is exponential. 
-%Therefore, 
-%\begin{align*}
-%\{ N(s) = n \} &\iff  \{ S_n = s + A(s) \}, \\
-%\{ N(t) - N(s) \geqslant m \} &\iff \{ Y(s) + \sum_{i=n+2}^{n+m} X_i \leqslant t - s \}.
-%\end{align*}
-Since, $\{X_i: i \geqslant n+2\}\cup\{Y(s)\}$ are independent of $\{X_i: i \leqslant n\}\cup{A(s)}$, we have $N(t)-N(s)$ independent of $N(s)$. 
-Further, since $Y(s)$ has same distribution as $X_{n+1}$, we get $N(t) - N(s)$ having same distribution as $N(t-s)$. 
-By induction we can extend this result to $(N(t_{n})-N(t_{n-1}),...,N(s))$. 
-\end{proof}
-
-\begin{thm}[Characterization 1] A simple stationary independent increment process is a Poisson process with parameter $\lambda$ when
-\begin{xalignat*}{3}
-&\lim_{t \to 0}\frac{P\{N(t) = 1\}}{t} = \lambda,&&\lim_{t \to 0}\frac{P\{N(t) \geq 2\}}{t} = 0.
-\end{xalignat*}
-\end{thm}
-\begin{proof}
-It suffices to show that first inter-arrival times $X_1$ is exponentially distributed with parameter $\lambda$. Notice that
-\begin{align*}
-P_0(t+s) = P\{N(t+s) - N(t) = 0, N(t) = 0\} = P_0(t)P_0(s).
-\end{align*}
-Using the conditions in the theorem, the result follows.
+Since $\bar{F}(x) = P\{X > x\}$  is non-increasing in $x \in \R_+$, we have $\bar{F}(x) = e^{\theta x}$, for some $\theta < 0$ from Lemma~\ref{lem:semigroup}.
 \end{proof}
 
 \subsection{Distribution functions}
 \begin{lem} Moment generating function of arrival times $S_n$ is 
  \begin{align*}
-  \mathbb{E} [ e^{\theta S_n} ] = 
-		\begin{cases}
-		\frac{\lambda^n}{(\lambda-\theta)^n}, & \theta < \lambda \\
-		\infty, & \theta \geqslant \lambda.
-		\end{cases} 
+\E[e^{\theta S_n} ] &= \begin{cases}
+\frac{\lambda^n}{(\lambda-\theta)^n}, & \theta < \lambda \\ \infty, & \theta \geqslant \lambda.
+\end{cases} 
  \end{align*} 
- Distribution function of $S_n$ is given by 
- \begin{align*}.
+\end{lem}
+\begin{lem} Distribution function of $S_n$ is given by 
+ \begin{align*}
+ F_n(t) &\triangleq P\{S_n \leq t\} = 1 - e^{-\lambda t}\sum_{k=0}^{n-1}\frac{(\lambda t)^k}{k!}.
  \end{align*}
 \end{lem}
 % UNCOMMENT THIS %
@@ -397,7 +295,7 @@ f_{n}(s) =\frac{\lambda (\lambda s)^{n-1}} {(n-1)!} e^{-\lambda s}.
 	\begin{align*}
 	P\{N(t)=n)\}= e^{-\lambda t}\frac{(\lambda t)^{n}}{n!}.
 	\end{align*}
-Further, $E[N(t)] = \lambda t$, explaining the rate parameter $\lambda$ for Poisson process.
+Further, $\E[N(t)] = \lambda t$, explaining the rate parameter $\lambda$ for Poisson process.
 \end{thm}
 \begin{proof}
 Result follows from density of $S_n$ and recognizing that 
@@ -435,6 +333,105 @@ First result follows from the telescopic sum and the second from the following o
 %\end{align*}
 %\end{proof}
 
+\subsection{Age and excess time}
+At any time $t$, the instant of last and next arrivals are $S_{N(t)}$ and $S_{N(t)+1}$ respectively. 
+\textbf{Age} of a counting process defined as age from the last arrival, and the \textbf{excess} is defined as remaining time till next arrival, 
+\begin{xalignat*}{3}
+&A(t) = t - S_{N(t)} && Y(t) = S_{N(t)+1} - t.
+\end{xalignat*}
+It is clear that $t$ partitions $X_{N(t)+1}$ in two parts such that $X_{N(t)+1} = A(t) + Y(t)$ as seen in Figure~\ref{Fig:IndependentIncrements} for the case when $N(s) = n$. 
+\begin{lem} 
+Age and residual processes for a Poisson process are independent and the corresponding residual process has distribution same as inter-arrival distribution
+\end{lem}
+\begin{proof} 
+We first find the distribution of age $A(s)$ and excess time $Y(s)$ individually. 
+We write 
+\eq{
+\{A(s) > x\} &= \bigcup_{n \in \N_0}\{S_n < s - x, S_{n+1} > s, N(s) = n\} = \bigcup_{n \in \N_0}\{S_n < s - x, S_{n+1} > s\},\\
+\{Y(s) > y\} &= \bigcup_{n \in \N_0}\{S_n \leq s, S_{n+1} > s + y, N(s) = n\} = \bigcup_{n \in \N_0}\{S_n \leq s , S_{n+1} > s+y\}.
+}
+Since the $(n+1)$st inter-arrival time $X_{n+1}$ is distributed exponentially with rate $\lambda$ and is independent of $S_{n}$, it follows that for $s > x$ 
+\eq{
+P\{A(s) > x\} &= e^{-\lambda s} + \sum_{n \in \N}\int_{0}^{s-x}dF_n(u)P\{X_{n+1} > s-u\} = e^{-\lambda s} + \int_{0}^{s-x}e^{-\lambda(s-u)}
+\sum_{n \in \N_0}dF_n(u)\\
+&= e^{-\lambda s}(1 + \int_{0}^{s-x}e^{\lambda u} \lambda du) = 1 - F_1(x).
+}
+Similarly, we can compute the distribution of excess time for $s > 0$ as 
+\eq{
+P\{Y(s) > y\} &= e^{-\lambda (s+y)} + \sum_{n \in \N}\int_{0}^{s}dF_n(u)P\{X_{n+1} > s+y-u\} = e^{-\lambda (s+y)} + \int_{0}^{s}e^{-\lambda(s+y-u)}
+\lambda du\\
+&= e^{-\lambda (s+y)}(1 + \int_{0}^{s}e^{\lambda u} \lambda du) = 1 - F_1(y).
+}
+We look at the joint event $\{A(s) > x, Y(s) > y\}$, to observe  that 
+\begin{align*}
+\{A(s) > x, Y(s)> y\} %&= \bigcup_{n \in \N_0}\{X' \leq x, X'' > y, N(s) = n\},\\
+&= \bigcup_{n \in \N_0}\{ S_n <  s -x , S_{n+1} > s + y, N(s) = n\}\\
+&= \bigcup_{n \in \N_0}\{ S_n <  s -x , S_{n+1} > s + y\}.
+\end{align*}
+Since the inter-arrival times are \textit{iid} exponentially distributed with rate $\lambda$, we conclude for $s > x$
+\begin{align*}
+P\{A(s)> x, Y(s) > y\} &= \bar{F}_1(s+y) + \sum_{n \in \N}\int_{0}^{s-x}P\{X_{n+1} > s + y - u \}dF_n(u)
+%&= \int_{u=0}^{s-x}(1 - F_1(s+y+u))\sum_{n \in \N_0}dF_n(u) 
+= e^{-\lambda (s+y)}(1 + \int_{0}^{s-x}e^{\lambda u}\lambda du),\\
+&= \bar{F}_1(x)\bar{F}_1(y) = P\{A(s) > x\}P\{Y(s) > y\}
+\end{align*}
+Therefore,  $Y(s)$ is independent of $A(s)$ and they both have the same exponential distribution as $X_{n+1}$. 
+The memoryless property of exponential distribution is crucially used. 
+\end{proof}
+
+\begin{figure}[hhhh]
+\center
+	\input{Figures/IndependentIncrements}
+  	\caption{Stationary independent increment property of Poisson process.}
+	\label{Fig:IndependentIncrements}
+\end{figure}
+
+\begin{prop} A Poisson process $\{N(t), t\geqslant 0\}$ is simple counting process with stationary independent increments.
+\end{prop}
+\begin{proof}
+It is clear that Poisson process is a simple counting process. 
+To show that $N(t)$ has stationary and independent increments, it suffices to show that $N(t)-N(s)$ is independent of $N(s)$ and the distribution of increment $N(t) - N(s)$ is identical to that of $N(t-s)$. 
+This follows from the fact that we can use induction to show stationary and independent increment property for for any finite disjoint time-intervals. 
+%Let arrival time-instants $\{S_n: n \in \N_0\}$ and inter-arrival times $\{X_n: n \in \N\}$ be defined as before. 
+%Given any time $s$, we can define the following variables
+%\begin{xalignat*}{3}
+%&A(s) = s - S_{N(s)},&&Y(s) = S_{N(s)+1} - s.
+%\end{xalignat*}
+%It is clear that $s$ partitions $X_{N(s)+1}$ in two parts such that $X_{N(s)+1} = A(s) + Y(s)$ as seen in Figure~\ref{Fig:IndependentIncrements} for the case when $N(s) = n$. 
+
+We can write the distribution of $N(t)-N(s)$ given $N(s)$ in terms of the following events involving inter-arrival times and excess times as 
+\begin{align*}
+%\{ N(s) = n \} &\iff  \{ S_n + A(s)  = s\}, \\
+P\{ N(t) - N(s) \geqslant m | N(s) = n \} &= P\{ Y(s) + S_{n+m} - S_{n+1} \leqslant t - s | S_n + A(s) = s \}.
+\end{align*}
+Further, we see that independent increment holds only if inter-arrival time is exponential. 
+%Therefore, 
+%\begin{align*}
+%\{ N(s) = n \} &\iff  \{ S_n = s + A(s) \}, \\
+%\{ N(t) - N(s) \geqslant m \} &\iff \{ Y(s) + \sum_{i=n+2}^{n+m} X_i \leqslant t - s \}.
+%\end{align*}
+Since, $\{X_i: i \geqslant n+2\}\cup\{Y(s)\}$ are independent of $\{X_i: i \leqslant n\}\cup{A(s)}$, we have $N(t)-N(s)$ independent of $N(s)$. 
+Further, since $Y(s)$ has same distribution as $X_{n+1}$, we get $N(t) - N(s)$ having same distribution as $N(t-s)$. 
+By induction, we can extend this result to $(N(t_{n})-N(t_{n-1}),...,N(s))$. 
+\end{proof}
+
+\begin{thm}[Characterization 1] A simple counting process with stationary and independent increment is a Poisson process with parameter $\lambda$ when
+\begin{xalignat*}{3}
+&\lim_{t \to 0}\frac{P\{N(t) = 1\}}{t} = \lambda,&&\lim_{t \to 0}\frac{P\{N(t) \geq 2\}}{t} = 0.
+\end{xalignat*}
+\end{thm}
+\begin{proof}
+It suffices to show that first inter-arrival times $X_1$ is exponentially distributed with parameter $\lambda$. 
+Notice that, the probability $P_0(t)$ of no arrivals in a time duration $[0,t)$ satisfies the semi-group property. 
+That is,
+\begin{align*}
+P_0(t+s) = P\{N(t+s) - N(t) = 0, N(t) = 0\} = P_0(t)P_0(s).
+\end{align*}
+Using the conditions in the theorem, the result follows.
+\end{proof}
+
+
+
 %
 %%\begin{rem} 
 %A Poisson process is not a stationary process. That is, the finite dimensional distributions are not shift invariant. 
@@ -464,4 +461,41 @@ First result follows from the telescopic sum and the second from the following o
 %  P\bigcap_{i=1}^k \{N(I_i)= n_{i}\} = \prod_{i=1}^{k}\frac{(\lambda|I_i|)^{n_{i}}}{n_{i}!} e^{-\lambda |I_i|}.
 %\end{align*}
 %\end{prop}
+
+\appendix 
+\section{Functions with semigroup property}
+\begin{lem} 
+\label{lem:semigroup}
+A unique non-negative right continuous function $f: \R \to \R$ satisfying equation
+\begin{align*}
+ f(t+s) = f(t)f(s), \text{ for all } t,s \in \R
+ \end{align*}
+ is $f(t) = e^{\theta t}$, where $\theta = \log f(1)$.
+\end{lem}
+\begin{proof}[Omit]
+Clearly, we have $f(0) = f^2(0)$. Since $f$ is non-negative, it means $f(0) = 1$. By definition of $\theta$ and induction for $m,n \in \Z^+$, we see that 
+\begin{xalignat*}{3}
+&f(m) = f(1)^m = e^{\theta m},&& e^{\theta} = f(1) = f(1/n)^n.
+ \end{xalignat*}
+Let $q \in \Q$, then it can be written as $m/n, n \neq 0$ for some $m,n \in \Z^+$. 
+Hence, it is clear that for all $q \in \Q^+$, we have $f(q) = e^{\theta q}$.
+either unity or zero. Note, that $f$ is a right continuous function and is non-negative. 
+%We will show that $g$ is an exponential function. That is, $g(t) = e^{\theta t}$ for some $\theta \geqslant 0$. We will prove this in stages. First, we show this is true for $t \in \mathbb{Z}^+$. Notice that we can obtain via induction
+%\begin{eqnarray*}
+%	g(2) &=& g(1) g(1) = g^{2}(1), \mathrm{ and }\\
+%	g(m) &=& [g(1)]^{m}.
+%\end{eqnarray*}
+%Since $g(1)$ is non negative, there exists a $\beta$ such that $g(1)=e^{\beta}$ and $g(m)= e^{m \beta}, m \in \mathbb{Z}_{+}$. Next we show that for any $n \in \mathbb{Z}_{+}$,        
+%\begin{align*}
+%	g(1) =  g\left(\frac{1}{n}+..., +\frac{1}{n}\right) = \left[g\left(\frac{1}{n}\right)\right]^{n}.
+%\end{align*}
+%Therefore, for same $\beta$ we used for $g(1)$, we have $g\left(\frac{1}{n}\right) = e^{\frac{\beta}{n}}$. Now, we show that $g$ is exponential for any $t \in \mathbb{Q}^+$. To this end, we see that for any $m, n \in \mathbb{Z}_{+}$, we have 
+%\begin{align*}
+%	g\left(\frac{m}{n}\right) = \left[g\left(\frac{1}{n}\right)\right]^{m}= e^{\frac{m \beta}{n}}.
+%\end{align*}
+Now, we can show that $f$ is exponential for any real positive $t$ by taking a sequence of rational numbers $\{t_n\}$ decreasing to $t$. From right continuity of $g$, we obtain 
+\begin{align*}
+	g(t) = \lim_{t_n \downarrow t} g(t_n) =   \lim_{t_n \downarrow t} e^{\beta t_{n}}= e^{\beta t}.
+\end{align*}
+\end{proof}
 \end{document}
