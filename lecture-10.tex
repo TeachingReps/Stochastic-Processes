@@ -2,72 +2,78 @@
 % !TEX spellcheck = LaTeX
 \documentclass[a4paper,10pt,english]{article}
 \input{header}
-\title{Lecture 10: Equilibrium Renewal Processes and Renewal Reward Processes}
+\title{Lecture 10: Renewal Reward Processes}
 \author{}
 
 \begin{document}
 \maketitle
-\section{Renewal theory Contd. -- Delayed Renewal processes }
-\subsection{Renewal Reward Process}
-\textbf{Definition:} Consider a renewal process $\{N(t), t \geq 0\}$ with inter arrival times $\{X_n: n \in \N\}$ having distribution $F$ and rewards $\{R_n: n \in \N\}$ where $R_n$ is the reward at the end of $X_n$. Let $(X_n,R_n)$ be \emph{iid}. Then $R(t)=\sum_{i=1}^{N(t)}R_i$ is reward process (total reward earned by time $t$). 
+%\section{Renewal theory Contd. -- Delayed Renewal processes }
+\section{Renewal reward process}
+Consider a renewal process $\{N(t), t \geq 0\}$ with \textit{iid} inter renewal times $\{X_n: n \in \N\}$ having common distribution $F$.  
+The reward sequence $\{R_n: n \in \N\}$ consists of reward $R_n$ at the end of $n$th renewal interval $X_n$ for each $n \in \N$. 
+Let $(X_n,R_n)$ be \textit{iid}. 
+Then the \textbf{reward process} $\{R(t), t \geqslant 0\}$ consists of accumulated reward earned by time $t$ as 
+\eq{
+R(t) &=\sum_{i=1}^{N(t)}R_i.
+} 
 \begin{thm}
 	\label{theorem}
 Let $\E[|R|]$ and $\E[|X|]$ be finite.
-\begin{enumerate}
-\item $\lim_{t \rightarrow \infty} \frac{R(t)}{t} = \frac{\E[R]}{\E[X]} ~a.s.$
-\item  $\lim_{t \rightarrow \infty} \frac{\E[R(t)]}{t} = \frac{\E[R]}{\E[X]}$.
+\begin{enumerate}[(a)]
+\item\label{item:Basic} $\lim_{t \to \infty} \frac{R(t)}{t} = \frac{\E[R]}{\E[X]} ~a.s.$
+\item\label{item:Elem}  $\lim_{t \to \infty} \frac{\E[R(t)]}{t} = \frac{\E[R]}{\E[X]}$.
 \end{enumerate}
 \end{thm}
-
 \begin{proof}
-$ (1) $ Write
-\begin{flalign*}
-\frac{R(t)}{t}&=\frac{\sum_{i=1}^{N(t)}R_i}{t}\\
-&=\left(\frac{\sum_{i=1}^{N(t)}R_i}{N(t)} \right) \left(\frac{N(t)}{t}\right).
-\end{flalign*}
-By the strong law of large numbers (almost sure convergence law) we obtain that, 
-\begin{flalign*}
-	\lim_{t \rightarrow \infty} \frac{\sum_{i=1}^{N(t)}R_i}{N(t)} = \E[R],
-\end{flalign*}
+We can write 
+\begin{align*}
+\frac{R(t)}{t}&=\frac{\sum_{i=1}^{N(t)}R_i}{t} =\left(\frac{\sum_{i=1}^{N(t)}R_i}{N(t)} \right) \left(\frac{N(t)}{t}\right).
+\end{align*}
+\begin{enumerate}[(a)]
+\item By the strong law of large numbers (almost sure convergence law) we obtain that, 
+\begin{align*}
+	\lim_{t \to \infty} \frac{\sum_{i=1}^{N(t)}R_i}{N(t)} = \E[R],
+\end{align*}
 and by the basic renewal theorem (almost sure convergence law) we obtain that, 
-\begin{flalign*}
-	\lim_{t \rightarrow \infty} \frac{N(t)}{t} = \frac{1}{\E[X]}.
-\end{flalign*} 
-Thus $ (1) $ is proven.
-\\
-$ (2) $ \\
-Notice that $ N(t)+1 $ is a stopping time for the sequence \{$ R_1,R_2,\dots $\}. This is true since
-\begin{flalign*}
+\begin{align*}
+	\lim_{t \to \infty} \frac{N(t)}{t} = \frac{1}{\E[X]}.
+\end{align*} 
+%Thus $ (1) $ is proven.
+\item 
+Notice that $ N(t)+1 $ is a stopping time for the sequence $\{R_1,R_2,\dots\}$. 
+This is true since
+\begin{align*}
 	\{N(t)+1 = n\} &= \{X_1+X_2+\cdots+X_{n-1} \leq t , X_n > t \}\\
 	&= \{R_1+R_2+\cdots+R_{n-1} = R(t) , R_n \neq 0 \}.
-\end{flalign*}
-Moreover $ N(t)+1 $ is a stopping time for the sequence \{$ X_1,X_2,\dots $\}. So by algebra and Wald's lemma,
-\begin{flalign*}
+\end{align*}
+Moreover $ N(t)+1 $ is a stopping time for the sequence $\{ X_1,X_2,\dots \}$. 
+So by algebra and Wald's lemma,
+\begin{align*}
 \E[R(t)] &= \E\left[\sum_{i=1}^{N(t)}R_i\right] \\
 &= \E\left[\sum_{i=1}^{N(t)+1}R_i\right]-\E[R_{N(t)+1}]\\ 
 &= (m(t)+1)\E[R_1]-\E[R_{N(t)+1}].
-\end{flalign*}
+\end{align*}
 Let $g(t)=\E[R_{N(t)+1}].$ So 
 \begin{equation}
  \frac{\E[R(t)]}{t} = \frac{(m(t)+1)}{t}\E[R_1]-\frac{g(t)}{t}, \nonumber
 \end{equation}
-and the result will follow from the elementary renewal theorem if we can show that $ \frac{g(t)}{t} \rightarrow 0 $ as $ t \rightarrow \infty. $ So,
-\begin{flalign*}
+and the result will follow from the elementary renewal theorem if we can show that $ \frac{g(t)}{t} \to 0 $ as $ t \to \infty. $ So,
+\begin{align*}
 g(t) &= \E[R_{N(t)+1}1\{S_{N(t)}=0\}]+\E[R_{N(t)+1}1\{S_{N(t)}>0\}]\\
 &=\E[R_{N(t)+1}|S_{N(t)}=0]P(X_1>t)+\int_{0}^{t}\E[R_{N(t)+1}|S_{N(t)}=u]F^c(t-u)dm(u),
-\end{flalign*}
-where the second equality follows from the fact that the interarrival times $ X_n, n \in \N $, are \emph{iid} with distribution $ F $. \\ 
+\end{align*}
+where the second equality follows from the fact that the interarrival times $ X_n, n \in \N $, are \textit{iid} with distribution $ F $. \\ 
 However,
-\begin{flalign*}
+\begin{align*}
 	\E[R_{N(t)+1}|S_{N(t)}=0] &= \E[R_1|X_1>t], \\
 	\E[R_{N(t)+1}|S_{N(t)}=u] &= \E[R_n|X_1>t-u], 
-\end{flalign*}
+\end{align*}
 and so
-\begin{flalign*}
+\begin{align*}
 g(t) &= \E[R_1|X_1>t]F^c(t)+\int_{0}^{t}\E[R_n|X_1>t-u]F^c(t-u)dm(u)\\
 &= \E[R_1|X_1>t]F^c(t)+\int_{0}^{t}\E[R_1|X_1>t-u]F^c(t-u)dm(u),
-\end{flalign*}
-where the second equality follows from the fact that $ R_n, n \in \N $, are \emph{iid}. \\
+\end{align*}
+where the second equality follows from the fact that $ R_n, n \in \N $, are \textit{iid}. \\
 Now, let
 \begin{equation}
 h(t)=\E[R_1|X_1>t]F^c(t) = \int_{x=t}^{\infty} \E[R_1|X_1=x]dF(x), \nonumber
@@ -76,48 +82,49 @@ and note that since
 \begin{equation}
 \E[|R_1|] = \int_{x=0}^{\infty} \E[|R_1||X_1=x]dF(x) < \infty, \nonumber
 \end{equation}
-it follows that $h(t) \rightarrow 0$ as $t \rightarrow \infty.$ Hence, choosing $T$ such that $|h(u)| \leq \epsilon$ whenever $ u \geq T$, we have for all $t \geq T$ that
-\begin{flalign*}
+it follows that $h(t) \to 0$ as $t \to \infty.$ Hence, choosing $T$ such that $|h(u)| \leq \epsilon$ whenever $ u \geq T$, we have for all $t \geq T$ that
+\begin{align*}
 \frac{|g(t)|}{t} &\leq \frac{|h(t)|}{t} +\int_{0}^{t-T}\frac{|h(t-s)|}{t}dm(s)+\int_{t-T}^{t}\frac{|h(t-s)|}{t}dm(s)\\
 &\leq \frac{\epsilon}{t}+ \frac{\epsilon m(t-T)}{t}+ \E[|R_1|]\frac{(m(t)-m(t-T))}{t} .
-\end{flalign*}
-Hence $\lim_{t \rightarrow \infty}\frac{g(t)}{t}= \frac{\epsilon}{\E[X]}$ by the
+\end{align*}
+Hence $\lim_{t \to \infty}\frac{g(t)}{t}= \frac{\epsilon}{\E[X]}$ by the
 elementary renewal theorem, and the result follows since $\epsilon >
 0$ is arbitrary.
+\end{enumerate}
  \end{proof}
 
 \begin{rem}
 	 	$ (1) ~$ $R_{N(t)+1}$ has different distribution than $R_1$.\\
-	 	\emph{Analysis:} Notice that $R_{N(t)+1}$ is related to $X_{N(t)+1}$ which is the length of the renewal interval containing the point $t$. Since larger renewal intervals have a greater chance of containing $t$, it follows that $X_{N(t)+1}$ tends to be larger than a ordinary renewal interval. Formally,
-	 	\begin{flalign*}
+	 	\textit{Analysis:} Notice that $R_{N(t)+1}$ is related to $X_{N(t)+1}$ which is the length of the renewal interval containing the point $t$. Since larger renewal intervals have a greater chance of containing $t$, it follows that $X_{N(t)+1}$ tends to be larger than a ordinary renewal interval. Formally,
+	 	\begin{align*}
 	 		\Pr\{X_{N(t)+1} > x\}&= \sum_{n \in \N_0} \left( \left[ \int_{0}^t\Pr\{X_{N(t)+1} > x | S_{N(t)} = y, N(t)=n\}F^c(t-y)dm(y) \right] \Pr\{N(t)=n\} \right).
-	 	\end{flalign*}
+	 	\end{align*}
 	 	Now we have,
-	 	\begin{flalign*}
+	 	\begin{align*}
 	 		\Pr\{X_{N(t)+1}>x | S_{N(t)}=y, N(t)=n\} & = \Pr\{X_{N(t)+1}>x | X_1+\cdots+X_n=y, X_{n+1}>t-y\} \\
 	 		& = \Pr\{X_{n+1}>x | X_{n+1}>t-y\} \\
 	 		& = \frac{\Pr\{X_{n+1}>\text{max}(x,t-y)\}}{\Pr\{X_{n+1}>t-y\}} \\
 	 		& \geq F^c(x). 
-	 	\end{flalign*}
+	 	\end{align*}
 	 	So we get that,
-	 	\begin{flalign*}
+	 	\begin{align*}
 	 		\Pr\{X_{N(t)+1}>x\}\geq \Pr\{X_1>x\}.
-	 	\end{flalign*}
+	 	\end{align*}
 	 	Thus the remark follows.\\
 	 	$ (2) ~$ $R(t)$ is the gradual reward during a cycle, 
-	 	\begin{flalign*}
+	 	\begin{align*}
 	 		\frac{\sum_{n=1}^{N(t)}R_n}{t} \leq  \frac{R(t)}{t} \leq \frac{\sum_{n=1}^{N(t)+1}R_n}{t}.
-	 	\end{flalign*}
-	 	\emph{Analysis:} The part 1 of the theorem \ref{theorem} under this regime follows since
-	 	\begin{flalign*}
-	 		\lim_{t \rightarrow \infty} \frac{\sum_{n=1}^{N(t)}R_n}{t} = \frac{\E\left[R\right]}{\E\left[X\right]},\\
-	 		\lim_{t \rightarrow \infty} \frac{\sum_{n=1}^{N(t)+1}R_n}{t} = \frac{\E\left[R\right]}{\E\left[X\right]},
-	 	\end{flalign*}
+	 	\end{align*}
+	 	\textit{Analysis:} The part 1 of the theorem \ref{theorem} under this regime follows since
+	 	\begin{align*}
+	 		\lim_{t \to \infty} \frac{\sum_{n=1}^{N(t)}R_n}{t} = \frac{\E\left[R\right]}{\E\left[X\right]},\\
+	 		\lim_{t \to \infty} \frac{\sum_{n=1}^{N(t)+1}R_n}{t} = \frac{\E\left[R\right]}{\E\left[X\right]},
+	 	\end{align*}
 	 	by the similar arguments given in the proof of the theorem \ref{theorem}.\\
 	 	The part 2 of the theorem \ref{theorem} under this regime follows since
-	 	\begin{flalign*}
-	 		\lim_{t \rightarrow \infty} \frac{\E\left[R_{N(t)+1}\right]}{t} = 0,
-	 	\end{flalign*}
+	 	\begin{align*}
+	 		\lim_{t \to \infty} \frac{\E\left[R_{N(t)+1}\right]}{t} = 0,
+	 	\end{align*}
 	 	by the similar arguments given in the proof of the theorem \ref{theorem}. Thus the remark follows. For more insights refer Chapter 3 in \textit{Stochastic Processes} by \textit{Sheldon M. Ross}.
 \end{rem}
 
@@ -150,5 +157,5 @@ We see that this limit is always greater than $\E[X]$, except when $X$ is consta
 
  
  \subsubsection{Example:} Suppose for an alternating renewal process, we earn at a rate of one per unit time  when the system is on and the reward for a cycle is the the time system is ON during that cycle.\\
- $ \lim_{t \rightarrow \infty} \frac{\text{Amount of ON time in } [0,t]}{t} = \lim_{t \rightarrow \infty} \frac{R(t)}{t}=\frac{\E[X]}{\E[X]+\E[Y]} = \lim_{t \rightarrow \infty}P(\text{ON at time t})$. 
+ $ \lim_{t \to \infty} \frac{\text{Amount of ON time in } [0,t]}{t} = \lim_{t \to \infty} \frac{R(t)}{t}=\frac{\E[X]}{\E[X]+\E[Y]} = \lim_{t \to \infty}P(\text{ON at time t})$. 
 \end{document}
