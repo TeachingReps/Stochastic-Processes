@@ -225,7 +225,7 @@ Result follows from the continuity of the exponential distribution.
 \section{Laplace Functional}
 The \textbf{Laplace functional} $\L$ of a point process $\Phi$ and associated counting process $N$ is defined for all non-negative function $f: \R^d \to \R$ as 
 \begin{align*}
-\L_{\Phi}(f) &= \E \exp\left(-\int_{\R^d}f(x)N(dx)\right).
+\L_{\Phi}(f) &= \E \exp\left(-\int_{\R^d}f(x)dN(x)\right).
 \end{align*}
 For simple function $f(x) = \sum_{i = 1}^{k}t_i1\{x \in A_i\}$, we can write the Laplace functional 
 \begin{align*}
@@ -243,11 +243,57 @@ The Laplace functional of the Poisson process with intensity measure $\Lambda$ i
 For a bounded Borel measurable set $A \subseteq \R^d$, consider $g(x) = f(x)1\{x \in A\}$. 
 Then,
 \begin{align*}
-\L_{\Phi}(g) &= e^{-\Lambda(A)}\sum\exp\left(-\int_{\R^d}(1-e^{-f(x)})\Lambda(dx)\right).
-\end{align*}  
+\L_{\Phi}(g) &= \E\exp(-\int_{\R^d}g(x)dN(x)) = \E\exp(-\int_{A}f(x)dN(x)).
+\end{align*} 
+Clearly $dN(x) = \delta_{x}1\{x \in \Phi\}$ and hence we can write 
+\eq{
+\L_{\Phi}(g) &= \E\exp\left(-\sum_{S_i \in \Phi\cap A}\int_{A}f(S_i)\right).
+}
+We know that the probability of $N(A) = |\Phi(A)| = n$ points in set $A$ is given by 
+\eq{
+P\{N(A) = n\} &= e^{-\Lambda(A)}\frac{\Lambda(A)^n}{n!}.
+}
+Given there are $n$ points in set $A$, the density of $n$ point locations are independent and given by
+\eq{
+f_{S_1,\dots, S_n}(x_1, \dots, x_n) &= \left(\frac{\Lambda(dx)}{\Lambda(A)}\right)^n,~x_1, \dots, x_n \in A.
+}
+Hence, we can write the Laplace functional as 
+\eq{
+\L_{\Phi}(g) &= e^{-\Lambda(A)}\sum_{n \in \N_0}\frac{\Lambda(A)^n}{n!}\prod_{i=1}^n\int_{A}e^{-f(x_i)}\frac{\Lambda(dx_i)}{\Lambda(A)}%\\
+%&=\exp\left(-\int_{A}(1-e^{-f(x)})\Lambda(dx)\right) 
+= \exp\left(-\int_{\R^d}(1-e^{-g(x)})\Lambda(dx)\right).
+}
+Result follows from taking increasing sequences of sets $A_k \uparrow \R^d$ and monotone convergence theorem.
 \end{proof}
-
-
+\subsection{Superposition of point processes}
+\begin{thm}
+The superposition of independent Poisson point processes with intensities $\Lambda_k$ 
+is a Poisson point process with intensity measure $\sum_k \Lambda_k$ if and only if the latter is a locally finite measure.
+\end{thm}
+\subsection{Thinning of point processes}
+Consider a probability \textbf{retention function} $p: \R^d \to [0,1]$ and a point process $\Phi$. 
+The \textbf{thinning} of point process $\Phi = \{S_n \in \R^d: n \in \N\}$ with the retention function $p$ is a point process such that 
+%where each point $S_n \in \Phi$ is retained with an independent indicator function $Y(S_n)$ such that %such that the associated counting process 
+\eq{
+\Phi^p &= \{S_n \in \Phi: Y(S_n) = 1\},
+}
+where $Y(S_n)$ is an independent indicator stochastic process at each point $S_n$ and $\E Y(S_n) = p(S_n)$. 
+\begin{thm}
+The thinning of the Poisson point process of intensity measure $\Lambda$ with the retention probability function $p$ 
+yields a Poisson point process of intensity measure $p\Lambda$ with 
+\eq{
+(p\Lambda)(A) = \int_A p(x) \Lambda(dx)
+} 
+for all bounded Borel measurable $A \subseteq \R^d$.
+\end{thm}
+\begin{proof}
+Let $A \subseteq \R^d$ be a bounded Boreal measurable set, and let $f: \R^d \to \R$ be a non-negative function. 
+Consider the Laplace functional of the thinned point process $\Phi^p$ for a non-negative function $g(x) = f(x)1\{x \in A\}$
+\eq{
+\L_{\Phi^p}(g) &= e^{-\Lambda(A)}\sum_{n \in \N_0}\frac{1}{n!}\left(\int_A(p(x)e^{-f(x)}+ (1-p(x))\Lambda(dx)\right)^n = \exp\left(-\int_{\R^d}(1-e^{-g(x)})p(x)\Lambda(dx)\right).
+}
+Result follows from taking increasing sequences of sets $A_k \uparrow \R^d$ and monotone convergence theorem.
+\end{proof}
 \end{document}
 
 
