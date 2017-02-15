@@ -8,12 +8,13 @@
 \begin{document}
 \maketitle
 
-\section{Renewal Theory}
+\section{Introduction}
 One of the characterization for the Poisson process is of it being a counting process with \textit{iid} exponential inter-arrival times. 
 Now we shall relax the ``exponential" part. 
 As a result, we no longer have the nice properties such as independent and stationary increments that Poisson processes had. 
 However, we can still get some great results which also apply to Poisson Processes. 
 
+\subsection{Renewal instants}
 %\begin{defn}[Inter-arrival Times] 
 We will consider \textbf{inter-arrival times} $\{X_i: i \in \N\}$ to be a sequence of non-negative \textit{iid} random variables with a common distribution $F$, 
 with finite mean $\mu$ and $F(0) < 1$. 
@@ -57,31 +58,31 @@ For all $t > 0$, the number of renewals $N(t)$ in time $[0,t)$ is finite.
 \end{lem}
 \begin{proof}
 We are interested in knowing how many renewals occur per unit time. 
-From strong law of large numbers, we know that the set 
+From strong law of large numbers, we know that the set
 \begin{align*} 
-\left\{\frac{S_n}{n} \neq \mu, n \in \N\right\}
+\left\{\frac{S_n}{n} = \mu, n \in \N\right\},
 \end{align*}
 has probability measure unity. 
 Further, since $\mu > 0$, we must have $S_n$ growing arbitrarily large as $n$ increases. 
 Thus, $S_n$ can be finite for at most finitely many $n$. 
-Indeed, we have the following set 
+Indeed, the following set 
 \begin{align*}
 \{N(t) \geq n, n \in \N\} &= \{S_n \leq t, n \in \N\} = \left\{\frac{S_n}{n} \leq \frac{t}{n}, n \in \N \right\}.% \subseteq\{\mu \leq 0\} = \emptyset. 
 \end{align*}
-has measure zero. 
+has measure zero for any finite $t$.  
 Therefore, $N(t)$ must be finite, and
 %\begin{align*} 
 $N(t) = \max\{n \in \N_0 : S_n \leq t\}$.
 %\end{align*} 
 \end{proof}
 
-\subsection{Distribution Functions}
+\subsection{Distribution functions}
 %\begin{defn} 
-The distribution of renewal instant $S_n$ is denoted by $F_n(t) \triangleq \Pr\{S_n \leq t\}$ for all $t \geq 0$.
+The distribution of renewal instant $S_n$ is denoted by $F_n(t) \triangleq \Pr\{S_n \leq t\}$ for all $t \in \R$. 
 %\end{defn}
 \begin{lem} The distribution function $F_n$ for renewal instant $S_n$ can be computed inductively 
 \begin{xalignat*}{3}
-&F_1 = F,&&F_n = F_{n-1}\ast F,
+&F_1 = F,&&F_n = F_{n-1}\ast F \triangleq \int_{0}^{t} F_{n-1}(t-y)dF(y),
 \end{xalignat*}
 where $\ast$ denotes convolution.
 \end{lem}
@@ -169,19 +170,19 @@ We can write the joint distribution of number of arrivals at each arrival instan
 \end{align*}
 %where the third equality follows from the fact that $ X_i, i \in \N$ are mutually independent, fourth equality follows from the fact that $ X_i, i \in \N$ are identical.
 %\\
-It follows that the number of arrivals is independent at each arrival instant $k\alpha$ and geometrically distributed with mean $1/\beta$ and $(1-\beta)/\beta)$ for $k \geq 1$ and $k = 0$ respectively.  
+It follows that the number of arrivals is independent at each arrival instant $k\alpha$ and geometrically distributed with mean $1/\beta$ and $(1-\beta)/\beta$ for $k \geq 1$ and $k = 0$ respectively.  
 %The number of arrivals till time $t$ therefore is Geometric with mean $\frac{1}{\Pr\{X_n \geq \alpha\}}$. 
-Thus 
+Thus, for all $t \geq 0$, 
 \begin{align*}
-\E[\bar{N}(t)] = \frac{\lceil\frac{t}{\alpha} \rceil}{\beta} \leq \frac{\frac{t}{\alpha} + 1}{\beta} < \infty.
+\E N(t) \leq \E[\bar{N}(t)] \leq \frac{\lceil\frac{t}{\alpha} \rceil}{\beta} \leq \frac{\frac{t}{\alpha} + 1}{\beta} < \infty.
 \end{align*}
 %Since $\E[N(t)] \leq \E[\bar{N}(t)]$ which follows from $N(t) \leq \bar{N}(t)$, we are done.
 \end{proof} 
 
-\section{Limit Theorems}
+\subsection{Basic renewal theorem}
 
 \begin{lem}
-Let $N(\infty) := \lim_{t \to \infty} N(t)$. Then, $\Pr\{N(\infty) = \infty\} = 1$.	
+Let $N(\infty) \triangleq \lim_{t \to \infty} N(t)$. Then, $\Pr\{N(\infty) = \infty\} = 1$.	
 \end{lem}
 
 \begin{proof}
@@ -234,7 +235,99 @@ We pick a strategy where any game is selected to play, and continue to be played
 Hence Renewal theorems can be used to compute these long term averages. We'll have many such theorems in the following sections.
 \end{shaded*}
 
-\subsection{Wald's Lemma}
+\subsection{Elementary renewal theorem}
+Basic renewal theorem implies $N(t)/t$ converges to $1/\mu$ almost surely. Now, we are interested in convergence of $\E[N(t)]/t$. Note that this is not obvious, since almost sure convergence doesn't imply convergence in mean. 
+\begin{shaded*}
+Consider the following example. 
+Let $X_n$ be a Bernoulli random variable with $\Pr\{X_n = 1\} = 1/n$. 
+Let $Y_n = nX_n$. 
+%Then, 
+%	\begin{align*}
+%	Y_n = \begin{cases}
+%	n, & \mbox{ w.p.  } 1/n,\\
+%	0, & \mbox{ w.p.  } 1- 1/n.
+%	\end{cases}
+%	\end{align*}
+Then, $\Pr\{ Y_n = 0 \} = 1 - 1/n$. %Then $\sum \Pr\{Y_n > \epsilon\} < \infty$. Hence by Borel Cantelli Lemma, $Y_n \to 0$
+That is $Y_n \to 0$ a.s. However, $\E[Y_n] = 1$ for all $n \in \N$. 
+So $\E[Y_n] \to 1$.
+\end{shaded*}
+Even though, basic renewal theorem does \textbf{NOT} imply it, we still have $\E[N(t)]/t$ converging to $1/\mu$.
+
+\begin{thm}[Elementary renewal theorem] Let $m(t)$ denote mean $\E[N(t)]$ of renewal process $N(t)$, then under the hypotheses of basic renewal theorem, we have 
+	\begin{align*}
+	\lim_{t \to \infty}\frac{m(t)}{t} = \frac{1}{\mu}.
+	\end{align*}
+\end{thm}
+\begin{proof}
+	Take $\mu < \infty$. We know that $S_{N(t)+1} > t$. Therefore, taking expectations on both sides and using Proposition~\ref{prop:WaldRenewal}, we have 
+	\begin{align*}
+	\mu (m(t) + 1) > t.
+	\end{align*}
+	Dividing both sides by $\mu t$ and taking $\liminf$ on both sides, we get
+\begin{align*}
+%\label{eq:LiminfMean}
+\liminf_{t \to \infty} \frac{m(t)}{t} \geq \frac{1}{\mu}.
+\end{align*}
+	
+	%Thus we now have to show 
+	%\[\limsup_{t \to \infty} \frac{m(t)}{t} \leq \frac{1}{\mu}\]
+We employ a truncated random variable argument to show the reverse inequality. We define truncated inter-arrival times $\{\bar{X}_n\}$ as 
+\begin{align*}
+\bar{X}_n = X_n 1_{\{X_n \leq M\}} + M1_{\{X_n > M\}}.
+\end{align*}
+We will call $\E[\bar{X}_n] = \mu_M$. Further, we can define arrival instants $\{\bar{S}_n\}$ and renewal process $\bar{N}(t)$ for this set of truncated inter-arrival times $\{\bar{X}_n\}$ as 
+\begin{align*}
+\bar{S}_n &= \sum_{k=1}^n \bar{X}_k, & \bar{N}(t) &= \sup\{n \in \N_0: \bar{S}_n \leq t\}.
+\end{align*}
+Note that since $S_n \geq \bar{S}_n$, the number of arrivals would be higher for renewal process $\bar{N}(t)$ with truncated random variables, i.e. 
+\begin{align}
+\label{eq:TruncRenewalInequality}
+N(t) \leq \bar{N}(t).
+\end{align}
+Further, due to truncation of inter-arrival time, next renewal happens with-in $M$ units of time, i.e.
+\begin{align*}
+\bar{S}_{\bar{N}(t)+1} \leq t+M.
+\end{align*}
+Taking expectations on both sides in the above equation, using Wald's lemma for renewal processes, %using Proposition~\ref{prop:WaldRenewal}, 
+dividing both sides by $t \mu_M$, and taking $\limsup$ on both sides, we obtain
+\begin{align*}
+\limsup_{t \to \infty}\frac{\bar{m}(t)}{t} \leq \frac{1}{\mu_M}.
+\end{align*}
+Taking expectations on both sides of~\eqref{eq:TruncRenewalInequality} and letting $M$ go arbitrary large on RHS, we get
+\begin{align*}
+%\label{eq:LimsupMean}
+\limsup_{t \to \infty}\frac{m(t)}{t} \leq \frac{1}{\mu}.
+\end{align*}
+	%Now observe that LHS is independent of $M$. Take limits $M \to \infty$, noting that $\mu_M \to \mu$ (Why?) to get
+	%\[\limsup_{t \to \infty}\frac{m(t)}{t} \leq \frac{1}{\mu}\]
+	%Putting it all together,
+	%\[\lim_{t \to \infty}\frac{m(t)}{t} = \frac{1}{\mu}\]
+Result follows for finite $\mu$ from combining liminf and limsup of the $m(t)/t$
+%~\eqref{eq:LiminfMean} and~\eqref{eq:LiminfMean}. 
+When $\mu$ grows arbitrary large, results follow from liminf of $m(t)/t$, %~\eqref{eq:LiminfMean}, 
+where RHS is zero. 
+\end{proof}
+
+\subsection{Central limit theorem for renewal processes}
+\begin{thm}
+Let $X_n$ be \textit{iid} random variables with $\mu = \E[X_n] < \infty$ and $\sigma^2 = Var(X_n) < \infty$. Then
+\[\frac{N(t)-\frac{t}{\mu}}{\sigma \sqrt{\frac{t}{\mu^3}}} \to^d N(0,1) \]
+\end{thm}
+\begin{proof}
+Take $u = \frac{t}{\mu} + y \sigma \sqrt{\frac{t}{\mu^3}}$. We shall treat $u$ as an integer and proceed, the proof for general $u$ is an exercise. Recall that $\{N(t) < u\} \iff \{S_u > t\}$. By equating probability measures on both sides, we get
+\begin{align*}
+\Pr\{N(t) < u\} = \Pr\left\{\frac{S_u - u\mu}{\sigma \sqrt{u}} > \frac{t - u\mu}{\sigma \sqrt{u}}\right\} = \Pr\left\{\frac{S_u - u\mu}{\sigma \sqrt{u}} > -y\left(1 + \frac{y\sigma}{\sqrt{tu}}\right)^2\right\}.
+\end{align*}
+By central limit theorem, $\frac{S_u - u\mu}{\sigma \sqrt{u}}$ converges to a normal random variable with zero mean and unit variance as $t$ grows. Also, note that 
+\begin{align*}
+\lim_{t \to \infty} -y\left(1 + \frac{y\sigma}{\sqrt{tu}}\right)^2 = -y.
+\end{align*}
+These results combine with the symmetry of normal random variable to give us the result.
+\end{proof}
+
+\appendix
+\section{Wald's Lemma}
 %Before we get into Wald's Lemma, let us first define what a stopping time is.
 %\begin{defn}[Stopping Time]
 %Let $\{X_n: n\in \N\}$ be independent random variables. 
@@ -254,7 +347,7 @@ The intuition behind a stopping time is that it's value is determined by past an
 	Then $N = min \{n \in \N:\quad \sum_{i=1}^n X_i = 1\}$ is a stopping time.
 \end{enumerate}
 \end{shaded*}
-\subsubsection{Properties of stopping time}
+\subsection{Properties of stopping time}
 Let $N_1,N_2$ be two stopping times with respect to independent random sequence $\{X_i : i \in \N \}$ then,
 \begin{enumerate}[i\_]
 \item $N_1+N_2$ is a stopping time.
@@ -325,96 +418,5 @@ We were able to do it since the summand is positive and we apply monotone conver
 	\left\{N(t) + 1 = n \right\} \iff \{S_{n-1} \leq t < S_n\} \iff \left\{\sum_{i=1}^{n-1} X_i \leq t < \sum_{i=1}^{n-1} X_i + X_n\right\}.
 	\end{align*}
 	Thus $N(t)+1$ is a stopping time, and the result follows from Wald's Lemma.
-\end{proof}
-
-\subsection{Elementary Renewal Theorem}
-Basic renewal theorem implies $N(t)/t$ converges to $1/\mu$ almost surely. Now, we are interested in convergence of $\E[N(t)]/t$. Note that this is not obvious, since almost sure convergence doesn't imply convergence in mean. 
-\begin{shaded*}
-Consider the following example. 
-Let $X_n$ be a Bernoulli random variable with $\Pr\{X_n = 1\} = 1/n$. 
-Let $Y_n = nX_n$. 
-%Then, 
-%	\begin{align*}
-%	Y_n = \begin{cases}
-%	n, & \mbox{ w.p.  } 1/n,\\
-%	0, & \mbox{ w.p.  } 1- 1/n.
-%	\end{cases}
-%	\end{align*}
-Then, $\Pr\{ Y_n = 0 \} = 1 - 1/n$. %Then $\sum \Pr\{Y_n > \epsilon\} < \infty$. Hence by Borel Cantelli Lemma, $Y_n \to 0$
-That is $Y_n \to 0$ a.s. However, $\E[Y_n] = 1$ for all $n \in \N$. 
-So $\E[Y_n] \to 1$.
-\end{shaded*}
-Even though, basic renewal theorem does \textbf{NOT} imply it, we still have $\E[N(t)]/t$ converging to $1/\mu$.
-
-\begin{thm}[Elementary Renewal Theorem] Let $m(t)$ denote mean $\E[N(t)]$ of renewal process $N(t)$, then under the hypotheses of basic renewal theorem, we have 
-	\begin{align*}
-	\lim_{t \to \infty}\frac{m(t)}{t} = \frac{1}{\mu}.
-	\end{align*}
-\end{thm}
-\begin{proof}
-	Take $\mu < \infty$. We know that $S_{N(t)+1} > t$. Therefore, taking expectations on both sides and using Proposition~\ref{prop:WaldRenewal}, we have 
-	\begin{align*}
-	\mu (m(t) + 1) > t.
-	\end{align*}
-	Dividing both sides by $\mu t$ and taking $\liminf$ on both sides, we get
-\begin{align*}
-%\label{eq:LiminfMean}
-\liminf_{t \to \infty} \frac{m(t)}{t} \geq \frac{1}{\mu}.
-\end{align*}
-	
-	%Thus we now have to show 
-	%\[\limsup_{t \to \infty} \frac{m(t)}{t} \leq \frac{1}{\mu}\]
-We employ a truncated random variable argument to show the reverse inequality. We define truncated inter-arrival times $\{\bar{X}_n\}$ as 
-\begin{align*}
-\bar{X}_n = X_n 1_{\{X_n \leq M\}} + M1_{\{X_n > M\}}.
-\end{align*}
-We will call $\E[\bar{X}_n] = \mu_M$. Further, we can define arrival instants $\{\bar{S}_n\}$ and renewal process $\bar{N}(t)$ for this set of truncated inter-arrival times $\{\bar{X}_n\}$ as 
-\begin{align*}
-\bar{S}_n &= \sum_{k=1}^n \bar{X}_k, & \bar{N}(t) &= \sup\{n \in \N_0: \bar{S}_n \leq t\}.
-\end{align*}
-Note that since $S_n \geq \bar{S}_n$, the number of arrivals would be higher for renewal process $\bar{N}(t)$ with truncated random variables, i.e. 
-\begin{align}
-\label{eq:TruncRenewalInequality}
-N(t) \leq \bar{N}(t).
-\end{align}
-Further, due to truncation of inter-arrival time, next renewal happens with-in $M$ units of time, i.e.
-\begin{align*}
-\bar{S}_{\bar{N}(t)+1} \leq t+M.
-\end{align*}
-Taking expectations on both sides in the above equation, using Wald's lemma for renewal processes, %using Proposition~\ref{prop:WaldRenewal}, 
-dividing both sides by $t \mu_M$, and taking $\limsup$ on both sides, we obtain
-\begin{align*}
-\limsup_{t \to \infty}\frac{\bar{m}(t)}{t} \leq \frac{1}{\mu_M}.
-\end{align*}
-Taking expectations on both sides of~\eqref{eq:TruncRenewalInequality} and letting $M$ go arbitrary large on RHS, we get
-\begin{align*}
-%\label{eq:LimsupMean}
-\limsup_{t \to \infty}\frac{m(t)}{t} \leq \frac{1}{\mu}.
-\end{align*}
-	%Now observe that LHS is independent of $M$. Take limits $M \to \infty$, noting that $\mu_M \to \mu$ (Why?) to get
-	%\[\limsup_{t \to \infty}\frac{m(t)}{t} \leq \frac{1}{\mu}\]
-	%Putting it all together,
-	%\[\lim_{t \to \infty}\frac{m(t)}{t} = \frac{1}{\mu}\]
-Result follows for finite $\mu$ from combining liminf and limsup of the $m(t)/t$
-%~\eqref{eq:LiminfMean} and~\eqref{eq:LiminfMean}. 
-When $\mu$ grows arbitrary large, results follow from liminf of $m(t)/t$, %~\eqref{eq:LiminfMean}, 
-where RHS is zero. 
-\end{proof}
-
-\subsection{Central Limit for Renewal Processes}
-\begin{thm}
-Let $X_n$ be \textit{iid} random variables with $\mu = \E[X_n] < \infty$ and $\sigma^2 = Var(X_n) < \infty$. Then
-\[\frac{N(t)-\frac{t}{\mu}}{\sigma \sqrt{\frac{t}{\mu^3}}} \to^d N(0,1) \]
-\end{thm}
-\begin{proof}
-Take $u = \frac{t}{\mu} + y \sigma \sqrt{\frac{t}{\mu^3}}$. We shall treat $u$ as an integer and proceed, the proof for general $u$ is an exercise. Recall that $\{N(t) < u\} \iff \{S_u > t\}$. By equating probability measures on both sides, we get
-\begin{align*}
-\Pr\{N(t) < u\} = \Pr\left\{\frac{S_u - u\mu}{\sigma \sqrt{u}} > \frac{t - u\mu}{\sigma \sqrt{u}}\right\} = \Pr\left\{\frac{S_u - u\mu}{\sigma \sqrt{u}} > -y\left(1 + \frac{y\sigma}{\sqrt{tu}}\right)^2\right\}.
-\end{align*}
-By central limit theorem, $\frac{S_u - u\mu}{\sigma \sqrt{u}}$ converges to a normal random variable with zero mean and unit variance as $t$ grows. Also, note that 
-\begin{align*}
-\lim_{t \to \infty} -y\left(1 + \frac{y\sigma}{\sqrt{tu}}\right)^2 = -y.
-\end{align*}
-These results combine with the symmetry of normal random variable to give us the result.
 \end{proof}
 \end{document}
