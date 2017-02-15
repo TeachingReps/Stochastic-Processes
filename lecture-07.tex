@@ -2,12 +2,12 @@
 % !TEX spellcheck = LaTeX
 \documentclass[a4paper,10pt,english]{article}
 \input{header}
-\title{Lecture 07: Regenerative Processes and Renewal Theory}
+\title{Lecture 07: Regenerative Processes}
 \author{}
 \begin{document}
 \maketitle
 
-\section{Regenerative Processes}
+\section{Regenerative processes}
 A stochastic process $Z = \{Z_t, t \geqslant 0 \}$ with the state space $E$ is said to be \textbf{regenerative} if there exists a sequence $S = \{S_n: n \in \N\}$ of stopping times such that 
 \begin{enumerate}[(a)]
 \item \textbf{regeneration times:} $S$ is a renewal process, 
@@ -16,32 +16,36 @@ A stochastic process $Z = \{Z_t, t \geqslant 0 \}$ with the state space $E$ is s
 \E[f(Z_{S_m+t_1}, \dots, Z_{S_m+t_n})|Z_u, u \leqslant S_m] &= \E f(Z_{t_1},\dots,Z_{t_n}).
 \end{align*}
 \end{enumerate}
+In particular, if the stochastic process $Z$ is bounded, then for $f(x) = x$ and $n=m=1$, we have 
+\eq{
+\E[Z_{S_1 + t}|Z_u, u \leqslant S_1] &= \E Z_t.
+}
 The definition says that probability law is independent of the past and shift invariant at renewal times. 
-That is after each renewal instant, the process becomes a probabilistic replica of the process starting from zero. 
+That is after each renewal instant, the process becomes an independent probabilistic replica of the process starting from zero. 
 Let $F$ be the distribution of inter-renewal times, then for an open subset $A \subseteq E$ and $t \geqslant 0$, we define 
 \begin{xalignat*}{3}
-&K(t,A)= P\{S_1 > t, Z_t \in A\} && f(t) = P\{Z_t \in A\}.
+&K(t)= P\{S_1 > t, Z_t \in A\}, && f(t) = P\{Z_t \in A\}.
 \end{xalignat*} 
 By the regeneration property applied at renewal instant $S_1$, we have
 \begin{align*}
-P\{Z_t \in A|S_1\} &= f(t-S_1) \text{ on } \{S_1 \leqslant t\}.
+P\{Z_t \in A|S_1\} &= P\{Z_{t-S_1}\} = f(t-S_1) \text{ on } \{S_1 \leqslant t\}.
 \end{align*}
 Hence, we have the \textbf{renewal equation}
 \begin{align*}
-f(t) &= K(t,A) + \int_{0}^{t}dF(s)f(t-s) = K + F \ast f.
+f(t) &= K(t) + \int_{0}^{t}dF(s)f(t-s) = K + F \ast f.
 \end{align*}
-We assume that the distribution function $F$ and the Kernel $K$ are known, and we wish to find $f$, and characterize its asymptotic behavior. 
+We assume that the distribution function $F$ and the kernel $K$ are known, and we wish to find $f$, and characterize its asymptotic behavior. 
 
 \begin{thm} 
-The renewal equation has a unique solution $f = m \ast g$, where $m(t) = \sum_{n \in \N_0}F_n(t)$ is the renewal function associated with the inter-renewal time distribution $F$. 
+The renewal equation has a unique solution $f = (1 + m) \ast K$, where $m(t) = \sum_{n \in \N}F_n(t)$ is the renewal function associated with the inter-renewal time distribution $F$. 
 \end{thm}
 \begin{proof}
 It follows from the renewal equation that 
 \begin{align*}
-F\ast(m\ast g) &= \sum_{n \in \N}F_n \ast g = m \ast g - g.
+F\ast((1+m)\ast K) &= \sum_{n \in \N}F_n \ast K = m \ast K.
 \end{align*}
-Hence, it is clear that $m \ast g$ is a solution to the renewal equation. 
-For uniqueness, let $f$ be another solution, then $h = f - m \ast g$ satisfies $h = F \ast h$, and hence $h = F_n \ast h$ for all $n \in \N$. 
+Hence, it is clear that $m \ast K$ is a solution to the renewal equation. 
+For uniqueness, let $f$ be another solution, then $h = f - K - m \ast K$ satisfies $h = F \ast h$, and hence $h = F_n \ast h$ for all $n \in \N$. 
 From finiteness of $m(t)$, it follows that $F_n(t) \to 0$ as $n$ grows. 
 Hence, $\lim_{n\in\N}(F_n\ast h)(t) = 0$ for each $t$. 
 \end{proof}
@@ -50,12 +54,12 @@ Hence, $\lim_{n\in\N}(F_n\ast h)(t) = 0$ for each $t$.
 Let $Z$ be a regenerative process with state space $E$. 
 Then for any $t \geq 0$ and open $A \subseteq E$, 
 \begin{align*}
-P\{Z_t \in A\} &= \int_{0}^tdm(s)K(t-s,A),
+P\{Z_t \in A\} &= K(t) + \int_{0}^tdm(s)K(t-s),
 \end{align*}
 where $m$ is the renewal function and $K$ is the kernel function. 
 \end{prop}
 
-\begin{thm}[Key Lemma] Let $N(t)$ be a renewal process, with mean $m(t)$, \emph{iid} inter-renewal times $\{X_n\}$ with distribution function $F$, and $n^{\mathrm{th}}$ renewal instant $S_n$. Then,
+\begin{thm}[Key Lemma] Let $N(t)$ be a renewal process, with mean $m(t)$, \textit{iid} inter-renewal times $\{X_n\}$ with distribution function $F$, and $n^{\mathrm{th}}$ renewal instant $S_n$. Then,
 \begin{equation*}
 \Pr\{S_{N(t)}\leq s\}=\bar{F}(t)+\int_{0}^{s}\bar{F}(t-y)dm(y),\quad\quad t\geq s \geq 0.
 \end{equation*}

@@ -2,7 +2,7 @@
 % !TEX spellcheck = LaTeX
 \documentclass[a4paper,10pt,english]{article}
 \input{header}
-\title{Lecture 08: Inspection Paradox and Limiting Mean Excess Time}
+\title{Lecture 08: Key Renewal Theorem and Applications}
 \author{}
 
 \begin{document}
@@ -20,7 +20,7 @@ Let $h: \R_+ \mapsto \R$ be a function bounded over finite intervals, denoting
 A function $h: \R_+ \mapsto \R$ is \textbf{directly Riemann integrable} and denoted by $h \in \D$ if the partial sums obtained by summing the infimum and supremum of $h$, 
 taken over intervals obtained by partitioning the positive axis, are finite and both converge to the same limit, for all finite positive interval lengths. That is,
 \begin{equation*}
-\lim_{\delta \to 0} \delta \sum_{n \in \N}\overline{m}(h,n,\delta)=\lim_{\delta \to 0} \delta \sum_{n \in \N} \underline{m}(h,n,\delta).  
+\overline{\sigma}_{\delta} \triangleq \lim_{\delta \to 0} \delta \sum_{n \in \N}\overline{m}(h,n,\delta)=\lim_{\delta \to 0} \delta \sum_{n \in \N} \underline{m}(h,n,\delta) \triangleq \underline{\sigma}_{\delta}.  
 \end{equation*}   
  If both limits exist and are equal, then the integral value is equal to the limit. 
 %\end{defn}
@@ -47,10 +47,11 @@ h(t) &= \sum_{n\in\N}1\left\{t \in \left[n-\frac{1}{(2n^2)},\,n+\frac{1}{(2n^2)}
 \end{shaded*}
 \begin{prop}%[Sufficiency for Directly Riemann Integrable] 
 Following are sufficient conditions for a function $h$ to be directly Riemann integrable.
-  \begin{enumerate}
-  \item If $h$ is bounded and continuous and $h$ is non increasing. 
-  \item If $h$ is bounded above by a directly Riemann integrable function.
-	\item If $h$ is non-negative, non-increasing, and with bounded integral.
+  \begin{enumerate}[(a)]
+  \item If $h$ is non-negative, continuous, and has finite support. 
+  \item If $h$ is non-negative, continuous, bounded, and $\overline{\sigma}_{\delta}$ is bounded for some $\delta$.  
+  \item If $h$ is non-negative, monotone non-increasing, and Riemann integrable. 
+  \item If $h$ is non-negative and bounded above by a directly Riemann integrable function.
   \end{enumerate}
 \end{prop}
 \begin{prop}[Tail Property] If $h$ is non-negative, directly Riemann integrable, and has bounded integral value, then 
@@ -63,7 +64,7 @@ Following are sufficient conditions for a function $h$ to be directly Riemann in
 Consider a renewal process with renewal function $m(t)$, and the mean and the distribution of inter-renewal times being denoted by $\mu$ and $F$ respectively. 
 If $F$ is non-lattice and $F(\infty) = 1$, then for any $h \in \D$, we have 
 %Denoting mean of inter-renewal time by $\mu$, we have for non-lattice $F$
-%Let $N(t)$ be a renewal process having mean $m(t)$, and \emph{iid} inter-arrival times with mean $\mu$ and distribution function $F$. If $F$ is non-lattice, and if a function $h(t)$ is directly Riemann integrable, then
+%Let $N(t)$ be a renewal process having mean $m(t)$, and \textit{iid} inter-arrival times with mean $\mu$ and distribution function $F$. If $F$ is non-lattice, and if a function $h(t)$ is directly Riemann integrable, then
 \begin{equation}
 \label{eqn:Key Renewal Theorem}
 \lim_{t \rightarrow \infty} \int_{0}^{\infty}h(t-x)dm(x)=\frac{1}{\mu}\int_{0}^{\infty}h(t)dt. 
@@ -111,7 +112,7 @@ Key renewal theorem is very useful in computing the limiting value of some funct
 %\section{Key Renewal Theorem and Applications}
 %
 %\subsection{Key Renewal Theorem}
-%\begin{thm}[Key Renewal Theorem] Let $N(t)$ be a renewal process having mean $m(t)$, and \emph{iid} inter-arrival times with mean $\mu$ and distribution function $F$. If $F$ is non-lattice, and if a function $h(t)$ is directly Riemann integrable, then
+%\begin{thm}[Key Renewal Theorem] Let $N(t)$ be a renewal process having mean $m(t)$, and \textit{iid} inter-arrival times with mean $\mu$ and distribution function $F$. If $F$ is non-lattice, and if a function $h(t)$ is directly Riemann integrable, then
 %\begin{equation}
 %\label{eqn:Key Renewal Theorem}
 %\lim_{t \rightarrow \infty} \int_{0}^{\infty}h(t-x)dm(x)=\frac{1}{\mu}\int_{0}^{\infty}h(t)dt,
@@ -126,17 +127,23 @@ Key renewal theorem is very useful in computing the limiting value of some funct
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Alternating Renewal Processes}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-Alternating renewal processes form an important class of renewal processes, and model many interesting applications. We find one natural application of  key renewal theorem  in this section. 
-\begin{defn}[Alternating Renewal Process] Let $\{(Z_n,Y_n),~n \in \N\}$ be an \emph{iid} random process, where $Y_n$ and $Z_n$ are not necessarily independent. A renewal process where each inter-arrival time $X_n$ consist of ON time $Z_n$ followed by OFF time $Y_n$, is called an \textbf{alternating renewal process}. We denote the distributions for ON, OFF, and renewal periods by $H, G$, and $F$, respectively. Let 
+Alternating renewal processes form an important class of renewal processes, and model many interesting applications. 
+We find one natural application of  key renewal theorem  in this section. 
+%\begin{defn}[Alternating Renewal Process] 
+
+Let $\{(Z_n,Y_n),~n \in \N\}$ be an \textit{iid} random process, where $Y_n$ and $Z_n$ are not necessarily independent. 
+A renewal process where each inter-arrival time $X_n$ consist of ON time $Z_n$ followed by OFF time $Y_n$, is called an \textbf{alternating renewal process}. 
+We denote the distributions for ON, OFF, and renewal periods by $H, G$, and $F$, respectively. Let 
 \begin{equation*}
 P(t)=\Pr\{\text{ON at time}~ t\}.
 \end{equation*}
-\end{defn}
+%\end{defn}
 %Let $Y_n \sim G$, $Z_n \sim H, F \sim Z_n+Y_n \triangleq X_n$. The random variable $Z_n$ denotes the ON time of a system and $Y_n$ denotes the OFF time of the system. Let $P(t)=P(\text{ON at time}~ t)$.
 
-\begin{rem}
-To see that the alternating renewal process is indeed a renewal process, it needs to be established that $\{X_n:n\in\mathbb{N}\}$ is an \emph{iid} sequence. But this trivially follows from the fact that $\{f(Y_n,Z_n):n\in\mathbb{N}\}$ is an \emph{iid} sequence whenever $\{(Z_n,Y_n),~n \in \N\}$ is an \emph{iid} sequence. Let $f(a,b) = a+b$ to see that $\{X_n:n\in\mathbb{N}\}$ is an \emph{iid} sequence.
-\end{rem}
+%\begin{rem}
+To see that the alternating renewal process is indeed a renewal process, it needs to be established that $\{X_n:n\in\N\}$ is an \textit{iid} sequence. 
+However, this follows trivially from the fact that $\{f(Y_n,Z_n):n\in\N\}$ is an \textit{iid} sequence whenever $\{(Z_n,Y_n),~n \in \N\}$ is an \textit{iid} sequence. Let $f(a,b) = a+b$ to see that $\{X_n = Y_n + Z_n: n\in\N\}$ is an \textit{iid} sequence.
+%\end{rem}
 
 \begin{thm}[ON Probability] \label{Thm:OnProbability}
 If $\E[Z_n+Y_n]< \infty $ and $F$ is non-lattice, then
@@ -148,7 +155,7 @@ P(t) = \bar{H}(t)+\int_{0}^{t}\bar{H}(t-y)dm(y).
 \begin{equation*}
 \{\text{ON at time}~ t\} =\bigcup_{y \in [0, t)}\{\text{ON at time } t, S_{N(t)} = y\}.% = \bigcup_{y \in [0, t)}\{Z_1 > t- y, S_{N(t)} = y\}.
 \end{equation*}
-Since any ON time is possibly only dependent on the corresponding OFF time and no past renewal times, conditioned on $\{S_{N(t)} = y \}$, the system stays ON at time $t$ \emph{iff} ON time is longer than $t-y$ conditioned on renewal time being larger than $t-y$. That is, 
+Since any ON time is possibly only dependent on the corresponding OFF time and no past renewal times, conditioned on $\{S_{N(t)} = y \}$, the system stays ON at time $t$ \textit{iff} ON time is longer than $t-y$ conditioned on renewal time being larger than $t-y$. That is, 
 \begin{equation*}
 \{\text{ON at time } t| S_{N(t)} = y\} =\{Z_1 > t - y| Z_1 + Y_1 > t-y\}.
 \end{equation*}
@@ -293,7 +300,7 @@ From alternating renewal process theorem, we have
 &=\frac{\mathbb{E}[\sum_{i=1}^{N_y}X_i]}{\mathbb{E}[\sum_{i=1}^{N_s}X_i]}=\frac{\mathbb{E}[N_x]}{\mathbb{E}[N_s]}.
 \end{flalign*}
 
-where $N_y= \min\{n \in \mathbb{N}: \sum_{i=1}^{n}D_i > S-y\}$  and $D_1,D_2 \hdots$ denote the successive customer demands. Since $D_i$ are iid, we can interpret $N_y-1$ as the number of renewals till time $S-y$. $D_i$ is the inter arrival time of the process. Thus   
+where $N_y= \min\{n \in \N: \sum_{i=1}^{n}D_i > S-y\}$  and $D_1,D_2 \hdots$ denote the successive customer demands. Since $D_i$ are iid, we can interpret $N_y-1$ as the number of renewals till time $S-y$. $D_i$ is the inter arrival time of the process. Thus   
 
 \begin{flalign*}
 \lim_{t \rightarrow \infty}\mathbb{P}(L(t) \geq y) =\frac{m_G(S-x)+1}{m_G(S-s)+1}, s \leq x \leq S.
@@ -314,7 +321,7 @@ From Key Renewal theorem, we have
 \end{flalign*}
 
 \begin{rem}
-It can also be established that $\lim_{t\to \infty}\frac{\int_0^t Y(\tau) d\tau}{t} = \frac{EX^2}{2\mu}$ since, for each sample path $\{Y(t)= y(t)\}$ and sample values $\{x_i,i\in\mathbb{N}\}$, we have $\int_0^ty(\tau)d\tau = \frac{1}{2}\sum_{i=1}^{n(t)}x_i^2+\int_{\tau=s_{n(t)}}^t y(\tau)d\tau$.
+It can also be established that $\lim_{t\to \infty}\frac{\int_0^t Y(\tau) d\tau}{t} = \frac{EX^2}{2\mu}$ since, for each sample path $\{Y(t)= y(t)\}$ and sample values $\{x_i,i\in\N\}$, we have $\int_0^ty(\tau)d\tau = \frac{1}{2}\sum_{i=1}^{n(t)}x_i^2+\int_{\tau=s_{n(t)}}^t y(\tau)d\tau$.
 \end{rem}
 
 
