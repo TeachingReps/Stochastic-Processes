@@ -26,14 +26,14 @@ taken over intervals obtained by partitioning the positive axis, are finite and 
 %\end{defn}
 \begin{shaded*}
 We compare the definitions of directly Riemann integrable and Riemann integrable functions. 
-For a finite positive $M$, a function $g: [0, M] \rightarrow \R $ is Riemann integrable if 
+For a finite positive $M$, a function $g: [0, M] \to \R $ is Riemann integrable if 
 \begin{align*}
 \lim_{\delta \to 0} \delta \sum_{n \leq M/\delta}\overline{m}(g,n,\delta) &=\lim_{\delta \to 0} \delta \sum_{n \leq M/\delta}\underline{m}(g,n,\delta). 
 \end{align*} 
 In this case, the limit is the value of the integral. 
 For $h$ defined on $\R_+$, 
 \begin{align*}
-\int_{u \in \R_+}h(u)du &= \lim_{M \rightarrow \infty}\int_{0}^{M}h(u)du, 
+\int_{u \in \R_+}h(u)du &= \lim_{M \to \infty}\int_{0}^{M}h(u)du, 
 \end{align*}
 if the limit exists. For many functions, this limit may not exist.
 
@@ -56,7 +56,7 @@ Following are sufficient conditions for a function $h$ to be directly Riemann in
 \end{prop}
 \begin{prop}[Tail Property] If $h$ is non-negative, directly Riemann integrable, and has bounded integral value, then 
 \begin{equation*}
-\lim_{t \rightarrow \infty} h(t)=0.
+\lim_{t \to \infty} h(t)=0.
 \end{equation*}
 \end{prop}
 
@@ -67,11 +67,11 @@ If $F$ is non-lattice and $F(\infty) = 1$, then for any $h \in \D$, we have
 %Let $N(t)$ be a renewal process having mean $m(t)$, and \textit{iid} inter-arrival times with mean $\mu$ and distribution function $F$. If $F$ is non-lattice, and if a function $h(t)$ is directly Riemann integrable, then
 \begin{equation}
 \label{eqn:Key Renewal Theorem}
-\lim_{t \rightarrow \infty} \int_{0}^{\infty}h(t-x)dm(x)=\frac{1}{\mu}\int_{0}^{\infty}h(t)dt. 
+\lim_{t \to \infty} \int_{0}^{\infty}h(t-x)dm(x)=\frac{1}{\mu}\int_{0}^{\infty}h(t)dt. 
 \end{equation}
 If $F$ is lattice with period $d$ and $\sum_{k \in \N_0}h(t+kd)$ converges, then 
 \begin{align*}
-\lim_{n \rightarrow \infty} \int_{0}^{\infty}h(t+nd-x)dm(x)=\frac{d}{\mu}\sum_{n \in \N_0}h(t+kd). 
+\lim_{n \to \infty} \int_{0}^{\infty}h(t+nd-x)dm(x)=\frac{d}{\mu}\sum_{n \in \N_0}h(t+kd). 
 \end{align*}
 %where 
 %\begin{xalignat*}{3}
@@ -115,7 +115,7 @@ Key renewal theorem is very useful in computing the limiting value of some funct
 %\begin{thm}[Key Renewal Theorem] Let $N(t)$ be a renewal process having mean $m(t)$, and \textit{iid} inter-arrival times with mean $\mu$ and distribution function $F$. If $F$ is non-lattice, and if a function $h(t)$ is directly Riemann integrable, then
 %\begin{equation}
 %\label{eqn:Key Renewal Theorem}
-%\lim_{t \rightarrow \infty} \int_{0}^{\infty}h(t-x)dm(x)=\frac{1}{\mu}\int_{0}^{\infty}h(t)dt,
+%\lim_{t \to \infty} \int_{0}^{\infty}h(t-x)dm(x)=\frac{1}{\mu}\int_{0}^{\infty}h(t)dt,
 %\end{equation}
 %where 
 %\begin{xalignat*}{3}
@@ -132,50 +132,73 @@ We find one natural application of  key renewal theorem  in this section.
 %\begin{defn}[Alternating Renewal Process] 
 
 Let $\{(Z_n,Y_n),~n \in \N\}$ be an \textit{iid} random process, where $Y_n$ and $Z_n$ are not necessarily independent. 
-A renewal process where each inter-arrival time $X_n$ consist of ON time $Z_n$ followed by OFF time $Y_n$, is called an \textbf{alternating renewal process}. 
-We denote the distributions for ON, OFF, and renewal periods by $H, G$, and $F$, respectively. Let 
+A renewal process where each inter-renewal time $T_n$ consist of \textbf{on} time $Z_n$ followed by \textbf{off} time $Y_n$, is called an \textbf{alternating renewal process}. 
+We denote the distributions for on, off, and renewal periods by $H, G$, and $F$, respectively. Let 
 \begin{equation*}
-P(t)=\Pr\{\text{ON at time}~ t\}.
+P(t)=\Pr\{\text{on at time}~ t\}.
 \end{equation*}
 %\end{defn}
-%Let $Y_n \sim G$, $Z_n \sim H, F \sim Z_n+Y_n \triangleq X_n$. The random variable $Z_n$ denotes the ON time of a system and $Y_n$ denotes the OFF time of the system. Let $P(t)=P(\text{ON at time}~ t)$.
-
+%Let $Y_n \sim G$, $Z_n \sim H, F \sim Z_n+Y_n \triangleq X_n$. The random variable $Z_n$ denotes the ON time of a system and $Y_n$ denotes the OFF time of the system. Let $P(t)=P(\text{ON at time}~ t)$. 
 %\begin{rem}
-To see that the alternating renewal process is indeed a renewal process, it needs to be established that $\{X_n:n\in\N\}$ is an \textit{iid} sequence. 
-However, this follows trivially from the fact that $\{f(Y_n,Z_n):n\in\N\}$ is an \textit{iid} sequence whenever $\{(Z_n,Y_n),~n \in \N\}$ is an \textit{iid} sequence. Let $f(a,b) = a+b$ to see that $\{X_n = Y_n + Z_n: n\in\N\}$ is an \textit{iid} sequence.
+To see that the alternating renewal process is indeed a renewal process, it needs to be established that $\{T_n:n\in\N\}$ is an \textit{iid} sequence. 
+However, this follows trivially from the fact that $\{f(Y_n,Z_n):n\in\N\}$ is an \textit{iid} sequence whenever $\{(Z_n,Y_n),~n \in \N\}$ is an \textit{iid} sequence. 
+Let $f(a,b) = a+b$ to see that $\{T_n = Y_n + Z_n: n\in\N\}$ is an \textit{iid} sequence.
 %\end{rem}
 
-\begin{thm}[ON Probability] \label{Thm:OnProbability}
-If $\E[Z_n+Y_n]< \infty $ and $F$ is non-lattice, then
+For the renewal process with $n$th inter-renewal time $T_n$ for each $n \in \N$, the $n$th renewal instant is denoted by $S_n = \sum_{i=1}^nT_n$. 
+We can define a stochastic process $\{W(t) \in \{0,1\}, t \geqslant 0\} $ that takes values $1$  and $0$, when the renewal process is in on and off state respectively. 
+In particular, we can write 
+\eq{
+W(t) &= 1\{A(t) < Y_{N(t)+1}\}. 
+}
+It is easy to see that $W$ is a regenerative process with regenerative sequence $S$. 
+%We are interested in finding the probability
+%\eq{
+%P(t) &= P\{W(t) = 1\}.
+%}
+\begin{thm}[on probability] 
+\label{Thm:OnProbability}
+Let $m$ be the renewal function associated with the renewal process $\{S_n: n \in \N\}$ with a non-lattice inter-renewal duration distribution $F$. 
+If $\E[Z_n+Y_n]< \infty $, then
 \begin{equation*}
 P(t) = \bar{H}(t)+\int_{0}^{t}\bar{H}(t-y)dm(y).
 \end{equation*}
 \end{thm} 
-\begin{proof} To find time dependent probability $P(t)$, we can partition the event of system being ON at time $t$ on value of last renewal time $S_{N(t)}$. That is, we can write
-\begin{equation*}
-\{\text{ON at time}~ t\} =\bigcup_{y \in [0, t)}\{\text{ON at time } t, S_{N(t)} = y\}.% = \bigcup_{y \in [0, t)}\{Z_1 > t- y, S_{N(t)} = y\}.
-\end{equation*}
-Since any ON time is possibly only dependent on the corresponding OFF time and no past renewal times, conditioned on $\{S_{N(t)} = y \}$, the system stays ON at time $t$ \textit{iff} ON time is longer than $t-y$ conditioned on renewal time being larger than $t-y$. That is, 
-\begin{equation*}
-\{\text{ON at time } t| S_{N(t)} = y\} =\{Z_1 > t - y| Z_1 + Y_1 > t-y\}.
-\end{equation*}
-Since, for $y>0$, we have $\Pr\{Z_1 > t - y| Z_1 + Y_1 > t-y\} = \frac{\bar{H}(t-y)}{\bar{F}(t-y)}$, it follows that
-\begin{equation*}
-P(t) = \bar{H}(t)+ \int_{0}^t {\bar{H}(t-y)}{\bar{F}(t-y)}dF_{S_{N(t)}}(y)
-\end{equation*}
-In view of the density of $S_{N(t)}$ from Remark~\ref{Remark:DensityLastRenewal}, the result follows.
+\begin{proof} 
+We recall that $P(t) = P\{W(t)=1\}$ and compute the kernel 
+\eq{
+P\{W(t) = 1, T_1 > t\} = P\{Z_1 > t, T_1 > t\} = P\{Z_1 > t\} = \bar{H}(t). 
+} 
+Hence, we can write the renewal equation for $P(t)$ as 
+\eq{
+P(t) &= \bar{H}(t) + (F\ast P)(t).
+}
+Result follows from the solution of renewal equation. % with renewal function $m$ for the renewal process $\{S_n: n\in \N\}$. 
+%To find time dependent probability $P(t)$, we can partition the event of system being ON at time $t$ on value of last renewal time $S_{N(t)}$. That is, we can write
+%\begin{equation*}
+%\{\text{ON at time}~ t\} =\bigcup_{y \in [0, t)}\{\text{ON at time } t, S_{N(t)} = y\}.% = \bigcup_{y \in [0, t)}\{Z_1 > t- y, S_{N(t)} = y\}.
+%\end{equation*}
+%Since any ON time is possibly only dependent on the corresponding OFF time and no past renewal times, conditioned on $\{S_{N(t)} = y \}$, the system stays ON at time $t$ \textit{iff} ON time is longer than $t-y$ conditioned on renewal time being larger than $t-y$. That is, 
+%\begin{equation*}
+%\{\text{ON at time } t| S_{N(t)} = y\} =\{Z_1 > t - y| Z_1 + Y_1 > t-y\}.
+%\end{equation*}
+%Since, for $y>0$, we have $\Pr\{Z_1 > t - y| Z_1 + Y_1 > t-y\} = \frac{\bar{H}(t-y)}{\bar{F}(t-y)}$, it follows that
+%\begin{equation*}
+%P(t) = \bar{H}(t)+ \int_{0}^t {\bar{H}(t-y)}{\bar{F}(t-y)}dF_{S_{N(t)}}(y)
+%\end{equation*}
+%In view of the density of $S_{N(t)}$ from Remark~\ref{Remark:DensityLastRenewal}, the result follows.
 \end{proof}
 
-\begin{cor}[Limiting ON Probability]
-\label{cor:Limiting ON probability}
-If $\E[Z_n+Y_n]< \infty $ and $F$ is non-lattice, then
+\begin{cor}[limiting on probability]
+\label{cor:LimitingOnProbability}
+If $\E[Z_n+Y_n]< \infty $ and $F$ is non-lattice, then 
 \begin{equation*}
-\lim_{t \rightarrow \infty}P(t)=\frac{\E[Z_n]}{\E[Y_n]+\E[Z_n]}.
+\lim_{t \to \infty}P(t)=\frac{\E[Z_n]}{\E[Y_n]+\E[Z_n]}.
 \end{equation*}
 \end{cor}
 \begin{proof} Since $H$ is the distribution function of the non-negative random variable $Z_n$, it follows that 
 \begin{align*}
-\lim_{t \rightarrow \infty}\bar{H}(t) = 0, \text{ and } \int_0^\infty \bar{H}(t)dt = E[Z_n].
+\lim_{t \to \infty}\bar{H}(t) = 0, \text{ and } \int_0^\infty \bar{H}(t)dt = E[Z_n].
 \end{align*}
 Applying key renewal theorem to Theorem~\ref{Thm:OnProbability}, we get the result.
 %\begin{align*}
@@ -185,60 +208,118 @@ Applying key renewal theorem to Theorem~\ref{Thm:OnProbability}, we get the resu
 %&\stackrel{(a)}{=}\bar{H}(t)+\int_{y=0}^{t}\frac{\bar{H}(t-y)}{\bar{F}(t-y)}\bar{F}(t-y)dm(y)\\
 %&= \bar{H}(t)+\int_{y=0}^{t}\bar{H}(t-y))dm(y),\\
 %\end{align*}
-%where $(a)$ follows from the remark following Theorem 3.Now apply key renewal theorem to obtain the required result. Since $\bar{H}(t) \rightarrow 0$ as $t \rightarrow \infty$, we get
+%where $(a)$ follows from the remark following Theorem 3.Now apply key renewal theorem to obtain the required result. Since $\bar{H}(t) \to 0$ as $t \to \infty$, we get
 %\begin{flalign}
-%P(t) \rightarrow \frac{\int_{0}^{\infty}\bar{H}(t)dt}{\mu}=\frac{\E[Z_n]}{\E[Y_n]+\E[Z_n]}.
+%P(t) \to \frac{\int_{0}^{\infty}\bar{H}(t)dt}{\mu}=\frac{\E[Z_n]}{\E[Y_n]+\E[Z_n]}.
 %\end{flalign}
 \end{proof}
-
+\begin{shaded*}
 Many processes of practical interest can be modeled by an alternate renewal process. 
-\begin{exmp}[Age and Excess Time] Consider a renewal process and let $A(t)$ be the time from $t$ since the last renewal and $Y(t)$ be the time from $t$ till the next renewal. That is,
+%\begin{exmp}[Age and Excess Time] 
+Consider a renewal process with renewal instants $\{S_n: n \in \N\}$, and \textit{iid} inter-renewal times $\{X_n: n \in \N\}$ with the common non-lattice distribution $F$. 
+%We are interested in finding the limiting distribution of the age $A(t)$ and excess time $Y(t)$. 
+At time $t$, the last renewal occurred at time $S_{N(t)}$, and the next renewal will occur at time $S_{N(t)+1}$. 
+Recall that the age $A(t)$ is the time since the last renewal and the excess time $Y(t)$ is the time till the next renewal. 
+That is,
+\begin{xalignat*}{3}
+&A(t) = t-S_{N(t)},&&Y(t) = S_{N(t)+1}-t.
+\end{xalignat*}   
+We are interested in finding the limiting distribution of age and excess times. 
+That, is for a fixed $x$, we wish to compute
+\begin{xalignat*}{3}
+&\lim_{t \to \infty}\Pr\{A(t) \leq x\}, && \lim_{t \to \infty}\Pr\{Y(t) \leq x\} .
+\end{xalignat*}
+%To compute age we consider the renewal process $\{S_n: n \in \N\}$ with \textit{iid} inter-renewal times $\{X_n: n \in \N\}$ with the common distribution $F$. 
+We will call this renewal process to be on, when the age is less than $x$. 
+That is, we consider an alternative renewal process $W$ such that
+\eq{
+W(t) &= 1\{A(t) \leq x\}.% = 1\{S_{N(t)} \geq t-x\}
+}
+This is an alternating renewal process with finite probability of off times being zero. 
+Further, we can write the $n$th on time $Z_n$ for this renewal process as
+\eq{
+Z_n &= \min\{x, X_n\}. 
+}
+%Now, observe that $\Pr\{A(t) \leq x\}=\E[1_{\{A(t) \leq x\}}]$ which is the mean time when the ``age at $t$" is less than $x$ which is equal to $\E[\min\{x,X\}]$. Hence, we get\
+From limiting on probability of alternating renewal process, we get 
+\eq{
+\lim_{t \to \infty} \Pr\{A(t) \leq x\} &= \lim_{t \to \infty}P\{W(t) = 1\} = \frac{\E \min\{x,X\}}{\E X} = \frac{1}{\mu}\int_{0}^{x}\bar{F}(t)dt.
+}
+Another way of evaluating $\lim_{t\to \infty} \Pr\{A(t)\leq x\}$ is to note that $\{A(t)\leq x\} = \{S_{N(t)}\geq t-x\}$. 
+From the distribution of $S_{N(t)}$ and the fact that the support of renewal function $m(t)$ is positive real life, %we get
 \begin{align*}
-Y(t) &=S_{N(t)+1}-t,\\
-A(t) &=t-S_{N(t)}.
-\end{align*}   
-Suppose we need to find $\lim_{t \to \infty}\Pr\{A(t) \leq x\}$ for some fixed  x. Now, observe that $\Pr\{A(t) \leq x\}=\E[1_{\{A(t) \leq x\}}]$ which is the mean time when the ``age at $t$" is less than $x$ which is equal to $\E[\min\{x,X\}]$. Hence, we get\\
-\begin{equation*}
-\lim_{t \rightarrow \infty} \Pr\{A(t) \leq x\} =\frac{\E \min\{x,X\}}{\E X} = \frac{\int_{0}^{x}\bar{F}(t)dt}{\mu}.
-\end{equation*}  
-\end{exmp}
-It is to be mentioned that $\Pr\{Y(t)\leq x\}$ also yield the same limit as $t \to \infty$. This can be observed by noting that if we consider the reversed processes (an identically distributed renewal process), $Y(t)$,  the ``excess life time" at $t$ is same as the age at $t$, $A(t)$ of the original process.
-
-Another way of evaluating $\lim_{t\to \infty} \Pr\{A(t)\leq x\}$ is to note that $\{A(t)\leq x\} = \{S_{N(t)}\geq t-x\}$ from which it follows that
-\begin{align*}
-\Pr\{A(t)\leq x\} &= \Pr\{S_{N(t)}\geq t-x\} \\
-& = \int_{-\infty}^{\infty} \Pr\{S_{N(t)} \geq t-x | S_{N(t)}=y\}dF_{S_{N(t)}}(y) \\
-& = \int_{t-x}^\infty dF_{S_{N(t)}}(y)\\
-&\stackrel{(a)}{=} \int_{-\infty}^x \bar F(u)dm(u)\\
-&= \int_{-\infty}^0 dm(u) + \int_{0}^x \bar{F}(u)dm(u)\\
-& = \int_{0}^x \bar{F}(u)dm(u),
+\Pr\{A(t)\leq x\} &= \Pr\{S_{N(t)}\geq t-x\} %\\
+%& = \int_{-\infty}^{\infty} \Pr\{S_{N(t)} \geq t-x | S_{N(t)}=y\}dF_{S_{N(t)}}(y) \\
+%= \int_{t-x}^\infty dF_{S_{N(t)}}(y) 
+= \int_{t-x}^{\infty}\bar{F}(t-y)dm(y) = \int_{-\infty}^{x}\bar{F}(y)dm(t-y)= \int_{0}^x \bar{F}(u)dm(t-u). 
 \end{align*}
-where $(a)$ follows from a change of variable $u = t-y$. In the limit, $dm(u) \to \frac{du}{\mu}$, as $t \to \infty$, and hence 
-\begin{equation}
-\lim_{t\to \infty} \Pr\{A(t)\leq x\} = \frac{1}{\mu}\int_{0}^x \bar{F}(u)du
-\end{equation}
+%where $(a)$ follows from a change of variable $u = t-y$. In the limit, $dm(u) \to \frac{du}{\mu}$, as $t \to \infty$, and hence 
+Applying key renewal theorem, we get the result.
+%\eq{
+%\lim_{t\to \infty} \Pr\{A(t)\leq x\} &= \frac{1}{\mu}\int_{0}^x \bar{F}(u)du
+%}
+\end{shaded*}
+%\end{exmp}
+\begin{prop} 
+Limiting age distribution for a renewal process with non-lattice distribution $F$ is 
+\eq{
+\lim_{t \to \infty} \Pr\{A(t) \leq x\} &= \frac{1}{\mu}\int_{0}^{x}\bar{F}(t)dt.
+}
+\end{prop}
+%\begin{shaded*}
+We see that the limiting distribution of age and excess times are identical. %$\Pr\{Y(t)\leq x\}$ also yield the same limit as $t \to \infty$. 
+This can be observed by noting that if we consider the reversed processes (an identically distributed renewal process), $Y(t)$,  
+the ``excess life time" at $t$ is same as the age at $t$, $A(t)$ of the original process.
+%\end{shaded*}
+%\section{Limiting Mean Excess Time}
+\begin{cor}
+Limiting mean excess time for a renewal process with \textit{iid} inter-renewal times $\{X_n: n \in \N\}$ having non-lattice distribution $F$ and mean $\mu$ is 
+\eq{
+\lim_{t \to \infty}\E Y(t) &= \frac{\E[X^2]}{2\mu}.
+}
+\end{cor}
+Consider a non-lattice renewal process and we are interested in computing the mean excess time of the process. We start by writing the renewal equation of mean excess life time, $\E[Y(t)]$.
+\begin{align*}
+\E[Y(t)]&= \E[Y(t)|S_{N(t)}=0]F^c(t)+ \int_{0}^{t} \E[Y(t)|S_{N(t)}=y]F^c(t-y)dm(y)\\
+&=\E[X_1-t |X_1>t]F^c(t)+ \int_{0}^{t} \E[X-(t-y)|X>t-y]F^c(t-y)dm(y).
+\end{align*}
+From Key Renewal theorem, we have 
+
+\begin{align*}
+\lim_{t \to \infty}\E[Y(t)]&=\frac{1}{\mu} \int_{0}^{\infty} \E[X-t|X-t >0]F^c(t) dt\\
+&= \frac{1}{\mu} \int_{t=0}^{\infty} \int_{x=t}^{\infty}(x-t) dF(x) dt\\
+&= \frac{1}{\mu} \int_{x=0}^{\infty} \int_{t=0}^{x}(x-t) dF(x) dt\\
+&= \frac{\E[X^2]}{2\mu}.
+\end{align*}
+
+%\begin{rem}
+It can also be established that $\lim_{t\to \infty}\frac{\int_0^t Y(\tau) d\tau}{t} = \frac{EX^2}{2\mu}$ since, for each sample path $\{Y(t)= y(t)\}$ and sample values $\{x_i,i\in\N\}$, we have $\int_0^ty(\tau)d\tau = \frac{1}{2}\sum_{i=1}^{n(t)}x_i^2+\int_{\tau=s_{n(t)}}^t y(\tau)d\tau$.
+%\end{rem}
+
+
+
 %\newpage
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5  
-\section{The Inspection Paradox}
+\subsection{The Inspection Paradox}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 Define $X_{N(t)+1}=A(t)+Y(t)$ as the length of the renewal interval containing $t$, in other words, the length of current renewal interval. Inspection paradox says that $P(X_{N(t)+1} >x)\geq \bar{F}(x)$. That is, for any $x$, the length of the current renewal interval to be greater than $x$ is always more likely than that for an ordinary renewal interval. Formally,
-\begin{flalign*}
+\begin{align*}
 \Pr\{X_{N(t)+1}>x\}&= \int_{0}^t\Pr\{X_{N(t)+1} > x | S_{N(t)} = y, N(t)=n\}dF_{(S_{N(t)}, N(t))}.
 %&= P(X_2 >x)\\
 %&= \bar{F}(x).
-\end{flalign*}
+\end{align*}
 Now we have,
-\begin{flalign*}
+\begin{align*}
 \Pr\{X_{N(t)+1}>x | S_{N(t)}=y, N(t)=n\} & = \Pr\{X_{N(t)+1}>x | X_1+\cdots+X_n=y, X_{n+1}>t-y\} \\
 & = \Pr\{X_{n+1}>x | X_{n+1}>t-y\} \\
 & = \frac{\Pr\{X_{n+1}>\text{max}(x,t-y)\}}{\Pr\{X_{n+1}>t-y\}} \\
 & \geq \bar{F}(x). 
-\end{flalign*}
+\end{align*}
 So we get that,
-\begin{flalign*}
+\begin{align*}
 \Pr\{X_{N(t)+1}>x\}\geq \Pr\{X_{1}>x\}.
-\end{flalign*}
+\end{align*}
 One can also look into a weaker version of inspection paradox involving
 the limiting distribution of $X_{N(t)+1}$, consider an alternating 
 renewal process for which the ON time is the total time of the cycle if that 
@@ -250,31 +331,60 @@ Z_n= &\text{ ON time in $n^{\text{th}}$ cycle} = X_n \mathbb{I}_{X_n>x} \\
 Y_n= &\text{ OFF time in $n^{\text{th}}$ cycle} = X_n \mathbb{I}_{X_n\leq x}.
 \end{align*}
 Now we have,
-\begin{flalign*}
+\begin{align*}
 \Pr \{X_{N(t)+1}>x\} &= \Pr\{\text{length of the interval containing } t>x\}\\
 &= \Pr\{ \text{on at time } t \}.
-\end{flalign*}
+\end{align*}
 
 From alternating renewal process theorem, we conclude that 
-\begin{flalign*}
+\begin{align*}
 \lim_{t\to \infty}\Pr\{X_{N(t)+1}>x\} &= \frac{\E[\text{on time in cycle}]}{\mu} \\
 &= \frac{\E[X\mathbb{I}_{X>x}]}{\mu}\\
 &= \frac{\int_{x}^\infty y dF(y)}{\mu}\\
 &\geq \Pr[X_1\geq x],
-\end{flalign*}
+\end{align*}
 where the last step follows from Chebyshev's inequality stated below.
 
-\begin{rem}
-The inspection paradox states, in essence, that if we pick a point $t$, it is more likely that an inter-renewal interval with larger length will contain $t$ than the smaller ones. For instance, if $X_i$ were equally likely to be $\epsilon$ or $1-\epsilon$, we see that the mean of any inter arrival length is 1 for any value of $\epsilon\in(0,1)$. However, for small values $\epsilon$, it is more likely that a given $t$ will be in an interval of length $1-\epsilon$ than in an interval of length $\epsilon$.
-\end{rem}
+%\begin{rem}
+The inspection paradox states, in essence, that if we pick a point $t$, it is more likely that an inter-renewal interval with larger length will contain $t$ than the smaller ones. 
+For instance, if $X_i$ were equally likely to be $\epsilon$ or $1-\epsilon$, we see that the mean of any inter arrival length is $1$ for any value of $\epsilon\in(0,1)$. 
+However, for small values $\epsilon$, it is more likely that a given $t$ will be in an interval of length $1-\epsilon$ than in an interval of length $\epsilon$.
+%\end{rem}
 
-\subsubsection*{Chebyshev's Sum Inequality:}
- If $f:\mathbb{R} \rightarrow \mathbb{R}^{+}$ and $g : \mathbb{R} \rightarrow \mathbb{R}^{+}$ are functions with the same
- monotonicity then for any random variable $X$, $f(X)$ and $g(X)$ are positive and
- $$\E[f(X)g(X)] \geq \E[f(X)]\E[g(X)].$$
-\textbf{Remark:} \\
- This inequality gives us that
- $$\E[X\mathbb{I}_{X\geq x}] \geq \E[X]\Pr[X\geq x].$$
+
+\begin{prop}
+If the inter arrival time is non-lattice and $\E[X^2] < \infty$, we have 
+\begin{align*}
+\lim_{t \to \infty} \left(m(t)-\frac{t}{\mu}\right) = \frac{\E[X^2]}{2\mu^2}-1.
+\end{align*} 
+\begin{proof}
+From definition of excess time $Y(t)$ and Wald's lemma for stopping time $N(t)+1$ for renewal processes, it follows  
+\eq{
+\E S_{N(t)+1} = \E[\sum_{i=1}^{N(t)+1}X_n] = \mu (m(t)+1) = t + \E[Y(t)].
+}
+\end{proof}
+
+\end{prop}
+
+\appendix
+
+\section{Chebyshev's sum inequality}
+\begin{lem}
+Let $f:\R \to \R_{+}$ and $g : \R \to \R_{+}$ be arbitrary functions with the same monotonicity.  
+For any random variable $X$, functions $f(X)$ and $g(X)$ are positive and
+ \eq{
+ \E[f(X)g(X)] \geq \E[f(X)]\E[g(X)].
+ }
+\end{lem}
+\begin{proof}
+\end{proof} 
+In particular, this inequality implies
+\eq{
+\E[X1\{X\geq x\}] &\geq \E[X]P\{X\geq x\}.
+ }
+
+\end{document}
+
 
 \subsection{Example:}
  Suppose the number of commodities desired by a customer at a store follows a distribution $G$. The ordering policy of the store is as follows: For some fixed $s,~S$, if the inventory level after serving a customer is $x$, then the amount ordered is
@@ -290,62 +400,18 @@ The inspection paradox states, in essence, that if we pick a point $t$, it is mo
        \right.
     \end{displaymath} 
 
-Let $L(t)$ denote the inventory level at time $t$. We are interested in finding $\lim_{t \rightarrow \infty}\mathbb{P}(L(t) \geq y)$. 
+Let $L(t)$ denote the inventory level at time $t$. We are interested in finding $\lim_{t \to \infty}\mathbb{P}(L(t) \geq y)$. 
 Let $X_n$ denote inter-restocking times. Let $\{L(t)\geq y\}$ denote ON period. $X_n$ forms an 
 alternating renewal process with the above mentioned ON time. 
 From alternating renewal process theorem, we have 
 
-\begin{flalign*}
-\lim_{t \rightarrow \infty}\mathbb{P}(L(t) \geq y) &= \frac{\mathbb{E}[\text{ON time}]}{\mathbb{E}[X_1]}\\
-&=\frac{\mathbb{E}[\sum_{i=1}^{N_y}X_i]}{\mathbb{E}[\sum_{i=1}^{N_s}X_i]}=\frac{\mathbb{E}[N_x]}{\mathbb{E}[N_s]}.
-\end{flalign*}
+\begin{align*}
+\lim_{t \to \infty}\mathbb{P}(L(t) \geq y) &= \frac{\E[\text{ON time}]}{\E[X_1]}\\
+&=\frac{\E[\sum_{i=1}^{N_y}X_i]}{\E[\sum_{i=1}^{N_s}X_i]}=\frac{\E[N_x]}{\E[N_s]}.
+\end{align*}
 
 where $N_y= \min\{n \in \N: \sum_{i=1}^{n}D_i > S-y\}$  and $D_1,D_2 \hdots$ denote the successive customer demands. Since $D_i$ are iid, we can interpret $N_y-1$ as the number of renewals till time $S-y$. $D_i$ is the inter arrival time of the process. Thus   
 
-\begin{flalign*}
-\lim_{t \rightarrow \infty}\mathbb{P}(L(t) \geq y) =\frac{m_G(S-x)+1}{m_G(S-s)+1}, s \leq x \leq S.
-\end{flalign*}
-\section{Limiting Mean Excess Time}
-Consider a nonlattice renewal process and we are interested in computing the mean excess time of the process. We start by writing the renewal equation of mean excess life time, $\mathbb{E}[Y(t)]$.
-\begin{flalign*}
-\mathbb{E}[Y(t)]&= \mathbb{E}[Y(t)|S_{N(t)}=0]F^c(t)+ \int_{0}^{t} \mathbb{E}[Y(t)|S_{N(t)}=y]F^c(t-y)dm(y)\\
-&=\mathbb{E}[X_1-t |X_1>t]F^c(t)+ \int_{0}^{t} \mathbb{E}[X-(t-y)|X>t-y]F^c(t-y)dm(y).
-\end{flalign*}
-From Key Renewal theorem, we have 
-
-\begin{flalign*}
-\lim_{t \rightarrow \infty}\mathbb{E}[Y(t)]&=\frac{1}{\mu} \int_{0}^{\infty} \mathbb{E}[X-t|X-t >0]F^c(t) dt\\
-&= \frac{1}{\mu} \int_{t=0}^{\infty} \int_{x=t}^{\infty}(x-t) dF(x) dt\\
-&= \frac{1}{\mu} \int_{x=0}^{\infty} \int_{t=0}^{x}(x-t) dF(x) dt\\
-&= \frac{\mathbb{E}[X^2]}{2\mu}.
-\end{flalign*}
-
-\begin{rem}
-It can also be established that $\lim_{t\to \infty}\frac{\int_0^t Y(\tau) d\tau}{t} = \frac{EX^2}{2\mu}$ since, for each sample path $\{Y(t)= y(t)\}$ and sample values $\{x_i,i\in\N\}$, we have $\int_0^ty(\tau)d\tau = \frac{1}{2}\sum_{i=1}^{n(t)}x_i^2+\int_{\tau=s_{n(t)}}^t y(\tau)d\tau$.
-\end{rem}
-
-
-
-\begin{prop}
-If the inter arrival time is nonlattice and $\mathbb{E}[X^2] < \infty$, we have 
-\begin{flalign*}
-\lim_{t \rightarrow \infty} \left(m(t)-\frac{t}{\mu}\right) = \frac{\mathbb{E}[X^2]}{2\mu^2}-1.
-\end{flalign*} 
-\begin{proof}
-This follows since $\mu (m(t)+1) = t + \mathbb{E}[Y(t)].$
-\end{proof}
-
-\end{prop}
-
-
-
-
-
-
-
-
-
-
-
-
-\end{document}
+\begin{align*}
+\lim_{t \to \infty}\mathbb{P}(L(t) \geq y) =\frac{m_G(S-x)+1}{m_G(S-s)+1}, s \leq x \leq S.
+\end{align*}
