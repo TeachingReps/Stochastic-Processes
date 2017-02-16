@@ -2,125 +2,361 @@
 % !TEX spellcheck = LaTeX
 \documentclass[a4paper,10pt,english]{article}
 \input{header}
-\title{Lecture 09: Branching Processes and Delayed Renewal Process}
+\title{Lecture 09: Age-Dependent Branching and Delayed Renewal}
 \author{}
 
 \begin{document}
 \maketitle
 
-\section{Age-dependent Branching Process }
+\section{Age-dependent branching process }
 
-Suppose an organism lives upto a time period of $X \sim F$ and produces $N \sim P$ number of  offspring. Let $X(t)$ denote the number of organisms alive at time $t$. The stochastic process $\{X(t),~ t \geq 0\}$ is called an age-dependent branching process. Let X(t) be the number of individuals alive at time t. We are interested in computing $M(t)=\mathbb{E}[X(t)]$ when $m=\mathbb{E}[N] =\sum_{j \in \mathbb{N}}{j P_j}$. Another application of studying such a process is " growth of a tree ", which is used by biologists to see how population grows. 
+Suppose a population where each organism lives for an \textit{iid} random time period of $X$ units with common distribution function $F$. 
+Just before dying, each organism produces a number of offsprings $N$, an \textit{iid} discrete random variable with common distribution $P$.  
+Let $X(t)$ denote the number of organisms alive at time $t$. 
+The stochastic process $\{X(t),~ t \geqslant 0\}$ is called an age-dependent branching process. 
+Let $X(t)$ be the number of individuals alive at time $t$. 
+We are interested in computing $M(t)=\E X(t)$ when $m=\E[N] =\sum_{j \in \N}{j P_j}$. 
+This is a popular model in biology for population growth of various organisms. 
+%Another application of studying such a process is ``growth of a tree'', which is used by biologists to see how population grows. 
 
 \begin{thm}
 If $X(0)=1$, $m>1$ and $F$ is non lattice, then
-\begin{flalign*}
-\lim_{t \rightarrow \infty} e^{-\alpha t}M(t)= \frac{m-1}{m^2 \alpha \int_{0}^{\infty}xe^{-\alpha x dF(x)}},
-\end{flalign*}
-
-where $\alpha > 0$ is unique such that $\int_{0}^{\infty}xe^{-\alpha x } dF(x) = \frac{1}{m}$.
+\eq{
+\lim_{t \to \infty} e^{-\alpha t}M(t)= \frac{m-1}{m^2 \alpha \int_{0}^{\infty}xe^{-\alpha x dF(x)}},
+}
+where $\alpha > 0$ is the unique solution to the equation $\int_{0}^{\infty}e^{-\alpha x } dF(x) = \frac{1}{m}$.
 \end{thm}
-
 \begin{proof}
-Condition on $T_1$, the life time of first organism,
-\begin{flalign*}
-M(t)&=\mathbb{E}[X(t)] = \mathbb{E}[\mathbb{E}(X(t)|T_1)]\\
-&=\int_{0}^{\infty}\mathbb{E}[X(t)|T_1=y]dF(y)\\
-On splitting, \\
-&=\int_{0}^{t}\mathbb{E}[X(t)|T_1=y]dF(y) + \int_{t}^{\infty}\mathbb{E}[X(t)|T_1=y]dF(y)\\
-&\stackrel{(a)}{=}\int_{y=0}^{t} m M(t-y) dF(y) + \int_{y=t}^{\infty} 1 dF(y).
-\end{flalign*}
-
-Thus we get 
-
-\begin{flalign}
-\label{renew}
-M(t)= F^c(t)+m\int_{0}^{t}M(t-y)dF(y)
-\end{flalign}
-
-We got a differential equation in M(t) and when we solve it, we get M(t). \\
-Let $\alpha$ denote the unique positive number such that $\int_{0}^{\infty}xe^{-\alpha x } dF(x) = \frac{1}{m}$ and $G(y)=m\int_{0}^{y}e^{-\alpha y} dF(y)$. \\
-Upon multiplying both sides of equation (\ref{renew}) by  $e^{-\alpha t}$ \\
-Let us define,
+Let $T_1$ and $N_1$ denote the life time and offsprings of the first organism. 
+If $T_1 > t$, then $X(t)$ is still equal to $X(0) = 1$. 
+If $T_1 \leq t$, then $X(T_1) = N_1$ and each of the offsprings start the population growth, 
+independent of the past, and stochastically identical to the population growth of the original organism starting at time $T_1$. 
+Hence, we can write $X(t) = \sum_{i=0}^{N_1}X_i(t-T_1)$ for this case.  
+Therefore, 
+%Then, conditioned on $T_1$, we can write %the life time of first organism is
 \begin{align*}
-f(t) := e^{-\alpha t}M(t) \\
-h(t) :=e^{-\alpha t}F^{c}(t)\\ 
-G(y) :=\int_{0}^{y} m e^{- \alpha y} dF(y) 
+M(t) &= \E[X(t)1\{T_1 > t\}] + \E[X(t)1\{T_1 \leq t\}] %\int_{0}^{\infty}\E[X(t)|T_1=y]dF(y)\\
+%On splitting, \\
+%&=\int_{0}^{t}\E[X(t)|T_1=y]dF(y) + \int_{t}^{\infty}\E[X(t)|T_1=y]dF(y)\\
+%&\stackrel{(a)}{=}\int_{y=0}^{t} m M(t-y) dF(y) + \int_{y=t}^{\infty} 1 dF(y).
+= \E[\int_{t}^{\infty}dF(u) + \int_{0}^{t}dF(u)\sum_{i=0}^{N_1}X_i(t-u)] = \bar{F}(t) + m\int_{0}^{t}M(t-u)dF(u).
 \end{align*}
-Thus considering equation (\ref{renew}) and multiplying both sides by $e^{-\alpha t}$, we get 
+This looks almost like a renewal function. 
+Multiplying both sides of the above equation by $e^{-\alpha t}$, we get 
+\eq{
+M(t)e^{-\alpha t} &= e^{-\alpha t}\bar{F}(t) + m \int_0^te^{-\alpha (t-u)}e^{-\alpha u}dF(u).
+}
+If $dG(t) \triangleq me^{-\alpha t}dF(t)$ was a density function on $\R_+$, then the above equation would exactly be a renewal equation, with the solution
+\eq{
+M(t)e^{-\alpha t} &= e^{-\alpha t}\bar{F}(t)+ \int_{0}^{t}e^{-\alpha(t - u)}\bar{F}(t-u)dm_G(u).
+}
+Here, $m_G(t) = \sum_{n \in \N}G_n(t)$ is the renewal function associated with inter-renewal distribution $G$. 
+Clearly, the $\alpha > 0$ that ensures $G$ is a distribution function is the unique solution to the equation
+\eq{
+1 = G(1) = m\int_{0}^{\infty}e^{-\alpha t}dF(t).
+}
+Since $e^{-\alpha t}\bar{F}(t)$ is non-negative, monotone non-increasing and integrable, it directly Riemann integrable. 
+Hence, we can apply key renewal theorem to the limiting value of solution to renewal equation to obtain 
+\eq{
+\lim_{t \to \infty}M(t)e^{-\alpha t} &= \frac{1}{\mu_G}\int_{0}^{\infty}e^{-\alpha t}\bar{F}(t)dt =  \frac{\int_{0}^{\infty}e^{-\alpha t}\bar{F}(t)dt}{m\int_{0}^{\infty}xe^{-\alpha t}dF(t)}.
+}
+%\begin{flalign}
+%\label{renew}
+%M(t)= F^c(t)+m\int_{0}^{t}M(t-y)dF(y)
+%\end{flalign}
+
+%We got a differential equation in M(t) and when we solve it, we get M(t). \\
+%Let $\alpha$ denote the unique positive number such that $\int_{0}^{\infty}xe^{-\alpha x } dF(x) = \frac{1}{m}$ and $G(y)=m\int_{0}^{y}e^{-\alpha y} dF(y)$. \\
+%Upon multiplying both sides of equation (\ref{renew}) by  $e^{-\alpha t}$ \\
+%Let us define,
+%\begin{align*}
+%f(t) := e^{-\alpha t}M(t) \\
+%h(t) :=e^{-\alpha t}F^{c}(t)\\ 
+%G(y) :=\int_{0}^{y} m e^{- \alpha y} dF(y) 
+%\end{align*}
+%Thus considering equation (\ref{renew}) and multiplying both sides by $e^{-\alpha t}$, we get 
+%\begin{align*}
+%	e^{- \alpha t} M(t)=e^{- \alpha t} F^c(t)+m\int_{0}^{t} e^{- \alpha t} M(t-y)dF(y)\\
+%	f(t) = h(t) + m\int_{0}^{t} e^{- \alpha (t-y)} e^{- \alpha y} M(t-y)dF(y)\\
+%	f(t) = h(t) + (f*G)t
+%\end{align*}
+%
+%\begin{flalign*}
+%f&=h+f*G\\
+%Recursively ,\\
+%&=h+G*(h+f*G)\\
+%\vdots
+%&=h+h*\sum_{i=1}^{\infty}G_i\\
+%&=h+h*m_G.
+%\end{flalign*}
+%Or, $f(t)=h(t)+\int_{0}^{t}h(t-s)dm_G(s)$. It can be shown that $h(t)$ is dRi and hence by Key Renewal thmrem, 
+%\begin{flalign*}
+%f(t) \to \frac{\int_{o}^{\infty}e^{-\alpha t}F^c(t) dt }{\int_{0}^{\infty}xdG(x) }.
+%\end{flalign*}
+Result follows from integration by parts, and showing that
 \begin{align*}
-	e^{- \alpha t} M(t)=e^{- \alpha t} F^c(t)+m\int_{0}^{t} e^{- \alpha t} M(t-y)dF(y)\\
-	f(t) = h(t) + m\int_{0}^{t} e^{- \alpha (t-y)} e^{- \alpha y} M(t-y)dF(y)\\
-	f(t) = h(t) + (f*G)t
+\int_{0}^{\infty}e^{-\alpha t}\bar{F}(t) dt &= \frac{1}{\alpha} -\frac{1}{\alpha} \int_{0}^{\infty}e^{-\alpha t}dF(t) = \frac{1}{\alpha}\left(1- \frac{1}{m}\right).
+%\int_{0}^{\infty} e^{-\alpha t}\int_{t}^{\infty}dF(x)dt \\
+%&=  \int_{0}^{\infty} \int_{0}^{x} e^{-\alpha t} dt  dF(x)\\
+%&= \int_{0}^{\infty} (1- e^{-\alpha x}) dF(x) \\
+%&= \frac{1}{\alpha}(1-\frac{1}{m}) ~~ (\text{by the definition of} ~\alpha).\\
+%&= \frac{m-1}{\alpha m}
 \end{align*}
-
-\begin{flalign*}
-f&=h+f*G\\
-Recursively ,\\
-&=h+G*(h+f*G)\\
-\vdots
-&=h+h*\sum_{i=1}^{\infty}G_i\\
-&=h+h*m_G.
-\end{flalign*}
-
-Or, $f(t)=h(t)+\int_{0}^{t}h(t-s)dm_G(s)$. It can be shown that $h(t)$ is dRi and hence by Key Renewal thmrem, 
-\begin{flalign*}
-f(t) \rightarrow \frac{\int_{o}^{\infty}e^{-\alpha t}F^c(t) dt }{\int_{0}^{\infty}xdG(x) }.
-\end{flalign*}
-
-\begin{flalign*}
-\int_{o}^{\infty}e^{-\alpha t}F^c(t) dt &= \int_{0}^{\infty} e^{-\alpha t}\int_{t}^{\infty}dF(x)dt \\
-&=  \int_{0}^{\infty} \int_{0}^{x} e^{-\alpha t} dt  dF(x)\\
-&= \int_{0}^{\infty} (1- e^{-\alpha x}) dF(x) \\
-&= \frac{1}{\alpha}(1-\frac{1}{m}) ~~ (\text{by the definition of} ~\alpha).\\
-&= \frac{m-1}{\alpha m}
-\end{flalign*}
-
-Also $\int_{0}^{\infty}xdG(x) = m \int_{0}^{\infty}xe^{-\alpha x}dF(x)$. Therefore,
-\begin{align*}
-	\lim_{t \rightarrow \infty} m(t) = \frac{(m-1)}{\alpha m^2 \int_{0}^{\infty}x e^{-\alpha x} dF(x)}
-\end{align*}
-
+%Also $\int_{0}^{\infty}xdG(x) = m \int_{0}^{\infty}xe^{-\alpha x}dF(x)$. Therefore,
+%\begin{align*}
+%	\lim_{t \to \infty} m(t) = \frac{(m-1)}{\alpha m^2 \int_{0}^{\infty}x e^{-\alpha x} dF(x)}
+%\end{align*}
 \end{proof} 
 
-\section{Delayed Renewal Process}
-We come across such a  process when initial arrival time has a different distribution and the next arrival times have a different distribution i.e., "delayed start to a renewal process".\\
-Let $\{X_n: n \in \mathbb{N}\}$ be independent but $X_1 \sim G$ and $X_i \sim F,~ i \geq 2$ then the counting process $\{N_D(t): t \geq 0\}$ is called general renewal process or delayed renewal process. Let $S_0=0$ and $S_n =\sum_{i=1}^{n}X_i$. We have 
-\begin{flalign*}
-N_D(t) = \sup \{n \in \mathbb{N}: S_n \leq t\},\\
-P(N_D(t)=n) &= P(S_n \leq t)-P(S_{n+1} \leq t)\\
-&=G*F^{n-1}(t)-G*F^n(t),\\
-m_D(t)=\mathbb{E}[N_D(t)]= \sum_{n \in \mathbb{N}} G*F^{n-1}(t).
-\end{flalign*}
+\section{Delayed renewal process}
+Many times in practice, we have a ``delayed start to a renewal process''. 
+That is, the arrival process has \textit{iid} inter-arrival times $T_i$ for $i \geq 2$ with common distribution function $F$. 
+Whereas, the first inter-arrival times $T_1$ is independent and has a different distribution $G$.  
+%We come across such a process when initial arrival time has a different distribution and the next arrival times have a different distribution i.e., "delayed start to a renewal process".\\
+%Let $\{X_n: n \in \N\}$ be independent but $X_1 \sim G$ and $X_i \sim F,~ i \geq 2$ then 
+The associated counting process is called %general renewal process or 
+a \textbf{delayed renewal process} and denoted by $\{N_D(t): t \geqslant 0\}$.  
+Let $S_0=0$ and $n$th arrival instant $S_n =\sum_{i=1}^{n}T_i$. 
+Then, then following inverse relationship holds between counting and arrival process, 
+\eq{
+N_D(t) &= \sup \{n \in \N: S_n \leq t\}.
+}
+\subsection{Distribution functions}
+%We denote the distribution functions of counting process $N_D(t)$ and $n$th arrival instant $S_n$ by $P_n(t) \triangleq P\{N_D(t) = n\}$ and $F_n(t) \triangleq P\{S_n \leq t\}$ respectively. 
+\begin{lem} 
+The distribution function of $n$th arrival instant $S_n$ is
+\eq{
+P\{S_n \leq t\} &= (G \ast F_{n-1})(t).
+}
+\end{lem}
+\begin{lem} 
+The distribution function of counting process $N_D(t)$ is 
+\eq{
+P\{N_D(t) = n\} &= P(S_n \leq t)-P(S_{n+1} \leq t) = (G \ast F_{n-1})(t) - (G \ast F_{n})(t).
+}
+\end{lem} 
+\begin{lem}
+Let $m(t)$ be the renewal function associated with a renewal process with inter-arrival distribution $F$. 
+Then, the renewal function $m_D(t) = \E N_D(t)$ associated with the delayed renewal process $N_D(t)$ is 
+\eq{
+m_D(t) &=\E N_D(t) = \sum_{n \in \N} (G \ast F_{n-1})(t) = G(t) + (G \ast m)(t).
+}
+\end{lem}
+%\begin{flalign*}
+%,\\
+%P(N_D(t)=n) &= P(S_n \leq t)-P(S_{n+1} \leq t)\\
+%&=G*F^{n-1}(t)-G*F^n(t),\\
+%m_D(t)=\E[N_D(t)]= \sum_{n \in \N} G*F^{n-1}(t).
+%\end{flalign*}
+\begin{lem}
+We denote the moment-generating function of a random variable with distribution $m_D(t), G(t), F(t)$ by $\tilde{m}_D(s), \tilde{G}, \tilde{F}$ respectively. 
+Then, 
+\eq{
+\tilde{m}_D(s) = \frac{\tilde{G}(s)}{1-\tilde{F}(s)}
+}
+\end{lem}
+\subsection{Limit theorems}
+The limit theorems for delayed renewal process are identical to those for renewal processes. 
+\begin{lem}[Basic renewal theorem] 
+$\lim_{t \to \infty} \frac{N_D(t)}{t} = \frac{1}{\mu_F}$. 
+\end{lem}
+\begin{lem}[Elementary renewal theorem] 
+$\lim_{t \to \infty} \frac{m_D(t)}{t} = \frac{1}{\mu_F}$.
+\end{lem}
+\begin{lem}[Blackwell's theorem] 
+If the inter-renewal distribution $F$ is non-lattice, then 
+\eq{
+\lim_{t \to \infty} m_D(t+a)-m_D(t)=\frac{a}{\mu_F}.
+}
+If the distributions $F$ and $G$ are lattice with period $d$, then 
+\eq{
+\lim_{n \in \N}\E[\text{Number of renewals at } nd ] &=\frac{d}{\mu_F}.
+}
+\end{lem}
+\begin{lem}[Key renewal theorem]
+If $F$ is non-lattice, $\mu_F < \infty$ and $h \in \D$, then
+\eq{
+\lim_{t \to \infty} \int_{0}^{t}h(t-x)dm_D(x) = \frac{1}{\mu_F}\int_{0}^{\infty}h(t) dt.
+}
+\end{lem}
+%\begin{prop}
+%The following holds:
+%\begin{enumerate}
+%\item $\lim_{t \to \infty} \frac{N_D(t)}{t} = \frac{1}{\mu}$. 
+%\item $\lim_{t \to \infty} \frac{m_D(t)}{t} = \frac{1}{\mu}$.
+%\item  If $F$ is non-lattice, $\lim_{t \to \infty} m_D(t+a)-m_D(t)=\frac{a}{\mu_F}$.
+%\item If $F$ and $G$ are lattice with period $d$, $\E$[ $ Number $of renewals at $nd$ ] =$\frac{d}{\mu_F}.$
+%\item If $F$ is non-lattice, $\mu < \infty$ and $h$ is dRi, then 
+%\begin{flalign*}
+%\lim_{t \to \infty} \int_{0}^{t}h(t-x)dm_D(x) = \frac{\int_{0}^{\infty}h(t) dt}{\mu}.
+%\end{flalign*}
+%\end{enumerate}
+%\end{prop}
 
-Taking the Laplace transform of $m_D(t)$, denoted as $\tilde{m}_D(s) = \frac{\tilde{G}(s)}{1-\tilde{F}(s)}$.
-
-\begin{prop}
-The following holds:
-\begin{enumerate}
-\item $\lim_{t \rightarrow \infty} \frac{N_D(t)}{t} = \frac{1}{\mu} $.
-\item $\lim_{t \rightarrow \infty} \frac{m_D(t)}{t} = \frac{1}{\mu} $.
-\item If $F$ is non-lattice, $lim_{t \rightarrow \infty} m_D(t+a)-m_D(t)=\frac{a}{\mu_F}$.
-\item If $F$ and $G$ are lattice with period $d$, $\mathbb{E}$[ $ Number $of renewals at $nd$ ] =$\frac{d}{\mu_F}.$
-\item If $F$ is nonlattice, $\mu < \infty$ and $h$ is dRi, then 
+\subsection{Distribution of the last renewal time}
+%In the same manner as we derived the key lemma, refer Theorem 1.9 in lecture 6, for the last renewal time distribution of a standard renewal process, we can show for a delayed renewal process:
+Using the regenerative process theory for $s \leq t$, we can write
+\eq{
+P\{S_{N(t)} \leq s\} %&=G^c(t) P(S_{N(t)} \leq s|S_{N(t)} = 0) + \int_{0}^{t}P(S_{N(t)} \leq s|S_{N(t)}=u)F^c(t-u)dm(u)\\
+&= \bar{G}(t) +\int_{0}^{s}\bar{F}(t-u)dm(u).
+}
+ 
+\section{Equilibrium renewal process}
+For $x \geq 0$, we can define the \textbf{equilibrium distribution} of $F$ as 
+\eq{
+F_e(x)=\frac{1}{\mu}\int_{0}^{x}\bar{F}(y)dy.
+} 
+\begin{lem} The moment generating function of $F_e(x)$ is 
+\eq{
+\tilde{F}_e(s) &= \frac{1-\tilde{F}(s)}{s\mu}.
+}
+\end{lem}
+\begin{proof}
+By definition, $\tilde{F}_e(s) = \E\left[\mathrm{e}^{-sX}\right]$, where $ X $ is a random variable with distribution function $ F_e(x) $. 
+We use integration by parts, to write 
+\begin{align*}
+ \tilde{F}_e(s) &= \int_{0}^{\infty}\mathrm{e}^{-sx}dF_e(x) = \frac{1}{s\mu}-\frac{1}{s \mu}\int_{0}^{\infty}e^{-sx}dF(x)
+% &= \frac{1}{\mu}\int_{0}^{\infty}\mathrm{e}^{-sx}F^c(x)dx\\
+% &= \frac{1}{s\mu} - \frac{1}{\mu}\int_{0}^{\infty}\mathrm{e}^{-sx}F(x)dx\\
+% &= \frac{1}{s\mu} - \frac{1}{s\mu}\int_{0}^{\infty}\mathrm{e}^{-sx}dF(x)\\
+ = \frac{1}{s\mu}(1 - \tilde{F}(s)).
+\end{align*}
+%where the third and fourth equalities follows from the basic integration techniques.
+ \end{proof}
+A delayed renewal process with the initial arrival distribution $G=F_e$ is called the \textbf{equilibrium renewal process}. 
+Observe that $F_e$ is the limiting distribution of the age and the excess time for the renewal process with common inter-renewal distribution $F$. 
+Hence, if we start observing a renewal process at some arbitrarily large time $t$, 
+then the observed renewal process is the equilibrium renewal process. 
+This delayed renewal process exhibits stationary properties. 
+That is, the limiting behaviors are exhibited for all times. 
+\begin{thm}[renewal function]
+The renewal function $m_e(t)$ for the equilibrium renewal process is linear for all times. 
+That is, $m_e(t) =\frac{t}{\mu}$.
+\end{thm}
+\begin{proof}
+We know that the Laplace transform of renewal function $m_e(t)$ is given by
+\eq{
+\tilde{m}_e(s) &= \frac{\tilde{G}(s)}{1-\tilde{F}(s)} = \frac{\tilde{F_e}(s)}{1-\tilde{F}(s)} = \frac{1}{s\mu}.
+}
+Further, we know that the Laplace transform of function $t/\mu$ is given by 
+\eq{
+\L_{t/\mu}(s) &= \frac{1}{\mu}\int_{0}^{\infty}e^{-sx}dx = \frac{1}{s \mu}.
+}
+%To prove $ (1) $, observe that $\tilde{m}_e(s)$. Hence, if $m_e(t) = \frac{t}{\mu}$ then, 
+%\begin{flalign*}
+%\tilde{m}_e(s) &= \int_{0}^{\infty}\mathrm{e}^{-st}dm_e(t)\\ 
+%&= \frac{1}{\mu} \int_{0}^{\infty}\mathrm{e}^{-st}dt\\
+%&= \frac{1}{s\mu}.
+%\end{flalign*}	
+Since moment generating function is a one-to-one map, $m_e(t) = \frac{t}{\mu}$ is the unique renewal function. 
+\end{proof}
+\begin{thm}[excess time]
+The distribution of excess time $Y_e(t)$ for the equilibrium renewal process is stationary. 
+That is, 
+\eq{
+P(Y_e(t) \leq x) = F_e(x),~t \geq 0.
+}
+\end{thm}
+\begin{proof}
+Since the excess time $Y_e(t)$ is regenerative process and $dm_e(t) = 1/\mu$, we can write 
 \begin{flalign*}
-\lim_{t \rightarrow \infty} \int_{0}^{t}h(t-x)dm_D(x) = \frac{\int_{0}^{\infty}h(t) dt}{\mu}.
+P\{Y_e(t) >x\} %&= P(Y_e(t) >x|S_{N_e(t)}=0)P(S_{N_e(t)}=0) +P(Y_e(t) >x|S_{N_e(t)}=s)F^c(t-s)\frac{ds}{\mu}\\
+ %&= P(X_1 >t+x,X_1>t) +P(X_2 >t+x-s|X_2 >t-s)F^c(t-s)\frac{ds}{\mu}\\
+&= \bar{F}_e(t+x)+ \frac{1}{\mu}\int_{0}^{t}\bar{F}(t+x-u)du = \bar{F}_e(t+x) + \frac{1}{\mu}\int_{x}^{t+x}\bar{F}(y)dy
+%&= 1 - \frac{1}{\mu} \int_{0}^{t+x}F^c(y)dy - \frac{1}{\mu} \int_{t+x}^{x}F^c(y)dy\\
+%&= 1 - \frac{1}{\mu} \int_{0}^{x}F^c(y)dy\\
+= \bar{F}_e(x).
 \end{flalign*}
-\end{enumerate}
-\end{prop}
+\end{proof}
+\begin{thm}[stationary increments]
+The counting process $\{N_e(t), t \geqslant 0\}$ for the equilibrium renewal process has stationary increments.
+\end{thm}
+\begin{proof}
+When we start observing the process at time $s$, 
+the observed renewal process is delayed renewal process with initial distribution being the original distribution. 
+Hence, the number of renewals $N_e(t+s)-N_e(s) = N_e(t)$ in time interval of duration $t$ is shift invariant.
+%\eq{
+%N_e(t+s)-N_e(s) &= \lim_{s \to \infty} N(s+t) - N(s).
+%} . 
+\end{proof}
+\subsection{Exponential renewal intervals}
+Consider the case, when inter-renewal time distribution $F$ for a delay renewal process is exponential with rate $\lambda$. 
+Here, one would expect the equilibrium distribution $F_e = F$, since Poisson process has stationary and independent increments. 
+%\emph{Question}: What can you say about the equilibrium renewal process when $ F $ is distributed exponentially with the parameter $ \lambda $?
+%\\
+%\emph{Answer}: Let's look at the distribution of the first inter-arrival distribution, $ F_e $. So,
+We observe that 
+\begin{align*}
+F_e(x) &= \frac{1}{\mu} \int_{0}^{x}\bar{F}(y)dy = \lambda \int_{0}^{x} \mathrm{e}^{-\lambda y} dy = 1 - e^{- \lambda x} = F(x).
+\end{align*}	
+%where the first equality follows from the definition of $ F_e $ for equilibrium renewal process, the second equality follows from the fact that the mean of exponential distribution is inverse of the parameter $ \lambda $.\\
+We see that $F_e$ is also distributed exponentially with rate $\lambda$. 
+Indeed, this is a Poisson process with rate $\lambda$. 
+%So with all the properties of equilibrium renewal process, $ F_e $ and $ F $ being distributed exponentially with the same parameter $ \lambda $, says that this is a poisson process (not a delayed renewal process).
+
+
+\end{document}
 
 \subsubsection{Example:}
-Let $\{X_n: n \in \mathbb{N}\}$ be iid discrete observed. A pattern $x_1,x_2 \hdots x_k$ is said to occur at time $n$ if $X_n=x_k,~X_{n-1}=x_{k-1}, \hdots X_{n-k+1}=x_1. $. If we have iid tosses and consider $N(n)$ as the number of times pattern $0,1,0,1$ appear in $n$ tosses, with $P(H)=p=1-q,$~the process is a delayed renewal processes. To find the mean number of tosses for the first time the pattern $0,1,0,1$ appear, \\
+Let $\{X_n: n \in \N\}$ be iid discrete observed. A pattern $x_1,x_2 \hdots x_k$ is said to occur at time $n$ if $X_n=x_k,~X_{n-1}=x_{k-1}, \hdots X_{n-k+1}=x_1. $. If we have iid tosses and consider $N(n)$ as the number of times pattern $0,1,0,1$ appear in $n$ tosses, with $P(H)=p=1-q,$~the process is a delayed renewal processes. To find the mean number of tosses for the first time the pattern $0,1,0,1$ appear, \\
 \begin{align*}
-\lim_{n \rightarrow \infty}P[Renewal at toss n] &= 1.P[Renewal at toss n] + 0.P[No Renewal at toss n]\\
+\lim_{n \to \infty}P[Renewal at toss n] &= 1.P[Renewal at toss n] + 0.P[No Renewal at toss n]\\
 &= \frac{1}{p^2 q^2}.
 \end{align*}
 \begin{flalign*}
-\mathbb{E}[\text{first time pattern}~ 0,1,0,1 ~ \text{appears}]&= \mathbb{E}[\text{first time pattern}~ 0,1 ~ \text{appears}]  \\
-&+\mathbb{E}[\text{time between patterns}~ 0,1,0,1 ]\\
+\E[\text{first time pattern}~ 0,1,0,1 ~ \text{appears}]&= \E[\text{first time pattern}~ 0,1 ~ \text{appears}]  \\
+&+\E[\text{time between patterns}~ 0,1,0,1 ]\\
 &=  p^{-1}q^{-1}+ p^{-2}q^{-2}.
 \end{flalign*}
 
-Similarly we can show that $\mathbb{E}[\text{first time}~ k \text{heads} ] = \sum_{i=1}^{n} p^{-i}$.
+Similarly we can show that $\E[\text{first time}~ k \text{heads} ] = \sum_{i=1}^{n} p^{-i}$.
 
-\end{document}
+\subsection{Example:}
+
+\begin{color}{blue} {\bf (Optional -- not covered in class)} \end{color}
+
+Consider two coins and suppose  that each time is coin flipped, it lands tail with some unknown probability $p_i,~i=1,2.$ We are interested in coming up with a strategy that ensures that long term proportion of tails is $\min\{p_1,~p_2\}.$ One strategy is as follows: Set $n = 1$. In the $n^\text{th}$ round of coin flipping, flip the first coin till $n$ consecutive tails are obtained. Then flip the second coin till $n$ consecutive tails are obtained. Increment $n$ and repeat. \\
+
+{\bf Claim.} $\lim_{m \to \infty} \frac{\# \mbox{tails in the first
+    $m$ tosses}}{m} = \min\{p_1, p_2\}$ with probability $1$.\\
+
+The proof is as follows. Let $p=\max\{p_1,p_2\}$ and $\alpha p
+=\min\{p_1,p_2\}$. There is nothing to prove if $\alpha = 1$, so let
+$\alpha < 1$. Call the coin with $P(T)=p$, the bad coin and the other,
+the good coin. Let $B_n$ denote the number of flips in the
+$n^\text{th}$ round of tossing the bad coin, and $G_n$ the number of
+flips in the $n^\text{th}$ round of tossing the good coin. We first
+prove the following lemma.
+ \begin{lem}
+   For any $\epsilon > 0$ with $\epsilon^{-1} \in \N$,
+ $P(B_n \geq \epsilon G_n ~\text{for infinitely many rounds}~ n)=0$.
+ \end{lem} 
+ \begin{proof}
+   For any $n \in \N$,
+ \begin{flalign*}
+   P\left(G_n \leq  \frac{B_n}{\epsilon}\right)&=\E[P(G_n \leq \frac{B_n}{\epsilon}|B_n)]\\
+   &=\E[ \sum_{i=1}^{\frac{B_n}{\epsilon}}P(G_n = i |B_n)]\\
+   &\leq\E[ \sum_{i=1}^{\frac{B_n}{\epsilon}} (\alpha p)^n]\\
+   &= \E[{\frac{B_n}{\epsilon}}](\alpha p)^n \\
+   &=\epsilon^{-1} \left( \sum_{i=1}^n \frac{1}{p^{i}}\right) (\alpha
+   p)^n = \epsilon^{-1} \frac{p^{-n} - 1}{1 - p} (\alpha p)^n,
+ \end{flalign*}
+ where the inequality follows from the fact that $\{G_m = i\}$ implies
+ that $i \geq m$ and that in cycle $m$, the coin flips numbered
+ $i-m+1$ to $i$ are all tails. Hence,
+ \[ \sum_{n=1}^\infty P\left(G_n \leq \frac{B_n}{\epsilon}\right) \leq
+ \epsilon^{-1} \sum_{n=1}^\infty \frac{\alpha^{n}}{1 - p} < \infty.\]
+ By the Borel-Cantelli lemma, it
+ follows that $P(B_n \geq \epsilon G_n \text{for infinitely many
+   $n$}) = 0$.
+ \end{proof}
+ With probability $1$, all but a finite number of rounds have at most
+ an $\epsilon$ fraction of bad coin tosses, implying that $\lim_{m \to
+   \infty} \frac{\# \mbox{bad coin tosses in the first $m$ tosses}}{m}
+ \leq \epsilon$. Now taking a decreasing sequence $\epsilon_k = 1/k$,
+ $k = 1, 2, 3, \ldots$, and using the continuity of probability, we
+ get that with probability $1$, $\lim_{m \to \infty} \frac{\#
+   \mbox{bad coin tosses in the first $m$ tosses}}{m} = 0$. This
+ proves the claim using the strong law of large numbers for tosses of
+ the good coin.
+
