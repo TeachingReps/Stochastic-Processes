@@ -19,10 +19,11 @@ A \textbf{compound Poisson process} is a real-valued point process \{$Z_t,t \geq
 	\item stationary increments: for all $t,s \geq 0$, distribution of $Z_{t+s}-Z_t$ depends only on $s$ and not on $t$.
 \end{enumerate}	
 %\end{defn}
-For each $\omega \in \Omega$, we can define time and size of $n$th jump
-\begin{xalignat*}{3}
-&S_0(\omega) = 0&&S_n(\omega) = \inf\{t > 0 : Z_t(\omega) > Z_{S_{n-1}}(\omega)\},~n \in \N,\\
-&X_0(\omega) = 0&&X_n(\omega) = Z_n(\omega) - Z_{n-1}(\omega).
+For each $\omega \in \Omega$ and $n \in \N$, we can define time and size of $n$th jump
+\begin{xalignat*}{5}
+&S_0(\omega) = 0,&&S_n(\omega) = \inf\{t > 0 : Z_t(\omega) > Z_{S_{n-1}}(\omega)\},%\\
+%&X_0(\omega) = 0
+&&X_n(\omega) = Z_n(\omega) - Z_{n-1}(\omega).
 \end{xalignat*}
 Let $N_t, t \geqslant 0$ be the counting process associated with the number of jumps in $[0,t)$. 
 Then, $S_n$ are the arrival instants of $n$th jumps. 
