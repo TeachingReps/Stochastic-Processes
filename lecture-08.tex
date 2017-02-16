@@ -125,7 +125,7 @@ Key renewal theorem is very useful in computing the limiting value of some funct
 %%\textbf{Remark:} and we can deduce one theorem from the other. 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Alternating Renewal Processes}
+\section{Alternating Renewal Processes}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 Alternating renewal processes form an important class of renewal processes, and model many interesting applications. 
 We find one natural application of  key renewal theorem  in this section. 
@@ -198,7 +198,7 @@ If $\E[Z_n+Y_n]< \infty $ and $F$ is non-lattice, then
 \end{cor}
 \begin{proof} Since $H$ is the distribution function of the non-negative random variable $Z_n$, it follows that 
 \begin{align*}
-\lim_{t \to \infty}\bar{H}(t) = 0, \text{ and } \int_0^\infty \bar{H}(t)dt = E[Z_n].
+\lim_{t \to \infty}\bar{H}(t) = 0, \text{ and } \int_0^\infty \bar{H}(t)dt = \E Z_n.
 \end{align*}
 Applying key renewal theorem to Theorem~\ref{Thm:OnProbability}, we get the result.
 %\begin{align*}
@@ -213,8 +213,10 @@ Applying key renewal theorem to Theorem~\ref{Thm:OnProbability}, we get the resu
 %P(t) \to \frac{\int_{0}^{\infty}\bar{H}(t)dt}{\mu}=\frac{\E[Z_n]}{\E[Y_n]+\E[Z_n]}.
 %\end{flalign}
 \end{proof}
-\begin{shaded*}
+
 Many processes of practical interest can be modeled by an alternate renewal process. 
+
+\subsection{Age and excess times}
 %\begin{exmp}[Age and Excess Time] 
 Consider a renewal process with renewal instants $\{S_n: n \in \N\}$, and \textit{iid} inter-renewal times $\{X_n: n \in \N\}$ with the common non-lattice distribution $F$. 
 %We are interested in finding the limiting distribution of the age $A(t)$ and excess time $Y(t)$. 
@@ -230,6 +232,19 @@ That, is for a fixed $x$, we wish to compute
 &\lim_{t \to \infty}\Pr\{A(t) \leq x\}, && \lim_{t \to \infty}\Pr\{Y(t) \leq x\} .
 \end{xalignat*}
 %To compute age we consider the renewal process $\{S_n: n \in \N\}$ with \textit{iid} inter-renewal times $\{X_n: n \in \N\}$ with the common distribution $F$. 
+%\eq{
+%\lim_{t\to \infty} \Pr\{A(t)\leq x\} &= \frac{1}{\mu}\int_{0}^x \bar{F}(u)du
+%}
+%\begin{shaded*}
+%\end{shaded*}
+%\end{exmp}
+\begin{prop} 
+Limiting age distribution for a renewal process with non-lattice distribution $F$ is 
+\eq{
+\lim_{t \to \infty} \Pr\{A(t) \leq x\} &= \frac{1}{\mu}\int_{0}^{x}\bar{F}(t)dt.
+}
+\end{prop}
+\begin{proof}
 We will call this renewal process to be on, when the age is less than $x$. 
 That is, we consider an alternative renewal process $W$ such that
 \eq{
@@ -245,6 +260,8 @@ From limiting on probability of alternating renewal process, we get
 \eq{
 \lim_{t \to \infty} \Pr\{A(t) \leq x\} &= \lim_{t \to \infty}P\{W(t) = 1\} = \frac{\E \min\{x,X\}}{\E X} = \frac{1}{\mu}\int_{0}^{x}\bar{F}(t)dt.
 }
+\end{proof}
+\begin{proof}[Alternative proof]
 Another way of evaluating $\lim_{t\to \infty} \Pr\{A(t)\leq x\}$ is to note that $\{A(t)\leq x\} = \{S_{N(t)}\geq t-x\}$. 
 From the distribution of $S_{N(t)}$ and the fact that the support of renewal function $m(t)$ is positive real life, %we get
 \begin{align*}
@@ -255,17 +272,7 @@ From the distribution of $S_{N(t)}$ and the fact that the support of renewal fun
 \end{align*}
 %where $(a)$ follows from a change of variable $u = t-y$. In the limit, $dm(u) \to \frac{du}{\mu}$, as $t \to \infty$, and hence 
 Applying key renewal theorem, we get the result.
-%\eq{
-%\lim_{t\to \infty} \Pr\{A(t)\leq x\} &= \frac{1}{\mu}\int_{0}^x \bar{F}(u)du
-%}
-\end{shaded*}
-%\end{exmp}
-\begin{prop} 
-Limiting age distribution for a renewal process with non-lattice distribution $F$ is 
-\eq{
-\lim_{t \to \infty} \Pr\{A(t) \leq x\} &= \frac{1}{\mu}\int_{0}^{x}\bar{F}(t)dt.
-}
-\end{prop}
+\end{proof}
 %\begin{shaded*}
 We see that the limiting distribution of age and excess times are identical. %$\Pr\{Y(t)\leq x\}$ also yield the same limit as $t \to \infty$. 
 This can be observed by noting that if we consider the reversed processes (an identically distributed renewal process), $Y(t)$,  
