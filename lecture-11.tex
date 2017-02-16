@@ -147,7 +147,7 @@ Then $\{X_{\tau_n + m}: m \in \N_0\}$ is a stochastic replica of $\{X_m: m \in \
 \section{Communicating classes}
 %\begin{defn}
 State $j \in E$ is said to be \textbf{accessible} from state $i \in E$ if $p_{ij}^{(n)} >0$ for some $n \in \N$, and denoted by $i \to j$. 
-If two states $i,j \in E$ are accessible to each other, they are said to \textbf{communicate} with each other, denoted by $i \iff j$. 
+If two states $i,j \in E$ are accessible to each other, they are said to \textbf{communicate} with each other, denoted by $i \leftrightarrow j$. 
 A set of states that communicate are called a \textbf{communicating class}. 
 %\end{defn}
 
@@ -155,61 +155,60 @@ A set of states that communicate are called a \textbf{communicating class}.
 Communication is an equivalence relation. 
 \end{prop}
 \begin{proof}
-Reflexivity and Symmetry are obvious. For transitivity, suppose $i \iff j$ and $j \iff k$. Suppose $p_{ij}^{(m)} >0$ and $p_{jk}^{(n)} >0$. Then by Chapman Kolmogorov, we have
+Reflexivity and Symmetry are obvious. For transitivity, suppose $i \leftrightarrow j$ and $j \leftrightarrow k$. Suppose $p_{ij}^{(m)} >0$ and $p_{jk}^{(n)} >0$. Then by Chapman Kolmogorov, we have
 \begin{align*}p_{ik}^{(m+n)} = \sum_{l \in \N_0} p_{il}^{(m)}p_{lk}^{(n)} \geq p_{ij}^{(m)}p_{jk}^{(n)} >0  \end{align*}
 Hence transitivity is assured.
 \end{proof}
 
-\subsection{Irreducibility and Periodicity}
+\subsection{Irreducibility and periodicity}
 A consequence of the previous result is that communicating classes are disjoint or identical. A DTMC with only one class is called an \textbf{irreducible} Markov chain.
-\begin{defn}
-The period of state $i$ is defined as
+%\begin{defn}
+The \textbf{period} of state $i$ is defined as
 \begin{align*}d(i) = \gcd\{n \in \N_0 : p_{ii}^{(n)} > 0\}\end{align*}
 If the period is $1$, we say the state is \textbf{aperiodic}.
-\end{defn}
+%\end{defn}
 
 \begin{prop}
-If $i \iff j$, then $d(i) = d(j)$. Basically periodicity is a class property.
+If $i \leftrightarrow j$, then $d(i) = d(j)$. Basically, periodicity is a class property.
 \end{prop}
 \begin{proof}
 Let $m$ and $n$ be such that $p_{ij}^{(m)}p_{ji}^{(n)} > 0$. Suppose $p_{ii}^{(s)} > 0$. Then
 \begin{align*} p_{jj}^{(n+m)} \geq p_{ji}^{(n)}p_{ij}^{(m)} > 0 \end{align*}
 \begin{align*} p_{jj}^{(n+s+m)} \geq p_{ji}^{(n)}p_{ii}^{(s)}p_{ij}^{(m)} > 0 \end{align*}
 Hence $d(j) | n+m$ and $d(j) | n+s+m$ which implies $d(j) | s$. Hence $d(j) | d(i)$. By symmetrical arguments, we get $d(i) | d(j)$. Hence $d(i) = d(j)$.
-Source of proof is from \emph{Sheldon Ross: Stochastic Processes}.
+%Source of proof is from \emph{Sheldon Ross: Stochastic Processes}.
 \end{proof}
 
-\section{Transient and Recurrent States}
-\begin{defn}
+\subsection{Transient and recurrent states}
+%\begin{defn}
 Let $f_{ij}^{(n)}$ denote the probability that starting from state $i$, the first transition into state $j$ happens at time $n$. Then let
 \begin{align*}f_{ij} = \sum_{n=1}^\infty f_{ij}^{(n)}\end{align*}
-Here $f_{ij}$ would therefore denote the probability of ever entering state $j$ given that we start at state $i$. State $j$ is said to be \textbf{transient} if $f_{jj} < 1$ and \textbf{recurrent} if $f_{jj}=1$. 
-\end{defn}
-A few remarks:
-\begin{enumerate}
-	\item A transient state is visited a finite amount of times almost surely.
-	\item A recurrent state is visited infinitely often almost surely.
-	\item In a finite state DTMC, not all states may be transient. 
-\end{enumerate}
+Here $f_{ij}$ would therefore denote the probability of ever entering state $j$ given that we start at state $i$. 
+State $j$ is said to be \textbf{transient} if $f_{jj} < 1$ and \textbf{recurrent} if $f_{jj}=1$. 
+%\end{defn}
 \begin{prop}
 A state $j$ is recurrent iff
-\begin{align*}\sum_{k=1}^\infty p_{jj}^{(k)} = \infty\end{align*}
+%\begin{align*}
+$\sum_{k\in\N} p_{jj}^{(k)} = \infty$.
+%\end{align*}
 \end{prop}
 \begin{proof}
-$[\Rightarrow]$ We begin with the idea that
-\begin{flalign*}
-p_{ii}^{(k)}=&\mathbb{P}_i[X_k=i]\\
-=& \mathbb{E}_i[\mathbbm{1}\{X_k=i\}].
-\end{flalign*}
-Then, assuming that the infinite summation can be pushed inside the expectation 
-\begin{align*}\sum_{k=1}^{\infty}p_{ii}^{(k)}=\mathbb{E}_i\Big[\sum_{k=1}^{\infty}\mathbbm{1}\{X_k=i\}\Big].\end{align*}
+We assume a state $j \in E$ is recurrent, and we recall that 
+\begin{align*}
+p_{ii}^{(k)} &= \mathbb{P}_i\{X_k=i\} = \E_i 1\{X_k=i\}.
+\end{align*}
+Using monotone convergence theorem, we exchange expectation and summation to obtain, 
+%Then, assuming that the infinite summation can be pushed inside the expectation 
+\begin{align*}
+\sum_{k\in \N}p_{ii}^{(k)}=\E_i\Big[\sum_{k\in\N}1\{X_k=i\}\Big].
+\end{align*}
 Thus, $\sum_{k=1}^\infty p_{jj}^{(k)}$ represents the expected number of times we return to a state $j$ starting from state $j$, which we know to be equal to $\infty$ if the state is recurrent from remark (2).\\\\
 $[\Leftarrow]$ For the reverse argument we will show that if $\sum_{k=1}^{\infty}p_{ii}^{(k)}<\infty$ then the state $i$ will be transient, which should suffice to prove our claim. First we observe that for a transient state $j$, if $M_j$ is the number of visits to the state $j$, then
 \begin{align*}P[M_j=m|X_0=j]=f_{jj}^m(1-f_{jj}).\end{align*} 
 This is true because the time of the $k^{th}$ visit to the state $j$ is a stopping time $\forall k \in \N$. Hence the probabilities will multiply. Hence starting from state $j$ we visit the state $j$ with probability $f_{jj}$. Moreover, we visit the state $j$ exactly $m$ number of times (and no more) with probability $f_{jj}^m(1-f_{jj}).$\\
 Hence now again if we calculate the expected number of times the state $j$ is visited starting from state $j$ can be calculated by the following elementary exercise.
 \begin{flalign*}
-\mathbb{E}_j[M_j=m|X_0=j]= & \sum_{m=1}^{\infty}mf_{jj}^m(1-f_{jj})\\
+\E_j[M_j=m|X_0=j]= & \sum_{m=1}^{\infty}mf_{jj}^m(1-f_{jj})\\
 =&\frac{f_{jj}}{(1-f_{jj})}\\
 =&
 \begin{cases}
@@ -218,11 +217,18 @@ C<\infty \quad if \quad f_{jj} \neq 1 \Leftrightarrow j \quad transient.
 \end{cases}
 \end{flalign*}
 \end{proof}
+A few remarks:
+\begin{enumerate}
+	\item A transient state is visited a finite amount of times almost surely.
+	\item A recurrent state is visited infinitely often almost surely.
+	\item In a finite state DTMC, not all states may be transient. 
+\end{enumerate} 
+
 \begin{prop}
 Transience and recurrence are class properties.
 \end{prop}
 \begin{proof}
-Let us start with proving recurrence is a class property. Let $i$ be a recurrent state and let $i \iff j$. Hence there exist some $m,n >0$, such that $p_{ij}^{(m)} > 0$ and $p_{ji}^{(n)}>0$. As a consequence of the recurrence, $\sum_{s \in \N_0} p_{ii}^{(s)} = \infty$. Now
+Let us start with proving recurrence is a class property. Let $i$ be a recurrent state and let $i \leftrightarrow j$. Hence there exist some $m,n >0$, such that $p_{ij}^{(m)} > 0$ and $p_{ji}^{(n)}>0$. As a consequence of the recurrence, $\sum_{s \in \N_0} p_{ii}^{(s)} = \infty$. Now
 \begin{flalign*}
 \sum_{s \in \N_0} p_{jj}^{(m+n+s)} &\geq \sum_{s \in \N_0} p_{ji}^{(n)} p_{ii}^{(s)} p_{ij}^{(m)} \\
 &\geq \infty
@@ -234,17 +240,20 @@ Hence $j$ is recurrent. Now, if $i$ were transient instead, we have
 \end{flalign*}
 Hence $j $ is transient.
 \end{proof}
+
+
+
 \begin{cor}
 If $j$ is recurrent, then for any state $i$ such that $i\Leftrightarrow j$, $f_{ij} = 1$.
 \end{cor}
 \section{Limit Theorems}
 Let $N_j(t)$ denote the number of transitions into state $j$ up to time $t$. If $j$ recurrent and $X_0 = j$ then $N_j(t)$ is a renewal process with interarrival distribution, $\{P[\text{interarrival time} =n]\}_{n\geq 1}=\{f_{jj}^{(n)}\}_{n \geq 1}.$
 
-If $X_0 = i \neq j$, $i \iff j$ and $j$ is recurrent, then $N_j(t)$ is a
+If $X_0 = i \neq j$, $i \leftrightarrow j$ and $j$ is recurrent, then $N_j(t)$ is a
 delayed renewal process with first interarrival distribution
 $\{f_{ij}^{(n)}\}_{n \geq 1}$.
 
-Hence from Renewal Theory, we have the following results. If $i \iff j$ then
+Hence from Renewal Theory, we have the following results. If $i \leftrightarrow j$ then
 \begin{enumerate}
 	\item 
 	\begin{align*}P\left[ \lim_{t \to \infty} \frac{N_j(t)}{t}= \frac{1}{\mu_{jj}} \vline X_0 = i\right] = 1\end{align*}
