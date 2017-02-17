@@ -25,7 +25,7 @@ the process $X$ satisfies the Markov property
 P\{X_{n+1} = j| X_n = i, X_{n-1} =i_{n-1}, \cdots, X_0 = i_0\} = P\{X_{n+1} = j|X_n = i\}. 
 \end{align*}
 %\end{defn}
-\subsection{Homogeneous Markov Chain}
+\subsection{Homogeneous Markov chain}
 If for each $n \in \N_0$, we have $p_{ij}(n) \triangleq  P\{X_{n+1} = j|X_n = i\} = p_{ij}$. 
 That is, when the transition probability does not depend on $n$, the DTMC is \textbf{homogeneous} and the matrix $P = \{p_{ij}: i,j \in \E\}$ is called the \textbf{transition matrix}. 
 %Henceforth we shall only work with homogeneous DTMCs. 
@@ -46,7 +46,7 @@ If the second property holds with equality, then it is called a \textbf{stochast
 If in addition, $A^T$ is stochastic, then $A$ is called \textbf{doubly stochastic}. 
 Clearly, the transition matrix $P$ is stochastic matrix. 
 
-\subsection{Transition Graph}
+\subsection{Transition graph}
 A transition matrix $P$ is sometimes represented by a directed graph $G = (E, \{[i,j) \in E \times E: p_{ij} > 0\})$. 
 In addition, this graph has a weight $p_{ij}$ on each edge $e = [i,j)$. 
 
@@ -72,7 +72,7 @@ In addition, this graph has a weight $p_{ij}$ on each edge $e = [i,j)$.
 % \begin{align*}X_{n+1} = (X_n-Y_n+1)^+\end{align*}
 % From this, the TPM may be calculated.
 
-\section{Chapman Kolmogorov Equations}
+\section{Chapman Kolmogorov equations}
 We can define $n$-step transition probabilities for $i,j \in E$ and $m,n \in \N$
 \begin{align*}
 p_{ij}^{(n)} &\triangleq P\{X_{n+m} = j | X_m = i\}. 
@@ -106,7 +106,7 @@ Then, we can write this vector $\nu_n$ in terms of initial probability vector $\
 %\end{proof}
 %If $P$ is the TPM, this result may be compactly written as $P^{(n)} = P^n$. As a result, $p_{ij}^{(n)} = P^n(i,j)$.
 
-\subsection{Strong Markov Property (SMP)}
+\subsection{Strong Markov property (SMP)}
 Let $T$ be an integer valued stopping time with respect to the stochastic process $X$ such that $P\{T< \infty\}=1$. 
 Then for all $i_0, \dots, i_{n-1},\dots, i,j \in E$, the process $X$ satisfies the \textbf{strong Markov property} if 
 \begin{align*}
@@ -186,6 +186,40 @@ Let $f_{ij}^{(n)}$ denote the probability that starting from state $i$, the firs
 Here $f_{ij}$ would therefore denote the probability of ever entering state $j$ given that we start at state $i$. 
 State $j$ is said to be \textbf{transient} if $f_{jj} < 1$ and \textbf{recurrent} if $f_{jj}=1$. 
 %\end{defn}
+\begin{prop} 
+The total number of visits to a state $j \in E$ is denoted by 
+%\eq{
+$N_j = \sum_{n \in \N_0}1\{X_n = j\}$.
+%}
+Then, for each $m \in \N$ and $i \neq j$, we have 
+\eq{
+P_j\{N_j = m\} &= f_{jj}^{m-1}(1-f_{jj}), ~m \in \N\\
+P_i\{N_j = m\} &=\begin{cases}
+1 - f_{ij} & m = 0,\\
+f_{ij}f_{jj}^{m-1}(1-f_{jj}) & m \in \N.
+\end{cases}
+}
+\end{prop}
+\begin{proof}
+For each $k \in \N$, the time of the $k$th visit to the state $j$ is a stopping time. 
+From strong Markov property, the next return to state $j$ is independent of the past. 
+Hence, each return to state $j$ is an \textit{iid} Bernoulli random variable with probability $f_{jj}$. 
+It follows that the number of visits $j$ is the time for first failure to return. 
+Conditioned on $X_0 = j$, the distribution of $N_j$ is geometric random variable with success probability $1-f_{jj}$. 
+%Hence the probabilities will multiply. 
+%Hence starting from state $j$ we visit the state $j$ with probability $f_{jj}$. 
+%Moreover, we visit the state $j$ exactly $m$ number of times (and no more) with probability $f_{jj}^m(1-f_{jj}).$\\
+
+Conditioned on $X_0 = i$, the stopping time of first visit to $j$ is a Bernoulli random variable with probability $f_{ij}$. 
+Hence, the second result follows. 
+\end{proof}
+
+\begin{cor} 
+For a Markov chain $X$, 
+\eq{
+P_j\{N_j < \infty\} &= 1\{f_{jj} < 1\}. 
+}
+\end{cor}
 \begin{prop}
 A state $j$ is recurrent iff
 %\begin{align*}
@@ -205,17 +239,15 @@ Using monotone convergence theorem, we exchange expectation and summation to obt
 Thus, $\sum_{k=1}^\infty p_{jj}^{(k)}$ represents the expected number of times we return to a state $j$ starting from state $j$, which we know to be equal to $\infty$ if the state is recurrent from remark (2).\\\\
 $[\Leftarrow]$ For the reverse argument we will show that if $\sum_{k=1}^{\infty}p_{ii}^{(k)}<\infty$ then the state $i$ will be transient, which should suffice to prove our claim. First we observe that for a transient state $j$, if $M_j$ is the number of visits to the state $j$, then
 \begin{align*}P[M_j=m|X_0=j]=f_{jj}^m(1-f_{jj}).\end{align*} 
-This is true because the time of the $k^{th}$ visit to the state $j$ is a stopping time $\forall k \in \N$. Hence the probabilities will multiply. Hence starting from state $j$ we visit the state $j$ with probability $f_{jj}$. Moreover, we visit the state $j$ exactly $m$ number of times (and no more) with probability $f_{jj}^m(1-f_{jj}).$\\
+
 Hence now again if we calculate the expected number of times the state $j$ is visited starting from state $j$ can be calculated by the following elementary exercise.
-\begin{flalign*}
-\E_j[M_j=m|X_0=j]= & \sum_{m=1}^{\infty}mf_{jj}^m(1-f_{jj})\\
-=&\frac{f_{jj}}{(1-f_{jj})}\\
-=&
+\begin{align*}
+\E_j[M_j=m|X_0=j]= & \sum_{m=1}^{\infty}mf_{jj}^m(1-f_{jj})=\frac{f_{jj}}{(1-f_{jj})}=
 \begin{cases}
 \infty \quad if \quad f_{jj}=1 \Leftrightarrow j \quad  recurrent,\\
 C<\infty \quad if \quad f_{jj} \neq 1 \Leftrightarrow j \quad transient.
 \end{cases}
-\end{flalign*}
+\end{align*}
 \end{proof}
 A few remarks:
 \begin{enumerate}
