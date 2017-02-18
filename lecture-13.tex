@@ -2,29 +2,31 @@
 % !TEX spellcheck = LaTeX
 \documentclass[a4paper,10pt,english]{article}
 \include{header}
-\title{Lecture 13 : Convergence of DTMCs and Coupling theorem}
+\title{Lecture 13 : Convergence of Markov Chains and Coupling} %theorem}
 \author{}
 \begin{document}
 \maketitle
 %\section{Discrete Time Markov Chains Contd.}
 
-\section{Total Variation Distance}
-\begin{defn} Given two probability distributions $p$ and $q$ defined on a countable space $I$, their \textbf{total variation distance} is defined as
+\section{Total variation distance}
+%\begin{defn} 
+Given two probability distributions $p$ and $q$ defined on a countable space $E$, their \textbf{total variation distance} is defined as
 \begin{align*}
 d_{TV}(p,q) &\triangleq \dfrac{1}{2}\norm{p-q}_1.
 \end{align*}
-\end{defn}
-\begin{lem} For a countable set $I$, and distributions $p, q \in \Delta(I)$, we have 
+%\end{defn}
+\begin{lem} For a countable set $E$, and distributions $p, q \in \Delta(E)$, we have 
 \begin{align*}
-d_{TV}(p,q) = \sup\{ p(S) - q(S) : S \subseteq I \}.
+d_{TV}(p,q) = \sup\{ p(S) - q(S) : S \subseteq E \}.
 \end{align*}
 \end{lem}
 \begin{proof} 
-Let $A = \{ i \in I: p(i) - q(i) \geq 0\}$. Then, we can write
+Let $A = \{ i \in E : p(i) - q(i) \geq 0 \}$. 
+Then, we can write
 \begin{align*}
 d_{TV}(p,q) = \frac{1}{2}\left(\sum_{i \in A}p(i) - q(i) + \sum_{i \notin A} q(i) - p(i) \right)= \frac{1}{2}\left(p(A) - p(A^c) - q(A) + q(A^c) \right) = p(A)-q(A).
 \end{align*}
-Let $S \subseteq I$, then we have
+Let $S \subseteq E$, then we have
 \begin{align*}
 p(S)-q(S) &\leq p(S\cap A) - q(S \cap A) \leq p(A) - q(A) = d_{TV}(p,q).
 \end{align*}
@@ -33,90 +35,115 @@ Hence, the result follows.
 %d_{TV}(p,q) \leq \sup\{p(S)-q(S): S \subseteq I \}.
 %\end{align*}
 \end{proof}
-\begin{defn}[Convergence in total variation] Let $\{X_n : n \in \N_0\}$ be an $I$-valued stochastic process with marginal distribution $\pi(n)_i = \Pr\{X_n = i\}$ for all $i \in I$. 
-If  there exists a probability distribution $\pi \in \Delta(I)$, such that 
+%\begin{defn}[Convergence in total variation] 
+We say that a sequence of distributions %$\lim_{n \in \N}\pi(n) = \pi$ 
+$\nu(n)$ \textbf{converges in total variation distance} to a distribution $\pi \in \Delta(E)$, 
+if %there exists a probability distribution $\pi \in \Delta(E)$, such that 
 \begin{align*}
-\lim_{n \in \N} d_{TV}(\pi(n), \pi) = \lim_{n \in \N} \sum_{i \in I} \lvert\pi(n)_i - \pi_i\rvert = 0.
-\end{align*}
-Then, we say that $\lim_{n \in \N}\pi(n) = \pi$ in total variation distance.
-\end{defn}
-\begin{lem} If $X_{n} \to \pi$, then for all bounded functions $f: I \to \R$, 
+\lim_{n \in \N} d_{TV}(\nu(n), \pi) = \lim_{n \in \N} \sum_{i \in E} \lvert\nu(n)_i - \pi_i\rvert = 0.
+\end{align*} 
+%\end{defn}
+%Let $X = \{X_n \in E : n \in \N_0\}$ be a stochastic process with the marginal distribution of $X_n$ denoted by $\nu(n)$. 
+%Then, we say that $X_n \to \pi$ in total variation distance, if $\nu(n) \to \pi$ in total variation distance. 
+%_i = \Pr\{X_n = i\}$ for all states $i \in E$. 
+\begin{lem}[ergodic theorem]
+Let $X = \{X_n \in E : n \in \N_0\}$ be a stochastic process with the marginal distribution of $X_n$ denoted by $\nu(n)$ for each $n \in \N$.  
+If $\nu(n) \to \pi$ in total variation distance, then for all bounded functions $f: E \to \R$, 
 we have
 \begin{align*}
-\lim_{n \in \N} \E[f(X_n)] = \sum_{i \in I} \pi_i f(i).
+\lim_{n \in \N} \E[f(X_n)] = \sum_{i \in E} \pi_i f(i).
 \end{align*}
 \end{lem}
-\begin{proof} Let $\sup_{i \in I}|f(i)| \leq K$ be a finite upper bound on chosen $f$. Then it follows from convergence in total variation, and observing that 
+\begin{proof} 
+Let $\sup_{i \in E}|f(i)| \leq K$ be a finite upper bound on chosen $f$. 
+From the finiteness of this upper bound, convergence in total variation, and triangular inequality, it follows
 \begin{align*}
- \lvert\E[f(X_n)]  - \sum_{i \in I}\pi_if(i) \rvert&=  \lvert\sum_{i \in I}f(i)(\pi(n)_i - \pi_i) \rvert \leq Kd_{TV}(\pi(n),\pi).
+ \lvert\E[f(X_n)]  - \sum_{i \in E}\pi_if(i) \rvert&=  \lvert\sum_{i \in E}f(i)(\nu(n)_i - \pi_i) \rvert \leq Kd_{TV}(\nu(n),\pi).
 \end{align*}
 \end{proof}
-\begin{thm}[Convergence in total variation of DTMC]
-Let $X \in I^{\N_0}$ be an ergodic (irreducible, aperiodic, and positive recurrent) DTMC on countable state space $I$ with stationary distribution $\pi \in \Delta(I)$. Then for all initial distributions on $X_0$, distribution of $X_n$ converges in total variation to $\pi$.
-\end{thm}
-\begin{proof}
-Let $X_0 = i$, then $\pi(n)_j = \P_i\{X_n = j\} = P^n_{ij}$ for all $j \in I$. We write 
-\begin{align*}
-d_{TV}(\pi(n),\pi) = \frac{1}{2}\sum_{j \in I}|P_{ij}^n - \pi|.
-\end{align*}
-This follows from ergodicity of the DTMC.
- \end{proof}
+%\begin{thm}[convergence in total variation for finite state Markov chains]
+%Let $X \in E^{\N_0}$ be an ergodic (irreducible, aperiodic, and positive recurrent) Markov chain on finite state space $E$ with the stationary distribution $\pi \in \Delta(E)$. 
+%Then for all initial distributions on $X_0$, distribution of $X_n$ converges in total variation to $\pi$.
+%\end{thm}
+%\begin{proof}
+%Let $X_0 = i$ and $P$ be the transition matrix for the Markov chain $X$. 
+%Then, the marginal distribution at time $n$ for the chain is $\nu(n)_j = \P_i\{X_n = j\} = P^n_{ij}$ for all states $j \in E$. 
+%We write 
+%\begin{align*}
+%d_{TV}(\nu(n),\pi) = \frac{1}{2}\sum_{j \in E}|P_{ij}^n - \pi|.
+%\end{align*}
+%This follows from ergodicity of the Markov chain.
+% \end{proof}
  
-\section{The Coupling method}
-\begin{defn} Consider two stochastic processes $X \in I^{\N}$ and $Y \in I^{\N}$ on state space $I$. %, defined on the same probability space.\\
-Processes $X$ and $Y$ are said to \textbf{coupled} if  there exists an a.s. finite random time $\tau$ such that for all $n \geq \tau$, we have $X_n = Y_n$ a.s. Moreover, $\tau$ is called a \textbf{coupling time} of the process.
-\end{defn}
-\begin{thm}[Coupling Inequality] Let $\tau$ be a coupling time for coupled processes $X$ and $Y$  with marginal distributions $p_n,q_n \in \Delta(I)$ for $X_n,Y_n$ respectively. Then for all $n \in \N$, we have 
+\section{The coupling method}
+%\begin{defn} 
+Two stochastic processes $X \in E^{\N}$ and $Y \in E^{\N}$ defined on the common probability space %, defined on the same probability space.\\Processes $X$ and $Y$ 
+are said to \textbf{coupled}, 
+if there exists an a.s. finite random time $\tau$ such that for all $n \geq \tau$, we have $X_n = Y_n$ a.s. 
+Moreover, $\tau$ is called a \textbf{coupling time} of the joint process $(X,Y)$. 
+%\end{defn}
+\begin{thm}[coupling inequality] Let $\tau$ be a coupling time for the coupled processes $X$ and $Y$. 
+At each time $n \in \N$, let $X_n,Y_n$ have marginal distributions $p_n,q_n \in \Delta(E)$ respectively. 
+Then, 
+%Then for all $n \in \N$, we have 
 \begin{align*}
 d_{TV} (p_n,q_n) &\leq \Pr\{\tau > n\}.
 \end{align*}
 \end{thm}
-\begin{proof} Consider a finite subset $I_0 \subseteq I$ and $A = \{X_n \in I_0\}, B = \{Y_n \in I_0\}$, and $C = \{\tau \leq n\}$. Then, from definition of coupling time, we have $X_n = Y_n$ a.s. on $C$. Hence, we can write 
+\begin{proof} Consider a finite subset $E_0 \subseteq E$ and $A = \{X_n \in E_0\}, B = \{Y_n \in E_0\}$, and $C = \{\tau \leq n\}$. 
+Then, from definition of coupling time, we have $X_n = Y_n$ a.s. on $C$. Hence, we can write 
 \begin{align*}
-p_n(I_0) - q_n(I_0) &= %\Pr(A \cap C) + \Pr(A \setminus C) - \Pr(B \cap C) - \Pr(B \setminus C) = 
-\Pr(A \setminus C) - \Pr(B \setminus C) \leq \Pr\{X_n \in I_0, \tau > n\} \leq \Pr\{\tau > n\}.
+p_n(E_0) - q_n(E_0) &= %\Pr(A \cap C) + \Pr(A \setminus C) - \Pr(B \cap C) - \Pr(B \setminus C) = 
+\Pr(A \setminus C) - \Pr(B \setminus C) \leq \Pr\{X_n \in E_0, \tau > n\} \leq \Pr\{\tau > n\}.
 \end{align*}
 \end{proof}
-\begin{rem} Variation distance is bounded based on the coupling time.
- \end{rem}
-\begin{thm}[Convergence in total variation of DTMC]
-Let $X = \{X_n \in I: n \in \N_0 \}$ be a homogenous ergodic DTMC with transition probability matrix $P$ and stationary distribution $\pi \in \Delta(I)$. Then, for any initial distribution on $X_0$, distribution of $X_n$ converges in total variation to the stationary distribution.
+%\begin{rem} 
+Variation distance is bounded based on the coupling time. 
+One can bound even the convergence rate by the large deviation of coupling time.
+%\end{rem}
+\begin{thm}[convergence in total variation of Markov chains]
+Let $X = \{X_n \in E: n \in \N_0 \}$ be a homogenous ergodic Markov chain with transition probability matrix $P$ and stationary distribution $\pi \in \Delta(E)$. 
+Then, for any initial distribution $\nu(0)$, the distribution $\nu(n)$ at time $n$ converges in total variation to the stationary distribution. 
 %\begin{align*}
-%\lim_{n \in \N} \sum_{i \in I} \lvert P[X_n = i] - \pi(i) \rvert = 0.
+%\lim_{n \in \N} \sum_{i \in E} \lvert P[X_n = i] - \pi(i) \rvert = 0.
 %\end{align*}
 \end{thm}
 \begin{proof}
-We will provide an alternative proof using the coupling argument. 
-Let $X$ and $Y$ be two independent ergodic DTMCs with transition matrix $P$, stationary distribution $\pi$, and initial states $i$ and $j$ respectively. 
-We construct the product DTMC $Z_n = (X_n, Y_n)$ for all $n \in \N_0$. Then, $\{Z_n: n \in \N_0\}$ has transition probabilities,
+%We will provide an alternative proof using the coupling argument. 
+Let $X$ and $Y$ be two independent ergodic Markov chains with the transition matrix $P$ and stationary distribution $\pi$. 
+We assume the initial distribution of $X$ and $Y$ to be $\delta_i$ and $\pi$ respectively. 
+We construct the product Markov chain $Z_n = (X_n, Y_n)$ for all $n \in \N_0$. 
+Then, $\{Z_n: n \in \N_0\}$ has transition probabilities, 
 \begin{align*}
-\Pr\{Z_n = (k,l)|Z_{n-1} = (i,j)\} = P_{ik} P_{jl}.
+\Pr\{Z_n = (k,\ell)|Z_{n-1} = (i,j)\} = P_{ik} P_{j\ell}.
 \end{align*}
-
-We will first show that DTMC $Z$ is irreducible, aperiodic, and positive recurrent. 
-To this end, we notice that $\pi_z(i,j) = \pi_i \pi_j$ is a stationary distribution, since
+It is clear that the chain $Z$ is irreducible, aperiodic, and positive recurrent. 
+Further, we notice that $\pi_Z(i,j) = \pi_i \pi_j$ is a stationary distribution, since
 \begin{align*}
-\pi_z(i,j) &=  \pi_i \pi_j = \sum_{k \in I}\pi_kP_{ki} \sum_{l \in I}\pi_lP_{lj} = \sum_{(k,l) \in I \times I}\pi_z(k,l)P_{ki}P_{lj}.
+\pi_Z(k,\ell) &=  \pi_k \pi_{\ell} = \sum_{i \in E}\pi_iP_{i\ell} \sum_{j \in E}\pi_jP_{j\ell} = \sum_{(i,j) \in E \times E}\pi_Z(i,j)P_{ik}P_{j\ell}.
 \end{align*}
 Next, we define a stopping time $\tau$ for the process $Z$, as 
 \begin{align*}
-\tau = \inf\{n \in \N_0 : X_n = Y_n \}.
+\tau = \inf\{n \in \N_0 : X_n = Y_n \} = \inf\{n \in \N_0: Z_n \in \{(i,i): i \in E\} \}.
 \end{align*}
-Since $\tau$ is stopping time for ergodic DTMC $Z$, it follows that $\Pr\{\tau < \infty\} = 1$. 
-Consider a process $W$ defined as 
+Since $Z$ is an irreducible and recurrent Markov chain, the probability $f_{(k,\ell),(i,i)}$ of reaching diagonal state $(i,i)$ in finite time from any state $(k,\ell)$ is unity. 
+Hence, for the stopping time $\tau$ for ergodic Markov chain $Z$, we have $\Pr\{\tau < \infty\} = 1$. 
+Consider a process $W$ defined for each $n \in \N_0$ as  
 \begin{align*}
-W_n &= X_n1_{\{ n \leq \tau\}} + Y_n1_{\{n > \tau\}}~\forall n \in \N_0.
+W_n &= X_n1_{\{ n \leq \tau\}} + Y_n1_{\{n > \tau\}}.
 \end{align*}
-It turns out that $W$  is a homogenous DTMC with transition matrix $P$ and initial state $i$. 
-That is, it inherits all the statistical properties of $X$. 
-Further, $\tau$ is a coupling time for $Y$ and $W$, and hence by coupling inequality, we have 
+Clearly, $W$ is a homogenous Markov chain with transition matrix $P$ and initial state $i$. 
+That is, it inherits all the statistical properties of chain $X$. 
+In particular, the distribution of $W$ at any time $n$ is $\nu(n)$. 
+Further, since $\tau$ is a coupling time for stationary process $Y$ and its coupled process $W$, 
+it follows from coupling inequality  
 \begin{align*}
- \sum_{m \in I} \lvert \Pr\{W_n = m\} - \Pr\{Y_n = m\} \rvert \leq 2\Pr\{\tau < n\}.
+\frac{1}{2}\sum_{i \in E} \lvert \Pr\{W_n = i\} - \Pr\{Y_n = i\}\rvert  = \frac{1}{2}\sum_{i \in E} \lvert \Pr\{X_n = i\} - \pi_i\rvert  = d_{TV}(\nu(n), \pi )\leq \Pr\{\tau > n\}.
 \end{align*}
-Since $\Pr\{\tau > n\} \to 0$ and $\Pr\{Y_n = m\} \to \pi_m$ as limit $n \in \N$, we see that
-\begin{align*}
-\lim_{n \in \N} \Pr\{W_n = i\} &= \pi_i. 
-\end{align*}
+%Since $\Pr\{\tau > n\} \to 0$ and $\Pr\{Y_n = m\} \to \pi_m$ as limit $n \in \N$, we see that
+%\begin{align*}
+%\lim_{n \in \N} \Pr\{W_n = i\} &= \pi_i. 
+%\end{align*}
 %\textbf{CLAIM:}\\
 %${X_n'}_{n \geq 0}$. It inherits all the properties of $X_n^{(1)}$.\\
 %Also, $\tau$ is a coupling time for $\{X_n^{(1)}\}_{n \geq 0}$ and $\{X_n^{(2)}\}_{n \geq 0}$.\\
@@ -127,17 +154,19 @@ Since $\Pr\{\tau > n\} \to 0$ and $\Pr\{Y_n = m\} \to \pi_m$ as limit $n \in \N$
 % n \longrightarrow \infty \to \Pr(X_n' = i) = \Pi(i) 
 %\end{align*}
 \end{proof}
-%\textbf{CLAIMS:}
-%\begin{itemize}
-%	\item $\{Z_n\}_{n \geq 0}$ is irreducible and aperiodic.
-%	\item $\{Z_n\}_{n \geq 0}$ is positive recurrent.
-%\end{itemize}
-%\textbf{Proof:}\\
-\begin{rem} We can get bounds on the rate of convergence by bounding $\P\{\tau > n\}$/
-\end{rem}
-\begin{exmp} 
+%%\textbf{CLAIMS:}
+%%\begin{itemize}
+%%	\item $\{Z_n\}_{n \geq 0}$ is irreducible and aperiodic.
+%%	\item $\{Z_n\}_{n \geq 0}$ is positive recurrent.
+%%\end{itemize}
+%%\textbf{Proof:}\\
+%\begin{rem} 
+%We can get bounds on the rate of convergence by bounding $\P\{\tau > n\}$/
+%\end{rem}
+\begin{shaded*}
+%\begin{exmp} 
 Let $X$ and $Y$ be two binomial distributions with parameters $(n,p)$ and $(n,q)$ respectively, for $p > q$. 
-We are interested in finding the relation between $\Pr\{X > k\}$ and $\Pr\{Y > k\}$  for all $k \in I$. 
+We are interested in finding the relation between $\Pr\{X > k\}$ and $\Pr\{Y > k\}$  for all $k \in E$. 
 
 Consider $n$ Bernoulli random variables, $Z_1,Z_2, \ldots,Z_n$ with probability $\Pr\{Z_i = 1\} = p$. 
 %We construct Bernoulli random variables $W_1,W_2, \ldots,W_n$ such that $\Pr\{W_i = 1\} = q$. 
@@ -147,45 +176,55 @@ W_i = U_iZ_i.
 \end{align*}
 Hence, we see that $W_i \leq Z_i$ is Bernoulli with parameter $\E W_i = q = \Pr\{W_i = 1\}$.
 Observing that $Y = \sum_i W_i \leq \sum_i Z_i  = X$, it follows that $\Pr\{Y > k\} \leq  \Pr\{X > k\}$. 
-\end{exmp}
+%\end{exmp}
+\end{shaded*}
+
 \section{Mean time spent in the transient states}
-Consider a DTMC $X$ defined on a finite state space $I$ with probability transition matrix $P$. Let $T \subseteq I$ be the set of transient states. 
+Consider a Markov chain $X$ defined on a finite state space $E$ with probability transition matrix $P$. 
+Let $T \subset E$ be the set of transient states. 
 We define a probability transition matrix $Q$ for transient states as 
 \begin{align*}
 Q_{ij} = P_{ij},~~i,j \in T.
 %Q_{t \times t} &= P_{[t] \times [t]}\\
 %Q_{t \times t} &= \begin{bmatrix} p_{11}&-&-&-&p_{1t}\\ p_{21}&-&-&-&p_{2t} \\ -&-&-&-&-\\ p_{t1}&-&-&-&p_{tt} \end{bmatrix}
 \end{align*}
-\begin{rem} All row sums of $Q$ cannot equal $1$. 
-At least one row should not sum up to $1$, else it contradicts the claim that $Q$ is a transition matrix for the set of transient states. Hence, $I-Q$ is invertible. 
-\end{rem}
-\begin{defn}
+%\begin{rem} 
+All row sums of $Q$ cannot equal $1$. 
+At least one row should not sum up to $1$, else it contradicts the claim that $Q$ is a transition matrix for the set of transient states. 
+Hence, $I-Q$ is invertible. 
+%\end{rem}
+%\begin{defn}
 For $i,j \in T$, we define \textbf{fundamental matrix} $M$ such that
 \begin{align*}
 M_{ij} &\triangleq \E_i\sum_{n\in \N_0} 1_{\{X_n = j\}} = \sum_{n \in \N_0}P^n_{ij}.
 \end{align*}
-\end{defn}
-\begin{lem} Fundamental matrix $M$ for transient states of a DTMC $X$ can be expressed in terms of its transition matrix $Q$ as
+%\end{defn}
+\begin{lem} 
+Fundamental matrix $M$ for transient states of a Markov chain $X$ can be expressed in terms of its transition matrix $Q$ as
 \begin{align*}
 M = (I - Q)^{-1}.
 \end{align*}
 \end{lem}
-Further, we can rewrite $M$ as 
+\begin{proof}
+We will show that $M = I + QM$. 
+To this end, we re-write $M_{ij}$ as 
 \begin{align*}
-M_{ij} &= 1_{\{i = j\}} + \sum_{n \in \N}\sum_{k \in I}\P_i\{X_n = j, X_1 = k\} = I_{ij} + \sum_{k \in I}P_{ik}\sum_{n \in \N_0}P^n_{kj}\\
-&= I_{ij} + \sum_{k \in T} P_{ik}M_{kj} + \sum_{k \notin T} P_{ik}\sum_{n \in \N_0}P^n_{kj}.
+M_{ij} &= 1_{\{i = j\}} + \sum_{n \in \N}\sum_{k \in E}\P_i\{X_n = j, X_1 = k\} = I_{ij} + \sum_{k \in E}P_{ik}\sum_{n \in \N_0}P^n_{kj} = I_{ij} + \sum_{k \in T} P_{ik}M_{kj} + \sum_{k \notin T} P_{ik}\sum_{n \in \N_0}P^n_{kj}.
 \end{align*}
-Since $T$ is a set of transient states, $P_{ij} = 0$ for $i \notin T$ and $j \in T$, we get 
-\begin{align*}
-M &= I + QM.
-\end{align*}
+Since $T$ is a set of transient states, $P_{ij} = 0$ for $i \notin T$ and $j \in T$, the result follows.  
+%\begin{align*}
+%M &= I + QM.
+%\end{align*}
+\end{proof}
 %$M$ is called the fundamental matrix.\\
-\begin{defn} We define expected time to visit any transient state $j \in T$, starting from initial transient state $i \in T$ as 
+%\begin{defn} 
+We define expected time to visit any transient state $j \in T$, starting from initial transient state $i \in T$ as 
 \begin{align*}
-f_{ij} &= \E_i1_{\{X_n = j \text{ for some } n \in \N_0 \}}
+f_{ij} &\triangleq \E_i1_{\{X_n = j \text{ for some } n \in \N_0 \}}
 \end{align*}
-\end{defn}
-\begin{lem} For all $i, \in T$, we have $f_{ij} = \frac{M_{ij}}{M_{jj}}$.
+%\end{defn}
+\begin{lem} 
+For all $i, \in T$, we have $f_{ij} = \frac{M_{ij}}{M_{jj}}$.
 \end{lem}
 \begin{proof} 
 Let $\tau_j = \inf\{ n \in \N_0 : X_n = j \}$. 
@@ -213,15 +252,15 @@ M_{ij} &= \sum_{m \in \N_0}\sum_{n \geq m}\P_i\{X_n = j, \tau_j = m\} = \sum_{m 
 
 \section{Markov Process}
 \begin{defn}
-For a countable set $I$ a continuous time stochastic process $\{X(t) \in I, ~ t \geqslant 0\}$ is a \textbf{Markov process} if
+For a countable set $I$ a continuous time stochastic process $\{X(t) \in E, ~ t \geqslant 0\}$ is a \textbf{Markov process} if
 \begin{align*}
-\Pr\{X(t+s) = j |X(u),~ u \in [0,s]\} &= \Pr\{X(t+s) = j |X(s)\}, \text{ for all } s, t \geqslant 0 \text{ and } i, j \in I.
+\Pr\{X(t+s) = j |X(u),~ u \in [0,s]\} &= \Pr\{X(t+s) = j |X(s)\}, \text{ for all } s, t \geqslant 0 \text{ and } i, j \in E.
 \end{align*}
 We define the \textbf{transition probability} from state $i$ at time $s$ to state $j$ at time $s+t$ as 
 \begin{align*}
 P_{ij}(s, s+t) = \Pr\{X(s+t) = j | X(s) = i\}.
 \end{align*}
-The CTMC has \textbf{homogeneous} transitions if $P_{ij}(s,s+t) = P_{ij}(0,t)$ for all $i,j \in I, s,t \geqslant 0$ and we denote the transition probability by $P_{ij}(t)$. 
+The CTMC has \textbf{homogeneous} transitions if $P_{ij}(s,s+t) = P_{ij}(0,t)$ for all $i,j \in E, s,t \geqslant 0$ and we denote the transition probability by $P_{ij}(t)$. 
 \end{defn}
 
 \subsection{Sojourn Times and Jump Transitions}
@@ -242,7 +281,7 @@ We observe that,
 &= \Pr\{X(v)=i,~v \in [0,t) | X(0)=i\} = \Pr\{\tau_i \geqslant t \}.
 \end{align*}
 \end{proof}
-We could sample the process at these instants and construct a DTMC and study the same. 
+We could sample the process at these instants and construct a Markov chain and study the same. 
 \begin{defn}
 Jump transition probabilities of a CTMC $\{X(t), t \geqslant 0\}$ are defined by
 \begin{align*}
@@ -270,7 +309,7 @@ Transition probabilities $p_{ij}$ and sojourn times $\tau_i$ are independent.
 \end{rem}
 \begin{rem} If $\nu_i = \infty$, we call the state to be instantaneous. 
 \end{rem}
-\begin{rem}  A CTMC is a DTMC with exponential sojourn time in each state.
+\begin{rem}  A CTMC is a Markov chain with exponential sojourn time in each state.
 \end{rem}
 \begin{defn} A CTMC is called \textbf{regular} if 
 \begin{align*}
@@ -296,7 +335,7 @@ A \textbf{generator matrix} denoted by $Q$ is defined in terms of sojourn times 
 \end{enumerate}
 \end{lem}
 
-From the $Q$ matrix, we can construct the whole CTMC.  In DTMC, we had the result $P^{(n)}(i,j)=(P^n)_{i,j}$. We can generalize this notion  in the case of CTMC as follows: $P=e^{Q}\triangleq \sum_{k \in \mathbb{N}_0}\frac{Q^k}{k !}$.  Observe that $e^{Q_1+Q_2}=e^{Q_1}e^{Q_2},~ e^{nQ}=(e^Q)^n=P^n$.\\
+From the $Q$ matrix, we can construct the whole CTMC.  In Markov chain, we had the result $P^{(n)}(i,j)=(P^n)_{i,j}$. We can generalize this notion  in the case of CTMC as follows: $P=e^{Q}\triangleq \sum_{k \in \mathbb{N}_0}\frac{Q^k}{k !}$.  Observe that $e^{Q_1+Q_2}=e^{Q_1}e^{Q_2},~ e^{nQ}=(e^Q)^n=P^n$.\\
 \begin{thm}
 Let $Q$ be a finite sized matrix. Let $P(t)=e^{tQ}$. Then $\{P(t),~ t \geq 0\}$ has the following properties:\begin{enumerate}
 \item {$P(s+t)=P(s)P(t),~ \forall s,~t$ (semi group property).}

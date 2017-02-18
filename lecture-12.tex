@@ -9,305 +9,391 @@
 %\section{Discrete Time Markov Chains Contd}
 
 \section{Limit Theorems}
-Let $N_j(t)$ denote the number of transitions into state $j \in E$ up to time $t$, 
+Let $N_j(t)$ denote the number of transitions into state $j \in E$ up to time $t$. 
+That is,
 \eq{
 N_j(t) = \sum_{k=1}^t1\{X_k = j\}.
 }
-Let $S_0 = 0$, then we can define the arrival instants of $j$th state as
+Let $S_0 = 0$, then we can define the $n$th arrival instants of state $j$ as a stopping time 
 \eq{
-S_n = \inf\{ k > S_{n-1}: X_k = j\}.
+S_n(j) = \inf\{ k > S_{n-1}(j): X_k = j\}.
 }
-If $X_0 = j$ and $j$ is recurrent, then $N_j(t)$ is a renewal process with the \textit{iid} inter-arrival distribution, 
+%Clearly, $S(i) = \{S_n(i) : n \in \N\}$ is a delayed renewal process. 
+From strong Markov property it follows that $X$ is a regenerative process with regenerative sequence  
+$S(j) = \{S_n(j) : n \in \N\}$. 
+We can define the inter-renewal duration, the number of time steps to return to the state $j$ as
+%We can define the $n$th inter-arrival time for state $j$ as 
 \eq{
-P\{S_n - S_{n-1} = k\} &= f_{jj}^{(k)},~k \in \N.
+T_n(j) &= S_n(j) - S_{n-1}(j).
 }
-%\{P[\text{interarrival time} =n]\}_{n\geq 1}=\{f_{jj}^{(n)}\}_{n \geq 1}.$
-If $X_0 = i \neq j$, for some $i \leftrightarrow j$ and $j$ recurrent, then $N_j(t)$ is a
-delayed renewal process with first inter-arrival distribution
+If $X_0 = j$ and $j$ is recurrent, then $S(j)$ is a renewal process with the \textit{iid} inter-arrival distribution, 
 \eq{
-P\{S_1 = k\} &= f_{ij}^{(k)},~k \in \N.
+P_j\{T_1(j) = k\} &= f_{jj}^{(k)},~k \in \N.
 }
-Hence from renewal theory, we have the following results. 
-\begin{prop}
+%\{P[\text{interarrival time} =n]\}_{n\geq 1}=\{f_{jj}^{(n)}\}_{n \geq 1}.$ 
+Let $\mu_{jj} = \E_jT_1(j)$ be the mean inter-arrival time for the renewal process. %expected number of transitions needed to return to state $j$ beginning from state $j$. 
+Then, 
+ \begin{align*}
+ \mu_{jj} &=\begin{cases}
+	\infty & j \text{ transient}, \\
+	\sum_{k \in \N} k f_{jj}^{(k)} & j \text{ recurrent}.\end{cases}
+\end{align*}
+If $X_0 = i \neq j$, for some $i \leftrightarrow j$ and $j$ recurrent, then $S(j)$ is a
+delayed renewal process with first inter-arrival distribution 
+\eq{
+P_i\{T_1(j) = k\} &= f_{ij}^{(k)},~k \in \N.
+}
+The associated counting process $N_j(t)$ has the inverse relationship with the renewal process $S(j)$. 
+From the renewal theory, we have the following results. 
+
+\begin{prop}[basic renewal theorem] 
+If $i \leftrightarrow j$, then 
+$P_i\left\{ \lim_{n \in \N} \frac{N_j(n)}{n}= \frac{1}{\mu_{jj}}\right\} = 1$.
 \end{prop}
 
-If $i \leftrightarrow j$ then
-\begin{enumerate}
-	\item 
-	\begin{align*}P\left[ \lim_{t \to \infty} \frac{N_j(t)}{t}= \frac{1}{\mu_{jj}} \vline X_0 = i\right] = 1\end{align*}
-	where
- \begin{align*}\mu_{jj} = \left\{\begin{array}{l l}
-	\infty & j \mbox{ transient} \\
-	\sum_n n f_{jj}^{(n)} & j \mbox{ recurrent}	
-	\end{array}\right.\end{align*}
-      Here, $\mu_{jj}$ is the expected number of transitions needed to
-      return to state $j$ beginning from $j$.
-    \item
-      \begin{align*}\lim_{n \to \infty} \frac{\sum_{k=1}^n p_{ij}^{(k)}}{n} =
-      \lim_{n \to \infty} \frac{\E[N_j(n)] }{n} =
-      \frac{1}{\mu_{jj}}\end{align*}
+%If $i \leftrightarrow j$ then
+%\begin{enumerate}
+%	\item 
+%	\begin{align*}P\left[ \lim_{t \to \infty} \frac{N_j(t)}{t}= \frac{1}{\mu_{jj}} \vline X_0 = i\right] = 1\end{align*}
+%	where
+\begin{prop}[elementary renewal theorem] 
+If $i \leftrightarrow j$, then 
+\begin{align*}
+\lim_{n \in \N} \frac{\sum_{k=1}^n p_{ij}^{(k)}}{n} = \lim_{n \in \N} \frac{\E_i[N_j(n)] }{n} = \frac{1}{\mu_{jj}}.\end{align*}
+\end{prop}
 
-	\item If $j$ is aperiodic (\textit{i.e.,} $d(j)=1$), then \begin{align*} \lim_{n \to \infty} p_{ij}^{(n)} = \lim_{n \to \infty} \E[\# \mbox{ renewals at $n$}]  = \frac{1}{\mu_{jj}}\end{align*}
-	\item If $j$ is periodic with period $d$, then \begin{align*} \lim_{n \to \infty} p_{ij}^{(nd)}= \lim_{n \to \infty} \E[\# \mbox{ renewals at $nd$}] = \frac{d}{\mu_{jj}}.\end{align*}
-\end{enumerate}
+\begin{prop}[Blackwell's theorem]
+ If $j$ is aperiodic (\textit{i.e.,} $d(j)=1$), then 
+ \begin{align*} \lim_{n \in \N} p_{ij}^{(n)} &= \lim_{n \in \N} \E_i[\# \text{ renewals at $n$}]  = \frac{1}{\mu_{jj}}
+ \end{align*}
+	\item If $j$ is periodic with period $d$, then 
+\begin{align*} 
+\lim_{n \in \N} p_{ij}^{(nd)} &= \lim_{n \in \N} \E_i[\# \text{ renewals at $nd$}] = \frac{d}{\mu_{jj}}.
+\end{align*}
+\end{prop}
 
 \section{Positive and Null recurrence}
-A recurrent state $j$ is said to be \textbf{positive recurrent} if $\mu_{jj} < \infty$ and \textbf{null recurrent} if $\mu_{jj} = \infty$. Let
-\begin{align*}\pi_j = \lim_{n \to \infty} p_{jj}^{(nd)}\end{align*}
+A recurrent state $j$ is said to be \textbf{positive recurrent} if $\mu_{jj} < \infty$ and \textbf{null recurrent} if $\mu_{jj} = \infty$. 
+Let
+\begin{align*}
+\pi_j &\triangleq \lim_{n \in \N} p_{jj}^{(nd)},
+\end{align*}
 where d is the period of state $j$. Then $\pi_j > 0$ if and only if $j$ is positive recurrent and $\pi_j = 0$ if  $j$ is null-recurrent. 
 
 \begin{prop}
 Positive recurrence and null recurrence are class properties.
 \end{prop}
-\begin{defn}
+%\begin{defn}
 An state that is aperiodic and positive recurrent is called \textbf{ergodic}.
-\end{defn}
-
-\begin{defn}
-  A probability distribution $\{\pi_j\}_{j \in \N_0}$ is said to
-  be \textbf{stationary} for the DTMC if $\forall j \in \N_0$
-\begin{align*}\pi_j = \sum_{k \in \N_0} \pi_k p_{kj}\end{align*}
-More compactly, $\pi$ is stationary if $\pi = \pi P$ where $P$ is the TPM.
-\end{defn}
-
-A thing to note is that if we start the DTMC with the stationary distribution, the distribution remains the same throughout the chain. That is, if we started the chain with $X_0 \sim \pi$ where $\pi$ is the stationary distribution, we would have for every $n \geq 1$, $X_n \sim \pi$. Moreover since $X_n$ is a DTMC, we have $X_n, X_{n+1}, ... X_{n+m}$ have the same joint distribution. Hence it is a stationary process. More precisely,
-\begin{align*}(X_1,\ldots,X_s)\sim(X_{t+1},\ldots,X_{t+s}) \quad \forall t \geq 0.\end{align*}
-
-\begin{thm}[Classification of DTMCs]
-  An irreducible aperiodic DTMC is of one of the following two types:
-\begin{enumerate}
-	\item All states are either transient or null recurrent, in which case \begin{align*}\lim_{n \to \infty} p_{ij}^{(n)} = 0 \quad \forall i,j \in \N_0\end{align*} and there exists no stationary distribution.
-	\item All states are positive recurrent (the DTMC is ergodic), wherein
-          \begin{align*} \pi_j := \lim_{n \to \infty} p_{ij}^{(n)} > 0 \quad
-          \forall i,j \in \N_0.\end{align*}
-          Moreover, $(\pi_j)_{j \in \N_0}$ is the unique stationary
-          distribution for the DTMC.
-\end{enumerate}
-\end{thm}
-\begin{proof}
-  Suppose that all states are either transient or null recurrent (note
-  that exactly one of these will hold since there is only one
-  communicating class). This implies that $\mu_{jj} = \infty$ for each
-  $j \in \N_0$, and by Limit theorem $3$, we have that
-  $\lim_{n \to \infty} p_{ij}^{(n)} = 1/\mu_{jj} = 0$ for each
-  $i,j \in \N_0$.  
-
-  Suppose, in this case, that a stationary distribution existed, say
-  $\pi$. We then have $\pi_j = \sum_{i \in \N_0}\pi_i p_{ij}^{(n)}$,
-  with $p_{ij}^{(n)} \leq 1$ $\forall n, i$. By the Dominated
-  Convergence Theorem (DCT), for all $j \in \N_0$
-  \begin{align*} \pi_j =\sum_{i \in \N_0} \pi_i \lim_{n \to \infty} p_{ij}^{(n)} =
-  0, \end{align*}
-  which contradicts $\pi$ being a stationary distribution, proving the
-  first part of the theorem.  \\
-
-  For the second part, assume that all states are positive recurrent
-  and, thus, $\pi_j := \lim_{n \to \infty} p_{ij}^{(n)} =\frac{1}{\mu_{jj}}> 0$. We will
-  show that $\pi$ is a stationary distribution for the DTMC and that
-  it is unique. Observe that
-  $\sum_{j=0}^Mp_{ij}^{(n)} \leq \sum_{j \in \N_0}p_{ij}^{(n)}
-  = 1$
-  for any fixed $M$.  Taking limits as $n \to \infty$ and then
-  $M \to \infty$ on both sides yields \begin{align*}\sum_{j=0}^M \lim_{n \to \infty}p_{ij}^{(n)} \leq 1\end{align*}
-\begin{align*}\Rightarrow\sum_{j=0}^\infty \pi_j \leq 1.\end{align*}
-Now we have, 
+%\end{defn}
+%\begin{defn}
+For a homogeneous Markov chain on state space $E$ with transition probability matrix $E$, a probability distribution $\{\pi_j: j \in E\}$ is said to be \textbf{stationary} if for all states $j \in E$
 \begin{align*}
-p_{ij}^{(n+1)} &= \sum_{k \in \N_0} p_{ik}^{(n)}p_{kj}  \\
-\Rightarrow \quad \lim_{n \to \infty}p_{ij}^{(n+1)} &= \lim_{n \to \infty}\sum_{k \in \N_0} p_{ik}^{(n)}p_{kj} \\
-&\geq \lim_{n \to \infty}\sum_{k =0}^M p_{ik}^{(n)}p_{kj} \quad \mbox{(for any $M$)}\\
-\Rightarrow \pi_j &\geq \sum_{k=0}^M \pi_k p_{kj} \quad \mbox{(by DCT)}\\
-\Rightarrow \pi_j &\geq \sum_{k \in \N_0} \pi_k p_{kj}. \quad \mbox{($M \to \infty$)}\\
-\Rightarrow \pi &\geq  \pi P.
+\pi_j = \sum_{k \in E} \pi_k P_{kj}.
 \end{align*}
-To show equality, suppose that the inequality above is strict for some
-state $j$ in $\N_0$. Then, observe that
-\begin{align*} \sum_{j \in \N_0} \pi_j > \sum_{j \in \N_0} \sum_{k
-  \in \N_0} \pi_k p_{kj} = \sum_{k \in \N_0} \pi_k
-\sum_{j \in \N_0} p_{kj} = \sum_{k \in \N_0} \pi_k\end{align*}
-which is a contradiction. Hence it is an equality
-$\forall j \in \N_0$, showing that $\pi$ must be a stationary
-distribution. 
+More compactly, $\pi$ is stationary if $\pi = \pi P$. % where $P$ is the transition probability matrix.
+%\end{defn}
 
-To prove uniqueness of $\pi$ as a stationary distribution, suppose
-$\lambda$ is another stationary distribution that works here. Since
-$\lambda$ is stationary, suppose we start the DTMC with this
-distribution. Then we get
+Observe that for a Markov chain starting with its stationary distribution,  
+then the distribution remains invariant for all times. % throughout the chain. 
+That is, if $\pi$ is the stationary distribution, and the Markov chain has initial distribution $\nu(0) = \pi$ at time $0$, 
+then at any time $n \in \N$, the Markov chain has distribution $\nu(n) = \pi$. 
+%That is, if we started the chain with distribution $\pi$ for $X_0$, we would have for every $n \geq 1$, $X_n \sim \pi$. 
+Moreover since $X_n$ has discrete states in $E$, the finite collection $(X_n, X_{n+1}, ... X_{n+m})$ have the same joint distribution. 
+Hence it is a stationary process, and for all $k, m \in \N, i \in E^k$
 \begin{align*}
-\lambda_j &= P[X_n = j] \\
-&=\sum_{i=0}^\infty P[X_n =j | X_0 =i]P[X_0=i] \\
-&= \sum_{i=0}^\infty p_{ij}^{(n)} \lambda_i \\
-&\geq \sum_{i=0}^M p_{ij}^{(n)} \lambda_i
-\end{align*}  
-Let $n$ and then $M$ approach $\infty$. This yields
-\begin{align*} \lambda_j \geq \sum_{i=0}^\infty \pi_j \lambda_i = \pi_j.\end{align*}
-Now consider again,
-\begin{align*}
-\lambda_j &=  \sum_{i=0}^\infty p_{ij}^{(n)} \lambda_i \\
-&= \sum_{i=0}^M p_{ij}^{(n)} \lambda_i  + \sum_{i=M+1}^\infty p_{ij}^{(n)} \lambda_i \\
-&\leq \sum_{i=0}^M p_{ij}^{(n)} \lambda_i  + \sum_{i=M+1}^\infty \lambda_i \\
+P\{X_1 = i_1,\ldots,X_k = i_k\} = P\{X_{m+1} = i_1,\ldots,X_{m+k} = i_k\}.
 \end{align*}
-Once again, letting $n$ and then $M$ approach $\infty$ yields the result.
-\end{proof}
+
+%\begin{thm}[classification of Markov chains]
+%An irreducible aperiodic Markov chain is of one of the following two types. 
+%\begin{enumerate}[i)]
+%\item All states are either transient or null recurrent, in which case for all states $i,j \in E$
+%\begin{align*}
+%\lim_{n \in \N} P_{ij}^{(n)} = 0,
+%\end{align*} 
+%and there exists no stationary distribution. 
+%\item All states are positive recurrent, and hence the chain is ergodic. 
+%In this case, for all states $i,j \in E$
+%\begin{align*} 
+%\pi_j \triangleq \lim_{n \in \N} P_{ij}^{(n)} > 0.
+%\end{align*}
+%Moreover, $\{\pi_j : j \in E\}$ is the unique stationary distribution for the Markov chain.
+%\end{enumerate}
+%\end{thm}
+%\begin{proof}
+%Suppose that all states are either transient or null recurrent. 
+%Note that exactly one of these will hold since there is only one communicating class. 
+%This implies that $\mu_{jj} = \infty$ for each state $j \in E$, and it follows from Blackwell's theorem applied to renewals for Markov chains that for any states $i, j \in E$
+%\begin{align*}
+%\lim_{n \in \N} P_{ij}^{(n)} = \frac{1}{\mu_{jj}} = 0.
+%\end{align*}  
+%If there existed a stationary distribution $\pi$ in this case. 
+%For any step size $n \in \N$ and states $i,j \in E$, we would then have
+%\begin{xalignat*}{3}
+%&\pi_j = \sum_{i \in E}\pi_i P_{ij}^{(n)},&&P_{ij}^{(n)} \leq 1.
+%\end{xalignat*}
+%We can change limits and summation using dominated convergence theorem, to get for any state $j \in E$
+%\begin{align*} 
+%\pi_j &=\sum_{i \in E} \pi_i \lim_{n \in \N} P_{ij}^{(n)} = 0.
+%\end{align*}
+%This contradicts $\pi$ being a stationary distribution, proving the first part of the theorem. 
+%
+%For the second part, assume that all states are positive recurrent.
+%Therefore, $\pi_j = \lim_{n \in \N} P_{ij}^{(n)} = {1}/{\mu_{jj}}> 0$. 
+%We will show that $\pi$ is a stationary distribution for the Markov chain and that it is unique. 
+%Observe that for any finite set $M \subset E$,
+%\eq{
+%\sum_{j \in M}P_{ij}^{(n)} \leq \sum_{j \in E} P_{ij}^{(n)}= 1.
+%}
+%Taking increasing limits as $n \to \infty$ and then $M \uparrow E$ on both sides yields 
+%\eq{
+%\lim_{M \uparrow E}\sum_{j \in M} \lim_{n \in \N} P_{ij}^{(n)}  = \sum_{j \in E} \pi_j \leq 1.
+%}
+%Further, we can write for any finite $M \subset E$
+%\eq{
+%P_{ij}^{(n+1)} &= \sum_{k \in E} P_{ik}^{(n)} P_{kj}  \geq \sum_{k \in M} P_{ik}^{(n)}P_{kj}.
+%}
+%Taking limits first with increasing $n$ and then with increasing sets $M \uparrow E$, we get
+%\eq{
+%\pi &\geq  \pi P.
+%}
+%%\begin{align*}
+%%\Rightarrow \quad \lim_{n \to \infty} P_{ij}^{(n+1)} &= \lim_{n \to \infty}\sum_{k \in \N_0} P_{ik}^{(n)} P_{kj} \\
+%%&\geq \lim_{n \to \infty}\sum_{k =0}^M p_{ik}^{(n)}p_{kj} \quad \text{(for any $M$)}\\
+%%\Rightarrow \pi_j &\geq \sum_{k=0}^M \pi_k p_{kj} \quad \text{(by DCT)}\\
+%%\Rightarrow \pi_j &\geq \sum_{k \in \N_0} \pi_k p_{kj}. \quad \text{($M \to \infty$)}\\
+%%\Rightarrow \pi &\geq  \pi P.
+%%\end{align*}
+%To show equality, suppose that the inequality above is strict for some
+%state $j$ in $\N_0$. Then, observe that
+%\begin{align*} \sum_{j \in \N_0} \pi_j > \sum_{j \in \N_0} \sum_{k
+%  \in \N_0} \pi_k p_{kj} = \sum_{k \in \N_0} \pi_k
+%\sum_{j \in \N_0} p_{kj} = \sum_{k \in \N_0} \pi_k\end{align*}
+%which is a contradiction. Hence it is an equality
+%$\forall j \in \N_0$, showing that $\pi$ must be a stationary
+%distribution. 
+%
+%To prove uniqueness of $\pi$ as a stationary distribution, suppose
+%$\lambda$ is another stationary distribution that works here. Since
+%$\lambda$ is stationary, suppose we start the DTMC with this
+%distribution. Then we get
+%\begin{align*}
+%\lambda_j &= P[X_n = j] \\
+%&=\sum_{i=0}^\infty P[X_n =j | X_0 =i]P[X_0=i] \\
+%&= \sum_{i=0}^\infty p_{ij}^{(n)} \lambda_i \\
+%&\geq \sum_{i=0}^M p_{ij}^{(n)} \lambda_i
+%\end{align*}  
+%Let $n$ and then $M$ approach $\infty$. This yields
+%\begin{align*} \lambda_j \geq \sum_{i=0}^\infty \pi_j \lambda_i = \pi_j.\end{align*}
+%Now consider again,
+%\begin{align*}
+%\lambda_j &=  \sum_{i=0}^\infty p_{ij}^{(n)} \lambda_i \\
+%&= \sum_{i=0}^M p_{ij}^{(n)} \lambda_i  + \sum_{i=M+1}^\infty p_{ij}^{(n)} \lambda_i \\
+%&\leq \sum_{i=0}^M p_{ij}^{(n)} \lambda_i  + \sum_{i=M+1}^\infty \lambda_i \\
+%\end{align*}
+%Once again, letting $n$ and then $M$ approach $\infty$ yields the result.
+%\end{proof}
 \begin{thm}
-An irreducible, aperiodic Markov Chain with countable state space $I$ is of one of the following types:
+An irreducible, aperiodic Markov Chain with countable state space $E$ is of one of the following types. 
 \begin{enumerate}[i)]
-\item All the states are either transient or null recurrent. That is, $\lim_{n \in \N}P_{ij}^n = 0$  and there exists no stationary distribution.
-\item All the states are positive recurrent. There exists a unique stationary distribution $\pi \in \Delta(I)$,
+\item All the states are either transient or null recurrent. 
+For all states $i, j \in E$,
+\eq{
+\lim_{n \in \N}P_{ij}^n = 0,
+}
+and there exists no stationary distribution.
+\item All the states are positive recurrent, and hence the chain is ergodic. 
+There exists a unique stationary distribution $\pi \in \Delta(E)$, defined for all $i,j \in E$
 \begin{align*}
- \pi_j &= \lim_{n \in \N} P^n_{ij} > 0,~ j \in I.
+ \pi_j &\triangleq \lim_{n \in \N} P^n_{ij} > 0.
  \end{align*}
 \end{enumerate}
 \end{thm}
-\begin{proof} Let $\{X_n: n \in \N\}$ be an irreducible, aperiodic Markov chain with state space $I$. 
+\begin{proof} Let $\{X_n: n \in \N\}$ be an irreducible, aperiodic Markov chain with countable state space $E$. 
 \begin{enumerate}[i)]
 \item 
-If the states are transient or null recurrent and $P \in \Delta(I)$ is a stationary distribution, 
-then for any $n \in \N$, we have
+Suppose that all states are either transient or null recurrent. 
+Note that exactly one of these will hold since there is only one communicating class. 
+This implies that $\mu_{jj} = \infty$ for each state $j \in E$, and it follows from Blackwell's theorem applied to renewals for Markov chains that for any states $i, j \in E$
 \begin{align*}
-P_j = \sum_{i \in I} \Pr\{X_n = j|X_0 = i\} \Pr\{X_0 = i\} = \sum_{i \in I} \pi_i P_{ij}^n.
-\end{align*} 
-Since, $\pi_j = 0$ for all $j \in I$, we have $P_j=0$ for every $j \in I$. 
-This contradicts the assumption that $P_j$ is a probability distribution. 
+\lim_{n \in \N} P_{ij}^{(n)} = \frac{1}{\mu_{jj}} = 0.
+\end{align*}  
+If there existed a stationary distribution $\pi \in \Delta(E)$ in this case. 
+For any step size $n \in \N$ and states $i,j \in E$, we would then have
+\begin{xalignat*}{3}
+&\pi_j = \sum_{i \in E}\pi_i P_{ij}^{(n)},&&P_{ij}^{(n)} \leq 1.
+\end{xalignat*}
+We can change limits and summation using dominated convergence theorem, to get for any $j \in E$
+\begin{align*} 
+\pi_j &=\sum_{i \in E} \pi_i \lim_{n \in \N} P_{ij}^{(n)} = 0.
+\end{align*}
+This contradicts $\pi$ being a stationary distribution, proving the first part of the theorem. 
+
+%If the states are transient or null recurrent and $w \in \Delta(E)$ is a stationary distribution, 
+%then for any $n \in \N$, we have
+%\begin{align*}
+%w_j = \sum_{i \in E} \Pr\{X_n = j|X_0 = i\} \Pr\{X_0 = i\} = \sum_{i \in E} \pi_i P_{ij}^n.
+%\end{align*} 
+%Since, $\pi_j = 0$ for all $j \in E$, we have $w_j=0$ for every $j \in E$. 
+%This contradicts the assumption that $w_j$ is a probability distribution. 
 \item 
+We assume that all states are positive recurrent.
 %We will initially prove the second case. 
-From renewal reward theorem, $\lim_{n \in \N}P_{ij}^{(n)} = 1/\mu_{jj}$ exists, which we take as $\pi_j$. Further, for any finite set $A \subseteq I$, we have
+From the theorem hypothesis, elementary renewal theorem, and positive recurrence, we get
+\eq{
+\pi_j &= \lim_{n \in \N}P_{ij}^{(n)} = 1/\mu_{jj} > 0.
+} 
+%exists, which we take as $\pi_j$. 
+Further, for any finite set $A \subseteq E$, we have
 \begin{align*}
-\sum_{j \in A} P_{ij}^{(n)}&\leq \sum_{j \in I} P_{ij}^{(n)} = 1.
+\sum_{j \in A} P_{ij}^{(n)}&\leq \sum_{j \in E} P_{ij}^{(n)} = 1.
 \end{align*}
-Taking limit $n \in \N$ on both sides, we conclude that $\sum_{j \in A}\pi_j  \leq 1$ for all $A$ finite. Taking limit with respect to $A$, we conclude,  
+Taking limit $n \in \N$ on both sides, we conclude that $\sum_{j \in A}\pi_j  \leq 1$ for all $A$ finite. 
+Taking limit with respect to increasing sets $A \uparrow E$, we conclude,  
 \begin{align*}
-\sum_{j \in I} \pi_j \leq 1.
+\sum_{j \in E} \pi_j \leq 1.
 \end{align*}
-Further, we can write for all $A \subseteq I$,
+Further, we can write for all $A \subseteq E$,
 \begin{align*}
-P_{ij}^{n+1} &= \sum_{k \in I}P_{ik}^nP_{kj} \geq \sum_{k \in A}P_{ik}^nP_{kj}.
+P_{ij}^{n+1} &= \sum_{k \in E}P_{ik}^nP_{kj} \geq \sum_{k \in A}P_{ik}^nP_{kj}.
 \end{align*}
 Applying limit $n \in \N$ on both sides, %$P_{ij}^{n+1} \geq \sum_{k=0}^{M}P_{ik}^nP_{kj}$, 
 we get $\pi_j \geq \sum_{k \in A} \pi_kP_{kj}$ for all $A$ finite. 
-Hence, taking limits with respect to $A$, we get for all $j \in I$,
+Hence, taking limits with respect to increasing sets $A \uparrow E$, we get for all state $j \in E$,
 \begin{align*}
-\pi_j &\geq \sum_{k\in I} \pi_kP_{kj}.
+\pi_j &\geq \sum_{k\in E} \pi_kP_{kj}.
 \end{align*}	
-Assuming that the inequality is strict for some $j \in I$, we can sum the inequalities over $j$. 
+Assuming that the inequality is strict for some state $j \in E$, we can sum the inequalities over all states $j \in E$. 
 Since, summands are non-negative we can exchange summation orders to get
 \begin{align*}
-\sum_{j \in I} \pi_j &> \sum_{j \in I} \sum_{k \in I}\pi_kP_{kj} = \sum_{k \in I} \pi_k \sum_{j \in I} P_{kj} = \sum_{k \in I} \pi_k.
+\sum_{j \in E} \pi_j &> \sum_{j \in E} \sum_{k \in E}\pi_kP_{kj} = \sum_{k \in E} \pi_k \sum_{j \in E} P_{kj} = \sum_{k \in E} \pi_k.
 %&(summation \: can\: be\: interchanged \:since\: \pi_k\: and\: P_{kj}\: are\: non-negative.)\\
 \end{align*}	
-This is a contradiction. Therefore, for all $j \in I$
+This is a contradiction. 
+Therefore, for any state $j \in E$
 \begin{align*}
-&\pi_j = \sum_{k \in I} \pi_k P_{kj}.
+\pi_j &= \sum_{k \in E} \pi_k P_{kj}.
 \end{align*}
-Defining normalized $P_j = \frac{\pi_j}{\sum_{k \in I}\pi_k}$, 
-we see that $\{P_j,j \in I\}$ is a stationary distribution and so at least one stationary distribution exists. 
-Let $\{P_j,j \in I\}$ be any stationary distribution. Let $\{P_j,j \in I\}$ be the probability distribution of $X_0$, then for any finite subset $A \subseteq I$, we get 
+Defining normalized $w_j = \frac{\pi_j}{\sum_{k \in I}\pi_k}$, 
+we see that $\{w_j : j \in E\}$ is a stationary distribution and so at least one stationary distribution exists. 
+%Let $\{\lambda_j,j \in I\}$ be initial stationary distribution for this positive recurrent Markov chain. 
+If the initial distribution of this positive recurrent Markov chain is a stationary distribution $\{\lambda_j : j \in E\}$, 
+%Let $\{P_j,j \in I\}$ be the probability distribution of $X_0$, 
+then for any finite subset $A \subseteq E$, we get 
 \begin{align*}
-P_j &= \Pr\{X_n = j\} = \sum_{i \in I} \Pr\{X_n = j|X_0 = i\} P\{X_0 = i\} = \sum_{i=0}^{\infty} P_{ij}^nP_i \geq \sum_{i \in A} P_{ij}^nP_i.
+\lambda_j &= \Pr\{X_n = j\} %= \sum_{i \in I} \Pr\{X_n = j|X_0 = i\} P\{X_0 = i\} 
+= \sum_{i \in E} P_{ij}^n\lambda_i \geq \sum_{i \in A} P_{ij}^n\lambda_i.
 \end{align*}
-As before, we take limit $n \in \N$, followed by limit of increasing subsets $A \uparrow I$, to obtain
+As before, we take limit $n \in \N$, followed by limit of increasing subsets $A \uparrow E$, to obtain
 \begin{align*}
-P_j &\geq \sum_{i \in I} \pi_j P_i = \pi_j.
+\lambda_j &\geq \sum_{i \in E} \pi_j \lambda_i = \pi_j.
 \end{align*}
-To show $P_j \leq \pi_j$, we use the fact that $P_{ij}^n \leq 1$. Let $A \subseteq I$ be a finite subset, then
+To show $\lambda_j \leq \pi_j$, we use the fact that $P_{ij}^n \leq 1$. 
+Let $A \subseteq E$ be a finite subset, then
 \begin{align*}
-P_j &= \sum_{i \in I} P_{ij}^nP_i = \sum_{i \in A}P_{ij}^nP_i + \sum_{i \in A^c}P_{ij}^nP_i \leq \sum_{i \in A} P_{ij}^{n}P_i + \sum_{i \in A^c} P_i.
+\lambda_j &= \sum_{i \in I} P_{ij}^n\lambda_i = \sum_{i \in A}P_{ij}^n\lambda_i + \sum_{i \notin A}P_{ij}^n\lambda_i \leq \sum_{i \in A} P_{ij}^{n}\lambda_i + \sum_{i \notin A} \lambda_i.
 \end{align*}
-Using our standard approach of taking limit $n \in \N$, followed by $A \subseteq I$, we obtain
+Using our standard approach of taking limit $n \in \N$, followed by $A \uparrow E$, we obtain
 \begin{align*}
 %&n \in \N \Rightarrow P_j \leq \sum_{i=0}^{M}\pi_jP_i + \sum_{i=M+1}^{\infty} P_i, \forall M\\
 %&\because \sum_{0}^{\infty}P_i = 1, M \to \infty \Rightarrow 
-P_j &\leq \sum_{i=0}^{\infty} \pi_j P_i = \pi_j.
+\lambda_j &\leq \sum_{i \in E} \pi_j \lambda_i = \pi_j.
 \end{align*}
 \end{enumerate}
 %Thus for the first case, no stationary distribution exists and the proof is complete.
 \end{proof}
 
-\begin{cor} An irreducible, aperiodic DTMC defined on a finite state space $I$ will be positive recurrent.
+\begin{cor} 
+An irreducible, aperiodic Markov chain defined on a finite state space $E$ will be positive recurrent.
 \end{cor}
 \begin{proof}
-Suppose that the DTMC is not positive recurrent, then 
+Suppose that the Markov chain is not positive recurrent, then 
 \begin{align*}
 \lim_{n \in \N}P_{ij}^{(n)} &= 0.
 \end{align*}
 Interchanging limit and finite summation gives
 \begin{align*}
-0 = \sum_{j \in I}\lim_{n \in \N}P_{ij}^{(n)}  = \lim_{n \in \N}\sum_{j \in I}P_{ij}^{(n)} = 1.
+0 = \sum_{j \in E}\lim_{n \in \N}P_{ij}^{(n)}  = \lim_{n \in \N}\sum_{j \in E}P_{ij}^{(n)} = 1.
 \end{align*}
 This is a contradiction. 
-Hence the DTMC mentioned above is positive recurrent.
+Hence the above mentioned chain is positive recurrent.
 \end{proof}
 
-Let $S_0 = 0$. 
-For a state $i \in E$, we can define following stopping times for a Markov chain $X$ as 
-\eq{
-S_n(i)  &\triangleq \inf\{ n > S_{n-1}: X_n = i\}.
-}
-Clearly, $S(i) = \{S_n(i): n \in \N\}$ is a delay renewal process. 
-From strong Markov property it follows that $X$ is a regenerative process with renewal points $\{S_n: n \in \N\}$. 
-We can define the inter-renewal duration, the number of time steps to return to the state $i$ as 
-\eq{T_n(i) \triangleq S_n(i) - S_{n-1}(i).} 
+%Let $S_0 = 0$. 
+%For a state $i \in E$, we can define following stopping times for a Markov chain $X$ as 
+%\eq{
+%S_n(i)  &\triangleq \inf\{ n > S_{n-1}: X_n = i\}.
+%}
+%Clearly, $S(i) = \{S_n(i): n \in \N\}$ is a delayed renewal process. 
+%From strong Markov property it follows that $X$ is a regenerative process with renewal points $\{S_n: n \in \N\}$. 
+%We can define the inter-renewal duration, the number of time steps to return to the state $i$ as 
+%\eq{T_n(i) \triangleq S_n(i) - S_{n-1}(i).} 
 \begin{cor} 
 For an irreducible and aperiodic Markov chain with stationary distribution $\pi$ on countable state space $E$, we have 
 \eq{
-\E_i[T_1(i)] &\triangleq \E[T_1(i)| X_0 = i] = \frac{1}{\pi_i},~i \in E.
+\E_j[T_1(j)] &\triangleq \E[T_1(j)| X_0 = j] = \frac{1}{\pi_j},~j \in E.
 } 
 %for any state $i \in I$, 
 %where $\E_i[T_1((i)] = \E[T_1(i)| X_0 = i]$ denotes the expected . 
 \end{cor}
-Further, we can define the number of visits to state $j$ during on renewal duration as 
+Further, we can define the number of visits to state $i$ during one renewal duration $S_1(j)$ as 
 \eq{
-N_{ij} &= \sum_{k=1}^{S_1(i)}1\{X_n = j\}.
+%N_{ji} &= 
+N_i(S_1(j)) = \sum_{k=1}^{S_1(j)}1\{X_n = i\}.
 }
 \begin{prop} 
 For an aperiodic and irreducible Markov chain $X$ with stationary distribution $\pi$ on countable state space $E$, 
-the mean number of visits during return to state $i$ is given 
+the mean number of visits to state $i$ in one return to state $j$ is given 
 \eq{
-\E_iN_{ij} &= \frac{\pi_j}{\pi_i}.
+\E_jN_{i}(S_1(j)) &= \frac{\pi_i}{\pi_j}.
 }
 \end{prop}
 \begin{proof} 
-Let $X_0 = i \in E$, then from renewal reward theorem for renewal instants $S(j)$ and definition of $\pi$, we can write 
+Let $X_0 = j \in E$, then from renewal reward theorem for renewal sequence $S(i)$ and definition of $\pi$, %we can write 
 \eq{
-\lim_{n \in \N}P_i\{X_n = j\} &= \lim_{n \in \N}\frac{\sum_{k=1}^{n}1\{X_k = j\}}{n} = \frac{1}{\E_j[T_1(j)]} = \pi_j.
+\lim_{n \in \N}P_j\{X_n = i\} &= \lim_{n \in \N}\frac{\sum_{k=1}^{n}1\{X_k = i\}}{n} = \frac{1}{\E_i[T_1(i)]} = \pi_i.
 }
-Result follows from rewriting of the above expression for renewal instants $S(i)$ as 
+Result follows from rewriting of the above expression for renewal sequence $S(j)$ as 
 \eq{
-\lim_{n \in \N}P_i\{X_n = j\} &= \lim_{n \in \N}\frac{\sum_{k=1}^{n}1\{X_k = j\}}{n} = \frac{\E_i\sum_{k=1}^{S_1(i)}1\{X_k = i\}}{\E_iS_1(i)} = \frac{\E_iN_{ij}}{\E_iT_1(i)} = \pi_i \E_iN_{ij}.
+\lim_{n \in \N}P_j\{X_n = i\} &= \lim_{n \in \N}\frac{\sum_{k=1}^{n}1\{X_k = i\}}{n} = \frac{\E_j\sum_{k=1}^{S_1(j)}1\{X_k = i\}}{\E_jS_1(j)} = \frac{\E_jN_{i}(S_1(j))}{\E_jT_1(j)} = \pi_j \E_jN_{i}(S_1(j)).
 }
 \end{proof}
 
 \subsection{Ergodic theorem for Markov Chains} 
 
-\begin{prop} Let $\{X_n\}$ be an irreducible, aperiodic and positive recurrent Markov chain on countable state space $I$ with stationary distribution $\pi$. 
-Let $f : I \to \R$, such that $\sum_{i \in I} \arrowvert f(i) \arrowvert \pi_i < \infty$, that is $f$ is integrable over $I$ with respect to $\pi$.  
+\begin{prop} Let $\{X_n: n \in \N_0\}$ be an irreducible, aperiodic, and positive recurrent Markov chain on countable state space $E$ with stationary distribution $\pi$. 
+Let $f : E \to \R$, such that $\sum_{i \in E} \arrowvert f(i) \arrowvert \pi_i < \infty$, that is $f$ is integrable over $E$ with respect to $\pi$.  
 Then for any initial distribution of $X_0$, 
 \eq{
-\lim_{n\in \N}\frac{1}{n} \sum_{i=1}^{n} f(X_i) = \sum_{i \in I} \pi_if(i) \text{ almost surely}.
+\lim_{n\in \N}\frac{1}{n} \sum_{i=1}^{n} f(X_i) = \sum_{i \in E} \pi_if(i) \text{ almost surely}.
 }
 \end{prop}
 
 \begin{proof}
-Fix $X_0 = i \in I$. Let $S(i)$ be sequence of successive instants at which state $i$ is visited, with $S_0(i) = 0$. 
+Fix $X_0 = i \in E$. 
+Let $S(i)$ be sequence of successive instants at which state $i$ is visited, with $S_0(i) = 0$. 
 %Notice these are renewal instants.
 For all $p \geq 0$,  let $R_{p+1} = \sum_{n = S_p(i) + 1}^{S_{(p + 1)}} f(X_n)$ be the net reward earned at the end of cycle $(p+1)$. 
 Each cycle forms a renewal. 
 By the strong Markov property, these cycles are independent. 
-At each of these stopping times, Markov chain is in state $i$. 
+At each of these stopping times, Markov chain is in state $i \in E$. 
 %Average reward earned during the first $k$ cycles is given by 
 %\begin{align*}	
 %\frac{1}{n} \sum_{k=1}^{n} R_k &= \frac{1}{n} \sum_{k=1}^{n} \sum_{\tau_{k-1} + 1}^{\tau_k} f(X_i)= \frac{1}{n} \sum_{t=1}^{\tau_n} f(X_t).
 %\end{align*}
-From renewal reward theorem and applying previous corollary, we get
+Since $\E_iS_1(i) = 1/\pi_i$, we get from renewal reward theorem %and applying previous corollary, we get
 \begin{align*}
 \lim_{n \in \N}\frac{\sum_{k=1}^nR_k}{n} &= %\frac{\E_i[\text{reward in one renewal cycle}]}{\E_i[\text{renewal cycle length}]} = 
 \pi_i\E_i[\sum_{n=1}^{S_1(i)}f(X_n)] = \pi_i\E_i\sum_{n=1}^{S_1(i)}\sum_{j \in E}f(j)1\{X_n = j\}.
 \end{align*}
-Assuming $f$ is non-negative, and substituting the mean number of visits to state $j$ during successive return to state $j$,  we can write 
+%Assuming $f$ is non-negative, and 
+Using dominated convergence theorem, and substituting the mean number of visits to state $j$ during successive return to state $j$,  we can write 
 \begin{align*}
 %&E_0[cycle \: length] = \frac{1}{\pi_0}\: (from \: Corollary \: 2)\\
 %&E_0[cycle \: reward] = E_0[\sum_{n=0}^{\tau_1}f(X_n)]\\
 %\E_i[\text{cycle reward}] &= \E_i\sum_{n=1}^{\tau_1} \sum_{j \in I} f(j) 1_{\{X_n = j\}} = \sum_{j \in I} f(j) \E_i\sum_{n=1}^{\tau_1} 1_{\{X_n = j\}}.
-\lim_{n \in \N}\frac{\sum_{k=1}^nR_k}{n} &= \pi_i\E_i\sum_{j \in E}\sum_{n=1}^{S_1(i)}f(j)1\{X_n = j\} = \pi_i\sum_{j \in \E}\E_iN_{ij}f(j)= \sum_{j \in \E}\pi_jf(j). 
+\lim_{n \in \N}\frac{\sum_{k=1}^nR_k}{n} &= \pi_i\E_i\sum_{j \in E}f(j)\sum_{n=1}^{S_1(i)}1\{X_n = j\} = \pi_i\sum_{j \in \E}f(j)\E_iN_{j}(S_1(i))= \sum_{j \in \E}\pi_jf(j). 
 \end{align*}
 %To calculate the reward given above, we need to find the expected number of visits to state $j$ between successive visits to state $i$. 
 %We denote the average number of visits to state $j$ by  
