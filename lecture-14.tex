@@ -41,14 +41,18 @@ The following theorem gives a sufficient criterion for the positive recurrence o
 The value $L(i)$ for any state $i$ attained by Markov chain denotes ``energy'' or ``potential'' of that state. 
 The idea is that if the mean energy decreases for all but finitely many states, the Markov chain keeps returning to a finite set of states. 
 That is, the Markov chain is positive recurrent. 
-
+For any positive function $g: E \to \R_+$ and threshold $k$, we can define level sets 
+\eq{
+F(g,k) &= \{ i\in E: g(i) \leq k\}.
+}
 \begin{thm}[F. G. Foster,1950]
-Let $X = \{X_n: n \in \N_0\}$ be an irreducible Markov chain on countable state space $E$.
-If there exist a function $L : E \to \R_+$ with bounded mean $\E L(X_0) < \infty$, such that for some $K, k \geq 0$ and $\epsilon>0$ the following conditions hold
+Let $X = \{X_n: n \in \N_0\}$ be an irreducible Markov chain on countable state space $E$. 
+If there exist a function $L : E \to \R_+$ with bounded mean $\E L(X_0) < \infty$, 
+such that for some $K, k \geq 0$ and $\epsilon>0$ the following conditions hold
 \begin{enumerate}[i\_]
-\item \textbf{Unbounded growth of energy.} $|\{i \in E: L(i) \leq k\}| < \infty$
-\item \textbf{Bounded energy on bounded set.} $\E[L(X_n)|X_{n-1}] < K$,when $L(X_{n-1}) \leq k$.
-\item \textbf{Negative drift on unbounded set.} $\E[L(X_n)-L(X_{n-1})|X_{n-1}] < -\epsilon$ if $L(X_{n-1})\geq k$
+\item \textbf{Unbounded growth of energy.} $F(L,k)$ is a finite set.
+\item \textbf{Bounded energy on bounded set.} $\E[L(X_n)|X_{n-1}] < K$,when $X_{n-1}) \in F(L,k)$.
+\item \textbf{Negative drift on unbounded set.} $\E[L(X_n)-L(X_{n-1})|X_{n-1}] < -\epsilon$ if $X_{n-1})\notin F(L,k)$
 \end{enumerate}
 Then the Markov chain $X$ is positive recurrent. 
 %(L $\equiv$ "potential function" or energy or Lyapunov function).
@@ -56,33 +60,48 @@ Then the Markov chain $X$ is positive recurrent.
 \begin{proof}
 %Since the Markov chain is irreducible, iconsider
 For the Markov chain $X$ and the Lyapunov function $L$, choose $K,k$ and $\epsilon$ such that the hypotheses hold.  
-Define the finite set of states  
-\eq{
-F &= \{i \in E: L(i) \leq k\}.
-}
+We refer to the finite set of states $F(L,k)$ as $F$. 
+%\eq{
+%F &= \{i \in E: L(i) \leq k\}.
+%}
 We can write the following using telescopic sum
 \eq{
 \E L(X_n) - \E L(X_0) %&=  \sum_{n=1}^{N}\E[L(X_n)-L(X_{n-1})] 
 &=  \sum_{n=1}^{N}\E[L(X_n)-L(X_{n-1})1\{X_{n-1} \notin F \}] + \sum_{n=1}^{N}\E[L(X_n)-L(X_{n-1}) 1\{X_{n-1} \in F\}].
 }
-\begin{align*}
-& 0 \leq \E[L(X_n)] = \E[L(X_0)] +   \sum_{n=1}^{N}\E[L(X_n)-L(X_{n-1})]\\
-&= \E[L(X_0)] + \sum_{n=1}^{N}\E[L(X_n)-L(X_{n-1})]\boldsymbol{1}_{\{L(X_{n-1})>k\}} + \sum_{n=1}^{N}\E[L(X_n)-L(X_{n-1})]\boldsymbol{1}_{\{L(X_{n-1})\leq k\}}\\
-&\leq \E[L(X_0)] + \sum_{n=1}^{N}\E[-\epsilon \        \boldsymbol{1}_{\{L(X_{n-1})>k\}}] + \sum_{n=1}^{N}\E[K \ \boldsymbol{1}_{\{L(X_{n-1})\leq k\}}]\\
-&\to \Bigg[\E\sum_{n=1}^{N} \boldsymbol{1}_{\{L(X_{n-1})\leq k\}}\Bigg](K + \epsilon) \geq -\E[L(X_0)] + \epsilon N\\\\
-&\to \frac{1}{N} \Bigg[\E\sum_{n=1}^{N} \boldsymbol{1}_{\{L(X_{n-1})\leq k\}}\Bigg] \geq -\frac{\E[L(X_0)]}{N(K+\epsilon)} + \frac{\epsilon}{K+\epsilon}\\\\
-&\to \limsup_{N\to \infty}\frac{1}{N} \Bigg[\E\sum_{n=1}^{N} \boldsymbol{1}_{\{L(X_{n-1})\leq k\}}\Bigg] \geq \frac{\epsilon}{K+\epsilon}
-\end{align*}
-Let $F = \{x \in \N_0: L(x) \leq k\}, \ |F| < \infty$. Now,
-\begin{align*}
-& \limsup_{N\to \infty}\frac{1}{N} \Bigg[\E\sum_{n=1}^{N} \boldsymbol{1}_{\{L(X_{n-1})\leq k\}}\Bigg]\\\\
-&=\limsup_{N\to \infty}\frac{1}{N} \Bigg[\E\sum_{n=1}^{N}\sum_{x \in F} \boldsymbol{1}_{\{X_{n-1}\leq k\}}\Bigg] \leq \sum_{x \in F} \Bigg[ \limsup_{N\to \infty}\frac{1}{N} \E\sum_{n=1}^{N} \boldsymbol{1}_{\{X_{n-1}\leq k\}}\Bigg]\\\\ 
-&=\sum_{x \in F} \Bigg[ \limsup_{N\to \infty}\frac{1}{N} \E\sum_{n=1}^{N} \boldsymbol{1}_{\{X_{n-1}\leq k\}}\Bigg] \geq \frac{\epsilon}{K+\epsilon}>0
-\end{align*}
+Using the second and third hypotheses, we can write 
+\eq{
+\E L(X_n) - \E L(X_0) &\leq -\sum_{n=1}^{N}\epsilon\E1\{X_{n-1} \notin F \} + \sum_{n=1}^{N}K \E1\{X_{n-1} \in F\}
+= -\epsilon N + \sum_{n=1}^{N}(K+\epsilon) \E1\{X_{n-1} \in F\}.
+}
+%\begin{align*}
+%& 0 \leq \E[L(X_n)] = \E[L(X_0)] +   \sum_{n=1}^{N}\E[L(X_n)-L(X_{n-1})]\\
+%&= \E[L(X_0)] + \sum_{n=1}^{N}\E[L(X_n)-L(X_{n-1})]\boldsymbol{1}_{\{L(X_{n-1})>k\}} + \sum_{n=1}^{N}\E[L(X_n)-L(X_{n-1})]\boldsymbol{1}_{\{L(X_{n-1})\leq k\}}\\
+%&\leq \E[L(X_0)] + \sum_{n=1}^{N}\E[-\epsilon \        \boldsymbol{1}_{\{L(X_{n-1})>k\}}] + \sum_{n=1}^{N}\E[K \ \boldsymbol{1}_{\{L(X_{n-1})\leq k\}}]\\
+%&\to \Bigg[\E\sum_{n=1}^{N} \boldsymbol{1}_{\{L(X_{n-1})\leq k\}}\Bigg](K + \epsilon) \geq -\E[L(X_0)] + \epsilon N\\\\
+%&\to \frac{1}{N} \Bigg[\E\sum_{n=1}^{N} \boldsymbol{1}_{\{L(X_{n-1})\leq k\}}\Bigg] \geq -\frac{\E[L(X_0)]}{N(K+\epsilon)} + \frac{\epsilon}{K+\epsilon}\\\\
+%&\to \limsup_{N\to \infty}\frac{1}{N} \Bigg[\E\sum_{n=1}^{N} \boldsymbol{1}_{\{L(X_{n-1})\leq k\}}\Bigg] \geq \frac{\epsilon}{K+\epsilon}
+%\end{align*}
+Since $L$ is a positive function, we can re-arrange the above equation to write 
+\eq{
+\frac{1}{N}\E\sum_{n=1}^{N}1\{X_{n-1} \in F\} &= \sum_{i \in F}\left[\frac{1}{N}\E\sum_{n=1}^{N}1\{X_{n-1} = i\}\right] \geq \frac{\epsilon}{K + \epsilon} - \frac{\E L(X_0)}{N(K+\epsilon)}
+}
+Taking limit superior as $N \uparrow \infty$ on both sides, we obtain
+\eq{
+\sum_{i \in F}\left[\lim\sup_{N \to \infty}\frac{1}{N}\E\sum_{n=1}^{N}1\{X_{n-1} = i\}\right] & \geq \frac{\epsilon}{K + \epsilon}.
+}
+%Let $F = \{x \in \N_0: L(x) \leq k\}, \ |F| < \infty$. Now,
+%\begin{align*}
+%& \limsup_{N\to \infty}\frac{1}{N} \Bigg[\E\sum_{n=1}^{N} \boldsymbol{1}_{\{L(X_{n-1})\leq k\}}\Bigg]\\\\
+%&=\limsup_{N\to \infty}\frac{1}{N} \Bigg[\E\sum_{n=1}^{N}\sum_{x \in F} \boldsymbol{1}_{\{X_{n-1}\leq k\}}\Bigg] \leq \sum_{x \in F} \Bigg[ \limsup_{N\to \infty}\frac{1}{N} \E\sum_{n=1}^{N} \boldsymbol{1}_{\{X_{n-1}\leq k\}}\Bigg]\\\\ 
+%&=\sum_{x \in F} \Bigg[ \limsup_{N\to \infty}\frac{1}{N} \E\sum_{n=1}^{N} \boldsymbol{1}_{\{X_{n-1}\leq k\}}\Bigg] \geq \frac{\epsilon}{K+\epsilon}>0
+%\end{align*}
 Therefore there exist some $x \in F$ such that ,
-\[\limsup_{N\to \infty}\frac{1}{N} \E\Bigg[ \sum_{n=1}^{N} \boldsymbol{1}_{\{X_{n-1}\leq k\}}\Bigg] \geq \frac{\epsilon}{(K+\epsilon)|F|}>0\]\\\\
-Therefore there exist some $x \in F$ such that ,
-\[\lim_{N\to \infty}\frac{1}{N} \E\Bigg[\sum_{n=1}^{N} \boldsymbol{1}_{\{X_{n-1}\leq k\}}\Bigg] >0\]
+\eq{
+\limsup_{N\to \infty}\frac{1}{N} \E\Bigg[ \sum_{n=1}^{N} \boldsymbol{1}_{\{X_{n-1}\leq k\}}\Bigg] \geq \frac{\epsilon}{(K+\epsilon)|F|}>0.
+}
+%Therefore there exist some $x \in F$ such that ,
+%\[\lim_{N\to \infty}\frac{1}{N} \E\Bigg[\sum_{n=1}^{N} \boldsymbol{1}_{\{X_{n-1}\leq k\}}\Bigg] >0\]
 \end{proof}
 \section{Applications of Foster's theorem: Queue scheduling/Max-weight scheduling}
 Consider $N$ queue served by a single server in discrete time(Figure 1).

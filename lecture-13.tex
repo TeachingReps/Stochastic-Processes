@@ -2,11 +2,74 @@
 % !TEX spellcheck = LaTeX
 \documentclass[a4paper,10pt,english]{article}
 \include{header}
-\title{Lecture 13 : Convergence of Markov Chains and Coupling} %theorem}
+\title{Lecture 13 : Convergence of Markov Chains} %theorem}
 \author{}
 \begin{document}
 \maketitle
 %\section{Discrete Time Markov Chains Contd.}
+
+\section{Mean time spent in the transient states}
+Consider a Markov chain $X$ defined on a finite state space $E$ with probability transition matrix $P$. 
+Let $T \subset E$ be the set of transient states. 
+We define a probability transition matrix $Q$ for transient states as 
+\begin{align*}
+Q_{ij} = P_{ij},~~i,j \in T.
+%Q_{t \times t} &= P_{[t] \times [t]}\\
+%Q_{t \times t} &= \begin{bmatrix} p_{11}&-&-&-&p_{1t}\\ p_{21}&-&-&-&p_{2t} \\ -&-&-&-&-\\ p_{t1}&-&-&-&p_{tt} \end{bmatrix}
+\end{align*}
+%\begin{rem} 
+All row sums of $Q$ cannot equal $1$. 
+At least one row should not sum up to $1$, else it contradicts the claim that $Q$ is a transition matrix for the set of transient states. 
+Hence, $I-Q$ is invertible. 
+%\end{rem}
+%\begin{defn}
+For $i,j \in T$, we define \textbf{fundamental matrix} $M$ such that
+\begin{align*}
+M_{ij} &\triangleq \E_i\sum_{n\in \N_0} 1_{\{X_n = j\}} = \sum_{n \in \N_0}P^n_{ij}.
+\end{align*}
+%\end{defn}
+\begin{lem} 
+Fundamental matrix $M$ for transient states of a Markov chain $X$ can be expressed in terms of its transition matrix $Q$ as
+\begin{align*}
+M = (I - Q)^{-1}.
+\end{align*}
+\end{lem}
+\begin{proof}
+We will show that $M = I + QM$. 
+To this end, we re-write $M_{ij}$ as 
+\begin{align*}
+M_{ij} &= 1_{\{i = j\}} + \sum_{n \in \N}\sum_{k \in E}\P_i\{X_n = j, X_1 = k\} = I_{ij} + \sum_{k \in E}P_{ik}\sum_{n \in \N_0}P^n_{kj} = I_{ij} + \sum_{k \in T} P_{ik}M_{kj} + \sum_{k \notin T} P_{ik}\sum_{n \in \N_0}P^n_{kj}.
+\end{align*}
+Since $T$ is a set of transient states, $P_{ij} = 0$ for $i \notin T$ and $j \in T$, the result follows.  
+%\begin{align*}
+%M &= I + QM.
+%\end{align*}
+\end{proof}
+%$M$ is called the fundamental matrix.\\
+%\begin{defn} 
+First time to visit a transient state $j \in T$ is a stopping time 
+\eq{
+\tau_j = \inf\{n \in \N_0 : X_n = j \}. 
+}
+The expected time to visit any transient state $j \in T$, starting from an initial transient state $i \in T$ is  
+\begin{align*}
+f_{ij} &\triangleq \E_i\sum_{m \in \N_0}1_{\{\tau_j = m\}}.
+\end{align*}
+%\end{defn}
+\begin{lem} 
+For all $i, \in T$, we have $f_{ij} = {M_{ij}}/{M_{jj}}$.
+\end{lem}
+\begin{proof} 
+%Since $j \in T$, we know $\Pr\{\tau_j < \infty \} = 1$, hence we can write 
+%\begin{align*}
+%f_{ij} &= \P_i\{\tau_j < \infty\} = \sum_{m \in \N_0}\P_i\{\tau_j = m\}.
+%\end{align*}
+From law of total probability, we can write $M_{ij}$ as 
+\begin{align*}
+M_{ij} &= \sum_{m \in \N_0}\sum_{n \geq m}\P_i\{X_n = j, \tau_j = m\} = \sum_{m \in \N_0}\P_i\{\tau_j = m\}\sum_{n \in \N_0}\P_j\{X_n = j\} = f_{ij}M_{jj}.
+%\E_i[\text{number of transitions to } j] &= 
+\end{align*}
+\end{proof}
 
 \section{Total variation distance}
 %\begin{defn} 
@@ -178,66 +241,6 @@ Hence, we see that $W_i \leq Z_i$ is Bernoulli with parameter $\E W_i = q = \Pr\
 Observing that $Y = \sum_i W_i \leq \sum_i Z_i  = X$, it follows that $\Pr\{Y > k\} \leq  \Pr\{X > k\}$. 
 %\end{exmp}
 \end{shaded*}
-
-\section{Mean time spent in the transient states}
-Consider a Markov chain $X$ defined on a finite state space $E$ with probability transition matrix $P$. 
-Let $T \subset E$ be the set of transient states. 
-We define a probability transition matrix $Q$ for transient states as 
-\begin{align*}
-Q_{ij} = P_{ij},~~i,j \in T.
-%Q_{t \times t} &= P_{[t] \times [t]}\\
-%Q_{t \times t} &= \begin{bmatrix} p_{11}&-&-&-&p_{1t}\\ p_{21}&-&-&-&p_{2t} \\ -&-&-&-&-\\ p_{t1}&-&-&-&p_{tt} \end{bmatrix}
-\end{align*}
-%\begin{rem} 
-All row sums of $Q$ cannot equal $1$. 
-At least one row should not sum up to $1$, else it contradicts the claim that $Q$ is a transition matrix for the set of transient states. 
-Hence, $I-Q$ is invertible. 
-%\end{rem}
-%\begin{defn}
-For $i,j \in T$, we define \textbf{fundamental matrix} $M$ such that
-\begin{align*}
-M_{ij} &\triangleq \E_i\sum_{n\in \N_0} 1_{\{X_n = j\}} = \sum_{n \in \N_0}P^n_{ij}.
-\end{align*}
-%\end{defn}
-\begin{lem} 
-Fundamental matrix $M$ for transient states of a Markov chain $X$ can be expressed in terms of its transition matrix $Q$ as
-\begin{align*}
-M = (I - Q)^{-1}.
-\end{align*}
-\end{lem}
-\begin{proof}
-We will show that $M = I + QM$. 
-To this end, we re-write $M_{ij}$ as 
-\begin{align*}
-M_{ij} &= 1_{\{i = j\}} + \sum_{n \in \N}\sum_{k \in E}\P_i\{X_n = j, X_1 = k\} = I_{ij} + \sum_{k \in E}P_{ik}\sum_{n \in \N_0}P^n_{kj} = I_{ij} + \sum_{k \in T} P_{ik}M_{kj} + \sum_{k \notin T} P_{ik}\sum_{n \in \N_0}P^n_{kj}.
-\end{align*}
-Since $T$ is a set of transient states, $P_{ij} = 0$ for $i \notin T$ and $j \in T$, the result follows.  
-%\begin{align*}
-%M &= I + QM.
-%\end{align*}
-\end{proof}
-%$M$ is called the fundamental matrix.\\
-%\begin{defn} 
-We define expected time to visit any transient state $j \in T$, starting from initial transient state $i \in T$ as 
-\begin{align*}
-f_{ij} &\triangleq \E_i1_{\{X_n = j \text{ for some } n \in \N_0 \}}
-\end{align*}
-%\end{defn}
-\begin{lem} 
-For all $i, \in T$, we have $f_{ij} = \frac{M_{ij}}{M_{jj}}$.
-\end{lem}
-\begin{proof} 
-Let $\tau_j = \inf\{ n \in \N_0 : X_n = j \}$. 
-Since $j \in T$, we know $\Pr\{\tau_j < \infty \} = 1$, hence we can write 
-\begin{align*}
-f_{ij} &= \P_i\{\tau_j < \infty\} = \sum_{m \in \N_0}\P_i\{\tau_j = m\}.
-\end{align*}
-Further, we observe
-\begin{align*}
-M_{ij} &= \sum_{m \in \N_0}\sum_{n \geq m}\P_i\{X_n = j, \tau_j = m\} = \sum_{m \in \N_0}\P_i\{\tau_j = m\}\sum_{n \in \N_0}\P_j\{X_n = j\} = f_{ij}M_{jj}.
-%\E_i[\text{number of transitions to } j] &= 
-\end{align*}
-\end{proof}
  
 \end{document}
 
