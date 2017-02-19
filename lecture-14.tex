@@ -96,65 +96,120 @@ Taking limit superior as $N \uparrow \infty$ on both sides, we obtain
 %&=\limsup_{N\to \infty}\frac{1}{N} \Bigg[\E\sum_{n=1}^{N}\sum_{x \in F} \boldsymbol{1}_{\{X_{n-1}\leq k\}}\Bigg] \leq \sum_{x \in F} \Bigg[ \limsup_{N\to \infty}\frac{1}{N} \E\sum_{n=1}^{N} \boldsymbol{1}_{\{X_{n-1}\leq k\}}\Bigg]\\\\ 
 %&=\sum_{x \in F} \Bigg[ \limsup_{N\to \infty}\frac{1}{N} \E\sum_{n=1}^{N} \boldsymbol{1}_{\{X_{n-1}\leq k\}}\Bigg] \geq \frac{\epsilon}{K+\epsilon}>0
 %\end{align*}
-Therefore there exist some $x \in F$ such that ,
+Therefore, there exist some $x \in F$ such that 
 \eq{
 \limsup_{N\to \infty}\frac{1}{N} \E\Bigg[ \sum_{n=1}^{N} \boldsymbol{1}_{\{X_{n-1}\leq k\}}\Bigg] \geq \frac{\epsilon}{(K+\epsilon)|F|}>0.
 }
 %Therefore there exist some $x \in F$ such that ,
 %\[\lim_{N\to \infty}\frac{1}{N} \E\Bigg[\sum_{n=1}^{N} \boldsymbol{1}_{\{X_{n-1}\leq k\}}\Bigg] >0\]
 \end{proof}
-\section{Applications of Foster's theorem: Queue scheduling/Max-weight scheduling}
-Consider $N$ queue served by a single server in discrete time(Figure 1).
-At time slot t = 1,2,3....\\
-$A_i(t) \in \N_0$ packets arrive to each queue $i \in [N]$ independently.\\
+\section{Applications: max-weight queue scheduling}
+Consider $N$ discrete time queues served by a single server as shown in Figure~\ref{Fig:SharedServerQueue}. 
+In each queue $i \in [N]$, the number of existing customers, the number of customer arrivals, and the available service are denoted by $X_i(n), A_i(n)$, and $R_i(n)$ respectively  at each discrete time slot $n \in \N$. 
+Arrival $A_i(n) \in \N_0$ at each queue $i \in [N]$ at each time $n$ is assumed to be independent, 
+and it satisfies the following conditions, 
+\begin{xalignat*}{5}
+&\E A_i(n) = \lambda _i,&& P\{A_i(n)=0\} > 0,&& \E A_i(n)^2 \leq C.
+\end{xalignat*}
+This implies mean rate of arrival to the system is $\sum_{i\in[N]}\lambda_i$. 
 \begin{figure}
 \centering
-\includegraphics[scale=0.6]{Figures/saa.png}
+\includegraphics[scale=0.5]{Figures/saa.png}
 \caption{N queues single server, server chooses one queue and serve upto one packet}
-\label{fig: example 1.1}
+\label{Fig:SharedServerQueue}
 \end{figure}
-\begin{enumerate}
-\item $\E[A_i(t)] = \lambda _i$
-\item $\mathbb{P}[A_i(t)=0] > 0$
-\item $\E[A_i(t)^2] \leq C$
-\end{enumerate}
-Server picks one queue $Q(t) \in [N]$ for service. Let $R_i(t) =  \boldsymbol{1}\{Q(t) = i\}$.One packet is served from $Q(t)$ if it is not empty.Let $X_i(t)$ = number of packets in queue $i$ just before time slot $t$.\\
-\[X_i(t+1) = (X_i(t) + A_i(t) - R_i(t))_+\]
-Where \[a_+ = max(0,a)\]
-aslo \[X_i(t+1) = X_i(t) + A_i(t) - R_i(t) + L_i(t)       \]Where 
-\begin{equation*}
-L_i(t) = 
-\begin{cases}
-  1 \ \ \ \,service \ attempted \ when \ i \ is \ empty\\
-  0 \ \ \ \,otherwise 
-\end{cases}
-\end{equation*}
-Mean rate of arrivals to system : $= \sum_{i=1}^{N} \lambda _i
-$\\
-Maximum rate of departure $= 1$, we will assume $ \sum_{i=1}^{N} \lambda _i < 1$.
-\begin{thm}[Max-weight scheduling algorithm, 1992]
-\[Q(t) = \arg \max _{i \in N} X_i(t)  \] 
-that is serve  the longest queue.Under MAX-WT ,$X(t) = (X_i(t))_{i=1}^{N}$ is a DTMC which is irreducible and aperiodic on state space $\N_0^N$.As long as $\sum_{i=1}^{N} \lambda _i < 1$, $\{X_n\}$ is positive recurrent.
+The server is shared by all $N$ queues, and can only serve one customer in any one queue in any time slot $n$. 
+%The server can serve only one customer at each time $n$. 
+The customer leaves the queue if served. 
+Hence, the maximum rate of departure from all the queues is unity. 
+We will assume that aggregate mean rate of arrival to the system is smaller than maximum available service to the system, that is $\sum_{i \in [N]}\lambda_i < 1$. 
+Let $I(n) \in [N]$ be the queue index served by the server in each time $n$, 
+then the service available to queue $i$ at time $n$ is $R_i(n) = 1\{I(n) = i\}$. 
+%Server picks one queue $Q(t) \in [N]$ for service. Let $R_i(t) =  \boldsymbol{1}\{Q(t) = i\}$. 
+%One packet is served from $Q(t)$ if it is not empty. 
+%Let $X_i(t)$ = number of packets in queue $i$ just before time slot $t$.\\
+We can write the time evolution for queue $i$ as
+\eq{
+X_i(n+1) = (X_i(t) + A_i(t) - R_i(t))_+,
+}
+where $a_+ = \max(0,a)$. 
+
+At each time $n$, the selection of queue $I(n)$ to be served is called \textbf{scheduling}.  
+Consider a scheduling policy  based solely on the current state of all queues $X(n) = (X_1(n), \dots, X_N(n))$. 
+For such policies, the aggregate state of the queues form a Markov chain, 
+since each arrival is independent, and queue evolution only depends on the current state. 
+This is a difficult Markov chain to study if the scheduling policy is not random. 
+We are interested in a scheduling policy that would make the Markov chain positive recurrent if $\sum_{i \in [N]}\lambda_i < 1$. 
+%aslo \[X_i(t+1) = X_i(t) + A_i(t) - R_i(t) + L_i(t)       \]Where 
+%\begin{equation*}
+%L_i(t) = 
+%\begin{cases}
+%  1 \ \ \ \,service \ attempted \ when \ i \ is \ empty\\
+%  0 \ \ \ \,otherwise 
+%\end{cases}
+%\end{equation*}
+%Mean rate of arrivals to system : $= \sum_{i=1}^{N} \lambda _i$\\
+%Maximum rate of departure $= 1$, we will assume $ \sum_{i=1}^{N} \lambda _i < 1$.
+\begin{thm}[max-weight scheduling algorithm, 1992]
+Max-weight scheduling policy selects the longest queue for service at each time $n$, 
+\eq{
+I(n) = \arg \max\{i \in N: X_i(n)\}.
+}   
+Under this policy, $X(n) = (X_1(n), \dots, X_N(n))$ is an irreducible and aperiodic Markov chain on state space $\N_0^N$. 
+If $\sum_{i \in [N]} \lambda _i < 1$, then Markov chain $X$ is positive recurrent. 
 \end{thm}
 \begin{proof}
-By Foster's theorem, define the Lyapunov function:
-\[L(x) = \frac{1}{2} \sum_{i=1}^{N}x_i^2\] consider
+Let $\sum_{i \in [N]}\lambda_i < 1 - \delta$ for some $\delta > 0$. 
+For Foster's theorem, we define a Lyapunov function
+\eq{
+L(x) &= \frac{1}{2} \sum_{i=1}^{N}x_i^2.
+}
+We consider the difference in Lyapunov function between two successive states of the Markov chain. 
+From the queue evolution equation and since $a_+^2 \leq a^2$, we have
 \begin{align*}
-& L(X(t)) - L(X(t-1))\\
-&= \frac{1}{2} \sum_{i=1}^{N}\Big[ (X_i(t))^2 - (X_i(t-1))^2 \Big]\\
-&= \frac{1}{2} \sum_{i=1}^{N}\Big[ \{X_i(t-1) + A_i(t-1) - R_i(t-1) + L_i(t-1)\}^2 - (X_i(t-1))^2 \Big]\\
-& \leq \frac{1}{2} \sum_{i=1}^{N}\Big[ \{X_i(t-1) + A_i(t-1) - R_i(t-1)\}^2 - (X_i(t-1))^2 \Big]
+L(X(n+1)) - L(X(n)) %&= \frac{1}{2} \sum_{i=1}^{N}\Big[ (X_i(t))^2 - (X_i(t-1))^2 \Big]\\
+&\leq %\frac{1}{2} \sum_{i \in [N]}\left[ (X_i(n) + A_i(n) - R_i(n))^2 - (X_i(n))^2 \right] = 
+%& \leq \frac{1}{2} \sum_{i=1}^{N}\Big[ \{X_i(t-1) + A_i(t-1) - R_i(t-1)\}^2 - (X_i(t-1))^2 \Big]
+\sum_{i \in [N]}\left[X_i(n)(A_i(n)-R_i(n)) + \frac{1}{2}(A_i(n)-R_i(n))^2\right].
 \end{align*}
-Therefore 
-\[\E\Big[ L(X(t)) - L(X(t-1)) | X(t-1) = x \Big]  \leq \frac{1}{2} \sum_{i=1}^{N} \E \Big[ (x_i + A_i(t-1) - R_i(t-1))^2 - x_i^2 | X(t-1) = x \Big]\]
-\begin{align*}
-&= \frac{1}{2} \sum_{i=1}^{N} \Bigg[ 2x_i \E \Big[ (A_i(t-1) - R_i(t-1)| X(t-1) = x \Big] + \E \Big[ (A_i(t-1) - R_i(t-1))^2 | X(t-1) = x \Big] \Bigg]\\
-&= \sum_{i=1}^{N}x_i \lambda _i - \sum_{i=1}^{N}x_i R_i(t-1) + \frac{N}{2}(1+C)\\
-&= \sum_{i=1}^{N}x_i \lambda _i + \frac{N}{2}(1+C) - \max _i x_i\\
-& \leq \frac{N}{2}(1+C) + (\max _i x_i)(\sum_{i=1}^{N} \lambda _i - 1)\\
-&= C_1 - \epsilon (\max _i x_i)
-\end{align*}
-Foster's theorem applies with $k = \max \{\frac{\|x\|_2 ^2}{2}\}$
+Since $X_i(n)R_i(n) = X_i(n)1\{I(n) = i\}$ where $I(n) = \arg\max\{j \in [N]: X_j(n)\}$, we have
+\eq{
+\sum_{i \in [N]}X_i(n)R_i(n) = \max\{X_i(n): i \in [N]\}.
+}
+Therefore, we can bound the conditional expectation of the drift
+\eq{
+\E\left[ L(X(n+1)) - L(X(n)) | X(n)\right]  %&\leq \sum_{i \in [N]}X_i(n)\lambda_i-\max\{X_i(n): i \in [N]\} + \frac{1}{2}(NC+1)\\
+&\leq \max\{X_i(n): i \in [N]\}(\sum_{i \in [N]}\lambda_i - 1) +  \frac{1}{2}(NC+1).
+}
+%\begin{align*}
+%&= \frac{1}{2} \sum_{i=1}^{N} \Bigg[ 2x_i \E \Big[ (A_i(t-1) - R_i(t-1)| X(t-1) = x \Big] + \E \Big[ (A_i(t-1) - R_i(t-1))^2 | X(t-1) = x \Big] \Bigg]\\
+%&= \sum_{i=1}^{N}x_i \lambda _i - \sum_{i=1}^{N}x_i R_i(t-1) + \frac{N}{2}(1+C)\\
+%&= \sum_{i=1}^{N}x_i \lambda _i + \frac{N}{2}(1+C) - \max _i x_i\\
+%& \leq \frac{N}{2}(1+C) + (\max _i x_i)(\sum_{i=1}^{N} \lambda _i - 1)\\
+%&= C_1 - \epsilon (\max _i x_i)
+%\end{align*}
+For a fixed $k$, any member $x$ of the level set $F(L,k)$ satisfies $\norm{x}_2^2 \leq 2k$. 
+%\begin{xalignat*}{3}
+%&\norm{x}_2^2 \leq 2k, && \max\{x_i: i \in [N]\} \leq \sqrt{2k}.
+%\end{xalignat*} 
+We can then bound the Lyapunov function at time $(n+1)$ conditioned on $X(n) \in F(L,k)$ by 
+\eq{
+\E[L(X(n+1))|X(n)] &\leq 2k + \frac{1}{2}(NC+1).
+}
+Further, when $x \notin F(L,k)$ then 
+\eq{
+\max\{x_i: i \in [N]\} &\geq \frac{\sqrt{2k}}{N}. 
+}
+Hence, we have the conditional drift for $X(n) \notin F(L,k)$
+\eq{
+\E\left[ L(X(n+1)) - L(X(n)) | X(n)\right]  &\leq -\frac{\sqrt{2k}}{N}\delta+  \frac{1}{2}(NC+1).
+}
+For some $\epsilon > 0$, we choose 
+\begin{xalignat*}{3}
+&k  > \frac{1}{2}\left(\frac{N\epsilon}{\delta} +  \frac{N}{2\delta}(NC+1)\right)^2,&&K > 2k + \frac{1}{2}(NC+1).
+\end{xalignat*}
+Foster's theorem applied to this choice of $k, K, \epsilon$ shows that states in $F(L,k)$ are positive recurrent. 
+Since, the Markov chain is irreducible, the entire Markov chain is positive recurrent. 
 \end{proof}
 \end{document}
 
