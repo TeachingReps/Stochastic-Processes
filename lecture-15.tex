@@ -8,8 +8,10 @@
 \maketitle
 
 \section{Markov Process}
-\begin{defn}
-For a countable set $I$ a continuous time stochastic process $\{X(t) \in I, ~ t \geqslant 0\}$ is a \textbf{Markov process} if
+%\begin{defn}
+A continuous time stochastic process $\{X(t) \in I, ~ t \geqslant 0\}$ with a countable state space $I$ is a \textbf{Markov process} if 
+the distribution of the future states conditioned on the present, is independent of the past. 
+That is,
 \begin{align*}
 \Pr\{X(t+s) = j |X(u),~ u \in [0,s]\} &= \Pr\{X(t+s) = j |X(s)\}, \text{ for all } s, t \geqslant 0 \text{ and } i, j \in I.
 \end{align*}
@@ -17,57 +19,68 @@ We define the \textbf{transition probability} from state $i$ at time $s$ to stat
 \begin{align*}
 P_{ij}(s, s+t) = \Pr\{X(s+t) = j | X(s) = i\}.
 \end{align*}
-\end{defn}
-\begin{defn}
+%\end{defn}
+%\begin{defn}
 The Markov process has \textbf{homogeneous} transitions if $P_{ij}(s,s+t) = P_{ij}(0,t)$ for all $i,j \in I, s,t \geqslant 0$ and we denote the transition probability by $P_{ij}(t)$. 
-This continuous Markov process with homogeneous jump transition probabilities is referred to as \textbf{continuous time Markov chain (CTMC)}. 
-\end{defn}
-\begin{defn}
+This continuous time Markov process with homogeneous jump transition probabilities is referred to as \textbf{continuous time Markov chain (CTMC)}. 
+%\end{defn}
+%\begin{defn}
 A distribution $\pi$ is an \textbf{equilibrium distribution} of a Markov process if
 \begin{align*}
 \pi P(t) &= \pi,~~ \forall t \geqslant 0. 
 \end{align*}
-\end{defn}
+%\end{defn}
 
 \subsection{Sojourn Times and Jump Transitions}
-For any stochastic process with countable state space $I$, we are interested in knowing probabilities of the form $\Pr\{X(v)=i,~v \in [s,s+t] | X(u)=i, ~ u \in [0,s]\}$.
+For any stochastic process with countable state space $I$, we wish to know following probabilities 
+\eq{
+\Pr\{X(s+t) = j | X(u)=i, ~ u \in [0,s]\},~s, t \geq 0.
+}
 %Suppose $X(0)=i$, and  for all $u \in [0,s]$, we have $X(u)=i$.  
-To this end, we define sojourn times in any state and and jump transition probabilities from it.
-\begin{defn}
-\textbf{Sojourn time} of a stochastic process $\{X(t), t \geqslant 0\}$ is defined by
-\begin{align*}
-\tau_i \triangleq \inf\{t \geqslant 0: X(t) \neq i|X(0)=i\}, i \in I. 
-\end{align*}
-\end{defn}
-\begin{defn}
-\textbf{Jump times} of a stochastic process $\{X(t), t \geqslant 0\}$ are defined by
+To this end, we define the sojourn time in any state, the jump times, and the jump transition probabilities. % from it. 
+%\begin{defn}
+The \textbf{jump times} of a stochastic process $\{X(t), t \geqslant 0\}$ are %defined by
 \begin{xalignat*}{3}
-&S_n \triangleq \inf\{t \geqslant 0: X(t) \neq X(S_{n-1})\},&& S_0 = 0. 
+&S_0 = 0, &&S_n \triangleq \inf\{t \geqslant 0: X(t) \neq X(S_{n-1})\}. 
 \end{xalignat*}
-\end{defn}
-\begin{defn} A discrete time process $\{X^J(n): n \in \N_0\}$ is called \textbf{jump process} derived from continuous time stochastic process $\{X(t): t \geqslant 0\}$ by
+%\end{defn}
+%\begin{defn}
+The $n$th \textbf{sojourn time} of a stochastic process $\{X(t), t \geqslant 0\}$ remaining in the same state is %in any state $i \in I$ are 
 \begin{align*}
-X^J(n) = X(S_n). 
+T_n &\triangleq (S_n - S_{n-1}). %1\{X(S_{n-1}) = i\}. 
+%\tau_i \triangleq \inf\{t \geqslant 0: X(t) \neq i|X(0)=i\}, i \in I. 
 \end{align*}
-\end{defn}
-\begin{defn}
-\textbf{Jump transition probabilities} of a stochastic process $\{X(t), t \geqslant 0\}$ are defined by
+%\end{defn}
+%\begin{defn} 
+The \textbf{jump process} is a discrete time process $\{X^J(n) = X(S_n): n \in \N_0\}$ derived from 
+the continuous time stochastic process $\{X(t): t \geqslant 0\}$ by sampling at jump times.  
+%\begin{align*}
+%X^J(n) = X(S_n).
+%\end{align*}
+%\end{defn}
+%\begin{defn}
+The \textbf{jump transition probabilities} of a stochastic process $\{X(t), t \geqslant 0\}$ are defined by
 \begin{align*}
 p_{ij}(n) \triangleq \Pr\{X(S_n)  = j | X(S_{n-1}) =  i \}, ~i,j \in I.
 \end{align*}
-\end{defn}
+%\end{defn}
 \begin{lem}\label{Lemma:MemorylessSojourn}
-For a homogeneous CTMC, sojourn time $\tau_i$ is a continuous memoryless random variable. %and exponentially distributed. 
+For a homogeneous CTMC, sojourn time $T_n$ is a continuous memoryless random variable. %and exponentially distributed. 
 \end{lem}
 \begin{proof}
 We observe that,
-\begin{align*}
-\Pr\{\tau_i \geqslant s+t | \tau_i > s\} &=\Pr\{X(v)=i,~v \in [s,s+t) | X(u)=i,  i \in [0, s]\}\\
-&= \Pr\{X(v)=i,~v \in [0,t) | X(0)=i\} = \Pr\{\tau_i \geqslant t \}.
-\end{align*}
+%\begin{align*}
+%\Pr\{\tau_i \geqslant s+t | \tau_i > s\} &=\Pr\{X(v)=i,~v \in [s,s+t) | X(u)=i,  u \in [0, s]\}\\
+%&= \Pr\{X(v)=i,~v \in [0,t) | X(0)=i\} = \Pr\{\tau_i \geqslant t \}.
+%\end{align*}
+\eq{
+\Pr\{T_n > s+t |T_n > s\} &= P_{X(S_{n-1}),X(S_{n-1})}(s,s+t) = P_{X(S_{n-1}),X(S_{n-1})}(0,t) = P\{T_{n} > t\}.
+%\Pr\{X(v)=X(S_{n-1}),~v -S_{n-1} \in [s,s+t] | X(u)=X(S_{n-1}),  u -S_{n-1}\in [0, s]\}\\
+%&= \Pr\{X(v)=X(S_{n-1}),~v -S_{n-1} \in [0,t] | X(S_{n-1})\} = \Pr\{T_n > t \}.
+}
 \end{proof}
 \begin{lem}\label{Lemma:JumpProb}
-For any stochastic process, jump transition probabilities $p_{ij}(\tau_i)$ add to unity for all $i \in I$.
+For any stochastic process, jump transition probabilities $p_{ij}(S_n)$ add to unity for all $i \in I$.
 \end{lem}
 \begin{proof}
 It follows from simple law of total probability.
