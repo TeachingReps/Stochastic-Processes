@@ -9,20 +9,34 @@
 
 \section{Markov Process}
 %\begin{defn}
-A stochastic process $\{X(t) \in I, ~ t \geqslant 0\}$ indexed by positive reals and assuming values from a countable state space $I$ is a \textbf{Markov process} if 
+A stochastic process $\{X(t) \in E, ~ t \geqslant 0\}$ assuming values in a state space $E$ and 
+indexed by positive reals is a \textbf{Markov process} if 
 the distribution of the future states conditioned on the present, is independent of the past. 
 That is,
 \begin{align*}
-\Pr\{X(t+s) = j |X(u),~ u \in [0,s]\} &= \Pr\{X(t+s) = j |X(s)\}, \text{ for all } s, t \geqslant 0 \text{ and } i, j \in I.
-\end{align*}
+\Pr\{X(t+s) = j |X(u),~ u \in [0,s]\} &= \Pr\{X(t+s) = j |X(s)\}, \text{ for all } s, t \geqslant 0 \text{ and } i, j \in E.
+\end{align*} 
+A Markov process with countable state space is referred to as \textbf{continuous time Markov chain (CTMC)}. 
+%and assuming values from a countable state space $E$ 
 We define the \textbf{transition probability} from state $i$ at time $s$ to state $j$ at time $s+t$ as 
 \begin{align*}
 P_{ij}(s, s+t) = \Pr\{X(s+t) = j | X(s) = i\}.
 \end{align*}
 %\end{defn}
 %\begin{defn}
-The Markov process has \textbf{homogeneous} transitions if $P_{ij}(s,s+t) = P_{ij}(0,t)$ for all $i,j \in I, s,t \geqslant 0$ and we denote the transition probability by $P_{ij}(t)$. 
-This continuous time Markov process with homogeneous jump transition probabilities is referred to as \textbf{continuous time Markov chain (CTMC)}. 
+The Markov process has \textbf{homogeneous} transitions for all $i,j \in E, s,t \geqslant 0$, if
+\eq{
+P_{ij}(s,s+t) = P_{ij}(0,t),
+}
+and we denote the transition probability matrix at time $t$ by $P(t) = \{P_{ij}(t): i, j \in E\}$. 
+We will mainly be interested in continuous time Markov processes with homogeneous jump transition probabilities. 
+%\begin{defn}
+A distribution $\pi$ is an \textbf{equilibrium distribution} of a Markov process if
+\begin{align*}
+\pi P(t) &= \pi,~~ \forall t \geqslant 0. 
+\end{align*}
+%\end{defn}
+\subsection{Strong Markov property}
 %\end{defn}
 A random variable $\tau$ is a stopping time if the event $\{\tau \leq t\}$ can be determined completely by $\{X(u): u \leqslant t\}$. 
 A stochastic process $X$ has \textbf{strong Markov property} if for any almost surely finite stopping time $\tau$, 
@@ -48,15 +62,10 @@ Since the CTMC is homogeneous and $\tau$ is almost surely finite stopping time, 
 }
 \end{proof}
 
-%\begin{defn}
-A distribution $\pi$ is an \textbf{equilibrium distribution} of a Markov process if
-\begin{align*}
-\pi P(t) &= \pi,~~ \forall t \geqslant 0. 
-\end{align*}
-%\end{defn}
-
-\subsection{Sojourn Times and Jump Transitions}
-For any stochastic process on countable state space $I$ that is right continuous with left limits (rcll) and has finite jumps in any finite interval, we wish to know following probabilities 
+\subsection{Jump process}
+For any stochastic process on countable state space $E$ that is right continuous with left limits (rcll), 
+%and has finite jumps in any finite interval, 
+we wish to know following probabilities 
 \eq{
 \Pr\{X(s+t) = j | X(u), ~ u \in [0,s]\},~s, t \geq 0.
 }
@@ -69,8 +78,8 @@ The \textbf{jump times} of a stochastic process $\{X(t), t \geqslant 0\}$ are %d
 \end{xalignat*}
 %\end{defn}
 %\begin{defn}
-The $n$th \textbf{sojourn time} of %a stochastic process $\{X(t), t \geqslant 0\}$
-this process staying in the same state is %in any state $i \in I$ are 
+The \textbf{sojourn time} of %a stochastic process $\{X(t), t \geqslant 0\}$
+this process staying in state $X(S_{n-1})$ is %in any state $i \in I$ are 
 \begin{align*}
 T_n &\triangleq (S_n - S_{n-1}). %1\{X(S_{n-1}) = i\}. 
 %\tau_i \triangleq \inf\{t \geqslant 0: X(t) \neq i|X(0)=i\}, i \in I. 
@@ -87,45 +96,138 @@ the continuous time stochastic process $\{X(t): t \geqslant 0\}$ by sampling at 
 The corresponding \textbf{jump transition probabilities} %of a stochastic process $\{X(t), t \geqslant 0\}$ 
 are defined by
 \begin{align*}
-p_{ij}(S_n) \triangleq \Pr\{X(S_n)  = j | X(S_{n-1}) =  i \}, ~i,j \in I.
+p_{ij}(S_n) \triangleq %P_{ij}(S_{n-1},S_n) = 
+\Pr\{X(S_n)  = j | X(S_{n-1}) =  i \}, ~i,j \in E.
 \end{align*}
 %\end{defn}
-\begin{lem}\label{Lemma:MemorylessSojourn}
-For a homogeneous CTMC, sojourn time $T_n$ is a continuous memoryless random variable. %and exponentially distributed. 
+\begin{lem}
+For any right continuous left limits stochastic process, the sum of jump transition probabilities $\sum_{j \neq i}p_{ij}(S_n) = 1$ for all $X(S_{n-1}) = i \in E$. 
 \end{lem}
 \begin{proof}
-Let $X(S_{n-1}) = i \in I$ without any loss of generality, then we observe that,
-%\begin{align*}
-%\Pr\{\tau_i \geqslant s+t | \tau_i > s\} &=\Pr\{X(v)=i,~v \in [s,s+t) | X(u)=i,  u \in [0, s]\}\\
-%&= \Pr\{X(v)=i,~v \in [0,t) | X(0)=i\} = \Pr\{\tau_i \geqslant t \}.
-%\end{align*}
+It follows from law of total probability. 
+\end{proof}
+Let $N(t)$ be the counting process associated with jump times sequence $\{S_n: n \in \N\}$. 
+That is, 
 \eq{
-\Pr\{T_n > s+t |T_n > s\} &= P_{ii}(s,s+t) = P_{ii}(0,t) = \Pr\{T_{n} > t\}.
-%\Pr\{X(v)=X(S_{n-1}),~v -S_{n-1} \in [s,s+t] | X(u)=X(S_{n-1}),  u -S_{n-1}\in [0, s]\}\\
-%&= \Pr\{X(v)=X(S_{n-1}),~v -S_{n-1} \in [0,t] | X(S_{n-1})\} = \Pr\{T_n > t \}.
+N(t) = \sum_{n \in \N}1\{S_n \leq t\}.
 }
+We also define a stopping time 
+\eq{
+\tau_t &= \inf\{s > 0 : X(s+t) \neq X(t)\}.
+}
+For a homogeneous CTMC $X$, the distribution of stopping time $\tau_t$ only depends on $X(t)$ and doesn't depend on time $t$. 
+Hence, we can define the following conditional distribution 
+\eq{
+F_i(u) &\triangleq \Pr\{\tau_s \leq u | X(s) = i\}.
+}
+\begin{lem}
+For a homogeneous CTMC $X$, there exists some $\nu_i > 0$, such that 
+\eq{
+\Pr\{\tau_s > t |X(s) = i\} = e^{-t\nu_i}.
+}
+\end{lem}
+\begin{proof}
+Using Markov property and the fact that $\tau_s$ is a stopping time, we can write 
+\eq{
+\bar{F}_i(u+v) &= \Pr\{\tau_s > u+v | X(s) = i, \F_s\}= \Pr\{\tau_{s} > u+v| \tau_s > u, X(s) = i, \F_{s}\}\Pr\{\tau_s > u|X(s) = i, \F_s\}\\
+&= \Pr\{\tau_{s+u} > v| X(s+u) = i, \tau_s > u, \F_{s+u}\}\Pr\{\tau_s > u|X(s) = i, \F_s\} = \bar{F}_i(v)\bar{F}_i(u).
+}
+The only continuous function $\bar{F}_i \in [0,1]$ that satisfies the semigroup property is an exponential function with a negative exponent. 
+\end{proof}
+%\begin{rem} 
+Inverse of mean sojourn time in state $i$ is called the \textbf{transition rate} out of state $i$ denote by $\nu_i$. and typically $\nu_i < \infty$.  
+%\end{rem}
+%\begin{rem} 
+If $\nu_i = \infty$, we call the state to be \textbf{instantaneous}. 
+%\end{rem}
+%We define the conditional distribution of stopping time $\tau_s$ as 
+%\eq{
+%F_i(u) &\triangleq \Pr\{\tau_s \leq u | X(s) = i\}.
+%}
+\begin{lem} 
+Jump times $\{S_n: n \in \N\}$ are stopping times with respect to the process $\{X(t): t \geqslant 0\}$. 
+\end{lem}
+\begin{proof}
+It is clear that $\{S_n \leq t\}$ is completely determined by the collection $\{X(u): u \leqslant t\}$. 
+\end{proof}
+\begin{lem}
+\label{Lemma:MemorylessSojourn}
+For a homogeneous CTMC, each sojourn time $T_n$ is a continuous memoryless random variable, and the sequence of sojourn times $\{T_n: n \in \N\}$ are independent. %and exponentially distributed. 
+\end{lem}
+\begin{proof}
+%For some $i \in E$, let $X(S_{n-1}) = i \in E$ without any loss of generality. 
+We observe that $T_n = \tau_{S_{n-1}}$, and hence the distribution of $T_n$ is 
+\eq{
+\Pr\{T_n  > y\} &= \exp(-y \nu_{X(S_{n-1})}),~y\geq 0.
+}
+For independence of sojourn times, we show that the $(n+1)$th sojourn time is independent of $n$th jump time $S_n$. 
+%We observe that $T_n = \tau_{S_{n-1}}$, and hence 
+Using strong Markov property of homogeneous CTMC $X$, we have 
+\eq{
+\Pr\{T_n > y, S_{n-1}\leq x\} %&= \int_{0}^{x}dF_{S_{n-1}}(u)\Pr\{T_n > y |S_{n-1}=u\} = \int_{0}^{x}dF_{S_{n-1}}(u)\Pr\{\tau_{u} > y|S_{n-1}=u\}\\
+&= \Pr\{\tau_{S_{n-1}} > y, S_{n-1} \leq x \} = \Pr\{\tau_{X(S_{n-1})} > y\}\Pr\{S_{n-1} \leq x\}.
+}
+%Let $X(S_{n-1}) = i \in E$ without any loss of generality, then we observe that,
+%%\begin{align*}
+%%\Pr\{\tau_i \geqslant s+t | \tau_i > s\} &=\Pr\{X(v)=i,~v \in [s,s+t) | X(u)=i,  u \in [0, s]\}\\
+%%&= \Pr\{X(v)=i,~v \in [0,t) | X(0)=i\} = \Pr\{\tau_i \geqslant t \}.
+%%\end{align*}
+%\eq{
+%\Pr\{T_n > s+t |T_n > s\} &= P_{ii}(s,s+t) = P_{ii}(0,t) = \Pr\{T_{n} > t\}.
+%%\Pr\{X(v)=X(S_{n-1}),~v -S_{n-1} \in [s,s+t] | X(u)=X(S_{n-1}),  u -S_{n-1}\in [0, s]\}\\
+%%&= \Pr\{X(v)=X(S_{n-1}),~v -S_{n-1} \in [0,t] | X(S_{n-1})\} = \Pr\{T_n > t \}.
+%}
 \end{proof}
 \begin{cor} 
-For a homogeneous CTMC, the jump times are almost surely finite stopping times. 
+For a homogeneous CTMC such that $\inf_{i \in E} \nu_i \geq \nu > 0$, then the jump times are almost surely finite stopping times. 
 \end{cor}
 \begin{proof}
-We observe that jump times are sum of independent exponential random variables and hence the result follows. 
+We observe that the jump times are sum of independent exponential random variables and hence the result follows. 
+By coupling, we can have a sequence of \textit{iid} random variables $\{X_n: n \in \N\}$, 
+such that $T_n \leq X_n$ and $\E X_n = 1/\nu$ for each $n \in \N$. 
+Hence, we have 
+\eq{
+S_n = \sum_{i=1}^{n}T_i \leq \sum_{i=1}^{n}X_i \triangleq S'_i.
+}
+Result follows since $S'_i$ is the $i$th arrival instant of a Poisson process with rate $\nu$. 
 \end{proof}
-\begin{lem}\label{Lemma:JumpProb}
-For any right continuous left limits stochastic process with finite jumps in any finite interval, sum of jump transition probabilities $\sum_{j \neq i}p_{ij}(S_n) = 1$ for all $i \in I$. 
-For a homogeneous CTMC, jump probabilities are depend solely on $X(S_{n-1})$ and independent of jump instants.  
+\begin{lem}
+\label{Lemma:JumpProb}
+For a homogeneous CTMC, the jump probabilities depend solely on $X(S_{n-1})$ and are independent of jump instants.  
 \end{lem}
 \begin{proof}
-First part follows from simple law of total probability. 
-For the second part, we observe that 
+We can re-write the jump probability as
 \eq{
 \Pr\{X(S_{n}) = j | X(S_{n-1}) = i\} &= P_{ij}(S_{n-1}, S_n) = P_{ij}(0,T_n).
 }
+If $T_n > x$, then we can write
+\eq{
+P_{ij}(0,T_n)1\{T_n > x\} &=  \Pr\{X(S_{n}) =j | T_n > x, X(S_{n-1}) = i \}\Pr\{T_n > x|X(S_{n-1}) = i\}\\
+&= P_{ij}(S_{n-1}+x, S_n)\Pr\{\tau_{X(S_{n-1})} > x\} = P_{ij}(0,T_n-x)\bar{F}_i(x).
+}
+If $T_n \leq x$, then we can write 
+\eq{
+P_{ij}(0,T_n)1\{T_n \leq x\} &=  \int_{0}^{x}\Pr\{X(S_{n}) =j | T_n = u, X(S_{n-1}) = i \}dF_i(u) = P_{ij}(0,0)F_i(x).
+%\int_{0}^{x}P_{ij}(u)dF_i(u)\\
+%&= P_{ij}(S_{n-1}+x, S_n)\Pr\{\tau_{X(S_{n-1})} > x\} = P_{ij}(0,T_n-x)\bar{F}_i(x)
+}
+%Similarly, we can write $P_{ii}(0,T_n) = 0$ for each $n \in \N$. 
+%We denote conditional distribution of $T_n$ given $X(S_{n-1}) = i$ as $F_i$ to write the above probability as 
+%\eq{
+%P_{ij}(0,T_n) &= \Pr\{X(S_{n}) =j | T_n > x, X(S_{n-1}) = i \}\Pr\{T_n > x|X(S_{n-1}) = i\}\\
+%&= P_{ij}(S_{n-1}+x, S_n)\Pr\{\tau_{X(S_{n-1})} > x\} = P_{ij}(0,T_n-x)\bar{F}_i(x).
+%}
+%This holds for all realizations 
+Hence for any $x \in \R_+$, we can write
+\eq{
+P_{ij}(T_n) &= P_{ij}(T_n-x)\bar{F}_i(x) + P_{ij}(0)F_i(x).
+}
+Result follows, since the only solution to this equation is $P_{ij}(T_n) = P_{ij}(0)$. 
 \end{proof}
 
 %We could sample the homogenous Markov process at sojourn times and study the resulting DTMC. 
 \subsection{Alternative construction of CTMC}
-\begin{prop} A stochastic process $\{X(t) \in I, t \geqslant 0 \}$ is a CTMC iff 
+\begin{prop} A stochastic process $\{X(t) \in E, t \geqslant 0 \}$ is a CTMC iff 
 \begin{enumerate}[a.]
 \item sojourn times are independent and exponentially distributed with rate $\nu_i$ where $X(S_{n-1}) = i$, and 
 \item jump transition probabilities $p_{ij}(S_n)$ are independent of jump times $S_n$, such that $\sum_{i \neq j}p_{ij}=1$.
@@ -134,45 +236,64 @@ For the second part, we observe that
 \begin{proof}
 Necessity of two conditions follows from Lemma~\ref{Lemma:MemorylessSojourn} and~\ref{Lemma:JumpProb}. 
 For sufficiency, we assume both conditions and show that Markov property holds and the transition probability is homogeneous. 
-To this end, we observe
+%To this end, we observe
+%\begin{align*}
+%\{ T_n > s \} &= \{ X(S_{n-1}+ u) = X(S_{n-1}), u \in [0,s] \}.
+%\end{align*}
+Using jump time independence of jump probabilities, we can write %for small $t > 0, X(S_{n-1})=i, X(S_{n}) = j$, 
 \begin{align*}
-\{ T_n > s \} &= \{ X(S_{n-1}+ u) = X(S_{n-1}), u \in [0,s] \}.
-\end{align*}
-Hence using jump time independence of jump probabilities, we can write for small $t > 0, X(S_{n-1})=i, X(S_{n}) = j$, 
-\begin{align*}
-\Pr\{ X(t+s) = j | X(u), u \in [0,s] \} 
-&= \int_0^{t}\frac{dF_{T_n}(s+u)\Pr\{T_{n+1} > t-u\}}{\Pr\{T_n> s\}}p_{ij} + o(t).
+\Pr\{ X(t+s) = j | X(s) = i, \F_s \} &= \sum_{ k = 0}^{\infty}\Pr\{X(t+s) = j, N(s+t) - N(s) = k | N(s), X(s) = i, \F_s\}.
+%&= \int_0^{t}\frac{dF_{T_n}(s+u)\Pr\{T_{n+1} > t-u\}}{\Pr\{T_n> s\}}p_{ij} + o(t).
 %&= \frac{\Pr\{ X(t+s) = j, \tau_i \in (s, s+t) \}}{\Pr\{\tau_i > s\}}\\
 %&= \int_0^{t}\frac{\Pr\{\tau_i = s+u\}\Pr\{\tau_j > t-u\}}{\Pr\{\tau_i > s\}}p_{ij} + o(t).
 %\sum_{k \neq i}\frac{\Pr\{ X(t+s) = j, \tau_i \in (s,s+t), X(\tau_i) = k \}}{\Pr\{\tau_i > s\}}\\
 %&= \int_0^{t}\sum_{k \neq i}\Pr\{ X(t+s) = j| X(u+s) = k\} p_{ik} e^{-\nu_iu}du.
 \end{align*}
-Since sojourn times are independent and memoryless, it follows that
-\begin{align*}
-\Pr\{ X(S_{n-1} +t+s) = j | X(S_{n-1}+u) = i, u \in [0,s] \} 
-&= \Pr\{X(S_{n-1}+t) = j | X(S_{n-1}) = i\}, ~~\forall s, t \geqslant 0.
-\end{align*}
-Further, since the sojourn times depend only on the preceding state, it follows that 
-\begin{align*}
-\Pr\{X(S_{n-1}+t) = j | X(S_{n-1}) = i\} &= P_{ij}(S_{n-1},S_{n-1}+t) = P_{ij}(0,t).% \Pr\{X(t) = j | X(0) = i\}.
-\end{align*}
+Since sojourn times are memoryless and depend only on the previous state, it follows that $N(t+s)-N(s)$ is independent of $N(s)$ and 
+\eq{
+\Pr\{X(t+s) = j, N(s+t) - N(s) = k | N(s), X(s) = i, \F_s\} &= \Pr\{X(t+s) = j, N(s+t) - N(s) = k | X(s) = i\}.
+}
+%\begin{align*}
+%\Pr\{ X(S_{n-1} +t+s) = j | X(S_{n-1}+u) = i, u \in [0,s] \} 
+%&= \Pr\{X(S_{n-1}+t) = j | X(S_{n-1}) = i\}, ~~\forall s, t \geqslant 0.
+%\end{align*}
+This shows that the $X$ is a Markov process. 
+
+The distribution of $N(s+t) - N(s)$ conditioned on $X(s) = i$ has 
+the same distribution as $N(t)$ conditioned on $X(0) = i$. 
+Further, the jump probabilities are independent of jump times. 
+Together, it follows that
+\eq{
+\Pr\{X(t+s) = j, N(s+t) - N(s) = k | X(s) = i\} &=  \Pr\{X(t) = j, N(t) - N(0) = k | X(0) = i\}.
+}
+Therefore, it follows that $X$ is a homogeneous Markov process. 
+%Further, since the sojourn times depend only on the preceding state, it follows that 
+%\begin{align*}
+%\Pr\{X(S_{n-1}+t) = j | X(S_{n-1}) = i\} &= P_{ij}(S_{n-1},S_{n-1}+t) = P_{ij}(0,t).% \Pr\{X(t) = j | X(0) = i\}.
+%\end{align*}
 \end{proof}
-\begin{rem}
-Transition probabilities $p_{ij}$ and sojourn times $\tau_i$ are independent. 
-\end{rem}
-\begin{rem} Inverse of mean sojourn time $\nu_i$ is called rate of state $i$, and typically $\nu_i < \infty$.  
-\end{rem}
-\begin{rem} If $\nu_i = \infty$, we call the state to be instantaneous. 
-\end{rem}
-\begin{rem}  A CTMC is a DTMC with exponential sojourn time in each state.
-\end{rem}
-\begin{defn} A CTMC is called \textbf{regular} if 
+%\begin{rem}
+For a homogeneous CTMC, the transition probabilities $p_{ij}$ and sojourn times $\tau_i$ are independent. 
+%\end{rem}
+%\begin{rem}  
+In fact, a CTMC is a DTMC with exponential sojourn time in each state. 
+%\end{rem}
+%\begin{defn} 
+A CTMC is called \textbf{regular} if for all finite $t \in \R_+$, number of jumps $N(t)$ is almost surely finite. 
+That is, 
 \begin{align*}
-\Pr\{ \text{ number of transitions in } [0,t] \text{ is finite}\} = 1,~ \forall t < \infty.
+\Pr\{ N(t) < \infty \} = 1,~ \forall t < \infty.
 \end{align*} 
-\end{defn}
-\begin{exmp} Consider the following example of a non-regular CTMC. $p_{i,i+1}=1, \nu_i = i^2$. Show that it is not regular.
-\end{exmp}
+%\end{defn}
+\begin{shaded*}
+%\begin{exmp} 
+Consider the following example of a non-regular CTMC, where for all $i \in \N$
+\eq{
+p_{i,i+1}=1, \nu_i = i^2.
+} 
+Show that it is not regular.
+%\end{exmp}
+\end{shaded*}
 
 \subsection{Generator Matrix}
 %\begin{defn}
