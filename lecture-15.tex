@@ -37,12 +37,17 @@ A homogeneous continuous time Markov chain $X$ has the strong Markov property.
 %\eq{
 %\Pr(A|B) &= \frac{\Pr(A,B)}{\Pr(B)} = \frac{\Pr(A,B,C)}{Pr(B,C)}
 %}
-Let $\tau$ be an almost surely finite stopping time with distribution $F$. 
+Let $\tau$ be an almost surely finite stopping time with conditional distribution $F$ on the collection of events $\{X(u): u \leq s\}$. 
 Then, 
 \eq{
-\Pr\{X(\tau+s), X(u), u \leq \tau\} = \int_{}dF(v)\Pr\{X(v+s), X(u), u \leq v\}
+\Pr\{X(\tau+s) |X(u), u \leq \tau\} = \int_{0}^{\infty}dF(t)\Pr\{X(t+s)| X(u), u \leq t, \tau = t\} = \Pr\{X(\tau+s)|X(\tau)\}. %\Pr\{\tau = t |  X(u), u \leq \tau\}
+}
+Since the CTMC is homogeneous and $\tau$ is almost surely finite stopping time, it is clear that 
+\eq{
+\Pr\{X(\tau+s) = j|X(\tau) = i\} &= P_{ij}(\tau,\tau+s) = P_{ij}(0,s). 
 }
 \end{proof}
+
 %\begin{defn}
 A distribution $\pi$ is an \textbf{equilibrium distribution} of a Markov process if
 \begin{align*}
@@ -103,6 +108,9 @@ Let $X(S_{n-1}) = i \in I$ without any loss of generality, then we observe that,
 \begin{cor} 
 For a homogeneous CTMC, the jump times are almost surely finite stopping times. 
 \end{cor}
+\begin{proof}
+We observe that jump times are sum of independent exponential random variables and hence the result follows. 
+\end{proof}
 \begin{lem}\label{Lemma:JumpProb}
 For any right continuous left limits stochastic process with finite jumps in any finite interval, sum of jump transition probabilities $\sum_{j \neq i}p_{ij}(S_n) = 1$ for all $i \in I$. 
 For a homogeneous CTMC, jump probabilities are depend solely on $X(S_{n-1})$ and independent of jump instants.  
@@ -111,9 +119,10 @@ For a homogeneous CTMC, jump probabilities are depend solely on $X(S_{n-1})$ and
 First part follows from simple law of total probability. 
 For the second part, we observe that 
 \eq{
-\Pr\{X(S_{n}) = j | X(S_{n-1}) = i\} &= P_{ij}(S_{n-1}, S_n) = P_{ij}(T_n).
+\Pr\{X(S_{n}) = j | X(S_{n-1}) = i\} &= P_{ij}(S_{n-1}, S_n) = P_{ij}(0,T_n).
 }
 \end{proof}
+
 %We could sample the homogenous Markov process at sojourn times and study the resulting DTMC. 
 \subsection{Alternative construction of CTMC}
 \begin{prop} A stochastic process $\{X(t) \in I, t \geqslant 0 \}$ is a CTMC iff 
@@ -145,7 +154,7 @@ Since sojourn times are independent and memoryless, it follows that
 \end{align*}
 Further, since the sojourn times depend only on the preceding state, it follows that 
 \begin{align*}
-\Pr\{X(S_{n-1}+t) = j | X(S_{n-1}) = i\} &= \Pr\{X(t) = j | X(0) = i\}.
+\Pr\{X(S_{n-1}+t) = j | X(S_{n-1}) = i\} &= P_{ij}(S_{n-1},S_{n-1}+t) = P_{ij}(0,t).% \Pr\{X(t) = j | X(0) = i\}.
 \end{align*}
 \end{proof}
 \begin{rem}
@@ -290,4 +299,21 @@ Conversely,
 \begin{thm}
 \textbf{Kolmogorov Forward Equation:} Under suitable regularity conditions, $P'_{ij}(t)=\sum_{k \neq i}P_{ik}(t)q_{kj}-P_{ij}(t)\nu_i$, i.e. $\frac{dP(t)}{dt}=P(t)Q$.
 \end{thm}
+
+\appendix 
+\section{Exponential random variables}
+\begin{lem} 
+Let $X$ be an exponential random variable, and $S$ be any positive random variable, independent of $X$. 
+Then,
+\eq{
+\Pr\{X > S+u| X > S\} &= \Pr\{X > u\}.
+}
+\end{lem}
+\begin{proof}
+Let the distribution of $S$ be $F$. 
+Then, using memoryless property of exponential random variable, we can write
+\eq{
+\Pr\{X > S+u| X > S\} &= \int_{0}^{\infty}dF(v)\Pr\{X > u + v| X > v\} = \Pr\{X > u\}\int_{0}^{\infty}dF(v) = \Pr\{X > u\}.
+}
+\end{proof}
 \end{document}
