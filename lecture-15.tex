@@ -2,7 +2,7 @@
 % !TEX spellcheck = LaTeX
 \documentclass[a4paper,10pt,english]{article}
 \input{header}
-\title{Lecture 14 : Continuous Time Markov Chains}
+\title{Lecture 15 : Continuous Time Markov Chains}
 \author{}
 \begin{document}
 \maketitle
@@ -233,7 +233,6 @@ For a homogeneous CTMC, the transition probabilities $p_{ij}$ and sojourn times 
 The jump process is a homogeneous Markov chain with countable state space $E$. 
 \end{cor}
 
-
 %We could sample the homogenous Markov process at sojourn times and study the resulting DTMC. 
 \subsection{Alternative construction of CTMC}
 \begin{prop} A stochastic process $\{X(t) \in E, t \geqslant 0 \}$ is a CTMC iff 
@@ -339,15 +338,125 @@ From homogeneity of Markov chains, we can write the $(i,j)$th entry of $P(s+t)$ 
 P_{ij}(0,s+t) &= \sum_{k \in E}P_{ik}(0,s)P_{kj}(s,s+t) =  \sum_{k \in E}P_{ik}(0,s)P_{kj}(0,t) = [P(s)P(t)]_{ij}.
 }
 \end{proof}
-\begin{thm} 
-The \textbf{generator matrix} $Q \in \R^{E \times E}$ for a homogeneous CTMC with probability transition matrix $P$ is defined as 
+For a homogeneous CTMC with transition matrix $P(t)$, the \textbf{generator matrix} $Q \in \R^{E \times E}$ is defined as the following limit when it exists 
 \eq{
 Q &\triangleq \lim_{t \downarrow 0}\frac{P(t) - I}{t}.
 }
+\begin{thm} 
+For a homogeneous CTMC, the generator matrix exists and is defined in terms of sojourn time rates $\{\nu_i: i \in E\}$, and jump transition matrix $p = \{p_{ij}: i,j \in E\}$ as
+\begin{xalignat*}{3}
+&Q_{ii} = -\nu_i,&&Q_{ij} = \nu_ip_{ij}.
+\end{xalignat*}
 \end{thm}
 \begin{proof}
-
+We can expand the $(i,j)$th entry of transition matrix in terms of disjoint events  $\{N(t) = n\}$ as  
+\eq{
+P_{ij}(t) &= \Pr\{X(t)=j|X(0) = i\} = \sum_{n \in \N_0}\Pr\{X(t)=j, N(t) = n|X(0) = i\}.
+}
+We can write the upper and lower bound as 
+\eq{
+\sum_{n = 0}^{1}\Pr\{X(t)=j, N(t) = n|X(0) = i\} &\leq P_{ij}(t) \leq \sum_{n = 0}^{1}\Pr\{X(t)=j, N(t) = n|X(0) = i\} + \Pr\{N(t) \geq 2\}.
+}
+For $t > 0$, we can compute for $j \neq i \in E$
+\begin{xalignat*}{3}
+&\Pr\{X(t)= i, N(t) = 0 | X(0) = i\} = e^{-\nu_i t}, && \Pr\{X(t) = i, N(t) = 1| X(0) = i\} = 0,\\
+&\Pr\{X(t)= j, N(t) = 0 | X(0) = i\} = 0, && \Pr\{X(t) = j, N(t) = 1| X(0) = i\} = p_{ij}\int_{0}^t\nu_ie^{-\nu_j(t-u)}e^{-\nu_iu}du.
+\end{xalignat*}
+Since $\{N(t) \geq 2\}$ is of order $o(t)$ for small $t$, we can write
+\eq{
+\frac{P_{ij}(t) - I_{ij}}{t} &= -\left(\frac{1-e^{-\nu_it}}{t}\right)I_{ij} + \nu_ip_{ij}\frac{(e^{-\nu_j}-e^{-\nu_it})}{(\nu_i-\nu_j)t}(1-I_{ij}) + o(t).
+%\begin{cases}
+%\frac{1-e^{-\nu_it}}{t} + o(t) &i = j, \\
+%\frac{\nu_i(e^{-\nu_j}-e^{-\nu_it})}{(\nu_i-\nu_j)t}& i \neq j.
+%\end{cases}
+}
+Taking limit as $t \downarrow 0$, we get the result.
 \end{proof}
+
+\begin{cor}
+For each state $i \in E$, the generator matrix $Q \in \R^{E \times E}$ for a homogeneous CTMC satisfies 
+\begin{xalignat*}{5}
+&0 \leq -Q_{ii} < \infty, && Q_{ij} \geq 0,&&\sum_{j \in E}Q_{ij} = 0.
+\end{xalignat*}
+\end{cor}
+
+\subsection{Chapman Kolmogorov equations}
+\begin{thm}[backward equation] For a homogeneous CTMC with transition matrix $P(t)$ and generator matrix $Q$, we have
+\begin{align*}
+%P'_{ij}(t)= \sum_{k \neq i}q_{ik}P_{kj}(t)-\nu_iP_{ij}(t) ,  i,j \in I
+\frac{dP(t)}{dt}=QP(t), ~~t \geqslant 0.
+\end{align*}
+\end{thm}
+\begin{proof} 
+Using semigroup property of transition probability matrix $P(t)$ for a homogeneous CTMC,  
+%we have
+%\begin{align*}
+%P_{ij}(t+h)=\sum_{k \in I}P_{ik}(h)P_{kj}(t),~~i,j \in I.
+%\end{align*}
+%Re-arranging terms, 
+we can write
+\begin{align*}
+%P_{ij}(t+h)-P_{ij}(t)=\sum_{k \neq i}P_{ik}(h)P_{kj}(t)-(1-P_{ii}(h))P_{ij}(t).
+\frac{P(t+h) - P(t)}{h} &= \frac{(P(h)- I)}{h}P(t). % = P(t)\frac{(P(h) - I)}{h}.
+\end{align*}
+%Dividing above equation by $h$,  and 
+Taking limits $h \downarrow 0$ and exchanging limits and summation, we get 
+\begin{align*}
+\frac{dP_{ij}(t)}{dt} = \sum_{k \neq i}Q_{ik}P_{kj}(t)-\nu_iP_{ij}(t). 
+\end{align*}
+Now the exchange of limit and summation has to be justified. For any finite subset $F \subset E$, we have
+\begin{align*}
+\liminf_{h \downarrow 0} \sum_{k \neq i}\frac{P_{ik}(h)}{h}P_{kj}(t) \geq \sum_{k \in F\setminus \{i\} }\liminf_{h \downarrow 0}\frac{P_{ik}(h)}{h}P_{kj}(t) = \sum_{k \in F\setminus \{i\}}Q_{ik}P_{kj}(t).
+\end{align*}
+Since, above is true for any finite set $F \subset E$, taking supremum over increasing sets $F$, we get the lower bound.
+%\begin{align*}
+%\liminf_{h \downarrow 0} \sum_{k \neq 1}\frac{P_{ik}(h)}{h}P_{kj}(t) \geq \sum_{k \neq i}Q_{jk}P_{kj}(t).
+%\end{align*}
+%%Suffices to show that $\limsup_{h \rightarrow 0} \sum_{k \neq 1}\frac{P_{ik}(h)}{h}P_{kj}(t) \leq \sum_{k \neq 1}q_{jk}P_{kj}(t)$. 
+For the upper bound, we observe for any finite subset $F \subseteq E$
+\begin{align*}
+\limsup_{h \downarrow 0}\sum_{k \neq i}\frac{P_{ik}(h)}{h}P_{kj}(t) &\leq \limsup_{h \downarrow 0}\left(\sum_{k \in F\setminus \{i\}}\frac{P_{ik}(h)}{h}P_{kj}(t)+\sum_{k \notin F\setminus\{i\} }\frac{P_{ik}(h)}{h}\right)\\
+& = \limsup_{h \downarrow 0}\left(\sum_{k \in F\setminus \{i\}}\frac{P_{ik}(h)}{h}P_{kj}(t)+\frac{1-P_{ii}(h)}{h} -\sum_{k \in F\setminus \{i\}}\frac{P_{ik}(h)}{h} \right)\\
+&= \sum_{k \in F\setminus \{i\}}Q_{ik}P_{kj}(t)+\nu_i- \sum_{k \in F\setminus \{i\}}Q_{ik}. %&=\sum_{k \neq 1}q_{ik}P_{kj}(t). 
+\end{align*}
+\end{proof}
+\begin{thm}[forward equation] 
+%Under suitable regularity conditions, 
+For a homogeneous CTMC with transition matrix $P(t)$ and generator matrix $Q$, we have 
+\eq{
+\frac{dP(t)}{dt} &=P(t)Q.
+}
+%$P'_{ij}(t)=\sum_{k \neq i}P_{ik}(t)q_{kj}-P_{ij}(t)\nu_i$, i.e. $\frac{dP(t)}{dt}=P(t)Q$.
+\end{thm}
+\begin{proof}
+Using semigroup property of transition probability matrix $P(t)$ for a homogeneous CTMC,  
+we can write
+\begin{align*}
+\frac{P(t+h) - P(t)}{h} &= P(t)\frac{(P(h) - I)}{h}.
+\end{align*}
+Taking limits $h \downarrow 0$, we get 
+\begin{align*}
+\frac{dP_{ij}(t)}{dt} = \sum_{k \neq j}P_{ik}(t)Q_{kj}-\nu_jP_{ij}(t). 
+\end{align*}
+By taking limiting value for increasing sequence of finite sets $F \subseteq E$, we obtain the lower bound 
+\eq{
+\sum_{k \neq j}P_{ik}(t)Q_{kj} &\leq \liminf_{h \downarrow 0} \sum_{k \neq j}P_{ik}(t)\frac{P_{kj}(h)}{h}.
+}
+To obtain the upper bound, we observe for any finite subset $F \subseteq E$, 
+\eq{
+\limsup_{h \downarrow 0}\sum_{k \neq i}P_{ik}(t)\frac{P_{kj}(h)}{h} &\leq 
+%\limsup_{h \downarrow 0}\left(\sum_{k \in F\setminus \{i\}}P_{ik}(t)\frac{P_{kj}(h)}{h}+\sum_{k \notin F\setminus\{i\} }\frac{P_{kj}(h)}{h}\right)\\& = 
+\limsup_{h \downarrow 0}\left(\sum_{k \in F\setminus \{j\}}P_{ik}(t)\frac{P_{kj}(h)}{h}+\frac{1-P_{jj}(h)}{h} -\sum_{k \in F\setminus \{j\}}\frac{P_{kj}(h)}{h} \right).
+%\\&= \sum_{k \in F\setminus \{j\}}P_{ik}(t)Q_{kj}+\nu_j- \sum_{k \in F\setminus \{j\}}Q_{kj}.
+} 
+\end{proof}
+
+\begin{cor}
+For a homogeneous CTMC with finite state space $E$, the transition matrix $P(t)$ and generator matrix $Q$, we have
+\eq{
+P(t) &= e^{tQ} = I + \sum_{n \in \N}\frac{t^nQ^n}{n!},~t\geqslant 0.
+}
+\end{cor}
 \subsection{Generator matrix}
 %\begin{defn}
 A \textbf{generator matrix} denoted by $Q \in \R^{E \times E}$ is defined in terms of sojourn times $\{\nu_i, i \in E\}$ and jump transition probabilities $\{p_{ij}, i \neq j \in E\}$ of a CTMC as
@@ -358,7 +467,7 @@ A \textbf{generator matrix} denoted by $Q \in \R^{E \times E}$ is defined in ter
 
 %\end{defn}
 \begin{lem} A matrix $Q$ is a generator matrix for a CTMC iff for each $i \in I$,
- \begin{enumerate}
+ \begin{enumerate}[i\_]
 \item $0 \leq -q_{ii} < \infty$, 
 \item $q_{ij} \geq 0$,
 \item $\sum_{j \in I}q_{ij}=0$.
@@ -389,6 +498,24 @@ $P(t)=I+tQ+O(t^2)$ ($f(t)=O(t) \Rightarrow \frac{f(t)}{t} \leq c,$ for small $t,
 Conversely $\sum_{j}P_{ij}(t)=1,~ \forall t \geq 0$, then $\sum_jQ_{ij}= \frac{dP_{ij}(t)}{dt}=0$.
 \end{proof}
 
+\appendix 
+\section{Exponential random variables}
+\begin{lem} 
+Let $X$ be an exponential random variable, and $S$ be any positive random variable, independent of $X$. 
+Then,
+\eq{
+\Pr\{X > S+u| X > S\} &= \Pr\{X > u\}.
+}
+\end{lem}
+\begin{proof}
+Let the distribution of $S$ be $F$. 
+Then, using memoryless property of exponential random variable, we can write
+\eq{
+\Pr\{X > S+u| X > S\} &= \int_{0}^{\infty}dF(v)\Pr\{X > u + v| X > v\} = \Pr\{X > u\}\int_{0}^{\infty}dF(v) = \Pr\{X > u\}.
+}
+\end{proof}
+\end{document}
+
 %%%%%%%%
 \subsection{Kolmogorov Differential Equations}
 \begin{lem} For a CTMC with transition probability matrix $P(t)$, the following properties hold.
@@ -408,6 +535,7 @@ P(t+s) &= P(t)P(s), ~~s,t \geq 0.
 \label{eqn:chapkolmogorov}
 \end{align}
 \end{enumerate}
+\end{lem}
 \begin{proof}
 Since the probability of two of more transitions in $(0,t]$ is $o(t)$ it follows that $P_{ii}(t) = e^{-\nu_i t}+o(t)$, that is, the probability of being in state $i$ at time $t$ having started in state $i$ is the sum of the probability of either no transitions in $(0,t]$ and the probability of being in $i$ after two or more transitions, the latter being $o(t)$. Thus, we have
 \begin{align}
@@ -428,67 +556,5 @@ P_{ij}(t+s) &= P(X(t+s)=j|X(0)=i)\\
 &=\sum_k P_{kj}(s)P_{ik}(t),
 \end{align*}
 establishing \eqref{eqn:chapkolmogorov}.
-
 \end{proof}
-\end{lem}
 
-\subsection{Chapman Kolmogorov Equation for CTMC}
-\begin{thm}[Kolmogorov Backward equation] For a CTMC with transition probability matrix $P(t)$, we have
-\begin{align*}
-%P'_{ij}(t)= \sum_{k \neq i}q_{ik}P_{kj}(t)-\nu_iP_{ij}(t) ,  i,j \in I
-\frac{dP(t)}{dt}=QP(t), ~~t \geqslant 0.
-\end{align*}
-\end{thm}
-\begin{proof} Since, transition probability matrix $P(t)$ for a CTMC has a semi-group property, 
-%we have
-%\begin{align*}
-%P_{ij}(t+h)=\sum_{k \in I}P_{ik}(h)P_{kj}(t),~~i,j \in I.
-%\end{align*}
-%Re-arranging terms, 
-we can write
-\begin{align*}
-%P_{ij}(t+h)-P_{ij}(t)=\sum_{k \neq i}P_{ik}(h)P_{kj}(t)-(1-P_{ii}(h))P_{ij}(t).
-\frac{P(t+h) - P(t)}{h} &= \frac{(P(h)- I)}{h}P(t) = P(t)\frac{(P(h) - I)}{h}.
-\end{align*}
-%Dividing above equation by $h$,  and 
-Taking limits $h \downarrow 0$, we get 
-\begin{align*}
-\frac{dP_{ij}(t)}{dt} = \sum_{k \neq i}q_{ik}P_{kj}(t)-\nu_iP_{ij}(t). 
-\end{align*}
-Now the exchange of limit and summation has to be justified. For any finite $k < N$, we have
-\begin{align*}
-\liminf_{h \downarrow 0} \sum_{k \neq i}\frac{P_{ik}(h)}{h}P_{kj}(t) \geq \sum_{k \neq i, k < N}\liminf_{h \downarrow 0}\frac{P_{ik}(h)}{h}P_{kj}(t) = \sum_{k \neq i, k < N}q_{jk}P_{kj}(t).
-\end{align*}
-Since, above is true for any finite $N$, taking supremum over all $N$, we get 
-\begin{align*}
-\liminf_{h \downarrow 0} \sum_{k \neq 1}\frac{P_{ik}(h)}{h}P_{kj}(t) \geq \sum_{k \neq i}q_{jk}P_{kj}(t).
-\end{align*}
-%Suffices to show that $\limsup_{h \rightarrow 0} \sum_{k \neq 1}\frac{P_{ik}(h)}{h}P_{kj}(t) \leq \sum_{k \neq 1}q_{jk}P_{kj}(t)$. 
-Conversely,
-\begin{align*}
-\limsup_{h \downarrow 0}\sum_{k \neq i}\frac{P_{ik}(h)}{h}P_{kj}(t) &\leq \limsup_{h \downarrow 0}\left(\sum_{k \neq i, k<N}\frac{P_{ik}(h)}{h}P_{kj}(t)+\sum_{k\geq N}\frac{P_{ik}(h)}{h}\right)\\
-& = \limsup_{h \downarrow 0}\left(\sum_{k \neq i, k<N}\frac{P_{ik}(h)}{h}P_{kj}(t)+\frac{1-P_{ii}(h)}{h} -\sum_{k \neq i, k < N}\frac{P_{ik}(h)}{h} \right)\\
-&= \sum_{k \neq i, k<N}q_{ik}P_{kj}(t)+\nu_i- \sum_{k \neq i, k < N}q_{ik}. %&=\sum_{k \neq 1}q_{ik}P_{kj}(t). 
-\end{align*}
-\end{proof}
-\begin{thm}
-\textbf{Kolmogorov Forward Equation:} Under suitable regularity conditions, $P'_{ij}(t)=\sum_{k \neq i}P_{ik}(t)q_{kj}-P_{ij}(t)\nu_i$, i.e. $\frac{dP(t)}{dt}=P(t)Q$.
-\end{thm}
-
-\appendix 
-\section{Exponential random variables}
-\begin{lem} 
-Let $X$ be an exponential random variable, and $S$ be any positive random variable, independent of $X$. 
-Then,
-\eq{
-\Pr\{X > S+u| X > S\} &= \Pr\{X > u\}.
-}
-\end{lem}
-\begin{proof}
-Let the distribution of $S$ be $F$. 
-Then, using memoryless property of exponential random variable, we can write
-\eq{
-\Pr\{X > S+u| X > S\} &= \int_{0}^{\infty}dF(v)\Pr\{X > u + v| X > v\} = \Pr\{X > u\}\int_{0}^{\infty}dF(v) = \Pr\{X > u\}.
-}
-\end{proof}
-\end{document}
