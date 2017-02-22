@@ -185,13 +185,13 @@ For a homogeneous CTMC such that $\inf_{i \in E} \nu_i \geq \nu > 0$, then the j
 \end{prop}
 \begin{proof}
 We observe that the jump times are sum of independent exponential random variables and hence the result follows. 
-By coupling, we can have a sequence of \textit{iid} random variables $\{X_n: n \in \N\}$, 
+By coupling, we can have a sequence of \textit{iid} random variables $\{\overline{T}_n: n \in \N\}$, 
 such that $T_n \leq X_n$ and $\E X_n = 1/\nu$ for each $n \in \N$. 
 Hence, we have 
 \eq{
-S_n = \sum_{i=1}^{n}T_i \leq \sum_{i=1}^{n}X_i \triangleq S'_i.
+S_n = \sum_{i=1}^{n}T_i \leq \sum_{i=1}^{n}\overline{T}_i \triangleq \overline{S}_n.
 }
-Result follows since $S'_i$ is the $i$th arrival instant of a Poisson process with rate $\nu$. 
+Result follows since $\overline{S}_n$ is the $n$th arrival instant of a Poisson process with rate $\nu$. 
 \end{proof}
 \begin{lem}
 \label{Lemma:JumpProb}
@@ -297,12 +297,12 @@ That is, for all $t \in \R_+$
 A homogeneous CTMC is regular if $\sup_{i \in E} \nu_i < \nu < \infty$. 
 \end{lem}
 \begin{proof}
-By coupling, we can have a sequence of \textit{iid} random variables $\{\hat{T}_n: n \in \N\}$, 
-such that $\hat{T}_n \leq T_n$ and $\E X_n = \nu$ for each $n \in \N$. 
-Let $\hat{m}(t)$ be the associated renewal function with the sequence $\hat{T}$, 
+By coupling, we can have a sequence of \textit{iid} random variables $\{\underline{T}_n: n \in \N\}$, 
+such that $\underline{T}_n \leq T_n$ and $\E X_n = \nu$ for each $n \in \N$. 
+Let $\underline{m}(t)$ be the associated renewal function with the sequence $\underline{T}$, 
 then we can write 
 \eq{
-\Pr\{N(t) < \infty\} &= \sum_{n \in \N_0}\Pr\{S_n \geq t\} = 1 + m(t) \leq 1 + \hat{m}(t).
+\Pr\{N(t) < \infty\} &= \sum_{n \in \N_0}\Pr\{S_n \geq t\} = 1 + m(t) \leq 1 + \underline{m}(t).
 }
 \end{proof}
 \begin{shaded*}
@@ -318,25 +318,44 @@ Clearly, $\sup_{i \in E}\nu_i = \infty$, and hence it is not regular.
 \subsection{Properties of transition matrix}
 For each $t$, we have the transition matrix $P(t)$.
 \begin{lem}[continuity]
-Transition matrix $P(t)$ is a continuous function of time $t \in \R_+$, such that
+Transition matrix $P(t)$ for a homogeneous CTMC $X$ is a continuous function of time $t \in \R_+$, such that
 \eq{
 \lim_{t \downarrow 0}P(t) = I.
 }
 \end{lem}
+\begin{proof}
+It follows from continuity of probability functions and alternate characterization of homogeneous CTMC.
+\end{proof}
 \begin{lem}[semigroup property]
 Transition matrix $P(t)$ satisfies the semigroup property
 \eq{
-\lim_{t \downarrow 0}P(t) = I.
+P(s+t) &= P(s)P(t).
 }
 \end{lem}
+Since each entry of $P(t)$ is a probability, this leads to characterization of $P(t)$ completely. 
+\begin{proof}
+From homogeneity of Markov chains, we can write the $(i,j)$th entry of $P(s+t)$ as
+\eq{
+P_{ij}(0,s+t) &= \sum_{k \in E}P_{ik}(0,s)P_{kj}(s,s+t) =  \sum_{k \in E}P_{ik}(0,s)P_{kj}(0,t) = [P(s)P(t)]_{ij}.
+}
+\end{proof}
+\begin{thm} 
+The \textbf{generator matrix} $Q \in \R^{E \times E}$ for a homogeneous CTMC with probability transition matrix $P$ is defined as 
+\eq{
+Q &\triangleq \lim_{t \downarrow 0}\frac{P(t) - I}{t}.
+}
+\end{thm}
+\begin{proof}
 
+\end{proof}
 \subsection{Generator matrix}
 %\begin{defn}
-A \textbf{generator matrix} denoted by $Q \in \R^{I \times I}$ is defined in terms of sojourn times $\{\nu_i, i \in I\}$ and jump transition probabilities $\{p_{ij}, i \neq j \in I\}$ of a CTMC as
-\begin{enumerate}
+A \textbf{generator matrix} denoted by $Q \in \R^{E \times E}$ is defined in terms of sojourn times $\{\nu_i, i \in E\}$ and jump transition probabilities $\{p_{ij}, i \neq j \in E\}$ of a CTMC as
+\begin{enumerate}[i\_]
 \item $q_{ii}= -\nu_i$,
 \item $q_{ij}=\nu_i p_{ij}$. 
 \end{enumerate}
+
 %\end{defn}
 \begin{lem} A matrix $Q$ is a generator matrix for a CTMC iff for each $i \in I$,
  \begin{enumerate}
