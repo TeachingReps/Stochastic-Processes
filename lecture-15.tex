@@ -56,12 +56,11 @@ Then,
 \eq{
 \Pr\{X(\tau+s) |X(u), u \leq \tau\} = \int_{0}^{\infty}dF(t)\Pr\{X(t+s)| X(u), u \leq t, \tau = t\} = \Pr\{X(\tau+s)|X(\tau)\}. %\Pr\{\tau = t |  X(u), u \leq \tau\}
 }
+\end{proof}
 Since the CTMC is homogeneous and $\tau$ is almost surely finite stopping time, it is clear that 
 \eq{
 \Pr\{X(\tau+s) = j|X(\tau) = i\} &= P_{ij}(\tau,\tau+s) = P_{ij}(0,s). 
 }
-\end{proof}
-
 \subsection{Jump process}
 For any stochastic process on countable state space $E$ that is right continuous with left limits (rcll), 
 %and has finite jumps in any finite interval, 
@@ -178,9 +177,12 @@ Using strong Markov property of homogeneous CTMC $X$, we have
 %%&= \Pr\{X(v)=X(S_{n-1}),~v -S_{n-1} \in [0,t] | X(S_{n-1})\} = \Pr\{T_n > t \}.
 %}
 \end{proof}
-\begin{cor} 
-For a homogeneous CTMC such that $\inf_{i \in E} \nu_i \geq \nu > 0$, then the jump times are almost surely finite stopping times. 
+\begin{cor}
+If $X(S_{n}) = i$, then the random variable $T_{n+1}$ has same distribution as the exponential random variable $\tau_{i}$ with rate $\nu_i$. 
 \end{cor}
+\begin{prop} 
+For a homogeneous CTMC such that $\inf_{i \in E} \nu_i \geq \nu > 0$, then the jump times are almost surely finite stopping times. 
+\end{prop}
 \begin{proof}
 We observe that the jump times are sum of independent exponential random variables and hence the result follows. 
 By coupling, we can have a sequence of \textit{iid} random variables $\{X_n: n \in \N\}$, 
@@ -224,6 +226,13 @@ P_{ij}(T_n) &= P_{ij}(T_n-x)\bar{F}_i(x) + P_{ij}(0)F_i(x).
 }
 Result follows, since the only solution to this equation is $P_{ij}(T_n) = P_{ij}(0)$. 
 \end{proof}
+\begin{cor} 
+For a homogeneous CTMC, the transition probabilities $p_{ij}$ and sojourn times $\tau_i$ are independent. 
+\end{cor}
+\begin{cor}
+The jump process is a homogeneous Markov chain with countable state space $E$. 
+\end{cor}
+
 
 %We could sample the homogenous Markov process at sojourn times and study the resulting DTMC. 
 \subsection{Alternative construction of CTMC}
@@ -273,29 +282,55 @@ Therefore, it follows that $X$ is a homogeneous Markov process.
 %\end{align*}
 \end{proof}
 %\begin{rem}
-For a homogeneous CTMC, the transition probabilities $p_{ij}$ and sojourn times $\tau_i$ are independent. 
 %\end{rem}
 %\begin{rem}  
-In fact, a CTMC is a DTMC with exponential sojourn time in each state. 
+%In fact, a CTMC is a DTMC with exponential sojourn time in each state. 
 %\end{rem}
 %\begin{defn} 
 A CTMC is called \textbf{regular} if for all finite $t \in \R_+$, number of jumps $N(t)$ is almost surely finite. 
-That is, 
+That is, for all $t \in \R_+$
 \begin{align*}
-\Pr\{ N(t) < \infty \} = 1,~ \forall t < \infty.
+\Pr\{ N(t) < \infty \} = 1.
 \end{align*} 
 %\end{defn}
+\begin{lem} 
+A homogeneous CTMC is regular if $\sup_{i \in E} \nu_i < \nu < \infty$. 
+\end{lem}
+\begin{proof}
+By coupling, we can have a sequence of \textit{iid} random variables $\{\hat{T}_n: n \in \N\}$, 
+such that $\hat{T}_n \leq T_n$ and $\E X_n = \nu$ for each $n \in \N$. 
+Let $\hat{m}(t)$ be the associated renewal function with the sequence $\hat{T}$, 
+then we can write 
+\eq{
+\Pr\{N(t) < \infty\} &= \sum_{n \in \N_0}\Pr\{S_n \geq t\} = 1 + m(t) \leq 1 + \hat{m}(t).
+}
+\end{proof}
 \begin{shaded*}
 %\begin{exmp} 
 Consider the following example of a non-regular CTMC, where for all $i \in \N$
 \eq{
 p_{i,i+1}=1, \nu_i = i^2.
 } 
-Show that it is not regular.
+Clearly, $\sup_{i \in E}\nu_i = \infty$, and hence it is not regular.
 %\end{exmp}
 \end{shaded*}
 
-\subsection{Generator Matrix}
+\subsection{Properties of transition matrix}
+For each $t$, we have the transition matrix $P(t)$.
+\begin{lem}[continuity]
+Transition matrix $P(t)$ is a continuous function of time $t \in \R_+$, such that
+\eq{
+\lim_{t \downarrow 0}P(t) = I.
+}
+\end{lem}
+\begin{lem}[semigroup property]
+Transition matrix $P(t)$ satisfies the semigroup property
+\eq{
+\lim_{t \downarrow 0}P(t) = I.
+}
+\end{lem}
+
+\subsection{Generator matrix}
 %\begin{defn}
 A \textbf{generator matrix} denoted by $Q \in \R^{I \times I}$ is defined in terms of sojourn times $\{\nu_i, i \in I\}$ and jump transition probabilities $\{p_{ij}, i \neq j \in I\}$ of a CTMC as
 \begin{enumerate}
