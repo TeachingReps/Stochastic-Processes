@@ -2,48 +2,52 @@
 % !TEX spellcheck = LaTeX
 \documentclass[a4paper,10pt,english]{article}
 \input{header}
-\title{Lecture 15 : Limiting Probabilities and Uniformization }%Time Reversibility of Discrete Time Markov Chains}
+\title{Lecture 16 : Limiting Probabilities and Uniformization }%Time Reversibility of Discrete Time Markov Chains}
 \author{}
 \begin{document}
 \maketitle
 
-\section{Limiting Probabilities}
-We denote by $\{S_n: n \in \N_0\}$ the jump times of CTMC and the probability transition of the embedded Markov chain is denoted by $P = \{p_{ij}: i \neq j \in I\}$. 
-\begin{defn}
-If the embedded Markov chain is irreducible and positive recurrent then the stationary distribution $\alpha$ of the embedded Markov chain is a unique solution to
-\begin{align}
+\section{Jump chain}
+Let $\{S_n: n \in \N_0\}$ the jump times of a homogeneous CTMC $\{X(t) \in E, t \geqslant 0\}$ and the probability transition of the embedded Markov chain $\{X^J_n = X(S_n): n \in \N_0\}$ is denoted by $P_J = \{p_{ij}: i \neq j \in E\}$. 
+%\begin{defn}
+If the embedded Markov chain is irreducible and positive recurrent then the associated stationary distribution $\alpha$ 
+%of the embedded Markov chain 
+is the unique non-negative solution to
+\begin{xalignat}{3}
 \label{eq:StationaryDistribution}
-\alpha = \alpha P,~ \sum_{i}\alpha_i = 1.
-\end{align}
-\end{defn}
+&\alpha = \alpha P,&&%\alpha_i \geq 0 \text{ for} i \in E,&& 
+\sum_{i \in E}\alpha_i = 1.
+\end{xalignat}
+%\end{defn}
 We denote the mean of inter-arrival time by 
 \begin{align*}
 \frac{1}{\nu_i} = \E[S_{n+1} - S_{n}|X(S_n) = i].
 \end{align*} 
-\begin{defn} First return time to a state $i$ for a stochastic process $\{X(t), t \geqslant 0\}$ is 
+%\begin{defn} 
+The \textbf{first return time} to a state $i$ for a stochastic process $\{X(t), t \geqslant 0\}$ with $X(0) = i$ is
 \begin{align*}
-T_{ii} = \inf\{t > S_1 : X(0) = i, X(t) = i\}.
+T_{ii} = \inf\{t > S_1 : X(t) = X(0) = i\}.
 \end{align*}
-\end{defn}
-\begin{thm} For a CTMC with the irreducible and positive recurrent embedded Markov chain with the stationary distribution $\alpha$, following holds for the limiting process,
+%\end{defn}
+\begin{thm} 
+For a homogeneous CTMC with the irreducible and positive recurrent embedded Markov chain and the stationary distribution $\alpha$, following holds for the limiting process,
 \begin{align}
 \label{eq:LimitingProbability}
  \pi_j \triangleq \lim_{t \rightarrow \infty } P_{ij}(t)= \frac{\alpha_j / \nu_j}{\sum_j \alpha_j /\nu_j},
 \end{align}
-From~\eqref{eq:LimitingProbability} and~\eqref{eq:StationaryDistribution}, we see that $\{\pi_j\}$ is the unique non-negative solution to 
-\begin{equation}
-\nu_j\pi_j=\sum_i \nu_i\pi_iP_{ij},~ \sum_j \pi_j =1.
-\end{equation}
+From~\eqref{eq:LimitingProbability} and~\eqref{eq:StationaryDistribution}, we see that $\{\pi_j: j \in E\}$ is the unique non-negative solution to 
+\begin{xalignat}{3}
+&\nu_j\pi_j=\sum_{i \in E} \nu_i\pi_iP_{ij},&&\sum_{j \in E} \pi_j =1.
+\end{xalignat}
 \end{thm}
 \begin{proof} 
-For any CTMC on state space $I$, return to a state $i \in I$ is a renewal process. 
+For any CTMC on state space $E$, return to a state $j \in E$ is a renewal process. 
 We can define an alternating renewal process with on and off times characterized by the time CTMC spends in state $j$ and otherwise respectively.
 Therefore, by alternating delayed renewal process theory, we have
 \begin{align*}
 \lim_{t \to \infty}\Pr\{ \text{CTMC is on at time } t\} = \lim_{t \to \infty}P_{ij}(t) = \frac{\E \tau_j }{\E T_{jj}}.
 \end{align*} 
-
-The time spent in state $j \in I$ during $k^\text{th}$ visit to this state is defined by
+The time spent in state $j \in E$ during $k$th visit to this state is defined by
 \begin{align*}
 \tau_j(k) = \inf\{ t > 0: X() = j\}.
 \end{align*}
