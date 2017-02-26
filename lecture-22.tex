@@ -1,123 +1,228 @@
-% !TEX spellcheck = en_US
-% !TEX spellcheck = LaTeX
-\documentclass[a4paper,10pt,english]{article}
-%\uspackage{tfrupee}
+\documentclass[a4paper,english,10pt]{article}
 \input{header}
-\title{Lecture 21: Exchangeability}
+
+%opening
+\title{Lecture 20: Polya's Urn Scheme}
 \author{}
+
 \begin{document}
 \maketitle
-\section{Random Walk}
-\begin{defn} Let $\{X_i: i \in \N\}$ be \textit{iid} random variables with finite $\E[|X_1|]$. Let
-\begin{align*}
-S_n &= \sum_{k=1}^n X_i, ~~n \in \N_0.
-\end{align*}
-Then the process $\{S_n: n \in \N_0\}$ is called a \textbf{random walk}. 
-\end{defn}
-\begin{defn} A random walk is called a \textbf{simple random walk} if
-\begin{align*}
-\Pr\{X_1 = 1\} &= 1- \Pr\{X_1 = -1\}.
-\end{align*}
-\end{defn}
-\begin{rem} A simple random walk has the interpretation of the winnings of a gambler who plays a simple coin toss game and wins Rupee 1 if heads and loses Rupee 1 if tails. 
-\end{rem}
-\begin{rem} Random walks are useful in analyzing GI/GI/1 Queues, Ruin systems and even stock prices.
-\end{rem}
+\section{Optional Sampling theorem}
+The gambling interpretation of the stochastic integral suggests that it is natural to let the amount bet at time $n$ depend on the outcomes of the first $n-1$ flips but not on the flip we are betting on, or on later flips. The next result shows that we cannot make money by gamblingon a fair game.
 
-\begin{defn} Let $X_i$ belong to probability space $(S, \mathcal{S}, \mu)$. Consider the probability space $(\Omega, \F, P)$  for process $\{X_i: i \in \N\}$ where 
-\begin{xalignat*}{5}
-&\Omega = \prod_{i \in \N} S, &&\mathcal{F} = \prod_{i \in \N}\mathcal{S},&&P = \prod_{i \in \N}\mu.
-\end{xalignat*}
-%We define $X_n(\omega) = \omega_n$
-%\end{defn}
-%\begin{defn} 
-A \textbf{finite permutation} of $\N$ is a map $\pi: \N \to \N$ such that $\pi(i) \neq i$ for only finitely many $i$.
-\end{defn}
-\begin{defn} For a finite permutation $\pi$, we define $(\pi \omega)_i = \omega_{\pi(i)}$ for all $i \in \N$.
-\end{defn}
-\begin{defn} An event $A$ is \textbf{permutable} if $A = \pi^{-1}A = \{\omega \in \Omega: \pi \omega \in A\}$ for any finite permutation $\pi$.
-\end{defn}
-\begin{defn} The collection of permutable events is a $\sigma$-field called the \textbf{exchangeable} $\sigma$-field and denoted by $\mathcal{E}$.
-\end{defn}
-\begin{defn} A sequence $X$ of random variables is called \textbf{exchangeable} if for each $n$ and permutation $\pi: [n] \to [n]$, joint distribution of $(X_1, X_2, \ldots, X_n)$ and $(X_{\pi(1)}, X_{\pi(2)}, \ldots, X_{\pi(n)})$ are same.
-\end{defn}
-%\begin{defn}
-%$X_1, \hdots ,X_n$ is exchangeable if $X_{i_1}, \hdots X_{i_n}$ has the same joint distribution for all permutations $(i_1,i_2 \hdots i_n)$ of $(1, \hdots ,n)$. The infinite sequence of random variables $X_1, X_2 \hdots$ is said to be exchangeable if every finite subsequence $X_1, \hdots ,X_n$ is exchangeable.
-%\end{defn}
-\begin{exmp}
-Suppose balls are selected randomly, without replacement, from an urn consisting of $n$ balls of which $k$ are white. For $i \in [n]$, let
-\begin{align*}
-   X_i &= 1_{\{ i^{\text{th}}\text{ selection is white}\}},
-\end{align*}
-then $(X_1, \ldots X_n)$ will be exchangeable but not independent.  
-In particular, let $A = \{ i \in [n]: X_i = 1\}$. Then, we know that $|A| = k$, and we can write 
-\begin{align*}
-\Pr\{X_i = 1, i \in A, X_j = 0, j \in A^c\} = \Pr\{A = (i_1, i_2, \ldots, i_k) \} = \frac{(n-k)!k!}{n!} = \frac{1}{\binom{n}{k}}.
-\end{align*}
-This joint distribution is independent of set of exact locations $A$, and hence exchangeable. 
-Further, we can show that all $X_i$ are identically distributed, since
-\begin{align*}
-\Pr\{X_1= 1, X_2, \ldots, X_n\} = \Pr\{X_i = 1, X_1, \ldots, X_{i-1}, X_i, \ldots, X_n\}. 
-\end{align*}
-Further, it can be seen that
-\begin{align*}
-\Pr\{X_2 = 1|X_1= 1) = \frac{k-1}{n-1} \neq \frac{k}{n-1} = \Pr\{X_2 = 1|X_1 =0\}.
-\end{align*}
-\end{exmp}
-\begin{exmp}
-Let $\Lambda$ denote a random variable having distribution $G$. Let $X$ be a sequence of dependent random variables, where each of these random variables are conditionally \textit{iid} with distribution $F_\lambda$ given $\Lambda= \lambda$.Then, these random variables are exchangeable since
-\begin{align*}
-\Pr\{X_1 \leq x_1 \ldots , X_n \leq x_n\} = \int_{\lambda} \prod_{i=1}^nF_\lambda(x_i)dG(\lambda),
-\end{align*}
-which is symmetric in $(x_1, \ldots x_n)$. %The are not independent.
-\end{exmp}
-\begin{thm}[de Finetti's Theorem] If $X$ is an exchangeable sequence of random variables then conditioned on $\mathcal{E}$, each random variable $X_i$ in the sequence is iid.
+\begin{thm}Let $X_n$ be a martingale. If $H_n$ is predictable and each $H_n$ is bounded, then $(H\cdot X)_n$ is a martingale.
 \end{thm}
-\begin{proof} Let $I_{n,k} = \{i \subseteq [n]^k: i_j \text{ distinct}\}$. Then, for a function $\phi: \R^k \to \R$, we can define
+\begin{proof} It is easy to check that $(H\cdot X)_n \in \mathcal{F}_n$. Thhe boundedness of the $H_n$ implies $E|(H\cdot X)_n|<\infty$ for each $n$. With this established, we can compute conditional expectations to conclude
 \begin{align*}
-A_n(\phi) &= \frac{1}{(n)_k}\sum_{i \in I_{n,k}}\phi(X_{i_1}, X_{i_2}, \ldots, X_{i_k}),
+E((H\cdot X)_{n+1}| \mathcal{F}_n)&=(H\cdot X)_n+E(H_{n+1}(X_{n+1}-X_n)| \mathcal{F}_n)\\
+       &=(HX)_n+H_{n+1}E(X_{n+1}-X_n| \mathcal{F}_n)\\
+       &=(H\cdot X)_n.\qedhere
 \end{align*}
-where $(n)_k = n(n-1)\ldots(n-k+1)$. Clearly, $A_n(\phi) \in \mathcal{E}_n$ measurable and hence,
-$\E[A_n(\phi)|\mathcal{E}_n] = A_n(\phi)$. Since, $X$ is exchangeable, we have
-\begin{align*}
-A_n(\phi) &= \frac{1}{(n)_k}\sum_{i \in I_{n,k}}\E[\phi(X_{i_1}, X_{i_2}, \ldots, X_{i_k})|\mathcal{E}_n] = \E[\phi(X_{1}, X_{2}, \ldots, X_{k})|\mathcal{E}_n].
-\end{align*}
-Since $\mathcal{E}_n \to \mathcal{E}$, we have 
-\begin{align*}
-\lim_{n \in \N} A_n(\phi) &= \lim_{n \in \N} \E[\phi(X_{1}, X_{2}, \ldots, X_{k})|\mathcal{E}_n] = \E[\phi(X_{1}, X_{2}, \ldots, X_{k})|\mathcal{E}] .
-\end{align*}
-Let $f$ and $g$ be bounded functions on $\R^{k-1}$ and $\R$ respectively, such that $\phi(x_1,\ldots,x_k) = f(x_1,\ldots,x_{k-1})g(x_k)$. We also define $\phi_j(x_1,\ldots,x_{k-1}) = f(x_1,\ldots,x_{k-1})g(x_j)$, to write 
-\begin{align*}
-(n)_{k-1}A_n(f)nA_n(g) &= \sum_{i \in I_{n,k-1}}f(X_{i_1}, \ldots,X_{i_{k-1}})\sum_{m}g(X_{m})\\
-&= \sum_{i \in I_{n,k}}f(X_{i_1}, \ldots,X_{i_{k-1}})g(X_{i_k}) + \sum_{i \in I_{n,k-1}}\sum_{j=1}^{k-1}f(X_{i_1},\ldots,X_{i_{k-1}})g(X_{i_j})\\
-&= (n)_kA_n(\phi) + \sum_{j=1}^k(n)_{k-1}A_n(\phi_j).
-\end{align*}
-Dividing both sides by $(n)_k$ and rearranging terms, we get
-\begin{align*}
-A_n(\phi)& = \frac{n}{n-k+1}A_n(f)A_n(g) - \frac{1}{n-k+1}\sum_{j=1}^kA_n(\phi_j),\\
-%\lim_{n\in \N}\E[f(X_1,\ldots, X_{k-1})g(X_k)| \mathcal{E}_n] &= \lim_{n \in \N} \E[f(X_1,\ldots, X_{k-1})| \mathcal{E}_n] \E[g(X_k)| \mathcal{E}_n] 
-\end{align*}
-Using above two results, theorem follows by induction.
+since $H_{n+1}\in \mathcal{F}_n$ and $E(X_{n+1}-X_n| \mathcal{F}_n)=0$
 \end{proof}
-%\begin{thm}[de Finetti's Theorem] Every infinite sequence $X$ of random variables taking values either $0$ or $1$, there corresponds a probability distribution $G$ on $[0,1]$ such that, for all $0 \leq k \leq n$,
-%\begin{equation*}
-%\label{De Finetti}
-%Pr(X_1=X_2= \hdots X_k =1, X_{k+1}= \hdots X_n = 0)= \int_{0}^{1}\lambda^k(1-\lambda)^{n-k}dG(\lambda).
-%\end{equation*}  
-%\end{thm}
-%\begin{proof}
-%Let $m \geq n $.
-%\begin{eqnarray*}
-%&Pr(X_1 = X_2 \hdots X_k =1, X_{k+1}= \hdots X_n 0 )\\
-%&=\sum_{j=0}^{m}Pr(X_1=\hdots X_k=1, X_{k+1}= X_{n}=0|S_m=j)Pr(S_m=j)\\
-%&=\sum_{j} \frac{j(j-1) \hdots (j-k+1)(m-j)(m-j-1) \hdots (m-j-(n-k)+1) }{m(m-1) \hdots (m-n+1)}Pr(S_m=j).
-%\end{eqnarray*}
-%The last equation follows by exchangeability as given $S_m=j$ each subset of size $j$ of $X_1 \hdots X_m$ is equally likely to be the one consisting of all $1'$s. Letting $S_m=mY_m$, the above equation for large $m$ is roughly equal to $E[Y_m^k(1-Y_m)^{n-k}]$, and the theorem follows letting $m \rightarrow \infty$. Indeed, from a result known as  Helly's theorem it can be shown that for some subsequence $m'$ converging to $\infty$, the distribution of $Y_m'$ will converge to a distribution $G$ and we get
-%\begin{equation*}
-%E[Y_{\infty}^k(1-Y_{\infty})^{n-k}] = \int_0^1 \lambda^k(1-\lambda)^{n-k}dG(\lambda).
-%\end{equation*} 
-%\end{proof}
+The last theorem can be interpreted as: you can't make money by gambling on a fair game. This conclusion does not hold if we only assume that $H_n$ is optional, that is $H_n\in \mathcal(F)_n$, since then we can base our bet on the outcome of the coin we are betting on.
 
+\begin{thm} Suppose $M_0,M_1,\dots $ is a martingale with respect to$\{\mathcal{F}_n\}$ and suppose $T$ is a stopping time. Suppose that $T$ is bounded, $T\leq K$. Then
+\begin{equation*}
+\mathbb{E}(M_T|\mathcal{F}_0)=M_0.
+\end{equation*}
+In particular, $\mathbb{E}(M_T)=\mathbb{E}(M_0)$.
+ \end{thm}
+To prove this fact, we first note that the event $\{T>n\}$ ismeasurable with respect to $\mathcal{F}_n$ (since we need only the information up through time $n$ to determine if we have stopped by time $n$). Since $M_T$ is the random variable which equals $M_j$ if $T=j$ we can write
+\begin{equation*}
+M_T = \sum_{j=0}^K M_j I\{T=j\}.
+\end{equation*}
+Let us take the conditional expectation with respect to $\mathcal{F}_{K-1}$,
+\begin{equation*}
+\mathbb{E}(M_T|\mathcal(F)_{K-1})=\mathbb{E}(M_KI\{T=K\}|\mathcal{F}_{K-1})+\sum_{j=0}^{K-1} \mathbb{E}(M_jI\{T=j\}|\mathcal{F}_{K-1}).
+\end{equation*}
+For $j\leq K-1, M_jI\{T=j\}$ is $\mathcal{F}_{K-1}$- measurable; hence
+\begin{equation*}
+\mathbb{E}(M_jI\{T=j\}|\mathcal{F}_{K-1})=M_jI\{T=j\}.
+\end{equation*}
+Since $T$ is known to be no more than $K$, the event $\{T=K\}$ is the same as the event $\{T>K-1\}$. The latter event is measurable with respect to $\mathcal{F}_{K-1}$. Hence using equality
+\begin{equation*}
+\mathbb{E}(YZ|\mathcal{F}_n)= Z\mathbb{E}(Y|\mathcal{F}_n).
+\end{equation*}
+Where $Y$ is any random variable and $Z$ is a random variable that is measurable with respect to finite number of random variables $X_1,X_2,\dots,X_n$.
 
+\begin{align*}
+\mathbb{E}(M_KI\{T=K\}|\mathcal{F}_{K-1}) &=\mathbb{E}(M_KI\{T>K-1\}|\mathcal{F}_{K-1})\\
+								   &=I\{T>K-1\}\mathbb{E}(M_K|\mathcal{F}_{K-1})\\
+								   &=I\{T>K-1\}M_{K-1}.
+\end{align*}
+
+The last equality follows from the fact the $M_n$ is a martingale. Therefore,
+\begin{align*}
+\mathbb{E}(M_T|\mathcal{F}_{K-1}) &=I\{T>K-1\}M_{K-1}+\sum_{j=0}^{K-1}M_jI\{T=j\}\\
+								   &=I\{T>K-2\}M_{K-1}+\sum_{j=0}^{K-2}M_jI\{T=j\}.
+\end{align*}
+If we work through this argument again, this time conditioning with respect to $\mathcal{F}_{K-2}$, we gat
+\begin{align*}
+\mathbb{E}(M_T|\mathcal{F}_{K-2}) &=\mathbb{E}(\mathbb{E}(M_T|\mathcal{F}_{K-1})|\mathcal{F}_{K-2})\\
+								   &=I\{T>K-3\}M_{K-2}+\sum_{j=0}^{K-3}M_jI\{T=j\}.
+\end{align*}
+We can continue this process untill we get
+\begin{equation*}
+\mathbb{E}(M_T|\mathcal{F}_0)=M_0.
+\end{equation*}
+
+There are many examples of interest where the stopping time $T$ is not bounded. Suppose $T$ is a stopping time with $\mathbb{P}\{T<\infty\}=1$, i.e., a rule that guarantees that one stops eventually. (Note that the time associated to the martingale betting strategy satisfies this condition.) When can we conclude that $\mathbb{E}(M_T)=\mathbb{E}(M_0)?$ To investigate this consider the stopping times $T_n=min\{T,n\}$. Note that
+\begin{equation*}
+M_T=M_{T_{n}}+M_TI\{T>n\}-M_nI\{T>n\}.
+\end{equation*}
+Hence,
+\begin{equation*}
+\mathbb{E}(M_T)=\mathbb{E}(M_{T_{n}})+\mathbb{E}(M_TI\{T>n\})-\mathbb{E}(M_nI\{T>n\}).
+\end{equation*}
+
+Since $T_n$ is a bounded stopping time, it follows from the above that $\mathbb{E}(M_{T_{n}})=\mathbb{E}(M_0)$. We would like to be able to say that the other termsdo not contribute as $n\rightarrow \infty$. The second term is not much of a problem.  Since the probability of the event $\{T>n\}$ goes to 0 as $n\rightarrow \infty$, we are taking the expectation of the random variable $M_T$ restricted to a smaller and smaller set. One can show that if $\mathbb{E}(|M_T|)<\infty$ then $\mathbb{E}(|M_T|I\{T>n\}) \rightarrow 0$.
+
+The third term, if $M_n$ and $T$ are given satisfying
+\begin{equation*}
+lim_{n\rightarrow \infty}\mathbb{E}(|M_n|I\{T>n\})=0,
+\end{equation*}
+then we will be able to conclude that $\mathbb{E}(M_T)=\mathbb{E}(M_0)$. We summarize this as follows.\newline
+\textbf{Optional Sampling Theorem.} Suppose $M_0,M_1,\dots$ is a martingale with respect to $\{\mathcal{F}_n\}$ and $T$ is a stopping time satisying $\mathbb{P}\{T<\infty\}=1$,
+\begin{equation*}
+\mathbb{E}(|M_T|)<\infty,
+\end{equation*}
+and
+\begin{equation*}
+\lim_{n\rightarrow \infty}\mathbb{E}(|M_n|I\{T>n\})=0.
+\end{equation*}
+Then, $\mathbb{E}(M_T)=\mathbb{E}(M_0)$.
+
+\section{Polya's Urn Scheme}
+Suppose an urn initially contains $b_0$ black balls and $w_0$ white balls. Suppose balls are sampled from the urn one at a time, but after each draw $1$ balls of the same color are returned to the urn. If first draw is a black, then replace $b_0$ with $b_0+1$ balls in the urn and $w_0$ with $w_0+1$ for white balls. The number of black balls in the first $n$ draws would then have a $Bin(n,\frac{b_0}{b_0+w_0})$.
+Let $B_n$ be the number of black balls in urn after $n$ draws and $B_0 = b_0$. Now probability of getting a black ball in first draw is
+ \begin{equation*}
+\mathbb{P}(B_1=b_0+1)= \frac{b_0}{b_0+w_0},
+\end{equation*}
+and probability of a getting white ball in first draw is
+ \begin{equation*}
+\mathbb{P}(B_1=b_0)= \frac{w_0}{b_0+w_0}.
+\end{equation*}
+Similarly after two draws,
+ \begin{align*}
+\mathbb{P}(B_2=b_0)= \frac{w_0}{b_0+w_0} \cdot \frac{w_0+1}{b_0+w_0+1}\\
+\mathbb{P}(B_2=b_0+1)= \frac{b_0}{b_0+w_0} \cdot \frac{w_0}{b_0+w_0+1}+\frac{w_0}{b_0+w_0} \cdot \frac{b_0}{b_0+w_0+1}\\
+\mathbb{P}(B_2=b_0)= \frac{b_0}{b_0+w_0} \cdot \frac{b_0+1}{b_0+w_0+1}.
+\end{align*}
+For first three draws,
+ \begin{align*}
+\mathbb{P}(\text{first 3 draws are } bwb)= \frac{b_0}{b_0+w_0} \cdot \frac{w_0}{b_0+w_0+1} \cdot \frac{b_0+1}{b_0+w_0+2}\\
+\mathbb{P}(\text{first 3 draws are } bbw)= \frac{b_0}{b_0+w_0} \cdot \frac{b_0+1}{b_0+w_0+1} \cdot \frac{w_0}{b_0+w_0+2}\\
+\mathbb{P}(\text{first 3 draws are } wbb)= \frac{w_0}{b_0+w_0} \cdot \frac{b_0}{b_0+w_0+1} \cdot \frac{b_0+1}{b_0+w_0+2},
+\end{align*}
+where $b$ stands for black ball and $w$ stands for white ball. We observe above 3 equations, all of them are same. like wise
+ \begin{align*}
+\mathbb{P}(bbwww)= \frac{b_0(b_0+1)w_0(w_0+1)(w_0+2)}{\prod_{i=0}^4 (b_0+w_0+i)}\\
+\mathbb{P}(bwwwb)= \frac{b_0w_0(w_0+1)(w_0+2)(b_0+1)}{\prod_{i=0}^4 (b_0+w_0+i)}.
+\end{align*}
+Again above two probabilities are equal.
+\begin{defn}
+An infinite sequence $\{X_i\}_{i=1}^{\infty}$ of random variables is exchangeable if $\forall$ $n=1,2,\dots$
+ \begin{equation*}
+X_1,\dots,X_n=X_{\pi(1)},\dots ,X_{\pi(n)}, \forall \pi \in S(n),
+\end{equation*}
+where $S(n)$ is the symmetric group, the group of permutations.
+\end{defn}
+Polya's Urn Model is one of the examples for exchangeability. An Example would be following
+ \begin{equation*}
+\mathbb{P}(bbwww)=\mathbb{P}(bwwwb)
+\end{equation*}
+If $\xi_1,\xi_2,\dots,\xi_n$ denote the sigma algebra for the color of the drawn ball i.e., $\xi_i$ represents the color of the $i^{th}$ ball, from the definition of excangeability
+\begin{equation*}
+(\xi_1,\xi_2,\xi_3,\xi_4,\xi_5)=(\xi_2,\xi_1,\xi_5,\xi_4,\xi_3).
+\end{equation*}
+\begin{note}
+Polya's Urn scheme generate exchangeable sequences.
+\end{note}
+Let 
+\begin{equation*}
+X_n=\frac{B_n}{B_n+W_n}=\frac{B_n}{b_0+w_0+n},\ 0\leq X_n \leq1,
+\end{equation*}
+represents the proportion of black balls after $n$ draws, then given the past $\xi_1,\xi_2,\dots,\xi_n$
+\begin{equation*}
+B_{n+1} =
+\left\{
+	\begin{array}{ll}
+		B_n  & w.p \ (1-\frac{B_n}{b_0+w_0+n}) \\
+		B_{n+1} & if \ \xi_{n+1} \ w.p \ \frac{B_n}{b_0+w_0+n}.
+	\end{array}
+\right.
+\end{equation*}
+Now
+\begin{align*}
+\mathbb{E}[X_{n+1}|\xi_1,\xi_2,\dots\xi_n]&=\frac{1}{b_0+w_0+n+1}\mathbb{E}[B_{n+1}|\xi_1,\xi_2,\dots\xi_n]\\
+								&=\frac{1}{b_0+w_0+n+1}\mathbb{E}[B_n(1-X_n)+(B_n+1)X_n]\\
+								&=\frac{B_n+X_n}{b_0+w_0+n+1}\\
+								&=X_n.
+\end{align*}
+That means it is a martingale.
+\begin{note}
+$X_n$ is a martingale.
+\end{note}
+\subsection{Analysis of the Polya urn model}
+\begin{thm}(De Finetti 1931)
+A binary sequence $\{X_n\}_{i=1}^{\infty}$ is exchageable iff there exixtes a distribution function $F(p)$ on $[0,1]$ such that for any $n\geq1$,
+\begin{equation*}
+\mathbb{P}(X_1=x_1,\dots,X_n=x_n)=\int_0^1 p^{S_n}(1-p)^{n-S_n}dF(p)
+\end{equation*}
+where $S_n=\sum_i x_i$.
+\end{thm}
+The distribution $F$ is a function of the limiting frequency
+\begin{equation*}
+Y=\bar{X}_{\infty}=\lim_{n \to \infty}\frac{\sum_i X_i}{n},  \mathbb{P}(Y\leq p)=F(p),
+\end{equation*}
+and conditioning on $Y=p$ results in iid Bernoulli draws
+\begin{equation*}
+\mathbb{P}(X_1=x_1,\dots,X_N=x_n|Y=p)= p^{S_n}(1-p)^{n-S_n},
+\end{equation*}
+and for the Polya urn model
+\begin{equation*}
+\lim_{n\to \infty} \bar{X}_n=Y~Beta\left(\frac{B_0}{B_0+W_0},\frac{W_0}{B_0+W_0} \right)
+\end{equation*}
+The result can be interpreted from a statistical, probabilistic and function analytic perspective.
+
+We will use De Finetti's theorem to compute the limiting distribution for the Polya urn model 
+\begin{equation*}
+\lim_{n\to \infty} \bar{X}_n=Y~Beta\left(\frac{B_0}{B_0+W_0},\frac{W_0}{B_0+W_0} \right).
+\end{equation*}
+We first define the Beta and Gamma functions
+\begin{equation*}
+\beta(x,y)=\int_0^1 p^{x-1}(1-p)^{y-1}dp, \Gamma(x+1)=x\Gamma(x), \beta(a,b)=\frac{\Gamma(a)\Gamma(b)}{\Gamma(a+b)}.
+\end{equation*}
+The probability of observing $k$ black balls given $n$ draws
+\begin{align}
+\mathbb{P}(k \text{ black balls given } n \text{ draws})&=\dbinom{n}{k}\frac{B_0(B_0+1)\dots(B_0+k-1)W_0(W_0+1)\dots(W_0+n-k-1)}{(B_0+W_0)(B_0+W_0+1)\dots(B_0+W_0+n-1)}\\
+								&=\dbinom{n}{k}\frac{\beta(B_0+k,B_0+n-k)}{\beta(B_0,W_0)}.
+\end{align}
+Note that the proportion of black balls at any stage $n$ of the process is
+\begin{equation*}
+\rho_n=\frac{B_n}{B_n+W_n}, \rho_{\infty}=\lim_{n\to \infty}\frac{B_n}{B_n+W_n}.
+\end{equation*}
+We know that 
+\begin{equation*}
+\mathbb{P}(k \text{ black balls given } n \text{ draws}|\rho_{\infty}=p)=\dbinom{n}{k}p^k(1-p)^{n-k},
+\end{equation*}
+and if $\rho_{\infty}~F(p)$ then,
+\begin{equation*}
+\mathbb{P}(k \text{ black balls given } n \text{ draws})=\int_0^1\mathbb{P}(k \text{ black balls given } n \text{ draws}|\rho_{\infty}=p)dF(p),
+\end{equation*}
+\begin{equation}
+\mathbb{P}(k \text{ black balls given } n \text{ draws})=\dbinom{n}{k} \int_0^1p^k(1-p)^{n-k}dF(p).
+\end{equation}
+By equating (2) and (3) we obtain,
+\begin{align*}
+\int_0^1 p^k(1-p)^{n-k}dF(p) &= \frac{\beta(B_0+k,B_0+n-k)}{\beta(B_0,W_0)}\\
+					   &=\frac{1}{\beta(B_0,W_0)}\int_0^1p^{B_0+k-1}(1-p)^{B_0+n-k-1}dp\\
+					   &=\int_0^1 p^k (1-p)^{n-k}\frac{p^{B_0-1}(1-p)^{W_0-1}}{\beta(B_0,W_0)}dp,
+\end{align*}
+which gives the limiting distribution for Polya's urn scheme as
+\begin{equation*}
+f(p)=\frac{1}{\beta(B_0,W_0)}p^{B_0-1}(1-p)^{W_0-1}.
+\end{equation*}
 
 \end{document}

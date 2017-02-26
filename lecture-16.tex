@@ -2,262 +2,249 @@
 % !TEX spellcheck = LaTeX
 \documentclass[a4paper,10pt,english]{article}
 \input{header}
-\title{Lecture 16 : Limiting Probabilities and Uniformization }%Time Reversibility of Discrete Time Markov Chains}
+\title{Lecture 16 : Evolution of Markov Processes}
 \author{}
 \begin{document}
 \maketitle
 
-\section{Jump chain}
-Let $\{S_n: n \in \N_0\}$ the jump times of a homogeneous CTMC $\{X(t) \in E, t \geqslant 0\}$ and the probability transition of the embedded Markov chain $\{X^J_n = X(S_n): n \in \N_0\}$ is denoted by $P_J = \{p_{ij}: i \neq j \in E\}$. 
-%\begin{defn}
-If the embedded Markov chain is irreducible and positive recurrent then the associated stationary distribution $\alpha$ 
-%of the embedded Markov chain 
-is the unique non-negative solution to
-\begin{xalignat}{3}
-\label{eq:StationaryDistribution}
-&\alpha = \alpha P,&&%\alpha_i \geq 0 \text{ for} i \in E,&& 
-\sum_{i \in E}\alpha_i = 1.
-\end{xalignat}
-%\end{defn}
-We denote the mean of inter-arrival time by 
-\begin{align*}
-\frac{1}{\nu_i} = \E[T_{n}|X(S_{n-1}) = i].
-\end{align*} 
+\section{Regularity and Stationarity}
 %\begin{defn} 
-The \textbf{first return time} to a state $i$ for a stochastic process $\{X(t), t \geqslant 0\}$ with $X(0) = i$ is
+A CTMC is called \textbf{regular} if for all finite $t \in \R_+$, number of jumps $N(t)$ is almost surely finite. 
+That is, for all $t \in \R_+$
 \begin{align*}
-T_{ii} = \inf\{t > S_1 : X(t) = X(0) = i\}.
-\end{align*}
-%\end{defn}
-\begin{thm} 
-For a homogeneous CTMC with the irreducible and positive recurrent embedded Markov chain and the stationary distribution $\alpha$, following holds for the limiting process,
-\begin{align}
-\label{eq:LimitingProbability}
- \pi_j \triangleq \lim_{t \rightarrow \infty } P_{ij}(t)= \frac{\alpha_j / \nu_j}{\sum_j \alpha_j /\nu_j},
-\end{align}
-From~\eqref{eq:LimitingProbability} and~\eqref{eq:StationaryDistribution}, we see that $\{\pi_j: j \in E\}$ is the unique non-negative solution to 
-\begin{xalignat}{3}
-&\nu_j\pi_j=\sum_{i \in E} \nu_i\pi_iP_{ij},&&\sum_{j \in E} \pi_j =1.
-\end{xalignat}
-\end{thm}
-\begin{proof} 
-For any CTMC on state space $E$, return to a state $j \in E$ is a renewal process. 
-We can define an alternating renewal process with on and off times characterized by the time CTMC spends in state $j$ and otherwise respectively.
-Therefore, by alternating delayed renewal process theory, we have
-\begin{align*}
-\lim_{t \to \infty}\Pr\{ \text{CTMC is on at time } t\} = \lim_{t \to \infty}P_{ij}(t) = \frac{\E \tau_j }{\E T_{jj}}.
+\Pr\{ N(t) < \infty \} = 1.
 \end{align*} 
-The time spent in state $j \in E$ during $k$th visit to this state is defined by
-\begin{align*}
-\tau_j(k) = \inf\{ t > 0: X() = j\}.
-\end{align*}
-Number of visits to state $j$ in the first $m$ transitions of the CTMC is defined by
-\begin{align*}
-N_j(m) = \sum_{l=1}^m1_{\{X(S_l) = j\}}.
-\end{align*}
-The proportion of time in state $j$ during the first $m$ transitions of the CTMC is 
-\begin{align*}
-\beta(m) &= \frac{\frac{N_j(m)}{m}\sum_{k=1}^{N_j(m)}\frac{\tau_j(k)}{N_j(m)}}{\sum_j \frac{N_j(m)}{m}\sum_{k=1}^{N_j(m)}\frac{\tau_j(k)}{N_j(m)}}.%,\\
-%&= \frac{\frac{N_i(m)}{m}\sum_{j=1}^{N_i(m)}Y_i(j)}{\sum_l \frac{N_i(m)}{m} \sum_{j=1}^{N_i(m)}Y_i(j) }.\\
-\end{align*}
-Since $N_j(m)\rightarrow \infty$ as $m \rightarrow \infty$, it follows from the strong law of large numbers that 
-\begin{xalignat*}{3}
-&\lim_{m \in \N}\frac{\sum_{k=1}^{N_j(m)}\tau_j(k)}{N_j(m)} = \E \tau_j, && \lim_{m \in \N}\frac{N_j(m)}{m} = \alpha_j.
-\end{xalignat*}
-%and $ (E[\text{number of transitions between visits to state }i])^{-1}=\alpha_i$. Letting $m \rightarrow \infty$, result follows.
-%\begin{align*}
-%\lim_{t \to \infty}\Pr\{ \text{CTMC is on at time } t | X(0) = i\} = \lim_{t \to \infty}P_{ij}(t) = \lim_{t \to \infty}\frac{\Pr\{\text{CTMC is on during time }[0,t] |X(0) = t\}}{t} = \frac{\E \tau_j }{\E T_{jj}}.
-%\end{align*} 
-\end{proof}
-
-\begin{rem}
-The limiting probability $\pi_j$ is the long-run proportion of time the process is in state $j$.
-\end{rem}
-
-%\begin{defn} We denote \textbf{stationary distribution} of an irreducible and positive recurrent CTMC $P(t)$ by $\pi$ such that for all $t > 0$
-%\begin{align}
-%\label{eq:StationaryCTMCDistribution}
-%\pi = \pi P(t),~~ \sum_{i}\pi_i = 1.
-%\end{align}
 %\end{defn}
-%
-%Since a Continuous Time Markov Chain (CTMC) is a semi-Markov chain with $F_{ij}(t)=1-e^{\nu_i t}$. From the theory of semi-Markov process, if the embedded Markov chain with transition probabilities $P_{ij}$ is irreducible and positive recurrent, then the limiting process,
-%\begin{align}
-%\label{eq:LimitingProbability}
-%\pi_j \triangleq \lim_{t \rightarrow \infty } P_{ij}(t)= \frac{\alpha_j / \nu_j}{\sum_j \alpha_j /\nu_j},
-%\end{align}
-%where $\alpha_i$ is the stationary distribution of the embedded Markov chain. From \ref{eq:LimitingProbability} and \ref{eq:StationaryDistribution}, we see that $\{\pi_j\}$ is the unique non-negative solution to 
-%\begin{equation}
-%\nu_j\pi_j=\sum_i \nu_i\pi_iP_{ij},~ \sum_j \pi_j =1.
-%\end{equation}
-
-\begin{lem}
-For an irreducible CTMC with transition probability $P(t)$, if the initial state is chosen according to the limiting probability distribution $\pi$, then the resultant process will be stationary. That is,
-\begin{equation*}
-\pi P(t)=\pi,~ \text{for all}~ t > 0.
-\end{equation*}
+\begin{lem} 
+A homogeneous CTMC is regular if $\sup_{i \in E} \nu_i < \nu < \infty$. 
 \end{lem}
 \begin{proof}
-\begin{flalign*}
-\sum_{i}P_{ij}(t)\pi_i &=\sum_{i}P_{ij}(t)\lim_{s \rightarrow \infty}P_{ki}(s) =\lim_{s \rightarrow \infty} \sum_{i}P_{ij}(t)P_{ki}(s) =\lim_{s \rightarrow \infty}P_{kj}(t+s) =\pi_j.
-\end{flalign*}
-\end{proof} 
+By coupling, we can have a sequence of \textit{iid} random variables $\{\underline{T}_n: n \in \N\}$, 
+such that $\underline{T}_n \leq T_n$ and $\E X_n = \nu$ for each $n \in \N$. 
+Let $\underline{m}(t)$ be the associated renewal function with the sequence $\underline{T}$, 
+then we can write 
+\eq{
+    \Pr\{N(t) < \infty\} &= \sum_{n \in \N_0}\Pr\{S_n \geq t\} = 1 + m(t) \leq 1 + \underline{m}(t).
+}
+\end{proof}
+\begin{shaded*}
+%\begin{exmp} 
+Consider the following example of a non-regular CTMC, where for all $i \in \N$
+\eq{
+    p_{i,i+1}=1, \nu_i = i^2.
+} 
+Clearly, $\sup_{i \in E}\nu_i = \infty$, and hence it is not regular.
+%\end{exmp}
+\end{shaded*}
 
-\begin{rem}
-Another way of arriving at the limiting probabilities are by forward equations
-\begin{equation}
-P_{ij}'(t)=\sum_{k \neq j}q_{kj}P_{ik}(t)-\nu_iP_{ij}(t).
-\end{equation}
-Assume that the limiting probabilities exist. Then, since $P_{ij}(t)$ are necessarily bounded, it is easy to observe that $P_{ij}'(t) \rightarrow 0$ as $t \rightarrow \infty$. Letting $t \rightarrow \infty$, assuming that the limit and summation can be exchanged, we get 
-\begin{align}
-\nu_j \pi_j = \sum_{k\not=j} q_{kj} \pi_k = \sum_k \nu_k P_{kj} \pi_k.
-\end{align}
-Letting $\gamma_j :=\pi_j \nu_j$, we see that $\gamma_j$ satisfies the relations for the steady state equation of the embedded Markov chain, but for a scale factor. Hence $\gamma_j = \frac{\alpha_j}{\sum_k \alpha_k}$, and we obtain the expression for $\pi_j$. 
-\end{rem}
-\begin{rem}
-In any interval $(0,t)$, the number of transitions into state $j$ must equal to within 1 the number of transitions out of state $j$. Hence, in the long run, The rate at which transitions occur into state $j$ = The rate at which transitions occur out of state $j$. That is,
-\begin{equation}
-\nu_i \pi_i =\sum_{ i}\pi_i q_{ij}. 
-\end{equation} 
- Hence,
- \begin{equation}
- \nu_iP_{ij}=\sum_{i}\pi_iq_{ij},~ \sum_j \pi_j =1.
- \end{equation}
- are called balance equations.
-\end{rem}
+\subsection{Properties of transition matrix}
+For each $t$, we have the transition matrix $P(t)$.
+\begin{lem}[continuity]
+Transition matrix $P(t)$ for a homogeneous CTMC $X$ is a continuous function of time $t \in \R_+$, such that
+\eq{
+    \lim_{t \downarrow 0}P(t) = I.
+}
+\end{lem}
+\begin{proof}
+It follows from continuity of probability functions and alternate characterization of homogeneous CTMC.
+\end{proof}
+\begin{lem}[semigroup property]
+Transition matrix $P(t)$ satisfies the semigroup property
+\eq{
+    P(s+t) &= P(s)P(t).
+}
+\end{lem}
+Since each entry of $P(t)$ is a probability, this leads to characterization of $P(t)$ completely. 
+\begin{proof}
+From homogeneity of Markov chains, we can write the $(i,j)$th entry of $P(s+t)$ as
+\eq{
+    P_{ij}(0,s+t) &= \sum_{k \in E}P_{ik}(0,s)P_{kj}(s,s+t) =  \sum_{k \in E}P_{ik}(0,s)P_{kj}(0,t) = [P(s)P(t)]_{ij}.
+}
+\end{proof}
+For a homogeneous CTMC with transition matrix $P(t)$, the \textbf{generator matrix} $Q \in \R^{E \times E}$ is defined as the following limit when it exists 
+\eq{
+    Q &\triangleq \lim_{t \downarrow 0}\frac{P(t) - I}{t}.
+}
+\begin{thm} 
+For a homogeneous CTMC, the generator matrix exists and is defined in terms of sojourn time rates $\{\nu_i: i \in E\}$, and jump transition matrix $p = \{p_{ij}: i,j \in E\}$ as
+\begin{xalignat*}{3}
+&Q_{ii} = -\nu_i,&&Q_{ij} = \nu_ip_{ij}.
+\end{xalignat*}
+\end{thm}
+\begin{proof}
+We can expand the $(i,j)$th entry of transition matrix in terms of disjoint events  $\{N(t) = n\}$ as  
+\eq{
+    P_{ij}(t) &= \Pr\{X(t)=j|X(0) = i\} = \sum_{n \in \N_0}\Pr\{X(t)=j, N(t) = n|X(0) = i\}.
+}
+We can write the upper and lower bound as 
+\eq{
+    \sum_{n = 0}^{1}\Pr\{X(t)=j, N(t) = n|X(0) = i\} &\leq P_{ij}(t) \leq \sum_{n = 0}^{1}\Pr\{X(t)=j, N(t) = n|X(0) = i\} + \Pr\{N(t) \geq 2\}.
+}
+For $t > 0$, we can compute for $j \neq i \in E$
+\begin{xalignat*}{3}
+&\Pr\{X(t)= i, N(t) = 0 | X(0) = i\} = e^{-\nu_i t}, && \Pr\{X(t) = i, N(t) = 1| X(0) = i\} = 0,\\
+&\Pr\{X(t)= j, N(t) = 0 | X(0) = i\} = 0, && \Pr\{X(t) = j, N(t) = 1| X(0) = i\} = p_{ij}\int_{0}^t\nu_ie^{-\nu_j(t-u)}e^{-\nu_iu}du.
+\end{xalignat*}
+Since $\{N(t) \geq 2\}$ is of order $o(t)$ for small $t$, we can write
+\eq{
+    \frac{P_{ij}(t) - I_{ij}}{t} &= -\left(\frac{1-e^{-\nu_it}}{t}\right)I_{ij} + \nu_ip_{ij}\frac{(e^{-\nu_j}-e^{-\nu_it})}{(\nu_i-\nu_j)t}(1-I_{ij}) + o(t).
+    %\begin{cases}
+    %\frac{1-e^{-\nu_it}}{t} + o(t) &i = j, \\
+    %\frac{\nu_i(e^{-\nu_j}-e^{-\nu_it})}{(\nu_i-\nu_j)t}& i \neq j.
+    %\end{cases}
+}
+Taking limit as $t \downarrow 0$, we get the result.
+\end{proof}
 
-\section{Uniformization}
-Consider a continuous-time Markov chain in which the mean time spent in a state is the same for all states. That is, say $\nu_i=\nu$ for all states $i$. Let $N(t)$ denote the number of state transitions by time $t$. Since the amount of time spent in each state is  exponential $\nu$, $\{N(t), ~ t \geq 0 \}$ is a Poisson process with parameter $\nu$. To compute the transition probabilities $P_{ij}(t)$, we can condition on $N(t)$ as follows:
-\begin{flalign*}
-P_{ij}(t)&=Pr(X(t)=j|X(0)=i)\\
-&=\sum_{n \in \mathbb{N}_0} Pr(X(t)=j,N(t)=n|X(0)=i)\\
-&=\sum_{n \in \mathbb{N}_0} Pr( N(t)=n|X(0)=i) Pr(X(t)=j|X(0)=i,N(t)=n).
-\end{flalign*}
-Hence,
-\begin{equation*}
-P_{ij}(t)= \sum_{n \in \mathbb{N}_0} P_{ij}^{(n)}e^{-\nu t}\frac{(\nu t)^n}{n !}.
-\end{equation*}
-The above equation helps to compute $P_{ij}(t)$ approximately by computing an appropriate partial sum. But its application is limited as the rates are all assumed to be equal. But it so turns out that most Markov chains can be put in that form by allowing hypothetical transitions from a state to itself.
-\subsection{Uniformization step}
-Consider a CTMC with bounded $\nu_i$s. Choose $\nu$ such that 
-\begin{equation}
-\label{eq: UniformizationBound}
-\nu_i \leq \nu,
-\end{equation}
-for all $i$. Since from each stage, the Markov chain leaves at rate $\nu_i$, we could equivalently assume that the transitions occur at a rate $\nu$ but only $\frac{\nu_i}{\nu}$ are real transitions and the remaining transitions are fictitious. Any Markov chain satisfying \eqref{eq: UniformizationBound} can be thought of as being in a process that spends an exponential amount of time with rate $\nu$ in state $i$ and then makes a transition to state $j$ with probability $P_{ij}^*$, where
-\begin{equation}
-P_{ij}^* = \left\{
-     \begin{array}{lr}
-       1-\frac{\nu_i}{\nu} & : j =i\\
-       \frac{\nu_i}{\nu}P_{ij} & : j \neq i.
-     \end{array}
-   \right.
-\end{equation}   
-The transition probabilities are computed by 
-\begin{equation*}
-P_{ij}(t)=\sum_{n=0}^{\infty}P_{ij}^{*n}e^{\nu t} \frac{{(\nu t)}^n}{n!}
-\end{equation*}
-This technique of uniformizing the rate in which a transition occurs from each state to state by introducing self transitions is called uniformization.
+\begin{cor}
+For each state $i \in E$, the generator matrix $Q \in \R^{E \times E}$ for a homogeneous CTMC satisfies 
+\begin{xalignat*}{5}
+&0 \leq -Q_{ii} < \infty, && Q_{ij} \geq 0,&&\sum_{j \in E}Q_{ij} = 0.
+\end{xalignat*}
+\end{cor}
 
+\subsection{Chapman Kolmogorov equations}
+\begin{thm}[backward equation] For a homogeneous CTMC with transition matrix $P(t)$ and generator matrix $Q$, we have
+\begin{align*}
+%P'_{ij}(t)= \sum_{k \neq i}q_{ik}P_{kj}(t)-\nu_iP_{ij}(t) ,  i,j \in I
+\frac{dP(t)}{dt}=QP(t), ~~t \geqslant 0.
+\end{align*}
+\end{thm}
+\begin{proof} 
+Using semigroup property of transition probability matrix $P(t)$ for a homogeneous CTMC,  
+%we have
+%\begin{align*}
+%P_{ij}(t+h)=\sum_{k \in I}P_{ik}(h)P_{kj}(t),~~i,j \in I.
+%\end{align*}
+%Re-arranging terms, 
+we can write
+\begin{align*}
+%P_{ij}(t+h)-P_{ij}(t)=\sum_{k \neq i}P_{ik}(h)P_{kj}(t)-(1-P_{ii}(h))P_{ij}(t).
+\frac{P(t+h) - P(t)}{h} &= \frac{(P(h)- I)}{h}P(t). % = P(t)\frac{(P(h) - I)}{h}.
+\end{align*}
+%Dividing above equation by $h$,  and 
+Taking limits $h \downarrow 0$ and exchanging limits and summation, we get 
+\begin{align*}
+\frac{dP_{ij}(t)}{dt} = \sum_{k \neq i}Q_{ik}P_{kj}(t)-\nu_iP_{ij}(t). 
+\end{align*}
+Now the exchange of limit and summation has to be justified. For any finite subset $F \subset E$, we have
+\begin{align*}
+\liminf_{h \downarrow 0} \sum_{k \neq i}\frac{P_{ik}(h)}{h}P_{kj}(t) \geq \sum_{k \in F\setminus \{i\} }\liminf_{h \downarrow 0}\frac{P_{ik}(h)}{h}P_{kj}(t) = \sum_{k \in F\setminus \{i\}}Q_{ik}P_{kj}(t).
+\end{align*}
+Since, above is true for any finite set $F \subset E$, taking supremum over increasing sets $F$, we get the lower bound.
+%\begin{align*}
+%\liminf_{h \downarrow 0} \sum_{k \neq 1}\frac{P_{ik}(h)}{h}P_{kj}(t) \geq \sum_{k \neq i}Q_{jk}P_{kj}(t).
+%\end{align*}
+%%Suffices to show that $\limsup_{h \rightarrow 0} \sum_{k \neq 1}\frac{P_{ik}(h)}{h}P_{kj}(t) \leq \sum_{k \neq 1}q_{jk}P_{kj}(t)$. 
+For the upper bound, we observe for any finite subset $F \subseteq E$
+\begin{align*}
+\limsup_{h \downarrow 0}\sum_{k \neq i}\frac{P_{ik}(h)}{h}P_{kj}(t) &\leq \limsup_{h \downarrow 0}\left(\sum_{k \in F\setminus \{i\}}\frac{P_{ik}(h)}{h}P_{kj}(t)+\sum_{k \notin F\setminus\{i\} }\frac{P_{ik}(h)}{h}\right)\\
+& = \limsup_{h \downarrow 0}\left(\sum_{k \in F\setminus \{i\}}\frac{P_{ik}(h)}{h}P_{kj}(t)+\frac{1-P_{ii}(h)}{h} -\sum_{k \in F\setminus \{i\}}\frac{P_{ik}(h)}{h} \right)\\
+&= \sum_{k \in F\setminus \{i\}}Q_{ik}P_{kj}(t)+\nu_i- \sum_{k \in F\setminus \{i\}}Q_{ik}. %&=\sum_{k \neq 1}q_{ik}P_{kj}(t). 
+\end{align*}
+\end{proof}
+\begin{thm}[forward equation] 
+%Under suitable regularity conditions, 
+For a homogeneous CTMC with transition matrix $P(t)$ and generator matrix $Q$, we have 
+\eq{
+    \frac{dP(t)}{dt} &=P(t)Q.
+}
+%$P'_{ij}(t)=\sum_{k \neq i}P_{ik}(t)q_{kj}-P_{ij}(t)\nu_i$, i.e. $\frac{dP(t)}{dt}=P(t)Q$.
+\end{thm}
+\begin{proof}
+Using semigroup property of transition probability matrix $P(t)$ for a homogeneous CTMC,  
+we can write
+\begin{align*}
+\frac{P(t+h) - P(t)}{h} &= P(t)\frac{(P(h) - I)}{h}.
+\end{align*}
+Taking limits $h \downarrow 0$, we get 
+\begin{align*}
+\frac{dP_{ij}(t)}{dt} = \sum_{k \neq j}P_{ik}(t)Q_{kj}-\nu_jP_{ij}(t). 
+\end{align*}
+By taking limiting value for increasing sequence of finite sets $F \subseteq E$, we obtain the lower bound 
+\eq{
+    \sum_{k \neq j}P_{ik}(t)Q_{kj} &\leq \liminf_{h \downarrow 0} \sum_{k \neq j}P_{ik}(t)\frac{P_{kj}(h)}{h}.
+}
+To obtain the upper bound, we observe for any finite subset $F \subseteq E$, 
+\eq{
+    \limsup_{h \downarrow 0}\sum_{k \neq i}P_{ik}(t)\frac{P_{kj}(h)}{h} &\leq 
+    %\limsup_{h \downarrow 0}\left(\sum_{k \in F\setminus \{i\}}P_{ik}(t)\frac{P_{kj}(h)}{h}+\sum_{k \notin F\setminus\{i\} }\frac{P_{kj}(h)}{h}\right)\\& = 
+    \limsup_{h \downarrow 0}\left(\sum_{k \in F\setminus \{j\}}P_{ik}(t)\frac{P_{kj}(h)}{h}+\frac{1-P_{jj}(h)}{h} -\sum_{k \in F\setminus \{j\}}\frac{P_{kj}(h)}{h} \right).
+    %\\&= \sum_{k \in F\setminus \{j\}}P_{ik}(t)Q_{kj}+\nu_j- \sum_{k \in F\setminus \{j\}}Q_{kj}.
+} 
+\end{proof}
 
+\begin{cor}
+For a homogeneous CTMC with finite state space $E$, the transition matrix $P(t)$ and generator matrix $Q$, we have
+\eq{
+    P(t) &= e^{tQ} = I + \sum_{n \in \N}\frac{t^nQ^n}{n!},~t\geqslant 0.
+}
+\end{cor}
+\begin{cor}
+%For an irreducible and aperiodic 
+For a homogeneous CTMC with finite state space $E$, the transition matrix $P(t)$ and generator matrix $Q$, the stationary distribution satisfies
+\begin{xalignat*}{3}
+    &\pi Q = 0, &&\pi_i > 0, &&\sum_{i \in E}\pi_i = 1.
+\end{xalignat*}
+\end{cor}
+\begin{proof}
+We can define probability of being in state $j \in E$ at time $t$ by
+\eq{
+\pi_j(t) &= \Pr\{X(t) = j\}.% = \sum_{i \in E}\pi_i(0)P_{ij}(t).
+}
+By Markov property, we have $\pi(t) = \{\pi_j(t): j \in E\}$ by
+\eq{
+\pi(t) &= \pi(0)P(t).
+}
+For a stationary distribution, we have $\pi = \pi P(t)$ and taking derivatives on both sides, we get the result.
+\end{proof}
 
-
-
-\subsection{Semi Markov Processes}
-Consider a stochastic process with states $0,1,2 \hdots$ such that whenever it enters state $i$,
-\begin{enumerate}
-\item {The next state it enters is state $j$ with probability $P_{ij}$.}\\
-\item {Given the next state is going to be $j$, the time until the next transition from state $i$ to state $j$ has distribution $F_{ij}$. If we denote the state at time $t$ to be $Z(t)$, $\{Z(t), t \geq 0\}$ is called a Semi Markov process.}
+\subsection{Transition graph}
+The directed transition graph consists of vertex set $E$ and the edges being 
+\eq{
+\{(i,j): p_{ij} > 0, i \neq j\}.
+}
+The weights of the directed edges are given by $w_{ij} = \nu_ip_{ij}$. 
+\appendix
+\section{Generator matrix}
+%\begin{defn}
+A \textbf{generator matrix} denoted by $Q \in \R^{E \times E}$ is defined in terms of sojourn times $\{\nu_i, i \in E\}$ and jump transition probabilities $\{p_{ij}, i \neq j \in E\}$ of a CTMC as
+\begin{enumerate}[i\_]
+\item $q_{ii}= -\nu_i$,
+\item $q_{ij}=\nu_i p_{ij}$. 
 \end{enumerate}
 
-Markov chain is a semi Markov process  with 
+%\end{defn}
+\begin{lem} A matrix $Q$ is a generator matrix for a CTMC iff for each $i \in I$,
+ \begin{enumerate}[i\_]
+ \item $0 \leq -q_{ii} < \infty$, 
+ \item $q_{ij} \geq 0$,
+ \item $\sum_{j \in I}q_{ij}=0$.
+ \end{enumerate}
+ \end{lem}
 
-\begin{flalign*} 
-  F_{ij}(t) = \left\{
-     \begin{array}{lr}
-       0 & : t \leq 1 \\
-       1 & : t > 1.
-     \end{array}
-   \right.
-\end{flalign*}
+ From the $Q$ matrix, we can construct the whole CTMC.  In DTMC, we had the result $P^{(n)}(i,j)=(P^n)_{i,j}$. We can generalize this notion  in the case of CTMC as follows: $P=e^{Q}\triangleq \sum_{k \in \mathbb{N}_0}\frac{Q^k}{k !}$.  Observe that $e^{Q_1+Q_2}=e^{Q_1}e^{Q_2},~ e^{nQ}=(e^Q)^n=P^n$.\\
+ \begin{thm}
+ Let $Q$ be a finite sized matrix. Let $P(t)=e^{tQ}$. Then $\{P(t),~ t \geq 0\}$ has the following properties:\begin{enumerate}
+ \item {$P(s+t)=P(s)P(t),~ \forall s,~t$ (semi group property).}
+ \item {$P(t),~t \geq 0$ is the unique solution to the forward equation, $\frac{dP(t)}{dt}=P(t)Q,~P(0)=I$.}
+ \item {And the backward equation $\frac{dP(t)}{dt}=QP(t),~P(0)=I$.}\\
+ \item {For all $k \in \mathbb{N}$, $\frac{d^kP(t)}{d^k(t)}|_{t=0}=Q^k$.}
+ \end{enumerate}
+ \end{thm}  
+ \begin{proof}
+ $\frac{dM(t)e^{-tQ}}{dt}=0,$ $M(t)e^{-tQ}$ is constant. $M(t)$ is any matrix satisfying the forward equation.
+ \end{proof}
+ \begin{thm}
+ A finite matrix $Q$ is a generator matrix for a CTMC iff $P(t)=e^{tQ}$ is a stochastic matrix for all $t \geq 0$. 
+ \end{thm}
+ \begin{proof}
+ $P(t)=I+tQ+O(t^2)$ ($f(t)=O(t) \Rightarrow \frac{f(t)}{t} \leq c,$ for small $t,~c < \infty$ ). $q_{ij} \geq 0$ if and only if $P_{ij}(t) \geq 0,~ \forall i \neq j$ and $t \geq 0$ sufficiently small. $P(t)=P(\frac{t}{n})^n$. Note that if $Q$ has zero row sums, $Q^n$ also has zero row sums.\\
+ \begin{flalign*}
+ \sum_j [Q^n]_{ij}&= \sum_j \sum_k [Q^{n-1}]_{ik}Q_{kj}= \sum_j \sum_k Q_{kj}[Q^{n-1}]_{ik}=0.\\
+ \sum_{j}P_{ij}(t)&=1+\sum_{n \in \mathbb{N}} \frac{t^n}{n!}\sum_j [Q^n]_{ij}=1+0=1.
+ \end{flalign*}  
+ Conversely $\sum_{j}P_{ij}(t)=1,~ \forall t \geq 0$, then $\sum_jQ_{ij}= \frac{dP_{ij}(t)}{dt}=0$.
+ \end{proof}
+ \end{document}
 
-Let $H_i$ the distribution of time the semi Markov process stays in state $i$ before transition. We have $H_j(t)= \sum_i P_{ij}F_{ij}(t)$, $\mu_i = \int_0 ^ \infty X dH_i(x)$. Let $X_n$ denote the $n^{\text{th}}$ state visited. Then $\{X_n\}$ is a Markov chain with transition probability $P$ called the embedded Markov chain of the semi Markov process. \\
-\begin{defn}If the embedded Markov chain is irreducible, then the Semi Markov process is said to be irreducible. 
-\end{defn}
-Let $T_{ii}$ denote the time between successive transitions to state $i$. Let $\mu_{ii}=E[T_{ii}]$.
-\begin{thm}
-If the semi Markov process is irreducible and if $T_{ii}$ has non-lattice distribution with $\mu_{ii}< \infty$ then, 
-\begin{flalign*}
-\pi_i=\lim_{t \rightarrow \infty}P(Z(t)=i|Z(0)=j)
-\end{flalign*}
-exists and is independent of the initial state. Furthermore, $\pi_i=\frac{\mu_i}{\mu_{ii}}$.
-\end{thm}
-\begin{cor}
-If the semi-Markov process is irreducible and $\mu_{ii}<\infty$, then with probability 1,
-$\frac{\mu_i}{\mu_{ii}}=\frac{\lim_{t \rightarrow \infty} \text{Amount of time in [0,t]}}{t}~\text{a.s}$.\\
-\end{cor}
-
-
-
-
-\begin{thm}
-Suppose conditions of the previous thmrem hold and the embedded Markov chain is positive recurrent. Then $\pi_i= \frac{\alpha_i\mu_i}{\sum_{i}\alpha_j \mu_j}$. 
-\end{thm} 
-\begin{proof}
-Define the notation as follows:
-
-$Y_i(j)=$ amount of time spent in state $i$ during $j^\text{th}$ visit to that state. $i,j \geq 0$. \\
-$N_i(m)=$ number of visits to state $i$ in the first $m$ transitions of the semi-Markov process.\\
-
-The proportion of time in $i$ during the first $m$ transitions:\\
-
-\begin{flalign*}
-P_{i=m}&= \frac{\sum_{j=1}^{N_i(m)}Y_i(j)}{\sum_l \sum_{j=1}^{N_i(m)}Y_i(j) }\\
-&= \frac{\frac{N_i(m)}{m}\sum_{j=1}^{N_i(m)}Y_i(j)}{\sum_l \frac{N_i(m)}{m} \sum_{j=1}^{N_i(m)}Y_i(j) }\\
-\end{flalign*}
-Since $N_i(m)\rightarrow \infty$ as $m \rightarrow \infty$, it follows from the strong law of large numbers that $\frac{\sum_{i=2}^{N_i(m)}Y_i(j)}{N_i(m)}\rightarrow \mu_i$ and $\frac{N_i(m)}{m}\rightarrow (E[\text{number of transitions between visits to state }i])^{-1}=\alpha_i$. Letting $m \rightarrow \infty$, result follows.
-\end{proof}
-\begin{thm}
-If Semi Markov process is irreducible  and non lattice, then $\lim_{t \rightarrow \infty}P(Z(t)=i,Y(t)>x,S(t)=j|Z(0)=k)=\frac{P_{ij}\int_x^\infty F_{ij}^c(y)d(y)}{\mu_{ii}}$. Let $Y(t)$ denote the time from $t$ until the next transition. $S(t)$ state entered at the first transition after $t$. 
-\end{thm}
-\begin{proof}
-The trick lies in defining the ``ON" time. 
-\begin{flalign*}
-E[\text{ON time in a cycle}]=E[(X_{ij}-x)^+].
-\end{flalign*}
-\end{proof}
-\begin{cor}
-\begin{flalign*}
-\lim_{t \rightarrow \infty} P(Z(t)=i, Y(t) >x|Z(0)=k)= \frac{\int_{x}^{\infty}H_i^c(y)d(y)}{\mu_{ii}}.
-\end{flalign*}
-\end{cor}
-
-
-Since a Continuous Time Markov Chain (CTMC) is a semi-Markov chain with $F_{ij}(t)=1-e^{\nu_i t}$. From the theory of semi-Markov process, if the embedded Markov chain with transition probabilities $P_{ij}$ is irreducible and positive recurrent, then the limiting process,
-\begin{align}
-\label{eq:LimitingProbability}
-\pi_j \triangleq \lim_{t \rightarrow \infty } P_{ij}(t)= \frac{\alpha_j / \nu_j}{\sum_j \alpha_j /\nu_j},
-\end{align}
-where $\alpha_i$ is the stationary distribution of the embedded Markov chain. From \ref{eq:LimitingProbability} and \ref{eq:StationaryDistribution}, we see that $\{\pi_j\}$ is the unique non-negative solution to 
-\begin{equation}
-\nu_j\pi_j=\sum_i \nu_i\pi_iP_{ij},~ \sum_j \pi_j =1.
-\end{equation}
-
-\begin{rem}
-From the theory of semi-Markov process, it also follows that $\pi_j$ also equals the long-run proportion of time the process is in state $j$.
-\end{rem}
-\begin{rem}
-If the initial state is chosen according to the limiting probabilities $\{\pi_j\}$ then the resultant process will be stationary. That is,
-\begin{equation*}
-\sum_i \pi_iP_{ij}(t)=\pi_j,~ \text{for all}~ t.
-\end{equation*}
-\begin{proof}
-\begin{flalign*}
-\sum_{i}P_{ij}(t)\pi_i &=\sum_{i}P_{ij}(t)\lim_{s \rightarrow \infty}P_{ki}(s)\\
-&=\lim_{s \rightarrow \infty} \sum_{i}P_{ij}(t)P_{ki}(s)\\
-&=\lim_{s \rightarrow \infty}P_{ki}(t+s)\\
-&=\pi_j.
-\end{flalign*}
-\end{proof} 
-\end{rem}
-\end{document}
