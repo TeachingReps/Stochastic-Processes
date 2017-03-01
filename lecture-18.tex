@@ -18,6 +18,7 @@ A reversible process is stationary.
 Since $X(t)$ is reversible, both $(X(t_i): i\in [n])$ and $(X(\tau+t_i): i \in [n])$ have the same distribution as $(X(-t_i): i \in [n])$.
 \end{proof}
 \begin{thm} 
+\label{thm:characterization1}
 A stationary Markov chain with state space $I$ and probability transition matrix $P$ is reversible iff there exists a probability distribution $\pi$, that satisfy the detailed balanced conditions
 \begin{align}
 \label{eqn:DetBalCdnMC}
@@ -91,6 +92,7 @@ The \textbf{probability flux} from state $i$ to state $j$ is defined as $\pi_iQ_
 %\end{defn}
 
 \begin{lem} 
+\label{lem:fluxbalance}
 For a stationary Markov process, probability flux balances across a cut $A \subseteq I$, that is
 \begin{align*}
 \sum_{i \in A}\sum_{j \notin A} \pi_iQ_{ij} &= \sum_{i \in A}\sum_{j \notin A} \pi_jQ_{ji}.
@@ -107,14 +109,16 @@ Further, we have the following identity
 Subtracting the second identity from the first, we get the result.
 \end{proof}
 \begin{cor} 
-For $A= \{i\}$, the above equation reduces to full balance equations
+For $A= \{i\}$, the above equation reduces to the full balance equation for state $i$, i.e.,
 \begin{align*}
-\sum_{j \in I}\pi_i Q_{ij} - \pi_iQ_{ii} = \sum_{i \neq j}\pi_iQ_{ij} = \sum_{j \neq i}\pi_j Q_{ji} = -\pi_jQ_{jj}.
+\sum_{i \neq j}\pi_iQ_{ij} &= \sum_{j \neq i}\pi_j Q_{ji} \\
+\Rightarrow \; \sum_{j \in I}\pi_i Q_{ij} - \pi_iQ_{ii} &= \sum_{j \in I}\pi_j Q_{ji} - \pi_i Q_{ii} \\
+\Rightarrow \; 0 &=  \sum_{j \in I}\pi_j Q_{ji}.
 \end{align*}
 \end{cor}
 
 %\subsection{Necessary condition for time reversibility}
-If we try to prove the equations necessary for time reversibility, $x_iP_{ij}=x_jP_{ji}$ for all $i,j \in I$, for any arbitrary Markov chain, one may not end up getting any solution. 
+{\bf Is every Markov chain reversible?} If we try to prove the equations necessary for time reversibility, $x_iP_{ij}=x_jP_{ji}$ for all $i,j \in I$, for any arbitrary Markov chain, one may not end up getting any solution. 
 This is so because, if $P_{ij}P_{jk}>0$, then 
 \eq{
 \frac{x_i}{x_k}=\frac{P_{kj}P_{ji}}{P_{ij}P_{jk}} \neq \frac{P_{ki}}{P_{ik}}.
@@ -134,145 +138,199 @@ P_{i i_1}P_{i_1 i_2}\hdots P_{i_k i}=P_{ii_k}P_{i_k i_{k-1}} \hdots P_{i_1i}.
 \end{thm}
 
 \begin{proof}
-The proof of necessity is as indicated above. To see the sufficiency part, fix states $i,j$
+The proof of necessity is as indicated above. To see the sufficiency part, fix states $i,j$. For any positive integer $k$, we compute
 \begin{align*}
-(P^k)_{ij}P_{ji}& = \sum_{i_1,i_2,\hdots i_{k}}P_{ii_1}\hdots P_{i_kj}P_{ji}=\sum_{i_1,i_2,\hdots i_{k}}P_{ij}P_{ji_k}\hdots P_{i_1 i}=P_{ij}(P^k)_{ji}\\
+(P^k)_{ij}P_{ji}& = \sum_{i_1,i_2,\hdots i_{k}}P_{ii_1}\hdots P_{i_kj}P_{ji}=\sum_{i_1,i_2,\hdots i_{k}}P_{ij}P_{ji_k}\hdots P_{i_1 i}=P_{ij}(P^k)_{ji}. 
 \end{align*}
-From this we conclude that
-\eq{
-\frac{1}{n}\sum_{k=1}^{n}(P^k)_{ij}P_{ji}&= \frac{1}{n}\sum_{k=1}^{n}P_{ij}(P^k)_{ji}.
-}
-As limit $n \rightarrow \infty$, we get the desired result.
+Taking $k \to \infty$ and noticing that $(P^k)_{ij} \stackrel{k \to \infty}{\to} \pi_j$ $\forall i,j \in I$, we get the desired result by appealing to Theorem \ref{thm:characterization1}. 
+%From this we conclude that
+%\eq{
+%\frac{1}{n}\sum_{k=1}^{n}(P^k)_{ij}P_{ji}&= \frac{1}{n}\sum_{k=1}^{n}P_{ij}(P^k)_{ji}.
+%}
+%As limit $n \rightarrow \infty$, we get the desired result.
 \end{proof}
 
 \subsection{Examples of reversible processes}
 \begin{shaded*}
-\begin{exmp*}[An Ergodic Random Walk] 
-Any ergodic, positive recurrent random walk is time reversible. 
-The transition probability satisfy the following equation for each $i \in \Z$
-\eq{
-P_{i,i+1}+P_{i,i-1}=1.
-} For every $n$ transitions from $i+1$ to $i$, there must be at least $n-1$ or at most $n+1$ transitions from $i$ to $i+1$. 
-The rate of transitions from $i+1$ to $i$ must hence be same as the number of transitions from $i$ to $i+1$. 
-It follows that, the process is time reversible.
-\end{exmp*}
+%\begin{exmp}[An Ergodic Random Walk] 
+%Any ergodic, positive recurrent random walk is time reversible. 
+%The transition probability satisfy the following equation for each $i \in \Z$
+%\eq{
+%P_{i,i+1}+P_{i,i-1}=1.
+%} For every $n$ transitions from $i+1$ to $i$, there must be at least $n-1$ or at most $n+1$ transitions from $i$ to $i+1$. 
+%The rate of transitions from $i+1$ to $i$ must hence be same as the number of transitions from $i$ to $i+1$. 
+%It follows that, the process is time reversible.
+%\end{exmp}
+\begin{exmp}[Birth-death processes]
+\begin{defn}
+A Markov process $(X_t)_{t \in \mathbb{R}}$ on the state space $\{0, 1, 2, \ldots\}$ is called a {\em birth-death process} if its infinitesimal transition probabilities satisfy
+\[ P_{n,n+m}(h) = \left\{
+   \begin{array}{ll} % brackets may be (...), [...], \{...\}, or left out
+      \lambda_n h + o(h), & \text{if } m = 1, \\
+      \mu_n h + o(h), & \text{if } m = -1, \\
+      o(h), & \text{if } |m| > 1, 
+   \end{array}\right.
+\]
+for some nonnegative numbers $\lambda_0, \lambda_1, \ldots$ (`birth rates') and $\mu_0, \mu_1, \ldots$ (`death rates'). \\
+({\bf Note.} We say $f(h) = o(h)$ if $\lim_{h \to 0} f(h)/h = 0$.)
+\end{defn}
+In other words, a birth-death process is any CTMC with generator of the form 
+\[ 
+   Q = \left( \begin{array}{cccccc} % brackets may be (...), [...], \{...\}, or left out
+      -\lambda_0 & \lambda_0 & 0 & 0 & 0\\
+      \mu_1 & -(\lambda_1 + \mu_1) & \lambda_1 & 0 & 0 & \cdots\\
+      0 & \mu_2 & -(\lambda_2 + \mu_2) & \lambda_2 & 0 & \cdots\\
+      0 & 0 & \mu_3 & -(\lambda_3 + \mu_3) & \lambda_3 & \cdots \\
+      \vdots & \vdots & \vdots & \vdots & \vdots  & \ddots
+   \end{array} \right).
+\]
+\end{exmp}
 \end{shaded*}
 
 \begin{prop}
-An ergodic birth and death process is time reversible in steady state.
+An ergodic birth-death process in steady-state is time-reversible.
 \end{prop}
 \begin{proof}
-To prove the above, we must show that the rate at which the process goes from state $i$ to $i+1$ is equal to the rate of going from $i+1$ to $i$. 
-However, during any time interval of length $t$, the number of transitions from $i$ to $i+1$ should be within $1$ of the number of transitions from $i+1$ to $i$ (since the process is birth and death process. 
-Hence, as $t \to \infty$,  both rates will be equal. 
+%To prove the above, we must show that the rate at which the process goes from state $i$ to $i+1$ is equal to the rate of going from $i+1$ to $i$. 
+%However, during any time interval of length $t$, the number of transitions from $i$ to $i+1$ should be within $1$ of the number of transitions from $i+1$ to $i$ (since the process is birth and death process. 
+%Hence, as $t \to \infty$,  both rates will be equal. 
+Since the process is stationary, the probability flux must balance across any cut of the form $A = \{0, 1, 2, \ldots, i\}$, $i \geq 0$ (Lemma \ref{lem:fluxbalance}). But this is precisely the equation $\pi_i \lambda_i = \pi_j \mu_j$ since there are no other transitions possible across the cut. So the process is time-reversible. 
 \end{proof}
 
+In fact, the following, more general, statement can be proven using similar ideas. 
+
+\begin{prop}
+Consider an ergodic CTMC on a countable state space $I$ with the following property: for any pair of states $i \neq j \in I$, there is a {\em unique} path $i = i_0 \to i_1 \to \cdots \to i_{n(i,j)} = j$ of distinct states having positive probability. Then the CTMC in steady-state is reversible. 
+\end{prop}
+
+
 \begin{shaded*}
-\begin{exmp*}[The Metropolis Algorithm] Let $\{a_j \in \R_+,~ j \in [m]\}$ be set of positive numbers and let $A=\sum_{i=1}^{m}a_i$. 
-Suppose our main goal is to simulate a sequence of independent random variables with $\pi_j = \frac{a_j}{A}$, where  $m$ is large and $A$ is difficult to compute directly. 
-To generate such a sequence of random variables whose distribution converges to $\pi$, we simulate a Markov chain whose limiting probabilities are $\pi$. 
+\begin{exmp}[The Metropolis-Hastings algorithm] Let $\{a_j \in \R_+,~ j \in [m]\}$ be a set of (known) positive numbers with $A=\sum_{i=1}^{m}a_i$. 
+Suppose our goal is to build a sampler for a random variable with probability mass function $\pi_j = \frac{a_j}{A}$ $j \in [m]$, where  $m$ is large and $A$ is difficult to compute directly (this rules out evaluating the fraction $\frac{a_j}{A}$). 
+
+%To generate such a sequence of random variables whose distribution converges to $\pi$, we simulate a Markov chain whose limiting probabilities are $\pi$. 
 %The Metropolis algorithm provides a convenient approach. 
-Let $Q$ be an irreducible transition probability matrix on the integers $[n]$ such that $P = P^T$. 
-Generate a Markov chain $\{X_i: i \in \N\}$ such that the transition probabilities are given by 
+{\bf Idea.} A clever way of (approximately) generating a sample from the distribution $\pi \equiv (\pi_j)_{j \geq 1}$ is by constructing an easy-to-simulate Markov chain with limiting (stationary) distribution $\pi$. We simply run this Markov chain long enough and return the sample (state) at the end.  
+
+Let $M$ be an irreducible transition probability matrix on the integers $[m]$ such that $M = M^T$ (an example is the transition matrix of an iid sequence of uniform random variables on $[m]$). 
+Consider the Markov chain $\{X_i: i \in \N\}$ on the state space $[m]$ with the following transition probabilities:
 \begin{align*}
 P_{ij} = \begin{cases}
-       Q_{ij}\min\left(1,\frac{a_j}{a_i}\right), & j \neq i,\\
-       Q_{ii}+\sum_{j \neq i}Q_{ij}\left\{1-\min\left(1,\frac{a_j}{a_i}\right)\right\}, & j = i.
+       M_{ij} \, \min\left(1,\frac{a_j}{a_i}\right), & j \neq i,\\
+       1 - \sum_{k \neq i}Q_{ik}\left\{1-\min\left(1,\frac{a_k}{a_i}\right)\right\}, & j = i.
      \end{cases}
 \end{align*} 
-It can be directly verified that the chain is irreducible and that $\pi$ is the equilibrium distribution.
-\end{exmp*}
+Note that the key property that allows us to easily simulate this Markov chain is that only the relative ratios $a_j/a_i$ are required, and not $A$!
+
+It can be directly verified that (1) this Markov chain is irreducible, and that (2) it is reversible with equilibrium distribution $\pi$!
+\end{exmp}
 \end{shaded*}
 
+\begin{shaded*}
 
-%\begin{exmp}[Edge weighted graphs] Consider a graph having a positive number $w_{ij}$ associated with each edge $(i,j)$, and suppose that a particle moves from vertex to vertex in the following manner: If the particle is presently at vertex  $i$ then it will next move to vertex $j$ with probability
-%\begin{equation*}
-%P_{ij}=\frac{w_{ij}}{\sum_{j}w_{ij}}
-%\end{equation*}
-%where $w_{ij}$ is 0 if $(i,j)$ is not an edge of the graph. The Markov chain describing the sequence of vertices visited by the particle is called a random walk on an edge weighted graph. 
+\begin{exmp}[Random walks on edge-weighted graphs] Consider an undirected graph $G$ with vertex set $I$ and edge set $E$, i.e., $G = (I, E)$, with $E$ a subset of unordered pairs of elements from $I$. Assume having a positive number $w_{ij}$ associated with each edge $(i,j)$ in $E$, and suppose that a particle moves from vertex to vertex, in discrete time, in the following manner: If the particle is presently at vertex  $i$ then it will next move to vertex $j$ with probability
+\begin{equation*}
+P_{ij}=\frac{w_{ij}}{\sum_{j}w_{ij}},
+\end{equation*}
+where $w_{ij}$ is defined to be 0 if $(i,j)$ is not an edge of the graph. The Markov chain describing the sequence of vertices visited by the particle is a random walk on an undirected edge-weighted graph. 
+\end{exmp}
+\end{shaded*}
+
+\begin{prop}
+Consider a random walk on an edge weighted graph with a finite number of vertices. If this Markov chain is irreducible, then it is, in steady state, time reversible with stationary probabilities given by 
+\begin{equation}
+\label{eqn:graphrwstationarydist}
+\pi_i = \frac{\sum_{j}w_{ij}}{\sum_{j}\sum_{k}w_{kj}}, \quad \forall i \in I.
+\end{equation}
+\end{prop}
+\begin{proof}
+For each $i, j \in I$, the detailed balance equation
+\begin{equation*}
+\alpha_iP_{ij}=\alpha_{j}P_{ji}
+\end{equation*}
+reduces to 
+\begin{equation*}
+ \frac{\alpha_i w_{ij}}{\sum_{k}w_{ik}}=\frac{\alpha_j w_{ji}}{\sum_{k}w_{jk}}
+\end{equation*}
+But noting that $w_{ij}=w_{ji}$, we see that $\pi$ defined as in (\ref{eqn:graphrwstationarydist}) solves the equation, and we get the desired result.
+\end{proof}
+
+%\begin{shaded*}
+%\begin{exmp}[Random walks on graphs]
+%
+%%\begin{defn}
+%Consider a finite graph $G = (I, E)$, $|I| < \infty$, $E \subseteq I \times I$, with a nonnegative edge weight for each edge, $w: E \to \R_+$. 
+%We can consider a (discrete time) random walk on this graph, with the state being the location of a single particle on one of the nodes of this graph. 
+%For any node $i \in I$, we can define the set of incoming and outgoing edges as 
+%\begin{xalignat*}{3}
+%&H_{i} = \{(j,i) \in E: j \in I\},&&F_i = \{(i,j) \in E: j \in I\}.
+%\end{xalignat*}
+%The probability of the particle moving from node $i$ to node $j$ in a single unit of time is defined by 
+%\begin{align*}
+%P_{ij} = \begin{cases}
+%\frac{w_{i,j}}{\sum_{f \in F_i}w_{f}}, & (i,j) \in E, \\
+%0, & (i,j) \notin E.
+%\end{cases}
+%\end{align*}
+%The Markov chain $\{X(n) \in I: n \in \N\}$, with the above transition probability matrix, describing the sequence of vertices visited by the particle is called a \textbf{random walk on an edge-weighted graph}. 
+%%The associated transition matrix for each $i,j \in I$ is 
+%%\eq{
+%%P_{ij} &= P_e.
+%%}
+%%\end{defn}
 %\end{exmp}
-%\begin{prop}
-%Consider a random walk on an edge weighted graph with a finite number of vertices. If this Markov chain is irreducible then it is, in steady state, time reversible with stationary probabilities given by 
-%\begin{equation*}
-%\alpha_i = \frac{\sum_{i}w_{ij}}{\sum_{j}\sum_{i}w_{ij}}.
-%\end{equation*}
-%\end{prop}
-%\begin{proof}
-%The time reversibility equation
-%\begin{equation*}
-%\alpha_iP_{ij}=\alpha_{j}P_{ji}
-%\end{equation*}
-%reduces to 
-%\begin{equation*}
-% \frac{\alpha_i w_{ij}}{\sum_{k}w_{ik}}=\frac{\alpha_j w_{ji}}{\sum_{k}w_{jk}}
-%\end{equation*}
-%But noting that $w_{ij}=w_{ji}$ and $\sum_{i}\alpha_i = 1$, we get the desired result.
-%\end{proof}
+%
+%\end{shaded*}
 
-%\begin{defn}
-Consider a finite graph $G = (I, E)$ with edge weights $w: E \to \R_+$. 
-We can consider a random walk on this graph with states being location of particle on one of the nodes of this graph. 
-For any node $i \in I$, we can define the set of incoming and outgoing edges as 
-\begin{xalignat*}{3}
-&H_{i} = \{(j,i) \in E: j \in I\},&&F_i = \{(i,j) \in E: j \in I\}.
-\end{xalignat*}
-Probability of movement of this particle from node $i$ to node $j$ on edge $e = (i,j)$ is defined by 
-\begin{align*}
-P_{e} = \frac{w_{e}}{\sum_{f \in F_i}w_{f}}.
-\end{align*}
-The Markov chain $\{X(n) \in I: n \in \N\}$ describing the sequence of vertices visited by the particle is called a \textbf{random walk on an edge weighted graph}. 
-The associated transition matrix for each $i,j \in I$ is 
-\eq{
-P_{ij} &= P_e.
-}
-%\end{defn}
+The following `dual' result also holds:
+
 \begin{lem} 
-Reversible Markov chain is equivalent to random walk on undirected graphs.
+Let $\{X\}_n$ be a reversible Markov chain on a finite state space $I$ and transition probability matrix $P$. Then, there exists a random walk on a weighted, undirected graph $G$ with the same transition probability matrix $P$. 
 \end{lem}
-\begin{proof} First we show that random walk on undirected graphs is a reversible Markov chain. Let 
+\begin{proof} 
+We create a graph $G = (I,E)$, where $(i,j) \in E$ if and only if $P_{ij} > 0$. We then set edge weights 
 \begin{align*}
-\pi_i = \frac{w_i}{w_G}, \text{ where } w_G = \sum_{i \in I}w_i =  \sum_{i \in I}\sum_{\{i,j\} \in E}w_{ij}.
-\end{align*} Then, it is easy to check that this is an equilibrium distribution and
-\begin{align*}
-\pi_iP_{ij} &= \pi_jP_{ji}.
-\end{align*} 
-
-Conversely, let $X$ be a reversible Markov chain on finite state-space $I$ and transition matrix $P$. 
-We create a graph $G = (I,E)$, where $\{i,j\} \in E$ if $P_{ij} > 0$. We define 
-\begin{align*}
-w_{ij} \triangleq \pi_i P_{ij} = \pi_jP_{ji} = w_{ji}.
+w_{ij} \triangleq \pi_i P_{ij} = \pi_jP_{ji} = w_{ji},
 \end{align*}
-With this choice of weights $w_i = \pi_i$, the transition matrix associated with this network is $P$.
+where $\pi$ is the stationary distribution of $X$. With this choice of weights, it is easy to check that $w_i = \sum_j w_{ij} = \pi_i$, and the transition matrix associated with a random walk on this graph is exactly $P$.
 \end{proof}
 
 \section{Reversed Processes}
 %\begin{defn} 
-Let $X(t)$ be a stochastic process then $X(\tau-t)$ is the reversed process.
+Let $\{X(t)\}_{t \in T}$ be a stochastic process (here $T$ will be either $\R$ or $\Z$). We call $\{X(\tau-t)\}_{t \in T}$ the {\em reversed process}, for some $\tau \in T$.
 %\end{defn}
 \begin{lem} 
-If $X(t)$ is a time homogeneous non-stationary Markov chain then the reversed process $X(\tau -t)$ is a non time-homogenous Markov chain.
+If $\{X(t)\}_{t \in \Z}$ is a Markov chain, then the reversed process $\{X(\tau -t)\}_{t \in \Z}$ is also a Markov chain.
 \end{lem}
-\begin{proof} Let $\F_m = \cup_{k \geq m}\{X_k = i_k\}$. Then, we can write
+\begin{proof} For each $m \in \Z$, let $\F_m = \sigma \left(\cup_{k \geq m} X_k\right)$ represent the $\sigma$-algebra generated by the random variables $\{X_k: k \geq m\}$. Then, we can write
 \begin{align*}
 \Pr\{X_{m-1}=i|X_m=j,\F_{m+1}\} %&= \frac{\Pr\{X_{m-1}=i,X_m=j, \F_{m+1} \}}{\Pr\{X_m=j, \F_{m+1}\}}\\
 &=\frac{\Pr\{X_{m-1}=i|X_m=j\}\Pr\{\F_{m+1} |X_{m-1}=i,X_m=j \}}{\Pr\{\F_{m+1} |X_m=j\}}.
 \end{align*}
-Result follows from Markov property of $X(t)$, i.e.
+Using the Markov property of $X(t)$, i.e.,
 \begin{align*}
-Pr\{\F_{m+1} |X_m= j, X_{m-1} = i \} &=\Pr\{\F_{m+1}|X_m=j\}.
+\Pr\{\F_{m+1} |X_m= j, X_{m-1} = i \} &=\Pr\{\F_{m+1}|X_m=j\},
 \end{align*}
+thus implies $\Pr\{X_{m-1}=i|X_m=j,\F_{m+1}\} = \Pr\{X_{m-1}=i|X_m=j\}$, showing that the reversed process is indeed a Markov chain. 
 \end{proof}
-%\begin{lem}  If $X(t)$ is a stationary Markov chain with transition matrix $P$ and equilibrium distribution $\alpha$, then the reversed chain $X(\tau -t)$ is a stationary Markov chain with same equilibrium distribution $\alpha$ and transition matrix $P^{\ast}$ such that
-%\begin{align*}
-%P^{\ast}_{ij} = \frac{\alpha_j}{\alpha_i}P_{ji}.
-%\end{align*}
-%\end{lem}
-%\begin{proof} Easy to verify from definition of reversibility that 
-%\begin{align*}
-%\Pr\{X(t+1) = j, X(t) = i\} = \Pr\{X(t+1) = i, X(t) = j\}.
-%\end{align*}
-%Also, it's easy to check that $\alpha P^{\ast} = \alpha$.
-%\end{proof}
+
+\begin{rem}
+Even if the forward process $X$ is time-homogeneous, the reversed process need not be time-homogeneous. 
+\end{rem}
+
+
+\begin{lem}  If $\{X(t)\}_{t \in \Z}$ is a stationary, time homogeneous Markov chain with transition matrix $P$ and equilibrium distribution $\alpha$, then the reversed chain $\{X(\tau -t)\}_{t \in \Z}$ is a stationary, time homogeneous Markov chain with the same equilibrium distribution $\alpha$, and transition matrix $P^{\ast}$ given by
+\begin{align*}
+P^{\ast}_{ij} = \frac{\alpha_j}{\alpha_i}P_{ji}.
+\end{align*}
+\end{lem}
+\begin{proof} 
+It is clear that the reversed chain must have the same stationary distribution $\alpha$. For computing its transition matrix, use Bayes' formula to get
+\begin{align*}
+\Pr\{X_{m-1}=i|X_m=j\} &= \frac{\Pr\{X_{m-1}=i\} \, P_{ij}  }{ \Pr\{X_{m}=j\} } =\frac{\alpha_i \, P_{ij}  }{ \alpha_j },
+\end{align*}
+yielding the desired result. 
+\end{proof}
 
 \begin{lem} 
 If $X(t)$ is a stationary Markov process with generator matrix $Q$ and equilibrium distribution $\pi$, then the reversed process $X(\tau -t)$ is a stationary Markov process with same equilibrium distribution $\pi$ and generator matrix $Q^{\ast}$ such that
@@ -280,11 +338,8 @@ If $X(t)$ is a stationary Markov process with generator matrix $Q$ and equilibri
 Q^{\ast}_{ij} = \frac{\pi_j}{\pi_i}Q_{ji}.
 \end{align*}
 \end{lem}
-\begin{proof} Easy to verify from definition of reversibility that 
-\begin{align*}
-\Pr\{X(t+h) = j, X(t) = i\} = \Pr\{X(t+h) = i, X(t) = j\}.
-\end{align*}
-Also, it's easy to check that $\pi Q^{\ast} = 0$.
+\begin{proof} 
+Follows from calculations analogous to those in the previous result. 
 \end{proof}
 
 %%The sequence $\{X_n,X_{n-1} \hdots \}$ is called reverse process. Let $P^*$ denote the transition probability matrix. 
@@ -296,8 +351,8 @@ Also, it's easy to check that $\pi Q^{\ast} = 0$.
 %%suppose we are considering a stationary Markov chain, $P(X_n=l)=P(X_{n-1}=l)=\alpha(l),~\forall l$, $\alpha(i){P^*}_{ij}=\alpha(j)(P)_{ji}$. 
 %\begin{lem} A stationary Markov chain with transition matrix $P$ is reversible if the reversed process follows the same probabilistic law as the original process, i.e. $P^*= P$. Any non-negative vector $\alpha$ satisfying $\alpha_iP_{ij}=\alpha_jP_{ji},~\forall i,j \in I$ and $\sum_{j \in I}\alpha_j=1$ is stationary distribution of this Markov chain. 
 %\end{lem}
-\begin{lem} A stationary Markov process with generator matrix $Q$ is reversible if the reverses process follows the same probabilistic law as the original process, i.e. $Q^*= Q$. Any non-negative vector $\pi$ satisfying $\pi_iQ_{ij}=\pi_jQ_{ji},~\forall i,j \in I$ and $\sum_{j \in I}\pi_j=1$ is stationary distribution of this Markov process. 
-\end{lem}
+%\begin{lem} A stationary Markov process with generator matrix $Q$ is reversible if the reversed process follows the same probabilistic law as the original process, i.e. $Q^*= Q$. Any non-negative vector $\pi$ satisfying $\pi_iQ_{ij}=\pi_jQ_{ji},~\forall i,j \in I$ and $\sum_{j \in I}\pi_j=1$ is stationary distribution of this Markov process. 
+%\end{lem}
 %\begin{proof} Let $\pi$ be a stationary distribution of  Since $Q^{\ast}_{ij} = \frac{\pi_j}{\pi_i}Q_{ji}$ and the condition for time reversibility is given by $\pi_i Q_{ij}=\pi_jQ_{ji}$. This is true because,
 %
 %It is clear that $\pi$ is an equilibrium distribution of forward Markov process, since
