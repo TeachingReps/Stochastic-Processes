@@ -69,6 +69,7 @@ Follows from calculations analogous to those in the previous result.
 %It follows that, the process is time reversible.
 %\end{exmp}
 \begin{exmp}[Birth-death processes]
+\label{exmp:birthdeath}
 \begin{defn}
 A Markov process $(X_t)_{t \in \mathbb{R}}$ on the state space $\{0, 1, 2, \ldots\}$ is called a {\em birth-death process} if its infinitesimal transition probabilities satisfy
 \[ P_{n,n+m}(h) = \left\{
@@ -375,9 +376,9 @@ where $X$ is the inter arrival time. We need to verify that $\alpha_i P_{i,i+1}=
 
 \begin{shaded*}
 \begin{exmp}[The M/M/1 queue]
-The M/M/1 queue is the simplest and most studied models of queueing systems. In this continuous-time model, arrivals to a single-server queue occur according to a Poisson process with rate $\lambda$. There
+The M/M/1 queue is the simplest and most studied models of queueing systems. In this continuous-time model, arrivals to a single-server queue occur according to a Poisson process with rate $\lambda > 0$. There
 is one line (queue) to wait in, and customers independently (and independent of the
-Poisson arrival process) have service times $\{S_n\}_{n}$ that are exponentially distributed at rate $\mu$. We assume that customers join the tail of the queue, and hence begin service in the order that they arrive {\em first-in-queue-first-out} (FIFO). Let $X(t)$ denote the number of customers in the system at time $t \in \R$, where ``system"
+Poisson arrival process) have service times $\{S_n\}_{n}$ that are exponentially distributed with rate $\mu > 0$. We assume that customers join the tail of the queue, and hence begin service in the order that they arrive {\em first-in-queue-first-out} (FIFO). Let $X(t)$ denote the number of customers in the system at time $t \in \R$, where ``system"
 means the queue plus the service area. So (for example), $X(t) = 2$ means that there
 is one customer in service and one waiting in line. Note that a transition can only
 occur at customer arrival or departure times, and that departures occur whenever
@@ -385,10 +386,23 @@ a service completion occurs. At an arrival time,  $X(t)$ jumps up by the amount 
 whereas at a departure time $X(t)$ jumps down by the amount 1. (courtesy Karl Sigman's lecture notes, \url{http://www.columbia.edu/~ks20/stochastic-I/stochastic-I-CTMC.pdf})
 \end{exmp}
 
-Given this description, one can argue that $\{X(t)\}_t$ is a CTMC, on the state space $\{0, 1, 2, \ldots\}$, with rate matrix ... FIXME
-
-
+Given this description, one can argue that $\{X(t)\}_t$ is a CTMC on the state space $\{0, 1, 2, \ldots\}$. We will soon see that a `stable' M/M/1 queue is time-reversible.   
 \end{shaded*}
+
+\begin{itemize}
+\item
+{\bf Transition rates.} Given the current state $X(t) = i$, the only transitions possible in an infinitesimal time interval are (a) a single customer arrives, or (b) a single customer leaves (if $i \geq 1$). It follows that the infinitesimal generator for the CTMC $\{X(t)\}_t$ is 
+\[ Q_{ij} = \begin{cases}
+\lambda, &j = i+1,\\
+\mu, &j = i-1, \\
+0, &|j-i| > 1. 
+\end{cases}
+\]
+Since $\lambda, \mu > 0$, this defines an irreducible CTMC. 
+
+\item {\bf Equilibrium distribution and reversibility.} The M/M/1 queue's generator defines a birth-death process (Example \ref{exmp:birthdeath}), so if it is stationary, then it must be time-reversible with detailed balance being satisfied. Thus, $\forall i$ $\pi_i \lambda = \pi_{i+1} \mu$, which yields $\pi_{i+1} = \frac{\lambda}{\mu} \pi_i$. Since $\sum_{i \geq 0} \pi = 1$, we must have $\rho \triangleq \frac{\lambda}{\mu} < 1$, giving $\pi_i = (1-\rho) \rho^i$ $\forall i \geq 0$. In other words, if $\lambda < \mu$, then the equilibrium distribution of the number of customers in the system is geometric with parameter $\rho = \lambda/\mu$. We say that the M/M/1 queue is in the {\em stable} regime when $\rho < 1$. 
+
+\end{itemize}
 
 
 \subsection{Simple Queues}
