@@ -33,7 +33,10 @@ Even if the forward process $X$ is time-homogeneous, the reversed process need n
 \end{rem}
 
 
-\begin{lem}  If $\{X(t)\}_{t \in \Z}$ is a stationary, time homogeneous Markov chain with transition matrix $P$ and equilibrium distribution $\alpha$, then the reversed chain $\{X(\tau -t)\}_{t \in \Z}$ is a stationary, time homogeneous Markov chain with the same equilibrium distribution $\alpha$, and transition matrix $P^{\ast}$ given by
+\begin{lem}  
+\label{lem:reversedchain}
+If $\{X(t)\}_{t \in \Z}$ is a stationary, time homogeneous Markov chain with transition matrix $P$ and 
+equilibrium distribution $\alpha$, then the reversed chain $\{X(\tau -t)\}_{t \in \Z}$ is a stationary, time homogeneous Markov chain with the same equilibrium distribution $\alpha$, and transition matrix $P^{\ast}$ given by
 \begin{align*}
 P^{\ast}_{ij} = \frac{\alpha_j}{\alpha_i}P_{ji}.
 \end{align*}
@@ -55,6 +58,35 @@ Q^{\ast}_{ij} = \frac{\pi_j}{\pi_i}Q_{ji}.
 \begin{proof} 
 Follows from calculations analogous to those in the previous result. 
 \end{proof}
+
+In fact, the following powerful result allows us to `guess' both the transition behaviour of the reversed chain and the stationary distribution together!
+
+\begin{thm}
+\label{thm:guessReversal}
+Consider an irreducible, discrete time Markov chain with transition matrix $P$. If one can find non-negative vectors $\pi$ and a transition matrix $P^\ast$ such that $\sum_j \pi_j =1$ and $\pi_iP_{ij}=\pi_jP^*_{ji}$, then $\pi$ is the stationary probability vector of the Markov chain, and $P^*$ is the transition matrix for the reversed chain.
+\end{thm}
+\begin{proof}
+Summing $\pi_iP_{ij}=\pi_jP_{ji}^*$ over $i$ gives, $\sum_{i}\pi_iP_{ij}=\pi_j$. Hence $\pi_i$s are the stationary probabilities of the forward and reverse process. Since $P_{ji}^*=\frac{\pi_iP_{ij}}{\pi_j}$ (Lemma \ref{lem:reversedchain}), $P_{ij}^*$ are the transition probabilities of the reverse chain.
+\end{proof} 
+
+\begin{shaded*}
+\begin{exmp}[Age and excess time of a renewal process]
+Consider a discrete-time renewal process with the associated age process $\{A_n\}_{n \in \Z}$, i.e., $A_n$ represents the time elapsed since the last renewal instant (assume $A_n = 0$ if there is a renewal at time instant $n$). Let the interarrival times be distributed according to the probability mass function $p_i$,  $i = 0, 1, 2, \ldots$
+\end{exmp}
+\end{shaded*}
+\begin{lem}
+$\{A_n\}$ is a DTMC, with transition probabilities $P_{i,0} = p_i/\sum_{j \geq i} p_j = 1 - P_{i,i+1}$ $\forall i $, and $P_{i,j} = 0$ otherwise.  
+\end{lem}
+\noindent (Work out the proof if needed.) \\
+
+\noindent {\bf Question.} What would the time-reversed version of this DTMC look like? 
+
+Qualitatively, in the time reversed process, the state would decrease down to $0$ by one unit at each time, and then jump to an arbitrary state decided by the interarrival time distribution. This appears suspiciously similar to the description of the excess time process, i.e., the process that tracks the time remaining until the next renewal instant!
+
+Let us guess that the reversed process is the excess time process $\{B_n\}$. Analogous to the previous lemma, $\{B_n\}$ is a DTMC, and its transition probabilities must be $P^\ast_{i,i-1} = 1$, $i \geq 1$, $P^\ast_{0,i} = p_i$, $i \geq 0$, and $P^\ast_{i,j} = 0$ otherwise. By Theorem \ref{thm:guessReversal}, if we can show for some positive, probability vector $\pi$ that $\pi_i P_{i,j} = \pi_j P^\ast_{j,i}$ $\forall i, j \geq 0$, then we would have shown that the excess time process is indeed the time-reversed version of the age process, and in the process also have computed the stationary probabilities of both processes. 
+
+Writing down $\pi_i P_{i,0} = \pi_0 P^\ast_{0,i}$ gives $\pi_i = \pi_0 \Pr\{X \geq i\}$, where $X$ represents an interarrival time. Since $\sum \pi_i = 1$, this implies that $\pi_i = \Pr\{X \geq i\}/\E[X]$. The only remaining task is to check that $\pi_i P_{i,i+1} = \pi_{i+1} P^\ast_{i+1,i}$ for any $i \geq 0$, which is equivalent to $ \Pr\{X \geq i\} \left( 1 - p_i/ \Pr\{X \geq i\}\right) =  \Pr\{X \geq i+1\}$, a true statement.  
+
 
 
 \subsection{Examples of reversible processes}
@@ -301,16 +333,18 @@ where $\pi$ is the stationary distribution of $X$. With this choice of weights, 
 
 
 
-\subsection{Example 4.7(E): Example 4.3(C) revisited}
-Example 4.3(C) was with regard to the age of a renewal process. $X_n$ the forward process there was such that it increases in steps of 1 until it hits a value chosen by the inter arrival distribution. Hence the reverse process should be such that it decreases in steps of 1 until it hits 1 and then jumps to a state as chosen by the inter arrival distribution. Thus letting $\pi_i$ as the probability of inter arrival, it seems likely that  $P_{1i}*=\pi_i, ~ P_{i,i-1}=1,~ i > 1$. We have that $P_{i,1}=\frac{\pi_i}{\sum_{j \geq 1}\pi_j}=1-P_{i,i+1}, ~ i \geq 1$. For the reversed chain to be given as above, we would need 
-\begin{align*}
-&\alpha_i P_{ij}=\alpha_j P_{ji}^*\\
-&\alpha_i \frac{\pi_i}{\sum_j \pi_j}=\alpha_1 \pi_i\\
-&\alpha_i=\alpha_1 P(X \geq i)\\
-&1=\sum_i \alpha_i=\alpha_1 E[X]; \alpha_i=\frac{P(X \geq i)}{E[X]}, 
-\end{align*}
-where $X$ is the inter arrival time. We need to verify that $\alpha_i P_{i,i+1}=\alpha_{i+1}P^*_{i+1,i}$ or equivalently $P(X \geq i)(1-\frac{\pi_i}{P(X \geq i)})=P(X \geq i)$ to complete the proof that the reversed process is the excess process and the limiting distributions are as given above. But that is immediate.
 
+%
+%\subsection{Example 4.7(E): Example 4.3(C) revisited}
+%Example 4.3(C) was with regard to the age of a renewal process. $X_n$ the forward process there was such that it increases in steps of 1 until it hits a value chosen by the inter arrival distribution. Hence the reverse process should be such that it decreases in steps of 1 until it hits 1 and then jumps to a state as chosen by the inter arrival distribution. Thus letting $\pi_i$ as the probability of inter arrival, it seems likely that  $P_{1i}*=\pi_i, ~ P_{i,i-1}=1,~ i > 1$. We have that $P_{i,1}=\frac{\pi_i}{\sum_{j \geq 1}\pi_j}=1-P_{i,i+1}, ~ i \geq 1$. For the reversed chain to be given as above, we would need 
+%\begin{align*}
+%&\alpha_i P_{ij}=\alpha_j P_{ji}^*\\
+%&\alpha_i \frac{\pi_i}{\sum_j \pi_j}=\alpha_1 \pi_i\\
+%&\alpha_i=\alpha_1 P(X \geq i)\\
+%&1=\sum_i \alpha_i=\alpha_1 E[X]; \alpha_i=\frac{P(X \geq i)}{E[X]}, 
+%\end{align*}
+%where $X$ is the inter arrival time. We need to verify that $\alpha_i P_{i,i+1}=\alpha_{i+1}P^*_{i+1,i}$ or equivalently $P(X \geq i)(1-\frac{\pi_i}{P(X \geq i)})=P(X \geq i)$ to complete the proof that the reversed process is the excess process and the limiting distributions are as given above. But that is immediate.
+%
 
 %\subsection{Time Reversibility for CTMC}
 %\begin{prop}
@@ -384,11 +418,14 @@ is one customer in service and one waiting in line. Note that a transition can o
 occur at customer arrival or departure times, and that departures occur whenever
 a service completion occurs. At an arrival time,  $X(t)$ jumps up by the amount 1,
 whereas at a departure time $X(t)$ jumps down by the amount 1. (courtesy Karl Sigman's lecture notes, \url{http://www.columbia.edu/~ks20/stochastic-I/stochastic-I-CTMC.pdf})
-\end{exmp}
+\begin{note}
+The notation A/B/C/D/E for a queueing system indicates A: Inter-arrival time distribution, B: Service time distribution, C: Number of servers, D: Maximum number of jobs that can be waiting and in service at any time ($\infty$ by default), and E: Queueing service discipline (FIFO by default). 
+\end{note}
 
-Given this description, one can argue that $\{X(t)\}_t$ is a CTMC on the state space $\{0, 1, 2, \ldots\}$. We will soon see that a `stable' M/M/1 queue is time-reversible.   
+\end{exmp}
 \end{shaded*}
 
+For the M/M/1 queue, one can argue that $\{X(t)\}_t$ is a CTMC on the state space $\{0, 1, 2, \ldots\}$. We will soon see that a `stable' M/M/1 queue is time-reversible.   
 \begin{itemize}
 \item
 {\bf Transition rates.} Given the current state $X(t) = i$, the only transitions possible in an infinitesimal time interval are (a) a single customer arrives, or (b) a single customer leaves (if $i \geq 1$). It follows that the infinitesimal generator for the CTMC $\{X(t)\}_t$ is 
@@ -400,15 +437,18 @@ Given this description, one can argue that $\{X(t)\}_t$ is a CTMC on the state s
 \]
 Since $\lambda, \mu > 0$, this defines an irreducible CTMC. 
 
-\item {\bf Equilibrium distribution and reversibility.} The M/M/1 queue's generator defines a birth-death process (Example \ref{exmp:birthdeath}), so if it is stationary, then it must be time-reversible with detailed balance being satisfied. Thus, $\forall i$ $\pi_i \lambda = \pi_{i+1} \mu$, which yields $\pi_{i+1} = \frac{\lambda}{\mu} \pi_i$. Since $\sum_{i \geq 0} \pi = 1$, we must have $\rho \triangleq \frac{\lambda}{\mu} < 1$, giving $\pi_i = (1-\rho) \rho^i$ $\forall i \geq 0$. In other words, if $\lambda < \mu$, then the equilibrium distribution of the number of customers in the system is geometric with parameter $\rho = \lambda/\mu$. We say that the M/M/1 queue is in the {\em stable} regime when $\rho < 1$. 
+\item {\bf Equilibrium distribution and reversibility.} The M/M/1 queue's generator defines a birth-death process (Example \ref{exmp:birthdeath}), so if it is stationary, then it must be time-reversible with detailed balance being satisfied. Thus, $\forall i$ $\pi_i \lambda = \pi_{i+1} \mu$, which yields $\pi_{i+1} = \frac{\lambda}{\mu} \pi_i$. Since $\sum_{i \geq 0} \pi = 1$, we must have $\rho \triangleq \frac{\lambda}{\mu} < 1$, giving $\pi_i = (1-\rho) \rho^i$ $\forall i \geq 0$. In other words, if $\lambda < \mu$, then the equilibrium distribution of the number of customers in the system is geometric with parameter $\rho = \lambda/\mu$. We say that the M/M/1 queue is in the {\em stable} regime when $\rho < 1$. We have thus shown 
+\begin{cor} 
+The number of customers in an M/M/1 queueing system at equilibrium is a reversible Markov process.
+\end{cor}
 
+\item
+{\bf Limiting waiting room: M/M/1/$k$.} Consider a variant of the M/M/1 queueing system that has a finite buffer capacity of at most $k$ customers. Thus, customers that arrive when there are already $k$ customers present are `rejected'. It follows that the CTMC for this system is simply the M/M/1 CTMC truncated to the state space $\{0, 1, \ldots, K\}$, and so it must be time-reversible with stationary distribution $\pi_i = \rho^i / \sum_{j = 0}^k \rho^j$, $0 \leq i \leq k$. 
 \end{itemize}
 
 
-\subsection{Simple Queues}
-\begin{cor} 
-Number of customers in a simple M/M/1 queue at equilibrium is a reversible Markov process.
-\end{cor}
+\subsection{More Queueing Theory}
+
 
 \begin{thm}[PASTA] Poisson arrivals see time averages.
 \end{thm}
@@ -428,6 +468,11 @@ Further, for a stable queue we have
 \end{align*}
 Combining these two results, the theorem follows.
 \end{proof}
+
+\begin{thm}
+Burke's theorem: Departures from an M/M/1 queue are Poisson($\lambda$).
+\end{thm}
+
 
 %\begin{cor}
 %Consider an M/M/s queue with Poisson$(\lambda)$ arrivals and each server having exponential service time $\exp(\mu)$ service. If $\lambda > s \mu$, then the output process in steady state is Poisson$(\lambda)$.
