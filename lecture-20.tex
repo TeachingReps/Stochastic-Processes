@@ -8,7 +8,7 @@
 \maketitle
 
 \section{Examples of reversible processes}
-\begin{shaded*}
+%\begin{shaded*}
 %\begin{exmp}[An Ergodic Random Walk] 
 %Any ergodic, positive recurrent random walk is time reversible. 
 %The transition probability satisfy the following equation for each $i \in \Z$
@@ -18,8 +18,9 @@
 %The rate of transitions from $i+1$ to $i$ must hence be same as the number of transitions from $i$ to $i+1$. 
 %It follows that, the process is time reversible.
 %\end{exmp}
-\begin{exmp}[Birth-death processes]
-\label{exmp:birthdeath}
+\subsection{Birth-death processes}
+%\begin{exmp}[Birth-death processes]
+%\label{exmp:birthdeath}
 %\begin{defn}
 A Markov process $\{X_t \in \N_0: t \in \R\}$ on the state space $\N_0$ is called a \textit{birth-death process} if its infinitesimal transition probabilities satisfy
 \eq{
@@ -44,8 +45,8 @@ In other words, a birth-death process is any CTMC with generator of the form
       \vdots & \vdots & \vdots & \vdots & \vdots  & \ddots
    \end{pmatrix}.
 }
-\end{exmp}
-\end{shaded*}
+%\end{exmp}
+%\end{shaded*}
 
 \begin{prop}
 An ergodic birth-death process in steady-state is time-reversible.
@@ -214,7 +215,8 @@ Hence, we see that the distribution $\pi$ defined as in~\eqref{eqn:graphrwstatio
 The following `dual' result also holds:
 
 \begin{lem} 
-Let $\{X\}_n$ be a reversible Markov chain on a finite state space $I$ and transition probability matrix $P$. Then, there exists a random walk on a weighted, undirected graph $G$ with the same transition probability matrix $P$. 
+Let $\{X\}_n$ be a reversible Markov chain on a finite state space $I$ and transition probability matrix $P$. 
+Then, there exists a random walk on a weighted, undirected graph $G$ with the same transition probability matrix $P$. 
 \end{lem}
 \begin{proof} 
 We create a graph $G = (I,E)$, where $(i,j) \in E$ if and only if $P_{ij} > 0$. We then set edge weights 
@@ -353,47 +355,17 @@ where $\pi$ is the stationary distribution of $X$. With this choice of weights, 
 %\end{equation*} 
 %%\end{defn} 
 
-\begin{shaded*}
-\begin{exmp}[The M/M/1 queue]
-The M/M/1 queue is the simplest and most studied models of queueing systems. In this continuous-time model, arrivals to a single-server queue occur according to a Poisson process with rate $\lambda > 0$. There
-is one line (queue) to wait in, and customers independently (and independent of the
-Poisson arrival process) have service times $\{S_n\}_{n}$ that are exponentially distributed with rate $\mu > 0$. We assume that customers join the tail of the queue, and hence begin service in the order that they arrive {\em first-in-queue-first-out} (FIFO). Let $X(t)$ denote the number of customers in the system at time $t \in \R$, where ``system"
-means the queue plus the service area. So (for example), $X(t) = 2$ means that there
-is one customer in service and one waiting in line. Note that a transition can only
-occur at customer arrival or departure times, and that departures occur whenever
-a service completion occurs. At an arrival time,  $X(t)$ jumps up by the amount 1,
-whereas at a departure time $X(t)$ jumps down by the amount 1. (courtesy Karl Sigman's lecture notes, \url{http://www.columbia.edu/~ks20/stochastic-I/stochastic-I-CTMC.pdf})
-\begin{note}
-The notation A/B/C/D/E for a queueing system indicates A: Inter-arrival time distribution, B: Service time distribution, C: Number of servers, D: Maximum number of jobs that can be waiting and in service at any time ($\infty$ by default), and E: Queueing service discipline (FIFO by default). 
-\end{note}
-
-\end{exmp}
-\end{shaded*}
-
-For the M/M/1 queue, one can argue that $\{X(t)\}_t$ is a CTMC on the state space $\{0, 1, 2, \ldots\}$. We will soon see that a `stable' M/M/1 queue is time-reversible.   
+\section{General queueing theory}
+%\begin{note}
+The notation A/B/C/D/E for a queueing system indicates 
 \begin{itemize}
-\item
-{\bf Transition rates.} Given the current state $X(t) = i$, the only transitions possible in an infinitesimal time interval are (a) a single customer arrives, or (b) a single customer leaves (if $i \geq 1$). It follows that the infinitesimal generator for the CTMC $\{X(t)\}_t$ is 
-\[ Q_{ij} = \begin{cases}
-\lambda, &j = i+1,\\
-\mu, &j = i-1, \\
-0, &|j-i| > 1. 
-\end{cases}
-\]
-Since $\lambda, \mu > 0$, this defines an irreducible CTMC. 
-
-\item {\bf Equilibrium distribution and reversibility.} The M/M/1 queue's generator defines a birth-death process (Example \ref{exmp:birthdeath}), so if it is stationary, then it must be time-reversible with detailed balance being satisfied. Thus, $\forall i$ $\pi_i \lambda = \pi_{i+1} \mu$, which yields $\pi_{i+1} = \frac{\lambda}{\mu} \pi_i$. Since $\sum_{i \geq 0} \pi = 1$, we must have $\rho \triangleq \frac{\lambda}{\mu} < 1$, giving $\pi_i = (1-\rho) \rho^i$ $\forall i \geq 0$. In other words, if $\lambda < \mu$, then the equilibrium distribution of the number of customers in the system is geometric with parameter $\rho = \lambda/\mu$. We say that the M/M/1 queue is in the {\em stable} regime when $\rho < 1$. We have thus shown 
-\begin{cor} 
-The number of customers in an M/M/1 queueing system at equilibrium is a reversible Markov process.
-\end{cor}
-
-\item
-{\bf Limiting waiting room: M/M/1/$k$.} Consider a variant of the M/M/1 queueing system that has a finite buffer capacity of at most $k$ customers. Thus, customers that arrive when there are already $k$ customers present are `rejected'. It follows that the CTMC for this system is simply the M/M/1 CTMC truncated to the state space $\{0, 1, \ldots, K\}$, and so it must be time-reversible with stationary distribution $\pi_i = \rho^i / \sum_{j = 0}^k \rho^j$, $0 \leq i \leq k$. 
+\item[A:] Inter-arrival time distribution, 
+\item[B:] Service time distribution, 
+\item[C:] Number of servers, 
+\item[D:] Maximum number of jobs that can be waiting and in service at any time ($\infty$ by default), and 
+\item[E:] Queueing service discipline (FIFO by default). 
 \end{itemize}
-
-
-\subsection{More Queueing Theory}
-
+%\end{note}
 
 \begin{thm}[PASTA] Poisson arrivals see time averages.
 \end{thm}
@@ -414,9 +386,78 @@ Further, for a stable queue we have
 Combining these two results, the theorem follows.
 \end{proof}
 
-\begin{thm}
-Burke's theorem: Departures from an M/M/1 queue are Poisson($\lambda$).
+%\begin{shaded*}
+%\begin{exmp}[The M/M/1 queue]
+\subsection{The M/M/1 queue}
+The M/M/1 queue is the simplest and most studied models of queueing systems. 
+We assume a continuous-time queueing model with following components. 
+\begin{itemize}
+\item There is a single queue for waiting that can accommodate arbitrarily large number of customers.  
+\item Arrivals to the queue occur according to a Poisson process with rate $\lambda > 0$. 
+That is, let $A_n$ be the arrival instant of the $n$th customer, then the sequence of inter-arrival times $\{A_{n}-A_{n-1} : n \in \N\}$ is \textit{iid} exponentially distributed with rate $\lambda$. 
+\item There is a single server and the service time of $n$th customer is denoted by a random variable $S_n$. 
+The sequence of service times $\{S_n: n \in \N\}$ are \textit{iid} exponentially distributed with rate $\mu > 0$, 
+independent of the Poisson arrival process. 
+\item We assume that customers join the tail of the queue, and hence begin service in the order that they arrive \textit{first-in-queue-first-out} (FIFO).
+\end{itemize}
+Let $X(t)$ denote the number of customers in the system at time $t \in \R_+$, 
+where ``system" means the queue plus the service area. 
+For example, $X(t) = 2$ means that there is one customer in service and one waiting in line. 
+Due to continuous distributions of inter-arrival and service times, a transition can only occur at customer arrival or departure times. 
+Further, departures occur whenever a service completion occurs. 
+Let $D_n$ denote the $n$th departure from the system. 
+At an arrival time $A_n$,  the number $X(A_n) = X(A_n-)+1$ jumps up by the amount 1, 
+whereas at a departure time $D_n$, then number $X(D_n) = X(D_n-)-1$ jumps down by the amount 1. 
+%(courtesy Karl Sigman's lecture notes, \url{http://www.columbia.edu/~ks20/stochastic-I/stochastic-I-CTMC.pdf})
+
+
+%\end{exmp}
+%\end{shaded*}
+
+
+
+For the M/M/1 queue, one can argue that $\{X(t): t \in \R_+\}$ is a CTMC on the state space $\N_0$. 
+We will soon see that a \textit{stable} M/M/1 queue is time-reversible.   
+%\begin{itemize}
+%\item
+\subsubsection{Transition rates} 
+Given the current state $\{X(t) = i\}$, the only transitions possible in an infinitesimal time interval are (a) a single customer arrives, or (b) a single customer leaves (if $i \geq 1$). 
+It follows that the infinitesimal generator for the CTMC $\{X(t)\}_t$ is 
+\eq{
+Q_{ij} &= \begin{cases}
+\lambda, &j = i+1,\\
+\mu, &j = i-1, \\
+0, &|j-i| > 1. 
+\end{cases}
+}
+Since $\lambda, \mu > 0$, this defines an irreducible CTMC. 
+
+\subsubsection{Equilibrium distribution and reversibility} 
+The M/M/1 queue's generator defines a birth-death process.  %(Example \ref{exmp:birthdeath}), 
+Hence, if it is stationary, then it must be time-reversible, with the equilibrium distribution $\pi$ satisfying the detailed balance for each $i \in \N_0$
+\eq{
+\pi_i \lambda &= \pi_{i+1} \mu.
+} 
+This yields $\pi_{i+1} = \frac{\lambda}{\mu} \pi_i$. 
+Since $\sum_{i \geq 0} \pi = 1$, we must have $\rho \triangleq \frac{\lambda}{\mu} < 1$, giving for each $i \in \N_0$
+\eq{\pi_i = (1-\rho) \rho^i.
+} 
+In other words, if $\lambda < \mu$, then the equilibrium distribution of the number of customers in the system is geometric with parameter $\rho = \lambda/\mu$. 
+We say that the M/M/1 queue is in the \textit{stable} regime when $\rho < 1$. 
+We have thus shown 
+\begin{cor} 
+The number of customers in an M/M/1 queueing system at equilibrium is a reversible Markov process.
+\end{cor}
+Further, since M/M/1 queue is a reversible CTMC, the following theorem follows. 
+\begin{thm}[Burke] 
+Departures from a stable M/M/1 queue are Poisson with same rate as the arrivals.
 \end{thm}
+
+\subsubsection{Limiting waiting room: M/M/1/$K$} 
+Consider a variant of the M/M/1 queueing system that has a finite buffer capacity of at most $k$ customers. Thus, customers that arrive when there are already $k$ customers present are `rejected'. It follows that the CTMC for this system is simply the M/M/1 CTMC truncated to the state space $\{0, 1, \ldots, K\}$, and so it must be time-reversible with stationary distribution $\pi_i = \rho^i / \sum_{j = 0}^k \rho^j$, $0 \leq i \leq k$. 
+%\end{itemize}
+
+
 
 
 %\begin{cor}
@@ -488,7 +529,7 @@ Also, it's easy to check that $\pi Q^{\ast} = 0$.
 %%suppose we are considering a stationary Markov chain, $P(X_n=l)=P(X_{n-1}=l)=\alpha(l),~\forall l$, $\alpha(i){P^*}_{ij}=\alpha(j)(P)_{ji}$. 
 %\begin{lem} A stationary Markov chain with transition matrix $P$ is reversible if the reversed process follows the same probabilistic law as the original process, i.e. $P^*= P$. Any non-negative vector $\alpha$ satisfying $\alpha_iP_{ij}=\alpha_jP_{ji},~\forall i,j \in I$ and $\sum_{j \in I}\alpha_j=1$ is stationary distribution of this Markov chain. 
 %\end{lem}
-\begin{lem} A stationary Markov process with generator matrix $Q$ is reversible if the reverses process follows the same probabilistic law as the original process, i.e. $Q^*= Q$. Any non-negative vector $\pi$ satisfying $\pi_iQ_{ij}=\pi_jQ_{ji},~\forall i,j \in I$ and $\sum_{j \in I}\pi_j=1$ is stationary distribution of this Markov process. 
+\begin{lem} A stationary Markov process with generator matrix $Q$ is reversible if the reversed process follows the same probabilistic law as the original process, i.e. $Q^*= Q$. Any non-negative vector $\pi$ satisfying $\pi_iQ_{ij}=\pi_jQ_{ji},~\forall i,j \in I$ and $\sum_{j \in I}\pi_j=1$ is stationary distribution of this Markov process. 
 \end{lem}
 %\begin{proof} Let $\pi$ be a stationary distribution of  Since $Q^{\ast}_{ij} = \frac{\pi_j}{\pi_i}Q_{ji}$ and the condition for time reversibility is given by $\pi_i Q_{ij}=\pi_jQ_{ji}$. This is true because,
 %
@@ -532,8 +573,10 @@ Also, it's easy to check that $\pi Q^{\ast} = 0$.
 
 
 
-\subsection{Example 4.7(E): Example 4.3(C) revisited}
-Example 4.3(C) was with regard to the age of a renewal process. $X_n$ the forward process there was such that it increases in steps of 1 until it hits a value chosen by the inter arrival distribution. Hence the reverse process should be such that it decreases in steps of 1 until it hits 1 and then jumps to a state as chosen by the inter arrival distribution. Thus letting $\pi_i$ as the probability of inter arrival, it seems likely that  $P_{1i}*=\pi_i, ~ P_{i,i-1}=1,~ i > 1$. We have that $P_{i,1}=\frac{\pi_i}{\sum_{j \geq 1}\pi_j}=1-P_{i,i+1}, ~ i \geq 1$. For the reversed chain to be given as above, we would need 
+\subsection{Age and excess times}
+Consider a discrete time renewal process 
+Example 4.3(C) was with regard to the age of a renewal process. 
+Let $X_n$ be the forward process there was such that it increases in steps of 1 until it hits a value chosen by the inter arrival distribution. Hence the reverse process should be such that it decreases in steps of 1 until it hits 1 and then jumps to a state as chosen by the inter arrival distribution. Thus letting $\pi_i$ as the probability of inter arrival, it seems likely that  $P_{1i}*=\pi_i, ~ P_{i,i-1}=1,~ i > 1$. We have that $P_{i,1}=\frac{\pi_i}{\sum_{j \geq 1}\pi_j}=1-P_{i,i+1}, ~ i \geq 1$. For the reversed chain to be given as above, we would need 
 \begin{flalign*}
 &\alpha_i P_{ij}=\alpha_j P_{ji}^*\\
 &\alpha_i \frac{\pi_i}{\sum_j \pi_j}=\alpha_1 \pi_i\\
