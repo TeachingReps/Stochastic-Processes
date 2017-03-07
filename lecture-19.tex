@@ -2,16 +2,17 @@
 % !TEX spellcheck = LaTeX
 \documentclass[a4paper,10pt,english]{article}
 \input{header}
-\title{Lecture 19: Reversed and reversible processes, Queues}
+\title{Lecture 19: Reversed processes}
 \author{}
 \begin{document}
 \maketitle
 
-\noindent {\bf Recall:} A stochastic process $\{X(t) \in I: t \in T\}$ (where $T = \R$ or $T = \Z$) is \textbf{reversible} if $(X(t_i): i \in [n])$ has the same distribution as $(X(\tau-t_i): i \in [n])$ for all $t_i, \tau \in T, i \in [n]$. In general, we can ask -- what does the time-reversed version of a stochastic process look like?
+%\noindent {\bf Recall:} A stochastic process $\{X(t) \in I: t \in T\}$ (where $T = \R$ or $T = \Z$) is \textbf{reversible} if $(X(t_i): i \in [n])$ has the same distribution as $(X(\tau-t_i): i \in [n])$ for all $t_i, \tau \in T, i \in [n]$. In general, we can ask -- what does the time-reversed version of a stochastic process look like?
 
 \section{Reversed Processes}
 %\begin{defn} 
-Let $\{X(t)\}_{t \in T}$ be a stochastic process (here $T$ will be either $\R$ or $\Z$). We call $\{X(\tau-t)\}_{t \in T}$ the {\em reversed process}, for some $\tau \in T$.
+Let $\{X(t): t \in T\}$ be a stochastic process with index set $T$ being $\R$ or $\Z$. 
+Then, $\{X(\tau-t): t \in T\}$ is the \textbf{reversed process}, for some $\tau \in T$. 
 %\end{defn}
 \begin{lem} 
 If $\{X(t)\}_{t \in \Z}$ is a Markov chain, then the reversed process $\{X(\tau -t)\}_{t \in \Z}$ is also a Markov chain.
@@ -35,8 +36,8 @@ Even if the forward process $X$ is time-homogeneous, the reversed process need n
 
 \begin{lem}  
 \label{lem:reversedchain}
-If $\{X(t)\}_{t \in \Z}$ is a stationary, time homogeneous Markov chain with transition matrix $P$ and 
-equilibrium distribution $\alpha$, then the reversed chain $\{X(\tau -t)\}_{t \in \Z}$ is a stationary, time homogeneous Markov chain with the same equilibrium distribution $\alpha$, and transition matrix $P^{\ast}$ given by
+If $\{X(t): t \in \Z\}$ is a stationary, time homogeneous Markov chain with transition matrix $P$ and equilibrium distribution $\alpha$, 
+then the reversed chain $\{X(\tau -t): t \in \Z\}$ is a stationary, time homogeneous Markov chain with the same equilibrium distribution $\alpha$, and transition matrix $P^{\ast}$ given by
 \begin{align*}
 P^{\ast}_{ij} = \frac{\alpha_j}{\alpha_i}P_{ji}.
 \end{align*}

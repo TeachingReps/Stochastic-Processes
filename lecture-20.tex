@@ -2,7 +2,7 @@
 % !TEX spellcheck = LaTeX
 \documentclass[a4paper,10pt,english]{article}
 \input{header}
-\title{Lecture 20: Reversed Processes}
+\title{Lecture 20: Reversible Processes and Queues}
 \author{}
 \begin{document}
 \maketitle
@@ -22,15 +22,16 @@
 %\begin{exmp}[Birth-death processes]
 %\label{exmp:birthdeath}
 %\begin{defn}
+We define two non-negative sequences birth and death rates denoted by $\{\lambda_n: n \in \N_0\}$ and $\{\mu_n: n \in \N_0\}$. 
 A Markov process $\{X_t \in \N_0: t \in \R\}$ on the state space $\N_0$ is called a \textit{birth-death process} if its infinitesimal transition probabilities satisfy
 \eq{
  P_{n,n+m}(h) = \begin{cases}% brackets may be (...), [...], \{...\}, or left out
       \lambda_n h + o(h), & \text{if } m = 1, \\
       \mu_n h + o(h), & \text{if } m = -1, \\
-      o(h), & \text{if } |m| > 1, 
-   \end{cases}.
+      o(h), & \text{if } |m| > 1.
+   \end{cases}
 }
-for some nonnegative numbers $\lambda_0, \lambda_1, \ldots$ (`birth rates') and $\mu_0, \mu_1, \ldots$ (`death rates'). %\\
+%for some nonnegative numbers $\lambda_0, \lambda_1, \ldots$ (`birth rates') and $\mu_0, \mu_1, \ldots$ (`death rates'). %\\
 %({\bf Note.} 
 We say $f(h) = o(h)$ if $\lim_{h \to 0} f(h)/h = 0$.
 %)
@@ -111,8 +112,6 @@ However, this is true since the original chain is time reversible.
 
 %\end{exmp}
 %\end{shaded*}
-
-
 
 %\begin{shaded*}
 %\begin{exmp}[The Metropolis-Hastings algorithm] 
@@ -367,9 +366,26 @@ The notation A/B/C/D/E for a queueing system indicates
 \end{itemize}
 %\end{note}
 
-\begin{thm}[PASTA] Poisson arrivals see time averages.
+\begin{thm}[PASTA] Poisson arrivals see time averages. 
+At any time $t$, we denote a system state by $N(t)$ and the number of arrivals in $[0,t)$ by $A(t)$. 
+The $n$th arrival instant is denoted by $A_n$ and $B$ a Borel measurable set in $\R_+$, then 
+\eq{
+\bar{\tau}_B &\triangleq \lim_{t \in \R_+} \frac{1}{t}\int_0^{t}1\{N(u) \in B\}du =  \lim_{n \in \N} \frac{1}{n}\sum_{i=1}^{n}1\{N(A_i-)\in B \} \triangleq \bar{c}_B.
+}
 \end{thm}
-\begin{thm}[Little's law] Consider a stable single server queue. Let $T_i$ be waiting time of customer $i$, $N(t)$ be the number of customers in the system at time $t$, and $A(t)$ be the number of customers that entered system in duration $[0,t)$, then
+\begin{proof}
+We will show the special case when $N(t)$ is the number of customers in the system at time $t$, and $B = \{k\}$. 
+We define for $k \in \N_0$
+\begin{xalignat*}{3}
+&P_k \triangleq \lim_{t\in\R_+}\Pr\{N(t) = k\}&&A_k \triangleq \lim_{t \in \R_+}\Pr\{N(t-) = k| A_{k+1} = t\}.
+\end{xalignat*}
+Using independent increment property of Poisson arrivals, Baye's rule, and continuity of probabilities, we can write the second limiting probability as 
+\eq{
+A_k &= \lim_{t \in \R_+}\lim{h \downarrow 0}\frac{\Pr\{N(t-)=k,A(t+h)-A(t) = 1\}}{\Pr\{A(t+h)-A(t) = 1\}} = \lim_{t \in \R_+}\Pr\{N(t) = k\} = P_k.
+}
+\end{proof}
+\begin{thm}[Little's law] Consider a stable single server queue. 
+Let $T_i$ be waiting time of customer $i$, $N(t)$ be the number of customers in the system at time $t$, and $A(t)$ be the number of customers that entered system in duration $[0,t)$, then
 \begin{align*}
 \lim_{t \to \infty}\frac{\int_{0}^tN(u)du}{t} &= \lim_{t \to \infty} \frac{\sum_{i=1}^{A(t)}T_i}{A(t)}.
 \end{align*} 
@@ -479,7 +495,7 @@ Suppose both the queues are sharing a common waiting room, where if arriving cus
 \end{exmp*}
 \end{shaded*}
 
-
+\end{document}
 
 \section{Reversed Processes}
 \begin{defn} Let $X(t)$ be a stochastic process then $X(\tau-t)$ is the reversed process.
@@ -708,4 +724,4 @@ Suppose both the queues are sharing a common waiting room, where if arriving cus
 \end{exmp}
 
 
-\end{document}
+
