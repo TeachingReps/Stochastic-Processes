@@ -356,16 +356,17 @@ where $\pi$ is the stationary distribution of $X$. With this choice of weights, 
 
 \section{General queueing theory}
 %\begin{note}
-The notation A/B/C/D/E for a queueing system indicates 
+The notation A/S/N/B/D for a queueing system indicates 
 \begin{itemize}
 \item[A:] Inter-arrival time distribution, 
-\item[B:] Service time distribution, 
-\item[C:] Number of servers, 
-\item[D:] Maximum number of jobs that can be waiting and in service at any time ($\infty$ by default), and 
-\item[E:] Queueing service discipline (FIFO by default). 
+\item[S:] Service time distribution, 
+\item[N:] Number of servers, 
+\item[B:] Maximum number of jobs that can be waiting and in service at any time ($\infty$ by default), and 
+\item[D:] Queueing service discipline (FIFO by default). 
 \end{itemize}
 %\end{note}
 
+%%% IMPROVE PASTA PROOF
 \begin{thm}[PASTA] Poisson arrivals see time averages. 
 At any time $t$, we denote a system state by $N(t)$ and the number of arrivals in $[0,t)$ by $A(t)$. 
 The $n$th arrival instant is denoted by $A_n$ and $B$ a Borel measurable set in $\R_+$, then 
@@ -484,7 +485,7 @@ Consider a variant of the M/M/1 queueing system that has a finite buffer capacit
 %\end{proof}
 
 \begin{shaded*}
-\begin{exmp*}[Two queues with joint waiting room] Consider two independent M/M/1 queues with arrival and service rates $\lambda_i$ and $\mu_i$ respectively for $i \in [2]$. Then, joint distribution of two queues is
+\begin{exmp}[Two queues with joint waiting room] Consider two independent M/M/1 queues with arrival and service rates $\lambda_i$ and $\mu_i$ respectively for $i \in [2]$. Then, joint distribution of two queues is
 \begin{align*}
 \pi(n_1,n_2) &= (1 -\rho_1)\rho_1^{n_1}(1-\rho_2)\rho_2^{n_2},~~n_1,n_2 \in \N_0. 
 \end{align*}
@@ -492,7 +493,7 @@ Suppose both the queues are sharing a common waiting room, where if arriving cus
 \begin{align*}
 \pi(n_1,n_2) &= (1 -\rho_1)\rho_1^{n_1}(1-\rho_2)\rho_2^{n_2},~~(n_1,n_2) \in A \subseteq \N_0\times\N_0. 
 \end{align*}
-\end{exmp*}
+\end{exmp}
 \end{shaded*}
 
 \end{document}

@@ -13,7 +13,11 @@
 Consider an M/M/s queue with Poisson$(\lambda)$ arrivals and each server having exponential service time exp$(\mu)$ service. If $\lambda > s \mu$, then the output process in steady state is Poisson$(\lambda)$.
 \end{cor}
 \begin{proof}
-Let $X(t)$ denote the number of customers in the system at time $t$. Since M/M/s process is a birth and death process, it follows from the previous proposition that $\{X(t),~t \geq 0\}$ is time reversible. Now going forward in time, the time instants at which $X(t)$ increases by 1 are the arrival instants of a Poisson process. Hence, by time reversibility, the time Points at which $X(t)$ increases by 1 when we go backwards in time also constitutes a Poisson process. But these instants are exactly the departure instants of the forward process. Hence the result.
+Let $X(t)$ denote the number of customers in the system at time $t$. Since M/M/s process is a birth and death process, it follows from the previous proposition that $\{X(t),~t \geq 0\}$ is time reversible. 
+Now going forward in time, the time instants at which $X(t)$ increases by unity are the arrival instants of a Poisson process. 
+Hence, by time reversibility, the time points at which $X(t)$ increases by unity when we go backwards in time also constitutes a Poisson process. 
+But these instants are exactly the departure instants of the forward process. 
+Hence the result.
 \end{proof}
 \begin{lem}
 For an ergodic M/M/1 queue in steady state, the following are true.
