@@ -114,34 +114,6 @@ However, this is true since the original chain is time reversible.
 %\end{shaded*}
 
 %\begin{shaded*}
-%\begin{exmp}[The Metropolis-Hastings algorithm] 
-\subsection{The Metropolis-Hastings algorithm}
-Let $\{a_j \in \R_+: j \in [m]\}$ be a set of (known) positive numbers with $A=\sum_{i=1}^{m}a_i$. 
-Suppose our goal is to build a sampler for a random variable with probability mass function $\pi_j = \frac{a_j}{A}$, for each $j \in [m]$, where  $m$ is large and $A$ is difficult to compute directly. 
-This rules out direct evaluation of the fraction $\frac{a_j}{A}$. 
-
-%To generate such a sequence of random variables whose distribution converges to $\pi$, we simulate a Markov chain whose limiting probabilities are $\pi$. 
-%The Metropolis algorithm provides a convenient approach. 
-{\bf Idea.} 
-A clever way of (approximately) generating a sample from the distribution $\pi = \{\pi_j: j \in \N\}$ is by constructing an easy-to-simulate Markov chain with limiting (stationary) distribution $\pi$. 
-We simply run this Markov chain long enough and return the sample (state) at the end.  
-
-Let $M$ be an irreducible transition probability matrix on the integers $[m]$ such that $M = M^T$. 
-An example is the transition matrix of an iid sequence of uniform random variables on $[m]$.  
-Consider the Markov chain $\{X_i: i \in \N\}$ on the state space $[m]$ with the following transition probabilities:
-\begin{align*}
-P_{ij} = \begin{cases}
-       M_{ij} \, \min\left(1,\frac{a_j}{a_i}\right), & j \neq i,\\
-       1 - \sum_{k \neq i}M_{ik}\left\{1-\min\left(1,\frac{a_k}{a_i}\right)\right\}, & j = i.
-     \end{cases}
-\end{align*} 
-Note that the key property that allows us to easily simulate this Markov chain is that only the relative ratios $a_j/a_i$ are required, and not $A$!
-
-It can be directly verified that (1) this Markov chain is irreducible, and that (2) it is reversible with equilibrium distribution $\pi$!
-%\end{exmp}
-%\end{shaded*}
-
-%\begin{shaded*}
 
 %\begin{exmp}[Random walks on edge-weighted graphs] 
 \subsection{Random walks on edge-weighted graphs}
