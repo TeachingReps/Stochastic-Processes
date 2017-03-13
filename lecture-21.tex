@@ -30,7 +30,23 @@ Proofs follow by looking at reversed process.
 \end{enumerate}
 \end{proof}
 
-\section{Tandem Queues}
+%\subsection{Applications of the Reversed Chain to Queueing Theory}
+%The reversed chain can be quite a useful concept even when the process is not time reversible. To see this, we start with the following theorem. 
+%\begin{thm}
+%Let $Q$ denote the rate matrix for an irreducible continuous-time Markov chain. If we can find $Q^*$ of the same size as $Q$ and a vector $P \geq 0$ such that $\sum_i P_i =1$ and 
+%\begin{align*}
+%P_{i}q_{ij}^*=P_jq_{ji}^*, ~ i \neq j,
+%\end{align*} and
+%\begin{align*}
+%\sum_{j \neq i}q_{ij}=\sum_{j \neq i}q_{ij}^*, i \geq 0,
+%\end{align*} 
+%then $Q^*$ is the rate matrix for the reversed Markov chain and $P_i$ are the limiting probabilities for both  chains.
+%\end{thm}
+%\begin{proof}
+%Exercise.
+%\end{proof}
+\section{Network of Queues}
+\subsection{Tandem Queues}
 Time reversibility of M/M/s queues can be used to study what is called as a tandem, or sequential queueing system. For instance, consider a two server queueing system. Service time of server $i$ is distributed exponential$(\mu_i)$. Customers arrive according to a Poisson$(\lambda)$ process to the server 1. After being served at server 1, customers join server  2 for its service. Assume there is infinite waiting room at both servers. Since the departure process of server 1 is Poisson, as discussed previously, the arrival process to server 2 is also Poisson$(\lambda)$. Time reversibility concept can be used to give a much more stronger result.
 
 \begin{thm}
@@ -50,22 +66,6 @@ Proofs follow by looking at reversed process.
 \item By part 2 of the previous lemma, the waiting time of a customer at server 1 is independent of the past departures happening at server 1. But the past departures at server 1, in conjunction with the service times at server 2, determine customer's waiting time at server 2. Hence the result follows.
 \end{enumerate}
 \end{proof}
-%\subsection{Applications of the Reversed Chain to Queueing Theory}
-%The reversed chain can be quite a useful concept even when the process is not time reversible. To see this, we start with the following theorem. 
-%\begin{thm}
-%Let $Q$ denote the rate matrix for an irreducible continuous-time Markov chain. If we can find $Q^*$ of the same size as $Q$ and a vector $P \geq 0$ such that $\sum_i P_i =1$ and 
-%\begin{align*}
-%P_{i}q_{ij}^*=P_jq_{ji}^*, ~ i \neq j,
-%\end{align*} and
-%\begin{align*}
-%\sum_{j \neq i}q_{ij}=\sum_{j \neq i}q_{ij}^*, i \geq 0,
-%\end{align*} 
-%then $Q^*$ is the rate matrix for the reversed Markov chain and $P_i$ are the limiting probabilities for both  chains.
-%\end{thm}
-%\begin{proof}
-%Exercise.
-%\end{proof}
-\section{Network of Queues}
 \begin{thm}
 Consider irreducible Markov chain with transition matrix $P$. If one can find non-negative vector $\alpha$ and other transition matrix $P^*$ such that $\sum_j \alpha_j =1$ and $\alpha_iP_{ij}=\alpha_jP^*_{ji}$ then $\alpha$ is the stationary probability vector and $P^*$ is the transition matrix for the reversed chain.
 \end{thm}
@@ -234,87 +234,5 @@ The process of customers departing the system from the server $i$, $i=1,2 \hdots
 \end{cor}
 \begin{proof}
 We have already shown that in the reverse process, customers arrive to server $i$ from outside the system according to independent Poisson processes having rates $\lambda_i(1-\sum_{i}P_{ij}),~ i \geq 1$. Since an arrival from outside corresponds to a departure out of the system from server $i$ in the forward process, the result follows. 
-\end{proof}
-
-
-\section{The Erlang Loss Formula}
-consider a queueing system in which there are $k$ servers and customers arrive according to a Poisson process with rate $\lambda$. If an arriving customers find all the $k$ servers the customer is lost (do not eneter the system). The service times of server are assumed to be distributed according to some general distribution $G$. Assume that $G$ has a density $g$. Let $\lambda(t)$ denote the hazard rate function. That is,
-\begin{equation*}
-\lambda(t)=\frac{g(t)}{\bar{G}(t)}
-\end{equation*}
-is the instantaneous probability density that a $t$ unit old service will end. Assume that the states are ordered. i.e. $\underline{x}=(x_1,x_2, \hdots x_n)$, $x_1 \leq x_2 \leq \hdots x_n$, where $x_n$ denote the service time of $n^{\text{th}}$ customer ($n \leq k$). The process of successive states will be a Markov process in the sense that the conditional distribution of any future state, given the present state and all the past states, will depend only on the present. Even though the process is not a continuous-time Markov chain, we can extend and use the theory so far developed to analyse the process.
-\begin{cor}
-The reverse process is also a $k-$ server loss system with service distribution $G$ in which arrivals occur according to a Poisson process with rate $\lambda$. The state at any time represents the ordered residual service times of customers in service currently.
-\end{cor}  
-\begin{proof}
-We shall prove the above conjecture and obtain the limiting distribution. For any state $\underline{x}=(x_1,x_2 \hdots x_i, \hdots x_n)$ and $e_i(\underline{x})=(x_1,x_2 \hdots x_{i-1},x_{i+1} \hdots x_n)$. In the original process when the state is $\underline{x}$ it will instantaneously go to $e_i(\underline{x})$ with a probability density equal to $\lambda(x_i)$. Similarly, in the reversed process, we see that if the state is $e_i(\underline{x})$, then it will instantaneously go to $\underline{x}$ if a customer having service time $x_i$ instantaneously arrives. So,
-\begin{flalign*}
-\text{Forward}:~ \underline{x} \rightarrow e_i(\underline{x})~ \text{w.p. intensity~}\lambda(x_i);\\
-\text{Reverse}:~ e_i(\underline{x}) \rightarrow ~ \underline{x} \text{with joint prob. intensity~}\lambda g(x_i).
-\end{flalign*}
-Hence if $p(\underline{x})$ represents the limiting density, in accordance with Theorem 1.5 (Lecture 14), we would need that
-\begin{equation*}
-p(\underline{x})\lambda(x_i)=P(e_i(\underline{x}))\lambda g(x_i),
-\end{equation*}
-or, since $\lambda(x_i)=g(x_i)/\bar{G}(x_i)$,
-\begin{equation*}
-p(\underline{x})=p(e_i(\underline{x}))\lambda G(x_i).
-\end{equation*}
-Letting  $i=1$ and iterating the above yields,
-\begin{flalign*}
-p(\underline{x})&=\lambda G(x_1)p(e_1(\underline{x}))\\
-=&\lambda G(x_1)\lambda G(x_2)p(e_1(e_1(\underline{x})))\\
-& \vdots\\
-&=\Pi_{i=1}^{n}\lambda \bar{G}(x_i)P(\phi),
-\end{flalign*}
-where $P(\phi)$ is the limiting probability that the system is empty. Integrating over vector $\underline{x}$ yields
-\begin{flalign*}
-Pr(n~\text{in the system})&=P(\phi)\lambda^n {\int \int \hdots \int}_{x_1 \leq x_2 \hdots x_n}\Pi_{i=1}^n\bar{G}(x_i)dx_1 dx_2 \hdots dx_n\\
-&=P(\phi)\frac{\lambda^n}{n!} {\int \int \hdots \int}_{x_1, x_2, \hdots x_n}\Pi_{i=1}^n\bar{G}(x_i)dx_1 dx_2 \hdots dx_n\\
-&=P(\phi)\frac{{(\lambda E[S])}^n}{n!}, n 1,2 \hdots k, 
-\end{flalign*}
-where $E[S]=\int \bar{G}(x) dx$ is the mean service time. Upon using the fact that
-\begin{equation*}
-P(\phi)+\sum_{n=1}^k Pr(n~\text{in the system})=1.
-\end{equation*}
-we obtain
-\begin{equation}
-\label{EquilibriumDistribution}
- Pr(n~ \text{in the system})= \frac{ {(\lambda E[S])}^n /(n!)}{\sum_{i=0}^n {(\lambda E[S])}^i/(i!)}.
-\end{equation}
-This can be written as
-\begin{equation*}
- Pr(\underline{x})= \frac{ \lambda^n \Pi_{i=1}^n \bar{G}(x_i)}{\sum_{i=0}^n {(\lambda E[S])}^i/(i!)}.
-\end{equation*}
-Observe that the conditional distribution of the ordered ages given that there are $n$ customers in the system is
-\begin{flalign*}
-Pr(\underline{x}|n~ \text{in the system})&=\frac{p(\underline{x}}{Pr(n~ \text{in the system})}\\
-&n! \Pi_{i=1}^{n}\frac{\bar{G}(x_i)}{E[S]}.
-\end{flalign*}
-As $\bar{G}(x)/E[S]$ is just the density of the equilibrium distribution of $G$, if the conjecture is valid, the limiting distribution of the number of customers in the sysytem depends on $G$ only through its mean and given that there are $n$ customers in the system the ages are independnet and identically distributed according to the equilibrium distribution of $G$. To complete the proof of the conjecture, we must consider the transitions of the forward process from $\underline{x}$ to $(0,\underline{x})$ when $n<k$. Now 
-\begin{flalign*}
-& \text{Forward:} \underline{x} \rightarrow (0,\underline{x}) ~\text{with instantaneous density }~ \lambda;\\
-&\text{Reverse:} (0,\underline{x})  \rightarrow  \underline{x} ~  \underline{x} ~\text{with probability  } 1.
-\end{flalign*} 
-Hence in conjunction with Theorem 1.5 (Lecture 14) we must verify that 
-\begin{equation*}
-p(\underline{x})\lambda=p(0,\underline{x}),
-\end{equation*}
-which follows from ref{EquilibriumDistribution} since $\bar{G}(0)=1$.
-\end{proof}
-We have thus proven the following:
-\begin{thm}
-The limiting distribution of the number of customers in the system is given by
-\begin{equation}
-Pr(n ~ \text{in the system}) = Pr(n~ \text{in the system})= \frac{ {(\lambda E[S])}^n /(n!)}{\sum_{i=0}^n {(\lambda E[S])}^i/(i!)}.
-\end{equation}
-and given that there are $n$ in the system the ages (or the residual times) of these $n$ are independent and identically distributed according to the equilibrium distribution of $G$.
-\end{thm}
-The model considered is often called the Erlang loss system and \ref{EquilibriumDistribution} is called is called the Erlang loss formula. By using the reversed process, we also have the following corollary.
-\begin{cor}
-In Erlang loss model the departure process (including both customers completing service and those that are lost) is a Poisson process at rate $\lambda$. 
-\end{cor}
-\begin{proof}
-The corollary follows as in the reversed process arrivals of all customers (including that are lost) constitutes a Poisson process. 
 \end{proof}
 \end{document}
