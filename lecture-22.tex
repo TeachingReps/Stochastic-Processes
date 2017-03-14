@@ -158,7 +158,7 @@ We observe that $H = \{1\{n\leq T\}: n \in \N\}$ is a non-negative, predictable,
 %\end{align*}
 In terms of the predictable and bounded sequence $H$, we can write the stopped process as
 \eq{
-X_{T \wedge n} &= \sum_{m=1}^{T\wedge n}(X_{m} - X_{m-1}) = \sum_{m=1}^{n}1\{m \leq T\}(X_{m} - X_{m-1}) =(H \cdot X)_n. 
+X_{T \wedge n} &= X_0 + \sum_{m=1}^{T\wedge n}(X_{m} - X_{m-1}) = X_0 + \sum_{m=1}^{n}1\{m \leq T\}(X_{m} - X_{m-1}) = X_0 + (H \cdot X)_n. 
 }
 %\begin{align*}
 %    X_{T\wedge n}&= (H\cdot X)_n\hspace{2 mm} when\hspace{2 mm} H_n=1_{\{n\leq T\}}\\
@@ -244,7 +244,7 @@ we observe that $X_{T\wedge n}$ is bounded by an integrable random variable, and
 \end{proof}
 
 \begin{cor}[Wald's Equation] 
-If $T$ is a stopping time for $\{X_i,~ i \in \N\}$ \textit{iid} with $\E|X|< \infty$ and $\E T < \infty$, then
+If $T$ is a stopping time for $\{X_i: i \in \N\}$ \textit{iid} with $\E|X|< \infty$ and $\E T < \infty$, then
 \begin{align*}
 \E\sum_{i=1}^{T}X_i =\E T\E X.
 \end{align*}
@@ -327,85 +327,95 @@ Hence the result follows.
 Before we state and prove martingale convergence theorem, we state some results which will be used in the proof of the theorem.
 \begin{lem}
 \label{StoppingTimeBound}
-If $\{Z_i, i \in \N \}$ is  a submartingale and $T$ is a stopping time such that $\Pr\{T \leq n\}=1$ then
+If $\{X_i:  i \in \N \}$ is  a submartingale and $T$ is a stopping time such that $\Pr\{T \leq n\}=1$ then
 \begin{align*}
- \E Z_1 \leq \E Z_T \leq \E Z_n.
+ \E X_1 \leq \E X_T \leq \E X_n.
 \end{align*}
 \end{lem}
 \begin{proof}
-It follows from Theorem \ref{MartStopThm} that since $T$ is bounded, $\E[Z_T] \geq \E[Z_1]$. Now, since $T$ is a stopping time, we see that for $\{T = k\}$
+It follows from Theorem \ref{MartStopThm} that since $T$ is bounded, $\E X_T  \geq \E X_1$. 
+Now, since $T$ is a stopping time, we see that for $\{T = k\}$
 \begin{align*}
-\E[Z_n|Z_1, \hdots ,Z_T,T=k]&=\E[Z_n|Z_1 \hdots Z_k,T=k] = \E[Z_n|Z_1 \hdots Z_k] \geq Z_k = Z_T.
+\E[X_n1\{T = k\}|\F_T,T=k]&= %\E[Z_n1\{T = k\}|\F_k,T=k] = 
+\E[X_n1\{T = k\}|\F_k] \geq X_k1\{T = k \} = X_T1\{T = k\}.
 \end{align*}
 %where $(a)$ follows from the fact that $N$ is  a stopping time. 
-Result follows by taking expectation on both sides.
+Result follows by taking expectation on both sides and summing over $k$. 
 \end{proof}
+
 \begin{lem}
 \label{ConvexFuncSubmart}
-If $\{Z_n,n \in \N\}$ is a martingale and $f$ is a convex function, then $\{f(Z_n),n \in \N\}$ is a submartigale.
+If $X = \{X_n: n \in \N\}$ is a martingale and $f$ is a convex function, then $\{f(X_n),n \in \N\}$ is a submartigale.
 \end{lem}
 \begin{proof}
 The result is a direct consequence of Jensen's inequality.
 \begin{align*}
-\E[f(Z_{n+1})|Z_1, \hdots Z_n] &\geq f(\E[Z_{n+1}|Z_1, \hdots Z_n])=f(Z_n).
+\E[f(X_{n+1})|\F_n] &\geq f(\E[X_{n+1}|\F_n])=f(X_n).
 \end{align*}
 \end{proof}
+
 \begin{con}
-	Let ${X_n,n\geq0}$ be a sub martingale. Let $a< b$ and $N_0  = -1$.
-	   \begin{align*}
-		N_{2k-1}=&\inf\{m>N_{2k-2}:X_m\leq a \}.\\
-		N_{2k}=&\inf\{m>N_{2k-1}:X_m\geq b \}.\\
-		\end{align*}
-		The above quantities $N_{2k-1}$,$N_{2k}$ are stopping times and the set containing values of $m$ in the transition from $a$ to $b$ can be defined as
-		\begin{align*}
-		\{N_{2k-1}<m\leq N_{2k} \}=&\{N_{2k-1}<m-1\} \cap \{m>N_{2k}\}^{c}\\
-		=&\{m-1\geq N_{2k-1}\}\cap\{m-1\geq N_{2k}\}^{c}\\		
-		\end{align*}
-		Since the above set depends on $\{m-1\}$ values instead of $\{m\}$ values, So
-		\begin{align*}
-			H_m=&1_{\{N_{2k-1}<m\leq  N_{2k}\}}\\
-			U_n=&\sup\{k:N_{2k}\leq n\}
-		\end{align*}
-		 $H_m$ defines a predictable sequence and $U_n$ is the number of up crossings completed in time $n$.
+Let $X = \{X_n : n\in \N_0\}$ be a sub martingale. 
+Let $a< b$ and $N_0  = -1$.
+\begin{xalignat*}{3}
+&N_{2k-1}=\inf\{m>N_{2k-2}:X_m\leq a \}, && N_{2k}=\inf\{m>N_{2k-1}:X_m\geq b \}.
+\end{xalignat*}
+The above quantities $N_{2k-1}$,$N_{2k}$ are stopping times and the set containing values of $m$ in the transition from $a$ to $b$ can be defined as
+\begin{align*}
+H_m &\triangleq \{N_{2k-1}<m\leq N_{2k} \}= %\{N_{2k-1} \leq m-1\} \cap \{m>N_{2k}\}^{c} = 
+\{m-1\geq N_{2k-1}\}\cap\{m-1\geq N_{2k}\}^{c} \in \F_{m-1}.		
+\end{align*}
+Clearly, the event of $X$ being in an up crossing at time $m$ is  predictable. 
+The number of up crossings completed in time $n$ is
+\eq{
+U_n &= \sum_{k=1}^nH_k = \sup\{k: n \geq N_{2k}\}.
+}
+%Since the above set depends on $\{m-1\}$ values instead of $\{m\}$ values, So
+%\begin{align*}
+%H_m=&1_{\{N_{2k-1}<m\leq  N_{2k}\}}\\
+%U_n=&\sup\{k:N_{2k}\leq n\}
+%\end{align*}
+%$H_m$ defines a predictable sequence and $U_n$ is the number of up crossings completed in time $n$.
 \end{con}
 \begin{lem}[Upcrossing inequality]
-	If \{$X_m: m \in \N_0$\} is a sub martingale,then
-	\begin{align*}
-	(b-a)\E U_n\leq& \E Y_n-\E Y_0\\
-	\text{where }Y_n&:=a+ (X_n-a)^{+}
-    \end{align*}
-    \end{lem}
+If $X$ is a sub martingale, 
+then for $Y_n \triangleq a+ (X_n-a)^{+}$, we have 
+\begin{align*}
+(b-a)\E U_n\leq& \E Y_n-\E Y_0.
+%\text{where }Y_n&:=a+ (X_n-a)^{+}
+\end{align*}
+\end{lem}
 \begin{proof}
-Since $X_n$ is a submartingale so is $Y_n$, as it is  a convex function of $X_n$.Since each up crossing has a gain slightly  more than $b-a$ the following inequality exists \\
+Since $X$ is a submartingale so is $Y$, as $Y_n$ is a convex function of $X_n$. 
+Since each up crossing has a gain slightly more than $b-a$, the following inequality exists, 
 \begin{align*}
-(b-a)U_n\leq &(H\cdot Y)_n\\
-=&\sum_{m=1}^{n}1_{\{N_{2k-1}<m\leq N_{2k}\}}(Y_{m+1}-Y{m})\\
-=&\sum_{k=1}^{U_n}(Y_{N_{2k+1}}-Y_{N_{2k+1}})\\ 
+(b-a)U_n\leq &(H\cdot Y)_n = \sum_{m=1}^{n}1_{\{N_{2k-1}<m\leq N_{2k}\}}(Y_{m+1}-Y_{m}) = \sum_{k=1}^{U_n}(Y_{N_{2k+1}}-Y_{N_{2k+1}}).
 \end{align*}
-   Now let $K_m=1-H_m$ then clearly,
-   \begin{align*}
-   	Y_n-Y_0=(H\cdot Y)_n+(K\cdot Y)_n\\
-   \end{align*} 
-   we have by the submartingale property of Y\\
-    \begin{align*}
-    	\E[(K\cdot Y)_n] \geq \E[(K\cdot Y)_0]=0\\   	
-    \end{align*} 
-    Therefore,
-    \begin{align*}
-    \E[(H\cdot Y)_n]+\E[(K\cdot Y)_n]=& \E[Y_n-Y_0]\\
-    \E[(H\cdot Y)_n]\leq& \E[Y_n-Y_0]\\
-    (b-a)\E U_n\leq& \E(Y_n-Y_0).
-    \end{align*}
-    \end{proof}
-\begin{thm}[Martingale Convergence Theorem]
-\label{MartingaleConvergenceTheorem}
-If $X_n$ is a submartingale with ${\sup}_{a\in A} \E[X_n^{+}]\leq \infty$ then ${\lim}_{n\in \N} X_n=X$ a.s with $\E[X]<\infty$.
+Now let $K_m=1-H_m$, then $K$ is a predictable sequence, and
+\eq{
+Y_n-Y_0 &= (H\cdot Y)_n+(K\cdot Y)_n.
+}
+From the submartingale property of Y, it follows
+\eq{
+\E[(K\cdot Y)_n] &\geq \E[(K\cdot Y)_0]=0. 
+} 
+Therefore, it follows that 
+\eq{
+\E(Y_n - Y_0) &= \E(H\cdot Y)_n+\E(K\cdot Y)_n \geq \E(H\cdot Y)_n  \geq  (b-a)\E U_n.
+}
+\end{proof}
+
+\begin{thm}[Martingale convergence theorem] 
+\label{MartingaleConvergenceTheorem} 
+If $X$ is a submartingale with ${\sup}_{n\in \N} \E X_n^{+} < \infty$ then ${\lim}_{n\in \N} X_n=X$ a.s with $\E[X]<\infty$.
 \end{thm}
-\begin{proof}    		
+\begin{proof} 
+Since $(X-a)^{+}\leq X^{+}+|a|$, it follows from upcrossing inequality that   		
 \begin{align*}
-(X-a)^{+}\leq& X^{+}+|a|,\\
-\E[U_n] \leq& \frac{\E[X_n^{+}] +|a|}{b-a}.
+\E U_n \leq& \frac{\E X_n^{+} +|a|}{b-a}.
 \end{align*}
+The number of upcrossings $U_n$ increases with $n$, however the mean $\E U_n$ is bounded above for each $n \in \N$. 
+Hence, $\lim_{n \in \N}\E U_n$ exists and is finite. 
     			$\lim_{n \in \N} U_n=U$ since, $\E [X_n^{+}] < \infty$ gives $U<\infty$ a.s. This conclusion leads to  
     			\begin{align*}
     			\Pr\{_{a,b \in \mathbb{Q}}{\cup}\{{\lim \inf}_{n\in \N}  X_n<a<b<{\lim \sup}_{n\in \N}  X_n \}\} = 0.
