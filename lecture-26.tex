@@ -2,183 +2,418 @@
 % !TEX spellcheck = LaTeX
 \documentclass[a4paper,10pt,english]{article}
 \input{header}
-\title{Lecture 26: Martingale Concentration Inequalities}
+\title{Lecture 22: Random Walks}
 \author{}
 
 \begin{document}
 \maketitle
 \section{Introduction}
 
-\begin{lem}
-\label{StoppingTimeBound}
-If $\{X_n: n \in \N \}$ is  a submartingale and $N$ is a stopping time such that $\Pr\{N \leq n\}=1$ then
+Essentially, if $X$ is an exchangeable sequence of random variables, then $(X_1,X_2,\cdots,X_n)$ has the same joint distribution as $(X_n, X_{n-1},\cdots, X_1)$. 
+In particular, an iid sequence of random variables is exchangeable. 
+%The first result we shall show that if $\E[X_1] >0 $ then the random walk will become positive in finite steps. 
+\begin{prop}
+Suppose $\{X_n: n \in \N\}$ is a sequence of iid random variables with positive mean. Let $S_n = \sum_{k=1}^n X_i$ be a random walk with step size $X_nz$. If 
+\begin{align*}N = \min \{n \in \N : S_n > 0\}\end{align*}
+Then $\E[N] < \infty$.
+\end{prop}
+\begin{proof} From duality principle we obtain that
 \begin{align*}
- \E X_1 \leq \E X_N \leq \E X_n.
+\{N > n\} &= \{S_i \leq 0, i \in [n]\} = \left\{\sum_{k=0}^{i-1}X_{n-k} \leq 0, i \in [n]\right\} = \{S_n \leq S_{n-i}, i \in [n]\}.
 \end{align*}
-\end{lem}
+It follows that 
+\begin{align*} 
+\E[N] &= \sum_{n \in \N_0} \Pr\{N > n\}
+%&= \sum_{n=0}^\infty P[X_1 \leq 0, X_1+X_2 \leq 0, \cdots, X_1+X_2+\cdots+X_n \leq 0]  \label{Dual1}\\
+%&= \sum_{n=0}^\infty P[X_n \leq 0, X_n+X_{n-1} \leq 0, \cdots, X_n+X_{n-1}+\cdots+X_1 \leq 0] \label{Dual2}\\
+= \sum_{n \in \N_0} \Pr\{S_n \leq S_{n-i}, i \in [n]\}.
+\end{align*}
+%Where we used the duality principle to get (\ref{Dual2}). 
+We define the renewal instants to be when random walk hits a new low. (Why are these renewal instants?) 
+Hence, $n$ is a renewal instant after $0$ if $\{S_n \leq S_i: i \in [n]\}$. Hence, we have
+\begin{align*}
+\E[N] &= \sum_{n\in \N_0}\Pr\{\text{renewal happens at time } n\} = \sum_{n \in \N_0}\Pr\{\text{inter-renewal length} \geq n\}\\
+&= 1 + \E[\text{Number of renewals that occur}]
+\end{align*}
+%
+%Now let us count a renewal at time $n$ when $S_n \leq S_{n-1},S_{n} \leq S_{n-2}, \cdots, S_n \leq 0$. Then we get
+%\begin{flalign}
+%E[N] &= \sum_{n=0}^\infty P[\mbox{renewal happens at time n}]\\
+%&= 1 + E[\mbox{No of renewals that occur}]
+%\end{flalign}
+Since $\E X > 0$, it follows from strong law of large numbers that $S_n \to \infty$. Hence, the expected number of renewals that occur is finite. Thus $\E[N] < \infty$.
+\end{proof}
+\begin{defn}
+The number of distinct values of $(S_0,\cdots, S_n)$ is called \textbf{range}, denoted by $R_n$.
+\end{defn}
+\begin{prop}
+\begin{align*} \lim_{n \in \N} \frac{\E[R_n]}{n} = \Pr\{S_n \neq 0, \forall n \in \N\}\end{align*}
+\end{prop}
 \begin{proof}
-It follows from optional stopping theorem that since $N$ is bounded, $\E[X_N] \geq \E[X_1]$. 
-Now, since $N$ is a stopping time, we see that for $\{N = k\}$
-\begin{align*}
-\E[X_n|X_1, \ldots, X_N, N = k ]&= \E[X_n|X_1, \ldots, X_k, N=k] = \E[X_n|X_1, \ldots, X_k] \geq X_k = X_N.
-\end{align*}
-%where $(a)$ follows from the fact that $N$ is  a stopping time. 
-Result follows by taking expectation on both sides.
+We define indicator function 
+\begin{align*}I_k &=1_{\{S_k \neq S_{k-i}, i \in [k]\}}.\end{align*}
+Then, we can write range $R_n$ in terms of indicator $I_k$ as 
+\begin{align*}R_n = 1 + \sum_{k=1}^nI_k\end{align*}
+Let $T = \{n > 0: S_n = 0\}$. Then, $\lim_{k \in \N} \Pr\{T > k\} = \Pr\{S_n \neq 0, \forall n \in \N\}$. 
+Further, using the duality principle, we can write
+\begin{flalign}
+\E[R_n] &= 1 + \sum_{k=1}^n \Pr\{S_i\neq 0, i \in [k]\} 
+%&= 1 + \sum_{k=1}^n P[S_1 \neq 0, S_2 \neq 0, \cdots, S_k \neq 0] \\
+= \sum_{k=0}^n \Pr\{T > k\}
+\end{flalign}
+%Where $T$ is the first time the RW returns to 0. 
+Result follows by dividing both sides by $n$ and taking limits.
 \end{proof}
 
-\begin{thm}[Kolmogorov's inequality for submartingales] If $\{X_n: n \in \N \}$ is a submartingale, then
+\begin{thm}[Simple Random Walk] For a simple random walk, where $\Pr\{X_1 = 1\} = p$ the following holds
 \begin{align*}
-\Pr\{\max\{X_1,X_2, \ldots, X_n\}>a\} &\leq \frac{\E[X_n]}{a},\text{ for } a>0.
+\lim_{n \in \N}\frac{\E[R_n]}{n} &= 
+	\begin{cases}
+2p - 1, & p > \frac{1}{2}\\
+2(1-p)-1, & p \leq \frac{1}{2}.
+	\end{cases}
 \end{align*}
 \end{thm}
 \begin{proof}
-We define a stopping time 
+%Consider the simple random walk with $\Pr\{X_i = 1\} = p$. 
+When $p=\frac{1}{2}$, this random walk is recurrent and thus
 \begin{align*}
-N &= \min\{i \in [n]: X_i >a\} \wedge n \leq n.
-\end{align*} %, and define it to equal $n$ if $Z_i \leq a$ for %all $i=1, \hdots n$. 
-It follows that, $\{\max\{X_1, \ldots, X_n\}>a\} = \{X_N > a\}$. 
-Using this fact and Markov inequality, we get
-\begin{align*}
-\Pr\{\max\{X_1, \ldots, X_n\}>a\} &=\Pr\{X_N>a\} \leq \frac{\E[X_N]}{a}.
+\Pr\{\text{No Return to }0\} = 0 = \lim_{n \in \N} \frac{\E[R_n]}{n}.
 \end{align*}
-Since $N \leq n$ is a bounded stopping time, result follows from the previous Lemma \ref{StoppingTimeBound}.
+When $p > \frac{1}{2}$, let $\alpha = \Pr\{\text{return to } 0|X_1 = 1\}$. Since $\E X > 0$, we know that $S_n \to \infty$ and hence $\Pr\{\text{return to } 0|X_1 = -1\} = 1$. We can write unconditioned probability of return of random walk to $0$ as 
+\begin{align*}
+\Pr\{\text{Return to }0\} = \alpha p+ 1-p.
+\end{align*}
+Conditioning on $X_2$ yields 
+\begin{align*}
+\Pr\{S_n = 0 \text{ for some }n|X_1 = 1\} &= p\Pr\{S_n = 0 \text{ for some }n| S_2  = 2\}  + (1-p).
+%\Pr\{S_n = 0 \text{ for some }n| S_2 = 0\}\\
+\end{align*}
+Further noticing that 
+\begin{align*}
+\Pr\{S_n = 0 \text{ for some }n| S_2  = 2\} &= \alpha \Pr\{S_{n+m} = 0 \text{ for some }n| S_m = 1 \text{ for some }m \},
+\end{align*}
+we conclude $\alpha = \alpha^2 p + 1-p$. 
+Solving for $\alpha$ yields $\alpha = \frac{1-p}{p}$, and hence the result follows. We can show similarly for the case when $p < 1/2$.
+%. Thus for $p > 1/2$,
+%\begin{align*}\lim_{n \in \N}\frac{\E[R_n]}{n} = 2p-1.\end{align*}
+%Similarly, we can show for $p \leq 1/2$, we have
+%\begin{align*}\lim_{n \in \N}\frac{\E[R_n]}{n} = 2(1-p)-1.\end{align*}
 \end{proof}
-\begin{cor}
-\label{MartingaleBoundCor}
-Let $\{X_n : n \in \N \}$ be a martingale. Then, for $a>0$ the following hold.
+
+\begin{prop}
+In the symmetric random walk, the expected number of visits to state $k$ before returning to origin is equal to $1$ for all $k \neq 0$.
+\end{prop}
+\begin{proof}
+For $k>0$, let $N_j$ be the hitting time to state $j$ for random walk $S_n$. Further, let $Y$ denote the number of visits to state $k$ before the first return to origin. That is, 
+\begin{align*}Y = \sum_{n=1}^\infty I_n,\end{align*}
+where $I_n = 1_{\{S_k = n, N_0 > n\}}$.
+Thus, using duality principle and recurrence of symmetric random walk, we can write
 \begin{align*}
-\Pr\{\max\{|X_1|, \ldots, |X_n|\}>a\} &\leq \frac{\E[|X_n|]}{a},\\
-\Pr\{\max\{|X_1|, \ldots, |X_n|\}>a\} &\leq \frac{\E[X_n^2]}{a^2}.
+\E[Y] &= \sum_{n=1}^\infty \Pr\{S_i > 0, i \in [n], S_n = k\}\\
+&= \sum_{n=1}^\infty \Pr\{S_n - S_{n-i} > 0, i \in [n], S_n = k\}\\
+%&= \sum_{n=1}^\infty \Pr\{S_n > S_{n-i}, i \in [n], S_n=k\}\\
+&= \sum_{n=1}^\infty \Pr\{N_k = n\} = \Pr\{S_n = k \text{ for some }n\} = 1.
 \end{align*}
+\end{proof}
+\subsection{ GI/GI/1 Queueing Model}
+Consider a $GI/GI/1$ queue. Customers arrive in accordance with a renewal process having an arbitrary interarrival distribution  $F$, and the service distribution is $G$. %Let the interarrival times be $X_1,~X_2 \hdots $ and let the service times be $Y_1,~Y_2 \hdots$ and let $D_n$ denote the delay in queue of the $n^\text{th}$ arrival. 
+\begin{prop}
+\label{prop_gigi1}
+Let $D_n$ be the delay in the queue of the $n^\text{th}$ customer in a GI/GI/1 queue with independent inter-arrival times $X_n$ and service times $Y_n$. We also define a random walk $S_n$ with steps $U_n = Y_n - X_{n+1}$ for all $n \in \N$. 
+%\begin{equation*}
+%S_n =\sum_{i=1}^{n}Y_n-X_{n+1},~n \in \N.
+%\end{equation*}
+Then, we can write
+\begin{align}
+\label{GIGI1_prop_eqn}
+\Pr\{D_{n+1} \geq c\} = \Pr\{S_j \geq c, \text{ for some }j \in [n]\}.
+\end{align}
+\end{prop}
+\begin{proof}
+The following recursion for $D_n$ is easy to verify
+\begin{align*}
+ D_{n+1} &= (D_n+Y_n-X_{n+1})1_{\{D_n+Y_n - X_{n+1} \geq 0\}} = \max\{0,D_n+U_n\}.
+\end{align*}
+%Using definition $U_n := Y_n-X_{n+1}$ for all $n \in \N$, we can re-write this as
+%\begin{equation*}
+%D_{n+1}=\max\{0,D_n+U_n\},~ n \in \N.
+%\end{equation*}
+Iterating the above relation with $D_1 = 0$ yields
+\begin{align*}
+D_{n+1}&= \max\{0,U_n+\max\{0,D_{n-1}+U_{n-1}\}\}\\
+&=\max\{0,U_n,U_n+U_{n-1}+D_{n-1}\}.
+\end{align*}
+We can define a random walk $S_n$ with steps $U_n$ to write 
+\begin{align*}
+D_{n+1} &=\max\{0,S_n-S_{n-1},S_n-S_{n-2}, \ldots, S_n - S_0\}.
+\end{align*}
+Using the duality principle, we can rewrite delay as 
+%where in the last step we have used the fact that $D_1=0$. Hence, for $c>0$,
+\begin{align*}
+D_{n+1} &=\max\{0,S_1,S_2, \ldots , S_n\}.
+\end{align*}
+%where the last equality follows from duality. Thus the following proposition holds.
+\end{proof}
+\begin{cor} If $\E U_n \geq 0$, then for all $c$, we have 
+%\begin{align*}
+$\Pr\{D_{\infty} \geq c\} \triangleq \lim_{n \in \N}\Pr\{D_{n} \geq c\} = 1$.
+%\end{align*}
 \end{cor}
 \begin{proof}
-The proof the above statements follow from and Kolmogorov's inequality for submartingales, and by considering the convex functions $f(x)=|x|$ and $f(x)=x^2$. 
-\end{proof}
-
-\begin{thm}[Strong Law of Large Numbers] Let $S_n$ be a random walk with iid step size $\{X_i: i \in \N\}$ with finite mean $\mu$. %, and let $S_n=\sum_{i=1}^{n}X_i$. 
-Then
-\begin{align*}
-\Pr\left\{\lim_{n \in \N}\frac{S_n}{n} = \mu\right\} = 1.
-\end{align*}
-\end{thm}
-\begin{proof}
-We will prove the theorem under the assumption that the moment generating function $\psi(t)=\E[e^{tX}]$ for random variable $X$ exists. 
-For a given $\epsilon>0$, we define
-\begin{align*}
-g(t) & \triangleq e^{t(\mu+\epsilon)}/\psi(t).
-\end{align*}
-Then, it is clear that $g(0) = 1$ and 
-\begin{align*}
-g'(0)& =\frac{ \psi(0)(\mu+\epsilon) -\psi'(0)  }{\psi^2(0)}=\epsilon >0.
-\end{align*}
-Hence, there exists a value $t_0>0$ such that $g(t_0)>1$. We now show that $S_n/n$ can be as large as $\mu+\epsilon$ only finitely often. 
-To this end, note that
+It follows from Proposition~\ref{prop_gigi1} that $\Pr\{D_{n+1} \geq c\}$ is nondecreasing in $n$. Hence, by MCT the limit exists and is denoted by $\Pr\{D_{\infty} \geq c\}=\lim_{n \in \N}\Pr\{D_{n} \geq c\}$. Therefore, by continuity of probability, we have from~\eqref{GIGI1_prop_eqn}, that
 \begin{align}
-\label{SnBound}
-\left\{\frac{S_n}{n} \geq \mu+\epsilon \right\} &\subseteq \left\{ \frac{e^{t_0S_n}}{\psi(t_0)^n} \geq { g(t_0)}^n \right\}
+\label{random_walk_gigi1}
+\Pr\{D_{\infty} \geq c\} &= \Pr\{S_n \geq c \text{ for some }n\}.
 \end{align}
-However, $\frac{e^{t_0S_n}}{\psi^n(t_0)}$ is a product of independent non negative random variables with unit mean, and hence is a martingale. 
-By martingale convergence theorem, we have 
-\begin{align*}
-\lim_{n \in \N } \frac{e^{t_0S_n}}{\psi^n(t_0)} ~\text{ exists and is finite}.
-\end{align*}
-Since $g(t_0) >1$, it follows from~\eqref{SnBound} that
-\begin{align*}
-\Pr\left\{\frac{S_n}{n} \geq \mu+\epsilon ~\text{for an infinite number of n} \right\} &= 0.
-\end{align*}
-Similarly, be defining the function $f(t)=e^{t(\mu-\epsilon)}/\psi(t)$ and noting that since $f(0)=1$, $f'(0)=-\epsilon$, there exists a value $t_0<0$ such that $f(t_0)>1$, we can prove in the same manner that
-\begin{align*}
-\Pr\left\{\frac{S_n}{n} \leq \mu-\epsilon ~\text{for an infinite number of n} \right\} &= 0.
-\end{align*}
-Hence, result follows from combining both these results, and taking limit of arbitrary $\epsilon$ decreasing to zero.
-%Hence
-%\begin{align*}
-%\Pr\left\{\mu-\epsilon < \frac{S_n}{n} < \mu+\epsilon ~\text{for all but a finite number of $n$} \right\} &=1,
-%\end{align*}
-%or, since the above is true for all $\epsilon>0$,
-%\begin{align*}
-%\Pr\left\{\lim_{n \in \N}\frac{S_n}{n} =\mu\right\} &= 1.
-%\end{align*}
+If $E[U_n]=E[Y_n]-E[X_{n+1}]$ is positive, then by strong law of large numbers the random walk $S_n$ will converge to positive infinity with probability 1. 
+The above will also be true when $E[U_n] = 0$, then the random walk is recurrent.
+%Hence,
+%\begin{equation*}
+%Pr(D_{\infty} \geq c) =1,~ \forall c ~\text{if}~ E[Y]>E[X].
+%\end{equation*}
 \end{proof}
+\begin{rem} Hence, we get that $E[Y_n]< E[X_{n+1}]$ implies the existence of a stationary distribution.
+\end{rem}
 
-\begin{defn}
-A sequence of random variables $\{X_n : n \in \N\}$ with distribution functions $\{F_n: n \in \N \}$, is said to be \textbf{uniformly integrable} if for every $\epsilon>0$, there is a $y_\epsilon$ such that
+\begin{prop}[Spitzer's Identity] Let $M_n=\max\{0,S_1,S_2, \ldots, S_n\}$ for $n \in \N$, then %We have the following proposition.
 \begin{align*}
-\int_{|x|>y_\epsilon}|x|dF_{n}(x) < \epsilon ~\forall n \in \N.
-\end{align*}
-\end{defn}
-\begin{lem}
-If $\{X_n : n \in \N\}$ is uniformly integrable then there exists finite $M$ such that $\E[|X_n|]<M$ for all $n \in \N$.
-\end{lem}
-\begin{proof}
-Let $y_1$ be as in the definition of uniform integrability. Then
-\begin{align*}
-E[|X_n|]&=\int_{|x|\leq y_1}|x|dF_n(x)+\int_{|x|>y_1}|x|dF_n(x) \leq y_1+1.
-\end{align*}
-\end{proof}
-
-\subsection{Generalized Azuma Inequality}
-\begin{prop}
-Let $\{X_n : n \in \N \}$ be a martingale with mean $X_0=0$, such that
-\begin{align*}
--\alpha \leq X_n-X_{n-1} \leq \beta~ \forall ~n \in \N.
-\end{align*}
-Then, for any positive values $a$ and $b$
-\begin{align*}
-\label{GenAzumaLemma}
-\Pr\{X_n \geq a+bn ~ \text{for some }n\} \leq \exp\left(-\frac{8ab}{({\alpha+\beta})^2}\right).
+\E M_n &= \sum_{k=1}^{n} \frac{1}{k} \E S_k^+.
 \end{align*}
 \end{prop}
 \begin{proof}
-For $n \geq 0$, we define 
+We can decompose $M_n$ as 
+\begin{equation*}
+M_n=1_{\{S_n>0\}}M_n+1_{\{S_n \leq 0\}}M_n.
+\end{equation*}
+We can rewrite first term in decomposition as, 
+\begin{equation*}
+1_{\{S_n>0\}}M_n= 1_{\{S_n>0\}}\max_{i \in [n]}S_i = 1_{\{S_n>0\}}(X_1+\max\{0,S_2 - S_1,\ldots, S_n - S_1\})
+\end{equation*}
+%By exchangeability, the joint distribution of $(X_1, \ldots, X_n)$ and $(X_n,X_1, \ldots, X_{n-1})$ are same.
+Hence, taking expectation and using exchangeability, we get 
 \begin{align*}
-W_n = \exp\{c(X_n-a-bn)\} = W_{n-1}e^{-cb}\exp\{c(X_n-X_{n-1})\}.
+%\label{sptiz_1}
+\E1_{\{S_n>0\}}M_n &= %\E 1_{\{S_n>0\}} X_1 + \E 1_{\{S_n>0\}} \max\{0,S_1,\ldots, S_{n-1}\} =   
+\E 1_{\{S_n>0\}} X_1 + \E1_{\{S_n>0\}}M_{n-1} .
 \end{align*}
-Since exponential is an invertible function, $\sigma(W_i, i \in [n]) = \sigma(X_i, i \in [n])$, and hence 
-%Using the fact that knowledge of $W_1,W_2, \hdots W_{n-1}$ is equivalent to that of $X_1,X_2, \ldots, X_{n-1}$, we obtain that 
+%By exchangeability, the joint distribution of $(X_1, \ldots, X_n)$ and $(X_n,X_1, \ldots, X_{n-1})$ are the same. 
+%\begin{equation}
+%\label{sptiz_2}
+% E[ 1_{\{S_n>0\}} \max\{0,X_2,\hdots X_2+\hdots +X_n\}]=E[1_{\{S_n >0\}}M_{n-1}].
+%\end{equation}
+Since $X_i,S_n$ has the same joint distribution for all $i$,
 \begin{align*}
-\E[W_n|W_1 \hdots W_{n-1}]&=W_{n-1}e^{-cb}\E[\exp\{c(X_n-X_{n-1})\}|X_1 \hdots X_{n-1}].
+\E S_n^+ &= \E[S_n1_{\{S_n>0\}}]=\E\sum_{i=1}^{n}X_i 1_{\{S_n>0\}}]=n\E[X_11_{\{S_n>0\}}].
 \end{align*}
-Using Jensen's inequality for convex function $f(x) = e^x$, we obtain
+%Hence,
+%\begin{equation}
+%\label{sptiz_3}
+%\E[X_11_{\{S_n>0\}}]=\frac{1}{n}\E[S_n 1_{\{S_n>0\}}] =\frac{1}{n}\E[S_n^+].
+%\end{equation}
+%From equations \ref{sptiz_1}, ~\ref{sptiz_2}, ~ \ref{sptiz_3}, we have that
+Therefore, it follows that
 \begin{align*}
-\E[\exp\{c(X_n-X_{n-1})\}|X_1 \hdots X_{n-1}]
-&{\leq} W_{n-1}e^{-cb}\frac{\beta e^{-c\alpha} + \alpha e^{c\beta}}{\alpha+\beta} {\leq} W_{n-1}e^{-cb}e^{c^2{(\alpha+\beta)}^2/8}.
+\E[1_{\{S_n>0\}}M_n] &=\E[1_{\{S_n>0\}}M_{n-1}]+\frac{1}{n}\E[S_n^+].
 \end{align*}
-where second inequality follows from with $\theta=\alpha/(\alpha+\beta),~x=c(\alpha+\beta)$. 
-Hence, fixing the value of $c$ as $c=8b/{(\alpha+\beta)}^2$ yields 
-\begin{align}
-E[W_n|W_1, \hdots W_{n-1}] \leq W_{n-1},
-\end{align}
-and so $\{W_n: n \in \N_0\}$ is a supermartingale. 
-For a fixed positive integer $k$, define the bounded stopping time $N$ by 
+Also, $S_n \leq 0$ implies that $M_n=M_{n-1}$, it follows that
 \begin{align*}
-N= \min\{n: ~\text{either}~ X_n \geq a+bn ~ \text{or}~ n=k \}.
-\end{align*} 
-Now, using Markov inequality and optional stopping theorem, we get
-\begin{align*}
-\Pr\{X_N \geq a+bN\}&= \Pr\{W_N \geq 1\} \leq \E[W_N] \leq \E[W_0].
+1_{\{S_n\leq 0\}}M_n=1_{\{S_n\leq 0\}}M_{n-1}.
 \end{align*}
-But the above inequality is equivalent to
+Thus, we obtain the following recursion,
 \begin{align*}
-\Pr\{X_n \geq a+bn ~ \text{for some}~ n \leq k\} \leq e^{-8ab/{(\alpha+\beta)}^2}.
+\E[M_n]&=\E[M_{n-1}]+\frac{1}{n}\E[S_n^+].
 \end{align*}
-Letting $k \rightarrow \infty$ gives the result.
+Result follow from the fact that $M_1 =S_1^+$.
+%Upon recursion, we get
+% \begin{equation*}
+%\E[M_n]= \sum_{k=2}^{n} \frac{1}{k} \E[S_k^+]+\E[M_1].
+%\end{equation*}
 \end{proof}
-\begin{thm}[Generalized Azuma Inequality] Let $\{X_n : n \in \N_0\}$ be a martingale with mean $X_0=0$, such that $-\alpha \leq X_n-X_{n-1} \leq \beta $ for all $n \in \N$. 
-Then, for any positive constant $c$ and integer $m$:
-\begin{align*}
-\Pr\{X_n \geq nc\text{ for some }n \geq m\} &\leq \exp\left(-2mc^2/{(\alpha+\beta)}^2\right),\\
-\Pr\{X_n \leq -nc\text{ for some }n \geq m\} &\leq \exp\left(-2mc^2/{(\alpha+\beta)}^2\right).
-\end{align*}
-\end{thm}
+\begin{rem} Since $D_{n+1} = M_n$, we have 
+%From Proposition \ref{prop_gigi1}, with $M_n=\max\{0,S_1,\hdots S_n\}$
+% \begin{equation*}
+%Pr(D_{n+1} \geq c) = Pr(M_n \geq c).
+%\end{equation*}
+%Hence,
+ %\begin{align*}
+$\E[D_{n+1}] =\E[M_n] = \sum_{k=1}^{n} \frac{1}{k}E[S_k^+]$.
+%\end{align*}
+%From Spitzer's identity we see that
+% \begin{equation*}
+%E[D_{n+1}]= \sum_{k=1}^{n} \frac{1}{k}E[S_k^+].
+%\end{equation*}
+\end{rem}
+\section{Martingales for Random Walks}
+%Let
+%\begin{align*}S_n = \sum_{k=1}^n X_k \quad n \geq 1\end{align*}
+%denote a random walk. Then we have the following results.
+\begin{prop}
+A random walk $S_n$ with step size $X_n \in [-M,M]\cap \Z$ for some finite $M$ is a recurrent DTMC iff $\E X = 0$.
+\end{prop}
 \begin{proof}
-Observe that if there is an $n$ such that $n \geq m$ and $X_n \geq nc$ then for that $n, X_n \geq nc \geq mc/2+nc/2$. 
-Using this fact and previous proposition for $a = mc/2$ and $b = c/2$, we get
+If $\E X \neq 0$, the random walk is clearly transient since, it will diverge to $\pm \infty$ depending on the sign of $\E X$. 
+Conversely, if $\E X =0$, then $S_n$ is a martingale. 
+Assume that the process starts in state $i$. 
+We define
+\begin{xalignat*}{3}
+&A = \{-M, -M+1,\cdots,-2,-1\}, &&A_j = j + [M], ~j > i.
+\end{xalignat*}
+%\begin{align*}A_j = \{j, j+1,\cdots,j+M\}\end{align*}
+Let $N$ denote the hitting time to $A$ or $A_j$ by random walk $S_n$. 
+Since $N$ is a stopping time, by optional stopping theorem, we have
 \begin{align*}
-\Pr\{X_n \geq nc\text{ for some }n \geq m\} &\leq \Pr\{X_n \geq mc/2+(c/2)n~ \text{for some} ~ n\}\leq \exp\left\{-\frac{8(mc/2)(c/2)}{(\alpha+\beta)^2}\right\}.
+\E_i[S_N] =\E_i[S_0] = i.
 \end{align*}
-%where the last inequality follows from Proposition \ref{GenAzumaLemma}. 
-This proves first inequality, and second inequality follows by considering the martingale $\{-X_n: n \in \N_0\}$.
+Thus we have
+\begin{align*}
+i &= \E_i[S_N] %= \E_i[S_N|S_N \in A]\Pr\{S_N \in A\} + \E_i[S_N|S_N \in A_i]\Pr\{S_N \in A_j]\\
+\geq -M\P_i\{S_N \in A\} + j(1-\P_i\{S_N \in A_j\}). 
+\end{align*}
+Rearranging this, we get a bound on probability of random walk $S_n$ hitting $A$ over $A_j$ as 
+\begin{align*}
+\P_i\{S_n \in A \text{ for some } n\} \geq \P_i\{S_N \in A\} \geq \frac{j-i}{j+M}.
+\end{align*}
+%Thus we have 
+%\begin{align*}P[\mbox{process ever enters }A] \geq P[S_N \in A] \geq \frac{j-i}{j+M}\end{align*}
+Taking limit $j \to \infty$, we see that for any $i \geq 0$, we have 
+%\begin{align*}
+$\P_i\{S_n \in A \text{ for some }n \} = 1$.
+%\end{align*}
+Similarly, taking $B = \{1,2,\cdots, M\}$, we can show that for any $i \geq 0$, 
+%\begin{align*}
+$\P_i\{S_n \in B \text{ for some }n \} = 1.$
+%\end{align*}
+Result follows from combining the above two arguments to see that for any $i \geq 0$,
+\begin{align*}
+\P_i\{S_n \in A\cup B \text{ for some } n\} = 1.
+\end{align*}
 \end{proof}
+\begin{prop} Consider a random walk $S_n$ with mean step size $\E[X] \neq 0$. 
+For $A,B > 0$, let $P_A$ denote the probability that the walk hits a value greater than $A$ before it hits a value less than $-B$. Then, 
+\begin{align*}
+P_A \approx \frac{1-e^{-\theta B}}{e^{\theta A}-e^{\theta B}}.
+\end{align*}
+Approximation is an equality when step size is unity and $A$ and $B$ are integer valued.
+\end{prop}
+\begin{proof}
+Now  For $A,B > 0$, we wish to compute the probability $P_A$ that the walk hits at least $A$ before it hits a value $\leq -B$. Let $\theta \neq 0$ s.t
+\begin{align*}E[e^{\theta X}] = 1\end{align*}
+Now let $Z_n = e^{\theta S_n}$. We can see that $Z_n$ is a martingale with mean 1. Define $N$ as
+\begin{align*}N = \min \{S_n \geq A \mbox{ or } S_n \leq -B\}\end{align*}
+From Doob's Theorem, $E[e^{S_N}] = 1$. Thus we get
+\begin{align*} 1 = E[e^{\theta S_N}|S_N \geq A]P_A + E[e^{\theta S_N}|S_N \leq -B](1-P_A)\end{align*}
 
+We can obtain an approximation for $P_A$ byneglecting the overshoots past $A$ or $-B$. Thus we get
+\begin{flalign*}
+E[e^{\theta S_N}|S_N\geq A] &\approx e^{\theta A} \\
+E[e^{\theta S_N}|S_N\leq -B] &\approx e^{-\theta B} \\
+\end{flalign*}
+Hence we get, 
+\end{proof}
+As an assignment, show that 
+\begin{align*}E[N] \approx \frac{AP_A - B(1-P_A)}{E[X]}\end{align*}
+
+\begin{exmp}\textbf{Gambler Ruin}
+Consider a simple random walk with probability of increment = $p$. As an exercise, show that $E\left[(q/p)^X\right] = 1$ and thus $e^\theta = q/p$. If $A$ and $B$ are integers, then there is no overshoot and hence, our approximations are exact. Thus
+\begin{align*}P_A = \frac{(q/p)^B - 1}{(q/p)^{A+B} -1}\end{align*}
+ Suppose $E[X]<0$ and we wish to know if the random walk ever crosses $A$. Then
+\begin{flalign*}
+1 &= E[e^{\theta S_N}|S_N\geq A]P[\mbox{process crossed $A$ before $-B$}] \\
+&+ E[e^{\theta S_N}|S_N\leq -B]P[\mbox{process crossed $-B$ before $A$}]
+\end{flalign*}
+Now $E[X]<0$ implies $\theta > 0$ (Why?). Hence we have
+\begin{align*}1 \geq e^{\theta A} P[\mbox{process crossed $A$ before $-B$}]\end{align*}
+Taking $B$ to $\infty$ yields
+\begin{align*}P[\mbox{Random walk ever crosses A}] \leq e^{-\theta A}\end{align*}
+
+\end{exmp}
+\section{Application to G/G/1 Queues and Ruin}
+\subsection{The G/G/1 Queue}
+For the G/G/1 queue, the limiting distribution of delay is
+\begin{align*}P[D_\infty \geq A] = P[S_n \geq A \mbox{ for some } n]\end{align*}
+where 
+\begin{align*}S_n = \sum_{k=1}^n U_k, \quad U_k = Y_k-X_{k+1} \end{align*}
+Here $Y_i$ is the service time of the ith customer and $X_i$ is the interarrival duration between customer $i-1$ and customer $i$.
+Thus when $E[U] = E[Y] - E[X] < 0$, letting $\theta > 0$ such that
+\begin{align*}E[e^{\theta U}] = E[e^{\theta(Y-X)}] = 1\end{align*}
+We get
+\begin{align*}P[D_\infty \geq A] \leq e^{-\theta A}\end{align*} 
+
+Now the exact distribution of $D_\infty$ can be calculated when services are exponential. Hence assume $Y_i \sim exp(\mu)$. Once again,
+\begin{flalign*}
+1 &= E[e^{\theta S_N}|S_N\geq A]P[S_n\mbox{ crossed $A$ before $-B$}] \\
+&+ E[e^{\theta S_N}|S_N\leq -B]P[S_n\mbox{ crossed $-B$ before $A$}]
+\end{flalign*}
+Let us compute $E[e^{\theta S_N}|S_N \geq A]$ first. Let us condition this on $N=n$ and $X_{n+1} - \sum_{i=1}^{n-1} (Y_i - X_{i+1}) = c$. By the memoryless property, the conditional distribution of $Y_n$ given $Y_n > c+A$ is just $c+A$ plus an exponential with rate $\mu$. Thus we get
+\begin{flalign*}
+E[e^{\theta S_N}|S_N \geq A] &= E[e^{\theta(A+Y)}] \\
+&=\frac{\mu e^{\theta A}}{\mu - \theta}
+\end{flalign*}
+Now substituting back, we get
+\begin{flalign*}
+1 &= \frac{\mu e^{\theta A}}{\mu - \theta}P[S_n\mbox{ crossed $A$ before $-B$}] \\
+&+ E[e^{\theta S_N}|S_N\leq -B]P[S_n\mbox{ crossed $-B$ before $A$}]
+\end{flalign*}
+Now as $\theta > 0$, let $B\to \infty$ to get
+\begin{align*}1 = \frac{\mu e^{\theta A}}{\mu - \theta} P[S_n \mbox{ ever crosses }A]\end{align*}
+And hence
+\begin{align*}P[D_\infty \geq A] = \frac{\mu - \theta}{\mu}e^{-\theta A}\end{align*}
+
+\subsection{A Ruin Problem}
+Suppose claims made to an insurance company follow a renewal process with iid interarrival times $\{X_i\}$. Let the values of the claims also be iid and independent of the renewal process $N(t)$ of their occurence. Let $Y_i$ be the ith claim value. Thus the total value of claims till time $t$ is $\sum_{k=1}^{N(t)}Y_i$. Now let us suppose the insurance company receives money at constant rate $c$ per unit time, $c>0$. We wish to compute the probability of the insurance company, starting with capital $A$, will eventually be wiped out or \textbf{ruined}. Thus we require
+\begin{align*}p = P\left\{ \sum_{k=1}^{N(t)}Y_i > ct + A \mbox{ for some } t\geq 0\right\}\end{align*}
+As an assignment, show that the company will be ruined if $E[Y] \geq cE[X]$. So let us assume that $E[Y] < cE[X]$. Also the ruin occurs when a claim is made. After the $n$th claim, the company's fortune is
+\begin{align*}A + c\sum_{k=1}^n X_k -\sum_{k=1}^n Y_k \end{align*}
+Letting $S_n = \sum_{k=1}^n Y_i - cX_i$ and $p(A) = P[S_n > A \mbox{ for some }n]$. As $S_n$ is a random walk, we see that 
+\begin{align*}p(A) = P[D_\infty > A]\end{align*}
+
+Now the results from the G/G/1 queue apply.
+
+\section{Blackwell Theorem on the Line}
+Let $S_n$ denote a random walk where $0<\mu=E[X] < \infty$. Let 
+\begin{align*}U(t)=\#\{n: S_n \leq t\} = \sum_{n=1}^\infty I_n\end{align*}
+Where $I_n=1$ if $S_n \leq t$ and zero else. Observe that if $X_n$ are nonnegative, then $U(t) = N(t)$. Let $u(t) = E[U(t)]$. Now we prove an analog of Blackwell Renewal Theorem. 
+
+\begin{thm}
+\textbf{(Blackwell renewal theorem)} If $\mu > 0$ and $X_i$ are not lattice, then
+\begin{align*}u(t+a) - u(t) \to a/\mu \quad t\to \infty \quad \mbox{for }a>0\end{align*}
+\end{thm}
+Let us define a few concepts. We say an \textbf{ascending ladder variable of ladder height $S_n$} occurs at time $n$ when
+\begin{align*}S_n > \max(S_0,S_1,\cdots, S_{n-1})\end{align*}
+where $S_0 = 0$. We may deduce that since $X_i$ are iid random variables, then the random variables $(N_i,S_{N_i}-S_{N_{i-1}})$ are iid; where $N_i$ denotes the time between the $(i-1)$th and ith random variable. We may analogously define descending ladder variables. Now let $p(p_*)$ denote the probability of ever achieving an ascending/descending ladder variable.
+\begin{align*}p = P\{S_n > 0 \mbox{ for some }n\},\quad p_* = P\{S_n < 0 \mbox{ for some }n\}\end{align*}
+At each ascension/descension there is a probability $p$ (resp $p_*$) of achieving another one. Hence the number of ascensions/descensions is geometrically distributed. The number of ascending ladder variables (ascensions) will have finite mean iff $p < 1$. Now as $E[X] > 0$, by SLLN, we deduce that $w.p.1$, there will be infinitely many ascending ladder variables but finitely many descending ones. That is $p =1$ and $p_* < 1$.
+
+\begin{proof}
+The successive ascending ladder heights are a renewal process. Let $Y(t)$ be the excess time. Now given the value of $Y(t)$, the distribution of $U(t+a) - U(t)$ is independent of $t$. (Why?). Hence let us denote
+\begin{align*}E[U(t+a) - U(t)|Y(t)] = g(Y(t))\end{align*}
+for some function $g$. Now taking expectations yields
+\begin{align*}u(t+a) - u(t) = E[g(Y(t))]\end{align*}
+
+Now since $Y(t) \to^d Y_\infty$ where $Y_\infty$ has the equilibrium distribution, we have $E[g(Y(t))] \to E[g(Y_\infty)]$. The result would be true if we show $g$ is continuous and bounded. We leave that as an exercise. For now, we deduce that the limit exists. Let
+\begin{align*}h(a) = \lim_{t \to \infty}u(t+a) - u(t)\end{align*}
+This also implies $h(a+b) = h(a) + h(b)$. Thus for some constant $c$, 
+\begin{align*}h(a) = ca\end{align*}
+
+Now to get $c$, let $N_t$ denote the first $n$ for which $S_n > t$. If $X_i$ are upper bounded by $M$, then
+\begin{align*}t < \sum_{i=1}^{N_t} X_i \leq t+M\end{align*}
+Taking expectations, and using Wald's Lemma, yields
+\begin{align*}t < E[N_t]\mu \leq t+M\end{align*}
+Thus 
+\begin{align*}\frac{E[N_t]}{t} \to \frac{1}{\mu}\end{align*}
+If $X_i$ are unbounded, use the truncation arguments done while proving Elementary renewal theorem. Now $U(t)$ can be expressed as
+\begin{align*}U(t) = N_t -1 +N_t^*\end{align*}
+where $N_t^*$ is the number of times $S_n \leq t$ after having crossed $t$. Since $N_t^*$ is not greater than the number of points occuring after $N_t$ when the random walk is less than $S_{N_t}$, we get
+\begin{align*}E[N_t^*] \leq E[\mbox{number of $n$ such that $S_n < 0$}]\end{align*}
+
+Hence if we argue that RHS of above is finite, then
+\begin{align*}\frac{u(t)}{t} \to \frac{1}{\mu}\end{align*}
+
+From the first proposition in Random walks, we have $E[N] <\infty$ where $N$ is the first value of $n$ for which $S_n > 0$. At time $N$, with positive probability $1-p^*$, no future value of random walk will fall below $S_N$. Thus,
+\begin{align*}E[\mbox{number of $n$ where $S_n < 0$}] \leq \frac{E[N|X_1<0]}{1-p^*} < \infty\end{align*}
+
+Now follow the steps illustrated in the Blackwell renewal theorem (original) proof to arrive at the desired result.
+
+\end{proof}
 \end{document}
