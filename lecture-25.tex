@@ -190,9 +190,10 @@ This implies $X>-\infty$ almost surely, completing the proof.
 
 \section{Exchangeability}
 %\begin{defn} 
-Let $X_i$ belong to probability space $(S, \mathcal{S}, \mu)$. Consider the probability space $(\Omega, \F, P)$  for process $\{X_i: i \in \N\}$ where 
+Let $X_i$ belong to probability space $(S_i, \mathcal{S}_i, \mu_i)$. 
+Consider the probability space $(\Omega, \F, P)$  for process $\{X_i: i \in \N\}$ where 
 \begin{xalignat*}{5}
-&\Omega = \prod_{i \in \N} S, &&\mathcal{F} = \prod_{i \in \N}\mathcal{S},&&P = \prod_{i \in \N}\mu.
+&\Omega = \prod_{i \in \N} S_i, && \F = \prod_{i \in \N}\mathcal{S}_i,&&P = \prod_{i \in \N}\mu_i.
 \end{xalignat*}
 %We define $X_n(\omega) = \omega_n$
 %\end{defn}
@@ -216,6 +217,7 @@ A sequence $X$ of random variables is called \textbf{exchangeable} if for each $
 %\begin{defn}
 %$X_1, \hdots ,X_n$ is exchangeable if $X_{i_1}, \hdots X_{i_n}$ has the same joint distribution for all permutations $(i_1,i_2 \hdots i_n)$ of $(1, \hdots ,n)$. The infinite sequence of random variables $X_1, X_2 \hdots$ is said to be exchangeable if every finite subsequence $X_1, \hdots ,X_n$ is exchangeable.
 %\end{defn}
+\begin{shaded*}
 \begin{exmp}
 Suppose balls are selected randomly, without replacement, from an urn consisting of $n$ balls of which $k$ are white. For $i \in [n]$, let
 \begin{align*}
@@ -243,11 +245,23 @@ Let $\Lambda$ denote a random variable having distribution $G$. Let $X$ be a seq
 \end{align*}
 which is symmetric in $(x_1, \ldots x_n)$. %The are not independent.
 \end{exmp}
+\end{shaded*}
 
 \begin{thm}[de Finetti's Theorem] 
 If $X$ is an exchangeable sequence of random variables then conditioned on $\sE$, the sequence $X$ is \textit{iid}. 
 \end{thm}
-\begin{proof} Let $I_{n,k} = \{i \subseteq [n]^k: i_j \text{ distinct}\}$. 
+\begin{proof} 
+To show the independence of exchangeable sequence $X$ of random variables, conditioned on $\sE$, 
+we need to show that for bounded functions $f_i: \R \to \R$
+\eq{
+\E[\prod_{i=1}^kf_i(X_i)|\sE] &= \prod_{i=1}^k\E[f_i(X_i)|\sE].
+}
+Using induction, it suffices to show that for any two bounded functions $f: \R^{k-1} \to \R$ and $g: \R \to \R$, we have 
+\eq{
+\E[f(X_1, \dots, X_{k-1})g(X_k)|\sE] &= E[f(X_1, \dots, X_{k-1})|\sE]\E[g(X_k)|\sE].
+}
+
+Let $I_{n,k} = \{i \subseteq [n]^k: i_j \text{ distinct}\}$. 
 Then, for a function $\phi: \R^k \to \R$, we can define
 \begin{align*}
 A_n(\phi) &= \frac{1}{(n)_k}\sum_{i \in I_{n,k}}\phi(X_{i_1}, X_{i_2}, \ldots, X_{i_k}),
@@ -272,11 +286,11 @@ Dividing both sides by $(n)_k$ and rearranging terms, we get
 A_n(\phi)& = \frac{n}{n-k+1}A_n(f)A_n(g) - \frac{1}{n-k+1}\sum_{j=1}^kA_n(\phi_j),\\
 %\lim_{n\in \N}\E[f(X_1,\ldots, X_{k-1})g(X_k)| \sE_n] &= \lim_{n \in \N} \E[f(X_1,\ldots, X_{k-1})| \sE_n] \E[g(X_k)| \sE_n] 
 \end{align*}
-Taking limits on both sides, we obtain
+Taking limits on both sides, we obtain the result
 \eq{
 \E[f(X_1,\dots, X_{k-1})g(X_k)|\sE] &= \E[f(X_1, \dots, X_{k-1})|\sE]\E[g(X_k)|\sE].
 }
-Theorem follows by induction.
+%Theorem follows by induction.
 \end{proof}
 %\begin{thm}[de Finetti's Theorem] Every infinite sequence $X$ of random variables taking values either $0$ or $1$, there corresponds a probability distribution $G$ on $[0,1]$ such that, for all $0 \leq k \leq n$,
 %\begin{equation*}
@@ -296,7 +310,12 @@ Theorem follows by induction.
 %E[Y_{\infty}^k(1-Y_{\infty})^{n-k}] = \int_0^1 \lambda^k(1-\lambda)^{n-k}dG(\lambda).
 %\end{equation*} 
 %\end{proof}
-
+\begin{cor}[De Finetti 1931]
+A binary sequence $X = \{X_n: n \in \N\}$ is exchageable iff there exists a distribution function $F(p)$ on $[0,1]$ such that for any $n \in \N$, and $S_n=\sum_i x_i$
+\eq{
+\Pr\{X_1=x_1,\dots,X_n=x_n\}=\int_0^1 p^{S_n}(1-p)^{n-S_n}dF(p). 
+}
+\end{cor}
 
 
 \end{document}
