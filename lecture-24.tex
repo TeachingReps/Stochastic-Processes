@@ -7,43 +7,217 @@
 \author{}
 \begin{document}
 \maketitle
-\section{Random Walk}
-\begin{defn} Let $\{X_i: i \in \N\}$ be \textit{iid} random variables with finite $\E[|X_1|]$. Let
-\begin{align*}
-S_n &= \sum_{k=1}^n X_i, ~~n \in \N_0.
-\end{align*}
-Then the process $\{S_n: n \in \N_0\}$ is called a \textbf{random walk}. 
-\end{defn}
-\begin{defn} A random walk is called a \textbf{simple random walk} if
-\begin{align*}
-\Pr\{X_1 = 1\} &= 1- \Pr\{X_1 = -1\}.
-\end{align*}
-\end{defn}
-\begin{rem} A simple random walk has the interpretation of the winnings of a gambler who plays a simple coin toss game and wins Rupee 1 if heads and loses Rupee 1 if tails. 
-\end{rem}
-\begin{rem} Random walks are useful in analyzing GI/GI/1 Queues, Ruin systems and even stock prices.
-\end{rem}
 
-\begin{defn} Let $X_i$ belong to probability space $(S, \mathcal{S}, \mu)$. Consider the probability space $(\Omega, \F, P)$  for process $\{X_i: i \in \N\}$ where 
+\section{Martingale Convergence Theorem}
+Before we state and prove martingale convergence theorem, we state some results which will be used in the proof of the theorem.
+\begin{lem}
+\label{StoppingTimeBound}
+If $\{X_i:  i \in \N \}$ is  a submartingale and $T$ is a stopping time such that $\Pr\{T \leq n\}=1$ then
+\begin{align*}
+ \E X_1 \leq \E X_T \leq \E X_n.
+\end{align*}
+\end{lem}
+\begin{proof}
+Since $T$ is bounded, it follows from Martingale stopping theorem, that $\E X_T  \geq \E X_1$. 
+Now, since $T$ is a stopping time, we see that for $\{T = k\}$
+\begin{align*}
+\E[X_n1\{T = k\}|\F_T,T=k]&= %\E[Z_n1\{T = k\}|\F_k,T=k] = 
+\E[X_n1\{T = k\}|\F_k] \geq X_k1\{T = k \} = X_T1\{T = k\}.
+\end{align*}
+%where $(a)$ follows from the fact that $N$ is  a stopping time. 
+Result follows by taking expectation on both sides and summing over $k$. 
+That is,
+\eq{
+\E X_n &= \E\sum_{k=1}^n X_n1\{T = k\} \geq \E\sum_{k=1}^nX_T1\{T=k\} = \E X_T.
+}
+\end{proof}
+
+\begin{lem}
+\label{ConvexFuncSubmart}
+If $X = \{X_n: n \in \N\}$ is a martingale with respect to a filtration $\{\F_n: n \in \N\}$ and $f$ is a convex function, 
+then $\{f(X_n): n \in \N\}$ is a sub martigale with respect to the same filtration.
+\end{lem}
+\begin{proof}
+The result is a direct consequence of Jensen's inequality.
+\begin{align*}
+\E[f(X_{n+1})|\F_n] &\geq f(\E[X_{n+1}|\F_n])=f(X_n).
+\end{align*}
+\end{proof}
+
+\begin{cor} 
+Let $a \in \R$ be a constant. 
+\begin{enumerate}[i\_]
+\item If $\{X_n : n \in \N\}$ is a submartingale, then so is $\{(X_n - a)_+: n \in \N\}$.  
+\item If $\{X_n : n \in \N\}$ is a supermartingale, then so is $\{X_n \wedge a: n \in \N\}$. 
+\end{enumerate}
+\end{cor}
+
+%\begin{con}
+Let $X = \{X_n : n\in \N_0\}$ be a submartingale. 
+Let $a< b$ and $N_0  = -1$, and for $k \in \N$, we define 
+\begin{xalignat*}{3}
+&N_{2k-1}=\inf\{m>N_{2k-2}:X_m\leq a \}, && N_{2k}=\inf\{m>N_{2k-1}:X_m\geq b \}.
+\end{xalignat*}
+The above quantities $N_{2k-1}$,$N_{2k}$ are stopping times and the set containing values of $m$ in the transition from $a$ to $b$ can be defined as
+\begin{align*}
+H_m &\triangleq \{N_{2k-1}<m\leq N_{2k} \}= %\{N_{2k-1} \leq m-1\} \cap \{m>N_{2k}\}^{c} = 
+\{m-1\geq N_{2k-1}\}\cap\{m-1\geq N_{2k}\}^{c} \in \F_{m-1}.		
+\end{align*}
+Clearly, the event of $X$ being in an up crossing at time $m$ is  predictable. 
+The number of up crossings completed in time $n$ is
+\eq{
+U_n &= \sum_{m=1}^nH_m = \sup\{k: n \geq N_{2k}\}.
+}
+%Since the above set depends on $\{m-1\}$ values instead of $\{m\}$ values, So
+%\begin{align*}
+%H_m=&1_{\{N_{2k-1}<m\leq  N_{2k}\}}\\
+%U_n=&\sup\{k:N_{2k}\leq n\}
+%\end{align*}
+%$H_m$ defines a predictable sequence and $U_n$ is the number of up crossings completed in time $n$.
+%\end{con}
+\begin{lem}[Upcrossing inequality]
+If $X$ is a submartingale, 
+then for $Y_n \triangleq a+ (X_n-a)^{+}$, we have 
+\begin{align*}
+(b-a)\E U_n\leq& \E Y_n-\E Y_0.
+%\text{where }Y_n&:=a+ (X_n-a)^{+}
+\end{align*}
+\end{lem}
+\begin{proof}
+Since $X$ is a submartingale so is $Y$, as $Y_n$ is a convex function of $X_n$. 
+Since each up crossing has a gain slightly more than $b-a$, the following inequality exists, 
+\begin{align*}
+(b-a)U_n\leq &(H\cdot Y)_n = \sum_{m=1}^{n}1_{\{N_{2k-1}<m\leq N_{2k}\}}(Y_{m+1}-Y_{m}) = \sum_{k=1}^{U_n}(Y_{N_{2k+1}}-Y_{N_{2k+1}}).
+\end{align*}
+Now let $K_m=1-H_m$, then $K$ is a predictable sequence, and
+\eq{
+Y_n-Y_0 &= (H\cdot Y)_n+(K\cdot Y)_n.
+}
+From the submartingale property of Y, it follows
+\eq{
+\E[(K\cdot Y)_n] &\geq \E[(K\cdot Y)_0]=0. 
+} 
+Therefore, it follows that 
+\eq{
+\E(Y_n - Y_0) &= \E(H\cdot Y)_n+\E(K\cdot Y)_n \geq \E(H\cdot Y)_n  \geq  (b-a)\E U_n.
+}
+\end{proof}
+
+\begin{thm}[Martingale convergence theorem] 
+\label{MartingaleConvergenceTheorem} 
+If $\{X_n : n \in \N\}$ is a submartingale with ${\sup}_{n\in \N} \E X_n^{+} < \infty$ then ${\lim}_{n\in \N} X_n=X$ a.s with $\E|X|<\infty$.
+\end{thm}
+\begin{proof} 
+Since $(X-a)^{+}\leq X^{+}+|a|$, it follows from upcrossing inequality that   		
+\begin{align*}
+\E U_n \leq& \frac{\E X_n^{+} +|a|}{b-a}.
+\end{align*}
+The number of upcrossings $U_n$ increases with $n$, however the mean $\E U_n$ is bounded above for each $n \in \N$. 
+Hence, $\lim_{n \in \N}\E U_n$ exists and is finite. 
+Let $U := \lim_{n \in \N} U_n$ and since $\E U \leq \E [X_n^{+}] < \infty$, we have $U<\infty$ almost surely. 
+This conclusion leads to  
+\eq{
+\Pr\{_{a,b \in \mathbb{Q}}{\cup}\{{\lim \inf}_{n\in \N}  X_n<a<b<{\lim \sup}_{n\in \N}  X_n \}\} = 0.
+}
+From the above probability, we have almost sure equality 
+\eq{
+{\lim \sup}_{n\in \N}  X_n &={\lim \inf}_{n\in \N}  X_n.
+}
+That is, the limit $\lim_{n \in \N}X_n$ exists almost surely. 
+Fatou's lemma guarantees
+\eq{
+\E X^{+} &\leq {\lim \inf}_{n\in \N}\E X_n^{+} <\infty,
+}
+which implies $X<\infty$  almost surely. 
+From the submartingale property of $X_n$, it follows that 
+\eq{
+\E X_n^{-} &=\E X_n^{+} -\E X_n \leq \E X_n^{+} -\E X_0.
+}
+%The above inequality comes from the submartingale property of $X_n$. 
+From Fatou's lemma, we get
+\eq{
+\E X^{-} \leq {\lim \inf} _{n\in \N}\E X_n^{-} \leq {\sup}_{n\in \N}\E X_n^{+} -\E X_0 < \infty.
+}
+This implies $X>-\infty$ almost surely, completing the proof. 
+\end{proof}
+
+%\begin{thm}[Martingale Convergence Theorem]
+%\label{MartingaleConvergenceTheorem}
+%If $\{Z_n,~n \geq 1\}$ is a martingale such that for some $M< \infty$
+%\begin{align*}
+%\E[|Z_n|] \leq M, ~ \text{for all}~ n
+%\end{align*}
+%then, with probability 1, $\lim_{n \rightarrow \infty}Z_n$ exists and is finite.
+%\end{thm}
+%\begin{proof}
+%Assume $\E[Z_n^2]< \infty$ which is stronger than $\E[|Z_n|]< \infty$ (as a consequence of %Jensen's inequality). Observe that $\{Z_n^2\}$ is a submartingale (from Lemma %\ref{ConvexFuncSubmart}). Thus $\E[Z_n^2]<\infty$ and is non-decreasing in $n$. Thus, as $n %\rightarrow \infty$, $\E[Z_n^2]$ converges and let $\mu<\infty$ be given by $\mu=\lim_{n %\rightarrow \infty}\E[Z_n^2]$.
+%\begin{equation}
+%\label{KolmoBound}
+%\Pr(\cup_{k \leq n} \{|Z_{m+k}-Z_m|> \epsilon\} )
+%\end{equation}  
+%\begin{align*}
+%&\stackrel{(a)}{\leq }\E[(Z_{m+n}-Z_m)^2]/\epsilon^2
+%&=\E[Z_{m+n}^2-2Z_mZ_{m+n}+Z_m^2]/\epsilon^2.
+%\end{align*}
+%Note that 
+%\begin{align*}
+%\E[Z_{m+n}Z_m]&=\E[\E[Z_mZ_{m+n}|Z_m]]\\
+%&=\E[Z_m\E[Z_{m+n}|Z_m]]\\
+%&=\E[Z_m^2].
+%\end{align*}
+%From \ref{KolmoBound}, 
+%\begin{align*}
+%\Pr(\cup_{k \leq n} \{|Z_{m+k}-Z_m|> \epsilon\}) \leq \frac{\E[Z_{m+n}^2]-\E[Z_m^2]}{\epsilon^2}.
+%\end{align*}
+%Letting $n \rightarrow \infty$
+%\begin{align*}
+%\Pr(\cup_{k \leq 1} \{|Z_{m+k}-Z_m|> \epsilon\}) \leq \frac{\mu-\E[Z_m^2]}{\epsilon^2}.
+%\end{align*}
+%Hence,
+%\begin{align*}
+%\Pr(\cup_{k \leq n} \{|Z_{m+k}-Z_m|> \epsilon\}) \rightarrow 0 ~\text{as}~ m \rightarrow \infty.
+%\end{align*}
+%Thus with probability 1, $\{Z_n\}$ will be  a Cauchy sequence, and thus $\lim_{n \rightarrow %\infty}Z_n$ will exist and be finite.`
+%\end{proof}
+%\begin{cor}
+%If $\{Z_n,~m \geq 0\}$ is a non-negative martingale, then, with probability 1, $\lim_{n %\rightarrow \infty}Z_n$ exists and is finite.
+%\end{cor}
+%\begin{proof}
+%Since $Z_n$ is non-negative,
+%\begin{align*}
+%\E[|Z_n|]=\E[Z_n]=\E[Z_1].
+%\end{align*}
+
+\section{Exchangeability}
+%\begin{defn} 
+Let $X_i$ belong to probability space $(S_i, \mathcal{S}_i, \mu_i)$. 
+Consider the probability space $(\Omega, \F, P)$  for process $\{X_i: i \in \N\}$ where 
 \begin{xalignat*}{5}
-&\Omega = \prod_{i \in \N} S, &&\mathcal{F} = \prod_{i \in \N}\mathcal{S},&&P = \prod_{i \in \N}\mu.
+&\Omega = \prod_{i \in \N} S_i, && \F = \prod_{i \in \N}\mathcal{S}_i,&&P = \prod_{i \in \N}\mu_i.
 \end{xalignat*}
 %We define $X_n(\omega) = \omega_n$
 %\end{defn}
 %\begin{defn} 
-A \textbf{finite permutation} of $\N$ is a map $\pi: \N \to \N$ such that $\pi(i) \neq i$ for only finitely many $i$.
-\end{defn}
-\begin{defn} For a finite permutation $\pi$, we define $(\pi \omega)_i = \omega_{\pi(i)}$ for all $i \in \N$.
-\end{defn}
-\begin{defn} An event $A$ is \textbf{permutable} if $A = \pi^{-1}A = \{\omega \in \Omega: \pi \omega \in A\}$ for any finite permutation $\pi$.
-\end{defn}
-\begin{defn} The collection of permutable events is a $\sigma$-field called the \textbf{exchangeable} $\sigma$-field and denoted by $\mathcal{E}$.
-\end{defn}
-\begin{defn} A sequence $X$ of random variables is called \textbf{exchangeable} if for each $n$ and permutation $\pi: [n] \to [n]$, joint distribution of $(X_1, X_2, \ldots, X_n)$ and $(X_{\pi(1)}, X_{\pi(2)}, \ldots, X_{\pi(n)})$ are same.
-\end{defn}
+A \textbf{finite permutation} of $\N$ is a bijective map $\pi: \N \to \N$ such that $\pi(i) \neq i$ for only finitely many $i$. 
+That is for a finite $A \subset \N$, $\pi(A) = A$ and $\pi(i) = i$ when $i \notin A$. 
+%\end{defn}
+%\begin{defn} 
+For a finite permutation $\pi$, we define $(\pi \omega)_i = \omega_{\pi(i)}$ for all $i \in \N$.
+%\end{defn}
+
+%\begin{defn} 
+An event $A$ is \textbf{permutable} if $A = \pi^{-1}A = \{\omega \in \Omega: \pi \omega \in A\}$ for any finite permutation $\pi$.
+%\end{defn}
+%\begin{defn} 
+The collection of permutable events is a $\sigma$-field called the \textbf{exchangeable} $\sigma$-field and denoted by $\sE$.
+%\end{defn}
+%\begin{defn} 
+A sequence $X$ of random variables is called \textbf{exchangeable} if for each $n$ and permutation $\pi: [n] \to [n]$, joint distribution of $(X_1, X_2, \ldots, X_n)$ and $(X_{\pi(1)}, X_{\pi(2)}, \ldots, X_{\pi(n)})$ are same.
+%\end{defn}
 %\begin{defn}
 %$X_1, \hdots ,X_n$ is exchangeable if $X_{i_1}, \hdots X_{i_n}$ has the same joint distribution for all permutations $(i_1,i_2 \hdots i_n)$ of $(1, \hdots ,n)$. The infinite sequence of random variables $X_1, X_2 \hdots$ is said to be exchangeable if every finite subsequence $X_1, \hdots ,X_n$ is exchangeable.
 %\end{defn}
+\begin{shaded*}
 \begin{exmp}
 Suppose balls are selected randomly, without replacement, from an urn consisting of $n$ balls of which $k$ are white. For $i \in [n]$, let
 \begin{align*}
@@ -71,20 +245,35 @@ Let $\Lambda$ denote a random variable having distribution $G$. Let $X$ be a seq
 \end{align*}
 which is symmetric in $(x_1, \ldots x_n)$. %The are not independent.
 \end{exmp}
-\begin{thm}[de Finetti's Theorem] If $X$ is an exchangeable sequence of random variables then conditioned on $\mathcal{E}$, each random variable $X_i$ in the sequence is iid.
+\end{shaded*}
+
+\begin{thm}[de Finetti's Theorem] 
+If $X$ is an exchangeable sequence of random variables then conditioned on $\sE$, the sequence $X$ is \textit{iid}. 
 \end{thm}
-\begin{proof} Let $I_{n,k} = \{i \subseteq [n]^k: i_j \text{ distinct}\}$. Then, for a function $\phi: \R^k \to \R$, we can define
+\begin{proof} 
+To show the independence of exchangeable sequence $X$ of random variables, conditioned on $\sE$, 
+we need to show that for bounded functions $f_i: \R \to \R$
+\eq{
+\E[\prod_{i=1}^kf_i(X_i)|\sE] &= \prod_{i=1}^k\E[f_i(X_i)|\sE].
+}
+Using induction, it suffices to show that for any two bounded functions $f: \R^{k-1} \to \R$ and $g: \R \to \R$, we have 
+\eq{
+\E[f(X_1, \dots, X_{k-1})g(X_k)|\sE] &= E[f(X_1, \dots, X_{k-1})|\sE]\E[g(X_k)|\sE].
+}
+
+Let $I_{n,k} = \{i \subseteq [n]^k: i_j \text{ distinct}\}$. 
+Then, for a function $\phi: \R^k \to \R$, we can define
 \begin{align*}
 A_n(\phi) &= \frac{1}{(n)_k}\sum_{i \in I_{n,k}}\phi(X_{i_1}, X_{i_2}, \ldots, X_{i_k}),
 \end{align*}
-where $(n)_k = n(n-1)\ldots(n-k+1)$. Clearly, $A_n(\phi) \in \mathcal{E}_n$ measurable and hence,
-$\E[A_n(\phi)|\mathcal{E}_n] = A_n(\phi)$. Since, $X$ is exchangeable, we have
+where $(n)_k = n(n-1)\ldots(n-k+1)$. Clearly, $A_n(\phi) \in \sE_n$ measurable and hence,
+$\E[A_n(\phi)|\sE_n] = A_n(\phi)$. Since, $X$ is exchangeable, we have
 \begin{align*}
-A_n(\phi) &= \frac{1}{(n)_k}\sum_{i \in I_{n,k}}\E[\phi(X_{i_1}, X_{i_2}, \ldots, X_{i_k})|\mathcal{E}_n] = \E[\phi(X_{1}, X_{2}, \ldots, X_{k})|\mathcal{E}_n].
+A_n(\phi) &= \frac{1}{(n)_k}\sum_{i \in I_{n,k}}\E[\phi(X_{i_1}, X_{i_2}, \ldots, X_{i_k})|\sE_n] = \E[\phi(X_{1}, X_{2}, \ldots, X_{k})|\sE_n].
 \end{align*}
-Since $\mathcal{E}_n \to \mathcal{E}$, we have 
+Since $\sE_n \to \sE$, we have 
 \begin{align*}
-\lim_{n \in \N} A_n(\phi) &= \lim_{n \in \N} \E[\phi(X_{1}, X_{2}, \ldots, X_{k})|\mathcal{E}_n] = \E[\phi(X_{1}, X_{2}, \ldots, X_{k})|\mathcal{E}] .
+\lim_{n \in \N} A_n(\phi) &= \lim_{n \in \N} \E[\phi(X_{1}, X_{2}, \ldots, X_{k})|\sE_n] = \E[\phi(X_{1}, X_{2}, \ldots, X_{k})|\sE] .
 \end{align*}
 Let $f$ and $g$ be bounded functions on $\R^{k-1}$ and $\R$ respectively, such that $\phi(x_1,\ldots,x_k) = f(x_1,\ldots,x_{k-1})g(x_k)$. We also define $\phi_j(x_1,\ldots,x_{k-1}) = f(x_1,\ldots,x_{k-1})g(x_j)$, to write 
 \begin{align*}
@@ -95,9 +284,13 @@ Let $f$ and $g$ be bounded functions on $\R^{k-1}$ and $\R$ respectively, such t
 Dividing both sides by $(n)_k$ and rearranging terms, we get
 \begin{align*}
 A_n(\phi)& = \frac{n}{n-k+1}A_n(f)A_n(g) - \frac{1}{n-k+1}\sum_{j=1}^kA_n(\phi_j),\\
-%\lim_{n\in \N}\E[f(X_1,\ldots, X_{k-1})g(X_k)| \mathcal{E}_n] &= \lim_{n \in \N} \E[f(X_1,\ldots, X_{k-1})| \mathcal{E}_n] \E[g(X_k)| \mathcal{E}_n] 
+%\lim_{n\in \N}\E[f(X_1,\ldots, X_{k-1})g(X_k)| \sE_n] &= \lim_{n \in \N} \E[f(X_1,\ldots, X_{k-1})| \sE_n] \E[g(X_k)| \sE_n] 
 \end{align*}
-Using above two results, theorem follows by induction.
+Taking limits on both sides, we obtain the result
+\eq{
+\E[f(X_1,\dots, X_{k-1})g(X_k)|\sE] &= \E[f(X_1, \dots, X_{k-1})|\sE]\E[g(X_k)|\sE].
+}
+%Theorem follows by induction.
 \end{proof}
 %\begin{thm}[de Finetti's Theorem] Every infinite sequence $X$ of random variables taking values either $0$ or $1$, there corresponds a probability distribution $G$ on $[0,1]$ such that, for all $0 \leq k \leq n$,
 %\begin{equation*}
@@ -117,7 +310,28 @@ Using above two results, theorem follows by induction.
 %E[Y_{\infty}^k(1-Y_{\infty})^{n-k}] = \int_0^1 \lambda^k(1-\lambda)^{n-k}dG(\lambda).
 %\end{equation*} 
 %\end{proof}
-
+\begin{cor}[De Finetti 1931]
+A binary sequence $X = \{X_n: n \in \N\}$ is exchageable iff there exists a distribution function $F(p)$ on $[0,1]$ such that for any $n \in \N$, and $S_n=\sum_i x_i$
+\eq{
+\Pr\{X_1=x_1,\dots,X_n=x_n\}=\int_0^1 p^{S_n}(1-p)^{n-S_n}dF(p). 
+}
+\end{cor}
 
 
 \end{document}
+
+\begin{defn} Let $\{X_i: i \in \N\}$ be \textit{iid} random variables with finite $\E[|X_1|]$. Let
+\begin{align*}
+S_n &= \sum_{k=1}^n X_i, ~~n \in \N_0.
+\end{align*}
+Then the process $\{S_n: n \in \N_0\}$ is called a \textbf{random walk}. 
+\end{defn}
+\begin{defn} A random walk is called a \textbf{simple random walk} if
+\begin{align*}
+\Pr\{X_1 = 1\} &= 1- \Pr\{X_1 = -1\}.
+\end{align*}
+\end{defn}
+\begin{rem} A simple random walk has the interpretation of the winnings of a gambler who plays a simple coin toss game and wins Rupee 1 if heads and loses Rupee 1 if tails. 
+\end{rem}
+\begin{rem} Random walks are useful in analyzing GI/GI/1 Queues, Ruin systems and even stock prices.
+\end{rem}
