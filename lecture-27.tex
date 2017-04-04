@@ -8,66 +8,144 @@
 \begin{document}
 \maketitle
 \section{Introduction}
+Let $X = \{X_n: n \in \N\}$ be a sequence of \textit{iid} random variables with $\E|X_n| < \infty$. 
+Let $S_0 = 0$ and $S_n = \sum_{i=1}^nX_i$. 
+Then the sequence $S = \{S_n: n \in \N_0\}$ is called a \textit{random walk process}. 
+\begin{shaded*}
+\begin{exmp}[Simple random walk] 
+Let $X_i \in \{-1,1\}$ and $\Pr\{X_i = 1\} = p$, then random walk $S$ is called a simple random walk. 
+\end{exmp}
+\begin{exmp}
+Stock prices each day can be modeled by a random walk. 
+\end{exmp}
+\end{shaded*}
+Random walks are generalizations of renewal processes. 
+If $X$ was a sequence of non-negative random variables indicating inter-renewal times, 
+then $S_n$ is the instant of the $n$th renewal event. 
 
-Essentially, if $X$ is an exchangeable sequence of random variables, then $(X_1,X_2,\cdots,X_n)$ has the same joint distribution as $(X_n, X_{n-1},\cdots, X_1)$. 
-In particular, an iid sequence of random variables is exchangeable. 
+\section{Duality in random walks}
+\begin{lem}[Duality principle] 
+For any finite $n \in \N$, the joint distributions of finite sequence $(X_1,X_2,\cdots,X_n)$ and the reversed sequence $(X_n, X_{n-1},\cdots, X_1)$ are identical.
+\end{lem}
+\begin{proof}
+Since $X$ is a sequence of \textit{iid} random variables, it is exchangeable. 
+The reversed sequence is $(X_{\pi(1)}, \dots, X_{\pi(n)})$ where $\pi: [n] \to [n]$ is permutation with $\pi(i) = n-i+1$. 
+\end{proof}
+ \begin{cor} 
+ Distribution of $S_k$ and $S_n - S_{n-k}$ are identical for any $k \in [n]$.  
+ \end{cor}
+ \begin{proof} 
+ Using duality principle, we can write the following equality for any $x \in \R, k \in [n]$
+ \eq{
+ \Pr\{S_k \leq x\} &= \Pr\{\sum_{i=1}^{k}X_i \leq x\} = \Pr\{\sum_{i=1}^{k}X_{n-i+1} \leq x\} =  \Pr\{\sum_{i=n-k+1}^{n}X_{i} \leq x\} = \Pr\{S_n - S_{n-k} \leq x\}.
+ }
+ \end{proof}
 %The first result we shall show that if $\E[X_1] >0 $ then the random walk will become positive in finite steps. 
 \begin{prop}
-Suppose $\{X_n: n \in \N\}$ is a sequence of iid random variables with positive mean. Let $S_n = \sum_{k=1}^n X_i$ be a random walk with step size $X_n$. If 
-\begin{align*}N = \min \{n \in \N : S_n > 0\}\end{align*}
-Then $\E[N] < \infty$.
+Suppose $\{X_n: n \in \N\}$ is a sequence of iid random variables with positive mean. 
+Let $S_n = \sum_{k=1}^n X_i$ be a random walk with step size $X_n$. If 
+%\begin{align*}
+$N = \min \{n \in \N : S_n > 0\}$, 
+%\end{align*}
+then $\E N < \infty$.
 \end{prop}
-\begin{proof} From duality principle we obtain that
-\begin{align*}
-\{N > n\} &= \{S_i \leq 0, i \in [n]\} = \left\{\sum_{k=0}^{i-1}X_{n-k} \leq 0, i \in [n]\right\} = \{S_n \leq S_{n-i}, i \in [n]\}.
-\end{align*}
-It follows that 
-\begin{align*} 
-\E[N] &= \sum_{n \in \N_0} \Pr\{N > n\}
-%&= \sum_{n=0}^\infty P[X_1 \leq 0, X_1+X_2 \leq 0, \cdots, X_1+X_2+\cdots+X_n \leq 0]  \label{Dual1}\\
-%&= \sum_{n=0}^\infty P[X_n \leq 0, X_n+X_{n-1} \leq 0, \cdots, X_n+X_{n-1}+\cdots+X_1 \leq 0] \label{Dual2}\\
-= \sum_{n \in \N_0} \Pr\{S_n \leq S_{n-i}, i \in [n]\}.
-\end{align*}
-%Where we used the duality principle to get (\ref{Dual2}). 
-We define the renewal instants to be when random walk hits a new low. (Why are these renewal instants?) 
-Hence, $n$ is a renewal instant after $0$ if $\{S_n \leq S_i: i \in [n]\}$. Hence, we have
-\begin{align*}
-\E[N] &= \sum_{n\in \N_0}\Pr\{\text{renewal happens at time } n\} = \sum_{n \in \N_0}\Pr\{\text{inter-renewal length} \geq n\}\\
-&= 1 + \E[\text{Number of renewals that occur}]
-\end{align*}
+\begin{proof} 
+%We can write the mean of stopping time $N$ as 
+%\begin{align*} 
+%\E N &= \sum_{n \in \N_0} \Pr\{N > n\} = \sum_{n \in \N_0} \Pr\{S_n \leq S_{n-i}, i \in [n]\}.
+%\end{align*}
+Consider a discrete process $\{T_k \in \N_0: k \in \N_0\}$, where $T_0 = 0$ and for each $k \in \N_0$
+\eq{
+T_{k+1} &= \inf\{n > T_{k} : S_n \leq S_{N_{k}}\} = N_{k} + \inf\{ n \in \N: S_{N_{k}+n} \leq S_{N_{k}}\}.
+}
+Since for any finite $n \in \N$, the distribution of $(X_1, \dots, X_n)$ is identical to that of $(X_{T_{k}+1}, \dots, X_{T_{k}+n})$, 
+and 
+\eq{
+T_{k+1} - T_{k} &= \inf\{n \in \N: \sum_{i=1}^{n}X_{T_{k}+i} \leq 0\}, 
+}
+we observe that $T_{k} - T_{k-1}$ are \textit{iid} for each $k \in \N$, with complementary distribution 
+\eq{
+\bar{F}(m) &= \Pr\{T_{k+1} - T_k > m\} = \Pr\{S_1 > 0, S_2 > 0, \dots, S_m > 0\}. 
+}
+Therefore, $\{T_k: k \in \N_0\}$ is a renewal process and at each renewal instant $\{T_k = n\}$, 
+\eq{
+S_{n} \leq S_{n-1}, S_n \leq S_{n-2}, \dots, S_n \leq 0.
+}
+Hence, $T_k$ denotes the $k$th renewal instant corresponding to the random walk $S_n$ hitting $k$th low. 
+We can define the inverse counting process $\{N_n \in \N_0: n \in \N_0\}$ for this renewal process as 
+\begin{xalignat*}{3}
+&N_n = \sum_{j = 1}^{n}1_{\{T_j \leq n\}},&&\text{ or } \{N_n \geq k\} = \{T_k \leq n\}. 
+\end{xalignat*}
+From definition of stopping time $N$ and duality principle, we can write 
+\eq{
+\Pr\{N > n\} &= \Pr\{S_1 \leq 0, \dots, S_n \leq 0\} =  \Pr\{S_n \leq S_{n-1}, \dots, S_n \leq 0\}.
+}
+The event of renewal process hitting a new low at $n$ is same as some renewal occurring at time $n$. 
+That is,
+%Therefore, %we can write 
+\eq{
+\sum_{n \in \N}1_{\{S_n \leq S_{n-1}, S_{n} \leq S_{n-2}, \dots, S_{n} \leq S_0 \}} &= \sum_{n \in \N}\sum_{k=1}^n1_{\{T_k = n\}} = \sum_{k \in \N}\sum_{n \geq k}1_{\{T_k = n\}} = \sum_{k \in \N}1_{\{T_k \leq \infty \}} = N_{\infty}. 
+}
+Therefore, we can write the mean of stopping time $N$ as 
+\eq{
+\E N &= 1 + \sum_{n \in \N}\Pr\{N > n\} = 1 + \sum_{n \in \N}\sum_{k=1}^n\Pr\{T_k = n\} =1 + \sum_{k\in \N}\sum_{n \geq k}\Pr\{T_k = n\} = 1 + \E N_{\infty}. 
+}
+%Hence, $n$ is a renewal instant after $0$ if $\{S_n \leq S_i: i \in [n]\}$. Hence, we have
+%\begin{align*}
+%\E N &= \sum_{n\in \N_0}\Pr\{\text{renewal happens at time } n\} = \sum_{n \in \N_0}\Pr\{\text{inter-renewal length} \geq n\}\\
+%&= 1 + \E[\text{Number of renewals that occur}]
+%\end{align*}
 %
 %Now let us count a renewal at time $n$ when $S_n \leq S_{n-1},S_{n} \leq S_{n-2}, \cdots, S_n \leq 0$. Then we get
 %\begin{flalign}
 %E[N] &= \sum_{n=0}^\infty P[\mbox{renewal happens at time n}]\\
 %&= 1 + E[\mbox{No of renewals that occur}]
 %\end{flalign}
-Since $\E X > 0$, it follows from strong law of large numbers that $S_n \to \infty$. Hence, the expected number of renewals that occur is finite. Thus $\E[N] < \infty$.
+Since $\E X_1 > 0$, it follows from strong law of large numbers that $S_n \to \infty$. 
+Hence, the expected number of renewals that occur is finite. 
+Thus $\E N < \infty$.
 \end{proof}
-\begin{defn}
-The number of distinct values of $(S_0,\cdots, S_n)$ is called \textbf{range}, denoted by $R_n$.
-\end{defn}
+%\begin{defn}
+%\end{defn}
+The number of distinct values of $(S_0,\cdots, S_n)$ is called \textbf{range}, denoted by $R_n$
+We define by stopping time $T_k$, first return of random walk to $k$
+\eq{
+T_k &= \inf \{n \in \N: S_n = k\}.
+}
 \begin{prop}
-\begin{align*} \lim_{n \in \N} \frac{\E[R_n]}{n} = \Pr\{S_n \neq 0, \forall n \in \N\}\end{align*}
+For a simple random walk, 
+\eq{
+\lim_{n \in \N} \frac{\E R_n}{n} = \Pr\{T_0 > \infty \}.
+}
 \end{prop}
 \begin{proof}
-We define indicator function 
-\begin{align*}I_k &=1_{\{S_k \neq S_{k-i}, i \in [k]\}}.\end{align*}
+We can define indicator function for $S_k$ being a distinct number from $S_1, \dots, S_{k-1}$, as
+\eq{
+I_k &=1_{\{S_k \neq S_{k-1}, \dots, S_{k} \neq S_1 \}}.
+}
 Then, we can write range $R_n$ in terms of indicator $I_k$ as 
 \begin{align*}R_n = 1 + \sum_{k=1}^nI_k\end{align*}
-Let $T = \{n > 0: S_n = 0\}$. Then, $\lim_{k \in \N} \Pr\{T > k\} = \Pr\{S_n \neq 0, \forall n \in \N\}$. 
+%We define a stopping time for random walk to hit zero as $T = \{n > 0: S_n = 0\}$. 
+%Then, 
+%\eq{
+%\lim_{k \in \N} \Pr\{T > k\} = \Pr\{S_n \neq 0, \forall n \in \N\}.
+%} 
 Further, using the duality principle, we can write
-\begin{flalign}
-\E[R_n] &= 1 + \sum_{k=1}^n \Pr\{S_i\neq 0, i \in [k]\} 
+\eq{
+\E R_n &= 1 + \sum_{k=1}^n \Pr\{S_1\neq 0, \dots, S_k \neq 0\} 
 %&= 1 + \sum_{k=1}^n P[S_1 \neq 0, S_2 \neq 0, \cdots, S_k \neq 0] \\
-= \sum_{k=0}^n \Pr\{T > k\}
-\end{flalign}
+= \sum_{k=0}^n \Pr\{T_0 > k\}
+}
 %Where $T$ is the first time the RW returns to 0. 
 Result follows by dividing both sides by $n$ and taking limits.
 \end{proof}
 
-\begin{thm}[Simple Random Walk] For a simple random walk, where $\Pr\{X_1 = 1\} = p$ the following holds
+%\begin{exmp*}
+\subsection{Simple random walk}
+\begin{thm}[range]
+For a simple random walk with $\Pr\{X_1 = 1\} = p$, the following holds
 \begin{align*}
-\lim_{n \in \N}\frac{\E[R_n]}{n} &= 
+\lim_{n \in \N}\frac{\E R_n }{n} &= 
 	\begin{cases}
 2p - 1, & p > \frac{1}{2}\\
 2(1-p)-1, & p \leq \frac{1}{2}.
@@ -78,23 +156,24 @@ Result follows by dividing both sides by $n$ and taking limits.
 %Consider the simple random walk with $\Pr\{X_i = 1\} = p$. 
 When $p=\frac{1}{2}$, this random walk is recurrent and thus
 \begin{align*}
-\Pr\{\text{No Return to }0\} = 0 = \lim_{n \in \N} \frac{\E[R_n]}{n}.
+\Pr\{T_0 > \infty\} = 0 = \lim_{n \in \N} \frac{\E R_n}{n}.
 \end{align*}
-When $p > \frac{1}{2}$, let $\alpha = \Pr\{\text{return to } 0|X_1 = 1\}$. Since $\E X > 0$, we know that $S_n \to \infty$ and hence $\Pr\{\text{return to } 0|X_1 = -1\} = 1$. We can write unconditioned probability of return of random walk to $0$ as 
+For$p > \frac{1}{2}$, let $\alpha = \Pr\{ T_0 < \infty |X_1 = 1\}$. 
+Since $\E X > 0$, we know that $S_n \to \infty$ and hence $\Pr\{T_0  < \infty |X_1 = -1\} = 1$. 
+We can write unconditioned probability of return of random walk to $0$ as 
 \begin{align*}
-\Pr\{\text{Return to }0\} = \alpha p+ 1-p.
+\Pr\{T_0 < \infty\} = \alpha p+ 1-p.
 \end{align*}
-Conditioning on $X_2$ yields 
+Conditioning on $X_2$ and from strong law of large numbers, we yield
 \begin{align*}
-\Pr\{S_n = 0 \text{ for some }n|X_1 = 1\} &= p\Pr\{S_n = 0 \text{ for some }n| S_2  = 2\}  + (1-p).
+\alpha &= \Pr\{T_0 < \infty |X_1 = 1\} = p\Pr\{T_0 < \infty | S_2  = 2\}  + (1-p).
 %\Pr\{S_n = 0 \text{ for some }n| S_2 = 0\}\\
 \end{align*}
-Further noticing that 
+From homogeneity of random walk process, it follows that 
 \begin{align*}
-\Pr\{S_n = 0 \text{ for some }n| S_2  = 2\} &= \alpha \Pr\{S_{n+m} = 0 \text{ for some }n| S_m = 1 \text{ for some }m \},
+\Pr\{T_0 < \infty | S_2  = 2\} &= \Pr\{T_0 < \infty | S_{T_1} = 1, T_1 < \infty \}\Pr\{T_1 < \infty | S_2 = 2\} = \alpha^2.
 \end{align*}
-we conclude $\alpha = \alpha^2 p + 1-p$. 
-Solving for $\alpha$ yields $\alpha = \frac{1-p}{p}$, and hence the result follows. We can show similarly for the case when $p < 1/2$.
+We conclude $\alpha = \alpha^2 p + 1-p$, and since $\alpha < 1$ due to transience, we get $\alpha = \frac{1-p}{p}$, and hence the result follows. We can show similarly for the case when $p < 1/2$.
 %. Thus for $p > 1/2$,
 %\begin{align*}\lim_{n \in \N}\frac{\E[R_n]}{n} = 2p-1.\end{align*}
 %Similarly, we can show for $p \leq 1/2$, we have
@@ -105,7 +184,8 @@ Solving for $\alpha$ yields $\alpha = \frac{1-p}{p}$, and hence the result follo
 In the symmetric random walk, the expected number of visits to state $k$ before returning to origin is equal to $1$ for all $k \neq 0$.
 \end{prop}
 \begin{proof}
-For $k>0$, let $N_j$ be the hitting time to state $j$ for random walk $S_n$. Further, let $Y$ denote the number of visits to state $k$ before the first return to origin. That is, 
+For $k>0$, let $N_j$ be the hitting time to state $j$ for random walk $S_n$. 
+Further, let $Y$ denote the number of visits to state $k$ before the first return to origin. That is, 
 \begin{align*}Y = \sum_{n=1}^\infty I_n,\end{align*}
 where $I_n = 1_{\{S_k = n, N_0 > n\}}$.
 Thus, using duality principle and recurrence of symmetric random walk, we can write
@@ -116,6 +196,8 @@ Thus, using duality principle and recurrence of symmetric random walk, we can wr
 &= \sum_{n=1}^\infty \Pr\{N_k = n\} = \Pr\{S_n = k \text{ for some }n\} = 1.
 \end{align*}
 \end{proof}
+%\end{exmp*}
+
 \subsection{ GI/GI/1 Queueing Model}
 Consider a $GI/GI/1$ queue. Customers arrive in accordance with a renewal process having an arbitrary interarrival distribution  $F$, and the service distribution is $G$. %Let the interarrival times be $X_1,~X_2 \hdots $ and let the service times be $Y_1,~Y_2 \hdots$ and let $D_n$ denote the delay in queue of the $n^\text{th}$ arrival. 
 \begin{prop}
