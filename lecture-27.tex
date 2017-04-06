@@ -403,7 +403,7 @@ Define a stopping time $N = T_A \wedge T_{-B}$.
 %\begin{align*}
 %N = \min \{S_n \geq A \mbox{ or } S_n \leq -B\}.
 %\end{align*}
-From Doob's Theorem, $E[e^{S_N}] = 1$. 
+From Doob's Theorem, $\E[e^{S_N}] = 1$. 
 Thus we get
 \eq{
 1 = \E[e^{\theta S_N}|S_N \geq A]P_A + \E[e^{\theta S_N}|S_N \leq -B](1-P_A).
@@ -450,21 +450,53 @@ Taking $B$ to $\infty$ yields
 
 \section{Application to G/G/1 Queues and Ruin}
 \subsection{The G/G/1 Queue}
-For the G/G/1 queue, the limiting distribution of delay is
-\begin{align*}P[D_\infty \geq A] = P[S_n \geq A \mbox{ for some } n]\end{align*}
-where 
-\begin{align*}S_n = \sum_{k=1}^n U_k, \quad U_k = Y_k-X_{k+1} \end{align*}
-Here $Y_i$ is the service time of the ith customer and $X_i$ is the interarrival duration between customer $i-1$ and customer $i$.
-Thus when $E[U] = E[Y] - E[X] < 0$, letting $\theta > 0$ such that
-\begin{align*}E[e^{\theta U}] = E[e^{\theta(Y-X)}] = 1\end{align*}
-We get
-\begin{align*}P[D_\infty \geq A] \leq e^{-\theta A}\end{align*} 
+For the G/G/1 queue, we denote the inter-arrival time for $n$th arrival by $X_n$, and service time of $n$the customer by $Y_n$. 
+Let $D_n$ be the delay in service for $n$th customer, and $S_n = \sum_{k=1}^{n}U_k$ be the location of random walk after $n$ steps with step size $U_n = Y_n - X_{n+1}$. 
+From the equality in distribution of $D_{n+1}$ and $\max\{S_0, \dots, S_n\}$, we can obtain the limiting distribution of delay as 
+\eq{
+\Pr\{D_\infty \geq A\} = \Pr\{S_n \geq A \mbox{ for some } n\}.
+}
+%where 
+%\begin{align*}S_n = \sum_{k=1}^n U_k, \quad U_k = Y_k-X_{k+1} \end{align*}
+%Here $Y_i$ is the service time of the ith customer and $X_i$ is the interarrival duration between customer $i-1$ and customer $i$. 
+Consider the case when $\E U = \E Y  - \E X < 0$, we choose $\theta > 0$ such that
+\eq{
+\E e^{\theta U}= \E e^{\theta(Y-X)} = 1.
+}
+From the previous equality and Gambler's ruin example, we get 
+\eq{
+\Pr\{D_\infty \geq A\} \leq e^{-\theta A}. 
+}
+\begin{prop} 
+Consider a GI/M/1 queue with independent and \textit{iid} random inter-arrival times $\{X_n: n \in \N\}$ and exponential service times $\{Y_n: n \in \N\}$ with rate $\mu$.  
+We choose $\theta$ such that $\E e^{\theta (Y_n - X_{n+1})} = 1$, then the limiting delay distribution for the GI/G/1 queue is given by 
+\eq{
+\Pr\{D_\infty \geq A\} = \frac{\mu - \theta}{\mu}e^{-\theta A}.
+}
+\end{prop}
+\begin{proof} 
+From the choice of $\theta$, it's clear that $\E e^{\theta S_n}$ is a martingale. 
+For a fixed $A, B > 0$, we define stopping times $T_A, T_{-B}, N = T_{A}\wedge T_{-B}$. 
+Since $|S|_{N} \leq \max{A,B}+ \sup_{n}|X_n|$, using optional stopping theorem, we can write 
+\eq{
+1 &= \E[e^{\theta S_N}|S_N\geq A]\Pr\{T_A < T_{-B}] + \E[e^{\theta S_N}|S_N\leq -B]\Pr\{T_A > T_{-B}\}.
+}
+We notice that conditioned on $N = n$ and $X_{n+1}- S_{n-1}$, we have 
+\eq{
+S_N = Y_n - X_{n+1} + S_{n-1}. 
+} 
+We focus on first term on right hand side, to get 
+\eq{
+\E[e^{\theta S_N}|S_N\geq A] &= \E[\E[e^{\theta S_N}| N = n, X_{n+1}- S_{n-1}]|S_N\geq A] \\
+&=  \E[e^{\theta (X_{n+1} - S_{n-1}) }\E[e^{\theta Y_n}| N = n, X_{n+1}- S_{n-1}]|S_N\geq A]
+&= \E[e^{\theta (X_{n+1} - S_{n-1}) }\E[e^{\theta Y_n}|Y_n\geq (X_{n+1}-S_{n-1})+ A]| N = n, X_{n+1}- S_{n-1}].
+}
 
-Now the exact distribution of $D_\infty$ can be calculated when services are exponential. Hence assume $Y_i \sim exp(\mu)$. Once again,
-\begin{flalign*}
-1 &= E[e^{\theta S_N}|S_N\geq A]P[S_n\mbox{ crossed $A$ before $-B$}] \\
-&+ E[e^{\theta S_N}|S_N\leq -B]P[S_n\mbox{ crossed $-B$ before $A$}]
-\end{flalign*}
+\end{proof} 
+
+%Now the exact distribution of $D_\infty$ can be calculated when services are exponential. 
+%Hence assume $Y_i \sim exp(\mu)$. 
+
 Let us compute $E[e^{\theta S_N}|S_N \geq A]$ first. Let us condition this on $N=n$ and $X_{n+1} - \sum_{i=1}^{n-1} (Y_i - X_{i+1}) = c$. By the memoryless property, the conditional distribution of $Y_n$ given $Y_n > c+A$ is just $c+A$ plus an exponential with rate $\mu$. Thus we get
 \begin{flalign*}
 E[e^{\theta S_N}|S_N \geq A] &= E[e^{\theta(A+Y)}] \\
@@ -478,7 +510,6 @@ Now substituting back, we get
 Now as $\theta > 0$, let $B\to \infty$ to get
 \begin{align*}1 = \frac{\mu e^{\theta A}}{\mu - \theta} P[S_n \mbox{ ever crosses }A]\end{align*}
 And hence
-\begin{align*}P[D_\infty \geq A] = \frac{\mu - \theta}{\mu}e^{-\theta A}\end{align*}
 
 \subsection{A Ruin Problem}
 Suppose claims made to an insurance company follow a renewal process with iid interarrival times $\{X_i\}$. Let the values of the claims also be iid and independent of the renewal process $N(t)$ of their occurence. Let $Y_i$ be the ith claim value. Thus the total value of claims till time $t$ is $\sum_{k=1}^{N(t)}Y_i$. Now let us suppose the insurance company receives money at constant rate $c$ per unit time, $c>0$. We wish to compute the probability of the insurance company, starting with capital $A$, will eventually be wiped out or \textbf{ruined}. Thus we require
