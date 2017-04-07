@@ -179,27 +179,9 @@ We conclude $\alpha = \alpha^2 p + 1-p$, and since $\alpha < 1$ due to transienc
 %Similarly, we can show for $p \leq 1/2$, we have
 %\begin{align*}\lim_{n \in \N}\frac{\E[R_n]}{n} = 2(1-p)-1.\end{align*}
 \end{proof}
-
-\begin{prop}
-In the symmetric random walk, the expected number of visits to state $k$ before returning to origin is equal to $1$ for all $k \neq 0$.
-\end{prop}
-\begin{proof}
-Fix a state $k > 0$, and let $T_k$ be the hitting time to state $k$ for the random walk $S_n$. 
-Further, let $Y$ denote the number of visits to state $k$ before the first return to origin. 
-Using an indicator function  $I_n = 1_{\{S_k = n, N_0 > n\}}$ for the return to state $k$ after $n$th step, before hitting origin, 
-we can write  
-\begin{align*}
-Y = \sum_{n \in \N} I_n.
-\end{align*}
-
-Thus, using duality principle and recurrence of symmetric random walk, we can write
-\begin{align*}
-\E Y &= \sum_{n \in \N} \Pr\{S_1 > 0, \dots, S_n > 0, S_n = k\}= \sum_{n \in \N}\Pr\{S_n - S_{n-1} > 0,\dots, S_n > 0, S_n = k\}\\
-%&= \sum_{n \in \N} \Pr\{S_n > S_{n-i}, i \in [n], S_n=k\}\\
-&= \sum_{n \in \N} \Pr\{N_k = n\} = \Pr\{S_n = k \text{ for some }n\} = 1.
-\end{align*}
-\end{proof}
 %\end{exmp*}
+
+\end{document}
 
 \subsection{ GI/GI/1 Queueing Model}
 Consider a $GI/GI/1$ queue. Customers arrive in accordance with a renewal process having an arbitrary interarrival distribution  $F$, and the service distribution is $G$. %Let the interarrival times be $X_1,~X_2 \hdots $ and let the service times be $Y_1,~Y_2 \hdots$ and let $D_n$ denote the delay in queue of the $n^\text{th}$ arrival. 
