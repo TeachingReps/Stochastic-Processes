@@ -8,18 +8,43 @@
 \maketitle
 
 \section{Jackson Network}
-Consider a system of $k$ servers with independent service times distributed exponentially with rate $\mu_i$ for server $i \in [k]$.  
-To each server, customers arrive from outside the system, according to Poisson$(r_i)$. Once a customer is served at server $i$, the customer joins server $j$ with probability $P_{ij}$, $\sum_{i}P_{ij} \leq 1$. The probability of the customer departing the system is $1-\sum_{j}P_{ij}$. If we denote $\lambda_i$ as the total rate at which the customers join $i$, then $\lambda_i$s can be obtained as a solution to,
-\begin{align*}
-\lambda_j=r_j+\sum_{i=1}^{k}\lambda_i P_{ij},~ j=1, \dots k.
-\end{align*}
+Jackson network is a system of $k$ servers with independent service times, and two types of customer arrivals. 
+For each server $i \in [k]$, we have
+\begin{itemize}
+	\item \textit{iid} service times distributed exponentially with rate $\mu_i$,
+	\item external Poisson arrivals with rate $r_i$,
+	\item internal arrivals from service completions at server $j \in [k]$ with probability $P_{ji}$,
+	\item service completions leading to departure from the system with probability $1-\sum_{j \in [k]}P_{ij}$. 
+\end{itemize}  
+%Once a customer is served at server $i$, the customer joins server $j$ with probability $P_{ij}$, 
+%such that $\sum_{i}P_{ij} \leq 1$. 
+%The probability of a customer at server $i$ completely departing the system is $1-\sum_{j}P_{ij}$. 
+\begin{lem} 
+Let $X_i(t)$ be the number of customers in server $i$ at time $t$ in the Jackson network, 
+and $X(t) = (X_1(t), \dots, X_k(t))$. 
+Then, $\{X(t): t \in \R\}$ is a continuous time Markov chain with state space $\N_0^k$. 
+\end{lem}
+\begin{proof}
+
+\end{proof}
+\begin{lem} 
+The generator matrix $Q$ for the Markov process $X(t)$ consists of the following transitions, 
+and the associated transition rates. 
+\end{lem}
+\begin{proof}
+\end{proof}
+If we denote $\lambda_i$ as the total rate at which the customers join server $i$, 
+then $\lambda_i$s can be obtained as a solution to,
+\eq{
+\lambda_j=r_j+\sum_{i=1}^{k}\lambda_i P_{ij},~ j \in [k]. 
+}
 The model can be analysed by a stationary continuous-time Markov chain $\{X(t) \in \N_0^k: t \in \R\}$ with states $X(t) = (X_1(t),X_2(t), \dots X_k(k)) \in \N_0^k$, 
 where $X_i(t)$ denotes the number of customers in server $i$ at time $t$. 
 From the tandem queue results, we expect the customers at each server to be independent random variables. 
 Let $n \in \N_0^k$, and we are interested in knowing the the joint probability,
-\begin{align*}
+\eq{
 \pi(n) &\triangleq \Pr\{X(t) = n\} = \Pr\{X_1(t) = n_1, \dots, X_k(t) = n_k\}.
-\end{align*}
+}
 We write the marginal probabilities as 
 \eq{
 \pi(m_i) &\triangleq \Pr\{X_i(t) = m_i\} = \sum_{n \in \N_0^k: n_i = m_i }\pi(n).
@@ -53,9 +78,9 @@ Q^{\ast}(n,n+e_i) &= \lambda_i(1-\sum_jP_{ij}).
 }
 \item The service times at queue $i$ are \textit{iid} exponential with rate $\mu_i$. 
 \item  A departure from queue $j$ goes to queue $i$ with probability $\bar{P}_{ji}$ as given by
-\begin{align*}
+\eq{
 \bar{P}_{ji}=\frac{\lambda_i P_{ij}}{\lambda_j}.
-\end{align*}
+}
 That is, if $n_j > 0$, then a customer joins queue $i$ after a service completion from queue $j$ with rate 
 \eq{
 Q^{\ast}(n,n-e_j+e_i) &= \mu_j\bar{P}_{ji} = \frac{\mu_j}{\lambda_j}\lambda_iP_{ij}.
@@ -65,9 +90,9 @@ The corresponding rate of customer departing the system after service completion
 Q^{\ast}(n, n-e_j) &= \mu_j(1-\sum_{i=1}^k\bar{P}_{ji}) = \frac{\mu_j}{\lambda_j}(\lambda_j - \sum_{i=1}^k\lambda_iP_{ij}) = \frac{\mu_j}{\lambda_j}r_j.
 }
 \item For $\rho_i \triangleq \lambda_i/\mu_i$, the stationary distribution satisfies
-\begin{align*}
+\eq{
 \pi(n)= \prod_{i=1}^k\pi_i(n_i) = \prod_{i=1}^k\rho_i^{n_i}(1-\rho_i).
-\end{align*}
+}
 \end{enumerate}
 \end{thm}
 \begin{proof} 
@@ -98,51 +123,51 @@ This equation holds since for each $n_i \in \N$, we have
 }
 \end{proof}
 % Consider transitions resulting from an outside arrival. Consider states $\underline{n}=(n_1,n_2 \hdots n_i, \hdots n_k)$ and $\underline{n}'=(n_1,\hdots n_i+1,\hdots n_k)$. Now
-% \begin{align*}
+% \eq{
 % q_{n,n'}=r_i,
-% \end{align*}
+% }
 % and, if the conjecture is true,
-% \begin{align*}
+% \eq{
 % q_{n',n}^*&=\mu_i(1-\sum_{j}\bar{P}_{ij})\\
 % &=\mu_i \frac{(\lambda_i-\sum_{j}\lambda_j {P}_{ji})}{\lambda_i}\\
 % &=\frac{\mu_i r_i}{\lambda_i}
-% \end{align*}
+% }
 % and 
-% \begin{align*}
+% \eq{
 % P(\underline{n})=\Pi_j P_j(n_j),~ P(\underline{n}')=P_i(n_i+1)\Pi_{j \neq i}P_j(n_j).
-% \end{align*}
+% }
 % Hence, from the previous theorem, we need that
-% \begin{align*}
+% \eq{
 %  r_i \Pi_j P_j(n_j)= \frac{\mu_i r_i}{\lambda_i}\Pi_{j \neq i}P_j(n_j).
-% \end{align*} 
+% } 
 % That is,
-% \begin{align*}
+% \eq{
 % P_i(n+1)= \frac{\lambda_i}{\mu_i}P_i(n)={(\frac{\lambda_i}{\mu_i})}^{n+1}P_i(0),
-% \end{align*}
+% }
 % and using the fact that 
-% \begin{align*}
+% \eq{
 %\sum_{n=0}^{\infty}P_i(n)=1
-% \end{align*}
+% }
 % yields 
-% \begin{align*}
+% \eq{
 %P_i(n) ={(\frac{\lambda_i}{\mu_i})}^n(1-\frac{\lambda_i}{\mu_i}).
-%\end{align*}
+%}
 %Thus $\frac{\lambda_i}{\mu_i}< 1$ and $P_i$ must be as given before for the conjecture to be true. Now consider transitions that result from a departure from server $j$ going to server $i$. That is, let $\underline{n}=(n_1,n_2 \hdots n_i, \hdots n_k)$ and $\underline{n}'=(n_1,\hdots n_i+1,\hdots n_j+1,\hdots n_k)$, where $n_j >0$. Since
-%\begin{align*}
+%\eq{
 %q_{n,n'}=\mu_j P_{ji}
-%\end{align*}
+%}
 %and the conjecture yields
-%\begin{align*}
+%\eq{
 %q_{n,n'}^*=\mu_i \bar{P}_{ij}.
-%\end{align*}
+%}
 %We need to show that 
-%\begin{align*}
+%\eq{
 %P(\underline{n})\mu_j P_{ji}= P(\underline{n}')\mu_i \bar{P}_{ij}
-%\end{align*}
+%}
 %or, equivalently,
-%\begin{align*}
+%\eq{
 %\lambda_j P_{ji}=\lambda_i \bar{P}_{ij}.
-%\end{align*}
+%}
 %which is the definition of $\bar{P}_{ij}$.
 %The last lecture ended with a conjecture on the network of queues. First we state the following theorem.
 %\begin{thm}
