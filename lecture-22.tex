@@ -1,0 +1,161 @@
+% !TEX spellcheck = en_US
+% !TEX spellcheck = LaTeX
+\documentclass[a4paper,10pt,english]{article}
+\input{header}
+\title{Lecture 22: Queueing Networks}
+\author{}
+\begin{document}
+\maketitle
+
+\section{Jackson Network}
+Consider a system of $k$ servers with independent service times distributed exponentially with rate $\mu_i$ for server $i \in [k]$.  
+To each server, customers arrive from outside the system, according to Poisson$(r_i)$. Once a customer is served at server $i$, the customer joins server $j$ with probability $P_{ij}$, $\sum_{i}P_{ij} \leq 1$. The probability of the customer departing the system is $1-\sum_{j}P_{ij}$. If we denote $\lambda_i$ as the total rate at which the customers join $i$, then $\lambda_i$s can be obtained as a solution to,
+\begin{align*}
+\lambda_j=r_j+\sum_{i=1}^{k}\lambda_i P_{ij},~ j=1, \dots k.
+\end{align*}
+The model can be analysed by a stationary continuous-time Markov chain $\{X(t) \in \N_0^k: t \in \R\}$ with states $X(t) = (X_1(t),X_2(t), \dots X_k(k)) \in \N_0^k$, 
+where $X_i(t)$ denotes the number of customers in server $i$ at time $t$. 
+From the tandem queue results, we expect the customers at each server to be independent random variables. 
+Let $n \in \N_0^k$, and we are interested in knowing the the joint probability,
+\begin{align*}
+\pi(n) &\triangleq \Pr\{X(t) = n\} = \Pr\{X_1(t) = n_1, \dots, X_k(t) = n_k\}.
+\end{align*}
+We write the marginal probabilities as 
+\eq{
+\pi(m_i) &\triangleq \Pr\{X_i(t) = m_i\} = \sum_{n \in \N_0^k: n_i = m_i }\pi(n).
+}
+%where $Pr(n_i)$ is the limiting probability that there are $n_i$ customers to serve at server $i$. 
+Since, $X(t)$ is a CTMC, only a single transition takes place in any infinitesimal time interval. 
+Let $X(t) = n$, then the possible transitions from this Markov process at time $t$ and the associated rates are the following.  
+\begin{enumerate}[i\_]
+\item An external arrival takes place in queue $i$, with rate 
+\eq{
+Q(n,n+e_i) &= r_i.
+}
+\item If $n_i > 0$, a service completes and a customer departs from queue $i$ exiting the system, with rate 
+\eq{
+Q(n,n-e_i) &= \mu_i(1 - \sum_{j=1}^kP_{ij}).
+}
+\item If $n_i > 0$, a service completes and a customer departs from queue $i$ and joins queue $j$, with rate 
+\eq{
+Q(n,n-e_i+e_j) &= \mu_iP_{ij}.
+}
+\end{enumerate}
+
+\begin{thm}
+If $\lambda_i < \mu_i$ for each $i \in [k]$, then the reversed stochastic process is a network process of the same type as original. 
+That is, the reversed process $X(-t)$ is a CTMC with the generator matrix $Q^{\ast}$ given by the following.  
+\begin{enumerate}[(i)]
+\item The system has external Poisson arrivals to queue $i$ at rate $\lambda_i(1-\sum_jP_{ij})$. 
+That is, 
+\eq{
+Q^{\ast}(n,n+e_i) &= \lambda_i(1-\sum_jP_{ij}).
+}
+\item The service times at queue $i$ are \textit{iid} exponential with rate $\mu_i$. 
+\item  A departure from queue $j$ goes to queue $i$ with probability $\bar{P}_{ji}$ as given by
+\begin{align*}
+\bar{P}_{ji}=\frac{\lambda_i P_{ij}}{\lambda_j}.
+\end{align*}
+That is, if $n_j > 0$, then a customer joins queue $i$ after a service completion from queue $j$ with rate 
+\eq{
+Q^{\ast}(n,n-e_j+e_i) &= \mu_j\bar{P}_{ji} = \frac{\mu_j}{\lambda_j}\lambda_iP_{ij}.
+}
+The corresponding rate of customer departing the system after service completion from server $j$ is
+\eq{
+Q^{\ast}(n, n-e_j) &= \mu_j(1-\sum_{i=1}^k\bar{P}_{ji}) = \frac{\mu_j}{\lambda_j}(\lambda_j - \sum_{i=1}^k\lambda_iP_{ij}) = \frac{\mu_j}{\lambda_j}r_j.
+}
+\item For $\rho_i \triangleq \lambda_i/\mu_i$, the stationary distribution satisfies
+\begin{align*}
+\pi(n)= \prod_{i=1}^k\pi_i(n_i) = \prod_{i=1}^k\rho_i^{n_i}(1-\rho_i).
+\end{align*}
+\end{enumerate}
+\end{thm}
+\begin{proof} 
+It suffices to check that the detailed balanced conditions hold with the candidate generator matrix $Q^{\ast}$ for the reversed process and the candidate distribution $\pi$. 
+We first focus at the detailed balance equations associated with the external arrivals 
+\eq{
+\pi(n)Q(n,n+e_i) &= \pi(n+e_i)Q^{\ast}(n+e_i,n).
+}
+This equation holds since for each $n_i \in \N_0$, we have 
+\eq{
+\pi_i(n_i+e_i) &= \rho_i\pi_i(n_i).
+}
+Second for $n_i > 0$, we look at the detailed balanced equations corresponding the exits from the system from queue $i$,
+\eq{
+\pi(n)Q(n,n-e_i) &= \pi(n-e_i)Q^{\ast}(n-e_i,n). 
+}
+This equation holds since for each $n_i \in \N$, we have 
+\eq{
+\pi_i(n_i-e_i)\mu_i(1-\sum_{i=1}^kP_{ij}) &= \lambda_i(1-\sum_{i=1}^kP_{ij})\pi_i(n_i).
+}
+Finally for $n_i > 0$, we look at the detailed balanced equations corresponding the transitions where a customer joins queues $j$ after getting service from queue $i$,
+\eq{
+\pi(n)Q(n,n-e_i+e_j) &= \pi(n-e_i+e_j)Q^{\ast}(n-e_i+e_j,n). 
+}
+This equation holds since for each $n_i \in \N$, we have 
+\eq{
+\pi_i(n_i)\pi_j(n_j)\mu_iP_{ij} &= \pi_i(n_i-1)\pi_j(n_j+1)\mu_j\bar{P}_{ji}.
+}
+\end{proof}
+% Consider transitions resulting from an outside arrival. Consider states $\underline{n}=(n_1,n_2 \hdots n_i, \hdots n_k)$ and $\underline{n}'=(n_1,\hdots n_i+1,\hdots n_k)$. Now
+% \begin{align*}
+% q_{n,n'}=r_i,
+% \end{align*}
+% and, if the conjecture is true,
+% \begin{align*}
+% q_{n',n}^*&=\mu_i(1-\sum_{j}\bar{P}_{ij})\\
+% &=\mu_i \frac{(\lambda_i-\sum_{j}\lambda_j {P}_{ji})}{\lambda_i}\\
+% &=\frac{\mu_i r_i}{\lambda_i}
+% \end{align*}
+% and 
+% \begin{align*}
+% P(\underline{n})=\Pi_j P_j(n_j),~ P(\underline{n}')=P_i(n_i+1)\Pi_{j \neq i}P_j(n_j).
+% \end{align*}
+% Hence, from the previous theorem, we need that
+% \begin{align*}
+%  r_i \Pi_j P_j(n_j)= \frac{\mu_i r_i}{\lambda_i}\Pi_{j \neq i}P_j(n_j).
+% \end{align*} 
+% That is,
+% \begin{align*}
+% P_i(n+1)= \frac{\lambda_i}{\mu_i}P_i(n)={(\frac{\lambda_i}{\mu_i})}^{n+1}P_i(0),
+% \end{align*}
+% and using the fact that 
+% \begin{align*}
+%\sum_{n=0}^{\infty}P_i(n)=1
+% \end{align*}
+% yields 
+% \begin{align*}
+%P_i(n) ={(\frac{\lambda_i}{\mu_i})}^n(1-\frac{\lambda_i}{\mu_i}).
+%\end{align*}
+%Thus $\frac{\lambda_i}{\mu_i}< 1$ and $P_i$ must be as given before for the conjecture to be true. Now consider transitions that result from a departure from server $j$ going to server $i$. That is, let $\underline{n}=(n_1,n_2 \hdots n_i, \hdots n_k)$ and $\underline{n}'=(n_1,\hdots n_i+1,\hdots n_j+1,\hdots n_k)$, where $n_j >0$. Since
+%\begin{align*}
+%q_{n,n'}=\mu_j P_{ji}
+%\end{align*}
+%and the conjecture yields
+%\begin{align*}
+%q_{n,n'}^*=\mu_i \bar{P}_{ij}.
+%\end{align*}
+%We need to show that 
+%\begin{align*}
+%P(\underline{n})\mu_j P_{ji}= P(\underline{n}')\mu_i \bar{P}_{ij}
+%\end{align*}
+%or, equivalently,
+%\begin{align*}
+%\lambda_j P_{ji}=\lambda_i \bar{P}_{ij}.
+%\end{align*}
+%which is the definition of $\bar{P}_{ij}$.
+%The last lecture ended with a conjecture on the network of queues. First we state the following theorem.
+%\begin{thm}
+%Assuming that $\lambda_i < \mu_i$, for all $i$, in steady state, the number of customers at service $i$ are independent and the limiting probabilities are given by
+%\begin{equation*}
+%Pr(n_1,n_2, \hdots n_k) = \Pi_{i=1}^{k}{(\frac{\lambda_i}{\mu_i})}^n (1-\frac{\lambda_i}{\mu_i}).
+%\end{equation*}
+%\end{thm}
+%Also, form the reversed chain, we have the following.
+\begin{cor}
+The process of customers departing the system from the server $i$, $i=1,2 \hdots k,$ are independent Poisson processes having respective rates $\lambda_i (1-\sum_j P_{ij} )$.
+\end{cor}
+\begin{proof}
+We have already shown that in the reverse process, customers arrive to server $i$ from outside the system according to independent Poisson processes having rates $\lambda_i(1-\sum_{i}P_{ij}),~ i \geq 1$. Since an arrival from outside corresponds to a departure out of the system from server $i$ in the forward process, the result follows. 
+\end{proof}
+\end{document}

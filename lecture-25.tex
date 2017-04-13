@@ -2,138 +2,238 @@
 \input{header}
 
 %opening
-\title{Lecture 25: Polya's Urn Scheme}
+\title{Lecture 25: Exchangeability}
 \author{}
 
 \begin{document}
 \maketitle
-\section{Optional Sampling theorem}
-The gambling interpretation of the stochastic integral suggests that it is natural to let the amount bet at time $n$ depend on the outcomes of the first $n-1$ flips but not on the flip we are betting on, or on later flips. The next result shows that we cannot make money by gamblingon a fair game.
 
-\begin{thm}Let $X_n$ be a martingale. If $H_n$ is predictable and each $H_n$ is bounded, then $(H\cdot X)_n$ is a martingale.
-\end{thm}
-\begin{proof} It is easy to check that $(H\cdot X)_n \in \F_n$. Thhe boundedness of the $H_n$ implies $E|(H\cdot X)_n|<\infty$ for each $n$. With this established, we can compute conditional expectations to conclude
-\eq{
-E((H\cdot X)_{n+1}| \F_n)&=(H\cdot X)_n+E(H_{n+1}(X_{n+1}-X_n)| \F_n)\\
-       &=(HX)_n+H_{n+1}E(X_{n+1}-X_n| \F_n)\\
-       &=(H\cdot X)_n.\qedhere
+\section{Exchangeability}
+%\begin{defn} 
+Let $X_i$ be a random variable on the probability space $(S_i, \sS_i, \mu_i)$. 
+Consider the probability space $(\Omega, \F, P)$ for the process $X = \{X_i: i \in \N\}$ where 
+\meq{3}{
+&\Omega = \prod_{i \in \N} S_i, && \F = \prod_{i \in \N}\sS_i.
 }
-since $H_{n+1}\in \F_n$ and $E(X_{n+1}-X_n| \F_n)=0$
+Let $p_i : \Omega \to S_i$ be a projection operator, such that $p_i(\omega) = \omega_i$, 
+then for each $i \in \N$
+\eq{
+\mu_i &= P \circ p_i^{-1}.
+}
+%We define $X_n(\omega) = \omega_n$
+%\end{defn}
+%\begin{defn} 
+A \textbf{finite permutation} of $\N$ is a bijective map $\pi: \N \to \N$ such that 
+$\pi(i) \neq i$ for only finitely many $i$. 
+That is, for a finite $I \subset \N$, we have 
+\meq{3}{
+&\pi(I) = I, &&\pi(i) = i,~~i \notin I.
+} 
+%\end{defn}
+%\begin{defn} 
+Let $\omega \in \Omega$, $p_i$ be projection operators, and $\pi$ be a finite permutation, 
+then we can define a finitely permuted outcome $\pi(\omega)$ in terms of its projections, as  
+\eq{
+p_i\circ\pi(\omega) &= p_{\pi(i)} \circ \omega,~~ i \in \N.
+}
+%For a finite permutation $\pi$, we define $(\pi \omega)_i = \omega_{\pi(i)}$ for all $i \in \N$.
+%\end{defn}
+%\begin{defn} 
+An event $A \subset \Omega$ is \textbf{permutable} if 
+for any finite permutation $\pi$, 
+\eq{
+A = \pi^{-1}A = \{\omega \in \Omega: \pi(\omega) \in A\}. 
+}
+It is clear that a finite permutation $\pi$ can always be defined on an interval of form $[n]$, 
+where $n = \max A$. 
+%\end{defn}
+%\begin{defn} 
+The collection of permutable events is a $\sigma$-field called the \textbf{exchangeable} $\sigma$-field and denoted by $\sE$.
+%\end{defn}
+%\begin{defn} 
+A sequence $X = \{X_n: n \in \N\}$ of random variables is called \textbf{exchangeable} if for each finite permutation $\pi$ on a finite set $[n]$, the joint distribution of $(X_1, X_2, \ldots, X_n)$ and $(X_{\pi(1)}, X_{\pi(2)}, \ldots, X_{\pi(n)})$ are identical. 
+%\end{defn}
+%\begin{defn}
+%$X_1, \hdots ,X_n$ is exchangeable if $X_{i_1}, \hdots X_{i_n}$ has the same joint distribution for all permutations $(i_1,i_2 \hdots i_n)$ of $(1, \hdots ,n)$. The infinite sequence of random variables $X_1, X_2 \hdots$ is said to be exchangeable if every finite subsequence $X_1, \hdots ,X_n$ is exchangeable.
+%\end{defn}
+\begin{shaded*}
+\begin{exmp}
+Suppose balls are selected randomly, without replacement, from an urn consisting of $n$ balls of which $k$ are white. 
+For $i \in [n]$, let $X_i$ be the indicator of the event that the $i$th selection is white. 
+%\begin{align*}
+   %X_i &= 1_{\{ i^{\text{th}}\text{ selection is white}\}},
+%\end{align*}
+Then the finite collection $(X_1, \ldots X_n)$ is exchangeable but not independent. 
+In particular, let $A = \{ i \in [n]: X_i = 1\}$. 
+Then, we know that $|A| = k$, 
+and we can write 
+\begin{align*}
+\Pr\{X_i = 1, i \in A, X_j = 0, j \in A^c\} = \Pr\{A = (i_1, i_2, \ldots, i_k) \} = \frac{(n-k)!k!}{n!} = \frac{1}{\binom{n}{k}}.
+\end{align*}
+This joint distribution is independent of set of exact locations $A$, and hence exchangeable. 
+%Further, we can show that all $X_i$ are identically distributed, since
+%\begin{align*}
+%\Pr\{X_1= 1, X_2, \ldots, X_n\} = \Pr\{X_i = 1, X_1, \ldots, X_{i-1}, X_i, \ldots, X_n\}. 
+%\end{align*}
+However, one can see the dependence from 
+\begin{align*}
+\Pr\{X_2 = 1|X_1= 1\} = \frac{k-1}{n-1} \neq \frac{k}{n-1} = \Pr\{X_2 = 1|X_1 =0\}.
+\end{align*}
+\end{exmp}
+\begin{exmp}
+Let $\Lambda$ denote a random variable having distribution $G$. 
+Let $X$ be a sequence of dependent random variables, 
+where each of these random variables are conditionally \textit{iid} with distribution $F_\lambda$ given $\Lambda= \lambda$. 
+We can write the joint finite dimensional distribution of the sequence $X$, 
+\eq{ 
+\Pr\{X_1 \leq x_1 \ldots , X_n \leq x_n\} = \int_{\Lambda} \prod_{i=1}^nF_\lambda(x_i)dG(\lambda). 
+}
+Since any finite dimensional distribution of the sequence $X$ is symmetric in $(x_1, \ldots x_n)$, 
+it follows that $X$ is exchangeable. %The are not independent.
+\end{exmp}
+\end{shaded*}
+
+\begin{thm}[De Finetti's Theorem] 
+If $X$ is an exchangeable sequence of random variables then conditioned on $\sE$, the sequence $X$ is \textit{iid}. 
+\end{thm}
+\begin{proof} 
+To show the independence of exchangeable sequence $X$ of random variables, conditioned on exchangeable $\sigma$-field $\sE$, 
+we need to show that for bounded functions $f_i: \R \to \R$
+\eq{
+\E[\prod_{i=1}^kf_i(X_i)|\sE] &= \prod_{i=1}^k\E[f_i(X_i)|\sE].
+}
+Using induction, it suffices to show that any two bounded functions $f: \R^{k-1} \to \R$ and $g: \R \to \R$  
+are independent conditioned on the exchangeable $\sigma$-field. 
+That is, 
+\eq{
+\E[f(X_1, \dots, X_{k-1})g(X_k)|\sE] &= E[f(X_1, \dots, X_{k-1})|\sE]\E[g(X_k)|\sE].
+} 
+Let $I_{n,k} = \{i \subseteq [n]^k: i_j \text{ distinct}\}$, 
+then the cardinality of this set is denoted by 
+\eq{
+(n)_k &\triangleq |I_{n,k}| = n(n-1)\ldots(n-k+1). 
+} 
+For a function $\phi: \R^k \to \R$, we can define
+\eq{
+A_n(\phi) &= \frac{1}{|I_{n,k}|}\sum_{i \in I_{n,k}}\phi(X_{i_1}, X_{i_2}, \ldots, X_{i_k}). 
+}
+It is clear that $A_n(\phi) \in \sE_n$ measurable and hence $\E[A_n(\phi)|\sE_n] = A_n(\phi)$. 
+For each $i \in I_{n,k}$, we can find a finite permutation on $[n]$, 
+such that $\pi(i_j) = j$ for $j \in [k]$, and $\pi(j) = j \in [n] \setminus I_{n,k}$. 
+Since $X$ is exchangeable, the distribution of $(X_{i_1}, \dots, X_{i_k})$ and $(X_1, \dots, X_k)$ are identical for each $i \in I_{n,k}$.  
+Therefore, we have
+\begin{align*}
+A_n(\phi) &= \frac{1}{|I_{n,k}|}\sum_{i \in I_{n,k}}\E[\phi(X_{i_1}, X_{i_2}, \ldots, X_{i_k})|\sE_n] = \E[\phi(X_{1}, X_{2}, \ldots, X_{k})|\sE_n].
+\end{align*}
+Since $\sE_n \to \sE$, using bounded convergence theorem for conditional expectations, we have 
+\begin{align*}
+\lim_{n \in \N} A_n(\phi) &= \lim_{n \in \N} \E[\phi(X_{1}, X_{2}, \ldots, X_{k})|\sE_n] = \E[\phi(X_{1}, X_{2}, \ldots, X_{k})|\sE] .
+\end{align*}
+Let $f$ and $g$ be bounded functions on $\R^{k-1}$ and $\R$ respectively, such that $\phi(x_1,\ldots,x_k) = f(x_1,\ldots,x_{k-1})g(x_k)$. We also define $\phi_j(x_1,\ldots,x_{k-1}) = f(x_1,\ldots,x_{k-1})g(x_j)$, to write 
+\begin{align*}
+(n)_{k-1}A_n(f)nA_n(g) &= \sum_{i \in I_{n,k-1}}f(X_{i_1}, \ldots,X_{i_{k-1}})\sum_{m}g(X_{m})\\
+&= \sum_{i \in I_{n,k}}f(X_{i_1}, \ldots,X_{i_{k-1}})g(X_{i_k}) + \sum_{i \in I_{n,k-1}}\sum_{j=1}^{k-1}f(X_{i_1},\ldots,X_{i_{k-1}})g(X_{i_j})\\
+&= (n)_kA_n(\phi) + \sum_{j=1}^k(n)_{k-1}A_n(\phi_j).
+\end{align*}
+Dividing both sides by $(n)_k$ and rearranging terms, we get
+\begin{align*}
+A_n(\phi)& = \frac{n}{n-k+1}A_n(f)A_n(g) - \frac{1}{n-k+1}\sum_{j=1}^kA_n(\phi_j),\\
+%\lim_{n\in \N}\E[f(X_1,\ldots, X_{k-1})g(X_k)| \sE_n] &= \lim_{n \in \N} \E[f(X_1,\ldots, X_{k-1})| \sE_n] \E[g(X_k)| \sE_n] 
+\end{align*}
+Taking limits on both sides, we obtain the result
+\eq{
+\E[f(X_1,\dots, X_{k-1})g(X_k)|\sE] &= \E[f(X_1, \dots, X_{k-1})|\sE]\E[g(X_k)|\sE].
+}
+%Theorem follows by induction.
 \end{proof}
-The last theorem can be interpreted as: you can't make money by gambling on a fair game. This conclusion does not hold if we only assume that $H_n$ is optional, that is $H_n\in \F_n$, since then we can base our bet on the outcome of the coin we are betting on.
-
-\begin{thm} 
-Suppose $M_0,M_1,\dots $ is a martingale with respect to$\{\F_n\}$ and suppose $T$ is a stopping time. Suppose that $T$ is bounded, $T\leq K$. Then
+%\begin{thm}[de Finetti's Theorem] Every infinite sequence $X$ of random variables taking values either $0$ or $1$, there corresponds a probability distribution $G$ on $[0,1]$ such that, for all $0 \leq k \leq n$,
+%\begin{equation*}
+%\label{De Finetti}
+%Pr(X_1=X_2= \hdots X_k =1, X_{k+1}= \hdots X_n = 0)= \int_{0}^{1}\lambda^k(1-\lambda)^{n-k}dG(\lambda).
+%\end{equation*}  
+%\end{thm}
+%\begin{proof}
+%Let $m \geq n $.
+%\begin{eqnarray*}
+%&Pr(X_1 = X_2 \hdots X_k =1, X_{k+1}= \hdots X_n 0 )\\
+%&=\sum_{j=0}^{m}Pr(X_1=\hdots X_k=1, X_{k+1}= X_{n}=0|S_m=j)Pr(S_m=j)\\
+%&=\sum_{j} \frac{j(j-1) \hdots (j-k+1)(m-j)(m-j-1) \hdots (m-j-(n-k)+1) }{m(m-1) \hdots (m-n+1)}Pr(S_m=j).
+%\end{eqnarray*}
+%The last equation follows by exchangeability as given $S_m=j$ each subset of size $j$ of $X_1 \hdots X_m$ is equally likely to be the one consisting of all $1'$s. Letting $S_m=mY_m$, the above equation for large $m$ is roughly equal to $E[Y_m^k(1-Y_m)^{n-k}]$, and the theorem follows letting $m \rightarrow \infty$. Indeed, from a result known as  Helly's theorem it can be shown that for some subsequence $m'$ converging to $\infty$, the distribution of $Y_m'$ will converge to a distribution $G$ and we get
+%\begin{equation*}
+%E[Y_{\infty}^k(1-Y_{\infty})^{n-k}] = \int_0^1 \lambda^k(1-\lambda)^{n-k}dG(\lambda).
+%\end{equation*} 
+%\end{proof}
+\begin{cor}[De Finetti 1931]
+A binary sequence $X = \{X_n: n \in \N\}$ is exchangeable iff there exists a distribution function $F(p)$ on $[0,1]$ such that for any $n \in \N$, and $S_n=\sum_i x_i$
 \eq{
-\E[M_T|\F_0]=M_0.
+\Pr\{X_1=x_1,\dots,X_n=x_n\}=\int_0^1 p^{S_n}(1-p)^{n-S_n}dF(p). 
 }
-In particular, $\E M_T=\E M_0$.
-\end{thm}
-To prove this fact, we first note that the event $\{T>n\}$ is measurable with respect to $\F_n$ (since we need only the information up through time $n$ to determine if we have stopped by time $n$). 
-Since $M_T$ is the random variable which equals $M_j$ if $T=j$ we can write
-\eq{
-M_T = \sum_{j=0}^K M_j I\{T=j\}.
-}
-Let us take the conditional expectation with respect to $\F_{K-1}$,
-\eq{
-\E(M_T|\F_{K-1})=\E(M_KI\{T=K\}|\F_{K-1})+\sum_{j=0}^{K-1} \E(M_jI\{T=j\}|\F_{K-1}).
-}
-For $j\leq K-1, M_jI\{T=j\}$ is $\F_{K-1}$- measurable; hence
-\eq{
-\E(M_jI\{T=j\}|\F_{K-1})=M_jI\{T=j\}.
-}
-Since $T$ is known to be no more than $K$, the event $\{T=K\}$ is the same as the event $\{T>K-1\}$. The latter event is measurable with respect to $\F_{K-1}$. Hence using equality
-\eq{
-\E(YZ|\F_n)= Z\E(Y|\F_n).
-}
-Where $Y$ is any random variable and $Z$ is a random variable that is measurable with respect to finite number of random variables $X_1,X_2,\dots,X_n$.
-
-\eq{
-\E(M_KI\{T=K\}|\F_{K-1}) &=\E(M_KI\{T>K-1\}|\F_{K-1})\\
-								   &=I\{T>K-1\}\E(M_K|\F_{K-1})\\
-								   &=I\{T>K-1\}M_{K-1}.
-}
-
-The last equality follows from the fact the $M_n$ is a martingale. Therefore,
-\eq{
-\E(M_T|\F_{K-1}) &=I\{T>K-1\}M_{K-1}+\sum_{j=0}^{K-1}M_jI\{T=j\}\\
-								   &=I\{T>K-2\}M_{K-1}+\sum_{j=0}^{K-2}M_jI\{T=j\}.
-}
-If we work through this argument again, this time conditioning with respect to $\F_{K-2}$, we gat
-\eq{
-\E(M_T|\F_{K-2}) &=\E(\E(M_T|\F_{K-1})|\F_{K-2})\\
-								   &=I\{T>K-3\}M_{K-2}+\sum_{j=0}^{K-3}M_jI\{T=j\}.
-}
-We can continue this process untill we get
-\eq{
-\E(M_T|\F_0)=M_0.
-}
-
-There are many examples of interest where the stopping time $T$ is not bounded. Suppose $T$ is a stopping time with $\mathbb{P}\{T<\infty\}=1$, i.e., a rule that guarantees that one stops eventually. (Note that the time associated to the martingale betting strategy satisfies this condition.) When can we conclude that $\E(M_T)=\E(M_0)?$ To investigate this consider the stopping times $T_n=min\{T,n\}$. Note that
-\eq{
-M_T=M_{T_{n}}+M_TI\{T>n\}-M_nI\{T>n\}.
-}
-Hence,
-\eq{
-\E(M_T)=\E(M_{T_{n}})+\E(M_TI\{T>n\})-\E(M_nI\{T>n\}).
-}
-
-Since $T_n$ is a bounded stopping time, it follows from the above that $\E(M_{T_{n}})=\E(M_0)$. We would like to be able to say that the other termsdo not contribute as $n\rightarrow \infty$. The second term is not much of a problem.  Since the probability of the event $\{T>n\}$ goes to 0 as $n\rightarrow \infty$, we are taking the expectation of the random variable $M_T$ restricted to a smaller and smaller set. One can show that if $\E(|M_T|)<\infty$ then $\E(|M_T|I\{T>n\}) \rightarrow 0$.
-
-The third term, if $M_n$ and $T$ are given satisfying
-\eq{
-\lim_{n\in \N}\E(|M_n|I\{T>n\})=0,
-}
-then we will be able to conclude that $\E M_T =\E M_0$. 
-We summarize this as follows.
-\begin{thm}[Optional sampling theorem] 
-Suppose $M_0,M_1,\dots$ is a martingale with respect to $\{\F_n\}$ and $T$ is a stopping time satifsying $\mathbb{P}\{T<\infty\}=1$,
-\eq{
-\E(|M_T|)<\infty,
-}
-and
-\eq{
-\lim_{n\rightarrow \infty}\E(|M_n|I\{T>n\})=0.
-}
-Then, $\E M_T =\E M_0$.
-\end{thm}
+\end{cor}
+\begin{proof}
+Let $Y_n = \frac{S_n}{n}$ and $Y = \lim_{n \in \N}\frac{S_n}{n}$. 
+It suffices to show that for binary sequences, 
+the collection of finitely permutable events is $\sE_n = \sigma(Y_n)$. 
+Hence, the exchangeable $\sigma$-field $\sE = \sigma(Y)$, 
+and $F$ is the distribution function for the random variable $Y$. 
+\end{proof}
 
 \section{Polya's Urn Scheme}
-The number of black balls in the first $n$ draws would then have a $Bin(n,\frac{b_0}{b_0+w_0})$.
-
-
-Consider a discrete time stochastic process $\{(B_n,W_n): n \in \N\}$, where $B_n, W_n$ denote the number of black and white balls in an urn after $n \in \N$ draws. 
+We now discuss a non-trivial example of exchangeable random variables. 
+%The number of black balls in the first $n$ draws would then have a $Bin(n,\frac{b_0}{b_0+w_0})$. 
+Consider a discrete time stochastic process $\{(B_n,W_n): n \in \N\}$, 
+where $B_n, W_n$ respectively denote the number of black and white balls in an urn after $n \in \N$ draws. 
 At each draw $n$, balls are uniformly sampled from this urn. 
 After each draw, one additional ball of the same color to the drawn ball, is returned to the urn. 
-We are interested in characterizing evolution of this urn, given initial urn content $(b_0,w_0)$.  
-For example, if the first drawn ball is a black, then $(B_1,W_1) = (b_0+1, w_0)$. 
+We are interested in characterizing evolution of this urn, given initial urn content $(B_0,W_0)$.  
 
-It is clear that $B_n+W_n = b_0+w_0+n$. 
-Further, for any $n$ draws $\xi \in \{b,w\}^n$, we can find the indices of black draws
-\eq{
-I &= \{i \in [n]: \xi_i = b\}.
+Let $\xi_i$ be a random variable indicating the outcome of the $i$th draw being a black ball. 
+For example, if the first drawn ball is a black, then $\xi_1 = 1$ and $(B_1,W_1) = (B_0+1, W_0)$. 
+In general, 
+\meq{3}{
+&B_n = B_0 + \sum_{i=1}^{n}\xi_i = B_{n-1} + \xi_n,&&W_n = W_0 + \sum_{i=1}^{n}(1-\xi_i) = W_{n-1} + 1 - \xi_n.
 }
-With this, we can write the probability 
+It is clear that $B_n+W_n = B_0+W_0+n$. 
+Let $\xi$ be any sequence of indicators $\xi \in \{0,1\}^\N$. 
+We can find the indices of black balls being drawn in first $n$ draws, as 
 \eq{
-\Pr\{\xi\} &= \frac{\prod_{i = 1}^{|I|}(b_0+i-1)\prod_{j= 1}^{n-|I|}(w_0+i-1)}{\prod_{i=1}^{n}(b_0+w_0+i-1)}
+I_n(\xi) &= \{i \in [n]: \xi_i = 1\}.
 }
-We note that $\xi_i$ represent the color of the $i$th drawn ball, then we know that Polya's Urn scheme generates exchangeable random sequence $\xi = \{\xi_i : i \in \N\}$.
-Let $\sE_n = \sigma(\xi_1, \dots, \xi_n)$ be the $\sigma$-field generated by finite $n$ permutation, and $\sE = \cap_{n \in \N}\sE_n$ be the exchangeable $\sigma$-field.
+With this, we can write the probability of $x \in \{0,1\}^n$
+\eq{
+\Pr\{\xi_1 = x_1, \dots, \xi_n = x_n\} &= \frac{\prod_{i = 1}^{|I_n(x)|}(B_0+i-1)\prod_{j = 1}^{n-|I_n(x)|}(W_0+i-1)}{\prod_{i=1}^{n}(B_0+W_0+i-1)}
+}
+Since this probability depends only on $|I_n(x)|$ and not $x$, 
+it shows that any finite number of draws is finitely permutable event.  
+That is, $\xi \in \sE_n$ for each $n \in \N$. 
+Hence, any sequence of draws $\xi = \{\xi_i: i \in \N\}$ for Polya's Urn scheme is  exchangeable. 
+
+%We note that $\xi_i$ represent the color of the $i$th drawn ball, then we know that Polya's Urn scheme generates exchangeable random sequence $\xi = \{\xi_i : i \in \N\}$.
+%Let $\sE_n = \sigma(\xi_1, \dots, \xi_n)$ be the $\sigma$-field generated by finite $n$ permutation, and $\sE = \cap_{n \in \N}\sE_n$ be the exchangeable $\sigma$-field.
+We are interested in limiting ratio of black balls. 
 We represent the proportion of black balls after $n$ draws by 
 \eq{
-X_n=\frac{B_n}{B_n+W_n}=\frac{B_n}{b_0+w_0+n}. %, 0\leq X_n \leq1.
+X_n &= \frac{B_n}{B_n+W_n}=\frac{B_n}{B_0+W_0+n}. %, 0\leq X_n \leq1.
 }
-Given the past realizations $\xi_1,\xi_2,\dots,\xi_n$, we can write 
+Let $\F_n = \sigma(\xi_1, \dots, \xi_n)$ be the $\sigma$-field generated by the first $n$ indicators to black draws. 
+It is clear that 
 \eq{
-B_{n+1} &= B_n1\{\xi_n = w\} + (B_{n}+1)1\{\xi_n = b\} = B_n + 1\{\xi_n = b\}.
-}
-Therefore, we can write 
+\E[\xi_{n+1}|\F_n] = X_n.
+} 
+%Given the past realizations $\xi_1,\xi_2,\dots,\xi_n$, we can write 
+%\eq{
+%B_{n+1} &= B_n1\{\xi_n = w\} + (B_{n}+1)1\{\xi_n = b\} = B_n + 1\{\xi_n = b\}.
+%}
+Using this fact, we observe that $X = \{X_n: n \in \N\}$ is a martingale adapted to filtration $\F = \{\F_n: n \in \N\}$, since 
 \eq{
-\E[X_{n+1}|\xi_1,\xi_2,\dots,\xi_n]&=\frac{1}{b_0+w_0+n+1}\E[B_{n+1}|\xi_1,\xi_2,\dots,\xi_n] =\frac{B_n+X_n}{b_0+w_0+n+1} =X_n.
+\E[X_{n+1}|\F_n]&=\frac{1}{B_0+W_0+n+1}\E[B_{n+1}|\F_n] =\frac{B_n+X_n}{B_0+W_0+n+1} = X_n.
 }
-That means it is a martingale.
-
-
+For each $n \in \N$, we have $\E X_n^+ = \E X_n \leq 1$. 
+From Martingale convergence theorem, 
+it follows almost surely that 
+\eq{
+\lim_{n \in \N}X_n = X_0 = \frac{B_0}{B_0+W_0}.
+}
 %Let $B_n$ be the number of black balls in urn after $n$ draws and $B_0 = b_0$. Now probability of getting a black ball in first draw is
 % \eq{
 %\mathbb{P}(B_1=b_0+1)= \frac{b_0}{b_0+w_0},
@@ -159,50 +259,52 @@ That means it is a martingale.
 %\mathbb{P}(bbwww)= \frac{b_0(b_0+1)w_0(w_0+1)(w_0+2)}{\prod_{i=0}^4 (b_0+w_0+i)}\\
 %\mathbb{P}(bwwwb)= \frac{b_0w_0(w_0+1)(w_0+2)(b_0+1)}{\prod_{i=0}^4 (b_0+w_0+i)}.
 %}
-%Again above two probabilities are equal.
-\begin{defn}
-An infinite sequence $\{X_i\}_{i=1}^{\infty}$ of random variables is exchangeable if $\forall$ $n=1,2,\dots$
- \eq{
-X_1,\dots,X_n=X_{\pi(1)},\dots ,X_{\pi(n)}, \forall \pi \in S(n),
-}
-where $S(n)$ is the symmetric group, the group of permutations.
-\end{defn}
-Polya's Urn Model is one of the examples for exchangeability. An Example would be following
- \eq{
-\mathbb{P}(bbwww)=\mathbb{P}(bwwwb)
-}
-If $\xi_1,\xi_2,\dots,\xi_n$ denote the sigma algebra for the color of the drawn ball i.e., $\xi_i$ represents the color of the $i^{th}$ ball, from the definition of excangeability
-\eq{
-(\xi_1,\xi_2,\xi_3,\xi_4,\xi_5)=(\xi_2,\xi_1,\xi_5,\xi_4,\xi_3).
-}
-\begin{note}
-Polya's Urn scheme generate exchangeable sequences.
-\end{note}
-Let 
-\eq{
-X_n=\frac{B_n}{B_n+W_n}=\frac{B_n}{b_0+w_0+n},\ 0\leq X_n \leq1,
-}
-represents the proportion of black balls after $n$ draws, then given the past $\xi_1,\xi_2,\dots,\xi_n$
-\eq{
-B_{n+1} =
-\left\{
-	\begin{array}{ll}
-		B_n  & w.p \ (1-\frac{B_n}{b_0+w_0+n}) \\
-		B_{n+1} & if \ \xi_{n+1} \ w.p \ \frac{B_n}{b_0+w_0+n}.
-	\end{array}
-\right.
-}
-Now
-\eq{
-\E[X_{n+1}|\xi_1,\xi_2,\dots\xi_n]&=\frac{1}{b_0+w_0+n+1}\E[B_{n+1}|\xi_1,\xi_2,\dots\xi_n]\\
-								&=\frac{1}{b_0+w_0+n+1}\E[B_n(1-X_n)+(B_n+1)X_n]\\
-								&=\frac{B_n+X_n}{b_0+w_0+n+1}\\
-								&=X_n.
-}
-That means it is a martingale.
-\begin{note}
-$X_n$ is a martingale.
-\end{note}
+%%Again above two probabilities are equal.
+%\begin{defn}
+%An infinite sequence $\{X_i\}_{i=1}^{\infty}$ of random variables is exchangeable if $\forall$ $n=1,2,\dots$
+ %\eq{
+%X_1,\dots,X_n=X_{\pi(1)},\dots ,X_{\pi(n)}, \forall \pi \in S(n),
+%}
+%where $S(n)$ is the symmetric group, the group of permutations.
+%\end{defn}
+%Polya's Urn Model is one of the examples for exchangeability. An Example would be following
+ %\eq{
+%\mathbb{P}(bbwww)=\mathbb{P}(bwwwb)
+%}
+%If $\xi_1,\xi_2,\dots,\xi_n$ denote the sigma algebra for the color of the drawn ball i.e., $\xi_i$ represents the color of the $i^{th}$ ball, from the definition of excangeability
+%\eq{
+%(\xi_1,\xi_2,\xi_3,\xi_4,\xi_5)=(\xi_2,\xi_1,\xi_5,\xi_4,\xi_3).
+%}
+%\begin{note}
+%Polya's Urn scheme generate exchangeable sequences.
+%\end{note}
+%Let 
+%\eq{
+%X_n=\frac{B_n}{B_n+W_n}=\frac{B_n}{b_0+w_0+n},\ 0\leq X_n \leq1,
+%}
+%represents the proportion of black balls after $n$ draws, then given the past $\xi_1,\xi_2,\dots,\xi_n$
+%\eq{
+%B_{n+1} =
+%\left\{
+	%\begin{array}{ll}
+		%B_n  & w.p \ (1-\frac{B_n}{b_0+w_0+n}) \\
+		%B_{n+1} & if \ \xi_{n+1} \ w.p \ \frac{B_n}{b_0+w_0+n}.
+	%\end{array}
+%\right.
+%}
+%Now
+%\eq{
+%\E[X_{n+1}|\xi_1,\xi_2,\dots\xi_n]&=\frac{1}{b_0+w_0+n+1}\E[B_{n+1}|\xi_1,\xi_2,\dots\xi_n]\\
+								%&=\frac{1}{b_0+w_0+n+1}\E[B_n(1-X_n)+(B_n+1)X_n]\\
+								%&=\frac{B_n+X_n}{b_0+w_0+n+1}\\
+								%&=X_n.
+%}
+%That means it is a martingale.
+%\begin{note}
+%$X_n$ is a martingale.
+%\end{note}
+\end{document}
+
 \subsection{Analysis of the Polya urn model}
 \begin{thm}(De Finetti 1931)
 A binary sequence $\{X_n\}_{i=1}^{\infty}$ is exchageable iff there exixtes a distribution function $F(p)$ on $[0,1]$ such that for any $n\geq1$,
@@ -264,4 +366,3 @@ which gives the limiting distribution for Polya's urn scheme as
 f(p)=\frac{1}{\beta(B_0,W_0)}p^{B_0-1}(1-p)^{W_0-1}.
 }
 
-\end{document}
