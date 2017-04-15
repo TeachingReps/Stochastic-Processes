@@ -223,38 +223,13 @@ Thus we get
 }
 The result follows. 
 \end{proof}
-\begin{cor} 
-Show that 
-\eq{
-\E N \approx \frac{AP_A - B(1-P_A)}{\E X}.
-}
-\end{cor}
-\begin{shaded*}
-\begin{exmp}[Gambler's Ruin] 
-Consider a simple random walk with $\Pr\{X_i = 1\} = p$.  
-It is easy to see that $\E\left[(q/p)^X\right] = 1$ and thus taking $e^\theta = q/p$, we have $\E e^{\theta X} = 1$.  
-If $A$ and $B$ are integers, then there is no overshoot and hence, our approximations are exact. Thus
-\eq{
-P_A = \frac{(q/p)^B - 1}{(q/p)^{A+B} -1}.
-}
-Suppose $\E X < 0$ and we wish to know if the random walk ever crosses $A$. 
-Then
-\eq{
-1 &= \E[e^{\theta S_N}|S_N\geq A]\Pr\{T_A < T_{-B}\}+ \E[e^{\theta S_N}|S_N\leq -B]\Pr\{T_{-B} < T_A\}.
-}
-We choose  $\theta$ such that $\E e^{\theta X} = 1$. 
-Since $\E X<0$, it implies $\theta > 0$. 
-Hence, we have
-\eq{
-1 \geq e^{\theta A}\Pr\{T_A < T_{-B}\}.
-}
-Taking $B$ to $\infty$ yields
-\eq{
-\Pr\{S_n \geq A \text{ for some } n \in \N\} = \Pr\{T_A < \infty \} \leq e^{-\theta A}.
-}
 
-\end{exmp}
-\end{shaded*}
+%\begin{cor} 
+%Show that 
+%\eq{
+%\E N \approx \frac{AP_A - B(1-P_A)}{\E X}.
+%}
+%\end{cor}
 
 \section{Application to G/G/1 Queues and Ruin}
 \subsection{The G/G/1 Queue}
@@ -296,7 +271,7 @@ S_N = Y_n - X_{n+1} + S_{n-1}.
 We focus on first term on right hand side, to get 
 \eq{
 \E[e^{\theta S_N}|S_N\geq A] &= \E[\E[e^{\theta S_N}| N = n, X_{n+1}- S_{n-1}]|S_N\geq A] \\
-&=  \E[e^{\theta (X_{n+1} - S_{n-1}) }\E[e^{\theta Y_n}| N = n, X_{n+1}- S_{n-1}]|S_N\geq A]
+&=  \E[e^{\theta (X_{n+1} - S_{n-1}) }\E[e^{\theta Y_n}| N = n, X_{n+1}- S_{n-1}]|S_N\geq A]\\
 &= \E[e^{\theta (X_{n+1} - S_{n-1}) }\E[e^{\theta Y_n}|Y_n\geq (X_{n+1}-S_{n-1})+ A]| N = n, X_{n+1}- S_{n-1}].
 }
 
