@@ -3,7 +3,7 @@
 \documentclass[a4paper,10pt,english]{article}
 %\uspackage{tfrupee}
 \input{header}
-\title{Lecture 24: Exchangeability}
+\title{Lecture 24: Martingale Convergence Theorem}
 \author{}
 \begin{document}
 \maketitle
@@ -187,6 +187,98 @@ This implies $X>-\infty$ almost surely, completing the proof.
 %\begin{align*}
 %\E[|Z_n|]=\E[Z_n]=\E[Z_1].
 %\end{align*}
+\end{document}
+
+\section{Optional Sampling theorem}
+The gambling interpretation of the stochastic integral suggests that it is natural to let the amount bet at time $n$ depend on the outcomes of the first $n-1$ flips but not on the flip we are betting on, or on later flips. The next result shows that we cannot make money by gamblingon a fair game.
+
+\begin{thm}Let $X_n$ be a martingale. If $H_n$ is predictable and each $H_n$ is bounded, then $(H\cdot X)_n$ is a martingale.
+\end{thm}
+\begin{proof} It is easy to check that $(H\cdot X)_n \in \F_n$. Thhe boundedness of the $H_n$ implies $E|(H\cdot X)_n|<\infty$ for each $n$. With this established, we can compute conditional expectations to conclude
+\eq{
+E((H\cdot X)_{n+1}| \F_n)&=(H\cdot X)_n+E(H_{n+1}(X_{n+1}-X_n)| \F_n)\\
+       &=(HX)_n+H_{n+1}E(X_{n+1}-X_n| \F_n)\\
+       &=(H\cdot X)_n.\qedhere
+}
+since $H_{n+1}\in \F_n$ and $E(X_{n+1}-X_n| \F_n)=0$
+\end{proof}
+The last theorem can be interpreted as: you can't make money by gambling on a fair game. This conclusion does not hold if we only assume that $H_n$ is optional, that is $H_n\in \F_n$, since then we can base our bet on the outcome of the coin we are betting on.
+
+\begin{thm} 
+Suppose $M_0,M_1,\dots $ is a martingale with respect to$\{\F_n\}$ and suppose $T$ is a stopping time. Suppose that $T$ is bounded, $T\leq K$. Then
+\eq{
+\E[M_T|\F_0]=M_0.
+}
+In particular, $\E M_T=\E M_0$.
+\end{thm}
+To prove this fact, we first note that the event $\{T>n\}$ is measurable with respect to $\F_n$ (since we need only the information up through time $n$ to determine if we have stopped by time $n$). 
+Since $M_T$ is the random variable which equals $M_j$ if $T=j$ we can write
+\eq{
+M_T = \sum_{j=0}^K M_j I\{T=j\}.
+}
+Let us take the conditional expectation with respect to $\F_{K-1}$,
+\eq{
+\E(M_T|\F_{K-1})=\E(M_KI\{T=K\}|\F_{K-1})+\sum_{j=0}^{K-1} \E(M_jI\{T=j\}|\F_{K-1}).
+}
+For $j\leq K-1, M_jI\{T=j\}$ is $\F_{K-1}$- measurable; hence
+\eq{
+\E(M_jI\{T=j\}|\F_{K-1})=M_jI\{T=j\}.
+}
+Since $T$ is known to be no more than $K$, the event $\{T=K\}$ is the same as the event $\{T>K-1\}$. The latter event is measurable with respect to $\F_{K-1}$. Hence using equality
+\eq{
+\E(YZ|\F_n)= Z\E(Y|\F_n).
+}
+Where $Y$ is any random variable and $Z$ is a random variable that is measurable with respect to finite number of random variables $X_1,X_2,\dots,X_n$.
+
+\eq{
+\E(M_KI\{T=K\}|\F_{K-1}) &=\E(M_KI\{T>K-1\}|\F_{K-1})\\
+								   &=I\{T>K-1\}\E(M_K|\F_{K-1})\\
+								   &=I\{T>K-1\}M_{K-1}.
+}
+
+The last equality follows from the fact the $M_n$ is a martingale. Therefore,
+\eq{
+\E(M_T|\F_{K-1}) &=I\{T>K-1\}M_{K-1}+\sum_{j=0}^{K-1}M_jI\{T=j\}\\
+								   &=I\{T>K-2\}M_{K-1}+\sum_{j=0}^{K-2}M_jI\{T=j\}.
+}
+If we work through this argument again, this time conditioning with respect to $\F_{K-2}$, we gat
+\eq{
+\E(M_T|\F_{K-2}) &=\E(\E(M_T|\F_{K-1})|\F_{K-2})\\
+								   &=I\{T>K-3\}M_{K-2}+\sum_{j=0}^{K-3}M_jI\{T=j\}.
+}
+We can continue this process untill we get
+\eq{
+\E(M_T|\F_0)=M_0.
+}
+
+There are many examples of interest where the stopping time $T$ is not bounded. Suppose $T$ is a stopping time with $\mathbb{P}\{T<\infty\}=1$, i.e., a rule that guarantees that one stops eventually. (Note that the time associated to the martingale betting strategy satisfies this condition.) When can we conclude that $\E(M_T)=\E(M_0)?$ To investigate this consider the stopping times $T_n=min\{T,n\}$. Note that
+\eq{
+M_T=M_{T_{n}}+M_TI\{T>n\}-M_nI\{T>n\}.
+}
+Hence,
+\eq{
+\E(M_T)=\E(M_{T_{n}})+\E(M_TI\{T>n\})-\E(M_nI\{T>n\}).
+}
+
+Since $T_n$ is a bounded stopping time, it follows from the above that $\E(M_{T_{n}})=\E(M_0)$. We would like to be able to say that the other termsdo not contribute as $n\rightarrow \infty$. The second term is not much of a problem.  Since the probability of the event $\{T>n\}$ goes to 0 as $n\rightarrow \infty$, we are taking the expectation of the random variable $M_T$ restricted to a smaller and smaller set. One can show that if $\E(|M_T|)<\infty$ then $\E(|M_T|I\{T>n\}) \rightarrow 0$.
+
+The third term, if $M_n$ and $T$ are given satisfying
+\eq{
+\lim_{n\in \N}\E(|M_n|I\{T>n\})=0,
+}
+then we will be able to conclude that $\E M_T =\E M_0$. 
+We summarize this as follows.
+\begin{thm}[Optional sampling theorem] 
+Suppose $M_0,M_1,\dots$ is a martingale with respect to $\{\F_n\}$ and $T$ is a stopping time satifsying $\mathbb{P}\{T<\infty\}=1$,
+\eq{
+\E(|M_T|)<\infty,
+}
+and
+\eq{
+\lim_{n\rightarrow \infty}\E(|M_n|I\{T>n\})=0.
+}
+Then, $\E M_T =\E M_0$.
+\end{thm}
 
 \section{Exchangeability}
 %\begin{defn} 
@@ -318,7 +410,7 @@ A binary sequence $X = \{X_n: n \in \N\}$ is exchageable iff there exists a dist
 \end{cor}
 
 
-\end{document}
+
 
 \begin{defn} Let $\{X_i: i \in \N\}$ be \textit{iid} random variables with finite $\E[|X_1|]$. Let
 \begin{align*}
