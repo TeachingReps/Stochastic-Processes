@@ -1,0 +1,108 @@
+%--------------
+%% preamble.tex
+%% this should be included with a command like
+%% \input{preamble.tex}
+%% \lecture{``lecture number''}{``date''}{``name of professor''}{``name
+%%  of student''}
+
+\hbadness=10000
+\vbadness=10000
+
+\newcommand{\handout}[5]{
+   \renewcommand{\thepage}{\arabic{page}}
+   \noindent
+   \begin{center}
+   \framebox{
+      \vbox{
+    \hbox to 5.78in { {\bf E2 204: Stochastic Processes and Queuing Theory}
+     	 \hfill #1 }
+       \vspace{4mm}
+       \hbox to 5.78in { {\Large \hfill #4  \hfill} }
+       \vspace{2mm}
+       \hbox to 5.78in { {\it #2 \hfill #3} }
+      }
+   }
+   \end{center}
+   \vspace*{4mm}
+}
+
+%\usepackage{amsmath,amssymb,amsthm}
+%\theoremstyle{definition}
+%\newtheorem{defn}{Definition}[section]
+
+\newcommand{\lecture}[4]{\handout{#1}{Instructor: #2}{Submitted by: #3}{Efficient Collection and Exchange of Information on a Cycle}}
+
+\def\epsilon{\varepsilon}
+\def\phi{\varphi}
+\def\bool{\{0,1\}}
+\def\poly{{\sf poly}}
+\def\cross{\times}
+
+\newcommand{\xor}{\oplus}
+\newcommand{\Xor}{\bigoplus}
+\newcommand{\ceil}[1]{\left\lceil {#1} \right\rceil}
+\newcommand{\floor}[1]{\left\lfloor #1 \right\rfloor}
+\newcommand{\ignore}[1]{}
+\newcommand{\integers}[1]{{\mathbb Z}_{#1}}
+\newcommand{\bydef}{\stackrel{\rm def}{=}}
+\newcommand{\isequal}{\stackrel{\rm ?}{=}}
+\newcommand{\compeq}{\stackrel{\rm c}{\equiv}} % computationally indistinguishable
+
+\newcommand{\qed}{\hspace*{\fill}\rule{7pt}{7pt}}
+\newenvironment{proof_sketch}{\noindent{\bf Sketch of Proof} (Informal)\hspace*{1em}}{\qed\medskip}
+\newenvironment{proof}{\noindent{\bf Proof}\hspace*{1em}}{\qed\medskip}
+\newenvironment{proofof}[1]{\noindent{\bf Proof} of #1:\hspace*{1em}}{\qed\medskip}
+%\newenvironment{claim}{\noindent{\bf Claim}\hspace*{1em}\begin{em}}{\end{em}\medskip}
+\newcounter{defcounter}
+\setcounter{defcounter}{1}
+\newenvironment{definition}{\medskip\noindent{\bf Definition }}{\hspace*{\fill}$\diamondsuit$\stepcounter{defcounter}\medskip}
+\newtheorem{theorem}{Theorem}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{claim}[theorem]{Claim}
+\newtheorem{fact}[theorem]{Fact}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\newenvironment{assumption}{\noindent{\bf Assumption}\hspace*{1em}\begin{em}}{\end{em}\medskip}
+\newenvironment{remark}{\noindent{\bf Remark}\hspace*{1em}}{\bigskip}
+
+\ignore{
+\newcommand{\FOR}{{\bf for}}
+\newcommand{\TO}{{\bf to}}
+\newcommand{\DO}{{\bf do}}
+\newcommand{\WHILE}{{\bf while}}
+\newcommand{\AND}{{\bf and}}
+\newcommand{\IF}{{\bf if}}
+\newcommand{\THEN}{{\bf then}}
+\newcommand{\ELSE}{{\bf else}}
+
+%%% You probably will not need to use the commands listed below
+
+\makeatletter
+\def\fnum@figure{{\bf Figure \thefigure}}
+\def\fnum@table{{\bf Table \thetable}}
+\long\def\@mycaption#1[#2]#3{\addcontentsline{\csname
+  ext@#1\endcsname}{#1}{\protect\numberline{\csname
+  the#1\endcsname}{\ignorespaces #2}}\par
+  \begingroup
+    \@parboxrestore
+    \small
+    \@makecaption{\csname fnum@#1\endcsname}{\ignorespaces #3}\par
+  \endgroup}
+\def\mycaption{\refstepcounter\@captype \@dblarg{\@mycaption\@captype}}
+\makeatother
+
+\newcommand{\figcaption}[1]{\mycaption[]{#1}}
+\newcommand{\tabcaption}[1]{\mycaption[]{#1}}
+\newcommand{\head}[1]{\chapter[Lecture \##1]{}}
+\newcommand{\mathify}[1]{\ifmmode{#1}\else\mbox{$#1$}\fi}
+\def\half{\frac{1}{2}}
+
+\newcommand{\fig}[4]{
+        \begin{figure}
+        \setlength{\epsfysize}{#2}
+        \vspace{3mm}
+        \centerline{\epsfbox{#4}}
+        \caption{#3} \label{#1}
+        \end{figure}
+        }
+}
