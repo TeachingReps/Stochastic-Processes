@@ -289,7 +289,7 @@ The optimization problem in \ref{Opt} is thus reduced to the following optimizat
      \min\{\frac{\epsilon_2}{T \sigma_2^2},1\}, &  \sigma_1^2 > \sigma_2^2.
     \end{cases}.}
     
-  But $p_t=p^*$ satisfies the system of equations \refeq{soe2}. Also for this value of $p_t, \forall t \in [T]$,  \eq{p_{E_{t-1,j}}=p^* \quad \forall t-1 \in [T], j \in [2^{t-1}]}, satisfy the system of equations \refeq{soe1}. 
+  But $p_t=p^*$ satisfies the system of equations \refeq{soe2}. Also for this value of $p_t, \forall t \in [T]$,  \eq{p_{E_{t-1,j}}=p^* \quad \forall t-1 \in [T], j \in [2^{t-1}],} satisfy the system of equations \refeq{soe1}. 
     This proves the second statement of the solution.
   
   
@@ -320,9 +320,58 @@ Substituting the values of $\epsilon_1$ and $\epsilon_2$ in Equation \refeq{plac
 
 \end{proof}
 
+\section{Illustration}
+We illustrate our model through the following example. Consider two Bernoulli Processes $X_1(t)$ and $X_2(t)$ with parameters $q_1$ and $q_2$ respectively. These processes are measured by sensor nodes $s_1$ and $s_2$. There is one mobile  transceiver $m$ to collect the data.
+
+For this problem we wish to find the optimal estimation and scheduling policy for a Finite Time Horizon $T=10$. The maximum permissible distortion at node's $s_1$ and $s_2$ is $1$ (i.e $\epsilon_1=\epsilon_2=1$). Probability $q_2$ for Bernoulli Process $X_2(t)$ is $0.2$. We study the optimal policies for such a setup when $q_1$
+ varies from $0.1$ to $0.9$.
+ 
+ The optimal estimation policy follows from Theorem \ref{theta}.
+ \eq{&\hat{X_i(t)}=\begin{cases}
+ 		X_i(t), & \text{if}\ i=u(t) \\
+ 		q_i, & \text{otherwise}.
+ \end{cases} \ \forall i \in \{1,2\}, \forall t \in [T].}
+
+From Theorem \ref{Placement  Policy} the optimal scheduling policy is given by mixed stationary policy which at every time instant goes to sensor node $s_1$ with probability $p^*$ and goes to sensor node $s_2$ with probability $1-p^*$.
+
+We illustrate the variation in these value $p^*$ for the given example by varying
+ $q_1$ in Figure \ref{fig2}.
+\begin{figure}[h]
+	\centering
+\begin{tikzpicture}
+\begin{axis}[
+title={},
+xlabel={$q_1$},
+ylabel={$p^*$},
+xmin=0, xmax=1,
+ymin=0, ymax=1,
+xtick={0,0.2, 0.4, 0.6 , 0.8, 1},
+ytick={0,0.2, 0.4, 0.6 , 0.8, 1},
+legend pos=north west,
+ymajorgrids=true,
+xmajorgrids=true,
+grid style=dashed,
+  mark size=2.0pt,
+]
+
+\addplot[
+color=blue,
+mark=*,
+]
+coordinates {
+	(0.1, 0)(0.2, .375)(0.3, 0.625)(0.4, 0.625)(0.5, 0.625)(0.6, 0.625)(0.7, 0.625)(0.8, 0.375)(0.9, 0) 
+};
 
 
+\end{axis}
+\end{tikzpicture}
+\caption{Variation of $p^*$ with respect to $q_1$}
+\label{fig2}
+\end{figure}
 
+As $q_1$ increase from $0.1$ to $0.5$, $\sigma_1^2$ increases. Also when  $q_1$ increase from $0.5$ to $0.9$, $\sigma_1^2$ decreases. 
+When $q_1 \in[0, 0.2]$ ,$\sigma_1^2 \leq \sigma_2^2$.  When $q_1 \in[0.2, 0.8]$ , $\sigma_1^2 \geq \sigma_2^2$.
+Also when $q_1 \in [0.8,1]$ , $\sigma_1^2 \leq \sigma_2^2$. Thus the transceiver has a greater probability $p^*$ of going to sensor node $s_1$ when $q \in [0.2, 0.8]$.
 \section{Conclusion}
 
 We proposed a model for collection of data in wireless sensor networks through mobile transceivers.This  models tackles the problem of limited battery availability at sensor nodes.
