@@ -34,23 +34,23 @@
 \usepackage[mathscr]{eucal}
 \usepgflibrary{shapes}
 \usetikzlibrary{%
-  	arrows,%
-	backgrounds,%
-	chains,%
-	decorations.pathmorphing,% /pgf/decoration/random steps | erste Graphik
-	decorations.text,%
-	matrix,%
-  	positioning,% wg. " of "
-  	fit,%
-	patterns,%
-  	petri,%
-	plotmarks,%
-  	scopes,%
-	shadows,%
-  	shapes.misc,% wg. rounded rectangle
-  	shapes.arrows,%
-	shapes.callouts,%
-  	shapes%
+  arrows,%
+  backgrounds,%
+  chains,%
+  decorations.pathmorphing,% /pgf/decoration/random steps | erste Graphik
+  decorations.text,%
+  fit,%
+  matrix,%
+  patterns,%
+  petri,%
+  positioning,% wg. " of "
+  plotmarks,%
+  scopes,%
+  shadows,%
+  shapes,%
+  shapes.arrows,%
+  shapes.callouts,%
+  shapes.misc% wg. rounded rectangle
 }
 
 \theoremstyle{plain}
@@ -71,8 +71,13 @@
 \newtheorem{note}{Note}
 \newtheorem{fact}{Fact}
 
-\newcommand{\norm}[1]{\left\lVert#1\right\rVert}
-\newcommand{\indep}{\!\perp\!\!\!\perp}
+\definecolor{lightgray}{gray}{0.9}
+
+%\DeclarePairedDelimiter{\ceil}{\left\lceil}{\right\rceil}%
+\newcommand{\eq}[1]{\begin{align*}#1\end{align*}}
+\newcommand{\ceil}[1]{\left\lceil#1\right\rceil}%
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert}%
+\newcommand{\indep}{\!\perp\!\!\!\perp}%
 \DeclarePairedDelimiter\abs{\lvert}{\rvert}%
 \newcommand\numberthis{\addtocounter{equation}{1}\tag{\theequation}}
 \newcommand{\tr}{\operatorname{tr}}
@@ -85,6 +90,7 @@
 \newcommand{\T}{\mathscr{T}}
 \newcommand{\F}{\mathcal{F}}
 \newcommand{\G}{\mathcal{G}}
+\newcommand{\X}{\mathcal{X}}
 %\newcommand{\ba}{\begin{align*}}
 %\newcommand{\ea}{\end{align*}}
 \DeclareMathOperator*{\argmax}{arg\,max}
