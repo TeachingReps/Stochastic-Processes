@@ -142,17 +142,18 @@ for pp=1:30
     PI4=PI4*tpm4; 
 end
 PI5=PI4;
-
+tvd=[];
 %%%%% AFTER FEBRUARY
 for nn=1:10000
     PI5=PI5*tpm1;
+    tvd=[tvd 0.5*sum(abs(PI5-Pstationary))];
     if(abs(PI5-Pstationary)<=(10^-5)*ones(1,n))
         break;
     end
 end
 
 
-Simulated_Expected_Mixing_Time=nn
+
 %%%%Theoretical
 
 PP= kron(Pstationary,ones(n,1));
@@ -163,7 +164,7 @@ D=inv(kron((diag(PP))',ones(n,1)).*eye(n));
 E=ones(n,n);
 Cd=kron((diag(C))',ones(n,1)).*eye(n);
 M=(C-E*Cd+E)*D;
-Theoretical_Expected_time_to_mix=M(1,:)*Pstationary'
+Expected_time_to_mix=M(1,:)*Pstationary';
 
 
 
@@ -223,6 +224,20 @@ ylabel('Probability');
 title('January 8th-Febraury 7th');
 axis([0 10000 -0.02 1]);
 
+figure;
+plot(1:nn,tvd,'r*-');
+grid on;
+xlabel('No. of days')
+ylabel('Total variation distance');
+title('Total variation distance between stationary distribution and the current distribution');
 
+axis([0 25 0 0.2]);
+
+figure;
+plot(15:nn,tvd(15:nn),'r*-');
+grid on;
+xlabel('No. of days')
+ylabel('Total variation distance');
+title('Total variation dist btw stationary & current distribution');
 
 
