@@ -1,7 +1,11 @@
 \documentclass[12pt]{article}
-\usepackage[pdftex]{graphicx}
+%\usepackage[pdftex]{graphicx}
 \input{header}
 \usepackage{tabu}
+%\usepackage[demo]{graphicx}
+\usepackage{caption}
+%\usepackage{subcaption}
+\usepackage{float}
 
 \begin{Huge}
 	\title{SPQT PROJECT REPORT \\CHARACTERIZATION OF ECONOMY}
@@ -120,7 +124,7 @@ The cash-in-hand is modeled as a Discrete Time Markov Process. The state space o
 The transitions among these state spaces are caused by inflow of cash (mostly by ATM withdrawals) and consumption. The Transition Probability Matrix of this DTMC is a 21x21 matrix. The inter-arrival times between each withdrawals and consumption events are assumed to be geometrically distributed.\\
 We have considered two separate scenarios: before and after demonetization (Nov 8th). \\
 Assume that the DTMC already follows stationary distribution before demonetization. 
-On November 8th, demonetization acted as a disturbance to this DTMC which had achieved stationarity, thereby changing the Transition Probability Matrix (TPM) to a great extent. \\We made observations in the time period of four months from November 2016 to February 2017, during which the economic policies deciding the limit of withdrawal from banks kept changing. With any change in the policy, the TPM also changes. By February, the withdrawal limits were restored to the values before demonetization.  We have assumed that after January 17th the TPM became almost same as the one before demonetization was put in effect, the DTMC may not have achieved stationary distribution though.\\ With the same TPM and a different distribution, the mixing times can be calculated. The expected value of mixing time will provide an estimate of the time for the economy to stabilize.
+On November 8th, demonetization acted as a disturbance to this DTMC which had achieved stationarity, thereby changing the Transition Probability Matrix (TPM) to a great extent. \\We made observations in the time period of four months from November 2016 to February 2017, during which the economic policies deciding the limit of withdrawal from banks kept changing. With any change in the policy, the TPM also changes. By the end of February 2017, the withdrawal limits were restored to the values before demonetization.  We have assumed that after January 17th the TPM became almost same as the one before demonetization was put in effect, the DTMC may not have achieved stationary distribution though.\\ With the same TPM and a different initial distribution, the mixing times can be calculated. The expected value of mixing time will provide an estimate of the time for the economy to stabilize.
 
 \section{WORK DONE}
 In this project we are considering only the middle class population. We collected bank statements of 100 people from October 2016 to February 2017.\\ As curve-fitting to an already existing probability distribution could not be done to the data collected, we empirically calculated the probability of withdrawals and consumption of each value in state space.\\For example, probability of withdrawing Rs.500 = (Number of times Rs.500 was withdrawn from ATMs)/(Total number of withdrawals from ATMs).\\For a 31-day month, total number of withdrawals by 100 people = 31 x 100 ,assuming 'Rs.0' withdrawals are also possible.
@@ -238,7 +242,7 @@ Expenditure per day (in Rs.)  & Oct-Nov & Nov-Dc & Dec-Jan & Jan-Feb \\
 
 \subsection{TPM Construction}
 Let $\lbrace$P$_{k}$,k$\geq$0$\rbrace$ denote the DTMC under consideration.\\
-$\lbrace$A$_{k}$,k$\geq$0$\rbrace$ : Withdrawal process\\ 
+$\lbrace$A$_{k}$,k$\geq$0$\rbrace$ : Withdrawal process from ATMs and banks\\ 
 $\lbrace$C$_{k}$,k$\geq$0$\rbrace$ : Consumption process\\ 
 \begin{center}
 P$_{k+1}$ = P$_{k}$ + A$_{k}$ - C$_{k}$\\
@@ -268,10 +272,10 @@ The inter-arrival times of withdrawal and consumption processes are geometricall
  pconsumption = 1 - Pr(zero consumption)
 \end{center}
 \subsection{Two cases}
-We considered two cases towards end of February(When the financial policy was restored as before):\\
+The financial policies on withdrawal loimits from banks and ATMs were restored by the end of February 2017.We are considering two cases:\\
 \begin{itemize}
-	\item TPM same as that before demonetization 
-	\item TPM with small perturbations \\
+	\item TPM became same as that before demonetization. 
+	\item TPM became a slighlty perturbed version of the one before demonetiztion. \\
 	$\overline{P}$=P+$\textbf{E}$, \hspace{2pt} where $\textbf{E}$=[$\epsilon_{ij}$] is the matrix of perturbations with the property that $\sum_{j=1}^{M}\epsilon_{ij}$=0\\
 	Let $\pi^{T}$ and $\overline{\pi}^{T}$ be the stationary probability vectors for P and $\overline{P}$ respectively.\\
 	From [3], it can be shown that for an irreducible M state Markov chin undergoing a general perturbation $\textbf{E}$=[$\epsilon_{ij}$]\\
@@ -283,67 +287,125 @@ We considered two cases towards end of February(When the financial policy was re
 
 \section{RESULTS}
 
-Expected Mixing time :From the end of February 2017
+Two different cases were considered towards end of February 2017 when the financial policies on withdrawal limits from the banks and ATMs were restored:
+
 \begin{itemize}
-\item From Eqn (1) : 21 days (Without perturbation)
-\item From MATLAB simulations : 24 days (Without perturbation)
-\item From Eqn(10) : 28 days (With perturbation)
+\item TPM becomes exactly same as that before demonetization.
+\begin{itemize}
+\item In this case, the MATLAB simulations indicate that the expected mixing time is 24 days.
+\begin{center}
+$\eta_{simulated}$ = 24 days
+\end{center}
+\item From equation (1), a theoretical value for the expected mixing time was calculated.
+\begin{center}
+$\eta_{theoretical}$ = 21 days
+\end{center}
+
+
 \end{itemize}
-
-Probability distribution curves of withdrawal and consumption values are plotted below\\ \\ \\ \\ \\ \\ \\
-
-
-\begin{figure}
-	\centering
-	\includegraphics[scale=0.65]{WOCT.png}
-	\caption{}
-	\label{fig:fig1}
-\end{figure}
-\begin{figure}
-	\centering
-	\includegraphics[scale=0.65]{COCT.png}
-	\caption{}
-	\label{fig:fig2}
-\end{figure}
-
-\begin{figure}
-	\centering
-	\includegraphics[scale=0.65]{WNOV.png}
-	\caption{}
-	\label{fig:fig3}
-\end{figure}
-\begin{figure}
-	\centering
-	\includegraphics[scale=0.65]{CNOV.png}
-	\caption{}
-	\label{fig:fig4}
-\end{figure}
-\begin{figure}
-	\centering
-	\includegraphics[scale=0.65]{WDEC.png}
-	\caption{}
-	\label{fig:fig5}
-\end{figure}
-\begin{figure}
-	\centering
-	\includegraphics[scale=0.65]{CDEC.png}
-	\caption{}
-	\label{fig:fig6}
-\end{figure}
-\begin{figure}
-	\centering
-	\includegraphics[scale=0.65]{WJAN.png}
-	\caption{}
-	\label{fig:fig7}
-\end{figure}
-\begin{figure}
-	\centering
-	\includegraphics[scale=0.65]{CJAN.png}
-	\caption{}
-	\label{fig:fig8}
+\item In the second case, we assumed that the TPM by the end of February 2017 becomes a slightly perturbed version of the one before demonetization. Using Equation (10),a lower bound on expected mixing time was calculated
+\begin{center}
+$\eta_{lower bound}$ = 28 days
+\end{center}
+\end{itemize}
+\begin{figure}[H]
+\centering
+\begin{subfigure}
+  \centering
+  \includegraphics[width=.4\linewidth]{TVD1.png}
+  %\caption{Total variation distance}
+  %\label{fig:sub1}
+\end{subfigure}
+\begin{subfigure}
+  \centering
+  \includegraphics[width=.4\linewidth]{TVD2.png}
+  %\caption{A subfigure}
+  %\label{fig:sub2}
+\end{subfigure}
+\caption{Total variation distance}
+\label{fig:test}
 \end{figure}
 
+From the above figure,obtained using MATLAB simulations, it can be observed that the total variation distance between the current distribution and the stationary distribution goes below 10$^{-5}$ for the first time on the 24$^{th}$ day.
 
+\section{CONCLUSION}
+The aim of this project was to model the effect of demonetization on consumption and predict the mean time by which economy stabilizes.We modeled cash-in-hand as a Discrete Time Markov Process. The changes in financial policies on withdrawal limits from November 2016 to February 2017 were observed. A different Transition Probability Matrix was constructed empirically for every change in policy using the data collected.As per the records in the website of Reserve Bank of India, by 20$^{th}$ February 2017, the withdrawal limits from banks and ATMs were restored.
+\begin{itemize}
+\item Under the assumption that TPM of the DTMC has become exactly the same as that before demonetization, the MATLAB simulations run by us indicated that by  16$^{th}$ March 2017, the economy  stabilized. Theoretical calculations suggests that the economy had stabilized by 13$^{th}$ March 2017.
+\item We also considered another scenario in which TPM becomes a slighlty perturbed version of the one before demonetization.In this case, a lower bound on expected mixing time was found to 28 days,thereby indicating that economy could have stabilized only after 20$^{th}$ March 2017.
+\end{itemize} 
+\newpage
+\section{APPENDIX}
+From the data collected, the probability of consumption and withdrawal taking each value in state space were calculated empirically.Probability mass functions of withdrawal and consumption values are plotted below.
+\\\\
+\begin{figure}[H]
+\centering
+\begin{subfigure}
+  \centering
+  \includegraphics[width=.43\linewidth]{WOCT.png}
+  %\caption{Total variation distance}
+  %\label{fig:sub1}
+\end{subfigure}
+\begin{subfigure}
+  \centering
+  \includegraphics[width=.43\linewidth]{COCT.png}
+  %\caption{A subfigure}
+  %\label{fig:sub2}
+\end{subfigure}
+%\caption{Total variation distance}
+\label{fig:test}
+\end{figure}
+\begin{figure}[H]
+\centering
+\begin{subfigure}
+  \centering
+  \includegraphics[width=.43\linewidth]{WNOV.png}
+  %\caption{Total variation distance}
+  %\label{fig:sub1}
+\end{subfigure}
+\begin{subfigure}
+  \centering
+  \includegraphics[width=.43\linewidth]{CNOV.png}
+  %\caption{A subfigure}
+  %\label{fig:sub2}
+\end{subfigure}
+%\caption{Total variation distance}
+\label{fig:test}
+\end{figure}
+\begin{figure}[H]
+\centering
+\begin{subfigure}
+  \centering
+  \includegraphics[width=.43\linewidth]{WDEC.png}
+  %\caption{Total variation distance}
+  %\label{fig:sub1}
+\end{subfigure}
+\begin{subfigure}
+  \centering
+  \includegraphics[width=.43\linewidth]{CDEC.png}
+  %\caption{A subfigure}
+  %\label{fig:sub2}
+\end{subfigure}
+%\caption{Total variation distance}
+\label{fig:test}
+\end{figure}
+\begin{figure}[H]
+\centering
+\begin{subfigure}
+  \centering
+  \includegraphics[width=.43\linewidth]{WJAN.png}
+  %\caption{Total variation distance}
+  %\label{fig:sub1}
+\end{subfigure}
+\begin{subfigure}
+  \centering
+  \includegraphics[width=.43\linewidth]{CJAN.png}
+  %\caption{A subfigure}
+  %\label{fig:sub2}
+\end{subfigure}
+%\caption{Total variation distance}
+\label{fig:test}
+\end{figure}
 \newpage
 \section{REFERENCE}
 \begin{scriptsize}
@@ -366,6 +428,10 @@ $[5]$ https://www.rbi.org.in/Scripts/NotificationUser.aspx\\
 
 
 
+
+
+
+\end{document}
 
 
 
