@@ -32,10 +32,10 @@ A counting process is \textbf{simple} if the jump size is unity.
 \end{enumerate}
 \end{shaded*}
 We can simplify this definition for $d=1$. 
-A stochastic process $\{N(t), t\geqslant 0\}$ is a \textbf{counting process} if
+A stochastic process $\{N(t), t\ge 0\}$ is a \textbf{counting process} if
 \begin{enumerate}
   \item $N(0) = 0$, and 
-  \item for each $\omega \in \Omega$, the map $t\mapsto N(t)$ is non-decreasing, integer valued, and right continuous.% and at points of discontinuity $(N(t)- N(t^{-}))\leqslant 1,~~\forall \omega \in \Omega$. 
+  \item for each $\omega \in \Omega$, the map $t\mapsto N(t)$ is non-decreasing, integer valued, and right continuous.% and at points of discontinuity $(N(t)- N(t^{-}))\le 1,~~\forall \omega \in \Omega$. 
 \end{enumerate}
 
 \begin{lem} 
@@ -46,7 +46,7 @@ A counting process has finitely many jumps in a finite interval $[0,t)$.
 The points of discontinuity correspond to the arrival instants of the point process $N(t)$. 
 The \textbf{$n$th arrival instant} is a random variable denoted $S_n$, such that  
 \begin{xalignat*}{3}
-&S_0 = 0, &&S_n = \inf\{t \geq 0: N(t) \geqslant n\},~n \in \N.
+&S_0 = 0, &&S_n = \inf\{t \geq 0: N(t) \ge n\},~n \in \N.
 \end{xalignat*}
 %\end{defn}
 %\begin{defn} 
@@ -58,43 +58,43 @@ X_n = S_n - S_{n-1}.
 %\begin{rem} 
 For a simple point process, we have
 \begin{align*}
-P\{X_{n} = 0\} &= P\{X_n\leqslant 0\} = 0.
+P\{X_{n} = 0\} &= P\{X_n\le 0\} = 0.
 \end{align*}
 %This is equivalent to a point process not having an atom at any point on the line. 
 General point processes in higher dimension don't have any inter-arrival time interpretation. 
 %\end{rem}
 \begin{figure}[hhhh]
 \center
-	\input{Figures/Poisson}
-	\caption{Sample path of a simple counting process.}
-	\label{Fig:Poisson}
+\input{Figures/Poisson}
+\caption{Sample path of a simple counting process.}
+\label{Fig:SimpleCounting}
 \end{figure}
 
-\begin{lem} Simple counting process $\{N(t), t \geqslant 0\}$ and arrival process $\{S_n: n \in \N\}$ are inverse processes. That is,
+\begin{lem} Simple counting process $\{N(t), t \ge 0\}$ and arrival process $\{S_n: n \in \N\}$ are inverse processes. That is,
 \begin{align*}
-\{S_n \leqslant t\} = \{N(t) \geqslant n\}.
+\{S_n \le t\} = \{N(t) \ge n\}.
 \end{align*}
 \end{lem}
-\begin{proof} Let $\omega \in \{S_n \leqslant t\}$, then $N(S_n) = n$ by definition. 
+\begin{proof} Let $\omega \in \{S_n \le t\}$, then $N(S_n) = n$ by definition. 
 %from right continuity of the counting process. 
 Since $N$ is a non-decreasing process, we have $N(t) \geq N(S_n) = n$. 
-%It follows that $\{S_n \leqslant t\} \subseteq \{N(t) \geqslant n\}$.
-Conversely, let $\omega \in \{N(t) \geqslant n\}$, then it follows from definition that $S_n \leq t$.
+%It follows that $\{S_n \le t\} \subseteq \{N(t) \ge n\}$.
+Conversely, let $\omega \in \{N(t) \ge n\}$, then it follows from definition that $S_n \leq t$.
 \end{proof}
 
 \begin{cor} The following identity is true.
 \begin{align*}
-\{S_n \leqslant t, S_{n+1} > t\} = \{N(t) = n\}.
+\{S_n \le t, S_{n+1} > t\} = \{N(t) = n\}.
 \end{align*}
 \end{cor}
 \begin{proof}
 It is easy to see that 
 \begin{align*}
-\{S_{n+1} > t \} &= \{S_{n+1} \leqslant t\}^c = \{N(t) \geqslant n+1\}^c = \{N(t) < n+1\}.
+\{S_{n+1} > t \} &= \{S_{n+1} \le t\}^c = \{N(t) \ge n+1\}^c = \{N(t) < n+1\}.
 \end{align*}
 Hence, the result follows by writing 
 \begin{align*}
-\{N(t) = n\} &= \{N(t) \geqslant n, N(t) < n+1\} = \{S_n \leqslant t, S_{n+1} > t\}.
+\{N(t) = n\} &= \{N(t) \ge n, N(t) < n+1\} = \{S_n \le t, S_{n+1} > t\}.
 \end{align*}
 \end{proof}
 
@@ -106,7 +106,7 @@ P_n(t) \triangleq P\{N(t) = n\} = F_{n}(t)-F_{n+1}(t).
 \end{lem}
 \begin{proof} It suffices to observe that following is a union of disjoint events,
 \begin{align*}
-\{S_n \leqslant t \} &= \{S_n \leqslant t, S_{n+1} > t\} \cup \{S_{n} \leqslant t, S_{n+1} \leqslant t\}.
+\{S_n \le t \} &= \{S_n \le t, S_{n+1} > t\} \cup \{S_{n} \le t, S_{n+1} \le t\}.
 \end{align*}
 \end{proof}
 
@@ -115,15 +115,15 @@ P_n(t) \triangleq P\{N(t) = n\} = F_{n}(t)-F_{n+1}(t).
 For an interval $I = (s,t]$, the number of arrivals in the interval $I$ is defined as $N(I) = N(t) - N(s)$. 
 %\end{defn}
 %\begin{defn} 
-Consider an arbitrary collection of mutually exclusive intervals $\{I_j: j \in [n]\}$, time index $t \geqslant 0$, and set of positive integers $\{k_j \in \N_0 : j \in [n]\}$. 
-A counting process $\{N(t), t\geqslant 0\}$ has \textbf{stationary increments} if
+Consider an arbitrary collection of mutually exclusive intervals $\{I_j: j \in [n]\}$, time index $t \ge 0$, and set of positive integers $\{k_j \in \N_0 : j \in [n]\}$. 
+A counting process $\{N(t), t\ge 0\}$ has \textbf{stationary increments} if
 \begin{align*}
 P\{N(I_j) = k_j, j \in [n]\} &= P\{N(t + I_j) = k_j, j \in [n]\}.
 \end{align*}
-%, the joint distribution of $(N(t_{n})-N(t_{n-1}),N(t_{n-1})-N(t_{n-2}),...,N(s))$ is identical to the joint distribution of $(N(t_{n}+t)-N(t_{n-1}+t),...,N(s+t)), ~ \forall t \geqslant 0$.
+%, the joint distribution of $(N(t_{n})-N(t_{n-1}),N(t_{n-1})-N(t_{n-2}),...,N(s))$ is identical to the joint distribution of $(N(t_{n}+t)-N(t_{n-1}+t),...,N(s+t)), ~ \forall t \ge 0$.
 %\end{defn}
 %\begin{defn} 
-A counting process $\{N(t), t\geqslant 0\}$ has \textbf{independent increments} if %for any $k_j\in \N_0, j \in [n]$
+A counting process $\{N(t), t\ge 0\}$ has \textbf{independent increments} if %for any $k_j\in \N_0, j \in [n]$
 %if it has stationary increments and the increments are independent random variables.
 \begin{align*}
 P\{N(I_j) = k_j, j \in [n]\} &= \prod_{j \in [n]}P\{N(I_j) = k_j\}.
@@ -149,7 +149,7 @@ Conversely, we suppose that $\{S_n: n \in \N_0\}$ has stationary and independent
 Then, $\{X_n: n \in \N\}$ is a sequence of \textit{iid} random variables by looking at $X_n = S_n - S_{n-1}$.   
 \end{proof}
 
-\begin{lem} If a simple counting process $\{N(t), t \geqslant 0\}$ has stationary and independent increments then 
+\begin{lem} If a simple counting process $\{N(t), t \ge 0\}$ has stationary and independent increments then 
 the sequence of inter-arrival times $\{X_n: n \in \N\}$ are \textit{iid} random variables.
 \end{lem}
 \begin{proof} 
@@ -157,16 +157,16 @@ the sequence of inter-arrival times $\{X_n: n \in \N\}$ are \textit{iid} random 
 %and then $S_{n+m} - S_m$ has same distribution as $S_n$ and is independent of $(X_1, \ldots, X_m)$. 
 %Then, for the ordered disjoint intervals $\{I_j = (a_j ,b_j]: j \in [n]\}$ such that $b_{j-1} \leq a_j$ for each $j$, and $K_j \triangleq \sum_{i = 1}^{j}k_i$, we have
 %\begin{align*}
-%\{N(I_j) = k_j\} &= \{N(b_j) - N(a_j) = k_j\} = \{S_{N(a_j)+k_j+1} - S_{N(a_j)} > |I_j|, S_{N(a_j)+k_j} - S_{N(a_j)} \leqslant |I_j|\}
+%\{N(I_j) = k_j\} &= \{N(b_j) - N(a_j) = k_j\} = \{S_{N(a_j)+k_j+1} - S_{N(a_j)} > |I_j|, S_{N(a_j)+k_j} - S_{N(a_j)} \le |I_j|\}
 %\end{align*}
 %Then, for the ordered disjoint intervals $\{I_j = (t_{j-1} ,t_j]: j \in [n]\}$ and $K_j \triangleq \sum_{i = 1}^{j}k_i$, we have 
 %\begin{align*}
 %P\cap_{j \in [n]}\{N(I_j) = k_j\} &= P\cap_{j \in [n]}\{ N(t_j) =  K_j\}\\
-%&= P\cap_{j \in [n]}\{X_{K_j+1}+ S_{K_j} - S_{K_{j-1}} > |I_j|, S_{K_j} - S_{K_{j-1}} \leqslant |I_j|\}. 
+%&= P\cap_{j \in [n]}\{X_{K_j+1}+ S_{K_j} - S_{K_{j-1}} > |I_j|, S_{K_j} - S_{K_{j-1}} \le |I_j|\}. 
 %\end{align*}
 First, we notice that from inverse relationship, we have 
 \begin{align*}
-\{X_{n} > y\} = \{ N(S_{n-1}) \leqslant N(S_{n-1} + y) < N(S_{n})\} = \{N(S_{n-1}+y)-N(S_{n-1}) = 0\}. 
+\{X_{n} > y\} = \{ N(S_{n-1}) \le N(S_{n-1} + y) < N(S_{n})\} = \{N(S_{n-1}+y)-N(S_{n-1}) = 0\}. 
 \end{align*}
 To show that each inter-arrival time is identically distributed, we utilize the stationarity of the increments of the counting process $N(t)$, to observe 
 \begin{align*}
@@ -183,12 +183,12 @@ To show that inter-arrival times are independent, it suffices to show that $X_{n
 % to show that all inter-arrival times are independent. 
 Since the increments of the counting process $N(t)$ are independent, we see that 
 %\begin{align*}
-%\{S_n \leqslant x, S_{n+1} - S_n > y\} &= \{S_n \leqslant x, N(y+S_n) - N(S_n) = 0\},\\
-%&=\{n = N(S_n) \leqslant N(x), N(y+S_n)-N(S_n)\}. 
+%\{S_n \le x, S_{n+1} - S_n > y\} &= \{S_n \le x, N(y+S_n) - N(S_n) = 0\},\\
+%&=\{n = N(S_n) \le N(x), N(y+S_n)-N(S_n)\}. 
 %\end{align*}
 %Further, we observe that
 \begin{align*}
-P\{S_{n-1} \leqslant x, X_{n} > y\} &%= P\{N(S_{n-1} + y) - N(S_{n-1}) = 0, S_{n-1} \leqslant x\} 
+P\{S_{n-1} \le x, X_{n} > y\} &%= P\{N(S_{n-1} + y) - N(S_{n-1}) = 0, S_{n-1} \le x\} 
 = \int_{0}^{x}P\{N(y+t) - N(t) = 0|S_{n-1} = t\}dF_{n-1}(t)\\
 &= \int_{0}^{x}P\{N(y+t) - N(t) = 0|N(t) = n-1, N(s) < n-1, s < t \}dF_{n-1}(t) \\
 &= P\{X_n > y\}F_{n-1}(x).
@@ -198,13 +198,13 @@ P\{S_{n-1} \leqslant x, X_{n} > y\} &%= P\{N(S_{n-1} + y) - N(S_{n-1}) = 0, S_{n
 
 \section{Poisson process}
 %\begin{defn} 
-A simple counting process $\{N(t),~ t\geqslant 0\} $ is called a \textbf{Poisson process} with a finite positive rate $\lambda$, 
+A simple counting process $\{N(t),~ t\ge 0\} $ is called a \textbf{Poisson process} with a finite positive rate $\lambda$, 
 if the inter-arrival times $\{X_{n}: n \in \N\}$ are \textit{iid} random variables with an exponential distribution of rate $\lambda$. 
 That is, it has a distribution function $F$, such that 
  \begin{align*}
- F(x) = P\{X_{1}\leqslant x\} = 
+ F(x) = P\{X_{1}\le x\} = 
 	\begin{cases}
-		1-e^{-\lambda x}, & x\geqslant 0   \\
+		1-e^{-\lambda x}, & x\ge 0   \\
 		0,  & \text{ else}.
 	\end{cases}
 \end{align*}
@@ -221,7 +221,7 @@ We need the following lemma that enables us to do that.
 \end{align*}
 %Therefore, we have $S_n \rightarrow \infty$, a.s. This implies $P\{N(t) < \infty\} =1$. To see this, 
 Fix $t > 0$ and we define a sample space subset $M = \{\omega \in \Omega: N(t)(\omega) = \infty \}$. 
-For any $\omega \in M$, we have $S_{n}(\omega)\leqslant t$ for all $n \in \N$. 
+For any $\omega \in M$, we have $S_{n}(\omega)\le t$ for all $n \in \N$. 
 This implies $\lim\sup_n\frac{S_{n}}{n} = 0$  and $\omega \not\in \{\lim_n \frac{S_{n}}{n} = \frac{1}{\lambda} \}.$ Hence, the probability measure for set $M$ is zero. 
 \end{proof}
 
@@ -243,7 +243,7 @@ It follows that $\bar{F}(t) \triangleq 1 - F(t)$ satisfies the semi-group proper
 \end{align*}
 %Since $\{X > t + s\} =\{ X>t+s, X>t\}$, we have $g(t+s) = g(t)g(s)$ and hence $g(0) = g^2(0)$. Therefore, $g(0)$ is either unity or zero. Note, that $g$ is a right continuous function and is non-negative. 
 %
-%We will show that $g$ is an exponential function. That is, $g(t) = e^{\theta t}$ for some $\theta \geqslant 0$. We will prove this in stages. First, we show this is true for $t \in \mathbb{Z}^+$. Notice that we can obtain via induction
+%We will show that $g$ is an exponential function. That is, $g(t) = e^{\theta t}$ for some $\theta \ge 0$. We will prove this in stages. First, we show this is true for $t \in \mathbb{Z}^+$. Notice that we can obtain via induction
 %\begin{eqnarray*}
 %	g(2) &=& g(1) g(1) = g^{2}(1), \mathrm{ and }\\
 %	g(m) &=& [g(1)]^{m}.
@@ -267,7 +267,7 @@ Since $\bar{F}(x) = P\{X > x\}$  is non-increasing in $x \in \R_+$, we have $\ba
 \begin{lem} Moment generating function of arrival times $S_n$ is 
  \begin{align*}
 \E[e^{\theta S_n} ] &= \begin{cases}
-\frac{\lambda^n}{(\lambda-\theta)^n}, & \theta < \lambda \\ \infty, & \theta \geqslant \lambda.
+\frac{\lambda^n}{(\lambda-\theta)^n}, & \theta < \lambda \\ \infty, & \theta \ge \lambda.
 \end{cases} 
  \end{align*} 
 \end{lem}
@@ -287,7 +287,7 @@ Since $\bar{F}(x) = P\{X > x\}$  is non-increasing in $x \in \R_+$, we have $\ba
 %  \mathbb{E} [ e^{\theta X_1} ] = 
 %		\begin{cases}
 %		\frac{\lambda}{(\lambda-\theta)}, & \theta < \lambda \\
-%		\infty, & \theta \geqslant \lambda.
+%		\infty, & \theta \ge \lambda.
 %		\end{cases} 
 % \end{align*} 
 %\end{proof}
@@ -319,7 +319,7 @@ Result follows from density of $S_n$ and recognizing that
 P_n(t) = F_n(t) - F_{n+1}(t).
 \end{align*}
 %\begin{eqnarray*}
-%   P\{N(t) =n\}&=&  P\{S_{n}\leqslant t, S_{n+1} >t)\\
+%   P\{N(t) =n\}&=&  P\{S_{n}\le t, S_{n+1} >t)\\
 %   &=&  \int^{t}_{0} P\left\{ {S_{n+1}>t}|{S_{n}=s}\right\}f_{n}(s)  ds\\
 %   &\stackrel{(a)}{=}& \int^{t}_{0} P\{X_{n+1}>t-s\} f_{n}(s) ds\\
 %   &=&  \int^{t}_{0}e^{-\lambda(t- s)} \frac{\lambda^{n}s^{n-1}}{(n-1)!}e^{-\lambda s}  ds\\
@@ -337,7 +337,7 @@ P_n(t) = F_n(t) - F_{n+1}(t).
 \begin{proof}
 First result follows from the telescopic sum and the second from the following observation.
 \begin{align*}
-\sum_{n \in \N}F_n(t) &= \E\sum_{n \in \N}1\{N(t) \geqslant n\} = \sum_{n \in \N}P\{N(t) \geqslant n\} = \E N(t).
+\sum_{n \in \N}F_n(t) &= \E\sum_{n \in \N}1\{N(t) \ge n\} = \sum_{n \in \N}P\{N(t) \ge n\} = \E N(t).
 \end{align*}
 \end{proof}
 %\begin{proof}[Omit]
@@ -425,7 +425,7 @@ By definition of $\theta$ and induction for $m,n \in \Z^+$, we see that
 Let $q \in \Q$, then it can be written as $m/n, n \neq 0$ for some $m,n \in \Z^+$. 
 Hence, it is clear that for all $q \in \Q^+$, we have $f(q) = e^{\theta q}$.
 either unity or zero. Note, that $f$ is a right continuous function and is non-negative. 
-%We will show that $g$ is an exponential function. That is, $g(t) = e^{\theta t}$ for some $\theta \geqslant 0$. We will prove this in stages. First, we show this is true for $t \in \mathbb{Z}^+$. Notice that we can obtain via induction
+%We will show that $g$ is an exponential function. That is, $g(t) = e^{\theta t}$ for some $\theta \ge 0$. We will prove this in stages. First, we show this is true for $t \in \mathbb{Z}^+$. Notice that we can obtain via induction
 %\begin{eqnarray*}
 %	g(2) &=& g(1) g(1) = g^{2}(1), \mathrm{ and }\\
 %	g(m) &=& [g(1)]^{m}.
