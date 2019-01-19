@@ -1,0 +1,45 @@
+% !TEX spellcheck = en_US
+% !TEX spellcheck = LaTeX
+\documentclass[a4paper,10pt,english]{article}
+\input{header}
+\title{Assignment 1}
+\author{SPQT - 2019}
+
+\begin{document}
+\maketitle
+\textbf{Problem 1:} An item has a random lifetime with exponential distribution with parameter $\lambda$. Each time it fails it is immediately replaced by an identical item. Let $N_t$ be the number of failures till time $t$. Show that $\{N_t, t \geq 0\}$ is a Possion process. Find the mean and variance of the total time $T$ when the fifth item fails. \\
+\indent \textbf{Problem 2:} Let $A-1, A-2, \ldots, A_n$ be disjoint intervals on $\R^+$ with union $B$. Let $a_1,a_2,\ldots,a_n$ be their respective lengths. Let $b = \sum_{k=1}^n a_k$. Then for $k = k_1+k_2,\ldots,k_n$, show 
+\begin{align*}
+\P\{N_{A_1}=k_1,N_{A_2}=k_2,\ldots,N_{A_n}=k_n\} = \frac{k!}{k_1!k_2!\ldots k_n!}\left(\frac{a_1}{b}\right)^{k_1}\left(\frac{a_2}{b}\right)^{k_2}\ldots\left(\frac{a_n}{b}\right)^{k_n}
+\end{align*}
+\indent \textbf{Problem 3:} A department has three doors. Arrivals at each door form Posiion process with rates $\lambda_1 = 110$, $\lambda_2 = 90$ and $\lambda = 160$ customers/sec. $30\%$ of the customers are male and $70\%$ are female. Probability that a male customer buys a item $0.6$ and probability that a female buys an item is $0.1$. An average purchase is worth $Rs 4.50$. Assume all the ransom variables are independent. What is the probability that the third female to purchase anything arrives during the first $15$ minutes? What is the expected time of her arrival?\\
+\indent \textbf{Problem 4:} The customers arrive at a facilty as a Poisson process with rate $\lambda$. There is a waiting cost of $c$ per customer per unit time. The customers wait till they are dispacthed. The dispatching takes place at times $T,2T,\ldots$. At time $kT$ all customers in waiting will be dispatched. There is dispatching cost of $\beta$ per customer. 
+\begin{enumerate}
+\item What is the total dispatch cost till time $t$.
+\item What is the mean total customer waiting time till time $t$.
+\item What value of $T$ minimizes the mean total customer and dispatch cost per unit time. 
+\end{enumerate}
+
+\indent \textbf{Problem 5:} Let $N_t$ be a Poisson process with rate $\lambda$ and let the $n^{th}$ arrival epoch be $S_n$. Calculate $\E[S_5|N_t = 3]$. \\
+\indent \textbf{Problem 6:} Let $N^{(1)}_t$ and $N^{(2)}_t$ be two  Poisson processes with rates $\lambda_1$ and $\lambda_2$. Let the $n^{th}$ arrival epoch be $S^{(1)}_n$ and $S^{(2)}_n$ respectively. Calculate
+\begin{enumerate}
+\item $\P\{ S^{(1)}_1 < S^{(2)}_1\}$
+\item $\P\{ S^{(1)}_2 < S^{(2)}_2\}$
+\end{enumerate} 
+
+\indent \textbf{Problem 7:} Shocks occur to a system according to a Poisson process $N_t$ of intensity $\lambda$. Each shock causes some damage to the system and these damages accumalate. Let $Y_i$ be the damage caused by the $i^{th}$ shock. Assume $Y_i$s are independent of each other and $N_t$. $X_t = \sum_{k=1}^{N_t} Y_k$ is the total damage till time $t$. Suppose the system continues to operate till $X_t > \alpha$ where $\alpha > 0$. If $\P\{Y_i = k\} = (1-\gamma)^{k-1}\gamma, \ k = 1,2,\ldots$ Calculate the mean time till system failure.  \\
+\indent \textbf{Problem 8 (M/M/1 queue):} A Poisson process $N_t$ with rate $\lambda$ form the arrivals to a queue. each customer requires and i.i.d. service time of exponential distribution with rate $\mu$. Let $q_t$ be the number of customers at time $t$, $D_t$ the number of customers departed till time $t$. Then $q_t = N_t - D_t$. 
+\begin{enumerate}
+\item Calculate $\P\{D_t=m|N_t=n\}$
+\item Calculate $\P\{q_t=m|N_t=n\}$
+\item Calculate $\P\{q_t=m\}$, $\E[q_t^k]$ for $k=1,2,\ldots$
+\item Let $q_n$ be the queue length when the $n_{th}$ customer arrives excluding itself. Calculate $\P[q_n = n|q_{n-1} = m]$.
+\end{enumerate}
+
+\indent \textbf{Problem 9 [Ross, Exercise 2.12]:} event, occuring according to a Poisson process with rate $\lambda$, are registered by a counter. However, each time an event is registered the counter becomes inoperative for the next $b$ units of time and does not register any new events that might occur during this time. Let $R_t$ denote the number of events that occurby time $t$ and are registered. 
+\begin{enumerate}
+\item Find the probability that the first k events are all registered.
+\item For $t \geq (n-1)b$, find $\P\{R(t) \geq n\}$.
+\end{enumerate}
+\end{document}
+
