@@ -1,0 +1,74 @@
+% !TEX spellcheck = en_US
+% !TEX spellcheck = LaTeX
+\documentclass[a4paper,10pt,english]{article}
+\input{header}
+\title{Lecture 02: Poisson Processes (contd.)}
+\author{}
+
+\begin{document}
+\maketitle
+\section{Poisson Processes (Definition)}
+
+\begin{thm*}[]
+Definition $1$ of Poisson processes (see lecture-01) $\implies$ Definition $2$.
+\begin{proof} 
+\textbf{Step 1:} Density function of $n^{th}$ arrival $p_{S_n} = \frac{\lambda^n t^{n-1}}{(n-1)!} e^{-\lambda t}$. This can be shown using induction on $n$. $S_n = \sum_{k=1}^n A_k$, where $A_k \sim \mathrm{exp}(\lambda)$.\\
+\textbf{Step 2:} Use the fact that $\{N_t = n\} = \{S_n \leq t < S_{n+1}\}$
+\begin{align*}
+\P\{N_t = n\} &= \P\{S_n \leq t < S_{n+1} \} \\
+ &= \int_0^\infty \P\{S_n \leq t < S_{n+1} |S_n = s\} p_{S_n}(s) \\
+ &= \int_0^t \P\{A_n > t-s\} p_{S_n}(s) &&\text{($\{S_n =  s<t, S_{n+1} > t\} \equiv A_n > t-s$)}\\
+ &= 	\frac{(\lambda t)^n}{n!} e^{-\lambda t} &&\text{(Use the fact  that $A_n$ is $\mathrm{exp}(\lambda$))} \qedhere
+\end{align*}
+\end{proof}
+\end{thm*}
+\begin{thm*}[]
+Definition $2$ of Poisson processes (see lecture-01) $\implies$ Definition $1$.
+\begin{proof} 
+\textbf{Step 1:} Show that $A_1$  must be exponential.
+\begin{align*}
+\P\{A_1 > t+s|A_1>t\} &= \P\{N_{t+s}-N_s = 0|N_t = 0\} \\
+ &= \P\{N_{t+s}-N_s = 0\} &&\text{(increments are independent)}\\
+ &= \P\{N_s = 0\} &&\text{(stationary increments)}\\
+ &= \P\{A_1 > s\} \\  
+ \implies \P\{A_1 > t+s\} &=  \P\{A_1 > s\} \P\{A_1 > t\}
+\end{align*}
+This leads to the functional equation whose only solution is that $A_1$ is an exponential r.v. (this was proved in lecture-01).\\
+\textbf{Step 2:} Show that $A_2$ is independent of $A_1$ and has the same distribution. 
+\begin{align*}
+\P\{A_2>t|A_1 = s\} &= \P\{N_{t+s} -N_s = 0|N_s = 1\} \\
+&= \P\{N_{t+s} -N_s = 0\} && \text{(independent increments)}\\
+&= \P\{N_{t} = 0\} && \text{(stationary increments)}\\
+&= \P\{A_1>t\}
+\end{align*}
+This shows that $A_2$ is independent of and also identically distributed as $A_1$. Similar argument holds for all other $A_n$s.
+\end{proof}
+\end{thm*}
+
+\section{Properties of Poisson processes}
+\subsection*{Conditional distribution of points in an interval:} Given that there are $n$ points in the interval $I = (a,b]$, these $n$ points are distributed uniformly in the interval $I$. Their joint distribution is given by oerder statistics of $n$ uniformly distributed point in the interval $I$.
+\begin{proof}[Outline:]
+For $h \downarrow 0$ and $I = (0,t]$:
+\begin{align*}
+&\P\{S_1\in (s_1,s_1+h],S_2\in (s_2,s_2+h],\cdots,S_n\in (s_n,s_n+h] |N_t = n\}  \\
+&= \frac{\P\{S_1\in (s_1,s_1+h],S_2\in (s_2,s_2+h],\cdots,S_n\in (s_n,s_n+h],N_t=n\}}{\P\{N_t=n\}}  \\
+ &= \frac{ (\lambda h)e^{-\lambda s_1} \times (\lambda h)e^{-\lambda (s_2-(s_1+h))} \times \ldots \times (\lambda h)e^{-\lambda (s_n-(s_{n-1}+h))} \times e^{-\lambda (t-(s_n+h))} }{ \frac{(\lambda t)^n }{n!} e^{-\lambda t} }\\
+ &= \frac{ (\lambda h)^n e^{-\lambda(t-nh))}}{ \frac{(\lambda t)^n }{n!} e^{-\lambda t} } = \frac{n!}{t^n} h^n
+\end{align*}
+Now, we have 
+\begin{align*}
+&\P\{S_1\in (s_1,s_1+h],S_2\in (s_2,s_2+h],\cdots,S_n\in (s_n,s_n+h] |N_t = n\} \\
+&= p_{S_1,S_2,\cdots S_n | N_t=n}(s_1,s_2,\cdots,s_n) \times h^n + o(h^n),
+\end{align*}
+where $p_{S_1,S_2,\cdots S_n | N_t=n}$ is the joint density of $S_1,S_2,\cdots,S_n$ conditioned on $N_t=n$. Therefore, 
+\begin{align*}
+&p_{S_1,S_2,\cdots S_n | N_t=n}(s_1,s_2,\cdots,s_n) = \frac{n!}{t}
+\end{align*}
+This is the density function of $n$ ordered random variables uniformly distributed in the interval $(0,t]$. By stationarity, this property holds for any interval. \qedhere
+\end{proof}
+\subsection*{Superposition of independent Poisson processes:}
+If $n$ Poisson processes $N_t^{(1)},N_t^{(2)},\cdots,N_t^{(n)}$ of rates $\lambda_1,\lambda_2,\cdots,\lambda_n$ respectively are independent, then their supersposition is a Poisson process of the rate $\sum_{k=1}^n \lambda_k$. This follows from the fact that sum of independent Poisson random variables with mean $\lambda_1 t, \lambda_2 t, \cdots , \lambda_n t$ is a Poisson random variable with mean $\sum_{k=1}^n \lambda_k t$. We can then use Definition $3$ to conclude.
+\subsection*{Splitting of Poisson processes:}
+let $N_t$ be a Poisson process of the rate $\lambda$. Suppose each point of the process $N_t$ is marked \textit{independently} as type $i$ for $i \in \{1,2,\cdots,m\}$ with probaility $p_i$ such that $\sum_{i=1}^m p_i = 1$. Let the processes $\{N_t^{i}\}$ for $i \in \{1,2,\cdots,m\}$ be comprised of only those points marked as type $i$ respectively. Then,  $\{N_t^{i}\}$ are independent with respective rates $p_i \lambda$.
+\end{document}
+
