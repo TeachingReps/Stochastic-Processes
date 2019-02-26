@@ -1,54 +1,68 @@
 % !TEX spellcheck = en_US
 % !TEX spellcheck = LaTeX
-\documentclass[a4paper,10pt,english]{article}
-\input{header}
-\title{Lecture 01: Poisson Processes}
-\author{}
+%\documentclass[a4paper,10pt,english]{article}
+\documentclass[all-lectures.tex]{subfiles}
+%\input{header}
+%\title{Lecture 01: Poisson Processes}
+%\author{}
+%\setcounter{chapter}{1}
 
 \begin{document}
-\maketitle
-\section{Introduction to stochastic processes}
+%\maketitle
 
-\indent \textbf{Review:} Let $(\Omega,\sigma,\mathbb{P})$ be a probability space. A measurable mapping $X:\Omega \to \mathbb{R}$ is called a random variable (r.v.). $X(\omega$ for $\omega \in \Omega$ is called a realization of $X$. $F_X (x) = \mathbb{P}[X\leq x]$ is called the distribution function of r.v. $X$. The distribution function of a random variable always exists. $f_X(x) = dF(x)/dx$ is called the probability density function of $X$. The probability density function may not always exist. $\mathbb{E}[X] = \int x dF_X(x) $ is the expectation of $X$. When probability denisty of $X$ exists for r.v. $X$, $\mathbb{E}[X] = \int xf(x)dx$.\\
+\chapter{Poisson Processes}
+\setcounter{section}{1}
+\setcounter{subsection}{0}
+%\chapter{Lecture 3}
+\section*{\centering{Lecture 1 \linebreak }}
+\subsection{Introduction to stochastic processes}
 
+\indent \textbf{Review:} Let $(\Omega,\sigma,\mathbb{P})$ be a probability space. A measurable mapping $X:\Omega \to \mathbb{R}$ is called a \textit{random variable} (r.v.). $X(\omega)$ for $\omega \in \Omega$ is called \textit{a realization of $X$}. $F_X (x) = \mathbb{P}[X\leq x]$ is called the \textit{distribution function} of r.v. $X$. $f_X(x) = dF(x)/dx$ is called the \textit{probability density function} of $X$. The probability density function may not always exist. $\mathbb{E}[X] = \int x dF_X(x) $ is the expectation of $X$. When probability density of $X$ exists $\mathbb{E}[X] = \int xf(x)dx$.\\
 
-\textbf{Stochastic processes:} $\{X_t : t \in \R\}$, where $X_t$ is a r.v. is called a continous time stochastic process. $\{X_n : n \in \N\}$, where $X_n$ is a r.v. is called a discrete time stochastic process. \\
-\indent The function $t \mapsto X_t(\omega)$ is called a sample path of the stochastic process. For each $\omega \in \Omega$, $X_t(\omega)$ is a function of $t$. $F_t$ is the distribution of $X_t$. An analogous definition holds for discrete time stocastic processes. A stochastic process is described by the joint distribution of $(X_{t_1},X_{t_2},\ldots,X_{t_n})$ for any  $-\infty < t_1 < t_2 < \ldots < t_n.$ and $n \in \N^+$.\\
-\indent A stochastic process $\{X_t\}$ is said to be \textit{stationary} if the joint distribution of $(X_{t_1},X_{t_2},\ldots,X_{t_n})$ is identical to the joint distribution of $(X_{t_1+\tau},X_{t_2+\tau},\ldots,X_{t_n+\tau})$ for any $\tau \in \R$ and any $t_1,t_2,\ldots,t_n$. A stochastic process $\{X_t\}$ is said to have \textit{independent increments} if $(X_{t_1} - X_{s_1})$ is independent of $(X_{t_2} -X_{s_2})$ whenever $(s_1,t_1] \cap (s_2,t_2] = \phi$. If $X_{t+\tau} - X_t$ has the same distribution as $X_\tau - X_0\ \forall t$, then $X_t$ is said to have \textit{stationary increments}. If further, $X_{t+\tau} - X_t$ is independent of $X_t - X_0$, $X_t$ called process with \textit{stationary independent increment} process. \\
+\textbf{Stochastic processes:} $\{X_t : t \in \R\}$, where $X_t$ is a r.v. is called a \textit{continuous time stochastic process}. $\{X_n : n \in \N\}$, where $X_n$ is a r.v. is called a \textit{discrete time stochastic process}. \\
+\indent The function $t \mapsto X_t(\omega)$ is called a \textit{sample path of the stochastic process}. For each $\omega \in \Omega$, $X_t(\omega)$ is a function of $t$. $F_t$ is the distribution of $X_t$. An analogous definition holds for discrete time stochastic processes. A stochastic process is described by the joint distribution of $(X_{t_1},X_{t_2},\ldots,X_{t_n})$ for any  $-\infty < t_1 < t_2 < \ldots < t_n$ and $n \in \N^+$.\\
+\indent A stochastic process $\{X_t\}$ is said to be \textit{stationary} if for any $0 \leq t_1 < t_2 < \cdots < t_n$, the joint distribution of $(X_{t_1},X_{t_2},\ldots,X_{t_n})$ is identical to the joint distribution of $(X_{t_1+\tau},X_{t_2+\tau},\ldots,X_{t_n+\tau})$ for any $\tau \in \R$. A stochastic process $\{X_t\}$ is said to have \textit{independent increments} if $(X_{t_2} - X_{t_1}), (X_{t_3} - X_{t_2}), \dots, (X_{t_n} - X_{t_{n-1}})$ are independent. If joint distribution of $(X_{t_n +\tau} - X_{t_{n-1}+\tau})$, $(X_{t_{n-2}+\tau} - X_{t_{n-3}+\tau}), \dots, (X_{t_2+\tau} - X_{t_1+\tau})$ does not depend on $\tau$, then $\{X_t\}$ is said to have \textit{stationary increments}. If $\{X_t\}$ has both stationary and independent increments, it is called a stationary independent increment process.%If further, $X_{t+\tau} - X_t$ is independent of $X_t - X_0$, $X_t$ called process with \textit{stationary independent increment} process. \\
 
-\textbf{Point process:} A stchastic process $\{N_t, t > 0\}$ with $N_0 = 0$, $N_t$ a non-negative integer, non-descreasing piecewise constant sample paths is called a point process. $N_t$ counts the number of points or 'arrivals' in the interval $(0,t]$. \\
-\indent Let $A_n$ denote the interarrival time between $n^{th}$ and $(n-1)^{th}$ arrival. Let $S_0 = 0$ and $S_n = \sum^n_{k=1} A_k \forall n \geq 1$. Then $S_n$ denotes the time instant of the $n^{th}$ arrival. $N_t = \max\{n: S_n \leq t\}$. A point process with atmost one arrival at any time is called a \textit{simple point process}.\\
-\indent Mathematically, a simple point process $\{N_t\}$ is described by following constraints for all $t$:
+\textbf{Point process:} A stochastic process $\{N_t, t \geq 0\}$ with $N_0 = 0$, $N_t$ a non-negative integer, non-decreasing with piece-wise constant sample paths is called a \textit{point process}. $N_t$ counts the number of points or 'arrivals' in the interval $(0,t]$. \\
+\indent Let $A_n$ denote the interarrival time between $n^{th}$ and $(n-1)^{th}$ arrival. Let $S_0 = 0$ and $S_n = \sum^n_{k=1} A_k,  \forall n \geq 1$. Then $S_n$ denotes the time instant of the $n^{th}$ arrival. $N_t = \max\{n: S_n \leq t\}$. A point process with at most one arrival at any time is called a \textit{simple point process}. Mathematically, a simple point process $\{N_t\}$ is described by following constraints for all $t$:
 \begin{align*}
-\P\{N_{t+h} - N_t=  0 \} &= 1-\lambda h + o(h),\\
-\P\{N_{t+h} - N_t=  1 \} &= \lambda h +o(h) \text{ and}\\
 \P\{N_{t+h} - N_t \geq  2 \} &= o(h).\\
 \end{align*} 
 Here, the notation $o(g(x))$ means a class of functions such that if $f(x) \in o(g(x))$, then $\lim_{x\rightarrow 0} \frac{f(x)}{g(x)} =0$.
-\section{Poisson process}
-In the following we customaritly take $N-0 = 0$. A point process $N_t$ is Poisson if 
-\paragraph{Definition 1:}{
-\begin{itemize}
-\item $\{A_k, k \geq 1\}$ are independent and exponentially distributed with parameter $\lambda$.
-\end{itemize}
+\subsection{Poisson process}
+In the following we customarily take $N_0 = 0$. A point process $N_t$ is \textit{Poisson} if 
+\paragraph{Definition [1]:}{
+\begin{enumerate}
+\item $\{A_k, k \geq 1\}$ are independent and exponentially distributed with parameter $\lambda$:
+\end{enumerate}
 $\P\{A_k \leq x\} = 1 - e^{-\lambda x}$. If $\lambda = 0$, $A_1 = \infty$ w.p.1. and $N_t = 0 \ \forall t$. If $\lambda = \infty$, $A_1 = 0$ w.p.1 and $N_t = \infty \ \forall t$. We restrict to $0<\lambda<\infty$. In this range for $\lambda$, $N_t$ is guaranteed to be simple because $\P\{A_k = 0\} = 0 \ \forall k$.
 }
-\paragraph{Definition 2:}{
-\begin{itemize}
+\paragraph{Definition [2]:}{
+\begin{enumerate}
 \item $N_t$ is simple.
 \item $N_t$ has stationary independent increments.
-\end{itemize}
+\end{enumerate}
 }
-\paragraph{Definition 3:}{
-\begin{itemize}
+\paragraph{Definition [3]:}{
+\begin{enumerate}
 \item $N_t$ has independent increment.
 \item $N_t$ is a Poisson distributed random variable. For $s < t$, 
 	\begin{align*}
 	\P\{N_t - N_s = n\} = \frac{(\lambda (t-s))^n}{n!} e^{-\lambda (t-s)}
 	\end{align*}
-\end{itemize}
+\end{enumerate}
 }
-\ \\
+\paragraph{Definition [4]:}{
+\begin{enumerate}
+\item $N_t$ has stationary and independent increments.
+\item \begin{enumerate}
+\item $\P\{N_{t+h} - N_{t}  = 1 \}= \lambda h$
+\item $\P\{N_{t+h} - N_{t}  = 0 \}= 1 - \lambda h + o(h)$
+\item $\P\{N_{t+h} - N_{t}  \geq 2 \}= o(h)$
+\end{enumerate}
+\end{enumerate}
+}
+We will show below that these definitions are equivalent.\\
 \textbf{Exponential r.v. is memoryless:} Let $X$ be an exponential r.v.
 \begin{align*}
 \P\{X > t+s|X>t\} &= \frac{\P\{X\ > t+s,X>t\}}{\P\{X>t\}} \\
@@ -57,18 +71,18 @@ $\P\{A_k \leq x\} = 1 - e^{-\lambda x}$. If $\lambda = 0$, $A_1 = \infty$ w.p.1.
 &= e^{-\lambda s} \\
 &= \P\{X > s\} 
 \end{align*}
-If $X$ is interarrival time, this property of an exponential r.v. indicates that remaining time till next arrival does not depend time since last arrival. Thus, the term memoryless is used.
+If $X$ is interarrival time, this property of an exponential r.v. indicates that the remaining time till next arrival does not depend on time $t$ since last arrival. Thus, the term memoryless is used.
 
 \begin{thm}[] 
-Exponential distribution is the unique continous distribution with memoryless property.
+Exponential distribution is the unique distribution on $\R^+$ with the memoryless property.
 \begin{proof}
-If a continous r.v. $X$ is memoryless, we show that $X$ must be exponential. If $X$ is memoryless, we have for all $t,s\geq 0\ \P\{X>t+s\} = \P\{X>t\} \P\{X>s\}$. Let $f(t) = \P\{X>t\}$. We have the functional equation
+If a r.v. $X$ on $\R^+$ is memoryless, we show that $X$ must be exponential. If $X$ is memoryless, we have for all $t,s\geq 0$, $\P\{X>t+s\} = \P\{X>t\} \P\{X>s\}$. Let $f(t) = \P\{X>t\}$. We have the functional equation
 \begin{align}
 \label{eq:memeryless_func_eq}
 f(t+s) = f(t) f(s)
 \end{align}
-Taking $t=s$, we get $f(2t) = f^2(t)$. By repeated application of Eq \ref{eq:memeryless_func_eq} $m$ times, we get $f(mt) = f^m(t)$ for positive integer $m$. Equivalently, we have $f(t/m) =f^{\frac{1}{m}}(t)$. Again by repeated application of Eq \ref{eq:memeryless_func_eq} $n$ times, $f(\frac{n}{m}t) =f^{\frac{n}{m}}(t)$ for any positive integers $m$ and $n$. So, we have $f(rt) = f^r(t)$ for any positive rational number $r$. We know that $0\leq f(t) \leq 1$ since $1-f$ is probability distribution. So, we can write $f(1) = e^{-\lambda}$ for some $\lambda > 0$. Therefore we have, $f(r) = f(r \times 1) = f^r(1) = e^{-\lambda r}$ for any positive rational number $r$. \\
-\indent For any $x \in \R$, there is a sequence of rationals $r_n \rightarrow x$. By assumption $X$ is a continous r.v. This implies $f$ is continous. Therefore, $f(r_n) \rightarrow f(x)$. In the other words, for any $x \in \R$,
+Taking $t=s$, we get $f(2t) = f^2(t)$. By repeated application of Eq \ref{eq:memeryless_func_eq}, $m$ times, we get $f(mt) = f^m(t)$ for positive integer $m$. Equivalently, we have $f(t/m) =f^{\frac{1}{m}}(t)$. Again by repeated application of Eq \ref{eq:memeryless_func_eq} $n$ times, $f(\frac{n}{m}t) =f^{\frac{n}{m}}(t)$ for any positive integers $m$ and $n$. So, we have $f(rt) = f^r(t)$ for any positive rational number $r$. We know that $0\leq f(t) \leq 1$ since $1-f$ is probability distribution. So, we can write $f(1) = e^{-\lambda}$ for some $\lambda \geq 0$. Therefore we have, $f(r) = f(r \times 1) = f^r(1) = e^{-\lambda r}$ for any positive rational number $r$. \\
+\indent For any $x \in \R$, there is a sequence of rationals $r_n \downarrow x$. Since $f$ is right continuous, $f(r_n) \rightarrow f(x)$. In other words, for any $x \in \R$,
 \begin{align*}
 f(x) &= \lim_{r_n \rightarrow x} f(r_n) \\
  &= \lim_{r_n \rightarrow x} e^{-\lambda r_n} \\
@@ -78,21 +92,29 @@ Thus, $\P\{X>x\} = e^{-\lambda x}$ and $X$ is an exponential random variable.
 \end{proof}
 \end{thm}
 
-Definitions $[1-3]$ for Poisson process given above are equivalent. 
+Definitions $[1-4]$ for Poisson process given above are equivalent. 
 
-\begin{thm}[] 
-Definitions $3$ $\implies$ Definition $2$.
+\begin{prop}[] 
+Definition $[3]$ $\implies$ Definition $[2]$.
 \begin{proof}
 We need to show that $N_t$ has stationary increments if $N_t$  has independent increments and $N_t-N_s$ is Poisson distributed with mean $\lambda(t-s)$. Stationarity follows directly from the definition since the distribution of number of points in an interval depends only in the length of interval. The conditions for a simple process is also met which can be easily verified from the definition:
 \begin{align*}
-\P\{N_{t+h} - N_t=  0 \} &= \frac{(\lambda h)^0}{0!} e^{-\lambda h} = 1 - \lambda h + o(h),\\
-\P\{N_{t+h} - N_t=  1 \} &= \frac{(\lambda h)^1}{1!} e^{-\lambda h} = \lambda h +o(h) \text{ and}\\
+%\P\{N_{t+h} - N_t=  0 \} &= \frac{(\lambda h)^0}{0!} e^{-\lambda h} = 1 - \lambda h + o(h),\\
+%\P\{N_{t+h} - N_t=  1 \} &= \frac{(\lambda h)^1}{1!} e^{-\lambda h} = \lambda h +o(h) \text{ and}\\
 \P\{N_{t+h} - N_t \geq  2 \} &= 1- \left(\frac{(\lambda h)^0}{0!} e^{-\lambda h} + \frac{(\lambda h)^1}{1!} e^{-\lambda h}\right)\\
 &= o(h)
 \end{align*} 
-\end{proof}
-\end{thm}
+%{\color{blue} This part will be removed: 
+%Now for stationarity, we show that $N_{t+s} - N_{t}$ does not depend on $t$ (depends only on $s$). We use moment generating function for sum of independent random variables as follows:
+%\begin{align*}
+%\E(z^{N_{t+s}}) &= \E(z^{N_t}) \E(z^{N_{t+s} - N_s}) \\
+%e^{-\lambda (t+s) (z-1)} &= e^{-\lambda t (z-1)} \E(z^{N_{t+s} - N_s}) \\
+%\implies \E(z^{N_{t+s} - N_s}) &= e^{\lambda s (z-1)}.
+%\end{align*}
+%This shows that $N_{t+s} - N_{t}$  is a Poisson random variable with mean $\lambda s$. }
 
+\end{proof}
+\end{prop}
 
 \end{document}
 
