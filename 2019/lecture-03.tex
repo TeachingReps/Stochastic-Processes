@@ -1,21 +1,108 @@
 % !TEX spellcheck = en_US
 % !TEX spellcheck = LaTeX
-\documentclass[a4paper,10pt,english]{article}
-\input{header}
-\title{SPQT: Lecture 03}
-\author{Instructor: Prof. Vinod Sharma \\ Teaching assistants: Panju and Ajay}
+%\documentclass[a4paper,10pt,english]{article}
+\documentclass[all-lectures.tex]{subfiles}
+%\title{SPQT: Lecture 03}
+%\author{Instructor: Prof. Vinod Sharma \\ Teaching assistants: Panju and Ajay}
+%\setcounter{chapter}{1}
 
 \begin{document}
-\maketitle
-\section*{Generalization of Poisson processes}
+%
+%\maketitle
+\setcounter{chapter}{1}
+\setcounter{section}{3}
 
-\subsection*{Batch Possin processes:}
+\section*{\centering{Lecture 3 \linebreak }}
+\setcounter{subsection}{0}
+\subsection{Properties of Poisson processes}
+\subsubsection*{Conditional distribution of points in an interval:} 
+\begin{thm}
+Given that there are $n$ points in the interval $I = (a,b]$, these $n$ points are distributed uniformly in the interval $I$. Their joint distribution is given by order statistics of $n$ uniformly distributed point in the interval $I$.
+\end{thm}
+\begin{proof}[Proof outline:]
+{Take $s_1 < s_2 < \dots<s_n$ and $h>0$ small enought such that $s_1+h < s_2, s_2+h < s_3, \dots, s_{n-1}+h < s_n$ in $(0,t]$.
+\begin{align*}
+&\P\{S_1\in (s_1,s_1+h],S_2\in (s_2,s_2+h],\cdots,S_n\in (s_n,s_n+h] |N_t = n\}  \\
+&= \frac{\P\{S_1\in (s_1,s_1+h],S_2\in (s_2,s_2+h],\cdots,S_n\in (s_n,s_n+h],N_t=n\}}{\P\{N_t=n\}}  \\
+ &= \frac{ e^{-\lambda s_1} (\lambda h)e^{-\lambda h} \times e^{-\lambda (s_2-(s_1+h))}(\lambda h)e^{-\lambda h} \times \ldots \times e^{-\lambda (s_n-(s_{n-1}+h))} (\lambda h) e^{-\lambda h} \times e^{-\lambda (t-(s_n+h))} (\lambda h)  e^{-\lambda h} }{ \frac{(\lambda t)^n }{n!} e^{-\lambda t} } \\ &+ o(h^n)\\
+ &= \frac{ (\lambda h)^n e^{-\lambda(t-nh))}}{ \frac{(\lambda t)^n }{n!} e^{-\lambda t} } + o(h^n) = \frac{n!}{t^n} h^n + o(h^n)
+\end{align*}
+Now, we have 
+\begin{align*}
+p_{S_1,S_2,\cdots S_n | N_t=n}(s_1,s_2,\cdots,s_n) &= \lim_{h \downarrow 0} \frac{\P\{S_1\in (s_1,s_1+h],S_2\in (s_2,s_2+h],\cdots,S_n\in (s_n,s_n+h] |N_t = n\}}{h^n} \\
+\end{align*}
+where $p_{S_1,S_2,\cdots S_n | N_t=n}$ is the joint density of $S_1,S_2,\cdots,S_n$ conditioned on $N_t=n$. Therefore, 
+\begin{align*}
+&p_{S_1,S_2,\cdots S_n | N_t=n}(s_1,s_2,\cdots,s_n) = \frac{n!}{t}
+\end{align*}
+}
+This is the density function of $n$ ordered random variables uniformly distributed in the interval $(0,t]$. By stationarity, this property holds for any interval. \qedhere
+\end{proof}
+\subsubsection*{Superposition of independent Poisson processes:}
+\begin{thm}
+If $n$ Poisson processes $N_t^{(1)},N_t^{(2)},\cdots,N_t^{(n)}$ of rates $\lambda_1,\lambda_2,\cdots,\lambda_n$ respectively are independent, then their superposition is a Poisson process of rate $\sum_{k=1}^n \lambda_k$.
+\end{thm}
+\begin{proof}
+We use definition $[3]$. The superposition process is simple since component processes are simple (follows from union bound). Independent increments property also from the fact that component process are independent and have independent increments property. $[3]-(2)$ follows from the fact that sum of independent Poisson random variables with mean $\lambda_1 t, \lambda_2 t,\cdots , \lambda_n t$ is a Poisson random variable with mean $\sum_{k=1}^n \lambda_k t$. 
+\end{proof}
 
-Let $\{N_t\}$ be a Poisson process of rate $\lambda$. At each arrival, a batch of custmers arrive. The number of customers at $n^{th}$ arrival is $X_{n}$. The sequence of $X_{n},\ n=1,2,\cdots$ is i.i.d. The overall 
+\subsubsection*{Splitting of Poisson processes:}
+\begin{thm}
+Let $N_t$ be a Poisson process of the rate $\lambda$. Suppose each point of the process $N_t$ is marked \textit{independently} as type $i$ for $i \in \{1,2,\cdots,m\}$ with probability $p_i$ such that $\sum_{i=1}^m p_i = 1$. Let the processes $\{N_t^{(i)}\}$ for $i \in \{1,2,\cdots,m\}$ be comprised of only those points marked as type $i$ respectively. Then,  $\{N_t^{(i)}\}$ are independent  Poisson processes with respective rates $p_i \lambda$.
+\end{thm}
+\begin{proof}
+We prove for the case of $m=2$. The proof for the general case is similar. The processes $N_t^{(1)}$ and $N_t^{(2)}$ are simple and have independent increment property which follows from $N_t$ being simple with independent increments. We also have
+\begin{align*}
+\P\{N_{t}^{(1)} = k_1, N_t^{(2)} = k_2\} &=  \sum_{k=0}^{\infty} \P\{N_{t}^{(1)} = k_1, N_t^{(2)} = k_2 | N_t = k\} \P\{N_t=k\} \\
+&= \P\{N_{t}^{(1)} = k_1, N_t^{(2)} = k_2 | N_t = k_1+k_2\} \P\{N_t=k_1+k_2\} \\
+&= \frac{(p_1 \lambda t)^k_1 e^{-p_1 \lambda t}}{k_1 !} \times \frac{(p_2 \lambda t)^k_1 e^{-p_2 \lambda t}}{k_2 !}.
+\end{align*}
+We can now appeal to definition $[3]$ to conclude that $N_t^{(1)}$ and $N_t^{(2)}$ are independent with rates $ p_1 \lambda$ and $p_2 \lambda$ respectively. 
+\end{proof}
 
-\subsection*{Nonstationary Poisson processes:}
-\subsection*{Spatial Poisson process:}
+\subsection{Generalization of Poisson processes}
 
+\subsubsection*{Batch Poisson processes:}
 
+Let $\{N_t\}$ be a Poisson process of rate $\lambda$. At each arrival, instead of just one customer, a batch of customers arrive. The number of customers at $n^{th}$ arrival is $X_{n}$. The sequence of $X_{n},\ n=1,2,\cdots$ is i.i.d and is also independent of $\{N_t\}$. The overall process $\{Y_t\}$ where $Y_t$ is the total number of arrivals in $(0,t]$ is called a \textit{batch Poisson process}. $Y_t = \sum_{k = 1}^{N_t} X_k$. We can compute the distribution of $Y_t$ as follows
+\begin{align*}
+\P\{Y_t = m\} &= \sum_{n=0}^{\infty} \left\lbrace \P\{\sum_{k = 1}^{N_t} X_k  =m\} \P\{ N_t= n\}\right\rbrace \\
+ &=  \sum_{n=0}^{\infty} \left\lbrace \P\{\sum_{k = 1}^{n} X_k  =m\} \frac{(\lambda t)^n e^{-\lambda t}}{n!}\right\rbrace
+\end{align*}
+where $\P\{\sum_{k = 1}^{n} X_k  =m\}$ can be computed by convolution or from momentum generating functions.  For the mean of $Y_t$, we have $\E[Y_t] = (\lambda t) \E[X_1]$. We note that batch Poisson process is a relaxation of requirement of simplicity in definition $[2]$ of Poisson process.  
+\subsubsection*{Nonstationary Poisson processes:}
+The non-stationary (also called non-homogeneous) Poisson process $\{N_t\}$ is defined as follows. 
+\begin{itemize}
+\item $\{N_t\}$ has independent increments.
+\item Let $\lambda(t)$ be non negative function of $t$. 
+\begin{itemize}
+\item $\P\{N_{t+h} - N_{t}  = 1 \}= \lambda(t) h$
+\item $\P\{N_{t+h} - N_{t}  = 0 \}= 1 - \lambda(t) h + o(h)$
+\item $\P\{N_{t+h} - N_{t}  \geq 2 \}= o(h)$
+\end{itemize}
+\end{itemize}
+Let $m(t) = \int_o^t \lambda(s) ds$. We show that $N_{t+s} - N_{t}$ is a Poisson random variable with mean $m(t+s) - m(t)$. Let $f_n(s) = \P\{N_{t+s} - N_t = n\}$. For $n=0$, we have for $h \downarrow 0$
+\begin{align*}
+f_0(s+h) &= \P\{N_{t+s+h} - N_{t+s} = 0, N_{t+s} - N_{t} = 0\} \\
+&= \P\{N_{t+s+h} - N_{t+s} = 0\} \P\{N_{t+s} - N_{t} = 0\} && \text{(independent increments)}\\
+&= (1-\lambda(t+s) h+ o(h)) f_0(s) \\ 
+\implies f_0^{'}(s) &= -\lambda(t+s) f_0(s) \\
+\implies f_0(s) &= e^{- (m(t+s)-m(t))} \\
+\end{align*}
+Using similar argument we can show by induction on $n$ that 
+\begin{align*}
+\P\{N_{t+s} - N_t = n\} = f_n(s) = \frac{ (m(t+s) - m(t))^n e^{- ((m(t+s) - m(t))}}{n!}
+\end{align*} 
+\subsubsection*{Spatial Poisson process:}
+So far we have defined Poisson processes on $\R^+$. Now, we generalize to $\R^{k},\, k \geq 2$.
+Let $A,B \subset \R^k$ and $N_A$ is the number of points in $A$. 
+\begin{enumerate}
+%\item The procedss $N$ is simple. $\P\{N_{B_x(h)} = 0 or 1\} = 1$ for all $x \in \R^k$. 
+\item $N_A$ and $N_B$ are independent for disjoint $A$ and $B$.
+\item if $|A|$ denotes the volume of $A$, \begin{align*}
+\P\{N_A\} = \frac{(\lambda|A|)^n e^{-\lambda |A|}}{n!}
+\end{align*}
+\end{enumerate}
+From this definition, it follows that for the process $\{N\}$, $\P\{N_{B_x(h)} \in \{0,1\}\} = 1 + o(h^k)$ for all $x \in \R^k$ where $B_x(h)$ is a ball of radius $h$ around $x$. This means that $\{N\}$ is simple.
 \end{document}
 
