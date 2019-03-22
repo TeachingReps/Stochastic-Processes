@@ -1,0 +1,52 @@
+% !TEX spellcheck = en_US
+% !TEX spellcheck = LaTeX
+\documentclass[a4paper,11pt,english]{article}
+
+\input{header}
+
+%\usepackage[]{geometry}
+\newgeometry{left=1in,right=1in,top=1in,bottom=1in}
+
+\title{Assignment 3: Discrete Time Markov Chains}
+\author{SPQT - 2019}
+
+\begin{document}
+\maketitle
+\textbf{Problem 1:} There are a total of $N$ balls in urns $A$ and $B$. At step $k$, one of the $N$ balls is picked at random (with probability $1/N$). Then, one of the urns $A$ or $B$ is chosen. The probability of picking urn $A$ is $p$. The ball picked is put in the chosen urn. Let $X_n$ denote the number of balls in urn $A$ after step $n$. Show that $\{X_n\}$ is a Markov chain. Determine its state space and transition probability matrix. Find if it is irreducible or not. Find $\lim_{n \rightarrow \infty} P^n(i,j)$ for all $i$ and $j$.\\
+\indent \textbf{Problem 2:} Show that for a finite state aperiodic irreducible Markov chain, $P^n(i,j) > 0\  \forall i,j$ for all $n$ large enough.  \\
+\indent \textbf{Problem 3:} Let a Markov chain has $r < \infty$ states. 
+\begin{enumerate}
+\item Show that if state $j$ can be reached from state $i$, it can be reached in atmost $r-1$ steps. 
+\item If $j$ is a recurrent state, show that $\exists \alpha$ such that for $n>r$, the probability that first return to state $j$ (from state $j$) occurs after $n$ transistions is less than $\alpha^n$.
+\end{enumerate} 
+
+\indent \textbf{Problem 4:} Let $P$ be the transition probabbility matrix with additional requirement that $\sum_i P(i,j) = 1$ (such a $P$ is called a doubly stochastic matrix). Then, show that if $P$ is finite state irreducible, then its stationary probability satisfies $\pi(i) = \pi(j)\ \forall i,j$.\\
+\indent \textbf{Problem 5:} Consider a Markov chain with state space $E = \{0,1,2,3,4,5\}$ and transition probability matrix
+\begin{align*}
+	P = 
+\begin{bmatrix}
+	1/3      & 2/3 & 0 & 0 & 0 & 0 \\
+    2/3      & 1/3 & 0 & 0 & 0 & 0 \\
+	0      & 0 & 1/4 & 3/4 & 0 & 0 \\
+    0      & 0 & 1/5 & 4/5 & 0 & 0\\
+    1/4      & 0 & 1/4 & 0 & 1/4 & 1/4 \\
+    1/6      & 1/6 & 1/6 & 1/6 & 1/6 & 1/6 \\
+\end{bmatrix}
+\end{align*}
+Find all the closed sets. Find all the transient states. Calculate $\lim_{n \rightarrow \infty} P^n(5,i), i=\{0,1,2,3,4,5\}$.
+\\
+\indent \textbf{Problem 6:} For a Markov chain prove that
+\begin{enumerate}
+\item $P[X_n = j| X_{n_1} = i_1, X_{n_2} = i_2, \dots, X_{n_k} = i_k] = P[X_n = j| X_{n_k} = i_k]$ whenever $n_1 < n_2 < \dots < n_k < n$.
+\item $P[X_k = i_k| X_j = i_j\ \forall j \neq k] = P[X_k = i_k| X_{k-1} = i_{k-1}, X_{k+1} = i_{k+1}]$.
+\end{enumerate} 
+
+\indent \textbf{Problem 7:} Consider a recurrent Markov chain starting at state $0$. Let $m_i$ denote the expected number of time periods it spends in state $i$ before returning to state $0$.  Use Wald's equation to show that $m_j = \sum_i m_{i} P_{ij},\ j>0, m_0 = 1$.\\
+\indent \textbf{Problem 8:} let $X_1,X_2,\dots$ be independent r.v.s such that $P[X_i = j] = \alpha_j, j\geq 1$. Say that a record occurs at time $n$ if $X_n > \max(X_1,X_2,\dots,X_{n-1})$ where $X_0 = -\infty$. If a record occurs at time $n$, $X_n$ is called a record value. Let $R_i$ denote the $i^{th}$ record value.
+\begin{enumerate}
+\item Argue that $\{R_i, i\geq 1\}$ is a Markov chain and compute its transition probabilities. 
+\item Let $T_i$ denote that time between $i^{th}$ and $(i+1)^{th}$ record. Is $\{T_i\}$ a Markov chain? What about $\{R_i,T_i\}$? Compute transition probabilites wherever appropriate. 
+\item  Let $S_n = \sum_{i=1}^{n} T_i,\  n\geq 1$. Argue that $\{S_n\}$ is a Markov chain. Compute its transition proability matrix. 
+\end{enumerate}
+\end{document}
+
