@@ -1,0 +1,84 @@
+% !TEX spellcheck = en_US
+% !TEX spellcheck = LaTeX
+%\documentclass[a4paper,10pt,english]{article}
+\documentclass[all-lectures.tex]{subfiles}
+%\input{header}
+%\title{Lecture 01: Poisson Processes}
+%\author{}
+\setcounter{chapter}{2}
+
+\begin{document}
+%\maketitle
+
+%\chapter{Discrete Time Markov Chains}
+\setcounter{section}{3}
+\setcounter{subsection}{0}
+
+\section*{\centering{Lecture 10 \linebreak }}
+\subsection{Criterion for transience, null recurrence and positive recurrence}
+\begin{prop} \label{prop:markov_chain_class_tests}
+Let $S$ be irreducible and $f: S \rightarrow \R$. 
+\begin{enumerate}
+\item Let $f(i)\rightarrow \infty$ as $i\rightarrow \infty$. If $\E[f(X_1)|X_0 = i] \leq f(i)$ for all $i$ outside a finite set $S_0 \subset S$, then the Markov chain is recurrent. 
+\item Let $f:S\rightarrow \R^+$ and $S_0 \subset S$ be finite. If all the following conditions are met, the Markov chain is positive recurrent. 
+	\begin{enumerate}
+	\item  $\E[f(X_1)|X_0 = i] < \infty \ \forall i$
+	\item For $i \notin S_0$, $\E[f(X_1)|X_0 = i] - f(i) < -\epsilon$ for some $\epsilon > 0$.
+	\end{enumerate}
+\item Let $f:S\rightarrow \R$ and $S_0 \subset S$ be finite.	The Markov chain is transient if
+	\begin{enumerate}
+	\item  bounded and $\E[f(X_1)|X_0= i] \geq f(i)\ \forall i \in S_0$
+	\item $f(i) > f(j)\ \forall j\in S_0, i\notin S_0$
+	\end{enumerate}	
+\end{enumerate}
+\end{prop}
+\textbf{Example:} Consider a queuing system in which one service time is equal to one slot. Let $q_k$ be the queue length at the end of $k^{th}$ slot. Let $A_k$ denote the number of arrivals in the $k^{th}$ slot. Then, 
+\begin{align*}
+\P\{q_{k+1} = j|q_k = i,q_{k-1} = i_{k-1}, \dots q_0 = i_0\} = \P\{A_k = j-i-1\}
+\end{align*}
+Thus, $\{q_k\}$ is a Markov chain with state space $S = \{0,1,2,\dots\}$. If $\P\{A_1 = 0\} > 0$, every state $0$ is aperiodic. If further, $\P\{A_1 > 1\} >0$, the Markov chain is also irreducible. Under, these conditions $\{q_k\}$ will have a stationary distribution. \\
+\indent Choose $f(i) = i$. Let $S_0 = \{0\}$. $\E[f(q_1)|q_0 = i] - f(i) = \E[A_1] -1 $. Thus, we see from case (2) in Prop \ref{prop:markov_chain_class_tests}, we have if $\E[A_1] < 1 $, $\{q_k\}$ is positive recurrent.\\
+\indent Choose $f(i) = 1\{i>0\}$ and $S_0 = \{0\}$. Then if $\E[A_1] > 1$, the conditions in case (3) in Prop \ref{prop:markov_chain_class_tests} is met and $\{q_k\}$ is transient Markov chain. \\
+\subsection{Reversible Markov Chains}
+For an irreducible  stationary Markov chain $\{X_k\}$ with stationary distribution $\pi$,
+\begin{align*}
+\P\{X_{k-1} = j| X_k = i,X_{k+1} = i_{k+1},X_{k+2} = i_{k+2},\dots\} &= \P\{X_{k-1} = j| X_k = i\} \\
+&=  \frac{\P\{X_{k-1} = j, X_k = i\}}{\P\{ X_k = i\}} \\
+&=  \frac{\P\{ X_k = i|X_{k-1} = j\}\P\{ X_{k-1} = j\}}{\pi(i)} \\
+&=  \frac{P(j,i)\pi(j)}{\pi(i)}
+\end{align*}
+Let us define 
+\begin{align*}
+P^*(i,j)=\frac{P(j,i)\pi(j)}{\pi(i)}
+\end{align*}
+$P^*$ is the transition probability of the reversed Markov chain. \\
+\indent \textbf{Reversible Markov Chain:} The stationary irreducible Markov chain $X_k$ is called \textit{reversible }if $P^*(i,j) = P(i,j)$. In the other words, for a reversible  Markov chain, we have, $P(i,j)\pi(i) = P(j,i)\pi(j)$.
+\begin{prop}[Test for reversibility]
+For an irreducible Markov chain with stationary distribution $\pi$, 
+\begin{align*}
+\P\{i\rightarrow i_1 \rightarrow i_2 \dots \rightarrow i_k \rightarrow i\} = \P\{i \rightarrow i_k \rightarrow i_{k-1} \dots \rightarrow i_1 \rightarrow i\}
+\end{align*}
+is a necessary and sufficient condition. 
+\begin{proof}
+Necessity: Assume $P^* = P$. Then, 
+\begin{align*}
+&\P\{i\rightarrow i_1 \rightarrow i_2 \dots \rightarrow i_k \rightarrow i\} \\
+&= \pi(i)P(i,i_1)P(i_1,i_2)\dots P(i_{k-1},i_{k})P(i_k,i)\\
+& = P(i_1,i)\pi(i_i) P(i_1,i_2)\dots P(i_{k-1},i_{k})P(i_k,i) \\
+& = P(i_1,i)P(i_2,i_1)\pi(i_2) \dots P(i_{k-1},i_{k})P(i_k,i) \\
+\dots \\
+& = P(i_1,i)P(i_2,i_1) \dots P(i_{k},i_{k-1})\pi(i_k)P(i_k,i) \\
+& = P(i_1,i)P(i_2,i_1) \dots P(i_{k},i_{k-1})P(i,i_k)\pi(i) \\
+&= \P\{i \rightarrow i_k \rightarrow i_{k-1} \dots \rightarrow i_1 \rightarrow i\}
+\end{align*}
+Sufficiency: Consider the path $i\rightarrow i_1 \rightarrow i_2 \dots \rightarrow i_k \rightarrow j\rightarrow i$ and its reverse path. Then, 
+\begin{align*}
+\P\{i\rightarrow i_1 \rightarrow i_2 \dots \rightarrow i_k \rightarrow j \rightarrow i\} &= \P\{i \rightarrow j \rightarrow i_k \rightarrow i_{k-1} \dots \rightarrow i_1 \rightarrow i\} \\
+ &\implies  \\
+P^{k}(i,j)P(j,i) &= P(i,j)P^{k}(j,i)
+\end{align*}
+Now, taking the limit as $k\rightarrow \infty$, we get $\pi(j)P(j,i) = P(i,j)\pi(i)$ which is $P^* = P$.
+\end{proof}
+\end{prop}
+\end{document}
+

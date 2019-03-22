@@ -1,0 +1,98 @@
+% !TEX spellcheck = en_US
+% !TEX spellcheck = LaTeX
+%\documentclass[a4paper,10pt,english]{article}
+\documentclass[all-lectures.tex]{subfiles}
+%\input{header}
+%\title{Lecture 01: Poisson Processes}
+%\author{}
+\setcounter{chapter}{2}
+
+\begin{document}
+%\maketitle
+
+\chapter{Discrete Time Markov Chains}
+\setcounter{section}{1}
+\setcounter{subsection}{0}
+
+\section*{\centering{Lecture 8 \linebreak }}
+\subsection{Markov Chains: Definitions}
+\textbf{Definition:}
+Let $S$ be a countable set. A discrete time stochastic process  $\{X_k\}$ is a \textit{Markov chain} with state space $S$ if 
+\begin{align*}
+\P\{X_n = j|X_{n-1} = i, X_{n-2} = i_{n-2},\dots,X_1 = i_1,X_0 = i_0\} = \P\{X_n = j|X_{n-1} = i\}.
+\end{align*}
+When $\P\{X_n = j|X_{n-1} = i\}$ does not depend on $n$ is called a \textit{homogeneous }Markov chain. Now onward, we assume all Markov chains are homogeneous, unless mentioned otherwise. The matrix $P$ where $P(i,j) = \P\{X_n = j|X_{n-1} = i\}$ is called the \textit{transition matrix }of the Markov chain $\{X_n\}$. We write $P^n$ to denote matrix multiplication of $P$ with itself $n$ times. We use $\P_i\{.\}$ to mean $\P\{.|X_0 = i\}$. \\
+\textbf{Strong Markov property:} If $\tau$ is a stopping time and $\tau < \infty$ with probability $1$, then Markov chain has strong Markov property if
+\begin{align*}
+\P\{X_{\tau} = j|X_{\tau-1} = i, X_{\tau-2} = i_{\tau-2},\dots,X_1 = i_1,X_0 = i_0\} = \P\{X_1 = j|X_{0} = i\}. \ \forall n \in \mathbb{N} \text{ and }i,j \in S.
+\end{align*}
+\begin{proof}
+{\color{red} Proof for strong Markov property: This proof might not hold in general case. I am assuming homogenous MC.}
+\begin{align*}
+&\P\{X_{\tau} = j|X_{\tau-1} = i, X_{\tau-2} = i_{\tau-2},\dots,X_1 = i_1,X_0 = i_0\}  \\
+&= \sum_{m = 1}^{m=\infty} \P\{X_{\tau} = j|X_{\tau-1} = i, X_{\tau-2} = i_{\tau-2},\dots,X_1 = i_1,X_0 = i_0,\tau = m\} \P\{\tau = m|X_{\tau-1} = i, X_{\tau-2} = i_{\tau-2},\dots,X_1 = i_1,X_0 = i_0\} \\
+&= \sum_{m = 1}^{m=\infty} \P\{X_{m} = j|X_{m-1} = i, X_{m-2} = i_{m-2},\dots,X_1 = i_1,X_0 = i_0,\tau = m\} \P\{\tau = m|X_{\tau-1} = i, X_{\tau-2} = i_{\tau-2},\dots,X_1 = i_1,X_0 = i_0\} \\
+&= \sum_{m = 1}^{m=\infty} \P\{X_{m} = j|X_{m-1} = i, X_{m-2} = i_{m-2},\dots,X_1 = i_1,X_0 = i_0\} \P\{\tau = m|X_{\tau-1} = i, X_{\tau-2} = i_{\tau-2},\dots,X_1 = i_1,X_0 = i_0\} \\
+&= \sum_{m = 1}^{m=\infty} \P\{X_{1} = j|X_{0} = i\} \P\{\tau = m|X_{\tau-1} = i, X_{\tau-2} = i_{\tau-2},\dots,X_1 = i_1,X_0 = i_0\} \\
+&= \P\{X_{1} = j|X_{0} = i\}.
+\end{align*}
+The fact that $\tau$ is a stopping time has been used in the third equality. The finiteness of $\tau$ is used in the first equality to expand the probability as an infinite summation.
+\end{proof}
+\textbf{Classification of states:} Let $\tau_i = \min\{n \geq 1 : X_n = i\}$. $\tau_i$ is a stopping time. Let $N_i$ be the total number of times a state $i$ is visited by the Markov chain. \\
+\indent If $\P_i\{\tau_i < \infty\} = 1$, state $i$ is called a \textit{{recurrent state}}. If further $\E[\tau_i] < \infty$, it is called a \textit{positive recurrent state}. When $i$ is recurrent but $\E[\tau_i] = \infty$, it is called a \textit{null recurrent state}. For a recurrent state $i$, $\P_i\{N_i = \infty\} = 1$ and $\E_i[N_i] = \infty$. Since, $\E_i[N_i] = \E_i\left[\sum_{n=0}^\infty 1(X_n = i)\right] = \sum_{n=0}^\infty P^n(i,i)$, an equivalent criterion for recurrence is $\sum_{n=0}^\infty P^n(i,i) = \infty$. {\color{red}see next para also.}\\
+\indent If for a state $i$, $\P_i\{\tau_i < \infty\} < 1$, it is called a \textit{{transient state}}. For a transient state, $\P\{N_i = m \} = \P\{\tau < \infty\}^{m-1}\P\{\tau < \infty\}$ and $\E[N_i] = 1/\P\{\tau < \infty\}< \infty$.\\
+\textbf{Periodicity:} A state $i$ is said to have \textit{period} $d$ if distribution of $\tau_i$ has period $d$. The period of state $i$ is denoted by $d(i)$. If $d(i)=1$, $i$ is called \textit{aperiodic}. \\
+\textbf{Communicating classes:} A state $j$ is said to be \textit{reachable} from state $i$ if there exists an $n$ such that $P^n(i,j) > 0$. We denote this by $i\rightarrow j$. If $i\rightarrow j$  and $j \rightarrow i$, we say that states $i$ and $j$ are \textit{communicating states} and denote this by $i \leftrightarrow j$. A subset $A$ of state space is called \textit{closed} if for all $j \in A^c$, and $i \in A$, $j$ is not reachable from $i$. A subset $A$ of state space is called a \textit{closed communicating set} if it is closed and $i \leftrightarrow j, \forall i,j \in A$. Communication is an equivalence relation. A set with only one communication class is called an \textit{irreducible} set.
+
+Example: $S = \{0,1,2,3,4\}$.
+\begin{align*}
+	P = 
+\begin{bmatrix}
+	0.2      & 0.3 & 0 & 0.5 & 0  \\
+    0      & 0.3 & 0.7 & 0 & 0 \\
+	0      & 0.5 & 0.5 & 0 & 0  \\
+   0      & 0 & 0 & 0.3 & 0.7  \\
+    0      & 0 & 0 & 0 & 1 \\
+\end{bmatrix}
+\end{align*}
+Here, $\{3,4\}$ and $\{1,2\}$ are closed sets. $\{1,2\}$ is closed communicating set. $\{4\}$ is an absorbing state and $\{0,3\}$ are transient states. $\{1,2\}$ are recurrent states (positive).
+\subsection{Properties of states}
+\begin{prop}[Periodicity is a class property] \label{prop:periodicity_is_class_property}
+If $i\leftrightarrow j$, and $i$ has period $d$, $j$ also has period $d$.
+\begin{proof}
+$i \rightarrow j \implies \exists n : P^n(i,j) > 0$ and $ j \rightarrow i \implies \exists m : P^m(j,i) > 0$. 
+We have 
+\begin{align*}
+P^{n+m}(j,j) &= \sum_k P^n(j,k) P^m(k,j) \geq P^n(j,i) P^m(i,j) > 0 \\
+P^{n+s+m}(j,j)  &\geq P^n(j,i) P^s(i,i) P^m(i,j) > 0
+\end{align*}
+The last inequality is true whenever $P^s(i,i) > 0$. From these two inequalities and definition of period, $d(j)$ divides $n+m$ and $n+s+m$. Therefore, $d(j)$ divides $s$ whenever $P^s(i,i) > 0$. In particular, $d(j)$ divides $d(i)$. Using exactly the same argument with roles of $i$ and $j$ interchanged, we can show $d(i)$ divides $d(j)$. Thus, $d(i) = d(j)$. \qedhere 
+\end{proof}
+\end{prop}
+
+\begin{prop}[Recurrence is a class property] \label{prop:rec_is_class_property}
+If $i\leftrightarrow j$, and $i$ is recurrent, then $j$ is also recurrent.
+\begin{proof}
+Since $i$ is recurrent, $\sum_n P^n(i,i) = \infty$. Since $i\leftrightarrow j, \exists m,n : P^n(i,j) >0, P^m(j,i) >0$. Therefore,
+\begin{align*}
+\sum_k P^{m+k+n}(j,j) \geq  P^{m}(j,i) \left(\sum_k P^k(i,i)\right) P^{n}(i,j) = \infty.
+\end{align*}
+This shows that state $j$ is also recurrent.
+\end{proof}
+\end{prop}
+{\color{red}If $i$ is transient and $j$ is recurrent, then as the above example shows, $i \rightarrow j$ is possible (as above example shows) but $j \rightarrow i$ is not possible, as we now show. If $i\rightarrow j$, then $j \rightarrow i$ is ruled out by Prop \ref{prop:rec_is_class_property}. If $i\rightarrow j$ is not true,  but $j \rightarrow i$ is true, then there is $m$ such that $P^m( j, i) >0$ without $j$ visiting itself. But then, $P_j(\tau_j= \infty) \geq P^m(j,i) >0$. Thus $j$ will not be recurrent. \\
+\indent Thus, the state space $S$ can be partitioned into disjoint sets where one set could include all the transient states and then there are disjoint communicating closed classes. In the above example this partition is $\{0,3\}$, $\{1,2\}$ and  $\{4\}$.
+}
+\subsection{Limiting distributions of Markov chains}
+Let $\mu_{jj} = \E_j[\tau_j]$. The time periods at which the Markov chain enters state $j$ are renewal epochs and $\mu_{jj}$ is the expected time between renewals. From regeneration process theorem,
+\begin{align*}
+\lim_{n\rightarrow \infty} P^n(i,j) = \frac{1}{\mu_{jj}} &&\text{(when $j$ is aperiodic)},\\
+\lim_{n\rightarrow \infty} P^n(j,j) = \frac{d}{\mu_{jj}} &&\text{(when $j$ has period $d> 1$).} 
+\end{align*}
+If the initial state $i$ is positive recurrent, then visits to state $i$ are regeneration epochs and we have 
+\begin{align*}
+\lim_{n\rightarrow \infty} P^n(i,j) = \frac{\E_i\left[\sum_{k=1}^{\tau_i} 1(X_k=j)\right]}{\mu_{ii}} 
+\end{align*}
+In the above, if state $j$ is transient or null recurrent, $\mu_{jj} = \infty$ and the corresponding limits equal zero. 
+\end{document}
+

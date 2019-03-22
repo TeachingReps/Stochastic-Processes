@@ -1,0 +1,77 @@
+% !TEX spellcheck = en_US
+% !TEX spellcheck = LaTeX
+%\documentclass[a4paper,10pt,english]{article}
+\documentclass[all-lectures.tex]{subfiles}
+%\input{header}
+%\title{Lecture 01: Poisson Processes}
+%\author{}
+\setcounter{chapter}{3}
+
+\begin{document}
+%\maketitle
+
+%\chapter{Discrete Time Markov Chains}
+\setcounter{section}{2}
+\setcounter{subsection}{0}
+
+\section*{\centering{Lecture 9 \linebreak }}
+\subsection{Limiting distributions of Markov chains}
+In the following, we assuming the Markov chain is irreducible and aperiodic. \\
+\indent Let $\pi(j) = \lim_{n\rightarrow \infty} P^n(i,j)$. If $j$ is a transient or null recurrent, $\pi(j) = 0$. When state $j$ is positive recurrent, $\pi(j) > 0$ and the Markov chain converges the a limiting distribution. \\
+\indent Let the distribution $X_0$ be $\pi$. The distribution of $X_1$ is then $\pi P$. If $\pi = \pi P$, the distribution of $X_n, n \geq 1$ is $\pi P^n = \pi$. This suggests that the solution of $\pi = \pi P$ such that $\sum_i \pi(i) = 1$ could be a stationary distribution of the Markov chain.
+\begin{prop}
+The solution $\pi$ of the equation $\pi = \pi P$ such that $\sum_i \pi_i$ is the stationary distribution of the Markov chain $\{X_n\}$ with transition probability matrix $P$.
+\begin{proof}
+We need to show that if $X_0$ has the distribution $\pi$, then the distribution of $X_n$ is also $\pi$ and joint distribution of $\{X_{k+1},X_{k+2},\dots,X_{k+m}\}$ does not depend on $k$. The distribution of $X_n$ being equal to $\pi$ has been deduced in the discussion above. We now show the remaining. {\color{red}We have 
+\begin{align*}
+\P\{X_{k+1} = i_1,X_{k+2} = i_2,\dots,X_{k+m} = i_m\} &= \sum_{i_0} P(i_{m-1},i_{m}) \times P(i_{m-2},i_{m-1}) \times \dots \times P(i_{0},i_{1}) \times P(X_{k} = i_0). \\
+&= \sum_{i_0} P(i_{m-1},i_{m}) \times P(i_{m-2},i_{m-1}) \times \dots \times P(i_{0},i_{1}) \times \pi(i_0). \\
+&= \P_{\pi}\{X_{1} = i_1,X_{2} = i_2,\dots,X_{m} = i_m\} 
+\end{align*}
+}
+\end{proof}
+\end{prop}
+\begin{prop}[Positive recurrence is a class property] \label{prop:positve_recurrence_class_property}
+If $i\leftrightarrow j$ and $i$ is positive recurrent, then $j$ is also positive recurrent. 
+\begin{proof}
+Let $i$ be positive recurrent. Then $\mu_{ii} > 0$ and $i\rightarrow j$ implies that $\E_i\left[\sum_{k=1}^{\tau_i} 1(X_k=j)\right] > 0$. Thus, 
+\begin{align*}
+\lim_{n\rightarrow \infty} P^n(i,j) = \frac{\E_i\left[\sum_{k=1}^{\tau_i} 1(X_k=j)\right]}{\mu_{ii}} >0
+\end{align*}
+{\color{red}Also, $j$ is recurrent by Prop $3.1.2$. Hence, $\lim_{n\rightarrow \infty} P^n(j,j) = 1/\mu_{jj} > 0$. This means that $\mu_{jj} < \infty$. Thus, $j$ is also a positive recurrent state. }
+\end{proof}
+\end{prop}
+
+\begin{prop}
+If $S$ is finite and irreducible, then $S$ is positive recurrent. 
+\begin{proof}
+All the states in a finite state Markov chain cannot be transient because a finite state Markov chain is non-explosive and therefore atleast one state will be visited infinitely often with probability $1$. Since, the Markov chain is irreducible, all states must be either null recurrent or positive recurrent (Prop \ref{prop:positve_recurrence_class_property}). Suppose that all the states are null. Then we have
+\begin{align} \label{eq:prop_finite_is_pos_rec}
+\lim_{n\rightarrow \infty} P^n(i,j) = 0 \ \forall i,j \in S
+\end{align} 
+{\color{red}
+But, $\sum_j P^n(i,j) = 1\ \forall n$. Therefore $\lim_{n \rightarrow \infty} \sum_j P^n(i,j) = \sum_j \lim_{n \rightarrow \infty}  P^n(i,j) = 1$. This shows that Eq \ref{eq:prop_finite_is_pos_rec} cannot be true. Thus, all states are positive recurrent.}
+\end{proof}
+\end{prop}
+
+Let $A$ be a subset of state space which is a closed communicating class. Let $f_i(A)$ be the probability that Markov chain enters $A$ starting in state $i\notin A$. Then, 
+\begin{align*}
+f_i(A) &= \sum_{j\in A} P(i,j) + \sum_{j\in A^c} P(i,j) f_j(A) \\
+&= \sum_{j\in A} P(i,j) + \sum_{j = \text{transient state}} P(i,j) f_j(A)
+\end{align*}
+Here, we need to sum over only transient states in the second summand because $f_j$ for $j \in A^c$ and not transient is zero. This will result in a set of linear equations in $f_i(A)\, i\in S$. If we want to compute $\lim_{n\rightarrow \infty}\P_i\{X_n = j\}$ for $j \in A$, we can regard $A$ as an irreducible Markov chain and compute its stationary distribution $\pi_A(j) \forall j \in A$. Then, $\lim_{n\rightarrow \infty}\P_i\{X_n = j\} = f_i(A) \pi_A(j)$. 
+In general for a Markov chain, there is one unique stationary distribution corresponding to every closed communicating class if the class is positive recurrent. Any convex combination of these stationary distributions will also be a stationary distribution. \\
+\indent Consider the same example in previous class: $S = \{0,1,2,3,4\}$.
+\begin{align*}
+	P = 
+\begin{bmatrix}
+	0.2      & 0.3 & 0 & 0.5 & 0  \\
+    0      & 0.3 & 0.7 & 0 & 0 \\
+	0      & 0.5 & 0.5 & 0 & 0  \\
+   0      & 0 & 0 & 0.3 & 0.7  \\
+    0      & 0 & 0 & 0 & 1 \\
+\end{bmatrix}
+\end{align*}
+In this example, $A=\{1,2\}$ and $B= \{4\}$ are two closed communicating classes. $\{0,3\}$  are transient states. $\{3,4\}$ is a closed set but not a closed communicating class. Considering $A$ as an irreducible Markov chain, $\pi_A(1) = 7/13$ and $\pi_A(2) = 6/13$. $f_1(A) = f_2(A) = 1$ and $f_3(A) = f_4(A) = 0$. $f_0(A) = 0.2 f_0(A) + 0.3 f_1(A) + 0 f_2(A) + 0.5 f_3(A)$. The stationary distribution corresponding to $A$ is $[0, 7/13, 6/13, 0, 0]$ and the stationary distribution corresponding to $B$ is $[0, 0, 0, 0, 1]$.
+\end{document}
+

@@ -1,0 +1,52 @@
+% !TEX spellcheck = en_US
+% !TEX spellcheck = LaTeX
+%\documentclass[a4paper,10pt,english]{article}
+\documentclass[all-lectures.tex]{subfiles}
+%\input{header}
+%\title{Lecture 01: Poisson Processes}
+%\author{}
+\setcounter{chapter}{3}
+
+\begin{document}
+%\maketitle
+
+%\chapter{Discrete Time Markov Chains}
+\setcounter{section}{4}
+\setcounter{subsection}{0}
+
+\section*{\centering{Lecture 11 \linebreak }}
+\subsection{Example: M/GI/1 queue}
+Consider an $M/GI/1$ queue. Let $\lambda$  be the arrival rate and $\E[S]$ be the mean service time. Let 
+\begin{itemize}
+\item $q_k = $ queue length just after the $k^{th}$ departure. 
+\item $\hat{q}_k = $ queue length just before the $k^{th}$ arrival. 
+\item $q_t =$ queue lenght at arbitrary time $t$.
+\item $W_k = $ waiting time of the $k^{th}$ customer.
+\end{itemize}
+The process $\{q_k\}$ is a Markov chain. By choosing $f(i) = i$, we can deduce using the test for positive recurrence that $\{q_k\}$ is positive recurrent when $\E[A_1] < 1$. Here, $\E[A_1]$ is the expected number of arrivals in one service time. This quantity is equal to $\lambda \E[S]$. Thus, we conclude that when $\lambda \E[S] < 1$, the process $\{q_k\}$ has a stationary distribution. \\
+\indent  The process $\{\hat{q}_k\}$ however, is not a Markov chain. The process $\{\hat{q}_k\}$ is a regeneration process with regeneration epochs occuring when $k^{th}$ arrival sees an empty queue. That is regeneration epochs for $\{\hat{q}_k\}$ occurs when $ \hat{q}_k = 0$. Let $\hat{\tau}$ be the regeneration length of $\{\hat{q}_k\}$. \\
+\indent To obtain the conditions for existence for stationary distribution for $\{\hat{q}_k\}$, we can relate it to the process $\{q_k\}$. The process $\{q_k\}$ is also a regenerative process with regeneration epochs occuring when a departure leaves behind an empty queue. That is, the regeneration epochs correspond to $q_k = 0$. Let $\tau$ be the regeneration time of $\{q_k\}$. Now, we can see that $\tau = \hat{\tau}$. Since, $\{q_k\}$ has stationary distribution, $\E[\tau] < \infty$. So, $\E[\hat{\tau}] < \infty$. Therefore, the process $\{\hat{q}_k\}$ is stationary iff $\{q_k\}$ is stationary. \\
+\indent The process $\{W_k\}$ also has the same regeneration length as $\{q_k\}$ and has unique stationary distribution when $\lambda\E[S] < 1$.\\
+\indent The process $\{q_t\}$ is also a regenerative process with regeneration epochs occuring when $q_t = 0$. Let $T$ be the regeneration length of $\{q_t\}$. Then, considering one regeration cycle, we can write $T = \sum_{k = 1}{\hat{\tau}} a_k$ where $a_k$ is the service time. Now, $\hat{\tau}$, which is equal to the number of services in one regeneration cycle is a stopping time for the $\{a_k,s_k\}$ where $s_k$ is the service time of the $k^{th}$ arrival in a regeneration cycle. We can use Wald's lemma to conclude that $\E[T] = \E[\hat{\tau}] \E[a_1]$. Thus, $\{q_t\}$ also has stationary distribution whenever $\lambda\E[S]$.
+\subsection*{Rate of convergence to the stationary distribution}
+{\color{red} This section needs to be completed. }
+\begin{itemize}
+\item If $\E[\tau^\alpha] < \infty$, then $|| X_k - \pi ||_{TV} < c_1 k^{-\alpha +1}$
+\item If $\E[\beta^{\tau}] < \infty$, then $|| X_k - \pi||_{TV} \rightarrow 0 $ exponentially.
+\end{itemize}
+Here, $||\mu - \pi||_{TV}$ is the total variation distance between distributions $\mu$ and $\pi$. For finite state space $S$, $||\mu - \pi|| = 1/2 \sum_{x\in S} \mu(x) - \pi(x)$. \\
+Let 
+\begin{align*}
+K_n^{x} = \frac{P^n(x,y)}{\pi(y)}.
+\end{align*}
+$K_n^{x} \rightarrow 1$ as $n \rightarrow \infty \ \forall x,y \in S$. Then, $L^p$ distance distance $||K_n-1||^p_{P,\pi}$is defined as 
+\begin{align*}
+||K_n-1||^p_{P,\pi} = \sum_{y\in S} |K_n(y)-1|^p \pi(y) \text{ for } 1 \leq p < \infty.
+\end{align*}
+\textbf{Mixing times:}
+\begin{align*}
+\tau(\epsilon) &= \min\{n: \sup_x ||P^n(x,.)-\pi||_{TV} \leq \epsilon\} \\
+\tau_2(\epsilon) &= \min\{n: sup_x |K_n^x - 1|_{x,\pi} \leq \epsilon\}
+\end{align*}
+\end{document}
+
