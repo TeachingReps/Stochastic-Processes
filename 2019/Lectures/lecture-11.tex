@@ -15,38 +15,78 @@
 \setcounter{subsection}{0}
 
 \section*{\centering{Lecture 11 \linebreak }}
-\subsection{Example: M/GI/1 queue}
-Consider an $M/GI/1$ queue. Let $\lambda$  be the arrival rate and $\E[S]$ be the mean service time. Let 
-\begin{itemize}
-\item $q_k = $ queue length just after the $k^{th}$ departure. 
-\item $\hat{q}_k = $ queue length just before the $k^{th}$ arrival. 
-\item $q_t =$ queue lenght at arbitrary time $t$.
-\item $W_k = $ waiting time of the $k^{th}$ customer.
-\end{itemize}
-The process $\{q_k\}$ is a Markov chain. By choosing $f(i) = i$, we can deduce using the test for positive recurrence that $\{q_k\}$ is positive recurrent when $\E[A_1] < 1$. Here, $\E[A_1]$ is the expected number of arrivals in one service time. This quantity is equal to $\lambda \E[S]$. Thus, we conclude that when $\lambda \E[S] < 1$, the process $\{q_k\}$ has a stationary distribution. \\
-\indent  The process $\{\hat{q}_k\}$ however, is not a Markov chain. The process $\{\hat{q}_k\}$ is a regeneration process with regeneration epochs occuring when $k^{th}$ arrival sees an empty queue. That is regeneration epochs for $\{\hat{q}_k\}$ occurs when $ \hat{q}_k = 0$. Let $\hat{\tau}$ be the regeneration length of $\{\hat{q}_k\}$. \\
-\indent To obtain the conditions for existence for stationary distribution for $\{\hat{q}_k\}$, we can relate it to the process $\{q_k\}$. The process $\{q_k\}$ is also a regenerative process with regeneration epochs occuring when a departure leaves behind an empty queue. That is, the regeneration epochs correspond to $q_k = 0$. Let $\tau$ be the regeneration time of $\{q_k\}$. Now, we can see that $\tau = \hat{\tau}$. Since, $\{q_k\}$ has stationary distribution, $\E[\tau] < \infty$. So, $\E[\hat{\tau}] < \infty$. Therefore, the process $\{\hat{q}_k\}$ is stationary iff $\{q_k\}$ is stationary. \\
-\indent The process $\{W_k\}$ also has the same regeneration length as $\{q_k\}$ and has unique stationary distribution when $\lambda\E[S] < 1$.\\
-\indent The process $\{q_t\}$ is also a regenerative process with regeneration epochs occuring when $q_t = 0$. Let $T$ be the regeneration length of $\{q_t\}$. Then, considering one regeration cycle, we can write $T = \sum_{k = 1}{\hat{\tau}} a_k$ where $a_k$ is the service time. Now, $\hat{\tau}$, which is equal to the number of services in one regeneration cycle is a stopping time for the $\{a_k,s_k\}$ where $s_k$ is the service time of the $k^{th}$ arrival in a regeneration cycle. We can use Wald's lemma to conclude that $\E[T] = \E[\hat{\tau}] \E[a_1]$. Thus, $\{q_t\}$ also has stationary distribution whenever $\lambda\E[S]$.
-\subsection*{Rate of convergence to the stationary distribution}
-{\color{red} This section needs to be completed. }
-\begin{itemize}
-\item If $\E[\tau^\alpha] < \infty$, then $|| X_k - \pi ||_{TV} < c_1 k^{-\alpha +1}$
-\item If $\E[\beta^{\tau}] < \infty$, then $|| X_k - \pi||_{TV} \rightarrow 0 $ exponentially.
-\end{itemize}
-Here, $||\mu - \pi||_{TV}$ is the total variation distance between distributions $\mu$ and $\pi$. For finite state space $S$, $||\mu - \pi|| = 1/2 \sum_{x\in S} \mu(x) - \pi(x)$. \\
-Let 
+\subsection{Criterion for transience, null recurrence and positive recurrence}
+\begin{thm} \label{prop:markov_chain_class_tests}
+Let $S$ be irreducible and $f: S \rightarrow \R$. 
+\begin{enumerate}
+\item Let $f(i)\rightarrow \infty$ as $i\rightarrow \infty$. If $\E[f(X_1)|X_0 = i] \leq f(i)$ for all $i$ outside a finite set $S_0 \subset S$, then the Markov chain is recurrent. 
+\item Let $f:S\rightarrow \R^+$ and $S_0 \subset S$ be finite. If 
+	\begin{enumerate}
+	\item  $\E[f(X_1)|X_0 = i] < \infty \ \forall i$,
+	\item For $i \notin S_0$, $\E[f(X_1)|X_0 = i] - f(i) < -\epsilon$ for some $\epsilon > 0$
+	\end{enumerate}
+	 the Markov chain is positive recurrent. 
+\item Let $f:S\rightarrow \R$ and $S_0 \subset S$ be finite.	The Markov chain is transient if
+	\begin{enumerate}
+	\item  $f$ is bounded and $\E[f(X_1)|X_0= i] \geq f(i)\ \forall i \in S_0$
+	\item $f(i) > f(j)\ \forall j\in S_0, for some i\notin S_0$
+	\end{enumerate}	
+\end{enumerate}
+\end{thm}
+\indent The proof of this theorem requires Martingale methods. Thus we will prove it after we have studied Martingales. \\
+\indent \textbf{Example:} Consider a slotted queuing system in which one service time is equal to one slot. Let $q_k$ be the queue length at the end of $k^{th}$ slot. Let $A_k$ denote the number of arrivals in the $k^{th}$ slot. Then, $q_{k+1} = (q_k -1)^+ + A_{k+1}$ and for $i>0$
 \begin{align*}
-K_n^{x} = \frac{P^n(x,y)}{\pi(y)}.
+\P\{q_{k+1} = j|q_k = i,q_{k-1} = i_{k-1}, \dots q_0 = i_0\} = \P\{A_k = j-i-1\}.
 \end{align*}
-$K_n^{x} \rightarrow 1$ as $n \rightarrow \infty \ \forall x,y \in S$. Then, $L^p$ distance distance $||K_n-1||^p_{P,\pi}$is defined as 
+Thus, $\{q_k\}$ is a Markov chain with state space $S = \{0,1,2,\dots\}$. If $\P\{A_1 \leq 1\} > 0$, every state is aperiodic. If further, $\P\{A_1 > 1\} >0$, the Markov chain is also irreducible. \\
+{\color{red}\indent Consider $f(i) = i$. Let $S_0 = \{0\}$. For $i> 0$, $\E[f(q_1)|q_0 = i] - f(i) = \E[A_1] -1 $. Thus, we see from case $(1)$ in Prop \ref{prop:markov_chain_class_tests}, if $\E[A_1] \leq 1 $, $\{q_k\}$ is recurrent. From $(2)$ in Prop \ref{prop:markov_chain_class_tests}, we have positive recurrence if $\E[A_k] < 1$.} \\
+%\indent Choose $f(i) = 1\{i>0\}$ and $S_0 = \{0\}$. Then if $\E[A_1] > 1$, the conditions in case (3) in Prop \ref{prop:markov_chain_class_tests} is met and $\{q_k\}$ is transient Markov chain. \\
+\subsection{Reversible Markov Chains}
+We can easily check that 
 \begin{align*}
-||K_n-1||^p_{P,\pi} = \sum_{y\in S} |K_n(y)-1|^p \pi(y) \text{ for } 1 \leq p < \infty.
+\P\{X_{k-1} = j| X_k = i, X_{k+1} = i_{k+1}, X_{k+2} = i_{k+2}, \dots\} = \P\{X_{k-1} = j|X_k = i\}.
 \end{align*}
-\textbf{Mixing times:}
+Thus, the reversed Markov chain is also a Markov chain. For an irreducible  stationary Markov chain $\{X_k\}$ with stationary distribution $\pi$,
 \begin{align*}
-\tau(\epsilon) &= \min\{n: \sup_x ||P^n(x,.)-\pi||_{TV} \leq \epsilon\} \\
-\tau_2(\epsilon) &= \min\{n: sup_x |K_n^x - 1|_{x,\pi} \leq \epsilon\}
+\P\{X_{k-1} = j| X_k = i,X_{k+1} = i_{k+1},X_{k+2} = i_{k+2},\dots\} &= \P\{X_{k-1} = j| X_k = i\} \\
+&=  \frac{\P\{X_{k-1} = j, X_k = i\}}{\P\{ X_k = i\}} \\
+&=  \frac{\P\{ X_k = i|X_{k-1} = j\}\P\{ X_{k-1} = j\}}{\pi(i)} \\
+&=  \frac{P(j,i)\pi(j)}{\pi(i)}
 \end{align*}
+Let us define 
+\begin{align*}
+P^*(i,j)=\frac{P(j,i)\pi(j)}{\pi(i)}
+\end{align*}
+$P^*$ is the transition probability of the reversed Markov chain. \\
+\indent \textbf{Reversible Markov Chain:} The stationary irreducible Markov chain $X_k$ is called \textit{reversible }if $P^*(i,j) = P(i,j)$. In the other words, for a reversible  Markov chain, we have, $P(i,j)\pi(i) = P(j,i)\pi(j)$.
+\begin{prop}[Test for reversibility]
+For an irreducible Markov chain with stationary distribution $\pi$,  for all paths $i\rightarrow i_1 \rightarrow i_2 \dots \rightarrow i_k \rightarrow i$,
+\begin{align*}
+\P_\pi\{i\rightarrow i_1 \rightarrow i_2 \dots \rightarrow i_k \rightarrow i\} = \P_\pi\{i \rightarrow i_k \rightarrow i_{k-1} \dots \rightarrow i_1 \rightarrow i\}
+\end{align*}
+under stationarity is a necessary and sufficient condition. 
+\begin{proof}
+Necessity: Assume $P^* = P$. Then, 
+\begin{align*}
+&\P_\pi\{i\rightarrow i_1 \rightarrow i_2 \dots \rightarrow i_k \rightarrow i\} \\
+&= \pi(i)P(i,i_1)P(i_1,i_2)\dots P(i_{k-1},i_{k})P(i_k,i)\\
+& = P(i_1,i)\pi(i_i) P(i_1,i_2)\dots P(i_{k-1},i_{k})P(i_k,i) \\
+& = P(i_1,i)P(i_2,i_1)\pi(i_2) \dots P(i_{k-1},i_{k})P(i_k,i) \\
+\dots \\
+& = P(i_1,i)P(i_2,i_1) \dots P(i_{k},i_{k-1})\pi(i_k)P(i_k,i) \\
+& = P(i_1,i)P(i_2,i_1) \dots P(i_{k},i_{k-1})P(i,i_k)\pi(i) \\
+&= \P_\pi\{i \rightarrow i_k \rightarrow i_{k-1} \dots \rightarrow i_1 \rightarrow i\}.
+\end{align*}
+Sufficiency: Consider the path $i\rightarrow i_1 \rightarrow i_2 \dots \rightarrow i_k \rightarrow j\rightarrow i$ and its reverse path. Then, 
+\begin{align*}
+\sum_{i_1,i_2\dots i_k}\P_\pi\{i\rightarrow i_1 \rightarrow i_2 \dots \rightarrow i_k \rightarrow j \rightarrow i\} &= \sum_{i_1,i_2\dots i_k}\P_\pi\{i \rightarrow j \rightarrow i_k \rightarrow i_{k-1} \dots \rightarrow i_1 \rightarrow i\} 
+\end{align*}
+Thus, 
+\begin{align*}
+P^{k}(i,j)P(j,i) &= P(i,j)P^{k}(j,i)
+\end{align*}
+Now, taking the limit as $k\rightarrow \infty$, we get $\pi(j)P(j,i) = P(i,j)\pi(i)$ which is $P^* = P$.
+\end{proof}
+\end{prop}
 \end{document}
 
