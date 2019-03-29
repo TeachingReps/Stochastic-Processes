@@ -4,99 +4,37 @@
 %\input{header}
 \author{}
 
-
 \begin{document}
 %\maketitle
 \setcounter{chapter}{2}
 \setcounter{section}{2}
 \section*{\centering{Lecture 5 \linebreak }}
 
-\subsection{Limit Theorems}
-\begin{prop}
-The total number of renewals that occur are $N(\infty)=\infty$ with probability 1.
-\end{prop}
-\begin{proof}
-\eq{
-\lim_{n\to\infty} \P\{ N_t \ge n\} = \lim_{n\to\infty} \P\{S_n \le t\} \Rightarrow \P\{N_t < \infty\} =1.
-}
+\subsection{Elementary Limit Theorems}
+We have 
 \eq{
 \lim_{t\to\infty} \P\{ N_t \ge n\} = \lim_{t\to\infty} \P\{S_n \le t\} =1.
 }
-Hence, $\lim_{t\to\infty} N(t) = \infty$ $a.s$.
-This also tells that the only way in which $N(\infty)$-the total number of renewals that occurs can be finite, is for one of the interarrival times to be infinite.
-\end{proof}
-
-Let us denote the random variable $S_{N(t)}$, the time of the last renewal \textit{prior to or at} time $t$ and $S_{N(t)+1}$ represents the time of the first renewal \textit{after} time $t$.
-
+Hence, $\lim_{t\to\infty} N(t) = \infty$ $a.s$. \\
+\indent Let us denote by $S_{N(t)}$, the time of the last renewal \textit{prior to or at} time $t$ and by $S_{N(t)+1}$ the time of the first renewal \textit{after} time $t$.
 \begin{prop}
 With probability 1,
 \eq{
 \lim_{t\to\infty} \frac{N(t)}{t} \to \frac{1}{\mu}.
 }
 \end{prop}
-
 \begin{proof}
 Since, $S_{N(t)} < t < S_{N(t)+1}$, we see that
 \eq{
 \frac{S_{N(t)}}{N(t)} < \frac{t}{N(t)} < \frac{S_{N(t)+1}}{N(t)}
 }
-
-Since, $\frac{S_{N(t)}}{N(t)}$ is the average of the first $N(t)$ interarrival times, it follows that by the strong law of large numbers that 
-$\frac{S_{N(t)}}{N(t)} \to \mu$ as $N(t) \to \infty$. But since $N(t)\to \infty$ when $t \to \infty$, we have
+By strong law of large numbers $\frac{S_{N(t)}}{N(t)} \to \mu$ a.s. $t \to \infty$ . Also,
 \eq{
-\lim_{t\to\infty} \frac{S_{N(t)}}{N(t)} \to \mu.
-}
-Further, we can write $\frac{S_{N(t)+1}}{N(t)}$ as follows,
-\eq{
-\frac{S_{N(t)+1}}{N(t)} = \Big{[}\frac{S_{N(t)+1}}{N(t)+1}\Big{]} \Big{[}\frac{N(t)+1}{N(t)}\Big{]}.
-}
-By using the same argument as above,
-\eq{
-\lim_{t\to\infty} \frac{S_{N(t)+1}}{N(t)} \to \mu.
-}
-Hence the result follows.
+\frac{S_{N(t)+1}}{N(t)} = \left[\frac{S_{N(t)+1}}{N(t)+1}\right] \left[\frac{N(t)+1}{N(t)}\right] \to \mu \text{ a.s.} 
+} \qedhere
 \end{proof}
 
 \subsection{Elementary Renewal Theorem}
-\begin{thm}
-\eq{
-\lim_{t \to \infty} \frac{\E[N(t)]}{t} = \frac{1}{\mu}
-}
-\end{thm}
-
-\begin{proof}
-Let us denote $\E[N(t)]$ as $m(t)$ and suppose $\mu < \infty$.
-
-We know that $S_{N(t)+1} > t$, taking expectations we get,
-\eq{
-\mu(m(t)+1) > t,
-}
-which implies 
-\eq{
-\liminf_{t \to \infty} \frac{m(t)}{t} \ge \frac{1}{\mu}.
-}
-
-To get the other way, define a new renewal process $\{ A'_k, k=1,2,\dots \}$ as $A'_k= \min(M,A_k)$ for a constant $M$.
-Let $S'_n=\sum_1^n A'_k$ and $N'(t) = sup\{n,S'_n \le t\}$. The interarrival times for this truncated renewal process are bounded by $M$, therefore
-\eq{
-S'_{N(t)+1} \le t+M
-}
-Taking expectations on both sides we get,
-\eq{
-\mu_M(m'(t)+1) \le t+M
-}
-where $\mu_M = \E[A'_k]$, thus
-\eq{
-\limsup_{t \to \infty} \frac{m'(t)}{t} \le \frac{1}{\mu_M}.
-}
-
-Letting $M \to \infty$ yields
-\eq{
-\limsup_{t \to \infty} \frac{m(t)}{t} \le \frac{1}{\mu}.
-}
-Hence the result follows.
-\end{proof}
-
 \begin{defn}
 (Stopping Time)
 
@@ -130,15 +68,48 @@ Hence,
 \eq{
 \E[\sum_{k=1}^{N} X_k] = \E[\sum_{k=1}^{\infty} X_k I_k] = \sum_{k=1}^{\infty} \E[X_k I_k].
 }
-Since $I_k$ is deterined by $X_1, X_2, \dots, X_{k-1}$, therefore $I_k$ is independent of $X_k$. Thus we obtain
+Since $I_k$ is determined by $X_1, X_2, \dots, X_{k-1}$, therefore $I_k$ is independent of $X_k$. Thus we obtain
 \eq{
 \E[\sum_{k=1}^{N} X_k] &= \sum_{k=1}^{\infty} \E[X_k] \E[I_k] \\
 &= \E[X_1] \sum_{k=1}^{\infty} \E[I_k]\\
 &= \E[X_1] \sum_{k=1}^{\infty} \P\{ N \ge k\}\\
 &= \E[X_1] \E[N].
 }
-Hence the proof.
 \end{proof}
+
+\begin{thm}
+\eq{
+\lim_{t \to \infty} \frac{\E[N(t)]}{t} = \frac{1}{\mu}
+}
+\end{thm}
+\begin{proof}
+Let us denote $\E[N(t)]$ as $m(t)$ and we prove for $\mu < \infty$. We know that $S_{N(t)+1} > t$, taking expectations we get,
+\eq{
+\mu(m(t)+1) > t, &&\text{($N(t) + 1$ is a stopping time)}
+}
+which implies 
+\eq{
+\liminf_{t \to \infty} \frac{m(t)}{t} \ge \frac{1}{\mu}.
+}
+To get the other way, define a new renewal process $\{ X'_k, k=1,2,\dots \}$ as $X'_k= \min(M,X_k)$ for a constant $M$.
+Let $S'_n=\sum_1^n X'_k$ and $N'(t) = sup\{n,S'_n \le t\}$. The interarrival times for this truncated renewal process are bounded by $M$. Therefore
+\eq{
+S'_{N(t)+1} \le t+M
+}
+Taking expectations on both sides we get,
+\eq{
+\mu_M(m'(t)+1) \le t+M
+}
+where $\mu_M = \E[X'_k]$, thus
+\eq{
+\limsup_{t \to \infty} \frac{m'(t)}{t} \le \frac{1}{\mu_M}.
+}
+Letting $M \to \infty$ yields, since, $\E[\min(X_1,M)] \to \infty$,
+\eq{
+\limsup_{t \to \infty} \frac{m(t)}{t} \le \frac{1}{\mu}. 
+}
+\end{proof}
+
 
 
 \end{document}

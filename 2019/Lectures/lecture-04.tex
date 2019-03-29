@@ -14,7 +14,7 @@
 \section*{\centering{Lecture 4 \linebreak }}
 \subsection{Renewal Process}
 We know that the interarrival times for the Poisson process are independent and identically distributed exponential random variables.
-If we consider a counting process for which the interarrival times are independent and identically distributed with an arbitary function, then the counting process is called a \textit{renewal process}.
+If we consider a counting process for which the interarrival times are independent and identically distributed with an arbitrary distribution function, then the counting process is called a \textit{renewal process}.
 
 Let $X_n$ be the time between the $(n-1)$th and $n$th event and $\{X_n,n=1,2,\dots\}$ be a sequence of nonnegative independent random varibales with common distribution $F$ and $X_n \ge 0$.
 
@@ -22,9 +22,7 @@ The mean time $\mu$ between successive events is given by
 \eq{
 \mu = \E{X_n} = \int_0^\infty x dF(x).
 }
-
-
-Let $S_0=0$ and $S_n = \sum_{i=1}^{n} X_i$ for $n \ge 1$, $S_n$ indicating the time of $n$th event.
+We take $\mu > 0$. Let $S_0=0$ and $S_n = \sum_{i=1}^{n} X_i$ for $n \ge 1$, $S_n$ indicating the time of $n^{th}$ event.
 The number of events by time $t$, is given by
 \eq{
 N(t) = \sup \{n:S_n \le t\}.
@@ -49,9 +47,8 @@ The distribution of $N(t)$ can be written as $\P\{N(t) \ge n\} = \P\{S_n \le t\}
 
 
 \begin{prop}
-By strong law of large numbers $\frac{S_n}{n} \to \mu$ as $n \to \infty$ with probabiity 1.
+By strong law of large numbers $\frac{S_n}{n} \to \mu$ as $n \to \infty$ with probability 1. Hence $S_n \rightarrow \infty$ a.s.
 \end{prop}
-
 
 \textit{Question}: Can an infinite number of renewals can occur in a finite time?
 
@@ -59,57 +56,46 @@ By strong law of large numbers $\frac{S_n}{n} \to \mu$ as $n \to \infty$ with pr
 Infinite number of renewals cannot happen in a finite time.
 \end{prop}
 \begin{proof}
-For all $t$, we can write the follwing limit as
+For all $t$, we can write the following limit as
 \eq{
 \lim_{n \to \infty} \P\{N(t)=n\} &= \lim_{n \to \infty} \P\{S_n \le t\}-\P\{S_{n+1} \le t\} \\
 &= 0.
 }
-Now let us answer the question whether an infinite number of renewals can occur in a finite time or not,
+Also, 
 \eq{
-\P\{N_t < \infty\} &= 1-\lim_{n \to \infty} \P\{N(t) \ge n\} \\
+\P\{N(t) < \infty\} &= 1-\lim_{n \to \infty} \P\{N(t) \ge n\} \\
 &=  1-\lim_{n \to \infty} \P\{S_n \le t\}\\
-&= 1.
-}
-That is, infinite number of renewals cannot happen in a finite time, and the number of renewals is given by,
-\eq{
-N(t)=\max \{ n, S_n \le t\}.
+&= 1.\qedhere
 }
 \end{proof}
-
 \begin{prop}
-Not only $\E[N(t)]$ is finite but also all the moments $\E[N^r(t)]$ are finite for $r > 0, t \ge 0$.
+$\E[N^r(t)] < \infty$ for $r > 0, t \ge 0$.
 \end{prop}
-
 \begin{proof}
-Construct a new process $A'_k$ form $A_k$ as follows,
+Construct a new process $X'_k$ from $X_k$ as follows,
 \eq{
-A'_k = \begin{cases}
-0, 		& A_k < \alpha\\
-\alpha,  & A_k \ge \alpha
+X'_k = \begin{cases}
+0, 		& X_k < \alpha\\
+\alpha,  & X_k \ge \alpha
 \end{cases}
 }
-where $A_k$ are the interarrival times of the original process.
-
-Suppose $\{N'(t)\}$ is constructed from $\{A'_k\}$, then it is clear that $A'_k \le A_k$ and $\{N'(t) \ge N(t)\}$.
-The probability $\P\{ N'_{\frac{\alpha}{2}} = n\}$ is given by
+where $A_k$ are the interarrival times of the original process. Let $\beta = \P\{X_1\geq \alpha\}$.\\
+\indent Suppose $\{N'(t)\}$ is constructed from $\{X'_k\}$, then it is clear that $X'_k \le X_k$ and $\{N'(t) \ge N(t)\}$.
+Then, 
 \eq{
-\P\{ N'_{\frac{\alpha}{2}} = n\} &= \P\{A_1 < \alpha\} \P\{A_2 < \alpha\} \dots \P\{A_{n-1} < \alpha\} \P\{A_n > \alpha\}\\
+\P\{ N'(\frac{\alpha}{2}) = n\} &= \P\{X_1 < \alpha\} \P\{X_2 < \alpha\} \dots \P\{X_{n-1} < \alpha\} \P\{X_n > \alpha\}\\
 &\le (1-\beta)^n \beta.
 }
-From this we can write the expected value of $N'_{\frac{\alpha}{2}})^r$ as,
+Thus,
 \eq{
-\E[(N'_{\frac{\alpha}{2}})^r] &= \sum_{n=0}^{\infty} n^r \P\{ N'_{\frac{\alpha}{2}} = n\}\\
-&\le \sum_{n=0}^{\infty} n^r (1-\beta)^n \beta
+\E[(N'(\frac{\alpha}{2}))^r] &= \sum_{n=0}^{\infty} n^r \P\{ N'_{\frac{\alpha}{2}} = n\}\\
+&\le \sum_{n=0}^{\infty} n^r (1-\beta)^n \beta < \infty.
 }
-that is $\E[(N'_{\frac{\alpha}{2}})^r]$ is finite.
 \eq{
-\E[(N'_t)^r] = \E \big{[}\sum_{k=1}^{\frac{t}{\alpha}+1} (\bar{N_k})^r \big{]}
+\E[(N'(t))^r] &= \E \big{[}\sum_{k=1}^{\frac{t}{\alpha}+1} (\overline{N}_k)^r \big{]} \\
+&\leq \left( \frac{t}{\alpha} +1\right)^r \E[N'(\frac{\alpha}{2})^r] < \infty. 
 }
-where the value of $\bar{N_k}$ is equal to $N'_k-N'_{k-1}$.Furhter it can be upper bounded as follows
-\eq{
-\E[(N'_t)^r] \le (\frac{t}{\alpha}+1)^r \E[(N'_1)^r]
-}
-Since both the terms in the right hand side are finite we can conclude that $\E[(N'_t)^r] < \infty$. Hence the proof.
+where $\overline{N}_{\alpha k} = N'_k-N'_{\alpha(k-1)}$. 
 \end{proof}
 
 \end{document}
