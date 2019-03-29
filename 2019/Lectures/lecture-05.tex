@@ -1,13 +1,17 @@
 % !TEX spellcheck = en_US
 % !TEX spellcheck = LaTeX
-\documentclass[a4paper,10pt, english]{article}
-\input{../../header}
-\title{Lecture-05}
+\documentclass[all-lectures.tex]{subfiles}
+%\input{header}
 \author{}
 
+
 \begin{document}
-\maketitle
-\section{Limit Theorems}
+%\maketitle
+\setcounter{chapter}{2}
+\setcounter{section}{2}
+\section*{\centering{Lecture 5 \linebreak }}
+
+\subsection{Limit Theorems}
 \begin{prop}
 The total number of renewals that occur are $N(\infty)=\infty$ with probability 1.
 \end{prop}
@@ -53,7 +57,7 @@ By using the same argument as above,
 Hence the result follows.
 \end{proof}
 
-\section{Elementary Renewal Theorem}
+\subsection{Elementary Renewal Theorem}
 \begin{thm}
 \eq{
 \lim_{t \to \infty} \frac{\E[N(t)]}{t} = \frac{1}{\mu}
