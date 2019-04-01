@@ -23,30 +23,69 @@ Consider an $M/GI/1$ queue. Let $\lambda$  be the Poisson arrival rate, $S_k$ th
 \item $q_t =$ queue length at arbitrary time $t$.
 \item $W_k = $ waiting time of the $k^{th}$ customer.
 \end{itemize}
-The process $\{q_k\}$ satisfies $q_{k+1} = (q_k -1)^+ + A_{k+1}$ where $A_k$ is the number of arrivals during the service of $(k+1)^{th}$ customer. Since $\{A_k\}$ is i.i.d., $\{q_k\}$ is a Markov chain. The state space $S = \{0,1,2\dots\}$ and it is easy that it is aperiodic and irreducible. By choosing $f(i) = i$, we can deduce using the test for positive recurrence that $\{q_k\}$ is positive recurrent when $\E[A_1] = \lambda \E[S] < 1$. Thus, we conclude that when $\lambda \E[S] < 1$, the process $\{q_k\}$ has a stationary distribution. We will  see later that when $\lambda\E[S] = 1$, $\{q_k\}$ is recurrent and when $\lambda \E[S] > 1$, it is transient. \\
-\indent  The process $\{\hat{q}_k\}$ however, is not a Markov chain if $S_k$ is not exponentially distributed. But $\{\hat{q}_k\}$ is a regenerative process with regeneration epochs occurring when $k^{th}$ arrival sees an empty queue. That is, regenerative epochs for $\{\hat{q}_k\}$ occurs when $ \hat{q}_k = 0$. Let $\hat{\tau}$ be the regeneration length of $\{\hat{q}_k\}$. \\
+The process $\{q_k\}$ satisfies $q_{k+1} = (q_k -1)^+ + A_{k+1}$ where $A_{k+1}$ is the number of arrivals during the service of $(k+1)^{th}$ customer. Since $\{A_k\}$ is i.i.d., $\{q_k\}$ is a Markov chain. The state space $S = \{0,1,2\dots\}$ and it is easy to check that it is aperiodic and irreducible. By choosing $f(i) = i$, we can deduce using the test for positive recurrence that $\{q_k\}$ is positive recurrent when $\E[A_1] = \lambda \E[S] < 1$. Thus, we conclude that when $\lambda \E[S] < 1$, the process $\{q_k\}$ has a stationary distribution. We will  see later that when $\lambda\E[S] = 1$, $\{q_k\}$ is recurrent and when $\lambda \E[S] > 1$, it is transient. \\
+\indent  The process $\{\hat{q}_k\}$ however, is not a Markov chain if $S_k$ is not exponentially distributed. But $\{\hat{q}_k\}$ is a regenerative process with regeneration epochs occurring when $k^{th}$ arrival sees an empty queue. That is, regenerative epochs for $\{\hat{q}_k\}$ occur when $ \hat{q}_k = 0$. Let $\hat{\tau}$ be the regeneration length of $\{\hat{q}_k\}$. \\
 \indent To obtain the conditions for existence for stationary distribution for $\{\hat{q}_k\}$, we can relate it to the process $\{q_k\}$. The process $\{q_k\}$ is also a regenerative process with regeneration epochs occurring when a departure leaves behind an empty queue. That is, the regeneration epochs correspond to $q_k = 0$. Let $\tau$ be the regeneration time of $\{q_k\}$. Now, we can see that $\tau = \hat{\tau}$. Since, $\{q_k\}$ has stationary distribution when $\lambda \E[S] < 1$, $\E[\tau] < \infty$. So, $\E[\hat{\tau}] < \infty$. Therefore, the process $\{\hat{q}_k\}$ is stationary iff $\{q_k\}$ is stationary. \\
 \indent The process $\{W_k\}$ also has the same regeneration epochs as $\{q_k\}$ and hence has unique stationary distribution when $\lambda\E[S] < 1$.\\
-\indent The process $\{q_t\}$ is also a regenerative process with regeneration epochs occurring arrivals see an empty queue. Let $T$ be the regeneration length of $\{q_t\}$. Then, considering one regenerative cycle, we can write $T = \sum_{k = 1}^{\hat{\tau}} a_k$ where $a_k$ is the inter-arrival time between $(k-1)^{th}$ and $k^{th}$ arrival. Now, $\hat{\tau}$, which is equal to the number of services in one regeneration cycle is a stopping time for the $\{a_k,S_k\}$ where $S_k$ is the service time of the $k^{th}$ arrival. Thus, we can use Wald's lemma to conclude that $\E[T] = \E[\hat{\tau}] \E[a_1]$. Thus, $\{q_t\}$ also has stationary distribution whenever $\lambda\E[S] < 1$.
+\indent The process $\{q_t\}$ is also a regenerative process with regeneration epochs the arrival times that see an empty queue. Let $T$ be a regeneration length of $\{q_t\}$. Then, considering one regenerative cycle, we can write $T = \sum_{k = 1}^{\hat{\tau}} a_k$ where $a_k$ is the inter-arrival time between $(k-1)^{th}$ and $k^{th}$ arrival. Now, $\hat{\tau}$, which is equal to the number of services in one regeneration cycle is a stopping time for $\{a_k,S_k\}$ where $S_k$ is the service time of the $k^{th}$ arrival. Thus, we can use Wald's lemma to conclude that $\E[T] = \E[\hat{\tau}] \E[a_1]$. Thus, $\{q_t\}$ also has stationary distribution whenever $\lambda\E[S] < 1$.
 \subsection{Rate of convergence to the stationary distribution}
-{\color{red} Please ignore this section. i will update it soon. }
+
+\begin{defn}[Total Variation distance]
+The total variation distance between two probability distributions $\mu$ and $\pi$ on $S$, 
+\begin{align*}
+||\mu - \pi||_{TV} = \frac{1}{2} \sum_{x\in S} (\mu(x) - \pi(x)).
+\end{align*}
+\end{defn}
+The following results have been classically known.  We consider an irreducible Markov chain.
 \begin{itemize}
-\item If $\E[\tau^\alpha] < \infty$, then $|| X_k - \pi ||_{TV} < c_1 k^{-\alpha +1}$
-\item If $\E[\beta^{\tau}] < \infty$, then $|| X_k - \pi||_{TV} \rightarrow 0 $ exponentially.
+\item If $\E[\tau^\alpha] < \infty$ for some $\alpha > 1$, then $|| X_k - \pi ||_{TV} < c_1 k^{-\alpha +1}$.
+\item If $\E[\beta^{\tau}] < \infty$ for some $\beta > 1$, then $|| X_k - \pi||_{TV} \leq \exp(-\lambda k)$ for some $0 < \lambda < \beta$.
 \end{itemize}
-Here, $||\mu - \pi||_{TV}$ is the total variation distance between distributions $\mu$ and $\pi$. For finite state space $S$, $||\mu - \pi|| = 1/2 \sum_{x\in S} \mu(x) - \pi(x)$. \\
-Let 
+Now, We consider a finite state space $S$. Let 
 \begin{align*}
-K_n^{x} = \frac{P^n(x,y)}{\pi(y)}.
+K_n^{x}(y) = \frac{P^n(x,y)}{\pi(y)}
 \end{align*}
-$K_n^{x} \rightarrow 1$ as $n \rightarrow \infty \ \forall x,y \in S$. Then, $L^p$ distance distance $||K_n-1||^p_{P,\pi}$is defined as 
+where $P$ is the transition probability matrix of the Markov chain. Then, $K_n^{x}(y) \rightarrow 1$ as $n \rightarrow \infty \ \forall x,y \in S$. 
+\begin{defn}
+$\mathcal{L}^p$ distance between distributions $P^n(x,*)$ and $\pi$, 
 \begin{align*}
-||K_n-1||^p_{P,\pi} = \sum_{y\in S} |K_n(y)-1|^p \pi(y) \text{ for } 1 \leq p < \infty.
+||K^x_n - 1||^p_{p,\pi} = \sum_{y\in S} |K^x_n(y)-1|^p \pi(y) \text{ for } 1 \leq p < \infty.
 \end{align*}
-\textbf{Mixing times:}
+Also, $\mathcal{L}^{\infty}(\nu,\mu) = \sup_{x\in S} |\mu(s) - \nu(s)|$.
+\end{defn}
+
+The following are known.
+\begin{align}\label{eq:tau_bounds}
+||\nu -\mu||_{TV} = \frac{1}{2} ||\frac{\nu}{\mu} -1||_{1,\mu} \leq \frac{1}{2} ||\frac{\nu}{\mu} -1 ||_{2,\mu}.
+\end{align}
+\begin{defn}[Mixing times]
 \begin{align*}
-\tau(\epsilon) &= \min\{n: \sup_x ||P^n(x,.)-\pi||_{TV} \leq \epsilon\} \\
-\tau_2(\epsilon) &= \min\{n: sup_x |K_n^x - 1|_{x,\pi} \leq \epsilon\}
+\tau_1(\epsilon) &= \min\{n: \sup_x ||P^n(x,.)-\pi||_{TV} \leq \epsilon\}. \\
+\tau_2(\epsilon) &= \min\{n: \sup_x ||K_n^x - 1||_{2,\pi} \leq \epsilon\}. \\
+\tau_\infty(\epsilon) = &= \min\{n: \sup _x |P^n(x,*) - \pi|_\infty \leq \epsilon\}.
 \end{align*}
+\end{defn}
+
+Let $\pi_* = \min_x \pi(x)$ and
+\begin{align*}
+||P^*|| = \sup_{f:S\to \R: \E[f] =0} \frac{||P^*f||_2}{||f||_2},
+\end{align*}
+where $P^*$ is the complex conjugate of $P$. 
+\begin{prop}
+\begin{align*}
+\tau_2(\epsilon) \leq \frac{1}{1-||P^*||} \log\left(\frac{1}{\epsilon \sqrt{\pi_*}}\right)
+\end{align*}
+\end{prop}
+\begin{prop}
+\begin{align*}
+\tau_2(\epsilon) \leq \frac{2}{\lambda_{PP^*}} \log\left( \frac{1}{\epsilon \sqrt{\pi_*}}\right) 
+\end{align*}
+where $\lambda_{PP^*} = 1-\lambda$ amd $\lambda$ is the largest eigenvalue of $PP^*$ less that 1.
+\end{prop}
+These results provide an exponential rate of convergence to the stationary ditribution for a finite state Markov chain. From $\tau_2(\epsilon)$ we get an upper bound on $\tau_1(\epsilon)$ through Eq (\ref{eq:tau_bounds}). We also have
+\begin{align*}
+\tau_2(\epsilon) \leq \tau_\infty (\epsilon) \leq \tau_2\left(\epsilon \sqrt{\frac{\pi_*}{1-\pi_*}}\,\right).
+\end{align*}
+If the Markov chain is reversible, the upper bound can be tightened to $2\tau_2(\sqrt{\epsilon})$. Thus, for most applications getting $\tau_2(\epsilon)$ is sufficient.  
 \end{document}
 

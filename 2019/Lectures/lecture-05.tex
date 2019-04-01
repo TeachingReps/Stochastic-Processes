@@ -26,9 +26,9 @@ With probability 1,
 \begin{proof}
 Since, $S_{N(t)} < t < S_{N(t)+1}$, we see that
 \eq{
-\frac{S_{N(t)}}{N(t)} < \frac{t}{N(t)} < \frac{S_{N(t)+1}}{N(t)}
+\frac{S_{N(t)}}{N(t)} \leq \frac{t}{N(t)} < \frac{S_{N(t)+1}}{N(t)}. 
 }
-By strong law of large numbers $\frac{S_{N(t)}}{N(t)} \to \mu$ a.s. $t \to \infty$ . Also,
+By strong law of large numbers $\frac{S_{N(t)}}{N(t)} \to \mu$ a.s. as $t \to \infty$ . Also,
 \eq{
 \frac{S_{N(t)+1}}{N(t)} = \left[\frac{S_{N(t)+1}}{N(t)+1}\right] \left[\frac{N(t)+1}{N(t)}\right] \to \mu \text{ a.s.} 
 } \qedhere
@@ -37,14 +37,11 @@ By strong law of large numbers $\frac{S_{N(t)}}{N(t)} \to \mu$ a.s. $t \to \inft
 \subsection{Elementary Renewal Theorem}
 \begin{defn}
 (Stopping Time)
-
-$N$ a nonnegative integer valued random variable is a stopping time w.r.t. sequence $\{X_k\}$ if $\{ N\le n\}$ is independent of $\{X_{n+1}, X_{n+2}, \dots\}$ .
+$N$ a nonnegative integer valued random variable is a stopping time w.r.t. sequence $\{X_k\}$ if $\{ N\le n\}$ is independent of $\{X_{n+1}, X_{n+2}, \dots\}$.
 \end{defn}
-
 \begin{thm}
 (Wald's Lemma)
-
-If $N$ is a stopping time w.r.t. $\{X_k\}$ and $\E[X_1] = \mu < \infty$, $E[N] < \infty$ then
+If $N$ is a stopping time w.r.t. $\{X_k\}$, $\{X_k\}$ is i.i.d. and $\E[X_1] = \mu < \infty$, $E[N] < \infty$ then
 \eq{
 \E[\sum_{k=1}^{N} X_k] = \E[N] \E[X_1].
 }
@@ -77,37 +74,39 @@ Since $I_k$ is determined by $X_1, X_2, \dots, X_{k-1}$, therefore $I_k$ is inde
 }
 \end{proof}
 
-\begin{thm}
+\begin{thm}[Elementary Renewal Theorem]
 \eq{
-\lim_{t \to \infty} \frac{\E[N(t)]}{t} = \frac{1}{\mu}
+\lim_{t \to \infty} \frac{\E[N(t)]}{t} = \frac{1}{\mu}.
 }
 \end{thm}
 \begin{proof}
-Let us denote $\E[N(t)]$ as $m(t)$ and we prove for $\mu < \infty$. We know that $S_{N(t)+1} > t$, taking expectations we get,
+Let us denote $\E[N(t)]$ as $m(t)$ and we prove the result for $\mu < \infty$. We know that $S_{N(t)+1} > t$ and $N(t)+1$ is a stopping time. Taking expectations, by Wald's lemma, we get,
 \eq{
-\mu(m(t)+1) > t, &&\text{($N(t) + 1$ is a stopping time)}
+\mu(m(t)+1) > t.
 }
-which implies 
+This implies 
 \eq{
 \liminf_{t \to \infty} \frac{m(t)}{t} \ge \frac{1}{\mu}.
 }
-To get the other way, define a new renewal process $\{ X'_k, k=1,2,\dots \}$ as $X'_k= \min(M,X_k)$ for a constant $M$.
+
+To get the other way, define a new renewal process from $\{ X'_k, k=1,2,\dots \}$ where  $X'_k= \min(M,X_k)$, for a constant $M>0$.
 Let $S'_n=\sum_1^n X'_k$ and $N'(t) = sup\{n,S'_n \le t\}$. The interarrival times for this truncated renewal process are bounded by $M$. Therefore
 \eq{
-S'_{N(t)+1} \le t+M
+S'_{N(t)+1} \le t+M.
 }
 Taking expectations on both sides we get,
 \eq{
 \mu_M(m'(t)+1) \le t+M
 }
-where $\mu_M = \E[X'_k]$, thus
+where $\mu_M = \E[X'_k]$. Thus
 \eq{
 \limsup_{t \to \infty} \frac{m'(t)}{t} \le \frac{1}{\mu_M}.
 }
-Letting $M \to \infty$ yields, since, $\E[\min(X_1,M)] \to \infty$,
+Since $m(t) \leq m'(t)$,
 \eq{
-\limsup_{t \to \infty} \frac{m(t)}{t} \le \frac{1}{\mu}. 
+\limsup_{t \to \infty} \frac{m(t)}{t} \le \frac{1}{\mu_M}. 
 }
+for all $M>0$. Taking $M \to \infty$, $\mu_M \to \mu$ then implies that $\limsup_{t \to \infty} m(t)/t \leq \mu$.
 \end{proof}
 
 

@@ -29,17 +29,17 @@ Let $S$ be irreducible and $f: S \rightarrow \R$.
 \item Let $f:S\rightarrow \R$ and $S_0 \subset S$ be finite.	The Markov chain is transient if
 	\begin{enumerate}
 	\item  $f$ is bounded and $\E[f(X_1)|X_0= i] \geq f(i)\ \forall i \in S_0$
-	\item $f(i) > f(j)\ \forall j\in S_0, for some i\notin S_0$
+	\item $f(i) > f(j)\ \forall j\in S_0$, for some $i\notin S_0$
 	\end{enumerate}	
 \end{enumerate}
 \end{thm}
 \indent The proof of this theorem requires Martingale methods. Thus we will prove it after we have studied Martingales. \\
-\indent \textbf{Example:} Consider a slotted queuing system in which one service time is equal to one slot. Let $q_k$ be the queue length at the end of $k^{th}$ slot. Let $A_k$ denote the number of arrivals in the $k^{th}$ slot. Then, $q_{k+1} = (q_k -1)^+ + A_{k+1}$ and for $i>0$
+\indent \textbf{Example:} Consider a slotted queuing system in which one service time is equal to one slot. Let $q_k$ be the queue length at the end of $k^{th}$ slot. Let $A_k$ denote the number of arrivals in the $k^{th}$ slot. Then, $q_{k+1} = (q_k -1)^+ + A_{k}$ and for $i>0$
 \begin{align*}
 \P\{q_{k+1} = j|q_k = i,q_{k-1} = i_{k-1}, \dots q_0 = i_0\} = \P\{A_k = j-i-1\}.
 \end{align*}
 Thus, $\{q_k\}$ is a Markov chain with state space $S = \{0,1,2,\dots\}$. If $\P\{A_1 \leq 1\} > 0$, every state is aperiodic. If further, $\P\{A_1 > 1\} >0$, the Markov chain is also irreducible. \\
-{\color{red}\indent Consider $f(i) = i$. Let $S_0 = \{0\}$. For $i> 0$, $\E[f(q_1)|q_0 = i] - f(i) = \E[A_1] -1 $. Thus, we see from case $(1)$ in Prop \ref{prop:markov_chain_class_tests}, if $\E[A_1] \leq 1 $, $\{q_k\}$ is recurrent. From $(2)$ in Prop \ref{prop:markov_chain_class_tests}, we have positive recurrence if $\E[A_k] < 1$.} \\
+\indent Consider $f(i) = i$. Let $S_0 = \{0\}$. For $i> 0$, $\E[f(q_1)|q_0 = i] - f(i) = \E[A_1] -1 $. Thus, we see from case $(1)$ in Prop \ref{prop:markov_chain_class_tests}, if $\E[A_1] \leq 1 $, $\{q_k\}$ is recurrent. From $(2)$ in Prop \ref{prop:markov_chain_class_tests}, we have positive recurrence if $\E[A_k] < 1$. \\
 %\indent Choose $f(i) = 1\{i>0\}$ and $S_0 = \{0\}$. Then if $\E[A_1] > 1$, the conditions in case (3) in Prop \ref{prop:markov_chain_class_tests} is met and $\{q_k\}$ is transient Markov chain. \\
 \subsection{Reversible Markov Chains}
 We can easily check that 
@@ -64,7 +64,7 @@ For an irreducible Markov chain with stationary distribution $\pi$,  for all pat
 \begin{align*}
 \P_\pi\{i\rightarrow i_1 \rightarrow i_2 \dots \rightarrow i_k \rightarrow i\} = \P_\pi\{i \rightarrow i_k \rightarrow i_{k-1} \dots \rightarrow i_1 \rightarrow i\}
 \end{align*}
-under stationarity is a necessary and sufficient condition. 
+under stationarity is a necessary and sufficient condition for reversibility of the Markov chain. 
 \begin{proof}
 Necessity: Assume $P^* = P$. Then, 
 \begin{align*}
@@ -85,7 +85,7 @@ Thus,
 \begin{align*}
 P^{k}(i,j)P(j,i) &= P(i,j)P^{k}(j,i)
 \end{align*}
-Now, taking the limit as $k\rightarrow \infty$, we get $\pi(j)P(j,i) = P(i,j)\pi(i)$ which is $P^* = P$.
+Now, taking the limit as $k\rightarrow \infty$, we get $\pi(j)P(j,i) = P(i,j)\pi(i)$, which is $P^* = P$.
 \end{proof}
 \end{prop}
 \end{document}

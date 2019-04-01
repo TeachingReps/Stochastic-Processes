@@ -14,7 +14,7 @@
 \section*{\centering{Lecture 4 \linebreak }}
 \subsection{Renewal Process}
 We know that the interarrival times for the Poisson process are independent and identically distributed exponential random variables.
-If we consider a counting process for which the interarrival times are independent and identically distributed with an arbitrary distribution function, then the counting process is called a \textit{renewal process}.
+If we consider a counting process for which the interarrival times are independent and identically distributed with an arbitrary distribution function on $\R^+$, then the counting process is called a \textit{renewal process}.
 
 Let $X_n$ be the time between the $(n-1)$th and $n$th event and $\{X_n,n=1,2,\dots\}$ be a sequence of nonnegative independent random varibales with common distribution $F$ and $X_n \ge 0$.
 
@@ -44,30 +44,12 @@ The distribution of $N(t)$ can be written as $\P\{N(t) \ge n\} = \P\{S_n \le t\}
 \P\{N(t)=n\} &= \P\{N(t) \ge n\}-\P\{N(t) \ge n+1\}\\
 &= \P\{S_n \le t\}-\P\{S_{n+1} \le t\}.
 }
-
-
-\begin{prop}
 By strong law of large numbers $\frac{S_n}{n} \to \mu$ as $n \to \infty$ with probability 1. Hence $S_n \rightarrow \infty$ a.s.
-\end{prop}
-
-\textit{Question}: Can an infinite number of renewals can occur in a finite time?
-
-\begin{prop}
-Infinite number of renewals cannot happen in a finite time.
-\end{prop}
-\begin{proof}
-For all $t$, we can write the following limit as
-\eq{
-\lim_{n \to \infty} \P\{N(t)=n\} &= \lim_{n \to \infty} \P\{S_n \le t\}-\P\{S_{n+1} \le t\} \\
-&= 0.
-}
 Also, 
 \eq{
 \P\{N(t) < \infty\} &= 1-\lim_{n \to \infty} \P\{N(t) \ge n\} \\
 &=  1-\lim_{n \to \infty} \P\{S_n \le t\}\\
-&= 1.\qedhere
-}
-\end{proof}
+&= 1.}
 \begin{prop}
 $\E[N^r(t)] < \infty$ for $r > 0, t \ge 0$.
 \end{prop}
@@ -79,8 +61,8 @@ X'_k = \begin{cases}
 \alpha,  & X_k \ge \alpha
 \end{cases}
 }
-where $A_k$ are the interarrival times of the original process. Let $\beta = \P\{X_1\geq \alpha\}$.\\
-\indent Suppose $\{N'(t)\}$ is constructed from $\{X'_k\}$, then it is clear that $X'_k \le X_k$ and $\{N'(t) \ge N(t)\}$.
+where $X_k$ are the interarrival times of the original process. Let $\beta = \P\{X_1\geq \alpha\}$.\\
+\indent Let $\{N'(t)\}$ be constructed from $\{X'_k\}$ as interarrival times. Then it is clear that $X'_k \le X_k$ and $N'(t) \ge N(t)$.
 Then, 
 \eq{
 \P\{ N'(\frac{\alpha}{2}) = n\} &= \P\{X_1 < \alpha\} \P\{X_2 < \alpha\} \dots \P\{X_{n-1} < \alpha\} \P\{X_n > \alpha\}\\
@@ -95,7 +77,7 @@ Thus,
 \E[(N'(t))^r] &= \E \big{[}\sum_{k=1}^{\frac{t}{\alpha}+1} (\overline{N}_k)^r \big{]} \\
 &\leq \left( \frac{t}{\alpha} +1\right)^r \E[N'(\frac{\alpha}{2})^r] < \infty. 
 }
-where $\overline{N}_{\alpha k} = N'_k-N'_{\alpha(k-1)}$. 
+where $\overline{N}_{k} = N'_{\alpha k}-N'_{\alpha(k-1)}$. 
 \end{proof}
 
 \end{document}
