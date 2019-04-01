@@ -25,24 +25,27 @@ When $\P\{X_n = j|X_{n-1} = i\}$ does not depend on $n$ is called a \textit{homo
 
 \indent \textbf{Strong Markov property:} If $\tau$ is a stopping time and $\tau < \infty$ with probability $1$, then Markov chain has strong Markov property if
 \begin{align*}
-\P\{X_{\tau} = j|X_{\tau-1} = i, X_{\tau-2} = i_{\tau-2},\dots,X_1 = i_1,X_0 = i_0\} = \P\{X_1 = j|X_{0} = i\}. \ \forall n \in \mathbb{N} \text{ and }i,j \in S.
+\P\{X_{\tau+1} = j|X_{\tau} = i, X_{\tau-1} = i_{\tau-1},\dots,X_1 = i_1,X_0 = i_0\} = \P\{X_1 = j|X_{0} = i\}. \ \forall n \in \mathbb{N} \text{ and }i,j \in S.
 \end{align*}
 \begin{thm}
-Every Markov chain has strong Markov propoerty.
+Every Markov chain has strong Markov property.
 \begin{proof}
 \begin{align*}
-&\P\{X_{\tau} = j|X_{\tau-1} = i, X_{\tau-2} = i_{\tau-2},\dots,X_1 = i_1,X_0 = i_0\}  \\
-&= \sum_{m = 1}^{m=\infty} \P\{X_{\tau} = j|X_{\tau-1} = i, X_{\tau-2} = i_{\tau-2},\dots,X_1 = i_1,X_0 = i_0,\tau = m\} \P\{\tau = m|X_{\tau-1} = i, X_{\tau-2} = i_{\tau-2},\dots,X_1 = i_1,X_0 = i_0\} \\
-&= \sum_{m = 1}^{m=\infty} \P\{X_{m} = j|X_{m-1} = i, X_{m-2} = i_{m-2},\dots,X_1 = i_1,X_0 = i_0,\tau = m\} \P\{\tau = m|X_{\tau-1} = i, X_{\tau-2} = i_{\tau-2},\dots,X_1 = i_1,X_0 = i_0\} \\
-&= \sum_{m = 1}^{m=\infty} \P\{X_{m} = j|X_{m-1} = i, X_{m-2} = i_{m-2},\dots,X_1 = i_1,X_0 = i_0\} \P\{\tau = m|X_{\tau-1} = i, X_{\tau-2} = i_{\tau-2},\dots,X_1 = i_1,X_0 = i_0\} \\
-&= \sum_{m = 1}^{m=\infty} \P\{X_{1} = j|X_{0} = i\} \P\{\tau = m|X_{\tau-1} = i, X_{\tau-2} = i_{\tau-2},\dots,X_1 = i_1,X_0 = i_0\} \\
+&\P\{X_{{\tau+1}} = j|X_{\tau} = i, X_{\tau-1} = i_{\tau-1},\dots,X_1 = i_1,X_0 = i_0\}  \\
+&= \sum_{m = 1}^{m=\infty} \P\{X_{{\tau+1}} = j|X_{{\tau}} = i, X_{{\tau-1}} = i_{{\tau-1}},\dots,X_1 = i_1,X_0 = i_0,{\tau} = m\} \P\{{\tau} = m|X_{{\tau}} = i, X_{{\tau-1}} = i_{{\tau-1}},\dots,X_1 = i_1,X_0 = i_0\} \\
+&= \sum_{m = 1}^{m=\infty} \P\{X_{m+1} = j|X_{m} = i, X_{m-1} = i_{m-1},\dots,X_1 = i_1,X_0 = i_0,{\tau} = m\} \P\{{\tau} = m|X_{{\tau}} = i, X_{{\tau-1}} = i_{{\tau-1}},\dots,X_1 = i_1,X_0 = i_0\} \\
+&= \sum_{m = 1}^{m=\infty} \P\{X_{m+1} = j|X_{m} = i, X_{m-1} = i_{m-1},\dots,X_1 = i_1,X_0 = i_0\} \P\{{\tau} = m|X_{{\tau}} = i, X_{{\tau-1}} = i_{{\tau-1}},\dots,X_1 = i_1,X_0 = i_0\} \\
+&= \sum_{m = 1}^{m=\infty} \P\{X_{1} = j|X_{0} = i\} \P\{{\tau} = m|X_{{\tau}} = i, X_{{\tau-1}} = i_{{\tau-1}},\dots,X_1 = i_1,X_0 = i_0\} \\
 &= \P\{X_{1} = j|X_{0} = i\}.
 \end{align*}
-The fact that $\tau$ is a stopping time has been used in the third equality. The finiteness of $\tau$ is used in the first equality to expand the probability as an infinite summation.
+The fact that ${\tau}$ is a stopping time has been used in the third equality. The finiteness of $\tau$ is used in the first equality to expand the probability as an infinite summation.
 \end{proof}
 \end{thm}
 \textbf{Classification of states:} Let $\tau_i = \min\{n \geq 1 : X_n = i\}$. $\tau_i$ is a stopping time. Let $N_i$ be the total number of times a state $i$ is visited by the Markov chain. \\
-\indent If for a state $i$, $\P_i\{\tau_i < \infty\} < 1$, it is called a \textit{{transient state}}. For a transient state, $\P\{N_i = m \} = \\ \P\{\tau < \infty\}^{m-1}\P\{\tau < \infty\}$ and $\E[N_i] = 1/\P\{\tau < \infty\}< \infty$. If $\P_i\{\tau_i < \infty\} = 1$, state $i$ is called a \textit{{recurrent state}}. If further $\E[\tau_i] < \infty$, it is called a \textit{positive recurrent state}. When $i$ is recurrent but $\E[\tau_i] = \infty$, it is called a \textit{null recurrent state}. For a recurrent state $i$, $\P_i\{N_i = \infty\} = 1$ and $\E_i[N_i] = \infty$. Since, $\E_i[N_i] = \E_i\left[\sum_{n=0}^\infty 1(X_n = i)\right] = \sum_{n=0}^\infty P^n(i,i)$, an equivalent criterion for recurrence is $\sum_{n=0}^\infty P^n(i,i) = \infty$. \\
+\indent If for a state $i$, $\P_i\{\tau_i < \infty\} < 1$, it is called a \textit{{transient state}}. For a transient state, $\P\{N_i = m \} = \\ \P\{\tau < \infty\}^{m-1}\P\{\tau < \infty\}$ and $\E[N_i] = 1/\P\{\tau < \infty\}< \infty$. \\
+\indent If $\P_i\{\tau_i < \infty\} = 1$, state $i$ is called a \textit{{recurrent state}}. If further $\E[\tau_i] < \infty$, it is called a \textit{positive recurrent state}. When $i$ is recurrent but $\E[\tau_i] = \infty$, it is called a \textit{null recurrent state}. \\
+\indent For a recurrent state $i$, $\P_i\{N_i = \infty\} = 1$ and $\E_i[N_i] = \infty$. Since, $\E_i[N_i] = \E_i\left[\sum_{n=0}^\infty 1(X_n = i)\right] = \sum_{n=0}^\infty P^n(i,i)$, an equivalent criterion for recurrence is $\sum_{n=0}^\infty P^n(i,i) = \infty$. \\
+ 
 
 \textbf{Periodicity:} A state $i$ is said to have \textit{period} $d$ if distribution of $\tau_i$ has period $d$. The period of state $i$ is denoted by $d(i)$. If $d(i)=1$, $i$ is called \textit{aperiodic}. \\
 
