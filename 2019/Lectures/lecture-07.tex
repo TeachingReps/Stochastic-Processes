@@ -1,0 +1,149 @@
+% !TEX spellcheck = en_US
+% !TEX spellcheck = LaTeX
+%\documentclass[a4paper,10pt,english]{article}
+\documentclass[all-lectures.tex]{subfiles}
+%\input{header}
+%\title{Lecture 01: Poisson Processes}
+%\author{}
+\setcounter{chapter}{2}
+\usepackage{enumitem}
+\begin{document}
+%\maketitle
+
+%\chapter{Renewal Theory}
+\setcounter{section}{3}
+\setcounter{subsection}{0}
+
+\section*{\centering{Lecture 7 \linebreak }}
+\subsection{Renewal theorems}
+\begin{defn}[Directly Riemann Integrable (d.r.i.)]
+A function $z: \R^+ \rightarrow \R^+$ is called directly Riemann integrable if
+\begin{align*}
+\lim_{h\to 0} \sum_{k = 1}^\infty \inf_{(k-1)h \leq t \leq kh} z(t) = \lim_{h\to 0} \sum_{k = 1}^\infty \sup_{(k-1)h \leq t \leq kh} z(t). 
+\end{align*}
+Then the limit is denoted as $\int_0^\infty z(t)dt$. For $z: \R^+ \rightarrow \R$, define $z^+(t) = \max(z(t),0)$ and $z^-(t)= -\min(0,z(t))$. If both $z^+$ and $z^-$ are d.r.i., then we say $z$ is d.r.i. and write $\int_0^\infty z(t)dt = \int_0^\infty z^+(t)dt - \int_0^\infty z^-(t)dt$.
+\end{defn}
+
+\begin{prop} We take $z\geq 0$.
+\begin{enumerate}[label=(\arabic*)]
+\item A necessary condition for $z$ to be d.r.i  is $z$ is bounded and continuous a.e.
+\item $z$ is d.r.i. if $(1)$ holds and any of the following holds.
+\begin{enumerate}
+\item $z$ is non-increasing and Lebesgue integrable. 
+\item $z\leq z'$ and $z'$ is d.r.i.
+\item $z$ has bounded support.
+\item $\int_0^\infty \overline{z}_h dt < \infty$ for some $h>0$.
+\end{enumerate}
+\end{enumerate}
+\end{prop}
+
+\begin{thm}[Key Renewal Theorem]
+Let $Z(t) = z(t) + F*Z(t)$ be the renewal equation. Then, if $z$ is directly Riemann integrable (d.r.i.) for the solution $Z(t) = \E[N(t)]*z(t)$ and $F$ is non-lattice, the following limit holds
+\begin{align*}
+\lim_{t\to \infty} \E[N(t)]*z(t) = \frac{1}{\mu} \int_0^\infty z(t) dt.
+\end{align*}
+Here, $\E[N(t)] = \sum_{k=0}^\infty F^{*n}(t)$.
+\end{thm}
+
+\begin{defn}[Delayed renewal process]
+Let $X_k$ for $k = 0,1,\dots$ be independent. Let $X_0 \sim F'$  and $X_1,X_2,\dots$ i.i.d with distribution $F$. The renewal process defined using these r.v.s as interarrival times is called a delayed renewal process. 
+\end{defn}
+\begin{thm}
+If $\mu < \infty$ and $F$ is non-lattice, for a renewal process (or a delayed renewal process with aribitrary $F'$), the following all hold and are equivalent. 
+\begin{enumerate}[label=(\arabic*)]
+\item \textit{(Key Renewal Theorem):} Let $Z(t) = z(t) + F*Z(t)$ be the renewal equation and $z$ be d.r.i. Then, 
+\begin{align*}
+\lim_{t\to \infty} Z(t) = \frac{1}{\mu} \int_0^\infty z(t) dt.
+\end{align*}
+\item $\P\{A_t \leq x\} \to F_0(x) \text{ as } t\to\infty.$
+\item $\P\{B_t \leq x\} \to F_0(x) \text{ as } t\to\infty.$
+\item \textit{(Blackwell's theorem):} 
+\begin{align*}
+\E[N_{t+a} - N_t] \to \frac{a}{\mu} \text{ as } t \to \infty.
+\end{align*}
+\end{enumerate}
+where 
+\begin{align*}
+F_0(x) = \frac{1}{\mu} \int_0^x \overline{F}(t) dt.
+\end{align*}
+If $\mu = \infty$, the above results hold with $F_0(x)=0 \ \forall x$.
+\begin{proof} \ 
+\begin{itemize}
+\item \textbf{$(1) \implies (2)$:} Let $Z(t) = \P\{A_t \leq x\}$. Then, $Z(t)$ satisfies the renewal equation with $z(t) = \P\{A_t \leq x, X_1 > t\} = 1\{t\leq x\} \P\{A_a>t\}$ is d.r.i. because it is bounded and continuous a.e. Thus, from key renewal theorem $(1)$ we have, as $t \to \infty$
+\begin{align*}
+\P\{A_t \leq x\} &\to \frac{1}{\mu} \int_0^\infty 1\{t\leq x\} \P\{A_1 >t\} dt \\
+&= \frac{1}{\mu} \int_0^x \overline{F}(t) dt \\
+&= F_0(x).
+\end{align*}
+\item \textbf{$(2) \iff (3)$:} We have the relationship for any $t>0$, $\{B_t \leq x\} = \{A_{t+x}\leq x\}$. Taking the limit as $t\to \infty$ we get the equivalence.
+\item \textit{$(2) \implies (4)$:}
+\begin{align*}
+\E[N_{t+a} - N_t] &= \int_0^a \E[N_{t+a} - N_t|B_t = s]d \P_{B_t}(s) + \int_a^\infty  \E[N_{t+a} - N_t|B_t = s]d \P_{B_t}(s) \\
+&= \int_0^a \E[N_{t+a} - N_t|B_t = s]d \P_{B_t}(s) + 0 \\
+&= \int_0^a U(a-s) d\P_{B_t}(s) \\
+\end{align*}
+Now since $\P\{B_t \leq x\} \to F_0(x)$  and $U$ is bounded and continuous a.e.,
+\begin{align*}
+\lim_{t\to \infty} \int_0^a U(a-s) d\P_{B_t}(s) &= \lim_{t\to \infty} \int_0^\infty 1\{s\leq a\}U(a-s) d\P_{B_t}(s) \\
+&= \int_0^\infty 1\{s\leq a\}U(a-s) dF_0(s) \\
+&= \int_0^a U(a-s) dF_0(s) \\
+&= U * F_0 (a)
+\end{align*}
+Noting that $U(t) = \sum_{k=0}^\infty F^{*n}(t)$ and 
+\begin{align*}
+\frac{d}{dt}F_0(t) = \frac{1-F(t)}{\mu},
+\end{align*}
+ we get $U*F_0$ has density
+\begin{align*}
+ &= \frac{1}{\mu} U*(1-F) \\
+&= \frac{1}{\mu} (U - U*F)\\
+&= \frac{1}{\mu} \left(\sum_{k=0}^\infty F^{*n}) - \sum_{k=1}^\infty F^{*n}) \right) \\
+&= \frac{1}{\mu}. \\
+\end{align*}
+Therefore, we get $U*F_0(a) = a/\mu$ and hence
+\begin{align*}
+\lim_{t \to \infty} \E[N_{t+a} - N_t] &=  \frac{a}{\mu}.
+\end{align*}
+
+\item \textbf{$(4) \implies (1)$:}
+For small enough $h$ and appropriate $n$ such that $nh < t \leq (n+1)h$, we write 
+\begin{align*}
+Z(t) &= U*z(t)\\ 
+&= \int_0^t z(t-a) dU(a) \\
+&= \int_0^{t-nh} z(t-a) dU(a) + \int_{t-nh}^t z(t-a) dU(a)
+\end{align*}
+Since $z$ is d.r.i., and hence bounded, as $h \to 0$, the first term goes to zero. 
+Taking
+\begin{align*}
+\overline{z}_h(k) = \max_{x\in [t-(k+1)h,t-(k)h]} z(x),
+\end{align*}
+and noting that $[U(t-kh) - U(t - (k+1)h] \leq U(h)$, the second term 
+\begin{align*}
+\int_{t-nh}^t z(t-a) dU(a) &\leq \sum_{k=0}^n \overline{z}_h(k) [U(t-kh) - U(t - (k+1)h] \\
+ &= \sum_{k=0}^M \overline{z}_h(k) [U(t-kh) - U(t - (k+1)h] + \sum_{k=M+1}^n \overline{z}_h(k) [U(t-kh) - U(t - (k+1)h].\\
+ &\leq \sum_{k=0}^M \overline{z}_h(k) [U(t-kh) - U(t - (k+1)h] + U(h) \sum_{k=M+1}^n \overline{z}_h(k).
+\end{align*}
+Now take $t \to \infty$. Then, $n\to \infty$  also. Thus, by Blackwell's theorem $(4)$, the above converges to 
+\begin{align*}
+\frac{h}{\mu} \sum_{k=0}^M \overline{z}_h(k) + U(h) \sum_{k=M+1}^n \overline{z}_h(k).
+\end{align*}
+Now, take $M\to \infty$. Since $z$ is d.r.i., the second term goes to zero. Next, take $h \to 0$. Then, the first term goes to 
+\begin{align*}
+\frac{1}{\mu} \int_0^\infty z(t) dt.
+\end{align*}
+Therefore, 
+\begin{align*}
+\limsup_{t\to \infty}\ U*z(t) \leq \frac{1}{\mu} \int_0^\infty z(t) dt.
+\end{align*}
+Similarly, we can show
+\begin{align*}
+\liminf_{t\to \infty}\ U*z(t) \geq \frac{1}{\mu} \int_0^\infty z(t) dt.
+\end{align*}
+
+\end{itemize}
+Discrete time versions and when $F$ is lattice for the above theorems also hold.
+\end{proof}
+\end{thm}
+
+\end{document}
+

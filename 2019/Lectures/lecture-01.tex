@@ -29,12 +29,11 @@
 \end{align*} 
 Here, the notation $o(g(x))$ means a class of functions such that if $f(x) \in o(g(x))$, then $\lim_{x\rightarrow 0} \frac{f(x)}{g(x)} =0$.
 \subsection{Poisson process}
-In the following we customarily take $N_0 = 0$. A point process $N_t$ is \textit{Poisson} if 
+In the following we customarily take $N_0 = 0$. A point process $N_t$ is \textit{Poisson} if any of the following conditions hold.
 \paragraph{Definition [1]:}{
 \begin{enumerate}
-\item $\{A_k, k \geq 1\}$ are independent and exponentially distributed with parameter $\lambda$:
+\item $\{A_k, k \geq 1\}$ are independent and exponentially distributed with parameter $\lambda$: $\P\{A_k \leq x\} = 1 - e^{-\lambda x}$. If $\lambda = 0$, $A_1 = \infty$ w.p.1. and $N_t = 0 \ \forall t$. If $\lambda = \infty$, $A_1 = 0$ w.p.1 and $N_t = \infty \ \forall t$. Thus, we restrict to $0<\lambda<\infty$. In this range for $\lambda$, $N_t$ is guaranteed to be simple because $\P\{A_k = 0\} = 0 \ \forall k$.
 \end{enumerate}
-$\P\{A_k \leq x\} = 1 - e^{-\lambda x}$. If $\lambda = 0$, $A_1 = \infty$ w.p.1. and $N_t = 0 \ \forall t$. If $\lambda = \infty$, $A_1 = 0$ w.p.1 and $N_t = \infty \ \forall t$. We restrict to $0<\lambda<\infty$. In this range for $\lambda$, $N_t$ is guaranteed to be simple because $\P\{A_k = 0\} = 0 \ \forall k$.
 }
 \paragraph{Definition [2]:}{
 \begin{enumerate}
@@ -45,7 +44,7 @@ $\P\{A_k \leq x\} = 1 - e^{-\lambda x}$. If $\lambda = 0$, $A_1 = \infty$ w.p.1.
 \paragraph{Definition [3]:}{
 \begin{enumerate}
 \item $N_t$ has independent increment.
-\item $N_t$ is a Poisson distributed random variable. For $s < t$, 
+\item For $s < t$, 
 	\begin{align*}
 	\P\{N_t - N_s = n\} = \frac{(\lambda (t-s))^n}{n!} e^{-\lambda (t-s)}
 	\end{align*}

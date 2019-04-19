@@ -1,0 +1,94 @@
+% !TEX spellcheck = en_US
+% !TEX spellcheck = LaTeX
+%\documentclass[a4paper,10pt,english]{article}
+\documentclass[all-lectures.tex]{subfiles}
+%\input{header}
+%\title{Lecture 01: Poisson Processes}
+%\author{}
+\setcounter{chapter}{5}
+
+\begin{document}
+%\maketitle
+
+%\chapter{Renewal Theory}
+\setcounter{section}{2}
+\setcounter{subsection}{1}
+%\chapter{Random Walks}
+\section*{\centering{Lecture 24 \linebreak }}
+\subsection{Ladder Epochs}
+Let $T$ be the first strictly ascending ladder epoch and $T^-$ be the first  weakly descending ladder epoch.
+\begin{lem}
+If $\mu > 0$, $\E[T] < \infty$. 
+\begin{proof}
+\begin{align*}
+\E[T] &= \sum_{k=0}^\infty \P\{T > k\} \\
+&= \sum_{k=0}^\infty \P\{S_1\leq 0,S_2 \leq 0,S_3 \leq 0,\dots,S_k \leq 0\} \\
+&= \sum_{k=0}^\infty \P\{X_1 \leq 0,X_1+X_2 \leq 0,X_1+X_2+X_3 \leq 0\dots,X_1+X_2+\dots+X_k \leq 0\} \\
+&= \sum_{k=0}^\infty \P\{X_k \leq 0,X_{k}+X_{k-1} \leq 0,X_k+X_{k-1}+X_{k-2} \leq 0\dots,X_k+X_{k-1}+\dots+X_1 \leq 0\} \\
+&= \sum_{k=0}^\infty \P\{S_k - S_{k-1} \leq 0,S_k - S_{k-2} \leq 0,S_k - S_{k-3} \leq 0\dots,S_k \leq 0\} \\
+&= \sum_{k=0}^\infty \P\{S_k \leq S_{k-1},S_k \leq S_{k-2} ,S_k \leq S_{k-3} \leq 0\dots,S_k \leq 0\} \\
+&= \sum_{k=0}^\infty \P\{\text{$k$ is a weakly descending ladder epoch}\} \\
+&= \E \left[ \sum_{k=0}^\infty 1\{\text{$k$ is a weakly descending ladder epoch}\} \right]\\
+&= \E \left[ N \right]\\
+&= \frac{1}{p}
+\end{align*}
+where $N$ is the number of weakly descending ladder epochs and $p = \P\{T^- = \infty\} > 0$ when $\mu > 0$.
+\end{proof}
+\end{lem}
+
+The following is a good application of martingale theory to random walks, which will then be used to obtain a useful result in queuing theory.\\
+\indent Assume there exists a $\theta \neq 0$ such that $\E\left[ \exp(\theta X_{1})\right] = 1$. Then, $\E\left[ \exp(\theta S_{n+1})\right|\mathcal{F}_n] =  \exp(\theta S_{n})$ where $\mathcal{F}_n = \{X_1,X_2,\dots,X_n\}$. Thus,  $\exp(\theta X_{n})$ is a martingale. Let $T = \inf\{S_n \leq -b \text{ or } S_n \geq a\}$ for some $a>0$ and $b>0$. We want to show $\E[\exp(\theta S_T)]=1$. We can use optional sampling theorem if $\E[T] < \infty$ and $\sup_n \E[\abs{ \exp(\theta S_{n+1}) - \exp(\theta S_{n})}| \mathcal{F}_n] < \infty$. \\
+\indent We show the conditions now. We have
+\begin{align*}
+\E \left[ \abs{ e^{\theta S_{n+1}} - e^{\theta S_{n}}}\ | \mathcal{F}_n \right]  &= e^{\theta S_n} \E\left[\abs{e^{\theta X_{n+1}} -1}  \right] \\
+&\leq e^{\theta S_n} \E\left[\abs{e^{\theta X_{n+1}} -1} \right] \\
+%&\leq e^{\theta S_n} \E\left[\abs{e^{\theta X_{n+1}}} \right] + 1 \\
+&= 2 e^{\theta S_n}  \leq 2 e^{\theta a}  < \infty,
+\end{align*}
+
+for $n < T$. \\
+\indent Next, we show that $\E[T] < \infty$ when $X_1$ is not degenerate. Let $c = a+b$. Since, $X_1$ is not degenerate, there exists an integer $N$ and $\delta > 0$ such that $\P\{|S_n|>c\}>\delta$. Define $S'_1 = S_N,S'_2 = S_{2N} - S_N,\dots$ Then, 
+\begin{align*}
+\P\{T\geq kN\} &\leq \P\{|S'_1| \leq c\}\P\{|S'_2| \leq c\} \dots \P\{|S'_n| \leq c\} \\
+&= (1-\delta)^k.
+\end{align*}
+Thus, 
+\begin{align*}
+\E[T] &= \sum_{n=0}^\infty \P\{T>n\} \\
+&\leq N \sum_{k=0}^\infty \P\{T>kN\} \\
+\end{align*}
+because $\P\{T>k\}$ is deccreasing with $k$. Thus, $\E[T]< \infty$.
+
+
+
+\indent If $p_a = \P\{S_T \geq a\}$, by optional sampling theorem, 
+\begin{align*}
+1&= \E[e^{\theta S_T}] \\
+&= \E[e^{\theta S_T}|S_T \leq -b](1-p_a) + \E[e^{\theta S_T}|S_T \geq a] p_a \\
+&\geq \E[e^{\theta S_T}|S_T \geq a] p_a \\
+&\geq e^{\theta a} p_a.
+\end{align*}
+Thus, $p_a = \P\{S_T \geq a\} \leq \exp(-\theta a)$. This upper bound is independent of $b$. Taking $b\to \infty$, we obtain that $\P\{\sup_{k\geq 0} S_k \geq a\} \leq \exp(-a \theta)$.\\
+
+\indent \textbf{Application to $GI/GI/1$ queue.} If $\mu < 0$, the waiting times $W_n \to W_\infty$ in distribution and $W_\infty$ has the distribution of $M = \sup_{k \geq 0}S_k$. Therefore, $\P\{W_\infty > a\} \leq \exp(-\theta a)$ if there exists a $\theta \neq 0$ such that $\E[\exp(\theta X_1)] = 1$.
+\subsection{Queuing theory}
+Consider $GI/GI/1$ queue. Let the waiting time of $n^{th}$ arrival be $W_n$. The process $\{W_n\}$ is a regenerative process in which the arrivals seeing the queue empty are the regeneration epochs. Let $\tau$ be the regeneration length. If $\mu<0$, we have seen that  $W_n$ converges to a stationary distribution and hence $\E[\tau]<\infty$. Also, $\P\{\tau = 1\} = \P\{s_0 < A_1\} >0$. Therefore, $\tau$ is aperiodic. If $\mu\geq 0$, $W_n \to \infty$ as $n \to \infty$ and $\E[\tau] = \infty$.  If $\mu =0$, then $\E[\tau]= \infty$ but $\P\{\tau < \infty\} =1$.\\
+\indent Let $V_t=$ total work (service times) of the customers in the queue, including the residual service time of the custmoer in service. The customers seeing the empty queue are regeneration epochs. Let $\overline{\tau}$ be the regeneration length. We have $\E[\overline{\tau}] = \E[\tau]\E[A_1]$. If $\mu < 0$, then also, $\P\{\tau =1\}>0$. Thus, If $A_1$ is non-lattice, $\overline{\tau}$ is also non-lattice. Thus, $V_t \to V_\infty$ in distribution as $t \to \infty$ if $\mu <0$.\\
+\indent Furthermore, %{\color{red} Picture to be included.}
+\begin{align*}
+\E[V_\infty] &= \frac{\E[\int_0^{\overline{\tau}} V_t dt]}{\E[\overline{\tau}]} \\
+&= \frac{1}{2} \frac{\E[s_1^2] + \E[W_1]\E[s_1]}{\E[A_1]}.
+\end{align*}
+
+
+Let the time between consecutive regeneration epochs of $\{V_t\}$ be called a \textit{cycle}. During this time, the duration when the queue is empty is called an \textit{idle }period and the rest is called \textit{busy} period. Then, $\E[\text{busy period}] = \E[\sum_{k=0}^{\tau -1} s_k]$ if $t=0$ is a regeneration epoch. Hence, 
+\begin{align*}
+\P\{V_\infty = 0\}  &= \frac{ \E[\int_0^{\overline{\tau}} 1\{V_t=0\}dt]}{\E[\overline{\tau}]} \\
+&= \frac{\E[\overline{\tau}]-\E[Busy Period]}{\E[\overline{\tau}]} \\
+&= \frac{\E[{\tau}]\E[A_1]-\E[\tau]\E[s_1]}{\E[{\tau}]\E[A_1]} \\
+&= 1-\frac{\E[s_1]}{\E[A_1]}.
+\end{align*}
+
+
+\end{document}
+

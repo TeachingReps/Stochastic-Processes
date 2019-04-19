@@ -39,7 +39,7 @@ Let $S$ be irreducible and $f: S \rightarrow \R$.
 \P\{q_{k+1} = j|q_k = i,q_{k-1} = i_{k-1}, \dots q_0 = i_0\} = \P\{A_k = j-i-1\}.
 \end{align*}
 Thus, $\{q_k\}$ is a Markov chain with state space $S = \{0,1,2,\dots\}$. If $\P\{A_1 \leq 1\} > 0$, every state is aperiodic. If further, $\P\{A_1 > 1\} >0$, the Markov chain is also irreducible. \\
-\indent Consider $f(i) = i$. Let $S_0 = \{0\}$. For $i> 0$, $\E[f(q_1)|q_0 = i] - f(i) = \E[A_1] -1 $. Thus, we see from case $(1)$ in Prop \ref{prop:markov_chain_class_tests}, if $\E[A_1] \leq 1 $, $\{q_k\}$ is recurrent. From $(2)$ in Prop \ref{prop:markov_chain_class_tests}, we have positive recurrence if $\E[A_k] < 1$. \\
+\indent Consider $f(i) = i$. Let $S_0 = \{0\}$. For $i> 0$, $\E[f(q_1)|q_0 = i] - f(i) = \E[A_1] -1 $. Thus, we see from case $(1)$ in Theorem \ref{prop:markov_chain_class_tests}, if $\E[A_1] \leq 1 $, $\{q_k\}$ is recurrent. From $(2)$ in Theorem\ref{prop:markov_chain_class_tests}, we have positive recurrence if $\E[A_k] < 1$. \\
 %\indent Choose $f(i) = 1\{i>0\}$ and $S_0 = \{0\}$. Then if $\E[A_1] > 1$, the conditions in case (3) in Prop \ref{prop:markov_chain_class_tests} is met and $\{q_k\}$ is transient Markov chain. \\
 \subsection{Reversible Markov Chains}
 We can easily check that 

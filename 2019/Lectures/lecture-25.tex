@@ -1,0 +1,51 @@
+% !TEX spellcheck = en_US
+% !TEX spellcheck = LaTeX
+%\documentclass[a4paper,10pt,english]{article}
+\documentclass[all-lectures.tex]{subfiles}
+%\input{header}
+%\title{Lecture 01: Poisson Processes}
+%\author{}
+\setcounter{chapter}{6}
+
+\begin{document}
+%\maketitle
+
+%\chapter{Renewal Theory}
+\setcounter{section}{1}
+\setcounter{subsection}{1}
+\chapter{Queuing Theory}
+\section*{\centering{Lecture 25 \linebreak }}
+\subsection{General principles}
+In this chapter we start with some general principles in queuing theory which are valid for many different queuing systems.\\ %{\color{red} Picture to be included.}\\
+
+\textbf{GI/GI/1-FCFS queue:} 
+
+Let $\{A_k\}$ i.i.d be the inter-arrival times and $\{s_k\}$ i.i.d be the service times. Let $q_t$ be the queue length at time $t$, $W_k$ be the waiting time of the $k^{th}$ customer. If $\mu = \E[X_1] = \E[s_1] - \E[A_1] < 0$, $q_t \to q_\infty$ in distribution as $t \to \infty$. Let $S_k$ be the sojourn time of the $k^{th}$ customer and $0$ be a regeneration epoch. Then, $W_k$ and the sojourn time $S_k = W_k + s_k$ also have stationary ditributions and have the same regeneration epochs. Then denoting by $\overline{\tau}$ and $\tau$ the regeneration lengths of $\{q_t\}$ and $\{s_k\}$, ( assuming $\E_\pi[q_\infty]$ and $\E_\pi[s_1]$ are finite, this requires $\E[s_1^2] < \infty$)
+\begin{align*}
+\E_{\pi}[q_\infty] &= \frac{\E\left[ \int_0^{\overline{\tau}} q_t dt\right]}{\E[\overline{\tau}]} \\
+&= \frac{\E\left[ \sum_{k=0}^{\tau-1} S_k \right]}{\E[\tau]\E[A_1]} \\
+&= \frac{ \E_{\pi}[S_1] }{\E[A_1]} \\
+&= \lambda \E_{\pi}[S_1].
+\end{align*}
+where $\lambda$ is the arrival rate and $\E_{\pi} S_1$ is the mean sojourn time under stationarity. \\
+\indent The above is an example of a general result called \textit{Little's law}. 
+$\E_{\pi}[Number\ in\ the\ system] = (Arrival\ rate) * \E_{\pi}[Sojourn \ time]$. This holds for a general queuing system with the same proof if $\int_0^\tau q_t dt = \sum_{k=0}^{\tau -1} S_k$ is valid in that system. We will see many examples of this in next few lectures.\\
+
+\indent \textbf{$GI/GI/1$-Last Come First Serve (LCFS):} When a new custmorer arrives, the service of the current customer is stopped and servicing of the latest customer begins. After completion of a service, the server resumes service of the customer it was serving before to complete the remaining service. \\
+\indent An example of this type of queueing is a stack in a computer system.
+
+\textbf{Priority queues:} There are different classes of customers and each class is assigned a priority. The custmoer with the highest priority in the queue is served before others. 
+
+All  the above schemes have an important property - work conservation:
+\begin{enumerate}
+\item The server is never idle when there is work in the system.
+\item Workload will never be increased by policies and queuing schemes. 
+\end{enumerate}
+\indent Irrespective of the policy the queue becomes empty and gets an arrival to the empty queue, at the same time in all the work-conserving queues. Thus, the  regeneration epochs for $W_n$, $q_t$ or $V_t$ in the different queues remain same. Hence, $\E[\tau]< \infty$, $\E[\overline{\tau}] < \infty$ and has stationary distributions for all these processes for any of the work conserving policy if $\E[X_1] < 0$. But, the stationary distribution of $w$, $q$ etc. may be different for different queues. All these queuing systems satisfy Little's law.
+%Let $\overline{\tau}_{LCFS}$ and $\overline{\tau}_{FCFS}$  be the regeneration length of workload process of LCFS and FCFS policies respectively. Then, $\overline{\tau}_{LCFS} = \overline{\tau}_{FCFS}$ a.s. Let $W_n^{LCFS}$ and $W_n^{FCFS}$ be the waiting time of LCFS and FCFS policies respectively. The regeneration lenght of $\{W_n^{LCFS}\}$ and $\{W_n^{FCFS}\}$ are equal a.s. But, $\E[W_n^{LCFS}]$ and $\E[W_n^{FCFS}]$ are not equal in general. 
+
+%\subsection{Palm Theory goes to the next lecture}
+%Consider a $GI/GI/1$ queue. Let $T_n$ be the $n^{th}$ regeneration epochs of $\{V_t\}$. Then $W_n = V_{T_n}$ a.s. But, $W_\infty \stackrel{d}{\neq} V_\infty$ in general. Also, in renewal process, we have seen inspection paradox where $X_{N(t)} \stackrel{d}{\neq} X_n$. This shows that distriubion of the process sampled at some points may be different from the distribution of the process.\\
+%\indent Let  $\{X_t, -\infty<t<\infty\}$ be a stochastic process and $\tau = {\dots,\tau_{-1},\tau_{0}},\tau_{1},\dots$ be a point process. Let $N(t)$ be number of point of $\tau$ in the interval $(0,t]$. Let $Z = (X_t,\tau)$ and $\theta_t$ be the shift operator defined as $\theta_s Z = (\theta_t X,\theta \tau)$ where $(\theta_t X)_s = X_{t+s}$ and $(\theta_t \tau)_n = t+\tau_n$. $Z$ is a stationary process
+\end{document}
+

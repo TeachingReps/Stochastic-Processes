@@ -1,0 +1,114 @@
+% !TEX spellcheck = en_US
+% !TEX spellcheck = LaTeX
+%\documentclass[a4paper,10pt,english]{article}
+\documentclass[all-lectures.tex]{subfiles}
+%\input{header}
+%\title{Lecture 01: Poisson Processes}
+%\author{}
+\setcounter{chapter}{2}
+
+\begin{document}
+%\maketitle
+
+%\chapter{Renewal Theory}
+\setcounter{section}{3}
+\setcounter{subsection}{0}
+
+\section*{\centering{Lecture 6 \linebreak }}
+\subsection{Limit Theorems}
+\begin{thm}[Blackwell's theorem]
+Let $F$ be the distribution of interarrival times. \\
+\begin{enumerate} 
+\item If $F$ is non-lattice
+\begin{align*}
+\lim_{t\to \infty}\E[N(t+a) - N(t)] = \frac{a}{\mu}
+\end{align*}
+for all $a \geq 0$.
+\item If $F$ is lattice with period $d$
+\begin{align*}
+\lim_{n \to \infty}\E[N((n+1)d) - N(nd)] = \frac{d}{\mu}.
+\end{align*}
+\end{enumerate}
+\begin{prop}
+Blackwell's theorem implies elementary renewal theorem.
+\end{prop}
+\begin{proof}
+\begin{align*}
+\E\left[\frac{N_n}{n}\right] = \frac{1}{n}\sum_{k = 1}^{n} \left(\E[N_{k}] - \E[N_{k-1}]\right)
+\end{align*}
+From Blackwell's theorem and definition of limits, for every $\epsilon>0$, there exists $n_0$ such that for $n>n_0$
+\begin{align}\label{eq:blackwell_implication}
+\abs{\E[N_k] - \E[n_{k-1}] - \frac{1}{\mu}} < \epsilon. 
+\end{align}
+Therefore for $n> n_0$, 
+\begin{align*}
+\E\left[\frac{N_n}{n}\right] &= \frac{1}{n}\left(\sum_{k=1}^{n_0} \left(\E[N_{k}] - \E[N_{k-1}]\right) + \sum_{k=n_0+1}^{n}\left(\E[N_{k}] - \E[N_{k-1}]\right) \right). \\
+&\leq \frac{1}{n}\left(\sum_{k=1}^{n_0} \left(\E[N_{k}] - \E[N_{k-1}]\right) + (n-n_0-1) \left(\epsilon + \frac{1}{\mu}\right)\right).
+\end{align*}
+Thus, taking $n \to \infty$,
+\begin{align*}
+\limsup_{n\to \infty} \frac{\E[N_n]}{n} \leq \frac{1}{\mu} + \epsilon.  
+\end{align*}
+Now take $\epsilon \to 0$. \\
+\indent Similarly, by taking the opposite sign of the modulus in Eq \ref{eq:blackwell_implication}, we get
+\begin{align*}
+\liminf_{n\to \infty} \frac{\E[N_n]}{n} \geq \frac{1}{\mu}.  
+\end{align*}
+Thus, 
+\begin{align*}
+\lim_{n\to \infty} \frac{\E[N_n]}{n} = \frac{1}{\mu},
+\end{align*}
+which is elementary renewal theorem.
+\end{proof}
+\end{thm}
+
+\begin{defn}[Renewal Equation] A functional equation of the form 
+\begin{align*}
+Z(t) = z(t) + F*Z(t)
+\end{align*}
+where $z(t)$ is a function on $[0,\infty)$ and $*$ denotes convolution is called a renewal equation. $F$ and $z$ are known and $Z$ is the unknown function.
+\end{defn}
+The renewal equation arises in several situations. We need to know the conditions for existence and uniqueness of the solution for renewal equation. The following theorem provides the answer.
+\begin{prop}
+If $F(\infty) = 1$, $F(0) < 1$ and $z(t):[0,\infty) \rightarrow [0,\infty)$ is bounded on bounded intervals the renewal equation has a unique solution given by 
+\begin{align*}
+Z(t) = U(t) * z(t)
+\end{align*}
+where $U(t) = \E[N(t)] = \sum_{k=0}^\infty F^{*n}(t)$. Here, $F^{*n}$ denotes $n$ fold convolution of $F$ with itself.
+\begin{proof}
+Define $U^n = \sum_{k=0}^n F^{*k}$. Now, $U^n \to U$ monotonically. Let $Z^n(t) = U^n*z(t) = \sum_{k=0}^n F^{*k}*z(t)$. We have
+\begin{align*}
+Z^{n+1} &= z + \sum_{k=1}^n F^{*k}*z(t) \\
+&= z + F * Z^n.
+\end{align*}
+Let  $Z(t) :=  U* z(t)$. Since, $U^n \to U$ monotonically, from monotone convergence theorem, we get $Z^n \to Z$. Fixing $t$, we get from above equation 
+\begin{align*}
+\lim_{n \to \infty} Z^{n+1}(t) &= z(t) + \lim_{n\to \infty} Z^n*z(t)\\
+\implies Z(t) &= z(t) + Z*z(t)
+\end{align*}
+Thus, we see that $Z(t) = U*z(t)$ is a solution of the renewal equation.\\
+\indent \textit{Uniqueness:} Let $Z_1$ and $Z_2$ be two solutions. We have $Z_1-Z_2 = F * (Z_1 - Z_2)$. Let $V = Z_1 - Z_2$. Since $U$ and $z$ are bounded on bounded intervals, so are $Z_1,Z_2$ and $V$. Iterating $n$ times, we get $V = F^n*V$. Therefore
+\begin{align*}
+\abs{V} &= \abs{ \int_0^t V(t-s) d F^n(s) } \\
+&\leq M_1 \int_0^t d F^n(s) \\
+&= M_1 \P\{S_n \leq t\} \\
+&= 0 \text{ as }n \to \infty.
+\end{align*}
+where $\abs{V(s)} \leq M_1$ for all $0\leq s \leq t$.
+
+\end{proof}
+\end{prop}
+
+\textbf{Example of renewal equation:} Consider residual time of a renewal process $\{B_t\}$.
+\begin{align*}
+\P\{B_t \leq x\} = \P\{B_t \leq x,X_1>t\} + \int_{0}^{t} \P\{B_t \leq x|X_1=s\}F(ds)
+\end{align*}
+Letting  $Z(t) = \P\{B_t \leq x\}$, $z(t) = \P\{B_t \leq x,X_1>t\}$, and noting that $\P\{B_t \leq x|X_1=s\} = \P\{B_{t-s} \leq x\}$, we have 
+\begin{align*}
+Z(t) = z(t) + F*Z(t),
+\end{align*}
+which is a renewal equation whose solution is $\P\{B_t\leq x\}$. \\
+\indent Let $A(t)$ be the age of the process. Then, we have $\{B_t \leq x\} = \{A_{t+x} \leq x\}$. If $\{B_t\}$ is stationary we have $\P\{B_{t+s} \leq x\} = \P\{B_t \leq x\}\ \forall x,t,s$. Thus, we get $\P\{A_{t+x+s} \leq x\} = \P\{A_{t+x} \leq x\}$. This means that $\{A_t\}$ is also stationary. We can similarly show that $\{A_t\}$ is stationary implies that $\{B_t\}$ is also stationary.
+
+\end{document}
+
