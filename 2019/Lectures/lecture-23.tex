@@ -5,101 +5,47 @@
 %\input{header}
 %\title{Lecture 01: Poisson Processes}
 %\author{}
-\setcounter{chapter}{5}
-\usepackage{enumitem}
+\setcounter{chapter}{6}
 
 \begin{document}
 %\maketitle
 
 %\chapter{Renewal Theory}
-\setcounter{section}{2}
+\setcounter{section}{1}
 \setcounter{subsection}{1}
-\chapter{Random Walks}
+\chapter{Queuing Theory}
 \section*{\centering{Lecture 23 \linebreak }}
-\subsection{Definitions}
-\begin{defn}[Random Walks]
-Let $X_1,X_2,\dots$ be i.i.d., $S_0 = 0$ and $S_n = \sum_{k=1}^n X_k$. Then, $S_n$ is called \textit{random walk}. 
-\end{defn}
+\subsection{General principles}
+In this chapter we start with some general principles in queuing theory which are valid for many different queuing systems.\\ %{\color{red} Picture to be included.}\\
 
-If $\mu = \E[X_1]$ ($-\infty \leq \E[X_1] \leq \infty$) is defined, then by strong law of large numbers (SLLN) $S_n/n \to \E[X_1]$ a.s. as $n \to \infty$. According to law of iterated logarithms (LIL), if $Var(X_1) = \sigma^2 < \infty$,
+\textbf{GI/GI/1-FCFS queue:} 
+
+Let $\{A_k\}$ i.i.d be the inter-arrival times and $\{s_k\}$ i.i.d be the service times. Let $q_t$ be the queue length at time $t$, $W_k$ be the waiting time of the $k^{th}$ customer. If $\mu = \E[X_1] = \E[s_1] - \E[A_1] < 0$, $q_t \to q_\infty$ in distribution as $t \to \infty$. Let $S_k$ be the sojourn time of the $k^{th}$ customer and $0$ be a regeneration epoch. Then, $W_k$ and the sojourn time $S_k = W_k + s_k$ also have stationary ditributions and have the same regeneration epochs. Then denoting by $\overline{\tau}$ and $\tau$ the regeneration lengths of $\{q_t\}$ and $\{s_k\}$, ( assuming $\E_\pi[q_\infty]$ and $\E_\pi[s_1]$ are finite, this requires $\E[s_1^2] < \infty$)
 \begin{align*}
-\limsup_{n \to \infty} \frac{S_n-n\mu}{\sigma \sqrt{n\log \log n}} = +1 \text{ a.s. } \\
-\liminf_{n \to \infty} \frac{S_n-n\mu}{\sigma \sqrt{n\log \log n}} = -1 \text{ a.s. } \\
+\E_{\pi}[q_\infty] &= \frac{\E\left[ \int_0^{\overline{\tau}} q_t dt\right]}{\E[\overline{\tau}]} \\
+&= \frac{\E\left[ \sum_{k=0}^{\tau-1} S_k \right]}{\E[\tau]\E[A_1]} \\
+&= \frac{ \E_{\pi}[S_1] }{\E[A_1]} \\
+&= \lambda \E_{\pi}[S_1].
 \end{align*}
-We can use martingales theory to analyze $S_n$. $S_n$ is also a Markov chain. So we can use Markov chain theory (although it may not have countable state space). If $X_k \geq 0$, we can use renewal theory. In this chapter, we use random walk theory and will also show how to use renewal theory when $X_1$ takes positive as well as negative values.\\
-\indent There are three possibilities
-\begin{enumerate}[label=(\arabic*)]
-\item  $S_n \to -\infty$ a.s. as $n \to \infty$.
-\item  $S_n \to \infty$ a.s. $n \to \infty$. 
-\item  $\limsup_{n\to \infty} S_n = \infty$ a.s. and $\liminf_{n\to \infty} S_n = -\infty$ a.s.
-\end{enumerate}
-If $\E[X_1]$ exists ($-\infty \leq \E[X_1] \leq \infty$), then by SLLN, $(1)$ holds if $\mu <0$ and $(2)$ holds if $\mu>0$. By LIL, $(3)$ holds if $\sigma^2 < \infty$ and $\mu = 0$.
+where $\lambda$ is the arrival rate and $\E_{\pi} S_1$ is the mean sojourn time under stationarity. \\
+\indent The above is an example of a general result called \textit{Little's law}. 
+$\E_{\pi}[Number\ in\ the\ system] = (Arrival\ rate) * \E_{\pi}[Sojourn \ time]$. This holds for a general queuing system with the same proof if $\int_0^\tau q_t dt = \sum_{k=0}^{\tau -1} S_k$ is valid in that system. We will see many examples of this in next few lectures.\\
 
-\begin{defn}
-If for all finite intervals $I \subset \R$, $\sum_{n=0}^\infty \P\{S_n \in I\} = \sum_{n=1}^\infty \E[1\{S_n \in I\}] < \infty$, then the random walk $S_n$ is called \textit{transient}. Otherwise, it is called $recurrent$. 
-\end{defn}
-When $\mu < 0$ or $\mu > 0$, the random walk is transient. When $\mu =0$, the random walk is recurrent. \\
-\begin{defn}[Ladder epochs and heights]
-Let $T_1 = \inf\{n:S_n > 0\}$ and $T_k = \inf\{n>T_{k-1}, S_n>{S_{T_{k-1}}}\}$. The process $\{T_k\}$ is called \textit{strictly ascending ladder epochs} and $\{S_{T_k}\}$ is called \textit{strictly ascending ladder heights}. \\
-\indent Let ${T}_{1}^- = \inf\{n:S_n \leq 0\}$ and ${T}_{k}^- = \inf\{n>{T}_{k-1}^-, S_n \leq {S_{{T}_{k-1}^-}}\}$. The process $\{{T}_{k}^-\}$ is called \textit{weakly descending ladder epochs} and $\{S_{{T}_{k}^-}\}$ is called \textit{weakly descending ladder heights}. \\
-\indent When $S_n \to \infty$ a.s., then after some time $S_n$ will not go below $0$ and hence $\P[T_- < \infty] < 1$. Also, when $S_n \to -\infty$ a.s. then $\P\{T<\infty\} < 1$.
-\end{defn}
+\indent \textbf{$GI/GI/1$-Last Come First Serve (LCFS):} When a new custmorer arrives, the service of the current customer is stopped and servicing of the latest customer begins. After completion of a service, the server resumes service of the customer it was serving before to complete the remaining service. \\
+\indent An example of this type of queueing is a stack in a computer system.
 
-Ladder heights and ladder epochs form renewal processes. Let $M_n = \sup_{1\leq k \leq n} S_k$ and $m_n = \inf_{1\leq k \leq n} S_k$. Since, $M_n \geq S_n$ and is monotonically increasing, 
+\textbf{Priority queues:} There are different classes of customers and each class is assigned a priority. The custmoer with the highest priority in the queue is served before others. 
+
+All  the above schemes have an important property - work conservation:
 \begin{enumerate}
-\item If $S_n \to \infty$  a.s., then $M_n \uparrow \infty$ a.s. but $m_n \downarrow m > -\infty$ a.s.
-\item If $S_n \to -\infty$ a.s., then $M_n \uparrow M < \infty$ a.s. and $m_n \to -\infty$ a.s.
-\item If $S_n$ oscillates, then $M_n \uparrow \infty$ a.s. and $m_n \downarrow -\infty$ a.s.
+\item The server is never idle when there is work in the system.
+\item Workload will never be increased by policies and queuing schemes. 
 \end{enumerate}
+\indent Irrespective of the policy the queue becomes empty and gets an arrival to the empty queue, at the same time in all the work-conserving queues. Thus, the  regeneration epochs for $W_n$, $q_t$ or $V_t$ in the different queues remain same. Hence, $\E[\tau]< \infty$, $\E[\overline{\tau}] < \infty$ and has stationary distributions for all these processes for any of the work conserving policy if $\E[X_1] < 0$. But, the stationary distribution of $w$, $q$ etc. may be different for different queues. All these queuing systems satisfy Little's law.
+%Let $\overline{\tau}_{LCFS}$ and $\overline{\tau}_{FCFS}$  be the regeneration length of workload process of LCFS and FCFS policies respectively. Then, $\overline{\tau}_{LCFS} = \overline{\tau}_{FCFS}$ a.s. Let $W_n^{LCFS}$ and $W_n^{FCFS}$ be the waiting time of LCFS and FCFS policies respectively. The regeneration lenght of $\{W_n^{LCFS}\}$ and $\{W_n^{FCFS}\}$ are equal a.s. But, $\E[W_n^{LCFS}]$ and $\E[W_n^{FCFS}]$ are not equal in general. 
 
-\begin{prop}
-For GI/GI/1 queue, $W_n \sim M_n$.
-\begin{proof}
-Let $X_k = S_k - A_k$.
-\begin{align*}
-W_{k+1} &= (W_k + X_k)^+ \\
-&= \max(0,W_k + X_k)) \\
-&= \max(0,\max(0,W_{k-1}+X_{k-1}) + X_k)) \\
-& \dots \\
-&= \max(0,X_k,X_k+X_{k-1},X_k+X_{n-1}+X_{k-2},\dots,X_1) \\
-&\sim \max(0,X_1,X_1+X_{2},X_1+X_{2}+X_{3},\dots,S_k) \\
-&= \max(0,S_1,S_2,S_3,\dots,S_k) \\
-&= M_k.
-\end{align*}
-\end{proof}
-\end{prop}
-We should note that $M_n \neq W_n$ a.s. and  $M_n$ is montonically increasing, but $W_n$ is not. Moreover, $(W_{n+1},W_n) \stackrel{d}{\neq} (M_{n+1},M_{n})$ even though $W_{n+1} \sim M_{n+1}$.
-Now, 
-\begin{align*}
-(S_0,S_1,\dots,S_n) &\sim (0,X_1,X_1+X_2,\dots,X_1+X_2+\dots+X_n) \\
-&\sim (0,X_n,X_n+X_{n-1},\dots,X_n+X_{n-1}+\dots +X_1)\\
-&= (0,S_n-S_{n-1},S_{n-2}\dots, S_n - S_0)
-\end{align*}
-$\max\{0,S_n-S_{n-1},S_{n-2}\dots, S_n - S_0\} \stackrel{d}{=} S_n - m_n$. This shows that $(M_n,M_n - S_n) \sim (S_n - m_n, -m_n)$. \\
-\indent We can also write $M_n = S_{N(n)}$ where $N(n)$ is number of ascending ladder epochs till time $n$. Let $Z_k = S_{T_k} -S_{T_{k-1}}$. If $\mu > 0$, then we will show that $\E[T_1] < \infty$.
-\begin{prop}
-If $\mu >0$,then 
-\begin{align*}
-\frac{M_n}{n} \to \E[X_1] \text{ a.s. as } n \to \infty.
-\end{align*}
-\begin{proof} From renewal theory $N(n)/n \to 1/\E[T_1]$ a.s. Thus, 
-\begin{align*}
-\lim_{n \to \infty} \frac{M_n}{n} &= \lim_{n \to \infty} \frac{\sum_{k=1}^{N(n)} Z_k}{n}\\
-&= \lim_{n \to \infty} \frac{\sum_{k=1}^{N(n)} Z_k}{N(n)} \frac{N(n)}{n} \\
-&= \frac{\E[Z_1]}{\E[T_1]} \text{ a.s.}\\
-&= \frac{\E[\sum_{k=1}^{T_1} X_k]}{\E[T_1]}\text{ a.s.}\\
-&= \E[X_1] \text{ a.s.} \qedhere
-\end{align*}
-
-\end{proof}
-\end{prop}
-Similarly, if $\mu <0$, $m_n/n \to \E[X_1]$ a.s.\\
-
-\textbf{GI/GI/1 queue:} Take $X_k = s_k - A_k$. If $\mu = \E[X_1] = \E[s_1 - A_1] >0$, $M_n \uparrow \infty$ a.s. Therefore, since $W_n \sim M_n$, $\lim_{n \to \infty} \P\{ W_n \leq x\} =0$ for all $x$. Also, $W_n/n \to \E[X_1]$ a.s. \\
-\indent When $\mu<0$, $M_n \to M$ a.s. where $M$ is a proper r.v. and $\P\{W_n \leq x\} \to \P\{M \leq x\}$. Then, the queue is stable. Also, $N(n) \to N$ a.s. where $N$ is a finite r.v. and 
-\begin{align*}
-M \stackrel{d}{=} \sum_{k=1}^N z_k,
-\end{align*}
-and $\P\{N=n\} = p^n(1-p)$ where $p = \P\{T_1 <\infty\}<1$. Also, conditioned on $N\geq k$, $z_1, z_2, \dots,z_k$ are i.i.d. and do not depend on $k$.
+%\subsection{Palm Theory goes to the next lecture}
+%Consider a $GI/GI/1$ queue. Let $T_n$ be the $n^{th}$ regeneration epochs of $\{V_t\}$. Then $W_n = V_{T_n}$ a.s. But, $W_\infty \stackrel{d}{\neq} V_\infty$ in general. Also, in renewal process, we have seen inspection paradox where $X_{N(t)} \stackrel{d}{\neq} X_n$. This shows that distriubion of the process sampled at some points may be different from the distribution of the process.\\
+%\indent Let  $\{X_t, -\infty<t<\infty\}$ be a stochastic process and $\tau = {\dots,\tau_{-1},\tau_{0}},\tau_{1},\dots$ be a point process. Let $N(t)$ be number of point of $\tau$ in the interval $(0,t]$. Let $Z = (X_t,\tau)$ and $\theta_t$ be the shift operator defined as $\theta_s Z = (\theta_t X,\theta \tau)$ where $(\theta_t X)_s = X_{t+s}$ and $(\theta_t \tau)_n = t+\tau_n$. $Z$ is a stationary process
 \end{document}
 
