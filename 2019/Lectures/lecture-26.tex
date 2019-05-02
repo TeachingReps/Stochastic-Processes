@@ -1,0 +1,161 @@
+% !TEX spellcheck = en_US
+% !TEX spellcheck = LaTeX
+%\documentclass[a4paper,10pt,english]{article}
+\documentclass[all-lectures.tex]{subfiles}
+%\input{header}
+%\title{Lecture 01: Poisson Processes}
+%\author{}
+\setcounter{chapter}{6}
+
+\begin{document}
+%\maketitle
+
+%\chapter{Renewal Theory}
+\setcounter{section}{1}
+\setcounter{subsection}{1}
+%\chapter{Queuing Theory}
+\section*{\centering{Lecture 26 \linebreak }}
+\subsection{Palm Theory}
+Consider a $GI/GI/1$ queue. Let $T_n$ be the $n^{th}$ arrival epoch, $\{V_t\}$ the workload process and $W_n$ the waiting time of the $n^{th}$ arrival. Then $W_n = V_{T_n^-}$ a.s. But, $W_\infty \stackrel{d}{\neq} V_\infty$ in general. Also, in renewal processes, we have seen inspection paradox where $X_{N(t)} \stackrel{d}{\neq} X_n$. This shows that the distribution of the process sampled at some random points may be different from the distribution of the process. In the following, we relate the two distributions.\\
+\indent Let  $X = \{X_t, -\infty<t<\infty\}$ be a stochastic process and $T = \{\dots,T_{-1},T_{0},T_{1},\dots\}$ with $ \dots <T_{-1}<0\leq T_0 < T_1 < \dots $ be a point process. Let $N(t)$ be the number of points of $T$ in the interval $(0,t]$. Let $Z = (X,T)$ and $\theta_s$ be the shift operator defined as $\theta_s Z = (\theta_s X,\theta_s T)$ where $(\theta_s X)_t = X_{t+s}$ and $(\theta_s T)_n = T_{N(s)+ n} -s$. $Z$ is a stationary process if $\theta_s Z$ does not depend on $s$: $\P\{Z \in A\} = \P\{\theta_s Z \in A\}$ for all measurable $A$. \\
+\indent Now, we ask the question if $Z$ is stationary, is $\{X_{T_k}\}$ stationary? If yes, when is the distribution of $\{X_{T_k}\}$ same as that of $\{X_t\}$? This is answered in the following theorem called \textit{Poisson Arrivals See Time Averages (PASTA)}. 
+\begin{thm*}[PASTA]
+If $X_t$ is right continuous, $\{X_s, s<t\}$ and $\{N_s - N_t, s\geq t\}$ are independent and $\{N_t\}$ is a Poisson process, $X_{T_k^-}$ is stationary and has the same distribution as $X_t$.
+\end{thm*}
+We will prove this theorem later in this lecture. Let us consider an application of PASTA to $\{V_t\}$ in $M/G/1$ queue. The arrival process is Poisson and the conditions of the theorem hold. Thus, $W_n$ and $V_t$ have the same distribution under stationarity. \\
+\indent Consider the following quantity:
+\begin{align*}
+\lambda(t) = \frac{\E[N(t,t+h] ]}{h}.
+\end{align*}
+For a Poisson process $\lambda(t) = \lambda = $ rate of the Poisson process. 
+\begin{prop}
+If the process is stationary, $\lambda(t)$ does not depend on $t$ or $h$. 
+\begin{proof}
+Let $\phi(h) = \E[N(t,t+h] ]$. By stationarity, $\phi$ does not depend on $t$. We have 
+\begin{align*}
+\phi(h_1+h_2) &=  \E[N(t,t+h_1+h_2]] \\
+&= \E[N(t,t+h_1]]  + \E[N(t+h_1,t+h_1+h_2]] \\
+&= \phi(h_1) + \phi(h_2).
+\end{align*}
+This shows that $\phi$ is linear for a stationary process. So, $\phi(h) = h \phi(1)$. Thus, we have $\lambda(t) = h \E[N(t,t+1)]$.
+\end{proof}
+\end{prop}
+With $h=1$, we can interpret $\lambda$ as the mean number of arrivals in unit time. Hence, $\lambda$ is called the \textit{intensity }of the process $N$.\\
+\indent Define a probability measure $P_0$ as 
+\begin{align*}
+\P_0\{Z \in F\} = \frac{\E\left[\sum_{t <T_i \leq t+h} 1\{ \theta_{T_i} Z \in F\}\right]}{\lambda h}.
+\end{align*}
+The distribution $\P_0$  is called the \textit{Palm distribution} of $Z$. 
+\begin{prop}
+The process $\{Z\}$ under $\P_0$ is event stationary: $\P_0\{\theta_{T_1} Z \in F\} = \P_0\{Z \in F\}$. 
+\begin{proof}
+%We want to show $\P_0\{\theta_{T_1} Z \in F\} = \P_0\{Z \in F\}$. 
+We have 
+\begin{align*}
+\P_0\{\theta_{T_1} Z \in F\} &= \frac{\E\left[\sum_{t <T_i \leq t+h} 1\{ \theta_{T_i} (\theta_{T_1} Z) \in F\}\right]}{\lambda h} \\
+&= \frac{\E\left[\sum_{i=1}^{N(h)} 1\{ \theta_{T_{i+1}} Z \in F\}\right]}{\lambda h} \\
+&\leq \frac{\E\left[\sum_{i=1}^{N(h)+1} 1\{ \theta_{T_i} Z \in F\}\right]}{\lambda h} \\
+&\leq \frac{\E\left[\sum_{i=1}^{N(h)} 1\{ \theta_{T_i} Z \in F\}\right]}{\lambda h} +\frac{1}{\lambda h}\\
+&= \P_0\{Z \in F\} + \frac{1}{\lambda h.}
+\end{align*}
+Letting $h \to \infty$, we get $\P_0\{\theta_{T_1} Z \in F\} \leq \P_0\{Z \in F\}$. Similarly, for $F^c$ we get, $\P_0\{\theta_{T_1} Z \in F^c\} \leq \P_0\{Z \in F^c\}$ which implies $\P_0\{\theta_{T_1} Z \in F\} \geq \P_0\{Z \in F\}$. Thus, we have the result. 
+\end{proof}
+\end{prop}
+This proposition shows that under $\P_0$, the process $Z$ is event stationary. \\
+
+\indent Next, define a probability measure $\P_1$ from $P_0$ as 
+\begin{align*}
+\P_1\{Z \in A\} = \frac{\E_0[\int_0^{T_k} 1\{\theta_t Z \in A\}]}{k E_0[T_1]},
+\end{align*}
+where $\E_0$ is the expectation with respect to $\P_0$. By event stationarity, this does not depend on $k$. If $\P_0$ is the Palm distribution of $Z$ under $\P$, then $\P_1 = \P$. This is called the \textit{Palm inversion formula}. This is generalization of the formula for regenerative processes. 
+\begin{prop}
+The process $Z$ is time stationary under $\P_1$.
+\begin{proof}
+We want to show $\P_1\{\theta_s Z\in A \} = \P_1\{Z \in A\}\ \forall s$.
+\begin{align*}
+\P_1\{\theta_s Z \in A \} &= \frac{\E_0[\int_0^{T_k} 1\{\theta_t (\theta_s Z) \in A\}]}{k \E_0[T_1]} \\
+&= \frac{\E_0[\int_0^{T_k} 1\{\theta_{t+s} Z \in A\}]}{k \E_0[T_1]} \\
+&= \frac{\E_0[\int_s^{T_k+s} 1\{\theta_t Z \in A\}]}{k \E_0[T_1]}  \\
+&\leq \frac{\E_0[\int_0^{T_k+s} 1\{\theta_t Z \in A\}]}{k \E_0[T_1]}  \\
+&\leq \frac{\E_0[\int_0^{T_k} 1\{\theta_t Z \in A\}]}{k \E_0[T_1]}  + \frac{s}{k \E_0[T_1]}. \\
+\end{align*}
+By taking $k\to \infty$, we get $\P_1\{\theta_s Z\in A \} \leq \P_1\{Z \in A\}$. Similarly for $A^c$, we get $\P_1\{\theta_s Z\in A^c \} \leq \P_1\{Z \in A^c\}$ which implies $\P_1\{\theta_s Z\in A \} \geq \P_1\{Z \in A\}$. This shows $\P_1\{\theta_s Z\in A \} = \P_1\{Z \in A\}$.
+\end{proof}
+\end{prop}
+\begin{lem}
+$\P_0\{T_0 =0\} = 1$.
+\begin{proof} We have
+\begin{align*}
+\P_0\{T_0 =0\} &= \frac{\E[\sum_{0 < T_i \leq 1} 1\{(\theta_{T_i} T)_0 = 0\}]}{\lambda} \\
+&= \frac{\E[N(1)] }{\lambda} && \text{ $(\theta_{T_i} T)_0 = 0$ always by definition of shift}\\
+&= \frac{\lambda}{\lambda} = 1 && \qedhere 
+\end{align*}
+\end{proof}
+\end{lem}
+\begin{lem}
+$\E_0[T_1] = \frac{1}{\lambda}$.
+\begin{proof}
+\begin{align*}
+\lambda \E_0[T_1] &= \E\left[ \sum_{k=1}^{N(1)} (T_{k+1} - T_k)\right] \\
+&= \E[ (T_{N(1)+1} - T_0) 1\{T_0 \leq 1\}] \\
+&= 1 \qedhere
+\end{align*}
+\end{proof}
+\end{lem}
+
+\begin{lem}
+\begin{align*}
+\lim_{h \to 0} \frac{\P\{T_0 \leq h\}}{h} &= \lambda \\
+\end{align*}
+\begin{proof}
+\begin{align*}
+\vspace{-20mm}
+\frac{\P\{T_0 \leq h\}}{h} &=  \frac{\E_0[ \int_{0}^{T_1} 1\{(\theta_t T)_0 \leq h\}]}{h \E_0[T_1]} \\
+&= \lim_{h \downarrow 0} \frac{\lambda \E_0[ \min(T_1,h) ]}{h} \\
+&= \lambda \qedhere
+\end{align*}
+\end{proof}
+\end{lem}
+We can also show that $\P\{T_1 \leq h\}/h \to 0$ as $h \downarrow 0$. Thus, 
+\begin{align*}
+\P_0\{Z \in F\} &= \lim_{h \downarrow 0} \frac{\E\left[ \sum_{0<T_i \leq h} 1\{\theta_{T_i} Z \in F\}\right]}{h \lambda} \\
+&= \lim_{h \downarrow 0} \frac{\E\left[ 1\{\theta_{T_0} Z \in F\}; T_0 \leq h\right]}{\P\{T_0 \leq h\}} \\
+&= \lim_{h \downarrow 0} \P\{ 1\{\theta_{T_0} Z \in F\}| T_0 \leq h\}
+\end{align*}
+This justifies the heuristic interpretation of $\P_0\{Z \in F\}$ as $\P\{Z \in F| T_0 = 0\}$.
+\subsection{Rate conservation laws}
+Let $\{X_t\}$ be a stochastic process whose sample paths have jumps at $\{\dots,T_{-2},T_{-1},T_0,T_1,T_2,\dots\}$ with intensity $\lambda$. The jump size at $T_k$ is $U_k$ ($U_k =0$ is allowed) and between the jumps, $\{X_t\}$ is differentiable with $dX_t/dt = Y_t$ (sample pathwise). The rate conservation law states that
+\begin{prop} $\lambda \E_0\left[U_0 \right] + \E[Y_0] = 0$.
+\begin{proof}
+Sample pathwise 
+\begin{align*}
+X_1 - X_0 = \sum_{i: 0<T_i \leq 1} U_i + \int_0^1 Y_t dt.
+\end{align*}
+Taking expectation and by stationarity,
+\begin{align*}
+0 = \E[X_1]  - \E[X_0] = \lambda \E[U_0] + \E\left[\int_0^1 Y_t dt\right]
+\end{align*}
+Again, by stationarity of $Y_t$, $\E[\int_0^1 Y_t dt] = \E[Y_0]$.
+\end{proof}
+\end{prop}
+\indent \textbf{Example: $GI/GI/1$ queue:} Let $q^A_n$ be the queue length seen by $n^{th}$ arrival and $q_n^D$ be the queue length left behind by $n^{th}$ departure. If $\E[A_1] > \E[s_1]$, then $\P\{q^A_\infty \leq k\} = \P\{q^D_\infty \leq  k\}$. This follows from rate conservation law as follows: Define $X_t = 1\{q_t \geq k\}$. We have $U_t = +1 \text{ or } -1$ and $Y_t = 0$ a.s. Therefore, $\lambda \E_0[U_0] + 0 = 0$. Thus, $\P_0\{U_0 = 1\} = \P_0\{U_0 = -1\}$, which implies $\P_0\{q^A_\infty \leq k \} = \P_0\{q^D_\infty \leq k\}$.
+
+\subsection{PASTA}
+\begin{thm}
+Let $\{X_t\}$ be a stochastic process with $X_t \in \R^d$ and right continuous sample paths. Let $N_t$ be a Poisson process with rate $\lambda$ such that $\{X_s,s<t\}$ is independent of $\{N_s, s \geq t\}$ for all $s$ and $t$. Then, 
+\begin{align*}
+\text{(time stationary) }\P\{X_0 \in A\} = \P_0\{ X_{0^-} \in A\} \text{ (event stationary) }.
+\end{align*}
+\begin{proof}
+\begin{align*}
+\P_0\{ X_{0^-} \in A\}  &= \frac{\E\left[ \sum_{0 < T_i \leq 1} 1\{(\theta_{T_i} X)_{0^-} \in A\} \right]}{\lambda} \\
+&= \frac{\E\left[ \int_0^1 1\{(\theta_t X)_{0^-} \in A; t \text{ is an event time}\} dt\right]}{\lambda} \\
+&= \frac{\int_0^1 \P\{X_{t^-} \in A; t \text{ is an event time}\}dt}{\lambda} \\
+&= \frac{\int_0^1 \P\{X_{t^-} \in A| t \text{ is an event time}\} \P\{ t \text{ is an event time}\}dt} {\lambda} \\
+&= \frac{\int_0^1 \P\{X_{t^-} \in A\} \lambda dt} {\lambda} && \left(\parbox{3cm}{$X_{t^-}$ is independent \\ of $\{X_s, s\leq t\}$} \right)\\
+&= \int_0^1 \P\{ X_{t} \in A\} \lambda dt && \left(\parbox{3cm}{right continuity and \\ stationarity of $\{X_t\}$} \right)  \\
+&= \P\{X_{0} \in A\}. && \left(\text{stationarity of $\{X_t\}$}\right) \qedhere
+\end{align*}
+\end{proof}
+\end{thm}
+\end{document}

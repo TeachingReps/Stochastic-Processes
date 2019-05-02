@@ -1,0 +1,91 @@
+% !TEX spellcheck = en_US
+% !TEX spellcheck = LaTeX
+%\documentclass[a4paper,10pt,english]{article}
+\documentclass[all-lectures.tex]{subfiles}
+%\input{header}
+%\title{Lecture 01: Poisson Processes}
+%\author{}
+\setcounter{chapter}{4}
+
+\begin{document}
+%\maketitle
+
+%\chapter{Martingales}
+\setcounter{section}{4}
+\setcounter{subsection}{1}
+
+\section*{\centering{Lecture 27 \linebreak }}
+\section{Product-form Networks}
+\textbf{$M/M/1$ queue:}
+Let $q_t$ be the queue length of $M/M/1$ queue with arrival rate $\lambda$ and service rate $\mu$. It is a birth-death (B-D) process. 
+If arrival rate $\lambda < \mu$ then $q_t$ is positive recurrent and its stationary distribution  $\pi$ is given by
+\eq{
+\pi(n) =  (1-\rho) \rho^n,
+}
+where  $\rho = \lambda/\mu$. Every B-D process under stationarity is time reversible. Therefore $\{q_t\}$ is time reversible when $\rho<1$. \\
+\indent Define the reversed process $\hat{q}_t = q_{T-t}$ for some $T$. By reversibility, it has the same distribution as $q_t$. Therefore, it can also be considered as queue lenght process of an $M/M/1$ queue with arrival rate $\lambda$ and service rate $\mu$. In $\hat{q}_t$ the departure epochs are the arrival epochs in $q_t$. Also, the arrival epochs are the departure epochs of $q_t$.
+Thus, the departure process of a stationary $M/M/1$ queue is also a Poisson process with rate $\lambda$. Also, because of Poisson arrivals in $q_t$, arrivals from time $t$ onward are independent of the $q_{t^-}$, implies (applying this to $\hat{q}_t$) the departures till time $t$ in $q_t$ are independent of $q_t$.
+
+\section{Tandem Queues}
+Consider a tandem of $N$ queues. External arrivals enter queue $1$ according to a Poisson process of rate $\lambda$. After service in queue $i$, the customer enters queue $i+1$. The customer departs from the system after completing service at queue $N$. Let $q_t(i)$ denote the queue length at queue $i$ at time $t$. The service times at queue $i$ are i.i.d. with $\exp(\mu_i)$. If $\lambda < \mu_1$, queue $1$ is stable. Thus, as seen above, under stationarity, the departure process from queue $1$ is also a Poisson process of rate $\lambda$. So, $q_t(2)$ is also ergdic if $\lambda < \mu_2$. Continuing this way, each of the queue is stable if $\lambda < \min(\lambda_i)$ and the stationary distribution is given by
+\eq{
+\pi_i(n) = \rho^n_i (1-\rho_i).
+}
+Also as explained above, $q_{t}(1)$ is independent of the departures till time $t$ (past departures). Therefore, it is independent of arrivals to queue $2$ till time $t$. Hence, $q_t(2)$ is independent of $q_{t^-}(1) = q_t(1)$ a.s. Thus, extending this way to other queues, the joint distribution $q_t = (q_t(1), q_t(2), \dots , q_t(N))$ is given by
+\eq{
+P[q_t(1)=n_1, q_t(2)=n_2, \dots , q_t(N)=n_N] = \prod_{i=1}^{N} \rho^n_i (1-\rho_i)
+}
+and $q_t(1), q_t(2), \dots , q_t(N)$ are independent of each other. \\
+\section{Open Jackson Networks}
+In this system, there are $N$ nodes. Each node consists of $1$ server with exponential ($i.i.d.$) service times at rate $\mu_i$.
+ At each node, there is an external arrival process according to a Poisson process with rate $\lambda_i$. After completion of service at queue-$i$, with probability $p_{ij}$ a customer goes to queue-$j$. This is called Markovian routing. The customer leaves the network with probability $p_{i0}$ from node-$i$
+\eq{
+P_{i0} = 1-\sum_{i=1}^{N} p_{ij}.
+}
+Let $q_t(i)$ be the queue length at $i^{th}$ node at time $t$. Then, $q_t = (q_t(1), q_t(2), \dots , q_t(N))$ is a Markov chain with $q_t(i) \in \{0,1,2, \dots\}$. We observe that $q_t$ is irreducible. \\
+\indent Let $\bar{\lambda}_i$ be the total traffic rate to node $i$. Then,
+\eq{
+\bar{\lambda}_i = \lambda_i + \sum_{j=1}^{N} p_{ji} \bar{\lambda}_j.
+}
+There is a unique solution to this set of $N$ equations denoted by $(\overline{\lambda}_1,\overline{\lambda}_2,\dots,\overline{\lambda}_N)$. Let
+\eq{
+\rho_i = \frac{\bar{\lambda}_i}{\mu_i}.
+}
+Our claim is that if $\rho_i < 1$, for $i = 1,2,3, \dots , N$, then $\{q_t\}$ is positive recurrent and has a unique stationary distribution
+\begin{align}\label{eq:stat_dist_openjackson}
+\pi[q_t(1)=n_1, q_t(2)=n_2, \dots , q_t(N)=n_N] = \prod_{i=1}^{N} \rho^n_i (1-\rho_i)
+\end{align}
+Hence, $q_t(1), q_t(2), \dots , q_t(N)$ are also independent of each other. This MC is non-explosive and irreducible.
+If for $\pi Q = 0 $, solution exists with $\pi(i) >0$, $\sum_{i} \pi(i)= 1$, then MC is positive recurrent and $\pi$ is stationary distribuiton of MC. We can easily check that Eq. (\ref{eq:stat_dist_openjackson}) satifies $\pi Q = 0$.
+If $Q$ is time reversible,
+\eq{
+\pi(i) q_{ij} = \pi(j) q_{ji}
+}
+Generally, this MC is not time reversible. But we can reverse it,
+\eq{
+\tilde{q}_t = q_{t-T}, \quad \quad  T  \text{ is fixed}.
+}
+This corresponds to a queue length process of a Jackson metwork, with external input to queue-$i$ as Poisson with rate $\bar{\lambda}_i p_{i0}$ and service times $i.i.d.$ $exp(\mu_i)$ with routing probabilities
+\eq{
+\tilde{p}_{ij} = p_{ij} \frac{\bar{\lambda}_j}{\bar{\lambda}_i}
+}
+Therefore, the departures at each node in $\{q_t\}$ that exit the system is a Poisson process independent of departures at other nodes that exit the system. \\
+\indent Also, $q_t$ is independent of future arrivals $\implies$ $q_t$ is independent of past departures form the network.
+\section{Closed queueing networks}
+In this system, there are no arrivals from outside the network and no departures from the network.  A fixed number of $M < \infty$ customers move around in the network. The service times and rounting are same as that of Jackson network. The queue length $q_t = (q_t(1), q_t(2), \dots , q_t(N))$ is MC. It is a finite state irreducible MC with state space $S = \{(n_1,n_2,\dots,n_N): \sum_{i=n}^N n_i = M\}$. It is always stable and has a unique stationary distribution. \\
+\indent The total arriva rate at each node-$i$
+\eq{
+\bar{\lambda}_i = \sum_{j=1}^{N} p_{ij} \bar{\lambda}_j.
+}
+By solving these $N$ equations we can get a unique solution upto a constant.
+The stationary distribution is given by
+\begin{align}\label{eq:stat_dist_closed_net}
+\pi(n_1, n_2, \dots, n_N) = K \prod_{i=1}^{N} \rho_i^{n_i}, \quad \quad \text{for} \quad \sum_{i=1}^{N} n_i = M
+\end{align}
+where $\rho_i = \bar{\lambda}_i/\mu_i$ and $K$ is a normalizing connstant. It can be checked that Eq (\ref{eq:stat_dist_closed_net}) is a solution for $\pi Q = 0$.\\
+\indent This network has the \textbf{bottleneck property}
+Let $\rho_1 = \max( \rho_i)$. If $M \to \infty$, $q_t(1) \to \infty$ in distribution. For other queues
+\eq{
+\pi (q_t(2)=n_2, \dots , q_t(N)=n_N) = \prod_{i=2}^{N} \rho^n_i (1-\rho_i).
+}
+\end{document}
