@@ -5,121 +5,135 @@
 %\input{header}
 %\title{Lecture 01: Poisson Processes}
 %\author{}
-\setcounter{chapter}{4}
+\setcounter{chapter}{5}
 
 \begin{document}
 %\maketitle
 
-%\chapter{Continuous-Time Markov Chains}
-\setcounter{section}{2}
+\chapter{Continuous-Time Markov Chains}
+\setcounter{section}{1}
 \setcounter{subsection}{0}
 
 \section*{\centering{Lecture 14 \linebreak }}
-
-\section{Chapman Kolmogorov equations}
-We define the \textit{generator matrix} $Q$ for MC $\{X_t\}$ as $Q_{ii} = - \lambda_i$ and $Q_{ij} = \lambda_i P_{ij}$ for $j \neq i$. 
-Also, the fact that MC stays in state $i$ with $\exp(\lambda_i)$, implies that
+\subsection{Introduction}
+Consider a continuous-time stochastic process $\{X(t),t\ge0\}$ taking values in a countable (can be finite) set $S$.
+A process $\{X(t),t\ge0\}$ is a \textit{Continuous-Time Markov Chain} (CTMC) if for all $s,t \ge 0$, and $i,j,x(u) \in S, 0\le u\le s$,
 \eq{
-\frac{1-P_{ii}(t)}{t} \to \lambda_i \quad \text{as}  \quad t \to 0,
+\P\{X(t+s)=j| X(s)=i, X(u)=x(u),0 \le u<s\} = \P\{X(t+s)=j|X(s)=i\}.
 }
-and then,
+%In other words, a continuous-time Markov chain is a stochastic process having the Markovian property that the conditional distribution of the state at time $t+s$, given the present state $s$ and all past states depends only on the present state and is independent of the past. 
+If in addition,
 \eq{
-\lim_{t \downarrow 0} \frac{P_{ij}(t)}{t} = \lim_{t \downarrow 0}  \frac{1-P_{ii}(t)}{t} P_{ij} = Q_{i,j} \quad \text{for all} \quad i \neq j.
+P\{X(t+s)=j| X(s)=i\}  \triangleq P_t(i,j)
 }
-\begin{thm}[Backward equation] For a homogeneous CTMC with transition matrix $P(t)$ and generator matrix $Q$, for the minimal construction,
-	\begin{align*}
-		%P'_{ij}(t)= \sum_{k \neq i}q_{ik}P_{kj}(t)-\nu_iP_{ij}(t) ,  i,j \in I
-		\frac{dP(t)}{dt}=QP(t), ~~t \geqslant 0.
-	\end{align*}
-\end{thm}
-\begin{proof} 
-	Using semigroup property of transition probability matrix $P(t)$ for a homogeneous CTMC,  
-	%we have
-	%\begin{align*}
-	%P_{ij}(t+h)=\sum_{k \in I}P_{ik}(h)P_{kj}(t),~~i,j \in I.
-	%\end{align*}
-	%Re-arranging terms, 
-	we can write
-	\begin{align*}
-		%P_{ij}(t+h)-P_{ij}(t)=\sum_{k \neq i}P_{ik}(h)P_{kj}(t)-(1-P_{ii}(h))P_{ij}(t).
-		\frac{P(t+h) - P(t)}{h} &= \frac{(P(h)- I)}{h}P(t). % = P(t)\frac{(P(h) - I)}{h}.
-	\end{align*}
-	%Dividing above equation by $h$,  and 
-	Taking limits $h \downarrow 0$ and exchanging limits and summation, justified below, on the RHS we get 
-	\begin{align*}
-		\frac{dP_{ij}(t)}{dt} = \sum_{k \neq i}Q_{ik}P_{kj}(t)-\lambda_iP_{ij}(t). 
-	\end{align*}
-	
-	
-	Now we justify the exchange of limit and summation. For any finite subset $F \subset S$, we have
-	\begin{align*}
-		\liminf_{h \downarrow 0} \sum_{k \neq i}\frac{P_{ik}(h)}{h}P_{kj}(t) \geq \sum_{k \in F\setminus \{i\} }\liminf_{h \downarrow 0}\frac{P_{ik}(h)}{h}P_{kj}(t) = \sum_{k \in F\setminus \{i\}}Q_{ik}P_{kj}(t).
-	\end{align*}
-	Since, above is true for any finite set $F \subset E$, taking supremum over increasing sets $F$, we get the lower bound.
-	%\begin{align*}
-	%\liminf_{h \downarrow 0} \sum_{k \neq 1}\frac{P_{ik}(h)}{h}P_{kj}(t) \geq \sum_{k \neq i}Q_{jk}P_{kj}(t).
-	%\end{align*}
-	%%Suffices to show that $\limsup_{h \rightarrow 0} \sum_{k \neq 1}\frac{P_{ik}(h)}{h}P_{kj}(t) \leq \sum_{k \neq 1}q_{jk}P_{kj}(t)$. 
-	For the upper bound, we observe for any finite subset $F \subseteq E$
-	\begin{align*}
-		\limsup_{h \downarrow 0}\sum_{k \neq i}\frac{P_{ik}(h)}{h}P_{kj}(t) &\leq \limsup_{h \downarrow 0}\left(\sum_{k \in F\setminus \{i\}}\frac{P_{ik}(h)}{h}P_{kj}(t)+\sum_{k \notin F\setminus\{i\} }\frac{P_{ik}(h)}{h}\right)\\
-		& = \limsup_{h \downarrow 0}\left(\sum_{k \in F\setminus \{i\}}\frac{P_{ik}(h)}{h}P_{kj}(t)+\frac{1-P_{ii}(h)}{h} -\sum_{k \in F\setminus \{i\}}\frac{P_{ik}(h)}{h} \right)\\
-		&= \sum_{k \in F\setminus \{i\}}Q_{ik}P_{kj}(t)+ \left(\lambda_i- \sum_{k \in F\setminus \{i\}}Q_{ik}\right). %&=\sum_{k \neq 1}q_{ik}P_{kj}(t). 
-	\end{align*}
-Now take $F \nearrow S$, then the term $\left(\lambda_i- \sum_{k \in F\setminus \{i\}}Q_{ik}\right)$ goes to zero.
-	
-\end{proof}
+is independent of $s$, then the continuous-time Markov chain is said to have stationary transition probabilities. 
+All the Markov chains we consider will be assumed to have stationary transition probabilities.
 
-\begin{thm}[Forward equation] 
-	%Under suitable regularity conditions, 
-	For a homogeneous CTMC with transition matrix $P(t)$ and generator matrix $Q$, we have for the minimal construction,
-	\eq{
-		\frac{dP(t)}{dt} &=P(t)Q.
-	}
-	%$P'_{ij}(t)=\sum_{k \neq i}P_{ik}(t)q_{kj}-P_{ij}(t)\nu_i$, i.e. $\frac{dP(t)}{dt}=P(t)Q$.
-\end{thm}
-\begin{proof}
-	Using semigroup property of transition probability matrix $P(t)$ for a homogeneous CTMC,  
-	we can write
-	\begin{align*}
-		\frac{P(t+h) - P(t)}{h} &= P(t)\frac{(P(h) - I)}{h}.
-	\end{align*}
-	Taking limits $h \downarrow 0$, if we can justify the interchange of limit and summation on RHS, 
-	\begin{align*}
-		\frac{dP_{ij}(t)}{dt} = \sum_{k \neq j}P_{ik}(t)Q_{kj}-\lambda_jP_{ij}(t). 
-	\end{align*}
- 
-\end{proof}
+Further, we will restrict to pure jump processes: the sample paths of the process are piecewise constant, right continuous. We will see that such versions of the processes can usually be constructed.
 
-\begin{cor}
-	For a homogeneous CTMC with finite state space $E$, the transition matrix $P(t)$ and generator matrix $Q$, we have
-	\eq{
-		P(t) &= e^{tQ} = I + \sum_{n \in \N}\frac{t^nQ^n}{n!},~t\geqslant 0.
-	}
-\end{cor}
+By Markov property, for a pure jump process the sojourn time $T_i$ in state $i$ satisfies,
+\eq{
+P\{T_i>s+t | T_i>s\} = P\{T_i>t\}
+}
+for all $s,t \ge 0$.Hence, the random variable $T_i$ is memoryless and must thus be exponentially distributed, say with parameter $\lambda_i$.
+If $\lambda_i = 0$ then
+\eq{
+P[T_i \ge t] = e^{\lambda_i t} = 1
+}
+for all $t$ and the state $i$ is called \textit{absorbing}.
+If $\lambda_i = \infty$ then
+\eq{
+	P[T_i \ge t] = 0
+}
+for all $t$ and the state $i$ is called \textit{instataneous}. We will assume $\lambda_i < \infty$ for all states $i$. For a pure jump process this will hold.
 
-%\begin{cor}
-%	%For an irreducible and aperiodic 
-%	For a homogeneous CTMC with finite state space $E$, the transition matrix $P(t)$ and generator matrix $Q$, the stationary distribution $\pi$ satisfies
-%	\begin{xalignat*}{3}
-%		&\pi Q = 0, &&\pi_i > 0, &&\sum_{i \in E}\pi_i = 1.
-%	\end{xalignat*}
-%\end{cor}
-%\begin{proof}
-%	We can define probability of being in state $j \in E$ at time $t$ by
-%	\eq{
-%		\pi_j(t) &= \Pr\{X(t) = j\}.% = \sum_{i \in E}\pi_i(0)P_{ij}(t).
-%	}
-%%	By Markov property, we have $\pi(t) = \{\pi_j(t): j \in E\}$ by
-%Then
-%	\eq{
-%		\pi(t) &= \pi(0)P(t).
-%	}
-%	For a stationary distribution, we have $\pi = \pi P(t)$ and taking derivatives on both sides, we get
+For a Markov jump process,
+\begin{itemize}
+\item the amount of time it spends in a state $i$ before making a transition into a different
+state is exponentially distributed with mean, say, $\frac{1}{\lambda_i}$, and
+\item when the process leaves state $i$, it next enters state $j$ with probability $P_{ij}$.
+\\$P_{ij}$ satisfies, for $i$ not an absorbing state,
+\eq{
+P_{ii} = 0, \quad \sum_j P_{ij} = 1, \quad  \forall i,
+}
+\end{itemize}
+and if $i$ is an absorbing state, $P_{ii}=1$.
+
+In other words, a Continuous-Time Markov Chain (CTMC) is a stochastic process that
+moves from state to state in accordance with a (discrete-time) Markov chain, but is such that the amount of time it spends in each state, before proceeding to
+the next state, is exponentially distributed. 
+The amount of time the process spends in a state $i$, and the next state visited, are independent random variables.
+
+\subsection{Strong Markov property, Minimal construction}
+
+%A random variable $\tau$ is a \textbf{stopping time} if for each $t \in \R_+$, 
 %\eq{
-%0 = \pi \frac{dP_t}{dt} = \pi Q P_t.
+%	\{\tau \leq t\} \in \F_t.
 %}
-%
-%Take $t = 0$, then $P_0 = I$ and we get the result.
-%\end{proof}
+A random variable $\tau$ is a stopping time with minimal construction if the event $\{\tau \leq t\}$ can be determined completely by the collection $\{X(u): u \leqslant t\}$. 
+A stochastic process $X$ has \textbf{strong Markov property} if for any almost surely finite stopping time $\tau$, 
+\eq{
+	P\{X(\tau+s) = j|X(u), u \leq \tau, X(\tau) = i\} &= P\{X(\tau+s) = j|X(\tau) = i\} = P_s(i,j).
+}
+\begin{lem}
+	\label{Lemma:StrongMarkovProperty}
+	A continuous time jump Markov chain $X$ has the strong Markov property. 
+\end{lem}
+\begin{proof}
+
+	Let $\tau$ be an almost surely finite stopping time with conditional distribution $F$ on the collection of events $\{X(u): u \leq s\}$. 
+	Then, 
+	\eq{
+		\Pr\{X(\tau+s) =j |X(u), u \leq \tau, X_\tau = i\} &= \int_{0}^{\infty}dF(t)\Pr\{X(t+s) = j| X(u), u \leq t, \tau = t, X_\tau = i\}\\
+		&= P_t(i,j)
+	}
+\end{proof}
+
+We give a \textit{minimal construction} of a CTMC with given $\lambda_i, s$ and $P_{ij,s}$.
+Construct a DTMC $Y_0, Y_1, \dots, $ with parameterse $P_{i,j}$ and construct exponential random variables $T_1, T_2, \dots$ independent of each other, where $T_n \sim exp(\lambda(Y_n))$.
+
+Let $S_n = \sum_{k=1}^{n} T_k$ and $S_0 = 0$.
+
+Define $X_t = Y_j$ if $S_j \le t < S_{j+1}$.
+If $\omega(\Delta) \triangleq \sup_n S_n < \infty$, then $X_t = \Delta$ for $t \ge \omega(\Delta)$,
+where $\Delta$ is an element which is not in the state space $S$.  
+On the extended state space $S \cup \{\Delta\}$ we define $P_t(\Delta, \Delta) =1$ for all $t>0$ and $P(\Delta, \Delta) =1$.
+There are other possibilies to define the MC after $\omega(\Delta)$ but the above construction makes $P_t(i,j)$, $i,j \in S$ minimal. When  $\omega(\Delta) < \infty$ , we say the MC has \textit{explosion}.
+
+One can show that for any initial condition $i$,
+\eq{
+\R(\omega) =  \{\omega:\omega(\Delta) < \infty \} = \{ \omega:\sum_{k=0}^{\infty} \frac{1}{\lambda(Y_k(\omega))} < \infty\} \quad a.s
+}
+Easier to verify the conditions for non explosion of the MC are the following.
+
+\begin{lem}
+Any of the following conditions are sufficient for $P\{\omega:\omega(\Delta) < \infty \} = 0$:
+\begin{enumerate}
+	\item $\sup_i \lambda(i) < \infty$,
+	\item $S$ is finite,
+	\item $\{Y_n\}$ is recurrent.
+\end{enumerate}
+\end{lem}
+\begin{proof}
+	
+\quad \quad  If $\omega(\Delta) < \infty$, then $\frac{1}{\lambda(Y_k(\omega))} \to 0$ as $k \to \infty$.
+
+\quad \quad  If $(1)$ is true, $\lambda(Y_k(\omega)) \le \bar{\lambda}$.
+therefore, $\lambda(Y_k(\omega)) \to \infty$ is not possible.
+
+\quad \quad  If $(2)$ is true, since $\lambda(i) < \infty$ $\forall i$, \quad $\sup_i \lambda(i) < \infty$.
+
+\quad \quad   If $(3)$ is true $Y_k(\omega) = i$ for an infinite number of $k$ $w.p. 1$.
+%In $\lambda(Y_k(\omega))$, $\lambda(i)$ will occur infinitely often $w.p. 1$.
+Therefore,
+\eq{
+\lambda(Y_k(\omega)) \centernot{\to} \infty, \quad a.s.,
+}
+\eq{
+	P[\lambda(Y_k(\omega)) \to \infty] = 0.
+}
+\end{proof}
+
+
 \end{document}
+

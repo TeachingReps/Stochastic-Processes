@@ -6,8 +6,7 @@
 %\title{Lecture 01: Poisson Processes}
 %\author{}
 \setcounter{chapter}{2}
-\usepackage{amssymb}
-\newcommand*{\QEDB}{\hfill\ensuremath{\square}}%
+\usepackage{enumitem}
 \begin{document}
 %\maketitle
 
@@ -16,126 +15,6 @@
 \setcounter{subsection}{0}
 
 \section*{\centering{Lecture 8 \linebreak }}
-\subsection{Regenerative Processes}
-Let $\{X_t\}$ be a stochastic process and $Y_0,Y_1,Y_2,\dots$ be i.i.d with distribution $F$. Let $S_n = \sum_{k=0}^n Y_k$.
-\begin{defn}
-The process $\{X_t\}$ is \textit{regenerative }if there exists $Y_0,Y_1,\dots$ i.i.d such that the process $Z_{n+1} = \{X_{S_n +t}, t\geq 0\}$ is independent of $Y_0,Y_1,Y_2,\dots,Y_n$ and the distribution of $Z_{n+1}$ does not depend on $n$. $\{X\}$ is a delayed regenerative process if distribution of $Y_0$ is different from $Y_1$.
-\end{defn}
-
-
-\indent \textbf{Examples:} 
-\begin{enumerate}
-\item The process $\{B_t\}$ corresponding to residual life in a renewal process is regenerative if we take $Y_k = X_k$ where $X_k$ is the $k^{th}$ inter-arrival time.
-\item In a Markov chain the time instants when the Markov chain visits a particular state, say $i_0$, the process regenerates itself. 
-\item Consider a GI/GI/1 queue. The process $\{q_t\}$, the queue length at time $t$ is a continuous time regenerative process which regenerates when an arrival sees empty queue. The process $\{W_n\}$, the waiting time of the $n^{th}$ customer is a discrete time regenerative process with the above arrival epochs. 
-\end{enumerate} 
-\begin{thm}
-Let $\{X_t,t\geq 0\}$ be a delayed regenerative process with $\mu = \E[Y_1] < \infty$ and $F$ is non-lattice. Let $f$ be a bounded,  continuous function a.s. Then,
-\begin{align*}
-\lim_{t\to \infty} \E[f(X_t)] = \E_e[f(X_t)] = \frac{1}{\mu} \E_0\left[ \int_0^{Y_1} f(X_s) ds\right]
-\end{align*}
-where $\E_e$ is the expectation w.r.t. equilibrium or stationary distribution and $\E_0$ is the expectation w.r.t the process when $S_0 = 0$.
-\begin{proof} We show for $S_0 = 0$. Then, 
-\begin{align*}
-\E[f(X_t)] &= \E[f(X_t), Y_1 > t] + \int_0^t \E[f(X_t)| Y_1 = s] dF(s) \\
-&= \E[f(X_t), Y_1 > t] + \int_0^t \E[f(X_{t-s})] dF(s)\\
-&= \E[f(X_t), Y_1 > t] + \E[f(X)]*F(t)
-\end{align*}
-This is a renewal equation. Since $f$ is bounded and $X_t$ is right continuous, it follows that $\E[f(X_t), Y_1 > t]$ is d.r.i. Therefore,
-\begin{align*}
-\lim_{t\to \infty} \E[f(X_t)] &= \frac{1}{\mu} \int_0^\infty \E_0[f(X_s), Y_1 >  s] dt\\
-&= \frac{1}{\mu} \E_0\left[ \int_0^\infty f(X_s)1\{ Y_1 >  s\} ds\right]\\
-&= \frac{1}{\mu} \E_0\left[ \int_0^{Y_1} f(X_s) ds\right] \qedhere
-\end{align*}
-The following theorem for lattice $F$ can be proved in the same way.
-\newpage
-\end{proof}
-\end{thm}
-\begin{thm}\ 
-\begin{enumerate}
-\item For discrete time regenerative processes $\{X_n\}$ and $F$ is aperiodic,
-\begin{align*}
-\lim_{n\to \infty} \E[f(X_n)] = \E_e[f(X_n)] = \frac{1}{\mu} \E_0\left[ \sum_{k=1}^{Y_1} f(X_k) \right].
-\end{align*}
-\item For discrete time regenerative processes $\{X_n\}$ and $F$ has period $d$,
-\begin{align*}
-\lim_{n\to \infty} \frac{1}{d} \sum_{k=0}^{d-1} \E[f(X_{n+k})] = \E_e[f(X_n)] = \frac{1}{\mu} \E_0\left[ \sum_{k=1}^{Y_1} f(X_k) \right]. 
-\end{align*}
-\end{enumerate}
-\QEDB
-\end{thm}
-
-%\begin{thm}
-%If $\mu<\infty$, then $\{X_t\}$ has a stationary distribution. Let $X_e$ be the equilibrium distribution. Then, 
-%\begin{enumerate}
-%\item if $F$ is non-lattice,
-%\begin{align*}
-%X_t \rightarrow X_e \text{ in distribution as $t \to \infty$.}
-%\end{align*}
-%\item if $F$  is lattice and aperiodic,
-%\begin{align*}
-%X_n \rightarrow X_e \text{ in distribution as $n \to \infty$.}
-%\end{align*}
-%\item if $F$  is lattice and has period $d$,
-%\begin{align*}
-%\frac{1}{d} \sum_{k=0}^{d-1} X_{n+k} \rightarrow X_e \text{ in distribution as $n \to \infty$.}
-%\end{align*}
-%\end{enumerate}
-%\end{thm}
-
-
-Taking $f(X_t) = 1\{X_t \leq x\}$, for the non-lattice case we have 
-\begin{align*}
-\lim_{t\to \infty} \P\{X_t \leq x\} = \frac{\E\left[ \int_0^{Y_1} 1\{X_t \leq x\}\right]}{\E[Y_1]}.
-\end{align*}
-Similar results hold for the lattice case. \\
-\indent \textbf{Example} ($GI/GI/1$ queue): If regenerative lengths $\tau$ of $\{W_n\}$ in $GI/GI/1$ queue satisfies $E[\tau] < \infty$ and it is aperiodic, then $W_n$ has unique stationary distribution and $W_n \to W_\infty$ where $W_\infty$ is a r.v. with the stationary distribution. We can show that if $\E[A] < \E[s]$, then the above conditions are satisfied. Also, if the queue starts empty with an arrival, then, if $\overline{\tau}$ is the regeneration length of $\{q_t\}$, then $\overline{\tau} = \sum_0^{\tau} A_k$. Since, $\tau$ is a stopping time w.r.t $\{ A_n, s_n\}$ sequence, by Wald's lemma, $\E[\overline{\tau}]=\E[A_1]\E[\tau] < \infty$ whenever $\E[\tau] < \infty$. Thus when $\E[A_1]<\E[s_1]$, $\{q_t\}$ also has a unique stationary distribution and starting from any initial distribution,  it converges in distribution to the limiting distribution.
-\begin{thm}[Strong law for regenerative processes] \
-\begin{itemize}
-\item If $F$ is non-lattice (with arbitrary distribution of $Y_0$) and $\E[\int_{Y_1}^{Y_2}|H(X_t)|dt] <\infty$,
-\begin{align*}
-\lim_{t \to \infty} \frac{1}{t} \int_0^t f(X_s)ds = \E[X_e] \text{ a.s.}
-\end{align*}
-\item If $F$ is lattice, with similar conditions,
-\begin{align*}
-\lim_{n \to \infty} \frac{1}{n} \sum_{k=0}^{n-1} f(X_k) = \E[X_e] \text{ a.s.}
-\end{align*}
-\end{itemize}
-\begin{proof}
-We show only for the non-lattice case. The proof for other cases is similar. 
-\begin{align*}
-\frac{1}{t} \int_0^t f(X_s)ds &= \frac{1}{t} \int_0^{S_1} f(X_s)ds + \frac{1}{t} \int_{S_1}^{S_2} f(X_s)ds + \dots + \frac{1}{t} \int_{S_{N-t -1}}^{S_{N_t}} f(X_s)ds + \frac{1}{t} \int_{S_{N_t}}^t f(X_s)ds \\
-&= \frac{1}{t} (U_0+U_1+ U_2+ \dots +U_{N_t} + \Delta).
-\end{align*}
-where $U_1,U_2,\dots$ are i.i.d. with $U_i = \int_{s_i}^{s_i + 1} f(X_s)ds$, $\Delta = \int_{s_{N_t}}^{t} f(X_s)$and $U_0 < \infty$ a.s. We have, 
-\begin{align*}
-\lim_{t \to \infty} \frac{1}{t} (U_1+ U_2+ \dots +U_{N_t} ) &= \lim_{t \to \infty} \frac{1}{N_t} (U_1+ U_2+ \dots +U_{N_t} ) \frac{N_t}{t} \\
-&= \frac{\E[U_1] }{\E[Y_1]} \text{ a.s.}
-\end{align*}
-by ordinary S.L.L.N. and elementary renewal theorem.  \\
-\indent To complete the proof, we need to show that $\lim_{t \to \infty} \Delta/t \to 0$ a.s. as $t \to \infty$. We have, 
-\begin{align*}
-\frac{\Delta}{t} \leq \frac{1}{t} \int_{S_{N_t}}^t |f(X_s)| ds \leq \frac{1}{t}\int_{S_{N_t}}^{S_{N_t +1}} \abs{f(X_s)} ds.
-\end{align*}
-Let 
-\begin{align*}
-V_k = \int_{S_k}^{S_{k +1}} \abs{f(X_s)} ds.
-\end{align*}
-We have
-\begin{align*}
-\frac{V_{{N_t +1}}}{t} = \frac{V_{{N_t +1}}}{N_t+1} \frac{N_t+1}{t}.
-\end{align*}
-Now, $(N_t/t) \to 1/\E[Y_1]$ a.s.  We need to show that $\lim_{t \to \infty} V_{N_t}/N_t = 0$. This will be true if $V_n/n \to 0$ a.s. as $n\to \infty$. But, 
-\begin{align*}
-\P\left\{ \cup_{n=N}^\infty \left\{\frac{V_n}{n} > \epsilon\right\}\right\} &\leq \sum_{n=N}^\infty \P\left\{\frac{V_1}{\epsilon} > n\right\} \to 0\\
-\end{align*}
-if 
-\begin{align*}
-\sum_{n=0}^\infty \P \left\{\frac{V_1}{\epsilon} > n \right\} < \infty.
-\end{align*}
-This holds when $\E[V_1] < \infty$.
-
-\end{proof}
-\end{thm}
+Missing lecture:
 \end{document}
 

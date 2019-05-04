@@ -11,194 +11,176 @@
 %\maketitle
 
 %\chapter{Martingales}
-\setcounter{section}{4}
+\setcounter{section}{3}
 \setcounter{subsection}{1}
 
 \section*{\centering{Lecture 20 \linebreak }}
-[Martingale Convergence Theorem]
-\begin{exmp}
-Let $Z$ be a random variable with  $\E[|Z|] < \infty$, and  $\{Y_n\}$ a sequence of random variables. Define
-$X_0=1$, $X_n = \E[Z|Y_0, Y_1, \dots, Y_n]$, Then $\E[X_{n+1}|Y_0, Y_1, \dots, Y_n] = \E[Z|Y_0, Y_1, \dots, Y_n] = X_n$. Also,
+
+\section{McDiarmid's Inequality:Applications} 
+\begin{exmp}[Machine learning:Classification problem]
+Let the training samples $(X_1, Y_1), \dots, (X_n,Y_n)$ be iid. $X_i \in \R^d$, $Y_i \in \{1, 2, \dots, N\}$.
+$h$  is the classifier, $h(x) \to \{1, 2, \dots, N\}$. 
+$1_{\{h(X_i) \neq Y_i\}}$ denotes the error.\\
+The probability of error for a given classifier is given by
 \eq{
-\E[|X_n|] &= \E[|\E[Z|Y_0, Y_1, \dots, Y_n]|]\\
-&\le \E[\E[|Z||Y_0, Y_1, \dots, Y_n]]\\
-&= \E[|Z|]\\
-&< \infty \quad \quad \text{for all} \quad n \ge 1.
+R(h) = P[h(X) \neq Y]
 }
-Hence $\{X_n\}$ is a martingale $w.r.t.$ $\{Y_n\}$ (called \textit{Doob's Martingale}).
-Also, $X_n \to X_\infty = \E[Z|Y_0, Y_1, \dots]$.
+and its estimate from the training sample is 
+\eq{
+\hat{R}_n(h) = \frac{1}{n} \sum_{i=1}^{n} 1_{\{h(X_i) \neq Y_i\}}.
+}
+Define
+\eq{
+f((x_1,y_1), \dots, (x_n, y_n)) = \frac{1}{n} \sum_{i=1}^{n} 1_{\{h(x_i) \neq y_i\}}.
+}
+Removing $i$th component and replacing with another,
+\eq{
+|f((x_1,y_1), \dots, (x_i,y_i), \dots, (x_n, y_n)) - f((x_1,y_1), \dots, (x'_i,y'_i), \dots, (x_n, y_n))|  \le \frac{1}{n}.
+}
+Then by McDiarmid's Inequality,
+\eq{
+P[|\hat{R}_n(h) - E[\hat{R}_n(h]| \ge \lambda] \le 2 exp{\left(\frac{-2\lambda^2}{n\frac{1}{n^2}}\right)} =  2 exp{\left(-2\lambda^2n\right)},
+}
+where $\E[\hat{R}_n(h)] = R(h)$.
 \end{exmp}
 
 \begin{exmp}
-Let $\{X_n\}$ be a MC with transition matrix $P$.
-If $h$ is a function such that 
-\eq{
-h(i) = \sum_{j \in S} p_{ij}h(j) = \E[h(X_1)|X_0=i].
+If $X_1, X_2, \dots, X_n \sim P$. We want an estimate of $P$.
+ We estimate $P$ by 
+ \eq{
+\hat{P}_n(A) = \frac{1}{n} \sum_{i=1}^{n} 1_{\{X_i \in A\}},
 }
-
-Define $Y_n = h(X_n)$. Then,
+Since,
 \eq{
-\E[Y_{n+1} |X_0, X_1, \dots, X_n] &= \E[h(X_{n+1})|X_0, X_1, \dots, X_n]\\
-&= \E[h(X_{n+1})|X_n]\\
-&= h(X_n) = Y_n.
+\E[\hat{P}_n(A)] = P(A),
 }
-Therefore $\{Y_n\}$ is a martingale $w.r.t.$ $\{X_n\}$ .
-If the equality is replaced with $\le$ then it is submartingale.
+it is an unbiased estimate. Define
+\eq{
+f(x_1, x_2, \dots, x_n) = \frac{1}{n} \sum_{i=1}^{n} 1_{\{X_i \in A\}}.
+}
+Since $|f(x_1, x_2, \dots, x_n) - f(x_1, \dots,y_i, x_{i+1}, \dots, x_n)| \le  \frac{1}{n}$,
+by  McDiarmid's Inequality,
+\eq{
+P[|f(x_1, x_2, \dots, x_n) - E[f]| \ge \epsilon] &= P[|\hat{P}_n(A)-P(A)| \ge \epsilon] \\
+&\le 2 exp\left(-2 \epsilon^2 n\right).
+}
 \end{exmp}
 
-Suppose $h$ is bounded. Since $Y_n = h(X_n)$ is a submartingale, $Y_n \to Y_\infty$ $a.s.$ and $\E[Y_\infty] < \infty$.
-Assume, $\{X_n\}$ is irreducible and recurrent.
-Consider $i, j \in S$, $i\neq j$. 
-State-$i$ occurs infinitely often $w.p.$1 and state-$j$ also occurs infinitely often $w.p.$1.
-Thus, 
-$Y_n = h(X_n) = h(i)$ and $h(j)$ infinitely often with $w.p.$1.
-Therefore, for $Y_n$ to converge $a.s.$,
+\section*{Hoffding's inequality}
+Let $X_1, X_2, \dots, X_n$ $i.i.d.$, $a \le |X_i| \le b$ $a.s.$, and $S_0 = X_1 + X_2 + \dots + X_n$, $\mu = \E[X_1]$.\\
+Define
 \eq{
-h(i) = h(j), \quad \forall i,j \in S.
+f(x_1, x_2, \dots, x_n) = X_1 + X_2 + \dots +X_n.
+}
+Since,
+\eq{
+|f(x_1, x_2, \dots, x_n)-  f(x_1, \dots,y_i, \dots, x_n)| = |x_i - y_i| \le |b-a|,
+}
+by McDiarmid's Inequality,
+\eq{
+P[|S_n - n \mu| \ge \epsilon] \le  2 exp\left(-2  \frac{\epsilon^2 n}{n (b-a)^2}\right)
+}
+\eq{
+P[|S_n - n \mu| \ge \frac{\epsilon}{n}]  = P[|S_n - n \mu| \ge \delta] \le  2 exp\left(-2  \frac{\delta^2 n}{ (b-a)^2}\right).
 }
 
-\section{Applications to Markov chain}
-In this section we use martingale convergence theorems to get conditions for recurrence and transience of Markov chains.
-\begin{thm}
-Let $\{X_n\}$ be an irreducible, MC with state space $S$ and transition matrix $P$.
-It is transient if and only iff $\exists$ a state-$i$ and $h:S \setminus \{i\} \to \R$, $h$ is bounded, non-zero and satisfies 
+\section{Martingale Convergence Theorem}
+
+Let $\{X_n\}$ be a submartingale and $\alpha < \beta$. 
+Let $U_n$ denotes the number of times $X_k$ goes from below $\alpha$ to above $\beta$ in time $n$. We will need the following equality.
+
+\begin{lem}[Upcrossing inequality]
 \eq{
-h(j) = \sum_{k \neq i} p_{jk}(h(k)) \quad \quad \forall j \neq i.
+E[U_n] \le \frac{\E[|X_n|]+ \alpha}{\beta - \alpha}.
 }
-\end{thm}
+\end{lem}
+
 \begin{proof}
-Suppose $\{X_n\}$ is transient. 
-Fix a state $i$. 
-Let $T(i)$ be the first time chain enters state $i$.
-Define $h(j) = P_j[T(i) = \infty]$. 
-It is  bounded.
-Since  $\{X_n\}$ is transient, $P_j[T(i) = \infty] > 0$.
-Also, 
+Let $Y_n = \max(0, X_n - \alpha)$. $Y_n$ is also a submartingale.\\
+Let $U_n$ be the number of times $Y_n$ goes from 0 to above $\beta-\alpha$. 
+This number is same as of $\{X_n\}$ upcrossing from $\alpha$ to $\beta$.
+Let $T_1$ be the first time when $Y_k = 0$, $T_2$ = $\min \{k > T_1$ such that $Y_k \ge \beta - \alpha\}$. Similary, define $T_k$ as the sequence of stopping times upto time $n$, with $T_n$  the maximum possible.
 \eq{
-P_j[T(i) = \infty] = \sum_{k \neq i} P_{jk} P_k[T(i)=\infty].
+\E[Y_n] = \E[Y_{T_n}] &= \E[\sum_{k=0}^{n} (Y_{T_k}-Y_{T_{k-1}})] \\
+&= \sum_{k:even} \E[Y_{T_k}-Y_{T_{k-1}}] + \sum_{k:odd} \E[Y_{T_k}-Y_{T_{k-1}}].
 }
-
-Now we assume that such an $h$ exists and we show that MC is transient.\\
-Define, $\tilde{h}$ on $S$ such that $\tilde{h}(j) = h(j)$ \quad $\forall$ $j \neq i$, $\tilde{h}(i)=0$.
-Thus,
-when $j \neq i$,
-\eq{
-\E[\tilde{h}(X_1)|X_0 = j] = \sum_k P_{jk} \tilde{h}(k) = \sum_{k \neq i} P_{jk} h(k) = h(j) = \tilde{h}(j) = \tilde{h}(X_0).
-}
-When $j=i$,
-\eq{
-\E[\tilde{h}(X_1)|X_0 = i] = \sum_{k \neq i}  P_{ik} h(k) \ge \tilde{h}(i).
-}
+All are bounded stopping times, $Y_n$ is a submartingale, $T_k < T_{k+1} < \dots \le n$.
+Also $\E[Y_{T_k}] \ge \E[Y_{T_{k-1}}]$ for $k$ odd and $\E[Y_{T_k}-Y_{T_{k-1}}] \ge \beta-\alpha$ for $k$ even.
 Therefore,
 \eq{
-\E[\tilde{h}(X_1)|X_0] \ge \tilde{h}(X_0).
+\E[Y_n] \ge \E[U_n] (\beta -\alpha).
 }
-Thus from the previous example, $\tilde{h}(X_n) = Y_n$ is a submartingale and it is bounded.
-Hence, it converges  to $Y_\infty$ $a.s.$.
-
-If $\{X_n\}$ is recurrent then  as shown above, $\tilde{h}$ is a constant. But $\tilde{h}(i) = 0$ and $\tilde{h}$ is non-zero. Therefore it cannot be recurrent.
+Hence,
+\eq{
+\E[U_n] \le \frac{\E[Y_n]}{(\beta -\alpha)} &= \frac{\E[\max(0,X_n-\alpha)]}{(\beta -\alpha)}\\
+&\le \frac{\E[|X_n-\alpha|]}{(\beta -\alpha)}\\
+&\le \frac{\E[|X_n|]+\alpha}{(\beta -\alpha)}.
+}
 \end{proof}
 \begin{thm}
-Let  $\{X_n\}$ be irreducible. If $\exists$ $h:S \to \R$ such that $h(i) \to \infty$ as $i \to \infty$ and there is a finite set $E_0 \subset S$ such that $\E[h(X_i)|X_0=i] \le h(i)$, $\forall i \notin E_0$, then $\{X_n\}$ is recurrent.
+$\{X_n\}$ submartingale and $\sup_k \E[|X_k|] \le M < \infty$.
+Then $X_n \to X$ almost surely and $E[|X|] < \infty$.
 \end{thm}
 \begin{proof}
-We can if needed add a constant to make $h \ge 0$. 
-Let $T$ be entrance time to set $\E_0$.
-$X_0=i$, \quad $i \notin E_0$. $Y_n = h(X_n) 1_{\{T>n\}}$, $\F_n = \{X_0, X_1, \dots, X_n\}$.
+Take $\alpha < \beta$. 
+Let $\liminf X_n(\omega) = X_*(\omega)$, $\limsup X_n(\omega) = X^*(\omega)$. If $X_*(\omega) < \alpha < \beta < X^*(\omega)$, then this sequence will not converge.\\
 
-Then,
+Let $U_n$ be the number of upcrossings of $\{X_n\}$ from below $\alpha$ to above $\beta$ in time $n$.
+Thus, from the above lemma,
 \eq{
-\E[Y_{n+1}|\F_n] &= \E[h(X_{n+1}) 1_{\{T>n+1\}}|\F_n]\\
-&\le  \E[h(X_{n+1}) 1_{\{T>n\}}|\F_n]\\
-&= 1_{\{T>n\}} \E[h(X_{n+1})|\F_n]\\
-&\le 1_{\{T>n\}} h(X_n)\\
-&= Y_n.
+\E[U_n] \le  \frac{\E[|X_n|]+\alpha}{(\beta -\alpha)} \le \frac{M-\alpha}{(\beta -\alpha)}.
 }
-Therefore, $Y_n$ is a nonnegative supermartingale and $Y_n \to Y_\infty$ $a.s.$ with $P[Y_\infty < \infty] = 1$.
-
-Suppose $X_n$ is transient. Then  $X_n$ will be out of any finite set $\{i:h(i) \le a\}$ after some time. Thus,
-\eq{
-h(X_n) \to  \infty \quad a.s..
-}
-But $Y_\infty < \infty$  \quad $a.s.$.
-Therefore,
-\eq{
-P_i[T < \infty] = 1, \quad \forall i \notin E_0.
-}
-Thus, finite set $E_0$ is being visited infinitely often $w.p. 1$.
-Since $E_0$ is a finite set, at least one of the states $i \in E_0$ is being visited infinitely often $w.p.1$., That state is recurrent.
-Then $\{X_n\}$ is recurrent. 
-Hence a contradiction.
-\end{proof}
-Under slightly stronger conditions, we get positive recurrence of the MC.
-
-\begin{thm}
-\label{thm1}
-Let  $\{X_n\}$  be irreducible. $h:S \to \R$ s.t. $h$ is lower bounded (make it $\ge$ 0 by adding a constant) and $E_0$ is finite such that $\E[h(X_1)|X_0=i] \le h(i) - \epsilon$ \quad $\forall i \notin E_0$,  for some $\epsilon >0$, and $\E[h(X_1)|X_0=i] < \infty$, \quad $\forall i \in E_0$. Then $\{X_n\}$ is positive recurrent.
-\end{thm}
-\begin{proof}
-Let $T$ be the entrance time to set $\E_0$, $X_0 = i$, $i \notin E_0$, $Y_n = h(X_n) 1_{\{T>n\}}$. 
-Then
-\eq{
-\E[Y_{n+1}|\F_n] &= \E[h(X_{n+1}) 1_{\{T>n+1\}}|\F_n]\\
-&\le \E[h(X_{n+1}) 1_{\{T>n\}}|\F_n]\\
-&= 1_{\{T>n\}} \E[h(X_{n+1})|\F_n]\\
-&\le 1_{\{T>n\}} [h(X_{n})-\epsilon]\\
-&= Y_n -\epsilon 1_{\{T>n\}}.
-}
-Take expectaions on both sides,
-\eq{
-\E[Y_{n+1}] &\le \E[Y_n] - \epsilon P[T>n]\\
-&\le \E[Y_{n-1}] - \epsilon P[T>n-1] -\epsilon P[T>n] \\
-\dots
-&\le \E[Y_0] - \epsilon \sum_{k=0}^{n} P[T>k].
-}
-Take $n \to \infty$,
-\eq{
-0 \le \E[Y_0] - \epsilon \sum_{k=0}^{\infty} P[T>k] = \E[Y_0] - \epsilon \E_i[T].
-}
+$U_n(\omega)$ increases as $n$ increases, and it will converge to $U(\omega) < \infty$ or reach $\infty$.
 Thus,
 \eq{
-\E_i[T] \le \frac{\E[Y_0]}{\epsilon} = \frac{h(i)}{\epsilon} < \infty, \quad \forall i \notin E_0.
+\E[U_n] \nearrow \E[U] \le \frac{M-\alpha}{(\beta -\alpha)} < \infty.
 }
-
-For $i \in E_0$, 
+Therefore, $P[U(\omega) < \infty] = 1$, and $ P[X_* < \alpha <  \beta < X^*] = 0$.
+Hence, for rational $\alpha, \beta$,
 \eq{
-\E_i[T] &= \sum_{j\in E_0} p_{ij} + \sum_{j \notin E_0} p_{ij} \E_{j}[T+1] \\
-&= 1 + \sum_{j \notin E_0} p_{ij} \E_{j}[T]\\
-&\le 1+ \sum_{j \notin E_0}\frac{1}{\epsilon} p_{ij} h(j)\\
-&\le 1+\frac{1}{\epsilon} \E_i[h(X_1)]\\
-&< \infty.
+\quad \quad P[X_* < X^*] \le P[\cup_{\alpha < \beta} \{X_* < \alpha <  \beta < X^*\}] \le \sum_{\alpha <  \beta } P[X_* < \alpha <  \beta < X^*] = 0.
 }
-
-Therefore, starting from any initial state, mean time to reach the finite set $E_0$ is finite.
-We can show that this implies that $\{X_n\}$ is positive recurrent.
+This implies
+$X_n \to X$ \quad $a.s.$. Also,
+\eq{
+M \ge \liminf \E[|X_n|] \ge \E[|X|], \enskip \text{by Fatou's lemma}.
+}
 \end{proof}
-
-\begin{thm}
-$\{X_n\}$ is irreducible, $\exists$ a bounded function $h:S \to \R$ and a finite set $\E_0 \subset S$ $s.t.$  
+If $X_n$ is a martingale, then $\{|X_n|\}$ is also a submartingale and $\E[|X_n|] = \E[\E[|X_n||\F_{n-1}]] \ge \E[|X_{n-1}|]$.
+Therefore,
 \eq{
-\E[h(X_1)|X_0=i] \ge h(i), \quad i \notin E_0
+\sup_k \E[|X_k|] = \lim_{n \to \infty} \E[|X_n|].
+}\\
+\begin{lem}
+If $\{X_k\}$ is submartingale. then for $X^+_k = \max(0, X_k)$,
+\end{lem}
+\eq{
+\sup_k \E[|X_k|] < \infty \iff \sup_k \E[X^+_k] < \infty.
 }
-and $h(i) > h(j)$ for some $i \notin E_0$ and all $j \in E_0$. Then $\{X_n\}$ is transient.
-\end{thm}
 \begin{proof}
-Take $Y_n = h(X_{n \wedge T})$, $T$ the entrance time to $E_0$, $X_0 = i \notin E_0$.We can show that $Y_n$ is a submartingale.\\
-Since $h$ is bounded, $Y_n \to Y_\infty$ \quad $a.s.$. Also,
+$[\Rightarrow]$
+$X^+_k \le |X_k|$, hence
 \eq{
-\E[Y_\infty] \ge \E[Y_0] = h(i).
+\sup_k \E[X^*_k] \le \sup_k \E[|X_k|].
 }
-and the fact that $Y_\infty < h(i)$ on $\{T < \infty\}$  $\Rightarrow P_i[T=\infty] >0$ .
-Therefore, $\{X_n\}$ is transient.
+$[\Leftarrow]$
+$|X_k| = 2X^+_k - X_k$.
+Thus,
+\eq{
+\E[|X_k|] = 2\E[X^+_k] - \E[X_k] \le 2\E[X^+_k] - \E[X_0].
+}
+\eq{
+\sup_k \E[|X_k|] \le 2\sup_k \E[X^+_k] - \E[X_0].
+}
+If RHS is finite, then LHS is finite.
 \end{proof}
-\begin{exmp}
-Consider a discrete time queue with $X_n$ the number of requests in the queue in the beginning of slot $n$. Then $X_{n+1} = (X_n + Y_n)^+$ where $Y_n = A_n - S_n$, $A_n$ is the number of arrivals in slot $n$, $S_n$ is number of requests we can serve in slot $n$. Then $Y_n$ is $i.i.d.$, integer valued.
-Taking $h(i)=i$ we show that if $\E[Y_n] < 0$ then we have positive recurrence.
+Thus, if a submartingale is upper bounded, $X_k \le  M_1 < \infty$ $a.s.$, then
+$X^+_k \le M_1  \Rightarrow \sup_k \E[X^+_k] \le M_1$ .
+Therefore, if a submartingale is upperbounded then it converges $a.s.$.
 
-We have
-\eq{
-\E[X_1|X_0 =i] -i = \E[(i+Y_0)^+] - i.
-}
-As $i \to \infty$, $|\E[(i+Y_0)^+] - \E[i+Y_0]| \to \infty$. Therefore if $\E[Y_0] < -\epsilon$ for some $\epsilon > 0$ then $\E[X_1|X_0 = i]-i < \epsilon/2$ for all $i$ large enough. Then we get positive recurrence of $\{X_k\}$ from theorem \ref{thm1}.
-\end{exmp}
+If $X_k$ is a supermartingale, then $-X_k$ is submartingle.
+Therefore, if $\sup_k (-X_k) \le M_1, \quad X_k \ge -M_1, \quad \forall k$.
+Therefore, if $X_k$ is a supermartingale and lower bounded then it converges.
+
+If $X_k$ is a martingale then it is a supermartingale and a submartingale. Therefore an upper or lower bounded martingle converges $a.s.$.
 \end{document}

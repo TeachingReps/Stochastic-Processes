@@ -10,166 +10,160 @@
 \begin{document}
 %\maketitle
 
-\chapter{Martingales}
-\setcounter{section}{0}
+%\chapter{Continuous-Time Markov Chains}
+\setcounter{section}{5}
 \setcounter{subsection}{0}
 
 \section*{\centering{Lecture 17 \linebreak }}
 
-\section{Introduction}
-Martingales are a very versatile tool in stochastic processes. 
-We will use it to get several useful results in this course.
+\section{Birth-Death process}
+Consider a system whose state $X_t$ at any time is represented by the number of people
+in the system at that time. 
+Suppose that whenever there are $n$ people in the system,
+then $(i)$ new arrivals enter the system at an exponential rate $\beta_n$, and $(ii)$ people
+leave the system at an exponential rate $\delta_n$. 
+Such a system $\{X_t\}$ is called a \textit{birth-death process} (B-D). The parameters $\{\beta_n\}^{\infty}_{n=0}$ and $\{\delta_n\}^{\infty}_{n=0}$ are called, respectively, the
+arrival (or birth) and departure (or death) rates.
 
-A discrete time stochastic process is $\{X_k, k\ge 0\}$ is a \textit{martingale} $w.r.t.$ filteration $\F_n=\{Y_0, Y_1, \dots, Y_ n\}$ if 
-\begin{enumerate}
-\item If $X_k$ is a function of $Y_1, Y_2, \dots, Y_k$.
-\item $\E[|X_k|] < \infty$, \quad $\forall$ $k \ge 0$.
-\item $\E[X_{k+1}|Y_1, Y_2, \dots, Y_k] = X_k$ \quad $a.s.$
-\end{enumerate}
- If the equality in third condition is replaced by $\le$ or $\ge$, then the process is called a \textit{supermartingale} or a \textit{submartingale}, respectively.
-\begin{exmp}
-Let $Z_1, Z_2, \dots $ be $i.i.d.$, and $\E[Z_k]=0$, $S_n = \sum_{k=0}^{n} Z_k$,
+The state space of the birth-death process is $\{0,1, \dots\}$.
+The transitions from state $n$ may go only to either state $n-1$ (if $n>0$) or
+state $n + 1$. 
+Thus, it is a Markov chain with its jump chain $\{Y_n\}$ having the transition matrix,
 \eq{
-\E[S_{n+1}|Z_1, \dots, Z_n] &= \E[S_{n}+Z_{n+1}|Z_1, \dots, Z_n]\\
-&= S_n + \E[Z_{n+1}|Z_1, \dots, Z_n]\\
-&= S_n + \E[Z_{n+1}]\\
-&= S_n.
+P_{01} = 1
 }
-Hence, $S_n$ is a martingale $w.r.t.$ $\{Z_1,Z_2 \dots, Z_n\}$.
-\end{exmp}
+\begin{alignat*}{2}
+P_{i,i+1} = \frac{\beta_i}{\beta_i+\delta_i}, \quad i>0, && \quad  \quad  P_{i,i-1} = \frac{\delta_i}{\beta_i+\delta_i},  \quad i>0.
+\end{alignat*}
+\\
 
-\begin{exmp}
-Let $Z_1, Z_2, \dots $ be $i.i.d.$, and $\E[Z_k]=0$,  $var(Z_k)= \sigma^2 < \infty$,  $S_n = \sum_{k=1}^{n} Z_k$, $S_0 =0$, $Z_0=0$, $X_n = S^2_n - n \sigma^2$.
-Then
+An example of a birth-death process is the $\{q_t\}$ process of an $M/M/1$ queue. \\
+We use conditions for transience of DTMC given earlier to give conditions for recurrence of a B-D process.
+
+Recurrence of $\{X_t\}$ $\leftrightarrow $ Recurrence of $\{Y_k\}$.
+Thus, we look for a bounded solution $h:S\setminus\{0\} \to R$ with
 \eq{
-\E[X_{n+1}|Z_1, \dots, Z_n] &= \E[S^2_{n+1}-(n+1) \sigma^2|Z_1, \dots, Z_n]\\
-&= \E[(S_{n}+Z_{n+1})^2|Z_1, \dots, Z_n] - (n+1) \sigma^2\\
-&= S^2_n - n \sigma^2\\
-&= X_n.
-}
-Hence, $X_n$ is a martingale.
-\end{exmp}
-
-\begin{exmp}
-Let $Z_0=0, Z_1, Z_2, \dots $ be $i.i.d.$, and $\E[e^{\theta Z_1}] < \infty$ for some $\theta >0$, $S_n = \sum_{k=0}^{n} Z_k$. $X_n = \frac{e^{\theta S_n}}{\E[e^{\theta Z_1}]^n}$,
+	h(j) = \sum_{k \neq 0} P_{jk} h(k), \quad j \neq 0,
+}\\
+Then,
 \eq{
-\E[X_{n+1}|Z_1, \dots, Z_n] &= \frac{\E[e^{\theta S_{n+1}}|Z_1, \dots, Z_n]}{\E[e^{\theta Z_1}]^{n+1}}\\
-&= e^{\theta S_n} \frac{\E[e^{\theta Z_{n+1}}|Z_1, \dots, Z_n]}{\E[e^{\theta Z_1}]^{n+1}}\\
-&= \frac{e^{\theta S_n}}{\E[e^{\theta Z_1}]^n}\\
-&= X_n.
+h(1) = \frac{\beta_2}{\beta_2+\delta_2} h(2).
 }
-Hence, $X_n$ is a martingale.
-\end{exmp}
-
-\begin{exmp}
-	$Y_0 = 1, Y_1, Y_2, \dots$	independent, $\E[Y_i] = 1$, $X_0 =1$, $X_n = \prod_{k=1}^{n} Y_k$. Then
-	\eq{
-		\E[X_{n+1}|Y_1, Y_2, \dots, Y_n] &= \E[\prod_{k=1}^{n} Y_k | Y_1, Y_2, \dots, Y_n]\\
-		&= \prod_{k=1}^{n} Y_k \E[Y_{k+1}]\\
-		&= \prod_{k=1}^{n} Y_k\\
-		&= X_n.
-	}
-	Hence, $X_n$ is a martingale.
-\end{exmp}
-
-\begin{exmp}
-Let $\{X_k, k\ge 0\}$ be a martingale $w.r.t.$ filteration $\F_n=\{Y_0, Y_1, \dots, Y_ n\}$. Let $\phi:\R \to \R$, $Z_n = \phi(X_n)$,
+Writing $p_i = \frac{\beta_i}{\beta_i + \delta_i}$ and $q_i=1-p_i = \frac{\delta_i}{\beta_i + \delta_i}$,
 \eq{
-\E[Z_{n+1}|Y_0, Y_1, \dots, Y_n] &= \E[\phi(X_{n+1})|Y_0, Y_1, \dots, Y_n]\\
+(p_j+q_j)h(j) = q_j h(j-1) + p_j h(j+1)
 }
-If $\phi$ is a convex function, then by Jensen's inequality
+Solving this iteratively , we get
 \eq{
-\E[\phi(X_{n+1})|Y_0, Y_1, \dots, Y_n] \ge \phi(\E[X_{n+1}|Y_1, \dots, Y_n]) = \phi(X_n)
+h(2)-h(1) = \frac{q_1}{p_1},
 }
-Hence, $\phi(X_n)$ is a submartingale.
-\end{exmp}
-If $\{X_n\}$ is a submartingle and $\phi$ convex, non decreasing,
 \eq{
-\E[Z_{n+1}|Y_0, Y_1, \dots, Y_n] &= \E[\phi(X_{n+1})|Y_1, \dots, Y_n]\\
-&\ge \phi(\E[X_{n+1}|Y_1, \dots, Y_n])\\
-&\ge \phi(X_n).
+h(j+1)-h(j) = h(1) \frac{q_j q_{j-1} \dots q_1}{p_j p_{j-1} \dots p_1}
 }
-Hence, $\phi(X_n)$ is a submartingale.
-
-\section{Optimal Stopping Theorem}
-
-
-If $\{X_k\}$ is a martingale, $w.r.t.$ $\{Y_n\}$ then, for $n>k$
+For this to be a bounded function, we need
 \eq{
-E[X_{n}] = \E[\E[X_{n}|Y_1, Y_2, \dots, Y_k]] = E[X_{k}] = E[X_{k-1}] = \dots = \E[X_0]
+\sum_{j=1}^{\infty}  \frac{q_j q_{j-1} \dots q_1}{p_j p_{j-1} \dots p_1} < \infty.
 }
-For a submartingale, $E[X_{k+1}] \ge E[X_k] \ge \dots \ge \E[X_0]$.
+This is necessary and sufficient condition for $\{Y_n\}$ to be transient.
 
+Therefore,
+\eq{
+\sum_{j=1}^{\infty}  \frac{q_j q_{j-1} \dots q_1}{p_j p_{j-1} \dots p_1} = \infty \quad \iff \quad \{Y_n\} \text{ is recurrent} \quad \iff \quad \{X_t\} \text{ is positive recurrent}.
+}
+Now we give conditions for positive recurrence of a B-D process.
+Solving the equation $\pi Q = 0$, we get
+\eq{
+\pi(n) = \frac{\beta_n \beta_{n-1} \dots \beta_1}{\delta_{n+1} \delta_n \dots \delta_2}  \pi(0)
+}
+From this we can conclude that
+\eq{
+\sum \pi(i) <\infty \iff \sum_{k=1}^{\infty} \frac{\beta_k \beta_{n-1} \dots \beta_1}{\delta_{k+1} \delta_n \dots \delta_2} < \infty.
+}
+This is a necessary and sufficient condition for positive recurrence of the birth-death process.
+
+\subsection{Reversibility of Birth-Death process}
 \begin{prop}
-If $\{X_n\}$ is a martingale $w.r.t.$ $\{Y_n\}$, $T$ a stopping time $w.r.t.$ $\{Y_n\}$, then $\E[X_{T \wedge n}] = \E[X_0]$ for all $n\ge0$.
+A stationary birth-death process is reversible.
 \end{prop}
-\begin{proof}
-\eq{
-X_{T \wedge n+1} -X_{T \wedge n} = (X_{n+1}-X_n) 1_{\{T>n\}}
-}
-Taking expectations,
-\eq{
-\E[X_{T \wedge n+1} -X_{T \wedge n}] = \E[(X_{n+1}-X_n) 1_{\{T>n\}}] = \E[\E[(X_{n+1}-X_n) 1_{\{T>n\}}|\F_n]]
-}
-Since $T$ is a stopping time $\{T \le n\}$ is a function of $(Y_1, Y_2, \dots, Yn) = \F_n$. Thus, $\{T \le n\}^c$ is also a function of $\F_n$.
 
-Thus,
+\begin{proof}
+We need to show that 
 \eq{
-\E[\E[(X_{n+1}-X_n) 1_{\{T>n\}}|\F_n]] = \E[1_{\{T>n\}} \E[(X_{n+1}-X_n)|\F_n]] = 0.
+	\pi(i) Q_{ij} = \pi(j) Q_{ji}
+}
+But
+\eq{
+\frac{\beta_i \beta_{n-1} \dots \beta_1}{\delta_{i+1} \delta_n \dots \delta_2} Q_{i,i+1} = \frac{\beta_{i+1} \beta_{n-1} \dots \beta_1}{\delta_{i+2} \delta_n \dots \delta_2} Q_{i+1,i} 
+}
+because, 
+\eq{
+Q_{i,i+1} = \beta_{i+1}, \quad  \quad Q_{i+1,i} = \delta_{i+2}.\\
+}
+\end{proof}
+\begin{exmp}[The $M/M/1$ queue]
+In the $M/M/1$ queue $\beta_n = \lambda, \delta_n = \mu$.
+
+For recurrence,
+\eq{
+\sum_{j=1}^{\infty} \frac{\left(\frac{\mu}{\mu+\lambda}\right)^j}{\left(\frac{\lambda}{\mu+\lambda}\right)^j} &= \sum_{j=1}^{\infty} \left(\frac{\mu}{\lambda}\right)^j = \infty.
+}
+That is $\frac{\lambda}{\mu}  \le 1$ is the necessary and sufficient condition for an $M/M/1$ queue to be recurrent.\\\\
+For positive recurrence,
+\eq{
+\sum_{k=1}^{\infty} \frac{\beta_k \beta_{n-1} \dots \beta_1}{\delta_{k+1} \delta_n \dots \delta_2} < \infty \quad \Rightarrow  \quad \sum_{k=1}^{\infty} \left(\frac{\lambda}{\mu}\right)^k < \infty,  \frac{\lambda}{\mu} <1
+}
+Then,
+\eq{
+\pi(n) = \left(\frac{\lambda}{\mu}\right)^n \pi(0) \quad \text{and} \quad \sum_{n=0}^{\infty} \pi(n) =1
 }
 Therefore,
 \eq{
-\E[X_{T \wedge n+1}] = \E[X_{T \wedge n}] = \dots = \E[X_{T \wedge 0}] = \E[X_0].
+\pi(n) = \rho^n (1-\rho)	\quad \text{where} \quad \rho = \frac{\lambda}{\mu}.
 }
-\end{proof}
-For a submartingale, the above proof gives 
+\end{exmp}
+
+%\begin{exmp}[The $M/M/1$ queue]
+%In the $M/M/1$ queue the arrival rate of customers is $\lambda$ and the service rate is $\mu$.
+%Then the queue length process $q_t$ is a birth-death process. 
+%Thus by using the limiting probabilities for a birth and death process, we can write the distribution of queue length as
+%\eq{
+%	\pi_n &= \frac{(\frac{\lambda}{\mu})^n}{1+\sum_{n=1}^{\infty} \le \left(\frac{\lambda}{\mu}\right)^n}\\
+%	&=\left(\frac{\lambda}{\mu}\right)^n \left(1-\frac{\lambda}{\mu}\right),
+%}
+%with
+%\begin{align*}
+%Q_{ii} = -\lambda - \mu
+%\end{align*}
+%\begin{align*}
+%Q_{i,i+1} = \lambda
+%\end{align*}
+%\begin{align*}
+%Q_{i,i-1} = \mu  \quad \text{for} \quad i >0,
+%\end{align*}
+%
+%for $\lambda < \mu$, it has a stationary distribution $\pi$.
+%\end{exmp}
+\begin{exmp}[The $M/M/\infty$ queue]
+	The queue has an $\infty$ number of servers. Whenever a customer arrives it joins an idle server and gets service with an exponential distribution $\exp(\mu)$.After completion of service it leaves the system. 
+Let $q_t$ be the number of customers in the system at time $t$.
+Its $Q$ matrix is given by
 \eq{
-\E[X_{T \wedge n+1}] \ge \E[X_{T \wedge n}] \ge \dots \ge \E[X_{T \wedge 0}] \ge \E[X_0].	
+q_{i, i+1} = \lambda, \quad q_{i,i-1}=i \mu \quad \text{for} \quad i>0.
 }
 
-Since,
+For recurrence, we need
 \eq{
-\lim_{n \to \infty} T(\omega) \wedge n = T(\omega),
+\sum_{j} \frac{q_j q_{j-1} \dots  q_1}{p_j p_{j-1} \dots p_1} = \infty.
 }
 \eq{
-\lim_{n \to \infty} X_{T \wedge n (\omega)}(\omega) = X_{T(\omega)}(\omega) \quad a.s..
+\sum_{j} \frac{j \mu (j-1) \mu \dots \mu}{\lambda^j} &= \sum_j j! \left(\frac{q}{\lambda}\right)^j\\
+&= \infty.
 }
-If 
-\begin{align}
-\label{eq1}	
-\E[X_{T \wedge n}] \to \E[X_T] \enskip \text{as} \enskip n \to \infty,
-\end{align}
-
-then  from above proposition 
-\begin{align}
-\label{eq2}
-\E[X_0] = \E[X_T].
-\end{align}eqn{
-
-
-Conditions for Eq (\ref{eq1}) to hold are,
-\begin{itemize}
-\item $T \le n_0$  $a.s.$ for some $n_0<\infty$.
- Then $X_{T \wedge n} = X_T$ $a.s.$ when $n\ge n_0$. Thus $\E[X_{T \wedge n}] = \E[X_T],$ $\forall$ $n \ge n_0$.
-\item $X_n \le Z$ $a.s.$ $\forall$ $n \ge n_0$ and $\E[z] < \infty$. Then $X_{T \wedge n} \le Z$ $a.s.$ $\forall$ $n$. Thus $X_{T \wedge n} \to X_T$ $a.s.$, and dominated convergence theorem, implies $\E[X_{T \wedge n}] \to \E[X_T]$.
-\end{itemize}
-
-\begin{prop}
-If $\{X_n\}$ is a martingale,  $\E[|X_n - X_{n-1}|\mid \F_n] \le c < \infty$, $\forall$ $n \ge 1$ and $\E[T] < \infty$ then $\E[X_T] = \E[X_0]$.\\
-\end{prop}
-\begin{proof}
-Define $Z = |X_0| + |X_1-X_0| + \dots + |X_T - X_{T-1}|$. We have
+This holds if $\frac{q}{\lambda} \neq 0$. Positive recurrence also holds because
 \eq{
-X_{T \wedge n} &= (X_{T \wedge n} - X_{(T \wedge n)-1}) + (X_{(T \wedge n)-1} - X_{(T \wedge n)-2}) + (X_1-X_0) + X_0\\
-&\le |X_{T \wedge n} - X_{(T \wedge n)-1}| + |X_{(T \wedge n)-1} - X_{(T \wedge n)-2}| + |X_1-X_0| + |X_0| \le Z\\
-}
-Thus if we show $\E[Z] < \infty$, we will have the proof from the above result. But,
-\eq{
-\E[Z] &= \E[|X_0|] +  \E[|X_1 - X_0|] + \dots + \E[|X_T- X_{T-1}|]\\
-&= \E[|X_0|] + \E[\sum_{k=1}^{\infty} |X_k - X_{k-1}| 1_{\{T \ge k\}}]\\
-&= \E[|X_0|] + \sum_{k=1}^{\infty} \E[\E[|X_k - X_{k-1}| 1_{\{T \ge k\}}|\F_{k-1}]]\\
-&= \E[|X_0|] + \sum_{k=1}^{\infty} \E[1_{\{T \ge k\}}] \E[|X_k - X_{k-1}|\F_k]\\
-&\le \E[|X_0|] + c \E[T]\\
+\sum_{k=1}^{\infty} \frac{\beta_k \beta_{k-1} \dots \beta_1}{\delta_{k+1} \delta_n \dots \delta_2} &= \sum_k \frac{\lambda^k}{(k+1) \mu k \mu \dots \mu}\\
+&= \sum_{k=0}^{\infty} \frac{\lambda^k}{\mu^k (k+1)!}\\
 &< \infty.
-}\end{proof}
+}
+\end{exmp}
 \end{document}

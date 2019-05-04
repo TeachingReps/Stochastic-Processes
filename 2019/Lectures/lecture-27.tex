@@ -5,87 +5,138 @@
 %\input{header}
 %\title{Lecture 01: Poisson Processes}
 %\author{}
+\newcommand*{\QEDB}{\hfill\ensuremath{\square}}%
 \setcounter{chapter}{6}
-
+\usepackage{enumitem}
 \begin{document}
 %\maketitle
 
 %\chapter{Martingales}
-\setcounter{section}{1}
+\setcounter{section}{2}
 \setcounter{subsection}{0}
 
 \section*{\centering{Lecture 27 \linebreak }}
-\section{Product-form Networks}
-In this section, we study queueing networks that have explicit closed form expression for stationary distribution. Also, the stationary distribution of the whole network is the product of margnial stationary distributions of the individual queues. 
-\subsection{$M/M/1$ queue:}
-Let $q_t$ be the queue length of an $M/M/1$ queue with arrival rate $\lambda$ and service rate $\mu$. It is a birth-death (B-D) process. If the arrival rate $\lambda < \mu$ then $q_t$ is positive recurrent and its stationary distribution  $\pi$ is given by
-\eq{
-\pi(n) =  (1-\rho) \rho^n,
-}
-where  $\rho = \lambda/\mu$. Every B-D process under stationarity is time reversible. Therefore $\{q_t\}$ is time reversible when $\rho<1$. We consider this queue under stationarity.\\
-\indent Define the reversed process $\hat{q}_t = q_{T-t}$ for some $T$. By reversibility, it has the same distribution as that of $q_t$. Therefore, it can also be considered as the queue length process of an $M/M/1$ queue with arrival rate $\lambda$ and service rate $\mu$. In $\hat{q}_t$ the departure epochs are the arrival epochs in $q_t$. Also, the arrival epochs are the departure epochs of $q_t$.
-Thus, the departure process of a stationary $M/M/1$ queue is also a Poisson process with rate $\lambda$. Also, because of Poisson arrivals in $q_t$, arrivals from time $t$ onward are independent of the $q_{t^-}$. This implies (applying to $\hat{q}_t$) the departures till time $t$ in $q_t$ are independent of $q_t$. \\
-\indent These results are rather counter-intuitive.
-\subsection{Tandem Queues}
-Consider a tandem of $N$ queues. External arrivals enter queue $1$ according to a Poisson process of rate $\lambda$. After service in queue $i$, a customer enters queue $i+1$, $i<N$. A customer departs from the system after completing service at queue $N$. The service times at queue $i$ are i.i.d. with $\exp(\mu_i)$. Let $q_t(i)$ denote the queue length at queue $i$ at time $t$. If $\lambda < \mu_1$, queue $1$ is stable. Thus, as seen above, under stationarity, the departure process from queue $1$ is also a Poisson process of rate $\lambda$. So, $q_t(2)$ is also ergodic if $\lambda < \mu_2$. Continuing this way, each of the queue is stable if $\lambda < \min_i(\lambda_i)$ and the stationary distribution of $q_t(i)$ is given by
-\eq{
-\pi_i(n) = \rho^n_i (1-\rho_i).
-}
-Also as explained above, $q_{t}(1)$ is independent of the departures till time $t$ (past departures). Therefore, it is independent of arrivals to queue $2$ till time $t$. Hence, $q_t(2)$ is independent of $q_t(1)$. Thus, extending this way to other queues, the joint distribution $q_t = (q_t(1), q_t(2), \dots , q_t(N))$ is given by
-\eq{
-P[q_t(1)=n_1, q_t(2)=n_2, \dots , q_t(N)=n_N] = \prod_{i=1}^{N} \rho^n_i (1-\rho_i)
-}
-and $q_t(1), q_t(2), \dots , q_t(N)$ are independent of each other. However, for $t_1 < t_2$, $q_{t_1}(1)$ is not independent of $q_{t_2}(2)$.
-\subsection{Open Jackson Networks}
-In this system, there are $N$ nodes. Each node $i$ consists of $1$ server with exponential ($i.i.d.$) service times at rate $0 < \mu_i < \infty$. At each node, there is an external arrival process according to a Poisson process with rate $\lambda_i$, $0\leq \lambda <\infty$. After completion of service at queue $i$, with probability $p_{ij}$ a customer goes to queue $j$ independently of routing of other customers. The customer leaves the network with probability $p_{i0}$ from node $i$
-\eq{
-P_{i0} = 1-\sum_{i=1}^{N} p_{ij}.
-}
-This is called \textit{Markovian routing}. \\
-\indent Let $q_t(i)$ be the queue length at $i^{th}$ node at time $t$. Then, $q_t = (q_t(1), q_t(2), \dots , q_t(N))$ is a Markov chain with $q_t(i) \in \{0,1,2, \dots\}$. We observe that $q_t$ is irreducible. \\
-\indent Let $\bar{\lambda}_i$ be the total arrival rate to node $i$. Then,
-\eq{
-\bar{\lambda}_i = \lambda_i + \sum_{j=1}^{N} p_{ji} \bar{\lambda}_j.
-}
-There is a unique solution to this set of $N$ equations denoted by $(\overline{\lambda}_1,\overline{\lambda}_2,\dots,\overline{\lambda}_N)$. Let
-\eq{
-\rho_i = \frac{\bar{\lambda}_i}{\mu_i}.
-}
-We show below that if $\rho_i < 1$, for $i = 1,2,3, \dots , N$, then $\{q_t\}$ is positive recurrent and has a unique stationary distribution
-\begin{align}\label{eq:stat_dist_openjackson}
-\pi[q_t(1)=n_1, q_t(2)=n_2, \dots , q_t(N)=n_N] = \prod_{i=1}^{N} \rho^n_i (1-\rho_i)
+\section{Product Form Networks: Quasireversible networks}
+%\subsection{Quasirevesible Queueing Systems:}
+Till now we studied queuing networks with Markovian routing and exponential service times.  Now, both of these assumptions will be generalized. 
+\subsection{Quasireversible Queues}
+\indent Consider an $M/M/1$ queue with multiple classes of customers. It has a unique stationary distribution. Let $C$ denote the set of classes, $\lambda_c$ be the Poisson arrival rate for class $c$, $\mu_c$ be the service rate of class $c$. The arrival process for different classes are independent. The traffic intensity of class-$c$ is $\rho_c = \frac{\lambda_c}{\mu_c}$. Its total traffic intensity is $\rho = \sum_{i \in C} \rho_i$. \\
+\indent Let $q_t$ be the number of customers in the queue. If $\rho < 1$ then $\pi(n) = (1-\rho) \rho^n$. The probability that a customer is of class-$c$ is ${\rho_c}/{\rho}$ independent of others. Let $\{X_t\}$ be the process which gives the class of each cutomer in the queue at time $t$. $\{X_t\}$ is a Markov  chain. The state space $S$ is countable. Its stationary distribution is 
+\begin{align}\label{eq:prod_form_nets_multiclass}
+P[X_t = (c_1, c_2, \dots, c_n)] = (1-\rho) \rho^n \prod_{i=1}^{n} \frac{\rho_{c_i}}{\rho}.
 \end{align}
-Hence, $q_t(1), q_t(2), \dots , q_t(N)$ are also independent of each other. \\
-\indent This MC is non-explosive and irreducible.
-If for $\pi Q = 0 $, a solution exists with $\pi(i) >0$, $\sum_{i} \pi(i)= 1$, then MC is positive recurrent and $\pi$ is its unique stationary distribution. We can easily check that Eq. (\ref{eq:stat_dist_openjackson}) satisfies $\pi Q = 0$. \\
-\indent If $Q$ is time reversible,
+Although it is not reversible, its reversed process $\tilde{X}(t)$ also represents a multiclass $M/M/1$ queue, where the last customer $c_n$ leaves the queue first. Its service distributions and arrival processes are same as in the original process. Thus, the departure process of $X_t$ is again Poisson with rate $\lambda_c$ for class $c$ and the Poisson departure processes of different classes are independent. Also, arrivals from $t$ onward, $X_t$ and departures till time $t$ are independent of each other. \\
+\indent It so turns out that the above properties of a multiclass $M/M/1$ queue are they key features needed for product-form stationary distributions of $X_t$.  Thus, we abstract these out to study more general classes of queuing systems.
+\begin{defn}
+A system is called \textit{quasireversible }if the future arrival processes from time $t$ onward, $X_t$ and past departure processes till time $t$ are independent. These are also independent for different classes.
+\end{defn}
+\indent The reversed process $\tilde{X}_t$ is quasireversible if $\{X_t\}$ is quasireversible. Let $N_+^c (t)$ be arrival process of class-$c$ and $N_-^c (t)$ be the departure process of class-$c$ from the system.
+\begin{prop}
+For a quasireversible system, 
+\begin{enumerate}[label=(\arabic*)]
+\item  the arrival processes of different classes are independent Poisson process and 
+\item the departure  processes of different classes are also independent Poisson processes.
+\end{enumerate}
+\end{prop}
+\begin{proof}
+For a point process to be Poisson, it should have independent stationary increments. Let $(t_0,t_1]$, $(t_1,t_2], \dots, (t_{n-1},t_n]$ be time intervals with $t_0 < t_1 < t_2<\dots < t_n$. Let $z_i$ be number of arrivals of class-$c$ during interval $(t_i,t_{i+1}]$. We want to show, for any contiuous and bounded $f$,
 \eq{
-\pi(i) q_{ij} = \pi(j) q_{ji}\ \forall i,j
+\E[f_0(z_0), f_1(z_1), \dots, f_{n-1}(z_{n-1})] = \prod_{i=0}^{n-1} \E[f_i(z_i)].
 }
-Generally, this MC is not time reversible. But we can reverse as
+We have 
+\begin{align*}
+\E[f_0(z_0), f_1(z_1), \dots, f_{n-1}(z_{n-1})] &= \E[\E[f_0(z_0), f_1(z_1), \dots, f_{n-1}(z_{n-1})|\F_{t_1}]]\\
+&= \E[f_0(z_0) \E[f_1(z_1), \dots, f_{n-1}(z_{n-1})|\F_{t_1}]] \\
+&= \E[f_0(z_0) \E[f_1(z_1), \dots, f_{n-1}(z_{n-1})|X_{t_1}]] && \text{ ($X_t$ is a Markov chain)} \\
+&=  \E[f_0(z_0)] \E[f_1(z_1), \dots, f_{n-1}(z_{n-1})] && \left(\parbox{3cm}{$X_t$ is quasireversible, $z_1, z_2, \dots, z_{n-1}$ are independent of $x_{t_1}$.} \right)
+\end{align*}
+Continuing this way by conditioning on $\mathcal{F}_{t_2},\mathcal{F}_{t_2},\dots,\mathcal{F}_{t_n}$, we obtain the result. We can show the other claim similarly.
+\end{proof}
+
+\textbf{Examples (Single queue):}
+\begin{enumerate}[label=(\arabic*)]
+\item $M/M/1/FCFS$ is quasireversible.
+\item $M/GI/1/FCFS$ is not quasireversible unless service times are exponential.
+\item $M/GI/\infty$ is quasireversible.
+\item $M/GI/1/PS$ is quasireversible.
+\item $M/GI/1/LCFS$ is quasireversible.
+\end{enumerate}
+In $(2)-(4)$, $q_t$ is not a Markov chain. However, $X_t = (q_t,r_t)$ is a Markov chain, where $r_t$ is residual service time of the customers in service, a real number. But, this is not a countable state Markov chain which we have been assuming so far. To overcome this problem, we use phase type distributions. \\
+\textbf{Phase type distribution:}\\
+Let $R_t$ be a finite state Markov chain with state space $\{1,2,3, \dots, m+1\}$ and generator matrix
+\begin{align*}
+	Q = 
+\begin{bmatrix}
+	Q_m      & q_o \\
+	q_1      & q_2 \\	
+\end{bmatrix},
+\end{align*}
+where $Q_m$ is an $m \times m$ matrix. \\
+\indent Define $\tau = \inf\{t: R_t = m+1\}$. This will be a service time of a customer. Now, $X_t = (q_t,R_t)$ is a finite state Markov chain. We have,
 \eq{
-\tilde{q}_t = q_{t-T}, \quad \quad  T  \text{ a fixed constant}.
+P[\tau > t] = \alpha \exp^{Q_m t} 1,
 }
-This corresponds to a queue length process of a Jackson network, with external input to queue $i$ as Poisson with rate $\bar{\lambda}_i p_{i0}$ and service times $i.i.d.$ $exp(\mu_i)$ with routing probabilities,
-\eq{
-\tilde{p}_{ij} = p_{ij} \frac{\bar{\lambda}_j}{\bar{\lambda}_i}.
-}
-Therefore, the departures at each node in $\{q_t\}$ that exit the system form a Poisson process independent of departures at other nodes that exit the system. \\
-\indent Also, $q_t$ is independent of future arrivals implies that $q_t$ is independent of past departures from the network.
-\subsection{Closed queueing networks}
-In this system, there are no arrivals from outside the network and no departures from the network.  A fixed number of $M < \infty$ customers move around in the network. The service times and routing are same as that of a Jackson network. The queue length $q_t = (q_t(1), q_t(2), \dots , q_t(N))$ is a MC. It is a finite state irreducible MC with state space $S = \{(n_1,n_2,\dots,n_N): \sum_{i=1}^N n_i = M\}$. It is always stable and has a unique stationary distribution. \\
-\indent The total arrival rate at each node $i$ is 
-\eq{
-\bar{\lambda}_i = \sum_{j=1}^{N} p_{ji} \bar{\lambda}_j.
-}
-By solving these $N$ equations we can get a unique solution upto a constant.
-The stationary distribution is given by
-\begin{align}\label{eq:stat_dist_closed_net}
-\pi(n_1, n_2, \dots, n_N) = K \prod_{i=1}^{N} \rho_i^{n_i}, \quad \quad \text{for} \quad \sum_{i=1}^{N} n_i = M,
+where $\alpha$ is the distribution of $R_0$ and $1 = [1,1,\dots,1]^T$. This is called \textit{phase type distribution }with parameters $(\alpha,Q_m)$.\\
+\indent  Any distribution on $\R^+$ can be arbitrarily closely approximated by a phase type distribution. In the following, we will take the general distribution of service times as a phase type distribution. Then, $(q_t,R_t)$ will be a countable state Markov chain.\\
+\indent Consider $X_t$ in $M/GI/1/LCFS$.  The arrival process is a Poisson process. Thus, $X_t$ and future arrivals are independent of each other. Let $\tilde{X}_t$ be the reversed process. 
+\begin{prop}
+In $M/GI/1/LCFS$ system, the reversed process $\tilde{X}_t$ also represents a $M/GI/1/LCFS$ system. \QEDB
+\end{prop}
+Thus, $X_t$ and past departures are independent. Hence, $M/GI/1/LCFS$ is a quasireversible system. Similarly, we can show that other queues in the above example are quasireversible. \\
+\indent For $M/M/1$, $M/GI/1/LCFS$ and $M/GI/PS$, if $\rho < 1$, $\{q_t\}$ has a unique stationary distribution 
+\begin{align*}
+\pi(n) = (1-\rho)\rho^n,\ \forall n \geq 0.
+\end{align*}
+For a multiclass queue, we have Eq (\ref{eq:prod_form_nets_multiclass}) as stationary distribution.
+For $M/GI/\infty$, for any $0<\rho<\infty$,
+\begin{align*}
+\pi(n) = \frac{\rho^n}{n!} e^{-\rho}, \ \forall  n \geq 0.
+\end{align*}
+For all these cases, we observe that the stationary distribution depends on service distribution only through its \textit{mean}. This property is called \textit{insensitivity}.\\
+\indent All the examples given above for quasireversible queues are special cases of a quasireversible queue called the symmetric queue. \\
+\indent The above results are shown for phase type service types. Using continuity arguments, these results can be extended to general service times. 
+\subsection{Networks of Quasireversible Queues}
+We now consider a multiclass queueing network of queues where each queue is quasireversible in isolation with Poisson input. Let $C$ be a countable set of classes of customers. Arrivals of different classes are independent Poisson processes. Let $\lambda^c_i$ be the external arrival rate of class $c$ customers at node $i$. Let $p^{cd}_{ij}$ be the probability that a class $c$ customer after service from node $i$ goes to node $j$ as a customer of class $d$. Denote by $\bar{\lambda}^c_i$ the total arrival rate of customers of class $c$ at node $i$. Then,
+\begin{align}
+\bar{\lambda}^c_i = \lambda^c_i + \sum_{j} p^{dc}_{ji} \bar{\lambda}^d_j.
 \end{align}
-where $\rho_i = \bar{\lambda}_i/\mu_i$ and $K$ is a normalizing constant. It can be checked that Eq (\ref{eq:stat_dist_closed_net}) is a solution for $\pi Q = 0$.\\
-\indent This network has the following \textbf{bottleneck property}. Let $\rho_1 = \max_i( \rho_i)$. If $M \to \infty$, $q_t(1) \to \infty$ in distribution. For other queues
+Let $1/\mu^c_i$ be the mean service time for a class $c$ customer at node $i$. Let $\rho^c_i = \bar{\lambda}^c_i/\mu^c_i$. The total traffic intensity at node $i$ is $\rho_i = \sum_c \rho^c_i$. Then, if $\rho_i < 1, \ \forall i$, the system has product form distribution as in Eq (\ref{eq:prod_form_nets_multiclass}) with corresponding $\bar{\lambda}^c_i$ and $\mu^c_i$. The proof for this can be obtained by verifying that the ditribution in Eq (\ref{eq:prod_form_nets_multiclass}) solves $\pi Q =0$. We can also show that the system is quasireversible by verifying Eq (\ref{eq:serv_rate_class_c}) and (\ref{eq:serv_rate_class_c_minus}) below.\\
+\indent Now, we provide conditions to study quasireversibility of general Markovian queueing systems. The state of the system $X_t$ is a Markov chain. Let $S$ denote the state space and $Q$ the generator matrix of $\{X_t\}$. Let $N_c^+ (t)$  be the arrival process of class $c$ and $N_c^-(t)$ be the departure process of class $c$ from the network. Let  $\mu_c^+$ and $\mu_c^-$ be the arrival rate and the departure rate of class $c$ customers respectively. \\ 
+\indent Define for $i,j \in S$
+\begin{align*}
+A^c &= \{(i,j) \quad s.t \quad i \to j \text{ represents an arrival for class c}\} \text{, and} \\
+D^c &= \{(i,j) \quad s.t \quad i \to j \text{ represents a departure of class c}\}
+\end{align*}
+For example, in an $M/M/1$ queue with $C$ classes, $X_t = (c_1, c_2, \dots, c_n)$, an arrival of class $c$ is 
 \eq{
-\pi (q_t(2)=n_2, \dots , q_t(N)=n_N) = \prod_{i=2}^{N} \rho^n_i (1-\rho_i).
+(c_1, c_2, \dots, c_n) \to (c_1, c_2, \dots, c_n, c) \in A^c
 }
+and a departure of class $c_1$ is 
+\eq{
+(c_1, c_2, \dots, c_n) \to (c_2, \dots, c_n) \in D^{c_1}.
+}
+Then, if $X_t = i$, $i \in S$, arrival rate of class $c$ = $\sum_{j:(i,j) \in A^c} q_{ij}$. Arrival rate of class $c$ under stationarity ($\pi$ is the stationary distribution) is 
+\begin{align}
+\label{eq:arrival_rate_class_c}
+\sum_i \pi(i) \sum_{j:(i,j) \in A^c} q_{ij}.
+\end{align}
+But, $\{X_t\}$ is a quasi reversible process. Therefore, $X_t$ is independent of future arrivals. Thus, $\sum_{j:(i,j) \in A^c} q_{ij}$ does not depend on $i$. Thus Eq (\ref{eq:arrival_rate_class_c}) equals
+\begin{align}\label{eq:serv_rate_class_c}
+\sum_{j:(i,j) \in A^c} q_{ij} \sum_i \pi(i) = \sum_{j:(i,j) \in A^c} q_{ij} = \mu^+_c.
+\end{align}
+This is independent of $i$.\\
+\indent Now, consider the reversed process $\tilde{X}_t$. This is also quasireversible. Its stationarity distribution is also $\pi$ with $\tilde{Q}$ given by 
+%\eq{
+%\pi(i) \tilde{Q}_{ij} = \pi(j) Q_{ji}
+%}
+%Therefore,
+\eq{
+\tilde{q}_{ij} = \frac{\pi(j) q_{ji}}{\pi(j)}.
+}
+The arrival rate of the class $c$ customers in $\tilde{X}_t$ is 
+\begin{align} \label{eq:serv_rate_class_c_minus}
+\sum_{j:(i,j) \in \tilde{A}^c}  \tilde{q}_{ij}  = \sum_{j:(i,j) \in D^c} \frac{\pi(j) q_{ji}}{\pi(j)} = \mu^-_c.
+\end{align}
+This also does not depend on $i$. \\
+\indent We can show that if Eq (\ref{eq:serv_rate_class_c}) and (\ref{eq:serv_rate_class_c_minus}) hold for a Markovian queueing system, then it is quasireversible.
 \end{document}
