@@ -79,9 +79,14 @@ Consider $GI/GI/1$ queue. Let the waiting time of $n^{th}$ arrival be $W_n$. The
 \E[V_\infty] &= \frac{\E[\int_0^{\overline{\tau}} V_t dt]}{\E[\overline{\tau}]} \\
 &= \frac{1}{2} \frac{\E[s_1^2] + \E[W_1]\E[s_1]}{\E[A_1]}.
 \end{align*}
-
-
-Let the time between consecutive regeneration epochs of $\{V_t\}$ be called a \textit{cycle}. During this time, the duration when the queue is empty is called an \textit{idle }period and the rest is called \textit{busy} period. Then, $\E[\text{busy period}] = \E[\sum_{k=0}^{\tau -1} s_k]$ if $t=0$ is a regeneration epoch. Hence, 
+The last line follows from Figure \ref{fig:work_in_queue}. The quantity $\int_0^{\overline{\tau}} V_t dt$ is the area under the curve which can be split into several traingles and parellelogram as shown. \\
+\begin{figure}
+\centering
+\includegraphics[scale=0.4]{Figures/Work_In_Queue.jpg}
+\caption{Work in queue: V(t)}
+\label{fig:work_in_queue}
+\end{figure}
+\indent Let the time between consecutive regeneration epochs of $\{V_t\}$ be called a \textit{cycle}. During this time, the duration when the queue is empty is called an \textit{idle }period and the rest is called \textit{busy} period. Then, $\E[\text{busy period}] = \E[\sum_{k=0}^{\tau -1} s_k]$ if $t=0$ is a regeneration epoch. Hence, 
 \begin{align*}
 \P\{V_\infty = 0\}  &= \frac{ \E[\int_0^{\overline{\tau}} 1\{V_t=0\}dt]}{\E[\overline{\tau}]} \\
 &= \frac{\E[\overline{\tau}]-\E[Busy Period]}{\E[\overline{\tau}]} \\

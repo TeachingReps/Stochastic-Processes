@@ -1,0 +1,125 @@
+% !TEX spellcheck = en_US
+% !TEX spellcheck = LaTeX
+%\documentclass[a4paper,10pt,english]{article}
+\documentclass[all-lectures.tex]{subfiles}
+%\input{header}
+%\title{Lecture 01: Poisson Processes}
+%\author{}
+\setcounter{chapter}{4}
+
+\begin{document}
+%\maketitle
+
+%\chapter{Continuous-Time Markov Chains}
+\setcounter{section}{2}
+\setcounter{subsection}{0}
+
+\section*{\centering{Lecture 14 \linebreak }}
+
+\section{Chapman Kolmogorov equations}
+We define the \textit{generator matrix} $Q$ for MC $\{X_t\}$ as $Q_{ii} = - \lambda_i$ and $Q_{ij} = \lambda_i P_{ij}$ for $j \neq i$. 
+Also, the fact that MC stays in state $i$ with $\exp(\lambda_i)$, implies that
+\eq{
+\frac{1-P_{ii}(t)}{t} \to \lambda_i \quad \text{as}  \quad t \to 0,
+}
+and then,
+\eq{
+\lim_{t \downarrow 0} \frac{P_{ij}(t)}{t} = \lim_{t \downarrow 0}  \frac{1-P_{ii}(t)}{t} P_{ij} = Q_{i,j} \quad \text{for all} \quad i \neq j.
+}
+\begin{thm}[Backward equation] For a homogeneous CTMC with transition matrix $P(t)$ and generator matrix $Q$, for the minimal construction,
+	\begin{align*}
+		%P'_{ij}(t)= \sum_{k \neq i}q_{ik}P_{kj}(t)-\nu_iP_{ij}(t) ,  i,j \in I
+		\frac{dP(t)}{dt}=QP(t), ~~t \geqslant 0.
+	\end{align*}
+\end{thm}
+\begin{proof} 
+	Using semigroup property of transition probability matrix $P(t)$ for a homogeneous CTMC,  
+	%we have
+	%\begin{align*}
+	%P_{ij}(t+h)=\sum_{k \in I}P_{ik}(h)P_{kj}(t),~~i,j \in I.
+	%\end{align*}
+	%Re-arranging terms, 
+	we can write
+	\begin{align*}
+		%P_{ij}(t+h)-P_{ij}(t)=\sum_{k \neq i}P_{ik}(h)P_{kj}(t)-(1-P_{ii}(h))P_{ij}(t).
+		\frac{P(t+h) - P(t)}{h} &= \frac{(P(h)- I)}{h}P(t). % = P(t)\frac{(P(h) - I)}{h}.
+	\end{align*}
+	%Dividing above equation by $h$,  and 
+	Taking limits $h \downarrow 0$ and exchanging limits and summation, justified below, on the RHS we get 
+	\begin{align*}
+		\frac{dP_{ij}(t)}{dt} = \sum_{k \neq i}Q_{ik}P_{kj}(t)-\lambda_iP_{ij}(t). 
+	\end{align*}
+	
+	
+	Now we justify the exchange of limit and summation. For any finite subset $F \subset S$, we have
+	\begin{align*}
+		\liminf_{h \downarrow 0} \sum_{k \neq i}\frac{P_{ik}(h)}{h}P_{kj}(t) \geq \sum_{k \in F\setminus \{i\} }\liminf_{h \downarrow 0}\frac{P_{ik}(h)}{h}P_{kj}(t) = \sum_{k \in F\setminus \{i\}}Q_{ik}P_{kj}(t).
+	\end{align*}
+	Since, above is true for any finite set $F \subset E$, taking supremum over increasing sets $F$, we get the lower bound.
+	%\begin{align*}
+	%\liminf_{h \downarrow 0} \sum_{k \neq 1}\frac{P_{ik}(h)}{h}P_{kj}(t) \geq \sum_{k \neq i}Q_{jk}P_{kj}(t).
+	%\end{align*}
+	%%Suffices to show that $\limsup_{h \rightarrow 0} \sum_{k \neq 1}\frac{P_{ik}(h)}{h}P_{kj}(t) \leq \sum_{k \neq 1}q_{jk}P_{kj}(t)$. 
+	For the upper bound, we observe for any finite subset $F \subseteq E$
+	\begin{align*}
+		\limsup_{h \downarrow 0}\sum_{k \neq i}\frac{P_{ik}(h)}{h}P_{kj}(t) &\leq \limsup_{h \downarrow 0}\left(\sum_{k \in F\setminus \{i\}}\frac{P_{ik}(h)}{h}P_{kj}(t)+\sum_{k \notin F\setminus\{i\} }\frac{P_{ik}(h)}{h}\right)\\
+		& = \limsup_{h \downarrow 0}\left(\sum_{k \in F\setminus \{i\}}\frac{P_{ik}(h)}{h}P_{kj}(t)+\frac{1-P_{ii}(h)}{h} -\sum_{k \in F\setminus \{i\}}\frac{P_{ik}(h)}{h} \right)\\
+		&= \sum_{k \in F\setminus \{i\}}Q_{ik}P_{kj}(t)+ \left(\lambda_i- \sum_{k \in F\setminus \{i\}}Q_{ik}\right). %&=\sum_{k \neq 1}q_{ik}P_{kj}(t). 
+	\end{align*}
+Now take $F \nearrow S$, then the term $\left(\lambda_i- \sum_{k \in F\setminus \{i\}}Q_{ik}\right)$ goes to zero.
+	
+\end{proof}
+
+\begin{thm}[Forward equation] 
+	%Under suitable regularity conditions, 
+	For a homogeneous CTMC with transition matrix $P(t)$ and generator matrix $Q$, we have for the minimal construction,
+	\eq{
+		\frac{dP(t)}{dt} &=P(t)Q.
+	}
+	%$P'_{ij}(t)=\sum_{k \neq i}P_{ik}(t)q_{kj}-P_{ij}(t)\nu_i$, i.e. $\frac{dP(t)}{dt}=P(t)Q$.
+\end{thm}
+\begin{proof}
+	Using semigroup property of transition probability matrix $P(t)$ for a homogeneous CTMC,  
+	we can write
+	\begin{align*}
+		\frac{P(t+h) - P(t)}{h} &= P(t)\frac{(P(h) - I)}{h}.
+	\end{align*}
+	Taking limits $h \downarrow 0$, if we can justify the interchange of limit and summation on RHS, 
+	\begin{align*}
+		\frac{dP_{ij}(t)}{dt} = \sum_{k \neq j}P_{ik}(t)Q_{kj}-\lambda_jP_{ij}(t). 
+	\end{align*}
+ 
+\end{proof}
+
+\begin{cor}
+	For a homogeneous CTMC with finite state space $E$, the transition matrix $P(t)$ and generator matrix $Q$, we have
+	\eq{
+		P(t) &= e^{tQ} = I + \sum_{n \in \N}\frac{t^nQ^n}{n!},~t\geqslant 0.
+	}
+\end{cor}
+
+%\begin{cor}
+%	%For an irreducible and aperiodic 
+%	For a homogeneous CTMC with finite state space $E$, the transition matrix $P(t)$ and generator matrix $Q$, the stationary distribution $\pi$ satisfies
+%	\begin{xalignat*}{3}
+%		&\pi Q = 0, &&\pi_i > 0, &&\sum_{i \in E}\pi_i = 1.
+%	\end{xalignat*}
+%\end{cor}
+%\begin{proof}
+%	We can define probability of being in state $j \in E$ at time $t$ by
+%	\eq{
+%		\pi_j(t) &= \Pr\{X(t) = j\}.% = \sum_{i \in E}\pi_i(0)P_{ij}(t).
+%	}
+%%	By Markov property, we have $\pi(t) = \{\pi_j(t): j \in E\}$ by
+%Then
+%	\eq{
+%		\pi(t) &= \pi(0)P(t).
+%	}
+%	For a stationary distribution, we have $\pi = \pi P(t)$ and taking derivatives on both sides, we get
+%\eq{
+%0 = \pi \frac{dP_t}{dt} = \pi Q P_t.
+%}
+%
+%Take $t = 0$, then $P_0 = I$ and we get the result.
+%\end{proof}
+\end{document}

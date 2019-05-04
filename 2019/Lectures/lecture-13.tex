@@ -1,0 +1,139 @@
+% !TEX spellcheck = en_US
+% !TEX spellcheck = LaTeX
+%\documentclass[a4paper,10pt,english]{article}
+\documentclass[all-lectures.tex]{subfiles}
+%\input{header}
+%\title{Lecture 01: Poisson Processes}
+%\author{}
+\setcounter{chapter}{5}
+
+\begin{document}
+%\maketitle
+
+\chapter{Continuous-Time Markov Chains}
+\setcounter{section}{1}
+\setcounter{subsection}{0}
+
+\section*{\centering{Lecture 13 \linebreak }}
+\subsection{Introduction}
+Consider a continuous-time stochastic process $\{X(t),t\ge0\}$ taking values in a countable (can be finite) set $S$.
+A process $\{X(t),t\ge0\}$ is a \textit{Continuous-Time Markov Chain} (CTMC) if for all $s,t \ge 0$, and $i,j,x(u) \in S, 0\le u\le s$,
+\eq{
+\P\{X(t+s)=j| X(s)=i, X(u)=x(u),0 \le u<s\} = \P\{X(t+s)=j|X(s)=i\}.
+}
+%In other words, a continuous-time Markov chain is a stochastic process having the Markovian property that the conditional distribution of the state at time $t+s$, given the present state $s$ and all past states depends only on the present state and is independent of the past. 
+If in addition,
+\eq{
+P\{X(t+s)=j| X(s)=i\}  \triangleq P_t(i,j)
+}
+is independent of $s$, then the continuous-time Markov chain is said to have stationary transition probabilities. 
+All the Markov chains we consider will be assumed to have stationary transition probabilities.
+
+Further, we will restrict to pure jump processes: the sample paths of the process are piecewise constant, right continuous. We will see that such versions of the processes can usually be constructed.
+
+By Markov property, for a pure jump process the sojourn time $T_i$ in state $i$ satisfies,
+\eq{
+P\{T_i>s+t | T_i>s\} = P\{T_i>t\}
+}
+for all $s,t \ge 0$.Hence, the random variable $T_i$ is memoryless and must thus be exponentially distributed, say with parameter $\lambda_i$.
+If $\lambda_i = 0$ then
+\eq{
+P[T_i \ge t] = e^{\lambda_i t} = 1
+}
+for all $t$ and the state $i$ is called \textit{absorbing}.
+If $\lambda_i = \infty$ then
+\eq{
+	P[T_i \ge t] = 0
+}
+for all $t$ and the state $i$ is called \textit{instataneous}. We will assume $\lambda_i < \infty$ for all states $i$. For a pure jump process this will hold.
+
+For a Markov jump process,
+\begin{itemize}
+\item the amount of time it spends in a state $i$ before making a transition into a different
+state is exponentially distributed with mean, say, $\frac{1}{\lambda_i}$, and
+\item when the process leaves state $i$, it next enters state $j$ with probability $P_{ij}$.
+\\$P_{ij}$ satisfies, for $i$ not an absorbing state,
+\eq{
+P_{ii} = 0, \quad \sum_j P_{ij} = 1, \quad  \forall i,
+}
+\end{itemize}
+and if $i$ is an absorbing state, $P_{ii}=1$.
+
+In other words, a Continuous-Time Markov Chain (CTMC) is a stochastic process that
+moves from state to state in accordance with a (discrete-time) Markov chain, but is such that the amount of time it spends in each state, before proceeding to
+the next state, is exponentially distributed. 
+The amount of time the process spends in a state $i$, and the next state visited, are independent random variables.
+
+\subsection{Strong Markov property, Minimal construction}
+
+%A random variable $\tau$ is a \textbf{stopping time} if for each $t \in \R_+$, 
+%\eq{
+%	\{\tau \leq t\} \in \F_t.
+%}
+A random variable $\tau$ is a stopping time with minimal construction if the event $\{\tau \leq t\}$ can be determined completely by the collection $\{X(u): u \leqslant t\}$. 
+A stochastic process $X$ has \textbf{strong Markov property} if for any almost surely finite stopping time $\tau$, 
+\eq{
+	P\{X(\tau+s) = j|X(u), u \leq \tau, X(\tau) = i\} &= P\{X(\tau+s) = j|X(\tau) = i\} = P_s(i,j).
+}
+\begin{lem}
+	\label{Lemma:StrongMarkovProperty}
+	A continuous time jump Markov chain $X$ has the strong Markov property. 
+\end{lem}
+\begin{proof}
+
+	Let $\tau$ be an almost surely finite stopping time with conditional distribution $F$ on the collection of events $\{X(u): u \leq s\}$. 
+	Then, 
+	\eq{
+		\Pr\{X(\tau+s) =j |X(u), u \leq \tau, X_\tau = i\} &= \int_{0}^{\infty}dF(t)\Pr\{X(t+s) = j| X(u), u \leq t, \tau = t, X_\tau = i\}\\
+		&= P_t(i,j)
+	}
+\end{proof}
+
+We give a \textit{minimal construction} of a CTMC with given $\lambda_i, s$ and $P_{ij,s}$.
+Construct a DTMC $Y_0, Y_1, \dots, $ with parameterse $P_{i,j}$ and construct exponential random variables $T_1, T_2, \dots$ independent of each other, where $T_n \sim exp(\lambda(Y_n))$.
+
+Let $S_n = \sum_{k=1}^{n} T_k$ and $S_0 = 0$.
+
+Define $X_t = Y_j$ if $S_j \le t < S_{j+1}$.
+If $\omega(\Delta) \triangleq \sup_n S_n < \infty$, then $X_t = \Delta$ for $t \ge \omega(\Delta)$,
+where $\Delta$ is an element which is not in the state space $S$.  
+On the extended state space $S \cup \{\Delta\}$ we define $P_t(\Delta, \Delta) =1$ for all $t>0$ and $P(\Delta, \Delta) =1$.
+There are other possibilies to define the MC after $\omega(\Delta)$ but the above construction makes $P_t(i,j)$, $i,j \in S$ minimal. When  $\omega(\Delta) < \infty$ , we say the MC has \textit{explosion}.
+
+One can show that for any initial condition $i$,
+\eq{
+\R(\omega) =  \{\omega:\omega(\Delta) < \infty \} = \{ \omega:\sum_{k=0}^{\infty} \frac{1}{\lambda(Y_k(\omega))} < \infty\} \quad a.s
+}
+Easier to verify the conditions for non explosion of the MC are the following.
+
+\begin{lem}
+Any of the following conditions are sufficient for $P\{\omega:\omega(\Delta) < \infty \} = 0$:
+\begin{enumerate}
+	\item $\sup_i \lambda(i) < \infty$,
+	\item $S$ is finite,
+	\item $\{Y_n\}$ is recurrent.
+\end{enumerate}
+\end{lem}
+\begin{proof}
+	
+\quad \quad  If $\omega(\Delta) < \infty$, then $\frac{1}{\lambda(Y_k(\omega))} \to 0$ as $k \to \infty$.
+
+\quad \quad  If $(1)$ is true, $\lambda(Y_k(\omega)) \le \bar{\lambda}$.
+therefore, $\lambda(Y_k(\omega)) \to \infty$ is not possible.
+
+\quad \quad  If $(2)$ is true, since $\lambda(i) < \infty$ $\forall i$, \quad $\sup_i \lambda(i) < \infty$.
+
+\quad \quad   If $(3)$ is true $Y_k(\omega) = i$ for an infinite number of $k$ $w.p. 1$.
+%In $\lambda(Y_k(\omega))$, $\lambda(i)$ will occur infinitely often $w.p. 1$.
+Therefore,
+\eq{
+\lambda(Y_k(\omega)) \centernot{\to} \infty, \quad a.s.,
+}
+\eq{
+	P[\lambda(Y_k(\omega)) \to \infty] = 0.
+}
+\end{proof}
+
+
+\end{document}
+

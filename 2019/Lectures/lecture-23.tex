@@ -18,6 +18,12 @@
 \subsection{General principles}
 In this chapter we start with some general principles in queuing theory which are valid for many different queuing systems.\\ %{\color{red} Picture to be included.}\\
 
+\begin{figure}
+\centering
+\includegraphics[scale=0.4]{Figures/queue_length_evolution.jpg}
+\caption{Evolution of queue length}
+\label{fig_queue_length_evolution}
+\end{figure}
 \textbf{GI/GI/1-FCFS queue:} 
 
 Let $\{A_k\}$ i.i.d be the inter-arrival times and $\{s_k\}$ i.i.d be the service times. Let $q_t$ be the queue length at time $t$, $W_k$ be the waiting time of the $k^{th}$ customer. If $\mu = \E[X_1] = \E[s_1] - \E[A_1] < 0$, $q_t \to q_\infty$ in distribution as $t \to \infty$. Let $S_k$ be the sojourn time of the $k^{th}$ customer and $0$ be a regeneration epoch. Then, $W_k$ and the sojourn time $S_k = W_k + s_k$ also have stationary ditributions and have the same regeneration epochs. Then denoting by $\overline{\tau}$ and $\tau$ the regeneration lengths of $\{q_t\}$ and $\{s_k\}$, ( assuming $\E_\pi[q_\infty]$ and $\E_\pi[s_1]$ are finite, this requires $\E[s_1^2] < \infty$)
@@ -27,7 +33,7 @@ Let $\{A_k\}$ i.i.d be the inter-arrival times and $\{s_k\}$ i.i.d be the servic
 &= \frac{ \E_{\pi}[S_1] }{\E[A_1]} \\
 &= \lambda \E_{\pi}[S_1].
 \end{align*}
-where $\lambda$ is the arrival rate and $\E_{\pi} S_1$ is the mean sojourn time under stationarity. \\
+where $\lambda$ is the arrival rate and $\E_{\pi}[ S_1]$ is the mean sojourn time under stationarity. Figure \ref{fig_queue_length_evolution} shows the evolution of queue length in one regeneration cycle. $\int_0^{\overline{\tau}} q_t dt$ is the area under the curve for $q(t)$. This is equal to  $\sum_{k=0}^{\tau-1} S_k $ as the break of the area in the Figure \ref{fig_queue_length_evolution} shows.\\
 \indent The above is an example of a general result called \textit{Little's law}. 
 $\E_{\pi}[Number\ in\ the\ system] = (Arrival\ rate) * \E_{\pi}[Sojourn \ time]$. This holds for a general queuing system with the same proof if $\int_0^\tau q_t dt = \sum_{k=0}^{\tau -1} S_k$ is valid in that system. We will see many examples of this in next few lectures.\\
 

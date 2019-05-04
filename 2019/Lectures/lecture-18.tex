@@ -1,0 +1,144 @@
+% !TEX spellcheck = en_US
+% !TEX spellcheck = LaTeX
+%\documentclass[a4paper,10pt,english]{article}
+\documentclass[all-lectures.tex]{subfiles}
+%\input{header}
+%\title{Lecture 01: Poisson Processes}
+%\author{}
+\setcounter{chapter}{4}
+
+\begin{document}
+%\maketitle
+
+%\chapter{Martingales}
+\setcounter{section}{2}
+\setcounter{subsection}{1}
+
+\section*{\centering{Lecture 18 \linebreak }}
+
+\section{Optimal Sampling Theorem:Example}
+\begin{exmp}
+Let $Y_0 = 0, Y_1, Y_2, \dots$ $i.i.d.$, $\E[|Y_1|] < \infty$ , $\E[Y_i]= 0$,
+$S_0 = 0$, $S_n = \sum_{i=1}^{n} Y_i$, $T$ stopping time w.r.t. $\{Y_0, Y_1, Y_2. \dots\}$, and  $\E[T]< \infty$. Then
+
+\eq{
+\E[|S_{n+1}-S_n|\F_n] = \E[|Y_{n+1}|\F_n] = \E[|Y_{n+1}|] < \infty.
+}
+hence from previous Optimal sampling theorem
+\eq{
+\E[S_T] = \E[S_0].
+}
+\end{exmp}
+
+\section{Martingale inequalities}
+\begin{thm}(Doob's inequality for submatingales)
+If $\{X_n\}$ is a submartingale, $M_n = sup_{0 \le k \le n} X_k$, then for $\alpha>0$
+\eq{
+\P[M_n \ge \alpha] \le \frac{\E[X_n]}{\alpha}.
+}
+\end{thm}
+\begin{proof}
+Let $T$ be a stopping time defined as $T= n \wedge inf\{k:M_k \ge \alpha\}$.
+\eq{
+\E[X_n] &= \sum_{k=0}^{n} \E[X_n 1_{\{T=k\}}]\\
+&= \sum_{k=0}^{n} \E[\E[X_n 1_{\{T=k\}}|\F_k]]\\
+&= \sum_{k=0}^{n} \E[1_{\{T=k\}}\E[X_n|\F_k]]\\
+&\ge \sum_{k=0}^{n} \E[1_{\{T=k\}} X_k]\\
+&= \E[X_T].
+}
+Thus,
+\eq{
+P\{M_n \ge \alpha\} = P\{X_T \ge \alpha\} \le \frac{\E[X_T]}{\alpha} \le  \frac{\E[X_n]}{\alpha}.
+}
+\end{proof}
+If  $\{X_k\}$ is a martingale, $\E[|X_k|^\beta] < \infty$, $\forall k$, for some $\beta \ge 1$, then $\{|X_k|^\beta\}$ is also a submartingale. Thus from the above theorem
+\eq{
+	P\left[\sup_{1 \le k \le n} |X_k| \ge \alpha \right] = P\left[\sup_{1 \le k \le n} |X_k|^\beta \ge \alpha^\beta \right] \le \frac{\E[|X_n|^\beta]}{\alpha^\beta}
+}
+
+\begin{exmp}
+$Y_0, Y_1, Y_2, \dots$, $\E[Y_1] = 0$, $\E[|Y_1| < \infty]$. Then $S_n$ is a martingale. Thus, from above theorem
+\eq{
+P[\sup_{0 \le k \le n} |S_k| \ge \alpha] \le \frac{\E[|S_n|]}{\alpha}.
+}
+If $\E[|Y_1|^\beta] < \infty$, $\beta \ge 1$  , then  $P[\sup_{0 \le k \le n} |S_k| \ge \alpha]  \le \frac{\E[|S_n|^\beta]}{\alpha^\beta}$.\\
+For $\beta = 2$, 
+\eq{
+\frac{\E[|S_n|^2]}{\alpha^2} = \frac{n \sigma^2}{\alpha^2} \quad \text{where} \quad  \sigma^2 = var(Y_1).
+}
+This is called \textit{Kolmogorov's inequality}.
+\end{exmp}
+
+\begin{lem}
+Let $\E[X]=0$, and $P[|X-a| \le b] = 1$ for some constants $a$ and $b$. Then
+\eq{
+\E[e^{\theta X}] \le \exp{\left( \frac{\theta^2 b^2}{2} \right)}.
+}
+\end{lem}
+
+\begin{thm}[Azuma inequality]
+Let $Y_n$ be a martingale, $\P[|Y_n - Y_{n-1}| \le d_n] = 1$, then
+\eq{
+\P[|Y_n-Y_0| \ge \alpha] \le 2 exp{\left(\frac{-\alpha^2}{2 \sum_{i=1}^{n} d_i^2}\right)}.
+}
+\end{thm}
+\begin{proof}
+	Since $\E[e^{(\theta (Y_n - Y_0))}] < \infty$ for all $\theta$,
+\begin{align}
+\label{azuma-1}
+\P[Y_n-Y_0 \ge \alpha] \le\frac{ \E[e^{(\theta (Y_n -Y_0))}]}{e^{(\theta \alpha)}}.
+\end{align}
+Also,
+\eq{
+\E[exp(\theta (Y_n -Y_0))] &= \E[\E[e^{(\theta (Y_n-Y_{n-1})+ \theta (Y_{n-1}-Y_0))}]|\F_{n-1}] \nonumber\\ 
+&= \E[e^{\theta (Y_{n-1}-Y_0)} \E[e^{\theta (Y_n-Y_{n-1})}|\F_{n-1}]]\nonumber \\
+&\le \E[\theta (Y_{n-1}-Y_0)] e^{\left(\frac{\theta^2 d^2_n}{2}\right)} \nonumber\\.
+}
+by the above lemma, iterating, 
+\begin{align}
+\label{azuma-2}
+\E[exp(\theta (Y_n - Y_0))] \le e^{\left(\frac{\theta^2}{2} \sum_{i=1}^{n} d^2_i\right)}
+\end{align}
+From \ref{azuma-1}, \ref{azuma-2},
+\eq{
+\P[|Y_n-Y_0| \ge \alpha] \le \frac{e^{\left(\frac{\theta^2}{2} \sum_{i=1}^{n} d^2_i\right)}}{e^{(\theta \alpha)}} \quad \text{holds for any $\theta > 0$}.
+}
+Choosing $\theta = \frac{\alpha}{\sum_{i=1}^{n} d^2_i}$, we get the tighest upper bound,
+\eq{
+\P[|Y_n-Y_0|\ge  \alpha] \le 2 exp{\left(\frac{-\alpha^2}{2 \sum_{i=0}^{n} d_i^2}\right)}.
+}
+\end{proof}
+
+
+Consider independent random variables $X_1, X_2, \dots, X_n$, $\E[X_i] = \mu$, $S_n = \sum_{i=1}^{n} X_i$. 
+\begin{defn}
+$F: \R^m \to \R$ is called \textit{Lipschitz-c} if	
+\eq{
+|F(x_1, x_2, \dots, x_{i-1}, x_i, x_{i+1},\dots,  x_m) - F(x_1, x_2, \dots, x_{i-1}, y_i, x_{i+1},\dots,  x_m)| \le c, \enskip \forall i, \forall x_1, x_2, \dots, x_m, y_i.
+}
+\end{defn}
+
+\begin{prop}[\textit{McDiarmid's Inequality}]
+Under above conditions, if $F$ is Lipschitz-c,
+\eq{
+	\P[|F(X_1, X_2, \dots, X_m)-\E[F]| \ge \alpha] \le 2 e^{(\frac{- 2 \alpha^2}{m c^2})}.
+}
+\end{prop}
+
+\begin{proof}
+Let $Z = f(X_1, X_2, \dots, X_m)$, $Z_i = \E[Z|X_1, X_2, \dots, X_i]$. Then $\{Z_i\}$ is a martingale.
+
+Also,
+\eq{
+|Z_{i+1} - Z_i| = &\lvert \E\left[f(x_1, x_2, \dots, x_{i+1}, X_{i+2}, X_{i+3}, \dots, X_n)|X_1=x_1,  \dots, X_i=x_i,X_{i+1}=x_{i+1}\right]\\
+&-\E\left[f(x_1, x_2, \dots, x_{i}, X_{i+1}, \dots, X_n)|X_1=x_1, \dots, X_i=x_i\right]\rvert\\
+&\le \E\left[|f(x_1, x_2, \dots, x_{i+1}, X_{i+2}, X_{i+3}, \dots, X_n)- f(x_1, x_2, \dots, x_i, X_{i+1}, X_{i+2}, X_{i+3}, \dots, X_n)|\right]\\
+& \le c.
+}
+Thus, 
+\eq{
+\P[|Z_{i+1}-Z_i| \le c |\F_i] = 1.
+}
+and the result follows by Azuma's inequality,because $Z_0 = \E[F(X_1, X_2, \dots, X_m)]$.
+\end{proof}
+\end{document}

@@ -1,0 +1,169 @@
+% !TEX spellcheck = en_US
+% !TEX spellcheck = LaTeX
+%\documentclass[a4paper,10pt,english]{article}
+\documentclass[all-lectures.tex]{subfiles}
+%\input{header}
+%\title{Lecture 01: Poisson Processes}
+%\author{}
+\setcounter{chapter}{4}
+
+\begin{document}
+%\maketitle
+
+%\chapter{Continuous-Time Markov Chains}
+\setcounter{section}{5}
+\setcounter{subsection}{0}
+
+\section*{\centering{Lecture 16 \linebreak }}
+
+\section{Birth-Death process}
+Consider a system whose state $X_t$ at any time is represented by the number of people
+in the system at that time. 
+Suppose that whenever there are $n$ people in the system,
+then $(i)$ new arrivals enter the system at an exponential rate $\beta_n$, and $(ii)$ people
+leave the system at an exponential rate $\delta_n$. 
+Such a system $\{X_t\}$ is called a \textit{birth-death process} (B-D). The parameters $\{\beta_n\}^{\infty}_{n=0}$ and $\{\delta_n\}^{\infty}_{n=0}$ are called, respectively, the
+arrival (or birth) and departure (or death) rates.
+
+The state space of the birth-death process is $\{0,1, \dots\}$.
+The transitions from state $n$ may go only to either state $n-1$ (if $n>0$) or
+state $n + 1$. 
+Thus, it is a Markov chain with its jump chain $\{Y_n\}$ having the transition matrix,
+\eq{
+P_{01} = 1
+}
+\begin{alignat*}{2}
+P_{i,i+1} = \frac{\beta_i}{\beta_i+\delta_i}, \quad i>0, && \quad  \quad  P_{i,i-1} = \frac{\delta_i}{\beta_i+\delta_i},  \quad i>0.
+\end{alignat*}
+\\
+
+An example of a birth-death process is the $\{q_t\}$ process of an $M/M/1$ queue. \\
+We use conditions for transience of DTMC given earlier to give conditions for recurrence of a B-D process.
+
+Recurrence of $\{X_t\}$ $\leftrightarrow $ Recurrence of $\{Y_k\}$.
+Thus, we look for a bounded solution $h:S\setminus\{0\} \to R$ with
+\eq{
+	h(j) = \sum_{k \neq 0} P_{jk} h(k), \quad j \neq 0,
+}\\
+Then,
+\eq{
+h(1) = \frac{\beta_2}{\beta_2+\delta_2} h(2).
+}
+Writing $p_i = \frac{\beta_i}{\beta_i + \delta_i}$ and $q_i=1-p_i = \frac{\delta_i}{\beta_i + \delta_i}$,
+\eq{
+(p_j+q_j)h(j) = q_j h(j-1) + p_j h(j+1)
+}
+Solving this iteratively , we get
+\eq{
+h(2)-h(1) = \frac{q_1}{p_1},
+}
+\eq{
+h(j+1)-h(j) = h(1) \frac{q_j q_{j-1} \dots q_1}{p_j p_{j-1} \dots p_1}
+}
+For this to be a bounded function, we need
+\eq{
+\sum_{j=1}^{\infty}  \frac{q_j q_{j-1} \dots q_1}{p_j p_{j-1} \dots p_1} < \infty.
+}
+This is necessary and sufficient condition for $\{Y_n\}$ to be transient.
+
+Therefore,
+\eq{
+\sum_{j=1}^{\infty}  \frac{q_j q_{j-1} \dots q_1}{p_j p_{j-1} \dots p_1} = \infty \quad \iff \quad \{Y_n\} \text{ is recurrent} \quad \iff \quad \{X_t\} \text{ is positive recurrent}.
+}
+Now we give conditions for positive recurrence of a B-D process.
+Solving the equation $\pi Q = 0$, we get
+\eq{
+\pi(n) = \frac{\beta_n \beta_{n-1} \dots \beta_1}{\delta_{n+1} \delta_n \dots \delta_2}  \pi(0)
+}
+From this we can conclude that
+\eq{
+\sum \pi(i) <\infty \iff \sum_{k=1}^{\infty} \frac{\beta_k \beta_{n-1} \dots \beta_1}{\delta_{k+1} \delta_n \dots \delta_2} < \infty.
+}
+This is a necessary and sufficient condition for positive recurrence of the birth-death process.
+
+\subsection{Reversibility of Birth-Death process}
+\begin{prop}
+A stationary birth-death process is reversible.
+\end{prop}
+
+\begin{proof}
+We need to show that 
+\eq{
+	\pi(i) Q_{ij} = \pi(j) Q_{ji}
+}
+But
+\eq{
+\frac{\beta_i \beta_{n-1} \dots \beta_1}{\delta_{i+1} \delta_n \dots \delta_2} Q_{i,i+1} = \frac{\beta_{i+1} \beta_{n-1} \dots \beta_1}{\delta_{i+2} \delta_n \dots \delta_2} Q_{i+1,i} 
+}
+because, 
+\eq{
+Q_{i,i+1} = \beta_{i+1}, \quad  \quad Q_{i+1,i} = \delta_{i+2}.\\
+}
+\end{proof}
+\begin{exmp}[The $M/M/1$ queue]
+In the $M/M/1$ queue $\beta_n = \lambda, \delta_n = \mu$.
+
+For recurrence,
+\eq{
+\sum_{j=1}^{\infty} \frac{\left(\frac{\mu}{\mu+\lambda}\right)^j}{\left(\frac{\lambda}{\mu+\lambda}\right)^j} &= \sum_{j=1}^{\infty} \left(\frac{\mu}{\lambda}\right)^j = \infty.
+}
+That is $\frac{\lambda}{\mu}  \le 1$ is the necessary and sufficient condition for an $M/M/1$ queue to be recurrent.\\\\
+For positive recurrence,
+\eq{
+\sum_{k=1}^{\infty} \frac{\beta_k \beta_{n-1} \dots \beta_1}{\delta_{k+1} \delta_n \dots \delta_2} < \infty \quad \Rightarrow  \quad \sum_{k=1}^{\infty} \left(\frac{\lambda}{\mu}\right)^k < \infty,  \frac{\lambda}{\mu} <1
+}
+Then,
+\eq{
+\pi(n) = \left(\frac{\lambda}{\mu}\right)^n \pi(0) \quad \text{and} \quad \sum_{n=0}^{\infty} \pi(n) =1
+}
+Therefore,
+\eq{
+\pi(n) = \rho^n (1-\rho)	\quad \text{where} \quad \rho = \frac{\lambda}{\mu}.
+}
+\end{exmp}
+
+%\begin{exmp}[The $M/M/1$ queue]
+%In the $M/M/1$ queue the arrival rate of customers is $\lambda$ and the service rate is $\mu$.
+%Then the queue length process $q_t$ is a birth-death process. 
+%Thus by using the limiting probabilities for a birth and death process, we can write the distribution of queue length as
+%\eq{
+%	\pi_n &= \frac{(\frac{\lambda}{\mu})^n}{1+\sum_{n=1}^{\infty} \le \left(\frac{\lambda}{\mu}\right)^n}\\
+%	&=\left(\frac{\lambda}{\mu}\right)^n \left(1-\frac{\lambda}{\mu}\right),
+%}
+%with
+%\begin{align*}
+%Q_{ii} = -\lambda - \mu
+%\end{align*}
+%\begin{align*}
+%Q_{i,i+1} = \lambda
+%\end{align*}
+%\begin{align*}
+%Q_{i,i-1} = \mu  \quad \text{for} \quad i >0,
+%\end{align*}
+%
+%for $\lambda < \mu$, it has a stationary distribution $\pi$.
+%\end{exmp}
+\begin{exmp}[The $M/M/\infty$ queue]
+	The queue has an $\infty$ number of servers. Whenever a customer arrives it joins an idle server and gets service with an exponential distribution $\exp(\mu)$.After completion of service it leaves the system. 
+Let $q_t$ be the number of customers in the system at time $t$.
+Its $Q$ matrix is given by
+\eq{
+q_{i, i+1} = \lambda, \quad q_{i,i-1}=i \mu \quad \text{for} \quad i>0.
+}
+
+For recurrence, we need
+\eq{
+\sum_{j} \frac{q_j q_{j-1} \dots  q_1}{p_j p_{j-1} \dots p_1} = \infty.
+}
+\eq{
+\sum_{j} \frac{j \mu (j-1) \mu \dots \mu}{\lambda^j} &= \sum_j j! \left(\frac{q}{\lambda}\right)^j\\
+&= \infty.
+}
+This holds if $\frac{q}{\lambda} \neq 0$. Positive recurrence also holds because
+\eq{
+\sum_{k=1}^{\infty} \frac{\beta_k \beta_{k-1} \dots \beta_1}{\delta_{k+1} \delta_n \dots \delta_2} &= \sum_k \frac{\lambda^k}{(k+1) \mu k \mu \dots \mu}\\
+&= \sum_{k=0}^{\infty} \frac{\lambda^k}{\mu^k (k+1)!}\\
+&< \infty.
+}
+\end{exmp}
+\end{document}
