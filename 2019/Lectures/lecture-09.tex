@@ -15,81 +15,21 @@
 \setcounter{section}{5}
 \setcounter{subsection}{0}
 
-\section*{\centering{Lecture 9 \linebreak }} % 07-Feb-2019
-\subsection{Regenerative Processes}
-Let $\{X_t\}$ be a stochastic process and $Y_0,Y_1,Y_2,\dots$ be i.i.d with distribution $F$. Let $S_n = \sum_{k=0}^n Y_k$.
-\begin{defn}
-The process $\{X_t\}$ is \textit{regenerative }if there exists $Y_0,Y_1,\dots$ i.i.d such that the process $Z_{n+1} = \{X_{S_n +t}, t\geq 0\}$ is independent of $Y_0,Y_1,Y_2,\dots,Y_n$ and the distribution of $Z_{n+1}$ does not depend on $n$. $\{X\}$ is a delayed regenerative process if distribution of $Y_0$ is different from $Y_1$.
-\end{defn}
-
-
-\indent \textbf{Examples:} 
-\begin{enumerate}
-\item The process $\{B_t\}$ corresponding to residual life in a renewal process is regenerative if we take $Y_k = X_k$ where $X_k$ is the $k^{th}$ inter-arrival time.
-\item In a Markov chain the time instants when the Markov chain visits a particular state, say $i_0$, the process regenerates itself. 
-\item Consider a GI/GI/1 queue. The process $\{q_t\}$, the queue length at time $t$ is a continuous time regenerative process which regenerates when an arrival sees empty queue. The process $\{W_n\}$, the waiting time of the $n^{th}$ customer is a discrete time regenerative process with the above arrival epochs. 
-\end{enumerate} 
-\begin{thm}
-Let $\{X_t,t\geq 0\}$ be a delayed regenerative process with $\mu = \E[Y_1] < \infty$ and $F$ is non-lattice. Let $f$ be a bounded,  continuous function a.s. Then,
+\section*{\centering{Lecture 9 \linebreak (07-Feb-2019)}} % 07-Feb-2019
+{ \color{blue}
+Let $\{X_t\}$ be a regenerative process, $F$ be its distribution of the regeneration length and $\mu$ be its mean. If $\mu < \infty$, the process $\{X_t\}$ has a unique stationary distribution. Moreover, for bounded and continuous $f$,
+\begin{itemize}
+\item if $F$ is non-lattice, $f(X_t) \stackrel{d}{\to} f(X_e)$ as $t \to  \infty$
+\item if $F$ is lattice and aperiodic, $X_n \stackrel{d}{\to} f(X_e)$ as $n \to \infty$
+\item if $F$ is lattice and periodic with period $d$, 
 \begin{align*}
-\lim_{t\to \infty} \E[f(X_t)] = \E_e[f(X_t)] = \frac{1}{\mu} \E_0\left[ \int_0^{Y_1} f(X_s) ds\right]
+\frac{1}{d} \sum_{k=1}^d f(X_{n+k}) \stackrel{d}{\rightarrow} f(X_e) \text{ as } n \to \infty.
 \end{align*}
-where $\E_e$ is the expectation w.r.t. equilibrium or stationary distribution and $\E_0$ is the expectation w.r.t the process when $S_0 = 0$.
-\begin{proof} We show for $S_0 = 0$. Then, 
+\end{itemize}
+\noindent where $X_e$ has the stationary distributionm given by 
 \begin{align*}
-\E[f(X_t)] &= \E[f(X_t), Y_1 > t] + \int_0^t \E[f(X_t)| Y_1 = s] dF(s) \\
-&= \E[f(X_t), Y_1 > t] + \int_0^t \E[f(X_{t-s})] dF(s)\\
-&= \E[f(X_t), Y_1 > t] + \E[f(X)]*F(t)
-\end{align*}
-This is a renewal equation. Since $f$ is bounded and $X_t$ is right continuous, it follows that $\E[f(X_t), Y_1 > t]$ is d.r.i. Therefore,
-\begin{align*}
-\lim_{t\to \infty} \E[f(X_t)] &= \frac{1}{\mu} \int_0^\infty \E_0[f(X_s), Y_1 >  s] dt\\
-&= \frac{1}{\mu} \E_0\left[ \int_0^\infty f(X_s)1\{ Y_1 >  s\} ds\right]\\
-&= \frac{1}{\mu} \E_0\left[ \int_0^{Y_1} f(X_s) ds\right] \qedhere
-\end{align*}
-The following theorem for lattice $F$ can be proved in the same way.
-\newpage
-\end{proof}
-\end{thm}
-\begin{thm}\ 
-\begin{enumerate}
-\item For discrete time regenerative processes $\{X_n\}$ and $F$ is aperiodic,
-\begin{align*}
-\lim_{n\to \infty} \E[f(X_n)] = \E_e[f(X_n)] = \frac{1}{\mu} \E_0\left[ \sum_{k=1}^{Y_1} f(X_k) \right].
-\end{align*}
-\item For discrete time regenerative processes $\{X_n\}$ and $F$ has period $d$,
-\begin{align*}
-\lim_{n\to \infty} \frac{1}{d} \sum_{k=0}^{d-1} \E[f(X_{n+k})] = \E_e[f(X_n)] = \frac{1}{\mu} \E_0\left[ \sum_{k=1}^{Y_1} f(X_k) \right]. 
-\end{align*}
-\end{enumerate}
-\QEDB
-\end{thm}
-
-%\begin{thm}
-%If $\mu<\infty$, then $\{X_t\}$ has a stationary distribution. Let $X_e$ be the equilibrium distribution. Then, 
-%\begin{enumerate}
-%\item if $F$ is non-lattice,
-%\begin{align*}
-%X_t \rightarrow X_e \text{ in distribution as $t \to \infty$.}
-%\end{align*}
-%\item if $F$  is lattice and aperiodic,
-%\begin{align*}
-%X_n \rightarrow X_e \text{ in distribution as $n \to \infty$.}
-%\end{align*}
-%\item if $F$  is lattice and has period $d$,
-%\begin{align*}
-%\frac{1}{d} \sum_{k=0}^{d-1} X_{n+k} \rightarrow X_e \text{ in distribution as $n \to \infty$.}
-%\end{align*}
-%\end{enumerate}
-%\end{thm}
-
-
-Taking $f(X_t) = 1\{X_t \leq x\}$, for the non-lattice case we have 
-\begin{align*}
-\lim_{t\to \infty} \P\{X_t \leq x\} = \frac{\E\left[ \int_0^{Y_1} 1\{X_t \leq x\}\right]}{\E[Y_1]}.
-\end{align*}
-Similar results hold for the lattice case. \\
-\indent \textbf{Example} ($GI/GI/1$ queue): If regenerative lengths $\tau$ of $\{W_n\}$ in $GI/GI/1$ queue satisfies $E[\tau] < \infty$ and it is aperiodic, then $W_n$ has unique stationary distribution and $W_n \to W_\infty$ where $W_\infty$ is a r.v. with the stationary distribution. We can show that if $\E[A] < \E[s]$, then the above conditions are satisfied. Also, if the queue starts empty with an arrival, then, if $\overline{\tau}$ is the regeneration length of $\{q_t\}$, then $\overline{\tau} = \sum_0^{\tau} A_k$. Since, $\tau$ is a stopping time w.r.t $\{ A_n, s_n\}$ sequence, by Wald's lemma, $\E[\overline{\tau}]=\E[A_1]\E[\tau] < \infty$ whenever $\E[\tau] < \infty$. Thus when $\E[A_1]<\E[s_1]$, $\{q_t\}$ also has a unique stationary distribution and starting from any initial distribution,  it converges in distribution to the limiting distribution.
+\P\{X_e \leq x\} = \frac{\E_0[\int_0^{Y_1} 1\{X_t \leq x\}]}{\E_0[Y_1]}.
+\end{align*}}
 \begin{thm}[Strong law for regenerative processes] \
 \begin{itemize}
 \item If $F$ is non-lattice (with arbitrary distribution of $Y_0$) and $\E[\int_{Y_1}^{Y_2}|H(X_t)|dt] <\infty$,
