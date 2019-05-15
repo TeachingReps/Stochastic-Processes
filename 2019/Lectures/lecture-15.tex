@@ -11,115 +11,178 @@
 %\maketitle
 
 %\chapter{Continuous-Time Markov Chains}
-\setcounter{section}{2}
+\setcounter{section}{3}
 \setcounter{subsection}{0}
 
 \section*{\centering{Lecture 15 \linebreak }}
 
-\section{Chapman Kolmogorov equations}
-We define the \textit{generator matrix} $Q$ for MC $\{X_t\}$ as $Q_{ii} = - \lambda_i$ and $Q_{ij} = \lambda_i P_{ij}$ for $j \neq i$. 
-Also, the fact that MC stays in state $i$ with $\exp(\lambda_i)$, implies that
-\eq{
-\frac{1-P_{ii}(t)}{t} \to \lambda_i \quad \text{as}  \quad t \to 0,
-}
-and then,
-\eq{
-\lim_{t \downarrow 0} \frac{P_{ij}(t)}{t} = \lim_{t \downarrow 0}  \frac{1-P_{ii}(t)}{t} P_{ij} = Q_{i,j} \quad \text{for all} \quad i \neq j.
-}
-\begin{thm}[Backward equation] For a homogeneous CTMC with transition matrix $P(t)$ and generator matrix $Q$, for the minimal construction,
-	\begin{align*}
-		%P'_{ij}(t)= \sum_{k \neq i}q_{ik}P_{kj}(t)-\nu_iP_{ij}(t) ,  i,j \in I
-		\frac{dP(t)}{dt}=QP(t), ~~t \geqslant 0.
-	\end{align*}
-\end{thm}
-\begin{proof} 
-	Using semigroup property of transition probability matrix $P(t)$ for a homogeneous CTMC,  
-	%we have
-	%\begin{align*}
-	%P_{ij}(t+h)=\sum_{k \in I}P_{ik}(h)P_{kj}(t),~~i,j \in I.
-	%\end{align*}
-	%Re-arranging terms, 
-	we can write
-	\begin{align*}
-		%P_{ij}(t+h)-P_{ij}(t)=\sum_{k \neq i}P_{ik}(h)P_{kj}(t)-(1-P_{ii}(h))P_{ij}(t).
-		\frac{P(t+h) - P(t)}{h} &= \frac{(P(h)- I)}{h}P(t). % = P(t)\frac{(P(h) - I)}{h}.
-	\end{align*}
-	%Dividing above equation by $h$,  and 
-	Taking limits $h \downarrow 0$ and exchanging limits and summation, justified below, on the RHS we get 
-	\begin{align*}
-		\frac{dP_{ij}(t)}{dt} = \sum_{k \neq i}Q_{ik}P_{kj}(t)-\lambda_iP_{ij}(t). 
-	\end{align*}
-	
-	
-	Now we justify the exchange of limit and summation. For any finite subset $F \subset S$, we have
-	\begin{align*}
-		\liminf_{h \downarrow 0} \sum_{k \neq i}\frac{P_{ik}(h)}{h}P_{kj}(t) \geq \sum_{k \in F\setminus \{i\} }\liminf_{h \downarrow 0}\frac{P_{ik}(h)}{h}P_{kj}(t) = \sum_{k \in F\setminus \{i\}}Q_{ik}P_{kj}(t).
-	\end{align*}
-	Since, above is true for any finite set $F \subset E$, taking supremum over increasing sets $F$, we get the lower bound.
-	%\begin{align*}
-	%\liminf_{h \downarrow 0} \sum_{k \neq 1}\frac{P_{ik}(h)}{h}P_{kj}(t) \geq \sum_{k \neq i}Q_{jk}P_{kj}(t).
-	%\end{align*}
-	%%Suffices to show that $\limsup_{h \rightarrow 0} \sum_{k \neq 1}\frac{P_{ik}(h)}{h}P_{kj}(t) \leq \sum_{k \neq 1}q_{jk}P_{kj}(t)$. 
-	For the upper bound, we observe for any finite subset $F \subseteq E$
-	\begin{align*}
-		\limsup_{h \downarrow 0}\sum_{k \neq i}\frac{P_{ik}(h)}{h}P_{kj}(t) &\leq \limsup_{h \downarrow 0}\left(\sum_{k \in F\setminus \{i\}}\frac{P_{ik}(h)}{h}P_{kj}(t)+\sum_{k \notin F\setminus\{i\} }\frac{P_{ik}(h)}{h}\right)\\
-		& = \limsup_{h \downarrow 0}\left(\sum_{k \in F\setminus \{i\}}\frac{P_{ik}(h)}{h}P_{kj}(t)+\frac{1-P_{ii}(h)}{h} -\sum_{k \in F\setminus \{i\}}\frac{P_{ik}(h)}{h} \right)\\
-		&= \sum_{k \in F\setminus \{i\}}Q_{ik}P_{kj}(t)+ \left(\lambda_i- \sum_{k \in F\setminus \{i\}}Q_{ik}\right). %&=\sum_{k \neq 1}q_{ik}P_{kj}(t). 
-	\end{align*}
-Now take $F \nearrow S$, then the term $\left(\lambda_i- \sum_{k \in F\setminus \{i\}}Q_{ik}\right)$ goes to zero.
-	
-\end{proof}
+\section{Irreducibility and Recurrence}
+Let $\{X_t\}$ be a Markov chain, $\{Y_0, Y_1, \dots\}$ be its jump Markov chain, $\{T_0, T_1, \dots\}$ the sojourn times. Let $P$ be the transition matrix for $\{Y_k\}$.
+$\hat{P} \to P$,
+\begin{itemize}
+\item $i \to j$ in $\{Y_n\}$ if $\exists$ $n_1$ s.t $P^{n_1}_{ij} > 0$,
+\item $i \to j$ in $\{X_t\}$ if $\exists$ $t_1 >0$ s.t $P_{t_1}(i,j) > 0$.
+\end{itemize}
 
-\begin{thm}[Forward equation] 
-	%Under suitable regularity conditions, 
-	For a homogeneous CTMC with transition matrix $P(t)$ and generator matrix $Q$, we have for the minimal construction,
-	\eq{
-		\frac{dP(t)}{dt} &=P(t)Q.
-	}
-	%$P'_{ij}(t)=\sum_{k \neq i}P_{ik}(t)q_{kj}-P_{ij}(t)\nu_i$, i.e. $\frac{dP(t)}{dt}=P(t)Q$.
+Since $P_t(i,i)\to 1$ as $t \to 0$ for all $i$, $P_t(i,i)  > \epsilon$ for all $t  \in [0, \delta]$, for some $\epsilon > 0$ and $\delta > 0$.
+Then $P_{nt}(i,i) \ge (P_{t}(i,i))^n$ implies that $P_t(i,i)  >0$ for all $t \in [0, \delta n]$ and hence $P_t(i,i) > 0$ for all $t$.
+This also follows directly from $P_t(i,i)  \geq P[T_0 >t] > 0$ for $T_0 \sim exp(\lambda_{i})$.
+%Consider a CTMC $\{X_t\}$  that is irreducible, ergodic and let us consider the limiting probabilities $\pi_i$. 
+%Let $\{Y_k\}$ be the jump MC with transition matrix $\hat{P}$. 
+%Let $\mu_i$ be its stationary probabilities.
+\begin{prop}
+The following statements are equivalent, under minimal construction
+\begin{enumerate}
+\item $i \to j$ in $\{Y_n\}$,
+\item $i \to j$ in $\{X_t\}$,
+\item $P_t(i,j)  > 0 $, $\forall$ $ t>0$.
+\end{enumerate}
+\end{prop}
+
+\begin{proof}{$(1)	\Rightarrow (2), (3)$}\\
+	
+$\exists$ $n_1$ s.t $P_{n_1}(i,j) > 0$,  therefore $i \xrightarrow{T_0} i_1 \xrightarrow{T_1} i_2 \rightarrow \dots \rightarrow i_{n_1-1} \xrightarrow{T_n} j$ where $i, i_1, \dots, i_{n_1-1}$ are not absorbing states. Then,
+ $\infty > \lambda(i),\lambda(i_1),\dots,\lambda(i_{n_1-1})>0$, $\lambda(j) < \infty$.\\\\
+$T_0 \sim \exp(\lambda_{ii})$ where $\infty > \lambda_{ii} = \lambda_i q_{ii} > 0$.\\\\
+$P_t(i,j) \ge P[\sum_{k=0}^{n-1} T_k \le \frac{t}{2} , T(j) > \frac{t}{2} > 0] >0,$ \quad $\forall$ $t>0$.\\\\
+Hence $P_t(i,j) >0$.
+
+{$(3)	\Rightarrow (2)$} is clear from the definition itself.
+
+{$(2)	\Rightarrow (1)$}\\
+	
+%$\exists$ $t_1 >0$ s.t $P_{t_1}(i,j)  > 0$. Then, in the minimal construction,
+$P(\omega(\Delta) > t_1) > P_{t_1}(i,j)  > 0$. Therefore, there is a finite path $i \to i_1 \to \dots \to i_n \to j$,
+such that,
+$P(i \to i_1 \to \dots \to i_{n_1} \to j) > 0$, $P_{ii_1}, \dots, P_{i_{n_1-1}i_{n_1}} , P_{i_ni} >0$.
+This implies $i \to j$ in Markov chain $\{Y_n\}$.
+\end{proof}
+In particular this also implies that closed irreducible classes are same in $\{Y_k\}$ and $\{X_t\}$ and
+$\{Y_n\}$ is irreducible $\Leftrightarrow$ $\{X_t\}$ is irreducible.
+
+Let $\omega(t) = \inf{\{t >0, \enskip s.t. \enskip  X_t = i \enskip and \enskip \lim_{s \uparrow t}X_s \neq i\}}$.
+This is the first time MC visits state $i$, after exiting from $i$ if $X_0 = i$.
+\begin{defn}
+A state $i$ is \textit{transient} if $P_i\{\omega(i)< \infty\} <1$.
+It is \textit{recurrent} if $P_i\{\omega(i)< \infty\} = 1$. A recurrent chain is \textit{positive recurrent} if $\E_i[\omega(i)] < \infty$, otherwise \textit{null recurrent}.
+\end{defn}
+\begin{thm}
+State $i$ is recurrent for $\{Y_k\}$ iff it is for $\{X_t\}$ in a minimal construction.
 \end{thm}
 \begin{proof}
-	Using semigroup property of transition probability matrix $P(t)$ for a homogeneous CTMC,  
-	we can write
-	\begin{align*}
-		\frac{P(t+h) - P(t)}{h} &= P(t)\frac{(P(h) - I)}{h}.
-	\end{align*}
-	Taking limits $h \downarrow 0$, if we can justify the interchange of limit and summation on RHS, 
-	\begin{align*}
-		\frac{dP_{ij}(t)}{dt} = \sum_{k \neq j}P_{ik}(t)Q_{kj}-\lambda_jP_{ij}(t). 
-	\end{align*}
- 
+Let $i$ be recurrent for $\{Y_k\}$. Let $\tau(i) = \inf{\{k>0 \enskip s.t.  \enskip Y_k = i\}}$.\\
+Then $P[\tau(i) < \infty] = 1$ and $\omega(i) = \sum_{k=0}^{\tau(i)-1} T_k$, where $T_k$ is the sojourn time of $X_t$ in state $Y_k$. Then
+\eq{
+P_i[\omega(i) < \infty] &= P_i\left[\sum_{k=0}^{\tau(i)-1} T_k < \infty\right]\\
+&= \sum_{n=1}^{\infty} P_i\left[\sum_{k=0}^{n-1} T_k < \infty | \tau(i) = n\right] P[\tau(i)=n].
+}
+But
+\eq{
+P_i\left[\sum_{k=0}^{n-1} T_k < \infty | \tau(i) = n\right] &= \sum_{i_1, i_2, i_3, \dots, i_{n-1}} P_i\left[\sum_{k=0}^{n-1} T_k < \infty | \tau(i) = n, Y_j = i_j, j= 1, 2, \dots, n-1\right] \\
+& \enskip \enskip \enskip \enskip \enskip \enskip  \enskip \enskip \enskip \enskip \enskip \enskip \enskip \enskip \enskip \enskip \enskip  P[Y_j = i_j, j= 1, 2, \dots, n-1|\tau(i) = n]\\ &= 1.
+}
+Thus
+\eq{
+P_i[\omega(i) < \infty] = 1.
+}
+
+%Now assume that $i$ is recurrent for $\{X_t\}$. In a minimal construction, $\omega(i) < \omega(\Delta)$. Then, the number of jump till time $\omega(i)$ is finite.
+Therefore, $P_i[\tau(i) < \infty] = P_i[\omega(i) < \infty] = 1$.
+\end{proof}
+The above theorem implies that $i$ is transient in $\{X_t\}$  iff it is in $\{Y_k\}$.
+
+If  $\{X_t\}$ is irreducible then we have seen that $Y_k$ is irreducible.
+If $i$ is recurrnet/transient in $\{X_t\}$ then so is it in $\{Y_k\}$. Then in $\{Y_k\}$ every state is recurrent/transient. Thus it is so in $\{X_t\}$. Therefore, in $\{X_t\}$ also recurrence/transience is a class property. However positive recurrence of $\{Y_k\}$ does not imply $\{X_t\}$ and vice versa.
+
+Let $\{X_t\}$ be irreducible and $i$ be recurrent in $\{X_t\}$. We take visit times to $i$ as regenerative epochs with $\omega(i)$ as a regeneration length. Then from delayed regenerative process limit theorem for a bounded function $f$,
+\eq{
+\E_j[f(X_t)] \to \E[f(X_0],
+}
+where $\pi$ is a stationary measure for $X = \{X_t\}$. Taking $X_0 = i$,
+\eq{
+\E_{\pi}[f(X_0)] =  \frac{\E_i[\int_{0}^{\omega(i)} f(X_t) dt]}{\E[\omega(i)]}.
+}
+If $i$ is null recurrent then $\E[\omega(i)] = \infty$ and $\E_{\pi}[f(X_0)] = 0$. If $i$ is positive recurrent then $\pi$ can be normalized to get a stationary (unique) distribution for $X$. Also, then
+\begin{align}
+\label{eq17-1}
+\pi(j) = \frac{\E_i[\int_{0}^{\omega(i)} 1_{\{X_t=j\}} dt]}{\E_i[\omega(i)]} >0, \enskip \forall j.
+\end{align}
+Furthermore, as $t \to \infty$,
+\eq{
+\P_t(i,j) \to \pi(j)
+}
+and also, $P_t(k,j) \to \pi(j)$ for all $k$ and $j$.
+If $i$ is null recurrent, then for all $j$ , as $t \to \infty$
+\eq{
+P_t(i,j) \to 0, \quad P_t(k,j) \to 0 \quad \forall j,k.
+}
+\begin{prop}
+If $i$ is transient then $P_t(j,i) \to 0$ as $t \to \infty$ for any $j \in S$.
+\end{prop}
+\begin{proof}
+Now $P_i[\omega(i) < \infty] \triangleq p <1$. Let $N$ be number of times state $i$ is visited. Then $P[N=n] = p^n (1-p)$ and $P[N<\infty]=1$. Let $\tilde{\omega}(i) \stackrel{d}{=} [\omega(i) | \omega(i) < \infty]$ a when $X_0=i$, and $Z_k$ be $i.i.d.$ $\exp(\lambda_{i})$.
+
+Let $\tilde{\omega}_k(i)$ $i.i.d.$ $\sim$ $\tilde{\omega}(i)$.
+Then
+\eq{
+P_t(i,i) \le P_i[\sum_{k=1}^{N} (\tilde{\omega}_k(i) + Z_k) > t] \to 0 \quad \text{as} \quad t \to \infty.
+}
+Also, for $j \neq i$,
+\eq{
+P_t(j,i) \le P_j[\tilde{\omega}(i) + \sum_{k=1}^{N} (\tilde{\omega}_k(i) + Z_k) > t] \to 0,
+}
+where $\tilde{\omega}(i) \stackrel{\text{d}}{=} [\omega(i) \mid \omega(i) < \infty]$ when $X_0 = j$.
 \end{proof}
 
-\begin{cor}
-	For a homogeneous CTMC with finite state space $E$, the transition matrix $P(t)$ and generator matrix $Q$, we have
-	\eq{
-		P(t) &= e^{tQ} = I + \sum_{n \in \N}\frac{t^nQ^n}{n!},~t\geqslant 0.
-	}
-\end{cor}
+Now assume $X$ is recurrent, irreducible, and $Y = \{Y_k\}$ is positive recurrent with the unique stationary distribution $\mu$. Let $N(j)$ be the number of visits to state $j$ between two visits of $i$. Let $\tau(i)$ be the intervisit time to state $i$ in $(Y_k)$. Then
+\eq{
+\mu(j) = \E[N(j)]/ \E_i[\tau(i)].
+}
+Also, from \ref{eq17-1}
+\begin{align}
+\label{eq17-2}
+%\pi(j) &= \frac{\E_i[\int_{0}^{\omega(i)} 1_{\{X_t=j\}} dt]}{\E_i[\omega(i)]} \nonumber \\
+&= \frac{\E_i[\sum_{k=1}^{N(j)} T_k(j)]}{\E_i[\sum_k \sum_{k=1}^{N(k)} T_k(j)]}
+\end{align}
+where $T_k(j)$ is the sojourn time in state $j$ on $k$th visit to state $j$. The RHS of \ref{eq17-2} is
+\eq{
+\frac{\E_j[N(j)]/\lambda_j}{\sum_{l} \E_i[N(l)]/\lambda_l} &= \frac{\mu(j) \E[\tau(i)]/ \lambda_j}{ \sum_l \mu(l) \E[\tau(i)]/\lambda_l}\\
+&= \frac{\mu(j)/\lambda_j}{\sum_l \mu(l)/\lambda_l}.
+}
+Thus, if $\sum_l \mu(l)/\lambda_l < \infty$ then $\pi(j) > 0$ for all $j$ and $X$ is positive recurrent.
+More directly, if $\E[\tau_i] < \infty$, then $\E_i[\omega(i)] = \E[\tau_i] \sum_l \mu(l)/\lambda_l$
+implies that if $\sum_l \mu(l)/\lambda_l < \infty$ then $E_i[\omega(i)] < \infty $ and hence $i$ is positive recurrent. Thus, also $X$.
 
-%\begin{cor}
-%	%For an irreducible and aperiodic 
-%	For a homogeneous CTMC with finite state space $E$, the transition matrix $P(t)$ and generator matrix $Q$, the stationary distribution $\pi$ satisfies
-%	\begin{xalignat*}{3}
-%		&\pi Q = 0, &&\pi_i > 0, &&\sum_{i \in E}\pi_i = 1.
-%	\end{xalignat*}
-%\end{cor}
-%\begin{proof}
-%	We can define probability of being in state $j \in E$ at time $t$ by
-%	\eq{
-%		\pi_j(t) &= \Pr\{X(t) = j\}.% = \sum_{i \in E}\pi_i(0)P_{ij}(t).
-%	}
-%%	By Markov property, we have $\pi(t) = \{\pi_j(t): j \in E\}$ by
-%Then
-%	\eq{
-%		\pi(t) &= \pi(0)P(t).
-%	}
-%	For a stationary distribution, we have $\pi = \pi P(t)$ and taking derivatives on both sides, we get
-%\eq{
-%0 = \pi \frac{dP_t}{dt} = \pi Q P_t.
-%}
-%
-%Take $t = 0$, then $P_0 = I$ and we get the result.
-%\end{proof}
+%If $S$ is finite, $\pi P_t = \pi$ and taking derivative, $\pi \frac{dP_t}{dt} = 0$.
+Take derivative at $t=0$, we get $\pi Q =0$. More generally we have
+\begin{prop}
+An irreducible positive recurrent, nonexplosive MC $X$ is positive recurrent iff we can find a probability measure $\pi$ $s.t.$ $\pi Q = 0$. Then $\pi$ is the unique stationary distribution of $X$.
+\end{prop}
+More along the lines mentioned above, we also have
+\begin{prop}
+A sufficient condition for positive recurrence of an irreducible chain $X$ is that $\exists$ a distribution $\pi$ s.t. $\pi Q = 0$ and $\sum_i \pi(i) \lambda_i < \infty$. 
+Then $\{Y_k\}$ is also positive recurrent with the unique stationary distribution $\mu(j) = \pi(j) \lambda_j.$
+\end{prop}
+\section{Time Reversibility}
+Let $\{X_t\}$ be irreducible and positive recurrent and $\pi$ is its stationary distribution. 
+We consider $\{X_t\}$ under stationarity. 
+For fixed $T$ consider $Y_t = X_{T-t}$. It is a Markov chain with transition function, 
+\eq{
+\tilde{P}_t(ij) &= P[Y_t=j|Y_0=i] = P[X_{T-t}=j|X_T=i]\\
+&=\frac{P[X_{T-t}=j,X_T=i]}{P[X_T=i]}\\
+&=\frac{P[X_{T}=i|X_{T-t}=j] P[X_{T-t}=j]}{P[X_T=i]}\\
+&=\frac{P_t(j,i)\pi(j)}{\pi(i)}.
+}
+The stationary distribution of the reverse process is same as for the forward process, because the fraction of the time spent by  the MC in state $i$ in both directions is same.
+\begin{defn}
+$\{X_t\}$ is \textit{time reversible} if 
+\eq{
+\tilde{P}_t(ij)= \frac{P_t(j,i)\pi(j)}{\pi(i)} = P_t(i,j).
+}
+\end{defn}
+Taking derivative at $t=0$,
+\eq{
+Q_{ij} = \frac{\pi(j)}{\pi(i)}Q_{ji}, \quad \forall i, j.
+}
+The above equation is called \textit{detailed balance}. 
 \end{document}

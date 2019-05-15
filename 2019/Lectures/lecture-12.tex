@@ -11,82 +11,83 @@
 %\maketitle
 
 %\chapter{Discrete Time Markov Chains}
-\setcounter{section}{4}
+\setcounter{section}{5}
 \setcounter{subsection}{0}
 
 \section*{\centering{Lecture 12 \linebreak }}
-\subsection{Criterion for transience, null recurrence and positive recurrence}
-\begin{thm} \label{prop:markov_chain_class_tests}
-Let $S$ be irreducible and $f: S \rightarrow \R$. 
-\begin{enumerate}
-\item Let $f(i)\rightarrow \infty$ as $i\rightarrow \infty$. If $\E[f(X_1)|X_0 = i] \leq f(i)$ for all $i$ outside a finite set $S_0 \subset S$, then the Markov chain is recurrent. 
-\item Let $f:S\rightarrow \R^+$ and $S_0 \subset S$ be finite. If 
-	\begin{enumerate}
-	\item  $\E[f(X_1)|X_0 = i] < \infty \ \forall i$,
-	\item For $i \notin S_0$, $\E[f(X_1)|X_0 = i] - f(i) < -\epsilon$ for some $\epsilon > 0$
-	\end{enumerate}
-	 the Markov chain is positive recurrent. 
-\item Let $f:S\rightarrow \R$ and $S_0 \subset S$ be finite.	The Markov chain is transient if
-	\begin{enumerate}
-	\item  $f$ is bounded and $\E[f(X_1)|X_0= i] \geq f(i)\ \forall i \in S_0$
-	\item $f(i) > f(j)\ \forall j\in S_0$, for some $i\notin S_0$
-	\end{enumerate}	
-\end{enumerate}
-\end{thm}
-\indent The proof of this theorem requires Martingale methods. Thus we will prove it after we have studied Martingales. \\
-\indent \textbf{Example:} Consider a slotted queuing system in which one service time is equal to one slot. Let $q_k$ be the queue length at the end of $k^{th}$ slot. Let $A_k$ denote the number of arrivals in the $k^{th}$ slot. Then, $q_{k+1} = (q_k -1)^+ + A_{k}$ and for $i>0$
+\section{Example: M/GI/1 queue}
+Consider an $M/GI/1$ queue. Let $\lambda$  be the Poisson arrival rate, $S_k$ the service time of the $k^{th}$ customer and $\E[S]$ be the mean service time. Let 
+\begin{itemize}
+\item $q_k = $ queue length just after the $k^{th}$ departure. 
+\item $\hat{q}_k = $ queue length just before the $k^{th}$ arrival. 
+\item $q_t =$ queue length at arbitrary time $t$.
+\item $W_k = $ waiting time of the $k^{th}$ customer.
+\end{itemize}
+The process $\{q_k\}$ satisfies $q_{k+1} = (q_k -1)^+ + A_{k+1}$ where $A_{k+1}$ is the number of arrivals during the service of $(k+1)^{th}$ customer. Since $\{A_k\}$ is i.i.d., $\{q_k\}$ is a Markov chain. The state space $S = \{0,1,2\dots\}$ and it is easy to check that it is aperiodic and irreducible. By choosing $f(i) = i$, we can deduce using the test for positive recurrence that $\{q_k\}$ is positive recurrent when $\E[A_1] = \lambda \E[S] < 1$. Thus, we conclude that when $\lambda \E[S] < 1$, the process $\{q_k\}$ has a stationary distribution. We will  see later that when $\lambda\E[S] = 1$, $\{q_k\}$ is recurrent and when $\lambda \E[S] > 1$, it is transient. \\
+\indent  The process $\{\hat{q}_k\}$ however, is not a Markov chain if $S_k$ is not exponentially distributed. But $\{\hat{q}_k\}$ is a regenerative process with regeneration epochs occurring when $k^{th}$ arrival sees an empty queue. That is, regenerative epochs for $\{\hat{q}_k\}$ occur when $ \hat{q}_k = 0$. Let $\hat{\tau}$ be the regeneration length of $\{\hat{q}_k\}$. \\
+\indent To obtain the conditions for existence for stationary distribution for $\{\hat{q}_k\}$, we can relate it to the process $\{q_k\}$. The process $\{q_k\}$ is also a regenerative process with regeneration epochs occurring when a departure leaves behind an empty queue. That is, the regeneration epochs correspond to $q_k = 0$. Let $\tau$ be the regeneration time of $\{q_k\}$. Now, we can see that $\tau = \hat{\tau}$. Since, $\{q_k\}$ has stationary distribution when $\lambda \E[S] < 1$, $\E[\tau] < \infty$. So, $\E[\hat{\tau}] < \infty$. Therefore, the process $\{\hat{q}_k\}$ is stationary iff $\{q_k\}$ is stationary. \\
+\indent The process $\{W_k\}$ also has the same regeneration epochs as $\{q_k\}$ and hence has unique stationary distribution when $\lambda\E[S] < 1$.\\
+\indent The process $\{q_t\}$ is also a regenerative process with regeneration epochs the arrival times that see an empty queue. Let $T$ be a regeneration length of $\{q_t\}$. Then, considering one regenerative cycle, we can write $T = \sum_{k = 1}^{\hat{\tau}} a_k$ where $a_k$ is the inter-arrival time between $(k-1)^{th}$ and $k^{th}$ arrival. Now, $\hat{\tau}$, which is equal to the number of services in one regeneration cycle is a stopping time for $\{a_k,S_k\}$ where $S_k$ is the service time of the $k^{th}$ arrival. Thus, we can use Wald's lemma to conclude that $\E[T] = \E[\hat{\tau}] \E[a_1]$. Thus, $\{q_t\}$ also has stationary distribution whenever $\lambda\E[S] < 1$.
+\section{Rate of convergence to the stationary distribution}
+The following results are stated without proofs.
+\begin{defn}[Total Variation distance]
+The total variation distance between two probability distributions $\mu$ and $\pi$ on $S$, 
 \begin{align*}
-\P\{q_{k+1} = j|q_k = i,q_{k-1} = i_{k-1}, \dots q_0 = i_0\} = \P\{A_k = j-i-1\}.
+||\mu - \pi||_{TV} = \frac{1}{2} \sum_{x\in S} (\mu(x) - \pi(x)).
 \end{align*}
-Thus, $\{q_k\}$ is a Markov chain with state space $S = \{0,1,2,\dots\}$. If $\P\{A_1 \leq 1\} > 0$, every state is aperiodic. If further, $\P\{A_1 > 1\} >0$, the Markov chain is also irreducible. \\
-\indent Consider $f(i) = i$. Let $S_0 = \{0\}$. For $i> 0$, $\E[f(q_1)|q_0 = i] - f(i) = \E[A_1] -1 $. Thus, we see from case $(1)$ in Theorem \ref{prop:markov_chain_class_tests}, if $\E[A_1] \leq 1 $, $\{q_k\}$ is recurrent. From $(2)$ in Theorem\ref{prop:markov_chain_class_tests}, we have positive recurrence if $\E[A_k] < 1$. \\
-%\indent Choose $f(i) = 1\{i>0\}$ and $S_0 = \{0\}$. Then if $\E[A_1] > 1$, the conditions in case (3) in Prop \ref{prop:markov_chain_class_tests} is met and $\{q_k\}$ is transient Markov chain. \\
-\subsection{Reversible Markov Chains}
-We can easily check that 
+\end{defn}
+The following results have been classically known.  We consider an irreducible Markov chain.
+\begin{itemize}
+\item If $\E[\tau^\alpha] < \infty$ for some $\alpha > 1$, then $|| X_k - \pi ||_{TV} < c_1 k^{-\alpha +1}$.
+\item If $\E[\beta^{\tau}] < \infty$ for some $\beta > 1$, then $|| X_k - \pi||_{TV} \leq \exp(-\lambda k)$ for some $0 < \lambda < \beta$.
+\end{itemize}
+These results have been extensively used in the literature to obtain rates f convergence to stationary distributions for different queueing systems. \\
+\indent Now, We consider a finite state space $S$. Let 
 \begin{align*}
-\P\{X_{k-1} = j| X_k = i, X_{k+1} = i_{k+1}, X_{k+2} = i_{k+2}, \dots\} = \P\{X_{k-1} = j|X_k = i\}.
+K_n^{x}(y) = \frac{P^n(x,y)}{\pi(y)}
 \end{align*}
-Thus, the reversed Markov chain is also a Markov chain. For an irreducible  stationary Markov chain $\{X_k\}$ with stationary distribution $\pi$,
+where $P$ is the transition probability matrix of the Markov chain. Then, $K_n^{x}(y) \rightarrow 1$ as $n \rightarrow \infty \ \forall x,y \in S$. 
+\begin{defn}
+$\mathcal{L}^p$ distance between distributions $P^n(x,*)$ and $\pi$, 
 \begin{align*}
-\P\{X_{k-1} = j| X_k = i,X_{k+1} = i_{k+1},X_{k+2} = i_{k+2},\dots\} &= \P\{X_{k-1} = j| X_k = i\} \\
-&=  \frac{\P\{X_{k-1} = j, X_k = i\}}{\P\{ X_k = i\}} \\
-&=  \frac{\P\{ X_k = i|X_{k-1} = j\}\P\{ X_{k-1} = j\}}{\pi(i)} \\
-&=  \frac{P(j,i)\pi(j)}{\pi(i)}
+||K^x_n - 1||^p_{p,\pi} = \sum_{y\in S} |K^x_n(y)-1|^p \pi(y) \text{ for } 1 \leq p < \infty.
 \end{align*}
-Let us define 
+Also, $\mathcal{L}^{\infty}(\nu,\mu) = \sup_{x\in S} |\mu(s) - \nu(s)|$.
+\end{defn}
+
+The following are known.
+\begin{align}\label{eq:tau_bounds}
+||\nu -\mu||_{TV} = \frac{1}{2} ||\frac{\nu}{\mu} -1||_{1,\mu} \leq \frac{1}{2} ||\frac{\nu}{\mu} -1 ||_{2,\mu}.
+\end{align}
+\begin{defn}[Mixing times]
 \begin{align*}
-P^*(i,j)=\frac{P(j,i)\pi(j)}{\pi(i)}
+\tau_1(\epsilon) &= \min\{n: \sup_x ||P^n(x,.)-\pi||_{TV} \leq \epsilon\}. \\
+\tau_2(\epsilon) &= \min\{n: \sup_x ||K_n^x - 1||_{2,\pi} \leq \epsilon\}. \\
+\tau_\infty(\epsilon) = &= \min\{n: \sup _x |P^n(x,*) - \pi|_\infty \leq \epsilon\}.
 \end{align*}
-$P^*$ is the transition probability of the reversed Markov chain. \\
-\indent \textbf{Reversible Markov Chain:} The stationary irreducible Markov chain $X_k$ is called \textit{reversible }if $P^*(i,j) = P(i,j)$. In the other words, for a reversible  Markov chain, we have, $P(i,j)\pi(i) = P(j,i)\pi(j)$.
-\begin{prop}[Test for reversibility]
-For an irreducible Markov chain with stationary distribution $\pi$,  for all paths $i\rightarrow i_1 \rightarrow i_2 \dots \rightarrow i_k \rightarrow i$,
+\end{defn}
+
+Let $\pi_* = \min_x \pi(x)$ and
 \begin{align*}
-\P_\pi\{i\rightarrow i_1 \rightarrow i_2 \dots \rightarrow i_k \rightarrow i\} = \P_\pi\{i \rightarrow i_k \rightarrow i_{k-1} \dots \rightarrow i_1 \rightarrow i\}
+||P^*|| = \sup_{f:S\to \R: \E[f] =0} \frac{||P^*f||_2}{||f||_2},
 \end{align*}
-under stationarity is a necessary and sufficient condition for reversibility of the Markov chain. 
-\begin{proof}
-Necessity: Assume $P^* = P$. Then, 
+where $P^*$ is the complex conjugate of $P$. 
+\begin{prop}
 \begin{align*}
-&\P_\pi\{i\rightarrow i_1 \rightarrow i_2 \dots \rightarrow i_k \rightarrow i\} \\
-&= \pi(i)P(i,i_1)P(i_1,i_2)\dots P(i_{k-1},i_{k})P(i_k,i)\\
-& = P(i_1,i)\pi(i_i) P(i_1,i_2)\dots P(i_{k-1},i_{k})P(i_k,i) \\
-& = P(i_1,i)P(i_2,i_1)\pi(i_2) \dots P(i_{k-1},i_{k})P(i_k,i) \\
-\dots \\
-& = P(i_1,i)P(i_2,i_1) \dots P(i_{k},i_{k-1})\pi(i_k)P(i_k,i) \\
-& = P(i_1,i)P(i_2,i_1) \dots P(i_{k},i_{k-1})P(i,i_k)\pi(i) \\
-&= \P_\pi\{i \rightarrow i_k \rightarrow i_{k-1} \dots \rightarrow i_1 \rightarrow i\}.
+\tau_2(\epsilon) \leq \frac{1}{1-||P^*||} \log\left(\frac{1}{\epsilon \sqrt{\pi_*}}\right)
 \end{align*}
-Sufficiency: Consider the path $i\rightarrow i_1 \rightarrow i_2 \dots \rightarrow i_k \rightarrow j\rightarrow i$ and its reverse path. Then, 
-\begin{align*}
-\sum_{i_1,i_2\dots i_k}\P_\pi\{i\rightarrow i_1 \rightarrow i_2 \dots \rightarrow i_k \rightarrow j \rightarrow i\} &= \sum_{i_1,i_2\dots i_k}\P_\pi\{i \rightarrow j \rightarrow i_k \rightarrow i_{k-1} \dots \rightarrow i_1 \rightarrow i\} 
-\end{align*}
-Thus, 
-\begin{align*}
-P^{k}(i,j)P(j,i) &= P(i,j)P^{k}(j,i)
-\end{align*}
-Now, taking the limit as $k\rightarrow \infty$, we get $\pi(j)P(j,i) = P(i,j)\pi(i)$, which is $P^* = P$.
-\end{proof}
 \end{prop}
+\begin{prop}
+\begin{align*}
+\tau_2(\epsilon) \leq \frac{2}{\lambda_{PP^*}} \log\left( \frac{1}{\epsilon \sqrt{\pi_*}}\right) 
+\end{align*}
+where $\lambda_{PP^*} = 1-\lambda$ amd $\lambda$ is the largest eigenvalue of $PP^*$ less that 1.
+\end{prop}
+These results provide an exponential rate of convergence to the stationary ditribution for a finite state Markov chain. From $\tau_2(\epsilon)$ we get an upper bound on $\tau_1(\epsilon)$ through Eq (\ref{eq:tau_bounds}). We also have
+\begin{align*}
+\tau_2(\epsilon) \leq \tau_\infty (\epsilon) \leq \tau_2\left(\epsilon \sqrt{\frac{\pi_*}{1-\pi_*}}\,\right).
+\end{align*}
+If the Markov chain is reversible, the upper bound can be tightened to $2\tau_2(\sqrt{\epsilon})$. Thus, for most applications getting $\tau_2(\epsilon)$ is sufficient.  \\
+\indent Mixing times have recently been used in Markov chain Monte Carlo (MCMC) algorithms, random graphs and many other applications.
 \end{document}
 

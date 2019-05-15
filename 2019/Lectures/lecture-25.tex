@@ -5,157 +5,87 @@
 %\input{header}
 %\title{Lecture 01: Poisson Processes}
 %\author{}
-\setcounter{chapter}{6}
+\setcounter{chapter}{7}
 
 \begin{document}
 %\maketitle
 
-%\chapter{Renewal Theory}
-\setcounter{section}{1}
-\setcounter{subsection}{1}
-%\chapter{Queuing Theory}
+%\chapter{Martingales}
+\setcounter{section}{2}
+\setcounter{subsection}{0}
+
 \section*{\centering{Lecture 25 \linebreak }}
-\subsection{Palm Theory}
-Consider a $GI/GI/1$ queue. Let $T_n$ be the $n^{th}$ arrival epoch, $\{V_t\}$ the workload process and $W_n$ the waiting time of the $n^{th}$ arrival. Then $W_n = V_{T_n^-}$ a.s. But, $W_\infty \stackrel{d}{\neq} V_\infty$ in general. Also, in renewal processes, we have seen inspection paradox where $X_{N(t)} \stackrel{d}{\neq} X_n$. This shows that the distribution of the process sampled at some random points may be different from the distribution of the process. In the following, we relate the two distributions.\\
-\indent Let  $X = \{X_t, -\infty<t<\infty\}$ be a stochastic process and $T = \{\dots,T_{-1},T_{0},T_{1},\dots\}$ with $ \dots <T_{-1}<0\leq T_0 < T_1 < \dots $ be a point process. Let $N(t)$ be the number of points of $T$ in the interval $(0,t]$. Let $Z = (X,T)$ and $\theta_s$ be the shift operator defined as $\theta_s Z = (\theta_s X,\theta_s T)$ where $(\theta_s X)_t = X_{t+s}$ and $(\theta_s T)_n = T_{N(s)+ n} -s$. $Z$ is a stationary process if $\theta_s Z$ does not depend on $s$: $\P\{Z \in A\} = \P\{\theta_s Z \in A\}$ for all measurable $A$. \\
-\indent Now, we ask the question if $Z$ is stationary, is $\{X_{T_k}\}$ stationary? If yes, when is the distribution of $\{X_{T_k}\}$ same as that of $\{X_t\}$? This is answered in the following theorem called \textit{Poisson Arrivals See Time Averages (PASTA)}. 
-\begin{thm*}[PASTA]
-If $X_t$ is right continuous, $\{X_s, s<t\}$ and $\{N_s - N_t, s\geq t\}$ are independent and $\{N_t\}$ is a Poisson process, $X_{T_k^-}$ is stationary and has the same distribution as $X_t$.
-\end{thm*}
-We will prove this theorem later in this lecture. Let us consider an application of PASTA to $\{V_t\}$ in $M/G/1$ queue. The arrival process is Poisson and the conditions of the theorem hold. Thus, $W_n$ and $V_t$ have the same distribution under stationarity. \\
-\indent Consider the following quantity:
-\begin{align*}
-\lambda(t) = \frac{\E[N(t,t+h] ]}{h}.
-\end{align*}
-For a Poisson process $\lambda(t) = \lambda = $ rate of the Poisson process. 
-\begin{prop}
-If the process is stationary, $\lambda(t)$ does not depend on $t$ or $h$. 
-\begin{proof}
-Let $\phi(h) = \E[N(t,t+h] ]$. By stationarity, $\phi$ does not depend on $t$. We have 
-\begin{align*}
-\phi(h_1+h_2) &=  \E[N(t,t+h_1+h_2]] \\
-&= \E[N(t,t+h_1]]  + \E[N(t+h_1,t+h_1+h_2]] \\
-&= \phi(h_1) + \phi(h_2).
-\end{align*}
-This shows that $\phi$ is linear for a stationary process. So, $\phi(h) = h \phi(1)$. Thus, we have $\lambda(t) = h \E[N(t,t+1)]$.
-\end{proof}
-\end{prop}
-With $h=1$, we can interpret $\lambda$ as the mean number of arrivals in unit time. Hence, $\lambda$ is called the \textit{intensity }of the process $N$.\\
-\indent Define a probability measure $P_0$ as 
-\begin{align*}
-\P_0\{Z \in F\} = \frac{\E\left[\sum_{t <T_i \leq t+h} 1\{ \theta_{T_i} Z \in F\}\right]}{\lambda h}.
-\end{align*}
-The distribution $\P_0$  is called the \textit{Palm distribution} of $Z$. 
-\begin{prop}
-The process $\{Z\}$ under $\P_0$ is event stationary: $\P_0\{\theta_{T_1} Z \in F\} = \P_0\{Z \in F\}$. 
-\begin{proof}
-%We want to show $\P_0\{\theta_{T_1} Z \in F\} = \P_0\{Z \in F\}$. 
-We have 
-\begin{align*}
-\P_0\{\theta_{T_1} Z \in F\} &= \frac{\E\left[\sum_{t <T_i \leq t+h} 1\{ \theta_{T_i} (\theta_{T_1} Z) \in F\}\right]}{\lambda h} \\
-&= \frac{\E\left[\sum_{i=1}^{N(h)} 1\{ \theta_{T_{i+1}} Z \in F\}\right]}{\lambda h} \\
-&\leq \frac{\E\left[\sum_{i=1}^{N(h)+1} 1\{ \theta_{T_i} Z \in F\}\right]}{\lambda h} \\
-&\leq \frac{\E\left[\sum_{i=1}^{N(h)} 1\{ \theta_{T_i} Z \in F\}\right]}{\lambda h} +\frac{1}{\lambda h}\\
-&= \P_0\{Z \in F\} + \frac{1}{\lambda h.}
-\end{align*}
-Letting $h \to \infty$, we get $\P_0\{\theta_{T_1} Z \in F\} \leq \P_0\{Z \in F\}$. Similarly, for $F^c$ we get, $\P_0\{\theta_{T_1} Z \in F^c\} \leq \P_0\{Z \in F^c\}$ which implies $\P_0\{\theta_{T_1} Z \in F\} \geq \P_0\{Z \in F\}$. Thus, we have the result. 
-\end{proof}
-\end{prop}
-This proposition shows that under $\P_0$, the process $Z$ is event stationary. \\
-
-\indent Next, define a probability measure $\P_1$ from $P_0$ as 
-\begin{align*}
-\P_1\{Z \in A\} = \frac{\E_0[\int_0^{T_k} 1\{\theta_t Z \in A\}]}{k E_0[T_1]},
-\end{align*}
-where $\E_0$ is the expectation with respect to $\P_0$. By event stationarity, this does not depend on $k$. If $\P_0$ is the Palm distribution of $Z$ under $\P$, then $\P_1 = \P$. This is called the \textit{Palm inversion formula}. This is generalization of the formula for regenerative processes. 
-\begin{prop}
-The process $Z$ is time stationary under $\P_1$.
-\begin{proof}
-We want to show $\P_1\{\theta_s Z\in A \} = \P_1\{Z \in A\}\ \forall s$.
-\begin{align*}
-\P_1\{\theta_s Z \in A \} &= \frac{\E_0[\int_0^{T_k} 1\{\theta_t (\theta_s Z) \in A\}]}{k \E_0[T_1]} \\
-&= \frac{\E_0[\int_0^{T_k} 1\{\theta_{t+s} Z \in A\}]}{k \E_0[T_1]} \\
-&= \frac{\E_0[\int_s^{T_k+s} 1\{\theta_t Z \in A\}]}{k \E_0[T_1]}  \\
-&\leq \frac{\E_0[\int_0^{T_k+s} 1\{\theta_t Z \in A\}]}{k \E_0[T_1]}  \\
-&\leq \frac{\E_0[\int_0^{T_k} 1\{\theta_t Z \in A\}]}{k \E_0[T_1]}  + \frac{s}{k \E_0[T_1]}. \\
-\end{align*}
-By taking $k\to \infty$, we get $\P_1\{\theta_s Z\in A \} \leq \P_1\{Z \in A\}$. Similarly for $A^c$, we get $\P_1\{\theta_s Z\in A^c \} \leq \P_1\{Z \in A^c\}$ which implies $\P_1\{\theta_s Z\in A \} \geq \P_1\{Z \in A\}$. This shows $\P_1\{\theta_s Z\in A \} = \P_1\{Z \in A\}$.
-\end{proof}
-\end{prop}
-\begin{lem}
-$\P_0\{T_0 =0\} = 1$.
-\begin{proof} We have
-\begin{align*}
-\P_0\{T_0 =0\} &= \frac{\E[\sum_{0 < T_i \leq 1} 1\{(\theta_{T_i} T)_0 = 0\}]}{\lambda} \\
-&= \frac{\E[N(1)] }{\lambda} && \text{ $(\theta_{T_i} T)_0 = 0$ always by definition of shift}\\
-&= \frac{\lambda}{\lambda} = 1 && \qedhere 
-\end{align*}
-\end{proof}
-\end{lem}
-\begin{lem}
-$\E_0[T_1] = \frac{1}{\lambda}$.
-\begin{proof}
-\begin{align*}
-\lambda \E_0[T_1] &= \E\left[ \sum_{k=1}^{N(1)} (T_{k+1} - T_k)\right] \\
-&= \E[ (T_{N(1)+1} - T_0) 1\{T_0 \leq 1\}] \\
-&= 1 \qedhere
-\end{align*}
-\end{proof}
-\end{lem}
-
-\begin{lem}
-\begin{align*}
-\lim_{h \to 0} \frac{\P\{T_0 \leq h\}}{h} &= \lambda \\
-\end{align*}
-\begin{proof}
-\begin{align*}
-\vspace{-20mm}
-\frac{\P\{T_0 \leq h\}}{h} &=  \frac{\E_0[ \int_{0}^{T_1} 1\{(\theta_t T)_0 \leq h\}]}{h \E_0[T_1]} \\
-&= \lim_{h \downarrow 0} \frac{\lambda \E_0[ \min(T_1,h) ]}{h} \\
-&= \lambda \qedhere
-\end{align*}
-\end{proof}
-\end{lem}
-We can also show that $\P\{T_1 \leq h\}/h \to 0$ as $h \downarrow 0$. Thus, 
-\begin{align*}
-\P_0\{Z \in F\} &= \lim_{h \downarrow 0} \frac{\E\left[ \sum_{0<T_i \leq h} 1\{\theta_{T_i} Z \in F\}\right]}{h \lambda} \\
-&= \lim_{h \downarrow 0} \frac{\E\left[ 1\{\theta_{T_0} Z \in F\}; T_0 \leq h\right]}{\P\{T_0 \leq h\}} \\
-&= \lim_{h \downarrow 0} \P\{ 1\{\theta_{T_0} Z \in F\}| T_0 \leq h\}
-\end{align*}
-This justifies the heuristic interpretation of $\P_0\{Z \in F\}$ as $\P\{Z \in F| T_0 = 0\}$.
-\subsection{Rate conservation laws}
-Let $\{X_t\}$ be a stochastic process whose sample paths have jumps at $\{\dots,T_{-2},T_{-1},T_0,T_1,T_2,\dots\}$ with intensity $\lambda$. The jump size at $T_k$ is $U_k$ ($U_k =0$ is allowed) and between the jumps, $\{X_t\}$ is differentiable with $dX_t/dt = Y_t$ (sample pathwise). The rate conservation law states that
-\begin{prop} $\lambda \E_0\left[U_0 \right] + \E[Y_0] = 0$.
-\begin{proof}
-Sample pathwise 
-\begin{align*}
-X_1 - X_0 = \sum_{i: 0<T_i \leq 1} U_i + \int_0^1 Y_t dt.
-\end{align*}
-Taking expectation and by stationarity,
-\begin{align*}
-0 = \E[X_1]  - \E[X_0] = \lambda \E[U_0] + \E\left[\int_0^1 Y_t dt\right]
-\end{align*}
-Again, by stationarity of $Y_t$, $\E[\int_0^1 Y_t dt] = \E[Y_0]$.
-\end{proof}
-\end{prop}
-\indent \textbf{Example: $GI/GI/1$ queue:} Let $q^A_n$ be the queue length seen by $n^{th}$ arrival and $q_n^D$ be the queue length left behind by $n^{th}$ departure. If $\E[A_1] > \E[s_1]$, then $\P\{q^A_\infty \leq k\} = \P\{q^D_\infty \leq  k\}$. This follows from rate conservation law as follows: Define $X_t = 1\{q_t \geq k\}$. We have $U_t = +1 \text{ or } -1$ and $Y_t = 0$ a.s. Therefore, $\lambda \E_0[U_0] + 0 = 0$. Thus, $\P_0\{U_0 = 1\} = \P_0\{U_0 = -1\}$, which implies $\P_0\{q^A_\infty \leq k \} = \P_0\{q^D_\infty \leq k\}$.
-
-\subsection{PASTA}
-\begin{thm}
-Let $\{X_t\}$ be a stochastic process with $X_t \in \R^d$ and right continuous sample paths. Let $N_t$ be a Poisson process with rate $\lambda$ such that $\{X_s,s<t\}$ is independent of $\{N_s, s \geq t\}$ for all $s$ and $t$. Then, 
-\begin{align*}
-\text{(time stationary) }\P\{X_0 \in A\} = \P_0\{ X_{0^-} \in A\} \text{ (event stationary) }.
-\end{align*}
-\begin{proof}
-\begin{align*}
-\P_0\{ X_{0^-} \in A\}  &= \frac{\E\left[ \sum_{0 < T_i \leq 1} 1\{(\theta_{T_i} X)_{0^-} \in A\} \right]}{\lambda} \\
-&= \frac{\E\left[ \int_0^1 1\{(\theta_t X)_{0^-} \in A; t \text{ is an event time}\} dt\right]}{\lambda} \\
-&= \frac{\int_0^1 \P\{X_{t^-} \in A; t \text{ is an event time}\}dt}{\lambda} \\
-&= \frac{\int_0^1 \P\{X_{t^-} \in A| t \text{ is an event time}\} \P\{ t \text{ is an event time}\}dt} {\lambda} \\
-&= \frac{\int_0^1 \P\{X_{t^-} \in A\} \lambda dt} {\lambda} && \left(\parbox{3cm}{$X_{t^-}$ is independent \\ of $\{X_s, s\leq t\}$} \right)\\
-&= \int_0^1 \P\{ X_{t} \in A\} \lambda dt && \left(\parbox{3cm}{right continuity and \\ stationarity of $\{X_t\}$} \right)  \\
-&= \P\{X_{0} \in A\}. && \left(\text{stationarity of $\{X_t\}$}\right) \qedhere
-\end{align*}
-\end{proof}
-\end{thm}
+\section{Product-form Networks}
+In this section, we study queueing networks that have explicit closed form expression for stationary distribution. Also, the stationary distribution of the whole network is the product of margnial stationary distributions of the individual queues. 
+\subsection{$M/M/1$ queue:}
+Let $q_t$ be the queue length of an $M/M/1$ queue with arrival rate $\lambda$ and service rate $\mu$. It is a birth-death (B-D) process. If the arrival rate $\lambda < \mu$ then $q_t$ is positive recurrent and its stationary distribution  $\pi$ is given by
+\eq{
+\pi(n) =  (1-\rho) \rho^n,
+}
+where  $\rho = \lambda/\mu$. Every B-D process under stationarity is time reversible. Therefore $\{q_t\}$ is time reversible when $\rho<1$. We consider this queue under stationarity.\\
+\indent Define the reversed process $\hat{q}_t = q_{T-t}$ for some $T$. By reversibility, it has the same distribution as that of $q_t$. Therefore, it can also be considered as the queue length process of an $M/M/1$ queue with arrival rate $\lambda$ and service rate $\mu$. In $\hat{q}_t$ the departure epochs are the arrival epochs in $q_t$. Also, the arrival epochs are the departure epochs of $q_t$.
+Thus, the departure process of a stationary $M/M/1$ queue is also a Poisson process with rate $\lambda$. Also, because of Poisson arrivals in $q_t$, arrivals from time $t$ onward are independent of the $q_{t^-}$. This implies (applying to $\hat{q}_t$) the departures till time $t$ in $q_t$ are independent of $q_t$. \\
+\indent These results are rather counter-intuitive.
+\subsection{Tandem Queues}
+Consider a tandem of $N$ queues. External arrivals enter queue $1$ according to a Poisson process of rate $\lambda$. After service in queue $i$, a customer enters queue $i+1$, $i<N$. A customer departs from the system after completing service at queue $N$. The service times at queue $i$ are i.i.d. with $\exp(\mu_i)$. Let $q_t(i)$ denote the queue length at queue $i$ at time $t$. If $\lambda < \mu_1$, queue $1$ is stable. Thus, as seen above, under stationarity, the departure process from queue $1$ is also a Poisson process of rate $\lambda$. So, $q_t(2)$ is also ergodic if $\lambda < \mu_2$. Continuing this way, each of the queue is stable if $\lambda < \min_i(\lambda_i)$ and the stationary distribution of $q_t(i)$ is given by
+\eq{
+\pi_i(n) = \rho^n_i (1-\rho_i).
+}
+Also as explained above, $q_{t}(1)$ is independent of the departures till time $t$ (past departures). Therefore, it is independent of arrivals to queue $2$ till time $t$. Hence, $q_t(2)$ is independent of $q_t(1)$. Thus, extending this way to other queues, the joint distribution $q_t = (q_t(1), q_t(2), \dots , q_t(N))$ is given by
+\eq{
+P[q_t(1)=n_1, q_t(2)=n_2, \dots , q_t(N)=n_N] = \prod_{i=1}^{N} \rho^n_i (1-\rho_i)
+}
+and $q_t(1), q_t(2), \dots , q_t(N)$ are independent of each other. However, for $t_1 < t_2$, $q_{t_1}(1)$ is not independent of $q_{t_2}(2)$.
+\subsection{Open Jackson Networks}
+In this system, there are $N$ nodes. Each node $i$ consists of $1$ server with exponential ($i.i.d.$) service times at rate $0 < \mu_i < \infty$. At each node, there is an external arrival process according to a Poisson process with rate $\lambda_i$, $0\leq \lambda <\infty$. After completion of service at queue $i$, with probability $p_{ij}$ a customer goes to queue $j$ independently of routing of other customers. The customer leaves the network with probability $p_{i0}$ from node $i$
+\eq{
+P_{i0} = 1-\sum_{i=1}^{N} p_{ij}.
+}
+This is called \textit{Markovian routing}. \\
+\indent Let $q_t(i)$ be the queue length at $i^{th}$ node at time $t$. Then, $q_t = (q_t(1), q_t(2), \dots , q_t(N))$ is a Markov chain with $q_t(i) \in \{0,1,2, \dots\}$. We observe that $q_t$ is irreducible. \\
+\indent Let $\bar{\lambda}_i$ be the total arrival rate to node $i$. Then,
+\eq{
+\bar{\lambda}_i = \lambda_i + \sum_{j=1}^{N} p_{ji} \bar{\lambda}_j.
+}
+There is a unique solution to this set of $N$ equations denoted by $(\overline{\lambda}_1,\overline{\lambda}_2,\dots,\overline{\lambda}_N)$. Let
+\eq{
+\rho_i = \frac{\bar{\lambda}_i}{\mu_i}.
+}
+We show below that if $\rho_i < 1$, for $i = 1,2,3, \dots , N$, then $\{q_t\}$ is positive recurrent and has a unique stationary distribution
+\begin{align}\label{eq:stat_dist_openjackson}
+\pi[q_t(1)=n_1, q_t(2)=n_2, \dots , q_t(N)=n_N] = \prod_{i=1}^{N} \rho^n_i (1-\rho_i)
+\end{align}
+Hence, $q_t(1), q_t(2), \dots , q_t(N)$ are also independent of each other. \\
+\indent This MC is non-explosive and irreducible.
+If for $\pi Q = 0 $, a solution exists with $\pi(i) >0$, $\sum_{i} \pi(i)= 1$, then MC is positive recurrent and $\pi$ is its unique stationary distribution. We can easily check that Eq. (\ref{eq:stat_dist_openjackson}) satisfies $\pi Q = 0$. \\
+\indent If $Q$ is time reversible,
+\eq{
+\pi(i) q_{ij} = \pi(j) q_{ji}\ \forall i,j
+}
+Generally, this MC is not time reversible. But we can reverse as
+\eq{
+\tilde{q}_t = q_{t-T}, \quad \quad  T  \text{ a fixed constant}.
+}
+This corresponds to a queue length process of a Jackson network, with external input to queue $i$ as Poisson with rate $\bar{\lambda}_i p_{i0}$ and service times $i.i.d.$ $exp(\mu_i)$ with routing probabilities,
+\eq{
+\tilde{p}_{ij} = p_{ij} \frac{\bar{\lambda}_j}{\bar{\lambda}_i}.
+}
+Therefore, the departures at each node in $\{q_t\}$ that exit the system form a Poisson process independent of departures at other nodes that exit the system. \\
+\indent Also, $q_t$ is independent of future arrivals implies that $q_t$ is independent of past departures from the network.
+\subsection{Closed queueing networks}
+In this system, there are no arrivals from outside the network and no departures from the network.  A fixed number of $M < \infty$ customers move around in the network. The service times and routing are same as that of a Jackson network. The queue length $q_t = (q_t(1), q_t(2), \dots , q_t(N))$ is a MC. It is a finite state irreducible MC with state space $S = \{(n_1,n_2,\dots,n_N): \sum_{i=1}^N n_i = M\}$. It is always stable and has a unique stationary distribution. \\
+\indent The total arrival rate at each node $i$ is 
+\eq{
+\bar{\lambda}_i = \sum_{j=1}^{N} p_{ji} \bar{\lambda}_j.
+}
+By solving these $N$ equations we can get a unique solution upto a constant.
+The stationary distribution is given by
+\begin{align}\label{eq:stat_dist_closed_net}
+\pi(n_1, n_2, \dots, n_N) = K \prod_{i=1}^{N} \rho_i^{n_i}, \quad \quad \text{for} \quad \sum_{i=1}^{N} n_i = M,
+\end{align}
+where $\rho_i = \bar{\lambda}_i/\mu_i$ and $K$ is a normalizing constant. It can be checked that Eq (\ref{eq:stat_dist_closed_net}) is a solution for $\pi Q = 0$.\\
+\indent This network has the following \textbf{bottleneck property}. Let $\rho_1 = \max_i( \rho_i)$. If $M \to \infty$, $q_t(1) \to \infty$ in distribution. For other queues
+\eq{
+\pi (q_t(2)=n_2, \dots , q_t(N)=n_N) = \prod_{i=2}^{N} \rho^n_i (1-\rho_i).
+}
 \end{document}

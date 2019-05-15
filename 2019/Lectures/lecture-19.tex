@@ -5,140 +5,182 @@
 %\input{header}
 %\title{Lecture 01: Poisson Processes}
 %\author{}
-\setcounter{chapter}{4}
+\setcounter{chapter}{5}
 
 \begin{document}
 %\maketitle
 
 %\chapter{Martingales}
-\setcounter{section}{2}
+\setcounter{section}{3}
 \setcounter{subsection}{1}
 
 \section*{\centering{Lecture 19 \linebreak }}
 
-\section{Optimal Sampling Theorem:Example}
-\begin{exmp}
-Let $Y_0 = 0, Y_1, Y_2, \dots$ $i.i.d.$, $\E[|Y_1|] < \infty$ , $\E[Y_i]= 0$,
-$S_0 = 0$, $S_n = \sum_{i=1}^{n} Y_i$, $T$ stopping time w.r.t. $\{Y_0, Y_1, Y_2. \dots\}$, and  $\E[T]< \infty$. Then
-
+\section{McDiarmid's Inequality:Applications} 
+\begin{exmp}[Machine learning:Classification problem]
+Let the training samples $(X_1, Y_1), \dots, (X_n,Y_n)$ be iid. $X_i \in \R^d$, $Y_i \in \{1, 2, \dots, N\}$.
+$h$  is the classifier, $h(x) \to \{1, 2, \dots, N\}$. 
+$1_{\{h(X_i) \neq Y_i\}}$ denotes the error.\\
+The probability of error for a given classifier is given by
 \eq{
-\E[|S_{n+1}-S_n|\F_n] = \E[|Y_{n+1}|\F_n] = \E[|Y_{n+1}|] < \infty.
+R(h) = P[h(X) \neq Y]
 }
-hence from previous Optimal sampling theorem
+and its estimate from the training sample is 
 \eq{
-\E[S_T] = \E[S_0].
+\hat{R}_n(h) = \frac{1}{n} \sum_{i=1}^{n} 1_{\{h(X_i) \neq Y_i\}}.
+}
+Define
+\eq{
+f((x_1,y_1), \dots, (x_n, y_n)) = \frac{1}{n} \sum_{i=1}^{n} 1_{\{h(x_i) \neq y_i\}}.
+}
+Removing $i$th component and replacing with another,
+\eq{
+|f((x_1,y_1), \dots, (x_i,y_i), \dots, (x_n, y_n)) - f((x_1,y_1), \dots, (x'_i,y'_i), \dots, (x_n, y_n))|  \le \frac{1}{n}.
+}
+Then by McDiarmid's Inequality,
+\eq{
+P[|\hat{R}_n(h) - E[\hat{R}_n(h]| \ge \lambda] \le 2 exp{\left(\frac{-2\lambda^2}{n\frac{1}{n^2}}\right)} =  2 exp{\left(-2\lambda^2n\right)},
+}
+where $\E[\hat{R}_n(h)] = R(h)$.
+\end{exmp}
+
+\begin{exmp}
+If $X_1, X_2, \dots, X_n \sim P$. We want an estimate of $P$.
+ We estimate $P$ by 
+ \eq{
+\hat{P}_n(A) = \frac{1}{n} \sum_{i=1}^{n} 1_{\{X_i \in A\}},
+}
+Since,
+\eq{
+\E[\hat{P}_n(A)] = P(A),
+}
+it is an unbiased estimate. Define
+\eq{
+f(x_1, x_2, \dots, x_n) = \frac{1}{n} \sum_{i=1}^{n} 1_{\{X_i \in A\}}.
+}
+Since $|f(x_1, x_2, \dots, x_n) - f(x_1, \dots,y_i, x_{i+1}, \dots, x_n)| \le  \frac{1}{n}$,
+by  McDiarmid's Inequality,
+\eq{
+P[|f(x_1, x_2, \dots, x_n) - E[f]| \ge \epsilon] &= P[|\hat{P}_n(A)-P(A)| \ge \epsilon] \\
+&\le 2 exp\left(-2 \epsilon^2 n\right).
 }
 \end{exmp}
 
-\section{Martingale inequalities}
-\begin{thm}(Doob's inequality for submatingales)
-If $\{X_n\}$ is a submartingale, $M_n = sup_{0 \le k \le n} X_k$, then for $\alpha>0$
+\section*{Hoffding's inequality}
+Let $X_1, X_2, \dots, X_n$ $i.i.d.$, $a \le |X_i| \le b$ $a.s.$, and $S_0 = X_1 + X_2 + \dots + X_n$, $\mu = \E[X_1]$.\\
+Define
 \eq{
-\P[M_n \ge \alpha] \le \frac{\E[X_n]}{\alpha}.
+f(x_1, x_2, \dots, x_n) = X_1 + X_2 + \dots +X_n.
 }
-\end{thm}
-\begin{proof}
-Let $T$ be a stopping time defined as $T= n \wedge inf\{k:M_k \ge \alpha\}$.
+Since,
 \eq{
-\E[X_n] &= \sum_{k=0}^{n} \E[X_n 1_{\{T=k\}}]\\
-&= \sum_{k=0}^{n} \E[\E[X_n 1_{\{T=k\}}|\F_k]]\\
-&= \sum_{k=0}^{n} \E[1_{\{T=k\}}\E[X_n|\F_k]]\\
-&\ge \sum_{k=0}^{n} \E[1_{\{T=k\}} X_k]\\
-&= \E[X_T].
+|f(x_1, x_2, \dots, x_n)-  f(x_1, \dots,y_i, \dots, x_n)| = |x_i - y_i| \le |b-a|,
 }
-Thus,
+by McDiarmid's Inequality,
 \eq{
-P\{M_n \ge \alpha\} = P\{X_T \ge \alpha\} \le \frac{\E[X_T]}{\alpha} \le  \frac{\E[X_n]}{\alpha}.
+P[|S_n - n \mu| \ge \epsilon] \le  2 exp\left(-2  \frac{\epsilon^2 n}{n (b-a)^2}\right)
 }
-\end{proof}
-If  $\{X_k\}$ is a martingale, $\E[|X_k|^\beta] < \infty$, $\forall k$, for some $\beta \ge 1$, then $\{|X_k|^\beta\}$ is also a submartingale. Thus from the above theorem
 \eq{
-	P\left[\sup_{1 \le k \le n} |X_k| \ge \alpha \right] = P\left[\sup_{1 \le k \le n} |X_k|^\beta \ge \alpha^\beta \right] \le \frac{\E[|X_n|^\beta]}{\alpha^\beta}
+P[|S_n - n \mu| \ge \frac{\epsilon}{n}]  = P[|S_n - n \mu| \ge \delta] \le  2 exp\left(-2  \frac{\delta^2 n}{ (b-a)^2}\right).
 }
 
-\begin{exmp}
-$Y_0, Y_1, Y_2, \dots$, $\E[Y_1] = 0$, $\E[|Y_1| < \infty]$. Then $S_n$ is a martingale. Thus, from above theorem
-\eq{
-P[\sup_{0 \le k \le n} |S_k| \ge \alpha] \le \frac{\E[|S_n|]}{\alpha}.
-}
-If $\E[|Y_1|^\beta] < \infty$, $\beta \ge 1$  , then  $P[\sup_{0 \le k \le n} |S_k| \ge \alpha]  \le \frac{\E[|S_n|^\beta]}{\alpha^\beta}$.\\
-For $\beta = 2$, 
-\eq{
-\frac{\E[|S_n|^2]}{\alpha^2} = \frac{n \sigma^2}{\alpha^2} \quad \text{where} \quad  \sigma^2 = var(Y_1).
-}
-This is called \textit{Kolmogorov's inequality}.
-\end{exmp}
+\section{Martingale Convergence Theorem}
 
-\begin{lem}
-Let $\E[X]=0$, and $P[|X-a| \le b] = 1$ for some constants $a$ and $b$. Then
+Let $\{X_n\}$ be a submartingale and $\alpha < \beta$. 
+Let $U_n$ denotes the number of times $X_k$ goes from below $\alpha$ to above $\beta$ in time $n$. We will need the following equality.
+
+\begin{lem}[Upcrossing inequality]
 \eq{
-\E[e^{\theta X}] \le \exp{\left( \frac{\theta^2 b^2}{2} \right)}.
+E[U_n] \le \frac{\E[|X_n|]+ \alpha}{\beta - \alpha}.
 }
 \end{lem}
 
-\begin{thm}[Azuma inequality]
-Let $Y_n$ be a martingale, $\P[|Y_n - Y_{n-1}| \le d_n] = 1$, then
+\begin{proof}
+Let $Y_n = \max(0, X_n - \alpha)$. $Y_n$ is also a submartingale.\\
+Let $U_n$ be the number of times $Y_n$ goes from 0 to above $\beta-\alpha$. 
+This number is same as of $\{X_n\}$ upcrossing from $\alpha$ to $\beta$.
+Let $T_1$ be the first time when $Y_k = 0$, $T_2$ = $\min \{k > T_1$ such that $Y_k \ge \beta - \alpha\}$. Similary, define $T_k$ as the sequence of stopping times upto time $n$, with $T_n$  the maximum possible.
 \eq{
-\P[|Y_n-Y_0| \ge \alpha] \le 2 exp{\left(\frac{-\alpha^2}{2 \sum_{i=1}^{n} d_i^2}\right)}.
+\E[Y_n] = \E[Y_{T_n}] &= \E[\sum_{k=0}^{n} (Y_{T_k}-Y_{T_{k-1}})] \\
+&= \sum_{k:even} \E[Y_{T_k}-Y_{T_{k-1}}] + \sum_{k:odd} \E[Y_{T_k}-Y_{T_{k-1}}].
 }
+All are bounded stopping times, $Y_n$ is a submartingale, $T_k < T_{k+1} < \dots \le n$.
+Also $\E[Y_{T_k}] \ge \E[Y_{T_{k-1}}]$ for $k$ odd and $\E[Y_{T_k}-Y_{T_{k-1}}] \ge \beta-\alpha$ for $k$ even.
+Therefore,
+\eq{
+\E[Y_n] \ge \E[U_n] (\beta -\alpha).
+}
+Hence,
+\eq{
+\E[U_n] \le \frac{\E[Y_n]}{(\beta -\alpha)} &= \frac{\E[\max(0,X_n-\alpha)]}{(\beta -\alpha)}\\
+&\le \frac{\E[|X_n-\alpha|]}{(\beta -\alpha)}\\
+&\le \frac{\E[|X_n|]+\alpha}{(\beta -\alpha)}.
+}
+\end{proof}
+\begin{thm}
+$\{X_n\}$ submartingale and $\sup_k \E[|X_k|] \le M < \infty$.
+Then $X_n \to X$ almost surely and $E[|X|] < \infty$.
 \end{thm}
 \begin{proof}
-	Since $\E[e^{(\theta (Y_n - Y_0))}] < \infty$ for all $\theta$,
-\begin{align}
-\label{azuma-1}
-\P[Y_n-Y_0 \ge \alpha] \le\frac{ \E[e^{(\theta (Y_n -Y_0))}]}{e^{(\theta \alpha)}}.
-\end{align}
-Also,
+Take $\alpha < \beta$. 
+Let $\liminf X_n(\omega) = X_*(\omega)$, $\limsup X_n(\omega) = X^*(\omega)$. If $X_*(\omega) < \alpha < \beta < X^*(\omega)$, then this sequence will not converge.\\
+
+Let $U_n$ be the number of upcrossings of $\{X_n\}$ from below $\alpha$ to above $\beta$ in time $n$.
+Thus, from the above lemma,
 \eq{
-\E[exp(\theta (Y_n -Y_0))] &= \E[\E[e^{(\theta (Y_n-Y_{n-1})+ \theta (Y_{n-1}-Y_0))}]|\F_{n-1}] \nonumber\\ 
-&= \E[e^{\theta (Y_{n-1}-Y_0)} \E[e^{\theta (Y_n-Y_{n-1})}|\F_{n-1}]]\nonumber \\
-&\le \E[\theta (Y_{n-1}-Y_0)] e^{\left(\frac{\theta^2 d^2_n}{2}\right)} \nonumber\\.
+\E[U_n] \le  \frac{\E[|X_n|]+\alpha}{(\beta -\alpha)} \le \frac{M-\alpha}{(\beta -\alpha)}.
 }
-by the above lemma, iterating, 
-\begin{align}
-\label{azuma-2}
-\E[exp(\theta (Y_n - Y_0))] \le e^{\left(\frac{\theta^2}{2} \sum_{i=1}^{n} d^2_i\right)}
-\end{align}
-From \ref{azuma-1}, \ref{azuma-2},
+$U_n(\omega)$ increases as $n$ increases, and it will converge to $U(\omega) < \infty$ or reach $\infty$.
+Thus,
 \eq{
-\P[|Y_n-Y_0| \ge \alpha] \le \frac{e^{\left(\frac{\theta^2}{2} \sum_{i=1}^{n} d^2_i\right)}}{e^{(\theta \alpha)}} \quad \text{holds for any $\theta > 0$}.
+\E[U_n] \nearrow \E[U] \le \frac{M-\alpha}{(\beta -\alpha)} < \infty.
 }
-Choosing $\theta = \frac{\alpha}{\sum_{i=1}^{n} d^2_i}$, we get the tighest upper bound,
+Therefore, $P[U(\omega) < \infty] = 1$, and $ P[X_* < \alpha <  \beta < X^*] = 0$.
+Hence, for rational $\alpha, \beta$,
 \eq{
-\P[|Y_n-Y_0|\ge  \alpha] \le 2 exp{\left(\frac{-\alpha^2}{2 \sum_{i=0}^{n} d_i^2}\right)}.
+\quad \quad P[X_* < X^*] \le P[\cup_{\alpha < \beta} \{X_* < \alpha <  \beta < X^*\}] \le \sum_{\alpha <  \beta } P[X_* < \alpha <  \beta < X^*] = 0.
+}
+This implies
+$X_n \to X$ \quad $a.s.$. Also,
+\eq{
+M \ge \liminf \E[|X_n|] \ge \E[|X|], \enskip \text{by Fatou's lemma}.
 }
 \end{proof}
-
-
-Consider independent random variables $X_1, X_2, \dots, X_n$, $\E[X_i] = \mu$, $S_n = \sum_{i=1}^{n} X_i$. 
-\begin{defn}
-$F: \R^m \to \R$ is called \textit{Lipschitz-c} if	
+If $X_n$ is a martingale, then $\{|X_n|\}$ is also a submartingale and $\E[|X_n|] = \E[\E[|X_n||\F_{n-1}]] \ge \E[|X_{n-1}|]$.
+Therefore,
 \eq{
-|F(x_1, x_2, \dots, x_{i-1}, x_i, x_{i+1},\dots,  x_m) - F(x_1, x_2, \dots, x_{i-1}, y_i, x_{i+1},\dots,  x_m)| \le c, \enskip \forall i, \forall x_1, x_2, \dots, x_m, y_i.
-}
-\end{defn}
-
-\begin{prop}[\textit{McDiarmid's Inequality}]
-Under above conditions, if $F$ is Lipschitz-c,
+\sup_k \E[|X_k|] = \lim_{n \to \infty} \E[|X_n|].
+}\\
+\begin{lem}
+If $\{X_k\}$ is submartingale. then for $X^+_k = \max(0, X_k)$,
+\end{lem}
 \eq{
-	\P[|F(X_1, X_2, \dots, X_m)-\E[F]| \ge \alpha] \le 2 e^{(\frac{- 2 \alpha^2}{m c^2})}.
+\sup_k \E[|X_k|] < \infty \iff \sup_k \E[X^+_k] < \infty.
 }
-\end{prop}
-
 \begin{proof}
-Let $Z = f(X_1, X_2, \dots, X_m)$, $Z_i = \E[Z|X_1, X_2, \dots, X_i]$. Then $\{Z_i\}$ is a martingale.
-
-Also,
+$[\Rightarrow]$
+$X^+_k \le |X_k|$, hence
 \eq{
-|Z_{i+1} - Z_i| = &\lvert \E\left[f(x_1, x_2, \dots, x_{i+1}, X_{i+2}, X_{i+3}, \dots, X_n)|X_1=x_1,  \dots, X_i=x_i,X_{i+1}=x_{i+1}\right]\\
-&-\E\left[f(x_1, x_2, \dots, x_{i}, X_{i+1}, \dots, X_n)|X_1=x_1, \dots, X_i=x_i\right]\rvert\\
-&\le \E\left[|f(x_1, x_2, \dots, x_{i+1}, X_{i+2}, X_{i+3}, \dots, X_n)- f(x_1, x_2, \dots, x_i, X_{i+1}, X_{i+2}, X_{i+3}, \dots, X_n)|\right]\\
-& \le c.
+\sup_k \E[X^*_k] \le \sup_k \E[|X_k|].
 }
-Thus, 
+$[\Leftarrow]$
+$|X_k| = 2X^+_k - X_k$.
+Thus,
 \eq{
-\P[|Z_{i+1}-Z_i| \le c |\F_i] = 1.
+\E[|X_k|] = 2\E[X^+_k] - \E[X_k] \le 2\E[X^+_k] - \E[X_0].
 }
-and the result follows by Azuma's inequality,because $Z_0 = \E[F(X_1, X_2, \dots, X_m)]$.
+\eq{
+\sup_k \E[|X_k|] \le 2\sup_k \E[X^+_k] - \E[X_0].
+}
+If RHS is finite, then LHS is finite.
 \end{proof}
+Thus, if a submartingale is upper bounded, $X_k \le  M_1 < \infty$ $a.s.$, then
+$X^+_k \le M_1  \Rightarrow \sup_k \E[X^+_k] \le M_1$ .
+Therefore, if a submartingale is upperbounded then it converges $a.s.$.
+
+If $X_k$ is a supermartingale, then $-X_k$ is submartingle.
+Therefore, if $\sup_k (-X_k) \le M_1, \quad X_k \ge -M_1, \quad \forall k$.
+Therefore, if $X_k$ is a supermartingale and lower bounded then it converges.
+
+If $X_k$ is a martingale then it is a supermartingale and a submartingale. Therefore an upper or lower bounded martingle converges $a.s.$.
 \end{document}

@@ -10,82 +10,129 @@
 \begin{document}
 %\maketitle
 
-%\chapter{Discrete Time Markov Chains}
-\setcounter{section}{4}
+\chapter{Continuous-Time Markov Chains}
+\setcounter{section}{0}
 \setcounter{subsection}{0}
 
 \section*{\centering{Lecture 13 \linebreak }}
-\subsection{Example: M/GI/1 queue}
-Consider an $M/GI/1$ queue. Let $\lambda$  be the Poisson arrival rate, $S_k$ the service time of the $k^{th}$ customer and $\E[S]$ be the mean service time. Let 
+\section{Introduction}
+Consider a continuous-time stochastic process $\{X(t),t\ge0\}$ taking values in a countable (can be finite) set $S$.
+A process $\{X(t),t\ge0\}$ is a \textit{Continuous-Time Markov Chain} (CTMC) if for all $s,t \ge 0$, and $i,j,x(u) \in S, 0\le u\le s$,
+\eq{
+\P\{X(t+s)=j| X(s)=i, X(u)=x(u),0 \le u<s\} = \P\{X(t+s)=j|X(s)=i\}.
+}
+%In other words, a continuous-time Markov chain is a stochastic process having the Markovian property that the conditional distribution of the state at time $t+s$, given the present state $s$ and all past states depends only on the present state and is independent of the past. 
+If in addition,
+\eq{
+P\{X(t+s)=j| X(s)=i\}  \triangleq P_t(i,j)
+}
+is independent of $s$, then the continuous-time Markov chain is said to have stationary transition probabilities. 
+All the Markov chains we consider will be assumed to have stationary transition probabilities.
+
+Further, we will restrict to pure jump processes: the sample paths of the process are piecewise constant, right continuous. We will see that such versions of the processes can usually be constructed.
+
+By Markov property, for a pure jump process the sojourn time $T_i$ in state $i$ satisfies,
+\eq{
+P\{T_i>s+t | T_i>s\} = P\{T_i>t\}
+}
+for all $s,t \ge 0$.Hence, the random variable $T_i$ is memoryless and must thus be exponentially distributed, say with parameter $\lambda_i$.
+If $\lambda_i = 0$ then
+\eq{
+P[T_i \ge t] = e^{-\lambda_i t} = 1
+}
+for all $t$ and the state $i$ is called \textit{absorbing}.
+If $\lambda_i = \infty$ then
+\eq{
+	P[T_i \ge t] = 0
+}
+for all $t$ and the state $i$ is called \textit{instataneous}. We will assume $\lambda_i < \infty$ for all states $i$. For a pure jump process this will hold.
+
+For a Markov jump process,
 \begin{itemize}
-\item $q_k = $ queue length just after the $k^{th}$ departure. 
-\item $\hat{q}_k = $ queue length just before the $k^{th}$ arrival. 
-\item $q_t =$ queue length at arbitrary time $t$.
-\item $W_k = $ waiting time of the $k^{th}$ customer.
+\item the amount of time it spends in a state $i$ before making a transition into a different
+state is exponentially distributed with mean, say, $\frac{1}{\lambda_i}$, and
+\item when the process leaves state $i$, it next enters state $j$ with probability $P_{ij}$.
+\\$P_{ij}$ satisfies, for $i$ not an absorbing state,
+\eq{
+P_{ii} = 0, \quad \sum_j P_{ij} = 1, \quad  \forall i,
+}
 \end{itemize}
-The process $\{q_k\}$ satisfies $q_{k+1} = (q_k -1)^+ + A_{k+1}$ where $A_{k+1}$ is the number of arrivals during the service of $(k+1)^{th}$ customer. Since $\{A_k\}$ is i.i.d., $\{q_k\}$ is a Markov chain. The state space $S = \{0,1,2\dots\}$ and it is easy to check that it is aperiodic and irreducible. By choosing $f(i) = i$, we can deduce using the test for positive recurrence that $\{q_k\}$ is positive recurrent when $\E[A_1] = \lambda \E[S] < 1$. Thus, we conclude that when $\lambda \E[S] < 1$, the process $\{q_k\}$ has a stationary distribution. We will  see later that when $\lambda\E[S] = 1$, $\{q_k\}$ is recurrent and when $\lambda \E[S] > 1$, it is transient. \\
-\indent  The process $\{\hat{q}_k\}$ however, is not a Markov chain if $S_k$ is not exponentially distributed. But $\{\hat{q}_k\}$ is a regenerative process with regeneration epochs occurring when $k^{th}$ arrival sees an empty queue. That is, regenerative epochs for $\{\hat{q}_k\}$ occur when $ \hat{q}_k = 0$. Let $\hat{\tau}$ be the regeneration length of $\{\hat{q}_k\}$. \\
-\indent To obtain the conditions for existence for stationary distribution for $\{\hat{q}_k\}$, we can relate it to the process $\{q_k\}$. The process $\{q_k\}$ is also a regenerative process with regeneration epochs occurring when a departure leaves behind an empty queue. That is, the regeneration epochs correspond to $q_k = 0$. Let $\tau$ be the regeneration time of $\{q_k\}$. Now, we can see that $\tau = \hat{\tau}$. Since, $\{q_k\}$ has stationary distribution when $\lambda \E[S] < 1$, $\E[\tau] < \infty$. So, $\E[\hat{\tau}] < \infty$. Therefore, the process $\{\hat{q}_k\}$ is stationary iff $\{q_k\}$ is stationary. \\
-\indent The process $\{W_k\}$ also has the same regeneration epochs as $\{q_k\}$ and hence has unique stationary distribution when $\lambda\E[S] < 1$.\\
-\indent The process $\{q_t\}$ is also a regenerative process with regeneration epochs the arrival times that see an empty queue. Let $T$ be a regeneration length of $\{q_t\}$. Then, considering one regenerative cycle, we can write $T = \sum_{k = 1}^{\hat{\tau}} a_k$ where $a_k$ is the inter-arrival time between $(k-1)^{th}$ and $k^{th}$ arrival. Now, $\hat{\tau}$, which is equal to the number of services in one regeneration cycle is a stopping time for $\{a_k,S_k\}$ where $S_k$ is the service time of the $k^{th}$ arrival. Thus, we can use Wald's lemma to conclude that $\E[T] = \E[\hat{\tau}] \E[a_1]$. Thus, $\{q_t\}$ also has stationary distribution whenever $\lambda\E[S] < 1$.
-\subsection{Rate of convergence to the stationary distribution}
+and if $i$ is an absorbing state, $P_{ii}=1$.
 
-\begin{defn}[Total Variation distance]
-The total variation distance between two probability distributions $\mu$ and $\pi$ on $S$, 
-\begin{align*}
-||\mu - \pi||_{TV} = \frac{1}{2} \sum_{x\in S} (\mu(x) - \pi(x)).
-\end{align*}
-\end{defn}
-The following results have been classically known.  We consider an irreducible Markov chain.
-\begin{itemize}
-\item If $\E[\tau^\alpha] < \infty$ for some $\alpha > 1$, then $|| X_k - \pi ||_{TV} < c_1 k^{-\alpha +1}$.
-\item If $\E[\beta^{\tau}] < \infty$ for some $\beta > 1$, then $|| X_k - \pi||_{TV} \leq \exp(-\lambda k)$ for some $0 < \lambda < \beta$.
-\end{itemize}
-Now, We consider a finite state space $S$. Let 
-\begin{align*}
-K_n^{x}(y) = \frac{P^n(x,y)}{\pi(y)}
-\end{align*}
-where $P$ is the transition probability matrix of the Markov chain. Then, $K_n^{x}(y) \rightarrow 1$ as $n \rightarrow \infty \ \forall x,y \in S$. 
-\begin{defn}
-$\mathcal{L}^p$ distance between distributions $P^n(x,*)$ and $\pi$, 
-\begin{align*}
-||K^x_n - 1||^p_{p,\pi} = \sum_{y\in S} |K^x_n(y)-1|^p \pi(y) \text{ for } 1 \leq p < \infty.
-\end{align*}
-Also, $\mathcal{L}^{\infty}(\nu,\mu) = \sup_{x\in S} |\mu(s) - \nu(s)|$.
-\end{defn}
+In other words, a Continuous-Time Markov Chain (CTMC) is a stochastic process that
+moves from state to state in accordance with a (discrete-time) Markov chain, but is such that the amount of time it spends in each state, before proceeding to the next state, is exponentially distributed independently of the next state visited. 
 
-The following are known.
-\begin{align}\label{eq:tau_bounds}
-||\nu -\mu||_{TV} = \frac{1}{2} ||\frac{\nu}{\mu} -1||_{1,\mu} \leq \frac{1}{2} ||\frac{\nu}{\mu} -1 ||_{2,\mu}.
-\end{align}
-\begin{defn}[Mixing times]
-\begin{align*}
-\tau_1(\epsilon) &= \min\{n: \sup_x ||P^n(x,.)-\pi||_{TV} \leq \epsilon\}. \\
-\tau_2(\epsilon) &= \min\{n: \sup_x ||K_n^x - 1||_{2,\pi} \leq \epsilon\}. \\
-\tau_\infty(\epsilon) = &= \min\{n: \sup _x |P^n(x,*) - \pi|_\infty \leq \epsilon\}.
-\end{align*}
-\end{defn}
 
-Let $\pi_* = \min_x \pi(x)$ and
-\begin{align*}
-||P^*|| = \sup_{f:S\to \R: \E[f] =0} \frac{||P^*f||_2}{||f||_2},
-\end{align*}
-where $P^*$ is the complex conjugate of $P$. 
-\begin{prop}
-\begin{align*}
-\tau_2(\epsilon) \leq \frac{1}{1-||P^*||} \log\left(\frac{1}{\epsilon \sqrt{\pi_*}}\right)
-\end{align*}
-\end{prop}
-\begin{prop}
-\begin{align*}
-\tau_2(\epsilon) \leq \frac{2}{\lambda_{PP^*}} \log\left( \frac{1}{\epsilon \sqrt{\pi_*}}\right) 
-\end{align*}
-where $\lambda_{PP^*} = 1-\lambda$ amd $\lambda$ is the largest eigenvalue of $PP^*$ less that 1.
-\end{prop}
-These results provide an exponential rate of convergence to the stationary ditribution for a finite state Markov chain. From $\tau_2(\epsilon)$ we get an upper bound on $\tau_1(\epsilon)$ through Eq (\ref{eq:tau_bounds}). We also have
-\begin{align*}
-\tau_2(\epsilon) \leq \tau_\infty (\epsilon) \leq \tau_2\left(\epsilon \sqrt{\frac{\pi_*}{1-\pi_*}}\,\right).
-\end{align*}
-If the Markov chain is reversible, the upper bound can be tightened to $2\tau_2(\sqrt{\epsilon})$. Thus, for most applications getting $\tau_2(\epsilon)$ is sufficient.  
+\section{Strong Markov property, Minimal construction}
+
+%A random variable $\tau$ is a \textbf{stopping time} if for each $t \in \R_+$, 
+%\eq{
+%	\{\tau \leq t\} \in \F_t.
+%}
+A random variable $\tau$ is a stopping time with minimal construction if the event $\{\tau \leq t\}$ can be determined completely by the collection $\{X(u): u \leqslant t\}$. 
+A stochastic process $X$ has \textbf{strong Markov property} if for any almost surely finite stopping time $\tau$, 
+\eq{
+	P\{X(\tau+s) = j|X(u), u \leq \tau, X(\tau) = i\} &= P\{X(\tau+s) = j|X(\tau) = i\} = P_s(i,j).
+}
+\begin{lem}
+	\label{Lemma:StrongMarkovProperty}
+	A continuous time jump Markov chain $X$ has the strong Markov property. 
+\end{lem}
+\begin{proof}
+
+	Let $\tau$ be an almost surely finite stopping time with conditional distribution $F$ on the collection of events $\{X(u): u \leq s\}$. 
+	Then, 
+	\eq{
+		\Pr\{X(\tau+s) =j |X(u), u \leq \tau, X_\tau = i\} &= \int_{0}^{\infty}dF(t)\Pr\{X(t+s) = j| X(u), u \leq t, \tau = t, X_\tau = i\}\\
+		&= P_t(i,j)
+	}
+\end{proof}
+
+We give a \textit{minimal construction} of a CTMC with given $\lambda_i, s$ and $P_{ij,s}$.
+Construct a DTMC $Y_0, Y_1, \dots, $ with parameterse $P_{i,j}$ and construct exponential random variables $T_1, T_2, \dots$ independent of each other, where $T_n \sim exp(\lambda(Y_n))$.
+
+Let $S_n = \sum_{k=1}^{n} T_k$ and $S_0 = 0$.
+
+Define $X_t = Y_j$ if $S_j \le t < S_{j+1}$.
+If $\omega(\Delta) \triangleq \sup_n S_n < \infty$, then $X_t = \Delta$ for $t \ge \omega(\Delta)$,
+where $\Delta$ is an element which is not in the state space $S$.  
+On the extended state space $S \cup \{\Delta\}$ we define $P_t(\Delta, \Delta) =1$ for all $t>0$ and $P(\Delta, \Delta) =1$.
+There are other possibilies to define the MC after $\omega(\Delta)$ but the above construction makes $P_t(i,j)$, $i,j \in S$ minimal. When  $\omega(\Delta) < \infty$ , we say the MC has \textit{explosion}.
+
+One can show that for any initial condition $i$,
+\eq{
+\R(\omega) =  \{\omega:\omega(\Delta) < \infty \} = \{ \omega:\sum_{k=0}^{\infty} \frac{1}{\lambda(Y_k(\omega))} < \infty\} \quad a.s
+}
+Easier to verify the conditions for non explosion of the MC are the following.
+
+\begin{lem}
+Any of the following conditions are sufficient for $P\{\omega:\omega(\Delta) < \infty \} = 0$:
+\begin{enumerate}
+	\item $\sup_i \lambda(i) < \infty$,
+	\item $S$ is finite,
+	\item $\{Y_n\}$ is recurrent.
+\end{enumerate}
+\end{lem}
+\begin{proof}
+	
+\quad \quad  If $\omega(\Delta) < \infty$, then $\frac{1}{\lambda(Y_k(\omega))} \to 0$ as $k \to \infty$.
+
+\quad \quad  If $(1)$ is true, $\lambda(Y_k(\omega)) \le \bar{\lambda}$.
+therefore, $\lambda(Y_k(\omega)) \to \infty$ is not possible.
+
+\quad \quad  If $(2)$ is true, since $\lambda(i) < \infty$ $\forall i$, \quad $\sup_i \lambda(i) < \infty$.
+
+\quad \quad   If $(3)$ is true $Y_k(\omega) = i$ for an infinite number of $k$ $w.p. 1$.
+%In $\lambda(Y_k(\omega))$, $\lambda(i)$ will occur infinitely often $w.p. 1$.
+Therefore,
+\eq{
+\lambda(Y_k(\omega)) \centernot{\to} \infty, \quad a.s.,
+}
+\eq{
+	P[\lambda(Y_k(\omega)) \to \infty] = 0.
+}
+\end{proof}
+
+
 \end{document}
 

@@ -4,17 +4,17 @@
 %\input{header}
 \title{Lecture 01: Poisson Processes}
 \author{}
-\setcounter{chapter}{1}
+\setcounter{chapter}{0}
 
 \begin{document}
 %\maketitle
 
 \chapter{Poisson Processes}
-\setcounter{section}{1}
+\setcounter{section}{0}
 \setcounter{subsection}{0}
 %\chapter{Lecture 3}
 \section*{\centering{Lecture 1 \linebreak }}
-\subsection{Introduction to stochastic processes}
+\section{Introduction to stochastic processes}
 
 \indent \textbf{Review:} Let $(\Omega,\sigma,\mathbb{P})$ be a probability space. A measurable mapping $X:\Omega \to \mathbb{R}$ is called a \textit{random variable} (r.v.). $X(\omega)$ for $\omega \in \Omega$ is called \textit{a realization of $X$}. $F_X (x) = \mathbb{P}[X\leq x]$ is called the \textit{distribution function} of r.v. $X$. $f_X(x) = dF(x)/dx$ is called the \textit{probability density function} of $X$. The probability density function may not always exist. $\mathbb{E}[X] = \int x dF_X(x) $ is the expectation of $X$. When probability density of $X$ exists $\mathbb{E}[X] = \int xf(x)dx$.\\
 
@@ -28,13 +28,15 @@
 \P\{N_{t+h} - N_t \geq  2 \} &= o(h).\\
 \end{align*} 
 Here, the notation $o(g(x))$ means a class of functions such that if $f(x) \in o(g(x))$, then $\lim_{x\rightarrow 0} \frac{f(x)}{g(x)} =0$.
-\subsection{Poisson process}
+\section{Poisson process}
+\subsection{Definition}
 In the following we customarily take $N_0 = 0$. A point process $N_t$ is \textit{Poisson} if any of the following conditions hold.
 \paragraph{Definition [1]:}{
 \begin{enumerate}
 \item $\{A_k, k \geq 1\}$ are independent and exponentially distributed with parameter $\lambda$: $\P\{A_k \leq x\} = 1 - e^{-\lambda x}$. If $\lambda = 0$, $A_1 = \infty$ w.p.1. and $N_t = 0 \ \forall t$. If $\lambda = \infty$, $A_1 = 0$ w.p.1 and $N_t = \infty \ \forall t$. Thus, we restrict to $0<\lambda<\infty$. In this range for $\lambda$, $N_t$ is guaranteed to be simple because $\P\{A_k = 0\} = 0 \ \forall k$.
 \end{enumerate}
 }
+
 \paragraph{Definition [2]:}{
 \begin{enumerate}
 \item $N_t$ is simple.
@@ -60,7 +62,7 @@ In the following we customarily take $N_0 = 0$. A point process $N_t$ is \textit
 \end{enumerate}
 \end{enumerate}
 }
-We will show below that these definitions are equivalent.\\
+We will show below that these definitions are equivalent. We need the following important charaterization of exponential distribution.\\ 
 \textbf{Exponential r.v. is memoryless:} Let $X$ be an exponential r.v.
 \begin{align*}
 \P\{X > t+s|X>t\} &= \frac{\P\{X\ > t+s,X>t\}}{\P\{X>t\}} \\
@@ -90,7 +92,7 @@ Thus, $\P\{X>x\} = e^{-\lambda x}$ and $X$ is an exponential random variable.
 \end{proof}
 \end{thm}
 
-Definitions $[1-4]$ for Poisson process given above are equivalent. 
+Now we show that definitions $[1-4]$ for Poisson process given above are equivalent. 
 
 \begin{prop}[] 
 Definition $[3]$ $\implies$ Definition $[2]$.

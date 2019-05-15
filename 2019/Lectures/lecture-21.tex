@@ -5,200 +5,102 @@
 %\input{header}
 %\title{Lecture 01: Poisson Processes}
 %\author{}
-\setcounter{chapter}{4}
+\setcounter{chapter}{5}
+\usepackage{enumitem}
 
 \begin{document}
 %\maketitle
 
-%\chapter{Martingales}
-\setcounter{section}{4}
+%\chapter{Renewal Theory}
+\setcounter{section}{1}
 \setcounter{subsection}{1}
-
+\chapter{Random Walks}
 \section*{\centering{Lecture 21 \linebreak }}
-[Martingale Convergence Theorem]
-\begin{exmp}
-Let $Z$ be a random variable with  $\E[|Z|] < \infty$, and  $\{Y_n\}$ a sequence of random variables. Define
-$X_0=1$, $X_n = \E[Z|Y_0, Y_1, \dots, Y_n]$, Then $\E[X_{n+1}|Y_0, Y_1, \dots, Y_n] = \E[Z|Y_0, Y_1, \dots, Y_n] = X_n$. Also,
-\eq{
-\E[|X_n|] &= \E[|\E[Z|Y_0, Y_1, \dots, Y_n]|]\\
-&\le \E[\E[|Z||Y_0, Y_1, \dots, Y_n]]\\
-&= \E[|Z|]\\
-&< \infty \quad \quad \text{for all} \quad n \ge 1.
-}
-Hence $\{X_n\}$ is a martingale $w.r.t.$ $\{Y_n\}$ (called \textit{Doob's Martingale}).
-Also, $X_n \to X_\infty = \E[Z|Y_0, Y_1, \dots]$.
-\end{exmp}
+\section{Definitions}
+\begin{defn}[Random Walks]
+Let $X_1,X_2,\dots$ be i.i.d., $S_0 = 0$ and $S_n = \sum_{k=1}^n X_k$. Then, $S_n$ is called \textit{random walk}. 
+\end{defn}
 
-\begin{exmp}
-Let $\{X_n\}$ be a MC with transition matrix $P$.
-If $h$ is a function such that 
-\eq{
-h(i) = \sum_{j \in S} p_{ij}h(j) = \E[h(X_1)|X_0=i].
-}
+If $\mu = \E[X_1]$ ($-\infty \leq \E[X_1] \leq \infty$) is defined, then by strong law of large numbers (SLLN) $S_n/n \to \E[X_1]$ a.s. as $n \to \infty$. According to law of iterated logarithms (LIL), if $Var(X_1) = \sigma^2 < \infty$,
+\begin{align*}
+\limsup_{n \to \infty} \frac{S_n-n\mu}{\sigma \sqrt{n\log \log n}} = +1 \text{ a.s. } \\
+\liminf_{n \to \infty} \frac{S_n-n\mu}{\sigma \sqrt{n\log \log n}} = -1 \text{ a.s. } \\
+\end{align*}
+We can use martingales theory to analyze $S_n$. $S_n$ is also a Markov chain. So we can use Markov chain theory (although it may not have countable state space). If $X_k \geq 0$, we can use renewal theory. In this chapter, we use random walk theory and will also show how to use renewal theory when $X_1$ takes positive as well as negative values.\\
+\indent There are three possibilities
+\begin{enumerate}[label=(\arabic*)]
+\item  $S_n \to -\infty$ a.s. as $n \to \infty$.
+\item  $S_n \to \infty$ a.s. $n \to \infty$. 
+\item  $\limsup_{n\to \infty} S_n = \infty$ a.s. and $\liminf_{n\to \infty} S_n = -\infty$ a.s.
+\end{enumerate}
+If $\E[X_1]$ exists ($-\infty \leq \E[X_1] \leq \infty$), then by SLLN, $(1)$ holds if $\mu <0$ and $(2)$ holds if $\mu>0$. By LIL, $(3)$ holds if $\sigma^2 < \infty$ and $\mu = 0$.
 
-Define $Y_n = h(X_n)$. Then,
-\eq{
-\E[Y_{n+1} |X_0, X_1, \dots, X_n] &= \E[h(X_{n+1})|X_0, X_1, \dots, X_n]\\
-&= \E[h(X_{n+1})|X_n]\\
-&= h(X_n) = Y_n.
-}
-Therefore $\{Y_n\}$ is a martingale $w.r.t.$ $\{X_n\}$ .
-If the equality is replaced with $\le$ then it is submartingale.
-\end{exmp}
+\begin{defn}
+If for all finite intervals $I \subset \R$, $\sum_{n=0}^\infty \P\{S_n \in I\} = \sum_{n=1}^\infty \E[1\{S_n \in I\}] < \infty$, then the random walk $S_n$ is called \textit{transient}. Otherwise, it is called $recurrent$. 
+\end{defn}
+When $\mu < 0$ or $\mu > 0$, the random walk is transient. When $\mu =0$, the random walk is recurrent. \\
+\section{Ladder Heights, Maxima, $GI/GI/1$ Queue}
+\begin{defn}[Ladder epochs and heights]
+Let $T_1 = \inf\{n:S_n > 0\}$ and $T_k = \inf\{n>T_{k-1}, S_n>{S_{T_{k-1}}}\}$. The process $\{T_k\}$ is called \textit{strictly ascending ladder epochs} and $\{S_{T_k}\}$ is called \textit{strictly ascending ladder heights}. \\
+\indent Let ${T}_{1}^- = \inf\{n:S_n \leq 0\}$ and ${T}_{k}^- = \inf\{n>{T}_{k-1}^-, S_n \leq {S_{{T}_{k-1}^-}}\}$. The process $\{{T}_{k}^-\}$ is called \textit{weakly descending ladder epochs} and $\{S_{{T}_{k}^-}\}$ is called \textit{weakly descending ladder heights}. \\
+\indent When $S_n \to \infty$ a.s., then after some time $S_n$ will not go below $0$ and hence $\P[T_- < \infty] < 1$. Also, when $S_n \to -\infty$ a.s. then $\P\{T<\infty\} < 1$.
+\end{defn}
 
-Suppose $h$ is bounded. Since $Y_n = h(X_n)$ is a submartingale, $Y_n \to Y_\infty$ $a.s.$ and $\E[Y_\infty] < \infty$.
-Assume, $\{X_n\}$ is irreducible and recurrent.
-Consider $i, j \in S$, $i\neq j$. 
-State-$i$ occurs infinitely often $w.p.$1 and state-$j$ also occurs infinitely often $w.p.$1.
-Thus, 
-$Y_n = h(X_n) = h(i)$ and $h(j)$ infinitely often with $w.p.$1.
-Therefore, for $Y_n$ to converge $a.s.$,
-\eq{
-h(i) = h(j), \quad \forall i,j \in S.
-}
+Ladder heights and ladder epochs form renewal processes. Let $M_n = \sup_{1\leq k \leq n} S_k$ and $m_n = \inf_{1\leq k \leq n} S_k$. Since, $M_n \geq S_n$ and is monotonically increasing, 
+\begin{enumerate}
+\item If $S_n \to \infty$  a.s., then $M_n \uparrow \infty$ a.s. but $m_n \downarrow m > -\infty$ a.s.
+\item If $S_n \to -\infty$ a.s., then $M_n \uparrow M < \infty$ a.s. and $m_n \to -\infty$ a.s.
+\item If $S_n$ oscillates, then $M_n \uparrow \infty$ a.s. and $m_n \downarrow -\infty$ a.s.
+\end{enumerate}
 
-\section{Applications to Markov chain}
-In this section we use martingale convergence theorems to get conditions for recurrence and transience of Markov chains.
-\begin{thm}
-Let $\{X_n\}$ be an irreducible, MC with state space $S$ and transition matrix $P$.
-It is transient if and only iff $\exists$ a state-$i$ and $h:S \setminus \{i\} \to \R$, $h$ is bounded, non-zero and satisfies 
-\eq{
-h(j) = \sum_{k \neq i} p_{jk}(h(k)) \quad \quad \forall j \neq i.
-}
-\end{thm}
+\begin{prop}
+For GI/GI/1 queue, $W_n \sim M_n$.
 \begin{proof}
-Suppose $\{X_n\}$ is transient. 
-Fix a state $i$. 
-Let $T(i)$ be the first time chain enters state $i$.
-Define $h(j) = P_j[T(i) = \infty]$. 
-It is  bounded.
-Since  $\{X_n\}$ is transient, $P_j[T(i) = \infty] > 0$.
-Also, 
-\eq{
-P_j[T(i) = \infty] = \sum_{k \neq i} P_{jk} P_k[T(i)=\infty].
-}
-
-Now we assume that such an $h$ exists and we show that MC is transient.\\
-Define, $\tilde{h}$ on $S$ such that $\tilde{h}(j) = h(j)$ \quad $\forall$ $j \neq i$, $\tilde{h}(i)=0$.
-Thus,
-when $j \neq i$,
-\eq{
-\E[\tilde{h}(X_1)|X_0 = j] = \sum_k P_{jk} \tilde{h}(k) = \sum_{k \neq i} P_{jk} h(k) = h(j) = \tilde{h}(j) = \tilde{h}(X_0).
-}
-When $j=i$,
-\eq{
-\E[\tilde{h}(X_1)|X_0 = i] = \sum_{k \neq i}  P_{ik} h(k) \ge \tilde{h}(i).
-}
-Therefore,
-\eq{
-\E[\tilde{h}(X_1)|X_0] \ge \tilde{h}(X_0).
-}
-Thus from the previous example, $\tilde{h}(X_n) = Y_n$ is a submartingale and it is bounded.
-Hence, it converges  to $Y_\infty$ $a.s.$.
-
-If $\{X_n\}$ is recurrent then  as shown above, $\tilde{h}$ is a constant. But $\tilde{h}(i) = 0$ and $\tilde{h}$ is non-zero. Therefore it cannot be recurrent.
+Let $X_k = S_k - A_k$.
+\begin{align*}
+W_{k+1} &= (W_k + X_k)^+ \\
+&= \max(0,W_k + X_k)) \\
+&= \max(0,\max(0,W_{k-1}+X_{k-1}) + X_k)) \\
+& \dots \\
+&= \max(0,X_k,X_k+X_{k-1},X_k+X_{n-1}+X_{k-2},\dots,X_1) \\
+&\sim \max(0,X_1,X_1+X_{2},X_1+X_{2}+X_{3},\dots,S_k) \\
+&= \max(0,S_1,S_2,S_3,\dots,S_k) \\
+&= M_k.
+\end{align*}
 \end{proof}
-\begin{thm}
-Let  $\{X_n\}$ be irreducible. If $\exists$ $h:S \to \R$ such that $h(i) \to \infty$ as $i \to \infty$ and there is a finite set $E_0 \subset S$ such that $\E[h(X_i)|X_0=i] \le h(i)$, $\forall i \notin E_0$, then $\{X_n\}$ is recurrent.
-\end{thm}
-\begin{proof}
-We can if needed add a constant to make $h \ge 0$. 
-Let $T$ be entrance time to set $\E_0$.
-$X_0=i$, \quad $i \notin E_0$. $Y_n = h(X_n) 1_{\{T>n\}}$, $\F_n = \{X_0, X_1, \dots, X_n\}$.
+\end{prop}
+We should note that $M_n \neq W_n$ a.s. and  $M_n$ is montonically increasing, but $W_n$ is not. Moreover, $(W_{n+1},W_n) \stackrel{d}{\neq} (M_{n+1},M_{n})$ even though $W_{n+1} \sim M_{n+1}$.
+Now, 
+\begin{align*}
+(S_0,S_1,\dots,S_n) &\sim (0,X_1,X_1+X_2,\dots,X_1+X_2+\dots+X_n) \\
+&\sim (0,X_n,X_n+X_{n-1},\dots,X_n+X_{n-1}+\dots +X_1)\\
+&= (0,S_n-S_{n-1},S_{n-2}\dots, S_n - S_0)
+\end{align*}
+$\max\{0,S_n-S_{n-1},S_{n-2}\dots, S_n - S_0\} \stackrel{d}{=} S_n - m_n$. This shows that $(M_n,M_n - S_n) \sim (S_n - m_n, -m_n)$. \\
+\indent We can also write $M_n = S_{N(n)}$ where $N(n)$ is number of ascending ladder epochs till time $n$. Let $Z_k = S_{T_k} -S_{T_{k-1}}$. If $\mu > 0$, then we will show that $\E[T_1] < \infty$.
+\begin{prop}
+If $\mu >0$,then 
+\begin{align*}
+\frac{M_n}{n} \to \E[X_1] \text{ a.s. as } n \to \infty.
+\end{align*}
+\begin{proof} From renewal theory $N(n)/n \to 1/\E[T_1]$ a.s. Thus, 
+\begin{align*}
+\lim_{n \to \infty} \frac{M_n}{n} &= \lim_{n \to \infty} \frac{\sum_{k=1}^{N(n)} Z_k}{n}\\
+&= \lim_{n \to \infty} \frac{\sum_{k=1}^{N(n)} Z_k}{N(n)} \frac{N(n)}{n} \\
+&= \frac{\E[Z_1]}{\E[T_1]} \text{ a.s.}\\
+&= \frac{\E[\sum_{k=1}^{T_1} X_k]}{\E[T_1]}\text{ a.s.}\\
+&= \E[X_1] \text{ a.s.} \qedhere
+\end{align*}
 
-Then,
-\eq{
-\E[Y_{n+1}|\F_n] &= \E[h(X_{n+1}) 1_{\{T>n+1\}}|\F_n]\\
-&\le  \E[h(X_{n+1}) 1_{\{T>n\}}|\F_n]\\
-&= 1_{\{T>n\}} \E[h(X_{n+1})|\F_n]\\
-&\le 1_{\{T>n\}} h(X_n)\\
-&= Y_n.
-}
-Therefore, $Y_n$ is a nonnegative supermartingale and $Y_n \to Y_\infty$ $a.s.$ with $P[Y_\infty < \infty] = 1$.
-
-Suppose $X_n$ is transient. Then  $X_n$ will be out of any finite set $\{i:h(i) \le a\}$ after some time. Thus,
-\eq{
-h(X_n) \to  \infty \quad a.s..
-}
-But $Y_\infty < \infty$  \quad $a.s.$.
-Therefore,
-\eq{
-P_i[T < \infty] = 1, \quad \forall i \notin E_0.
-}
-Thus, finite set $E_0$ is being visited infinitely often $w.p. 1$.
-Since $E_0$ is a finite set, at least one of the states $i \in E_0$ is being visited infinitely often $w.p.1$., That state is recurrent.
-Then $\{X_n\}$ is recurrent. 
-Hence a contradiction.
 \end{proof}
-Under slightly stronger conditions, we get positive recurrence of the MC.
+\end{prop}
+Similarly, if $\mu <0$, $m_n/n \to \E[X_1]$ a.s.\\
 
-\begin{thm}
-\label{thm1}
-Let  $\{X_n\}$  be irreducible. $h:S \to \R$ s.t. $h$ is lower bounded (make it $\ge$ 0 by adding a constant) and $E_0$ is finite such that $\E[h(X_1)|X_0=i] \le h(i) - \epsilon$ \quad $\forall i \notin E_0$,  for some $\epsilon >0$, and $\E[h(X_1)|X_0=i] < \infty$, \quad $\forall i \in E_0$. Then $\{X_n\}$ is positive recurrent.
-\end{thm}
-\begin{proof}
-Let $T$ be the entrance time to set $\E_0$, $X_0 = i$, $i \notin E_0$, $Y_n = h(X_n) 1_{\{T>n\}}$. 
-Then
-\eq{
-\E[Y_{n+1}|\F_n] &= \E[h(X_{n+1}) 1_{\{T>n+1\}}|\F_n]\\
-&\le \E[h(X_{n+1}) 1_{\{T>n\}}|\F_n]\\
-&= 1_{\{T>n\}} \E[h(X_{n+1})|\F_n]\\
-&\le 1_{\{T>n\}} [h(X_{n})-\epsilon]\\
-&= Y_n -\epsilon 1_{\{T>n\}}.
-}
-Take expectaions on both sides,
-\eq{
-\E[Y_{n+1}] &\le \E[Y_n] - \epsilon P[T>n]\\
-&\le \E[Y_{n-1}] - \epsilon P[T>n-1] -\epsilon P[T>n] \\
-\dots
-&\le \E[Y_0] - \epsilon \sum_{k=0}^{n} P[T>k].
-}
-Take $n \to \infty$,
-\eq{
-0 \le \E[Y_0] - \epsilon \sum_{k=0}^{\infty} P[T>k] = \E[Y_0] - \epsilon \E_i[T].
-}
-Thus,
-\eq{
-\E_i[T] \le \frac{\E[Y_0]}{\epsilon} = \frac{h(i)}{\epsilon} < \infty, \quad \forall i \notin E_0.
-}
-
-For $i \in E_0$, 
-\eq{
-\E_i[T] &= \sum_{j\in E_0} p_{ij} + \sum_{j \notin E_0} p_{ij} \E_{j}[T+1] \\
-&= 1 + \sum_{j \notin E_0} p_{ij} \E_{j}[T]\\
-&\le 1+ \sum_{j \notin E_0}\frac{1}{\epsilon} p_{ij} h(j)\\
-&\le 1+\frac{1}{\epsilon} \E_i[h(X_1)]\\
-&< \infty.
-}
-
-Therefore, starting from any initial state, mean time to reach the finite set $E_0$ is finite.
-We can show that this implies that $\{X_n\}$ is positive recurrent.
-\end{proof}
-
-\begin{thm}
-$\{X_n\}$ is irreducible, $\exists$ a bounded function $h:S \to \R$ and a finite set $\E_0 \subset S$ $s.t.$  
-\eq{
-\E[h(X_1)|X_0=i] \ge h(i), \quad i \notin E_0
-}
-and $h(i) > h(j)$ for some $i \notin E_0$ and all $j \in E_0$. Then $\{X_n\}$ is transient.
-\end{thm}
-\begin{proof}
-Take $Y_n = h(X_{n \wedge T})$, $T$ the entrance time to $E_0$, $X_0 = i \notin E_0$.We can show that $Y_n$ is a submartingale.\\
-Since $h$ is bounded, $Y_n \to Y_\infty$ \quad $a.s.$. Also,
-\eq{
-\E[Y_\infty] \ge \E[Y_0] = h(i).
-}
-and the fact that $Y_\infty < h(i)$ on $\{T < \infty\}$  $\Rightarrow P_i[T=\infty] >0$ .
-Therefore, $\{X_n\}$ is transient.
-\end{proof}
-\begin{exmp}
-Consider a discrete time queue with $X_n$ the number of requests in the queue in the beginning of slot $n$. Then $X_{n+1} = (X_n + Y_n)^+$ where $Y_n = A_n - S_n$, $A_n$ is the number of arrivals in slot $n$, $S_n$ is number of requests we can serve in slot $n$. Then $Y_n$ is $i.i.d.$, integer valued.
-Taking $h(i)=i$ we show that if $\E[Y_n] < 0$ then we have positive recurrence.
-
-We have
-\eq{
-\E[X_1|X_0 =i] -i = \E[(i+Y_0)^+] - i.
-}
-As $i \to \infty$, $|\E[(i+Y_0)^+] - \E[i+Y_0]| \to \infty$. Therefore if $\E[Y_0] < -\epsilon$ for some $\epsilon > 0$ then $\E[X_1|X_0 = i]-i < \epsilon/2$ for all $i$ large enough. Then we get positive recurrence of $\{X_k\}$ from theorem \ref{thm1}.
-\end{exmp}
+\textbf{GI/GI/1 queue:} Take $X_k = s_k - A_k$. If $\mu = \E[X_1] = \E[s_1 - A_1] >0$, $M_n \uparrow \infty$ a.s. Therefore, since $W_n \sim M_n$, $\lim_{n \to \infty} \P\{ W_n \leq x\} =0$ for all $x$. Also, $W_n/n \to \E[X_1]$ a.s. \\
+\indent When $\mu<0$, $M_n \to M$ a.s. where $M$ is a proper r.v. and $\P\{W_n \leq x\} \to \P\{M \leq x\}$. Then, the queue is stable. Also, $N(n) \to N$ a.s. where $N$ is a finite r.v. and 
+\begin{align*}
+M \stackrel{d}{=} \sum_{k=1}^N z_k,
+\end{align*}
+and $\P\{N=n\} = p^n(1-p)$ where $p = \P\{T_1 <\infty\}<1$. Also, conditioned on $N\geq k$, $z_1, z_2, \dots,z_k$ are i.i.d. and do not depend on $k$.
 \end{document}
+

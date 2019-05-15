@@ -12,11 +12,11 @@
 %\maketitle
 
 %\chapter{Renewal Theory}
-\setcounter{section}{4}
-\setcounter{subsection}{0}
+\setcounter{section}{2}
+\setcounter{subsection}{3}
 
-\section*{\centering{Lecture 7 \linebreak (31-Jan-2019)}} %31-jan-2019
-\section{Renewal theorems}
+\section*{\centering{Lecture 7 \linebreak}} %31-jan-2019
+\subsection{Renewal theorems}
 \begin{defn}[Directly Riemann Integrable (d.r.i.)]
 A function $z: \R^+ \rightarrow \R^+$ is called directly Riemann integrable if
 \begin{align*}
@@ -145,6 +145,31 @@ Similarly, we can show
 Discrete time versions and when $F$ is lattice for the above theorems also hold.
 \end{proof}
 \end{thm}
+
+%In the previous lecture, we have seen that 
+%\begin{itemize}
+%\item $\P\{A_t \leq x\} \to F_0(x) \text{ as } t\to\infty.$
+%\item $\P\{B_t \leq x\} \to F_0(x) \text{ as } t\to\infty.$
+%\end{itemize}
+%where 
+%\begin{align*}
+%F_0(x) = \frac{1}{\mu} \int_0^x (1-F(s) ds.
+%\end{align*}
+%If the distribution of $A_0$ is $F_0$, then the processes $A(t)$ and $B(t)$ are stationary. 
+%Now, consider the renewal equation, $Z(t) = z(t) + F*z(t)$. Let $z(t) = 1\{t \in [0,a]\}$. It can be easily verified that $z(t)$ is d.r.i. The solution of this renewal equation is 
+%\begin{align*}
+%Z(t) &= z * \E[N_t] \\
+%&= \int_0^\infty z(t-s) d \E[N_s] \\
+%&= \int_{t-a}^t d\E[N_s]  \\
+%&= \E[N_t] - \E[N_{t-a}].
+%\end{align*}
+%From  key renewal theorem, we have 
+%\begin{align*}
+%\lim_{t \to \infty} Z(t) &= \frac{1}{\mu} \int_0^\infty z(s) ds \\
+%\lim_{t \to \infty} \E[N_t] - \E[N_{t-a}] &= \frac{1}{\mu} \int_0^a ds \\
+%&= \frac{a}{\mu}.
+%\end{align*}
+%This is the statement of Blackwell's theorem. 
 
 \end{document}
 
