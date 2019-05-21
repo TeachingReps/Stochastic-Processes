@@ -6,31 +6,44 @@
 %\title{Lecture 01: Poisson Processes}
 %\author{}
 \setcounter{chapter}{2}
-
+\usepackage{enumitem}
 \newcommand*{\QEDB}{\hfill\ensuremath{\square}}%
 \begin{document}
 %\maketitle
 
 %\chapter{Renewal Theory}
-\setcounter{section}{2}
+\setcounter{section}{4}
 \setcounter{subsection}{0}
-
-\section*{\centering{Lecture 9 \linebreak}} % 07-Feb-2019
+ 
+\section*{\centering{Lecture 8 \linebreak (05-Feb-2019) }} %05-Feb-2019
 \chr
-%{ \color{blue}
-%Let $\{X_t\}$ be a regenerative process, $F$ be its distribution of the regeneration length and $\mu$ be its mean. If $\mu < \infty$, the process $\{X_t\}$ has a unique stationary distribution. Moreover, for bounded and continuous $f$,
-%\begin{itemize}
-%\item if $F$ is non-lattice, $f(X_t) \stackrel{d}{\to} f(X_e)$ as $t \to  \infty$
-%\item if $F$ is lattice and aperiodic, $X_n \stackrel{d}{\to} f(X_e)$ as $n \to \infty$
-%\item if $F$ is lattice and periodic with period $d$, 
-%\begin{align*}
-%\frac{1}{d} \sum_{k=1}^d f(X_{n+k}) \stackrel{d}{\rightarrow} f(X_e) \text{ as } n \to \infty.
-%\end{align*}
-%\end{itemize}
-%\noindent where $X_e$ has the stationary distributionm given by 
-%\begin{align*}
-%\P\{X_e \leq x\} = \frac{\E_0[\int_0^{Y_1} 1\{X_t \leq x\}]}{\E_0[Y_1]}.
-%\end{align*}}
+{\color{blue}
+\section{Renewal Theorems (Contd)}
+In the previous lecture, we have seen that 
+\begin{itemize}
+\item $\P\{A_t \leq x\} \to F_0(x) \text{ as } t\to\infty.$
+\item $\P\{B_t \leq x\} \to F_0(x) \text{ as } t\to\infty.$
+\end{itemize}
+where 
+\begin{align*}
+F_0(x) = \frac{1}{\mu} \int_0^x (1-F(s) ds.
+\end{align*}
+If the distribution of $A_0$ is $F_0$, then the processes $A(t)$ and $B(t)$ are stationary. The process $A(t)$ is said to be stationary if $(A(t+t_1),A(t+t_2),\dots,A(t+t_n)) \stackrel{d}{=} (A(t_1),A(t_2),\dots,A(t_n))$  for all $t\geq 0$ and $0 < t_1 <t_2 < \dots < t_n$. \\
+Now, consider the renewal equation, $Z(t) = z(t) + F*z(t)$. Let $z(t) = 1\{t \in [0,a]\}$. It can be easily verified that $z(t)$ is d.r.i. The solution of this renewal equation is 
+\begin{align*}
+Z(t) &= z * \E[N_t] \\
+&= \int_0^\infty z(t-s) d \E[N_s] \\
+&= \int_{t-a}^t d\E[N_s]  \\
+&= \E[N_t] - \E[N_{t-a}].
+\end{align*}
+From  key renewal theorem, we have 
+\begin{align*}
+\lim_{t \to \infty} Z(t) &= \frac{1}{\mu} \int_0^\infty z(s) ds \\
+\lim_{t \to \infty} \E[N_t] - \E[N_{t-a}] &= \frac{1}{\mu} \int_0^a ds \\
+&= \frac{a}{\mu}.
+\end{align*}
+This is the statement of Blackwell's theorem. 
+}
 \section{Regenerative Processes}
 Let $\{X_t\}$ be a stochastic process and $Y_0,Y_1,Y_2,\dots$ be i.i.d with distribution $F$. Let $S_n = \sum_{k=0}^n Y_k$.
 \begin{defn}
@@ -61,6 +74,7 @@ This is a renewal equation. Since $f$ is bounded and $X_t$ is right continuous, 
 &= \frac{1}{\mu} \E_0\left[ \int_0^{Y_1} f(X_s) ds\right] \qedhere
 \end{align*}
 The following theorem for lattice $F$ can be proved in the same way.
+\newpage
 \end{proof}
 \end{thm}
 \begin{thm}\ 
@@ -83,52 +97,5 @@ Taking $f(X_t) = 1\{X_t \leq x\}$, for the non-lattice case we have
 Similar results hold for the lattice case. \\
 \indent \textbf{Example} ($GI/GI/1$ queue): If regenerative lengths $\tau$ of $\{W_n\}$ in $GI/GI/1$ queue satisfies $E[\tau] < \infty$ and it is aperiodic, then $W_n$ has unique stationary distribution and $W_n \to W_\infty$ where $W_\infty$ is a r.v. with the stationary distribution. We can show that if $\E[A] < \E[s]$, then the above conditions are satisfied. Also, if the queue starts empty with an arrival, then, if $\overline{\tau}$ is the regeneration length of $\{q_t\}$, then $\overline{\tau} = \sum_0^{\tau} A_k$. Since, $\tau$ is a stopping time w.r.t $\{ A_n, s_n\}$ sequence, by Wald's lemma, $\E[\overline{\tau}]=\E[A_1]\E[\tau] < \infty$ whenever $\E[\tau] < \infty$. Thus when $\E[A_1]<\E[s_1]$, $\{q_t\}$ also has a unique stationary distribution and starting from any initial distribution,  it converges in distribution to the limiting distribution.
 
-\begin{thm}[Strong law for regenerative processes] \
-\begin{itemize}
-\item If $F$ is non-lattice (with arbitrary distribution of $Y_0$) and $\E[\int_{Y_1}^{Y_2}|H(X_t)|dt] <\infty$,
-\begin{align*}
-\lim_{t \to \infty} \frac{1}{t} \int_0^t f(X_s)ds = \E[X_e] \text{ a.s.}
-\end{align*}
-\item If $F$ is lattice, with similar conditions,
-\begin{align*}
-\lim_{n \to \infty} \frac{1}{n} \sum_{k=0}^{n-1} f(X_k) = \E[X_e] \text{ a.s.}
-\end{align*}
-\end{itemize}
-\begin{proof}
-We show only for the non-lattice case. The proof for other cases is similar. 
-\begin{align*}
-\frac{1}{t} \int_0^t f(X_s)ds &= \frac{1}{t} \int_0^{S_1} f(X_s)ds + \frac{1}{t} \int_{S_1}^{S_2} f(X_s)ds + \dots + \frac{1}{t} \int_{S_{N-t -1}}^{S_{N_t}} f(X_s)ds + \frac{1}{t} \int_{S_{N_t}}^t f(X_s)ds \\
-&= \frac{1}{t} (U_0+U_1+ U_2+ \dots +U_{N_t} + \Delta).
-\end{align*}
-where $U_1,U_2,\dots$ are i.i.d. with $U_i = \int_{s_i}^{s_i + 1} f(X_s)ds$, $\Delta = \int_{s_{N_t}}^{t} f(X_s)$and $U_0 < \infty$ a.s. We have, 
-\begin{align*}
-\lim_{t \to \infty} \frac{1}{t} (U_1+ U_2+ \dots +U_{N_t} ) &= \lim_{t \to \infty} \frac{1}{N_t} (U_1+ U_2+ \dots +U_{N_t} ) \frac{N_t}{t} \\
-&= \frac{\E[U_1] }{\E[Y_1]} \text{ a.s.}
-\end{align*}
-by ordinary S.L.L.N. and elementary renewal theorem.  \\
-\indent To complete the proof, we need to show that $\lim_{t \to \infty} \Delta/t \to 0$ a.s. as $t \to \infty$. We have, 
-\begin{align*}
-\frac{\Delta}{t} \leq \frac{1}{t} \int_{S_{N_t}}^t |f(X_s)| ds \leq \frac{1}{t}\int_{S_{N_t}}^{S_{N_t +1}} \abs{f(X_s)} ds.
-\end{align*}
-Let 
-\begin{align*}
-V_k = \int_{S_k}^{S_{k +1}} \abs{f(X_s)} ds.
-\end{align*}
-We have
-\begin{align*}
-\frac{V_{{N_t +1}}}{t} = \frac{V_{{N_t +1}}}{N_t+1} \frac{N_t+1}{t}.
-\end{align*}
-Now, $(N_t/t) \to 1/\E[Y_1]$ a.s.  We need to show that $\lim_{t \to \infty} V_{N_t}/N_t = 0$. This will be true if $V_n/n \to 0$ a.s. as $n\to \infty$. But, 
-\begin{align*}
-\P\left\{ \cup_{n=N}^\infty \left\{\frac{V_n}{n} > \epsilon\right\}\right\} &\leq \sum_{n=N}^\infty \P\left\{\frac{V_1}{\epsilon} > n\right\} \to 0\\
-\end{align*}
-if 
-\begin{align*}
-\sum_{n=0}^\infty \P \left\{\frac{V_1}{\epsilon} > n \right\} < \infty.
-\end{align*}
-This holds when $\E[V_1] < \infty$.
-
-\end{proof}
-\end{thm}
 \end{document}
 

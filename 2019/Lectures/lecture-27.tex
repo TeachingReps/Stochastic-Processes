@@ -7,7 +7,7 @@
 %\author{}
 \newcommand*{\QEDB}{\hfill\ensuremath{\square}}%
 \setcounter{chapter}{7}
-\usepackage{enumitem}
+
 \begin{document}
 %\maketitle
 
@@ -16,25 +16,19 @@
 \setcounter{subsection}{1}
 
 \section*{\centering{Lecture 27 \linebreak }}
-\subsection{Networks of quaasireversible queues (contd.)}
-Quasireversibility implies that $(1)$ $\{N^+_c(t)\}\ \forall c\}$ are independent Poissn processes and $N_c^-(t)$  and $(2)$ $\{N^-_c(t)\}\ \forall c\}$ are independent Poissn processes.
+\chr
+\subsection{Networks of quasireversible queues (contd.)}
+\indent Let $X_t = (X_t(1),X_t(2),\dots,X_t(N))$ denote the state of the network with $N$ quasireversible queues and $X_t(i)$ denotes the state of the $i^{th}$ queue at time $t$. The queues can be of different type as long as they are quasireversible in isolation. 
 
-\indent Let $X_t = (X_t(1),X_t(2),\dots,X_t(N))$ denote the state of the system with $N$ quasireversible queues and $X_t(i)$ denotes the state of $i^{th}$ queue at time $t$. Note that there is no requirement for all the queues to be of the same type. The queues can be of different type as long they are quasireversible in isolation. 
+In the last lecture, we showed the following. 
 
-\begin{thm}
-If $\rho_i < 1\ \forall i \in {1,2,\dots,N}$, then $X_t$ has a stationary distribution $\pi $of the form 
+If $\rho_i < 1\ \forall i \in {1,2,\dots,N}$ (if the queue needs it for stability, e.g., $M/G/\infty$ does not), then $X_t$ has the stationary distribution 
 \begin{align*}
 \pi(x(1),x(2),\dots,x(N)) = \prod_{i}^N \pi_i(x(i))
 \end{align*}
 where $\pi_i$ is the stationary distribution of queue $i$.
-\end{thm}
-\begin{proof}
-We show that $\pi Q = 0$ for $Q$ representing the rate matrix for the process $X_t$. We claim that $X_t$ is itself a quasireversible process by noting the following: 
-\begin{itemize}
-\item External arrivals are independent Poisson processes. 
-\item Future arrivals, $X_t$ and past departures are independent. 
-\end{itemize}
-The reversed process $\tilde{X}_t = X_{T-t}$ for some fixed time $T$. We have 
+
+Now, we claim that $X_t$ itself is a quasireversible process by showing that future arrivals, $X_t$ and past departures are independent. Consider the reversed process $\tilde{X}_t = X_{T-t}$ for some fixed time $T$ with generator matrix $\tilde{Q}$. We have 
 \begin{align*}
 \pi(i) \tilde{Q}(i,j) = \pi(j) Q(j,i).
 \end{align*}
@@ -42,73 +36,95 @@ Here, $\tilde{Q}$ corresponds to the another quasireversible system with paramet
 \begin{align*}
 \tilde{p}_{ij}^{cd} &= \frac{\overline{\lambda}_j^d}{\overline{\lambda}_i^c} p_{ji}^{dc}. \qedhere
 \end{align*} 
-\end{proof}
-We can compute the mean queue length or the mean number of customers from the above theorem. The mean sojourn time $\E[S]$ can be deduced from apllying Little's law to the whole system - $\E[S] = \lambda \E[q]$ where $\E[q]$ is the mean number of customers in the system and $\lambda = \sum_i \lambda_i$ is the total external arrival rate into the system. Further, Little's law can be applied to each class of customers individually. The mean sojourn time of a class $c$ customer $\E[S_c] = \lambda_c \E[q_c]$ where $\E[q_c]$ is the mean number of customers of class $c$ in the system. 
+This shows that future arrivals, $X_t$ and the past departures are independent. Also, the departures of all classes from the network form independent Poisson processes.\\
 
-\indent Consider a tandem of $N$ $M/M/1$ queues with service rate $\mu_i$ at queue $i$. Let the random variable $S^i$ denote the sojourn time of a customer in queue $i$. We know that departure process of queue $1$ is Poisson of the rate $\lambda$. This is also the arrival process of queue $2$ which is again $M/M/1$. Therefore, the arrival and departure process for all queues is Poisson with rate $\lambda$. If an arriving customer at queue $i$ sees $n$ customers already in queue, then $S^i = \sum_{i=1}^{n+1} s_k$ where $s_k$s are service times which are i.i.d. with exponential distribution of mean $1/\mu_i$. By PASTA, the probability that an arriving customer sees $n$ customers already in the queue is equal to the stationary probability of $n$ customers in the queue. We can now compute distribution of $S^i$ as follows.
+\noindent \textbf{Sojourn times:} \\
+\indent We can compute the mean queue length or the mean number of customers in the system under stationarity from $\pi$. The mean sojourn time $\E[S]$ can be deduced by applying Little's law to the whole system: $\E[S] = \lambda \E[q]$, where $\E[q]$ is the mean number of customers in the system and $\lambda = \sum_i \lambda_i$ is the total external arrival rate into the system. Further, Little's law can be applied to each class of customers individually. The mean sojourn time of a class $c$ customer $\E[S_c] = \lambda_c \E[q_c]$ where $\E[q_c]$ is the mean number of customers of class $c$ in the system. 
+
+\indent Next, consider a tandem of $N$ $M/M/1$ queues with service rate $\mu_i$ at queue $i$ and arrival rate $\lambda$ under stationarity. Let the random variable $S^i$ denote the sojourn time of a customer in queue $i$. Under stationarity, we know that the departure process of queue $1$ is Poisson with rate $\lambda$. This is also the arrival process of queue $2$. Thus, the second queue is also an $M/M/1$ queue. This way we can show that the arrival and departure processes for all queues are Poisson with rate $\lambda$. If an arriving customer at queue $i$ sees $n$ customers already in the queue, then $S^i = \sum_{k=1}^{n+1} s_k$ where $s_k$ are the service times, which are i.i.d. with exponential distribution with mean $1/\mu_i$. By PASTA, the probability that an arriving customer sees $n$ customers already in the queue is equal to the stationary probability of $q_t(i) = n$. Therefore,
 \begin{align*}
 \P\{S^i \leq x\} &= \sum_{n=0}^{n=\infty} \P\{S^i \leq x | q_i = n\} \P_{\pi}\{ q_i = n\} \\
-&= \sum_{n=0}^{n=\infty} \P\{S^i \leq x | q_i = n\} \rho_i^n (1-\rho_i) && \text{(PASTA)}.
+&= \sum_{n=0}^{n=\infty} \P \left\{ \sum_{k=1}^{n+1}s^k \leq x \right\} \rho_i^n (1-\rho_i).
 \end{align*}
-We can show that the above quantity is an exponential distribution with mean $1/(\mu_i - \lambda)$. This is applicable to all the queues. The total sojourn time is $S = \sum_{i=1}^N S^i$. Furthermore, it can also be shown that $\{S^i, \forall i\}$ are independent random variables. \\
-\indent The above results hold true for a general network of quasireversible queues. This is summarized below. 
-\begin{prop}
-For a network of quasireversible queues, the sojourn times of customers in queue $\{S^1,S^2,\dots,S^N\}$ are independent and $S^i$ is exponentially distributed with mean $1/(\mu_i - \lambda_i)$.
-\end{prop}
+We can show (e.g., by taking moment generating function) that the above quantity is an exponential distribution with mean $1/(\mu_i - \lambda)$. This is applicable to all the queues. The total sojourn time is $S = \sum_{i=1}^N S^i$. Furthermore, it can also be shown that $S^1,S^2,\dots,S^N$ are independent random variables. \\
+\indent The above results hold for a general network of quasireversible queues. This is summarized below. Let $\mu_i$ be the service rate and $\overline{\lambda}_i$ be the total arrival rate at queue $i$.
+\begin{defn}
+An \textit{overtake free path }for a class $c$ is a path $1\to 2 \to ... \to N_1$ of queues it can pass through sequentially with a positive probability such that if \underline{any} customer can go through its two queues with positive probability, then it must pass through the all intermediate nodes as well in the same order.
+\end{defn}
+\begin{thm}
+For a network of quasireversible queues, the sojourn times $\{S^1,S^2,\dots,S^{N_1}\}$ under stationarity of customers of a class $c$ on an overtake free path $1\to 2 \to ... \to N_1$ are independent and $S^i$ is exponentially distributed with mean $1/(\mu_i - \overline{\lambda}_i)$. \QEDB
+\end{thm}
 
-Consider an $M/M/1$ queue with feedback. A customer after service re-enters the queue with probability $p$ and exits the system with probability $1-p$. Let the external arrival rate be $\lambda$ and the aggregate arrival rate (including from feedback) be $\overline{\lambda}$ We have the relation $\overline{\lambda} = \lambda + p \overline{\lambda}$ from which we find
+\noindent \textbf{Total arrival process at a queue:}  \\
+\indent Consider an $M/M/1$ queue with feedback. A customer after service re-enters the queue with probability $p$ and exits the system with probability $1-p$. Let the external arrival rate be $\lambda$ and the aggregate arrival rate (including from feedback) be $\overline{\lambda}$. We have the relation $\overline{\lambda} = \lambda + p \overline{\lambda}$ from which we find
 \begin{align*}
 \overline{\lambda} = \frac{\lambda}{1-p}.
 \end{align*}
-The aggregate arrival process is not a Poisson process. We can check this as follows. Let $N_t$ denote the aggregate arrival process. For small enough $\epsilon >0$,
+
+We show that the aggregate arrival process is not a Poisson process. Let $N_t$ denote the aggregate arrival process. For small enough $\epsilon >0$,
 \begin{align*}
 \P\{N_{t+\epsilon} \geq N_t + 1\} = \lambda \epsilon + o(\epsilon) + p \mu \epsilon \P_{\pi}\{q_t > 0\}
 \end{align*}
-where $\mu \epsilon \P_{\pi}\{q_t > 0\}$ denotes the probability of a customer finishing service at time $t$. We also have \begin{align*}
+where $\mu \epsilon \P_{\pi}\{q_t > 0\}$ is the probability of a customer finishing service at time $t$. We also have \begin{align*}
 \P\{N_{t+\epsilon} \geq N_t + 1| N_{t} \geq N_{t-\epsilon} + 1\} &= \lambda \epsilon + o(\epsilon) + p \mu \epsilon.
 \end{align*}
 The above equation follows from the fact that the event $\{N_{t} \geq N_{t-\epsilon} + 1\}$ implies $\{q_t > 0\}$. From these two equations, we see that $\P\{N_{t+\epsilon} \geq N_t + 1| N_{t} \geq N_{t-\epsilon} + 1\} \neq \P\{N_{t+\epsilon} \geq N_t + 1\}$. This shows that $N_t$ is not an independent increment process and hence cannot be Poisson. 
 
-In an open quasireversible network, the aggregate arrival process at a node is not Poisson if there is non-zero probability of a customer entering the same node. For such nodes, the departure process will not also not be Poisson. 
+\indent As a generalization of this result, we get 
+\begin{thm}
+In an open quasireversible network, the aggregate arrival process at a node is not Poisson if there is non-zero probability of a customer entering that node.
+\end{thm}
 
-Consider again an $M/M/1$ queue. Define 
+\noindent \textbf{Queue lengths seen by an arriving customer:} \\
+\indent Consider again an $M/M/1$ queue. Define 
 \begin{align*}
 q_t &= \text{ queue length at time $t$} \\
 q_n^A &= \text{queue length just before $n^{th}$ arrival} \\
 q_n^D &= \text{queue length just after $n^{th}$ departure} \\
 \tilde{q}_n^A &= \text{queue length just after $n^{th}$ arrival} \\
 \end{align*}
-Under stationarity, we have shown that $q^A_n \stackrel{d}{=} q_t$ (PASTA) and $q^D_n \stackrel{d}{=} q_t$ (rate conservation law) for $GI/GI/1$ queue. It is important to consider 'just before' and 'just after'  in the above statements. For example $\P\{\tilde{q}^A_n = 0\} =0$ as there is always atleast one customer soon after a new arrival. But, the stationary probability of empty system is $1-\rho$. That is, $\P\{\tilde{q}^A_n = 0\} \neq \P\{q_t = 0\}$.
+Under stationarity, we have shown that for an $M/GI/1$ queue $q^A_n \stackrel{d}{=} q_t$ (PASTA) and $q^D_n \stackrel{d}{=} q^A_n$ (rate conservation law) for $GI/GI/1$ queue. But, $\P\{\tilde{q}^A_n = 0\} =0$ as there is always atleast one customer soon after a new arrival. Also, $\P\{q_t = 0\} = 1-\rho > 0$. Thus, $\P\{\tilde{q}^A_n = 0\} \neq \P\{q_t = 0\}$.
 
-To explore further consider a tandem of two queues. Let $S_n(i)$ be the time instant of an arrival into queue $i$. $q_{S_n(2)+}^D(1)$ denotes the length of queue $1$ just after a departure from queue $1$. $q_{S_n(2)-}^A(2)$ denotes the length of queue $2$ just before $n^{th}$ arrival into queue $2$. The distribution of $(q_{S_n(2)+}^D(1),q_{S_n(2)-}^A(2))$ under stationarity is 
+Now, consider a tandem of two $M/M/1$ queues. Let $S_n(i)$ be the time instant of an arrival into queue $i$. $q_{S_n(2)+}^D(1)$ denotes the length of queue $1$ just after a departure from queue $1$. $q_{S_n(2)-}^A(2)$ denotes the length of queue $2$ just before $n^{th}$ arrival into queue $2$. An argument as in preceding paragraph shows that the stationary distribution of $q^A_{S_n(2)}(2)$ is not the same as that of $q_t(2)$. But, we can show that the distribution of $\left(q_{S_n(2)+}^D(1),q_{S_n(2)-}^A(2)\right)$ under stationarity is 
 \begin{align*}
 \pi(n_1,n_2) = \rho_1^{n_1} (1-\rho_1) \rho_2^{n_2} (1-\rho_2).
 \end{align*}
 The above discussion is true in an open network of quasireversible queues. 
 \begin{thm}
-Let $X_t = (X_t(1),X_t(2),\dots,X_t(N))$ be the state of an open network of $N$ quasireversible queues. Let $\pi$ be the stationary distribution of $X_t$. For a customer moving from queue $i$ to queue $j$
+Let $X_t = (X_t(1),X_t(2),\dots,X_t(N))$ be the state of an open network of $N$ quasireversible queues. Let $\pi$ be the stationary distribution of $X_t$. Under stationarity, for a customer moving from queue $i$ to queue $j$ at time $S_n$,
 \begin{align*}
-(X_{S_n}(1),\dots,X_{S_n}(i),\dots,X_{S_n-}(j),\dots,X_{S_n}(N)) \stackrel{d}{=} \pi
+(X_{S_n}(1),\dots,X_{S_n}(i),\dots,X_{S_n-}(j),\dots,X_{S_n}(N)) \stackrel{d}{=}&  \pi. && \QEDB 
 \end{align*}
-and
-\begin{align*}
-\P\{X_{S_n}(1)=x_1,\dots,X_{S_n}(i)=x_i,\dots,X_{S_n}(j) =x_j,\dots,X_{S_n}(N)=x_N\} 
-= \pi(x_1,\dots,x_i,\dots,x_j -1,\dots,x_N). \QEDB
-\end{align*}
+%and
+%\begin{align*}
+%\P\{X_{S_n}(1)=x_1,\dots,X_{S_n}(i)=x_i,\dots,X_{S_n}(j) =x_j,\dots,X_{S_n}(N)=x_N\} 
+%= \pi(x_1,\dots,x_i,\dots,x_j -1,\dots,x_N). \QEDB
+%\end{align*}
 \end{thm}
 
-\textit{Restriction of Markov chain to a subset of states:} Consider $M/M/1/N$ queue with finite buffer of length $N$. The queue length process $\{q_t\}$ is a finite state space, irreducible Markov chain. It is always positive recurrent with stationary distribtion $\pi_N$. The stationary distribution satisfies $\pi_N Q = 0$ where $Q$ is the rate martix given by $Q(i,i+1) = \lambda$, $Q(i,i-1) = \mu$ and $Q(0,1) = \lambda$. We can derive this another way by considering Markov chain corresponding to $M/M/1/\infty$ as follows -
+\noindent \textbf{Non-Markovian routing: } \\
+\indent We give an example to show how non-Markovian routing can be taken care of in this framework. Consider a network of $4$ quasireversible queues in Figure \ref{fig:det_routing}. Class 1 customers enter queue 1 and class 2 customers enter queue 2. After service in queue 4, the class 2 customers exit the system with probability $p$ and with probability $1-p$ re-enter queue $2$. The class $1$ customers follow deterministic routing - they enter the network in queue $1$ and after service in queue $4$, they re-enter queue $1$ exactly $3$ times before exiting the system. This kind of routing cannot directly be modeled in a way we have been doing so far. However, it is possible to bring the network into our framework by introducing additional classes. We introduce new classes $3$ and $4$ as follows: after service in queue $4$ for the first time, a class $1$ customer changes to class $3$ and the second time, the same customer changes to class $4$ (from class 3). With this, $p_{41}^{13} = 1$, $p_{41}^{34} = 1$ and $p_{40}^{44} = 1$ satisfies the constraints of class 1 customers. We can now use the same theory to obtain the stationary distribution by finding total arrival rate at each node and computing $\rho_i$ s and multiplying distributions for individual queues.  \\
+\begin{figure}
+\centering
+\includegraphics[scale=0.3]{Figures/deterministic_routing.jpg}
+\caption{A network of quasirevesible queues with deterministic routing for class 1}
+\label{fig:det_routing}
+\end{figure}
+
+\noindent \textbf{Restriction of Markov chain to a subset of states:} \\
+\indent Consider $M/M/1/N$ queue with finite buffer of length $N$. The queue length process $\{q_t\}$ is a finite state space, irreducible Markov chain. It is always positive recurrent with stationary distribution $\pi_N$. The stationary distribution satisfies $\pi_N Q = 0$ where $Q$ is the rate matrix given by $Q(i,i+1) = \lambda$ for $ 0 \leq i < N$, $Q(i,i-1) = \mu$ for $0 < i \leq N$ and $Q(0,1) = \lambda$. Its stationary distribution can also be obtained from that of $M/M/1$ queue as 
 \begin{align*}
 \pi_{N}(n) = \begin{cases}
-	\frac{\pi_{\infty}(n)}{\sum_{k=0}^{N} \pi_{\infty}(k)} & \text{ for } n \in \{1,2,\dots,N\}. \\
+	\frac{\pi_{}(n)}{\sum_{k=0}^{N} \pi_{}(k)} & \text{ for } n \in \{1,2,\dots,N\}. \\
 	0 & \text{ otherwise}
 	\end{cases}
 \end{align*}
-In general if $S$ is the state space of a Markov chain $\{X_t\}$ with rate matrix $Q$ and stationary distribution $\pi$, we can limit the Markov chain to a subset $A \subset S$ and obtain the corresponding stationary distribution as 
+using the following argument. \\
+\indent In general, if $S$ is the state space of a Markov chain $\{X_t\}$ with rate matrix $Q$ and stationary distribution $\pi$, we can limit the Markov chain to a subset $A \subset S$ (by modifying the $Q$ matrix such that the chain is not allowed to exit $A$ as in the $M/M/1/N$ queue above) and obtain the corresponding stationary distribution as 
 \begin{align*}
 \pi_A(i) = \begin{cases} 
-			\frac{\pi(i)}{\sum_{j \in A} \pi(j)} & \text{ if} j \in A \\
-			0 & \text{ if } j \notin A \\
+			\frac{\pi(i)}{\sum_{j \in A} \pi(j)} & \text{ if } i \in A, \\
+			0 & \text{ if } i \notin A. \\
 			\end{cases}
 \end{align*}
 \end{document}

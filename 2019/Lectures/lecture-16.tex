@@ -15,7 +15,7 @@
 \setcounter{subsection}{0}
 
 \section*{\centering{Lecture 16 \linebreak }}
-
+\chr
 \section{Birth-Death process}
 Consider a system whose state $X_t$ at any time is represented by the number of people
 in the system at that time. 
@@ -105,7 +105,9 @@ Q_{i,i+1} = \beta_{i+1}, \quad  \quad Q_{i+1,i} = \delta_{i+2}.\\
 \eq{
 \sum_{j=1}^{\infty} \frac{\left(\frac{\mu}{\mu+\lambda}\right)^j}{\left(\frac{\lambda}{\mu+\lambda}\right)^j} &= \sum_{j=1}^{\infty} \left(\frac{\mu}{\lambda}\right)^j = \infty.
 }
-That is $\frac{\lambda}{\mu}  \le 1$ is the necessary and sufficient condition for an $M/M/1$ queue to be recurrent.\\\\
+That is $\frac{\lambda}{\mu}  \le 1$ is the necessary and sufficient condition for an $M/M/1$ queue to be recurrent.\\
+
+
 For positive recurrence,
 \eq{
 \sum_{k=1}^{\infty} \frac{\beta_k \beta_{n-1} \dots \beta_1}{\delta_{k+1} \delta_n \dots \delta_2} < \infty \quad \Rightarrow  \quad \sum_{k=1}^{\infty} \left(\frac{\lambda}{\mu}\right)^k < \infty,  \frac{\lambda}{\mu} <1

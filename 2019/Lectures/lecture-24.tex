@@ -15,6 +15,7 @@
 \setcounter{subsection}{1}
 %\chapter{Queuing Theory}
 \section*{\centering{Lecture 24 \linebreak }}
+\chr
 \section{Palm Theory, PASTA}
 Consider a $GI/GI/1$ queue. Let $T_n$ be the $n^{th}$ arrival epoch, $\{V_t\}$ the workload process and $W_n$ the waiting time of the $n^{th}$ arrival. Then $W_n = V_{T_n^-}$ a.s. But, $W_\infty \stackrel{d}{\neq} V_\infty$ in general. Also, in renewal processes, we have seen inspection paradox where $X_{N(t)} \stackrel{d}{\neq} X_n$. This shows that the distribution of the process sampled at some random points may be different from the distribution of the process. In the following, we relate the two distributions.\\
 \indent Let  $X = \{X_t, -\infty<t<\infty\}$ be a stochastic process and $T = \{\dots,T_{-1},T_{0},T_{1},\dots\}$ with $ \dots <T_{-1}<0\leq T_0 < T_1 < \dots $ be a point process. Let $N(t)$ be the number of points of $T$ in the interval $(0,t]$. Let $Z = (X,T)$ and $\theta_s$ be the shift operator defined as $\theta_s Z = (\theta_s X,\theta_s T)$ where $(\theta_s X)_t = X_{t+s}$ and $(\theta_s T)_n = T_{N(s)+ n} -s$. $Z$ is a stationary process if $\theta_s Z$ does not depend on $s$: $\P\{Z \in A\} = \P\{\theta_s Z \in A\}$ for all measurable $A$. \\

@@ -15,7 +15,7 @@
 \setcounter{subsection}{0}
 
 \section*{\centering{Lecture 15 \linebreak }}
-
+\chr
 \section{Irreducibility and Recurrence}
 Let $\{X_t\}$ be a Markov chain, $\{Y_0, Y_1, \dots\}$ be its jump Markov chain, $\{T_0, T_1, \dots\}$ the sojourn times. Let $P$ be the transition matrix for $\{Y_k\}$.
 $\hat{P} \to P$,
@@ -42,9 +42,9 @@ The following statements are equivalent, under minimal construction
 \begin{proof}{$(1)	\Rightarrow (2), (3)$}\\
 	
 $\exists$ $n_1$ s.t $P_{n_1}(i,j) > 0$,  therefore $i \xrightarrow{T_0} i_1 \xrightarrow{T_1} i_2 \rightarrow \dots \rightarrow i_{n_1-1} \xrightarrow{T_n} j$ where $i, i_1, \dots, i_{n_1-1}$ are not absorbing states. Then,
- $\infty > \lambda(i),\lambda(i_1),\dots,\lambda(i_{n_1-1})>0$, $\lambda(j) < \infty$.\\\\
-$T_0 \sim \exp(\lambda_{ii})$ where $\infty > \lambda_{ii} = \lambda_i q_{ii} > 0$.\\\\
-$P_t(i,j) \ge P[\sum_{k=0}^{n-1} T_k \le \frac{t}{2} , T(j) > \frac{t}{2} > 0] >0,$ \quad $\forall$ $t>0$.\\\\
+ $\infty > \lambda(i),\lambda(i_1),\dots,\lambda(i_{n_1-1})>0$, $\lambda(j) < \infty$.\\
+$T_0 \sim \exp(\lambda_{ii})$ where $\infty > \lambda_{ii} = \lambda_i q_{ii} > 0$.\\
+$P_t(i,j) \ge P[\sum_{k=0}^{n-1} T_k \le \frac{t}{2} , T(j) > \frac{t}{2} > 0] >0,$ \quad $\forall$ $t>0$.\\
 Hence $P_t(i,j) >0$.
 
 {$(3)	\Rightarrow (2)$} is clear from the definition itself.

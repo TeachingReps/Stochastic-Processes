@@ -15,6 +15,7 @@
 \setcounter{subsection}{1}
 \chapter{Queuing Theory}
 \section*{\centering{Lecture 23 \linebreak }}
+\chr
 \section{GI/GI/1 Queue}
 Consider $GI/GI/1$ queue. Let $\{A_n\}$ be i.i.d interarrival times and $\{s_n\}$ be i.i.d. service times. Let $\mu = \E[s_1] - \E[A_1]$. Let the waiting time of $n^{th}$ arrival be $W_n$. The process $\{W_n\}$ is a regenerative process in which the arrivals seeing the queue empty are the regeneration epochs. Let $\tau$ be the regeneration length. If $\mu<0$, we have seen that  $W_n$ converges to a stationary distribution and hence $\E[\tau]<\infty$. Also, $\P\{\tau = 1\} = \P\{s_0 < A_1\} >0$. Therefore, $\tau$ is aperiodic. If $\mu\geq 0$, $W_n \to \infty$ as $n \to \infty$ and $\E[\tau] = \infty$.  If $\mu =0$, then $\E[\tau]= \infty$ but $\P\{\tau < \infty\} =1$.\\
 \indent Let $V_t=$ total work (service times) of the customers in the queue, including the residual service time of the custmoer in service. The customers seeing the empty queue are regeneration epochs. Let $\overline{\tau}$ be the regeneration length. We have $\E[\overline{\tau}] = \E[\tau]\E[A_1]$. If $\mu < 0$, then also, $\P\{\tau =1\}>0$. Thus, If $A_1$ is non-lattice, $\overline{\tau}$ is also non-lattice. Thus, $V_t \to V_\infty$ in distribution as $t \to \infty$ if $\mu <0$.\\

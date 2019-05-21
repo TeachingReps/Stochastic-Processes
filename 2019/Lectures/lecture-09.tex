@@ -15,6 +15,7 @@
 \setcounter{subsection}{0}
 
 \section*{\centering{Lecture 9 \linebreak }}
+\chr
 \section{Markov Chains: Definitions}
 \textbf{Definition:}
 Let $S$ be a countable set. A discrete time stochastic process  $\{X_k\}$ is a \textit{Markov chain} with state space $S$ if 
@@ -41,8 +42,8 @@ Every Markov chain has strong Markov property.
 The finiteness of $\tau$ is used in the first equality to expand the probability as an infinite summation. The fact that ${\tau}$ is a stopping time has been used in the third equality. 
 \end{proof}
 \end{thm}
-\textbf{Classification of states:} Let $\tau_i = \min\{n \geq 1 : X_n = i\}$. $\tau_i$ is a stopping time. Let $N_i$ be the total number of times a state $i$ is visited by the Markov chain. \\
-\indent If for a state $i$, $\P_i\{\tau_i < \infty\} < 1$, it is called a \textit{{transient state}}. For a transient state, $\P\{N_i = m \} = \\ \P\{\tau < \infty\}^{m-1}\P\{\tau < \infty\}$ and $\E[N_i] = 1/\P\{\tau < \infty\}< \infty$. \\
+\textbf{Classification of states:} Let $\tau_i = \min\{n \geq 1 : X_n = i\}$. $\tau_i$ is a stopping time. Let $N_i$ be the total number of times a state $i$ is visited by the Markov chain.  \\
+\indent If for a state $i$, $\P_i\{\tau_i < \infty\} < 1$, it is called a \textit{{transient state}}. For a transient state, $\P\{N_i = m \} = \\ \P\{\tau < \infty\}^{m-1}\P\{\tau < \infty\}$ and $\E[N_i] = 1/\P\{\tau < \infty\}< \infty$. 
 \indent If $\P_i\{\tau_i < \infty\} = 1$, state $i$ is called a \textit{{recurrent state}}. If further $\E[\tau_i] < \infty$, it is called a \textit{positive recurrent state}. When $i$ is recurrent but $\E[\tau_i] = \infty$, it is called a \textit{null recurrent state}. \\
 \indent For a recurrent state $i$, $\P_i\{N_i = \infty\} = 1$ and $\E_i[N_i] = \infty$. Since, $\E_i[N_i] = \E_i\left[\sum_{n=0}^\infty 1(X_n = i)\right] = \sum_{n=0}^\infty P^n(i,i)$, an equivalent criterion for recurrence is $\sum_{n=0}^\infty P^n(i,i) = \infty$. \\
  
