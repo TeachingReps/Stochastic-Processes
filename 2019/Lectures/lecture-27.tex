@@ -101,30 +101,13 @@ Let $X_t = (X_t(1),X_t(2),\dots,X_t(N))$ be the state of an open network of $N$ 
 %= \pi(x_1,\dots,x_i,\dots,x_j -1,\dots,x_N). \QEDB
 %\end{align*}
 \end{thm}
-
-\noindent \textbf{Non-Markovian routing: } \\
-\indent We give an example to show how non-Markovian routing can be taken care of in this framework. Consider a network of $4$ quasireversible queues in Figure \ref{fig:det_routing}. Class 1 customers enter queue 1 and class 2 customers enter queue 2. After service in queue 4, the class 2 customers exit the system with probability $p$ and with probability $1-p$ re-enter queue $2$. The class $1$ customers follow deterministic routing - they enter the network in queue $1$ and after service in queue $4$, they re-enter queue $1$ exactly $3$ times before exiting the system. This kind of routing cannot directly be modeled in a way we have been doing so far. However, it is possible to bring the network into our framework by introducing additional classes. We introduce new classes $3$ and $4$ as follows: after service in queue $4$ for the first time, a class $1$ customer changes to class $3$ and the second time, the same customer changes to class $4$ (from class 3). With this, $p_{41}^{13} = 1$, $p_{41}^{34} = 1$ and $p_{40}^{44} = 1$ satisfies the constraints of class 1 customers. We can now use the same theory to obtain the stationary distribution by finding total arrival rate at each node and computing $\rho_i$ s and multiplying distributions for individual queues.  \\
 \begin{figure}
 \centering
-\includegraphics[scale=0.3]{Figures/deterministic_routing.jpg}
+\includegraphics[scale=0.28]{Figures/deterministic_routing.jpg}
 \caption{A network of quasirevesible queues with deterministic routing for class 1}
 \label{fig:det_routing}
 \end{figure}
+\noindent \textbf{Non-Markovian routing: } \\
+\indent We give an example to show how non-Markovian routing can be taken care of in this framework. Consider a network of $4$ quasireversible queues in Figure \ref{fig:det_routing}. Class 1 customers enter queue 1 and class 2 customers enter queue 2. After service in queue 4, the class 2 customers exit the system with probability $p$ and with probability $1-p$ re-enter queue $2$. The class $1$ customers follow deterministic routing - they enter the network in queue $1$ and after service in queue $4$, they re-enter queue $1$ exactly $3$ times before exiting the system. This kind of routing cannot directly be modeled in a way we have been doing so far. However, it is possible to bring the network into our framework by introducing additional classes. We introduce new classes $3$ and $4$ as follows: after service in queue $4$ for the first time, a class $1$ customer changes to class $3$ and the second time, the same customer changes to class $4$ (from class 3). With this, $p_{41}^{13} = 1$, $p_{41}^{34} = 1$ and $p_{40}^{44} = 1$ satisfies the constraints of class 1 customers. We can now use the same theory to obtain the stationary distribution by finding total arrival rate at each node and computing $\rho_i$ s and multiplying distributions for individual queues.  \\
 
-\noindent \textbf{Restriction of Markov chain to a subset of states:} \\
-\indent Consider $M/M/1/N$ queue with finite buffer of length $N$. The queue length process $\{q_t\}$ is a finite state space, irreducible Markov chain. It is always positive recurrent with stationary distribution $\pi_N$. The stationary distribution satisfies $\pi_N Q = 0$ where $Q$ is the rate matrix given by $Q(i,i+1) = \lambda$ for $ 0 \leq i < N$, $Q(i,i-1) = \mu$ for $0 < i \leq N$ and $Q(0,1) = \lambda$. Its stationary distribution can also be obtained from that of $M/M/1$ queue as 
-\begin{align*}
-\pi_{N}(n) = \begin{cases}
-	\frac{\pi_{}(n)}{\sum_{k=0}^{N} \pi_{}(k)} & \text{ for } n \in \{1,2,\dots,N\}. \\
-	0 & \text{ otherwise}
-	\end{cases}
-\end{align*}
-using the following argument. \\
-\indent In general, if $S$ is the state space of a Markov chain $\{X_t\}$ with rate matrix $Q$ and stationary distribution $\pi$, we can limit the Markov chain to a subset $A \subset S$ (by modifying the $Q$ matrix such that the chain is not allowed to exit $A$ as in the $M/M/1/N$ queue above) and obtain the corresponding stationary distribution as 
-\begin{align*}
-\pi_A(i) = \begin{cases} 
-			\frac{\pi(i)}{\sum_{j \in A} \pi(j)} & \text{ if } i \in A, \\
-			0 & \text{ if } i \notin A. \\
-			\end{cases}
-\end{align*}
 \end{document}

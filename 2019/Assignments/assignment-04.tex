@@ -2,69 +2,23 @@
 % !TEX spellcheck = LaTeX
 \documentclass[a4paper,11pt,english]{article}
 
-\input{header}
+\input{../header}
 
 %\usepackage[]{geometry}
 \newgeometry{left=1in,right=1in,top=1in,bottom=1in}
 
-\title{Assignment 4: Continuous Time Markov Chains}
+\title{Quiz 4: Continuous Time Markov Chains}
 \author{SPQT - 2019}
 
 \begin{document}
 \maketitle
-\textbf{Problem 1:} Consider a population in which individual gives birth at an exponential rate $\lambda$ and dies at an exponential rate $\mu$. In addition, new individuals enter according to a Poisson process with rate $\theta$. Let $\{X(t)\}$ denote the number of individuals in the population at time $t$. 
-\begin{enumerate}
-\item Show that $\{X(t)\}$ is a Markov chain. 
-\item Find the generator matrix of $\{X(t)\}$. 
-\item Find the conditions for stationary distribution to exist. Also, find the stationary distribution under these conditions. 
-\item Find $\E[X(t)|X(0)]$.
-\end{enumerate}
-
-\indent \textbf{Problem 2:} Let $A$ be a subset of state space of Markov chain $\{X(t)\}$. Let $T_i(t)$ be the amount of time spent in $A$ in time $[0,t]$ given that $X(0)=i$. Let $Y_1,Y_2,\dots,Y_n$ be i.i.d. with $\exp(1/\lambda)$ independent of $\{X(t)\}$. Let $t_i(n) = \E[T_i(Y_1 Y_2 \dots Y_n)]$.
-\begin{enumerate}
-\item Derive a set of linear equations for $t_i(1), \forall i$.
-\item Derive a set of linear equations for $t_i(n)$ in terms of $t_j(1)$ and $t_i(n-1)$.
-\item When $n$ is large, for what values of $\lambda$ is $t_i(n)$ a good approximation of $\E[T_i(t)]$.
-\end{enumerate}
-
-\indent \textbf{Problem 3:} Consider a CTMC $\{X(t)\}$ with stationary distribution $\pi$ and generator matrix $Q$.
-\begin{enumerate}
-\item Compute the probability that its sojourn time in state $i$ is greater that $\alpha>0$.
-\item Consider the jump chain $\{Y_n\}$. Compute its transition matrix $P$. Find the first time it comes back to state $i$ if $X(0)$ is $i$.
-\item Use the above two to find $\E[T|X(0)=i]$, where $T$ is the first time $\{X(t)\}$ has its sojourn time in state $i$ greater than $\alpha>0$.
-\end{enumerate}
-
-\indent \textbf{Problem 4:} Consider an M/M/1/2 queue. Arrival rate $\lambda = 3$ per hour and service times are i.i.d. $\exp(4)$. Let $q(t)$ be the number of customers in the system at time $t$. 
+Consider an M/M/1/2 queue. Arrival rate $\lambda = 3$ per hour and service times are i.i.d. $\exp(4)$. Let $q(t)$ be the number of customers in the system at time $t$. 
 \begin{enumerate}
 \item Find the generator matrix for $\{q(t)\}$
 \item Find the proportion of customers that enter the queue. 
 \item If the service rate is increased to $8$, find (2) above. 
-\item Find the conditions for stationary distribution for $\{q(t)\}$.
+\item Find the stationary distribution for $\{q(t)\}$.
 \item Compute the mean queue length and mean delay of a customer entering the system. 
-\end{enumerate}
-
-\indent \textbf{Problem 5:} If $\{X(t)\}$ and $\{Y(t)\}$ are independent, reversible Markov chains, show that $\{X(t),Y(t)\}$ is also a reversible Markov chain. \\
-\indent \textbf{Problem 6:} Customers move among $r$ servers circularly (after completion of service at service $i$, the customer moves to the server  $(i+1) \mod r$). Service times at server $i$  is $\exp(\mu_i)$. Consider the process $\{q(0),q(1),\dots,q(r-1)\}$ where $q(i)$ denotes the number of customers in server $i$ for $i \in \{0,1,\dots,(r-1)\}$. Show this process is reversible. Find its stationary distribution.  If a customer joins server $j$ with probability $1/(r-1)$,  is the Markov chain reversible?\\
-\indent \textbf{Problem 7:} Consider an $M/M/\infty$ system with arrival rate $\lambda$ and service rate $\mu$. 
-\begin{enumerate}
-\item Let $q(t)$ be the number of customers in the system at time $t$. Find the generator matrix. Find the conditions for stationary distribution. Find the stationery distribution under these conditions. 
-\end{enumerate}
-Now, consider this system as follows: whenever a customer arrives, it joins the lowest numbered server that is free. In other words, when a customer arrives, it enters server $1$ if it is free. Otherwise, it enters server $2$ if it is free and so on.
-\begin{enumerate}
-\item Find the fraction of time server $1$ is free under stationarity.
-\item By considering the $M/M/2$ loss system, find the fraction of time server $2$ is busy.
-\item Find the fraction of time server $c$  is busy for arbitrary $c$.
-\item What is the overflow rate from server $c$ to $c+1$. Is it a renewal process? Is it a Poisson process? Show wherever applicable.
-\end{enumerate}
-
-\indent \textbf{Problem 8:} Consider an ergodic CTMC $\{X(t)\}$ with generator matrix $Q$ and stationary distribution $\pi$. Let $E$ be a subset of the state space. Let $G = E^c$. Under stationarity.
-\begin{enumerate}
-\item compute $\P\{X(t)=i|X(t)\in B\}, i \in B$,
-\item compute $\P\{X(t)=i|X(t)\in B, X(t^-) \in G \}, i \in B$ and 
-\item show that 
-\begin{align*}
-\sum_{i\in G} \sum_{j \in B} \pi_i q_{ij} = \sum_{i \in B} \sum_{j \in G} \pi_i q_{ij}.
-\end{align*}
 \end{enumerate}
 \end{document}
 

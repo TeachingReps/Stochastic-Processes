@@ -66,11 +66,27 @@ All  the above schemes have an important property - work conservation:
 \item The server is never idle when there is work in the system.
 \item Workload will never be increased by policies and queuing schemes. 
 \end{enumerate}
-\indent Irrespective of the policy the queue becomes empty and gets an arrival to the empty queue, at the same time in all the work-conserving queues. Thus, the  regeneration epochs for $W_n$, $q_t$ or $V_t$ in the different queues remain same. Hence, $\E[\tau]< \infty$, $\E[\overline{\tau}] < \infty$ and has stationary distributions for all these processes for any of the work conserving policy if $\E[X_1] < 0$. But, the stationary distribution of $w$, $q$ etc. may be different for different queues. All these queuing systems satisfy Little's law.
+\indent Irrespective of the policy the queue becomes empty and gets an arrival to the empty queue, at the same time in all the work-conserving queues. Thus, the  regeneration epochs for $W_n$, $q_t$ or $V_t$ in the different queues remain same. Hence, $\E[\tau]< \infty$, $\E[\overline{\tau}] < \infty$ and has stationary distributions for all these processes for any of the work conserving policy if $\E[X_1] < 0$. But, the stationary distribution of $w$, $q$ etc. may be different for different queues. All these queuing systems satisfy Little's law.\\
 %Let $\overline{\tau}_{LCFS}$ and $\overline{\tau}_{FCFS}$  be the regeneration length of workload process of LCFS and FCFS policies respectively. Then, $\overline{\tau}_{LCFS} = \overline{\tau}_{FCFS}$ a.s. Let $W_n^{LCFS}$ and $W_n^{FCFS}$ be the waiting time of LCFS and FCFS policies respectively. The regeneration lenght of $\{W_n^{LCFS}\}$ and $\{W_n^{FCFS}\}$ are equal a.s. But, $\E[W_n^{LCFS}]$ and $\E[W_n^{FCFS}]$ are not equal in general. 
 
 %\subsection{Palm Theory goes to the next lecture}
 %Consider a $GI/GI/1$ queue. Let $T_n$ be the $n^{th}$ regeneration epochs of $\{V_t\}$. Then $W_n = V_{T_n}$ a.s. But, $W_\infty \stackrel{d}{\neq} V_\infty$ in general. Also, in renewal process, we have seen inspection paradox where $X_{N(t)} \stackrel{d}{\neq} X_n$. This shows that distriubion of the process sampled at some points may be different from the distribution of the process.\\
 %\indent Let  $\{X_t, -\infty<t<\infty\}$ be a stochastic process and $\tau = {\dots,\tau_{-1},\tau_{0}},\tau_{1},\dots$ be a point process. Let $N(t)$ be number of point of $\tau$ in the interval $(0,t]$. Let $Z = (X_t,\tau)$ and $\theta_t$ be the shift operator defined as $\theta_s Z = (\theta_t X,\theta \tau)$ where $(\theta_t X)_s = X_{t+s}$ and $(\theta_t \tau)_n = t+\tau_n$. $Z$ is a stationary process
+\noindent \textbf{Restriction of Markov chain to a subset of states:} \\
+\indent Consider $M/M/1/N$ queue with finite buffer of length $N$. The queue length process $\{q_t\}$ is a finite state space, irreducible Markov chain. It is always positive recurrent with stationary distribution $\pi_N$. The stationary distribution satisfies $\pi_N Q = 0$ where $Q$ is the rate matrix given by $Q(i,i+1) = \lambda$ for $ 0 \leq i < N$, $Q(i,i-1) = \mu$ for $0 < i \leq N$ and $Q(0,1) = \lambda$. Its stationary distribution can also be obtained from that of $M/M/1$ queue as 
+\begin{align*}
+\pi_{N}(n) = \begin{cases}
+	\frac{\pi_{}(n)}{\sum_{k=0}^{N} \pi_{}(k)} & \text{ for } n \in \{1,2,\dots,N\}. \\
+	0 & \text{ otherwise}
+	\end{cases}
+\end{align*}
+using the following argument. \\
+\indent In general, if $S$ is the state space of a Markov chain $\{X_t\}$ with rate matrix $Q$ and stationary distribution $\pi$, we can limit the Markov chain to a subset $A \subset S$ (by modifying the $Q$ matrix such that the chain is not allowed to exit $A$ as in the $M/M/1/N$ queue above) and obtain the corresponding stationary distribution as 
+\begin{align*}
+\pi_A(i) = \begin{cases} 
+			\frac{\pi(i)}{\sum_{j \in A} \pi(j)} & \text{ if } i \in A, \\
+			0 & \text{ if } i \notin A. \\
+			\end{cases}
+\end{align*}
 \end{document}
 

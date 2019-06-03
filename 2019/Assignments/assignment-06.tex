@@ -1,0 +1,99 @@
+% !TEX spellcheck = en_US
+% !TEX spellcheck = LaTeX
+\documentclass[all-lectures.tex]{subfiles}
+
+
+\begin{document}
+\section*{Problems}
+
+\noindent \textbf{Problem 1: (Random Walks)} $\{X_n\}$ iid, \quad $\E{X_1} = \mu$, \quad $0<\mu<\infty$, \quad $S_0 = 0$, \quad $S_n = \sum_{k=1}^{n} X_k$,\\
+$v(t) = \min \{n:S_n>t\}$, \quad $M_n = \max_{1\le k \le n} \{S_k\}$, \quad $M_0 = 0$.
+\begin{enumerate}
+\item Show $\P[v(t) < \infty] = 1$  for all $0<t<\infty$.
+\item Show $\{v(t) > n \} = \{M_n \le t\}$ and $v(t) \to \infty$ $a.s$ as $t \to \infty$
+\item Using strongly ascending ladder heights, show $\frac{v(t)}{t} \to \frac{1}{\mu}$ $a.s$.
+\item Show $\frac{S_{v(t)}}{t} \to 1 $ $a.s$.
+\end{enumerate}
+
+\noindent \textbf{Problem 2: ($GI/M/1$ queue)} Let $\{A_n\}$ $i.i.d.$ interarrival time to a queue with a general distribution. 
+The service times are $i.i.d.$ $exp(\mu)$.
+\begin{enumerate}
+\item Consider $q_n$ = the queue length just before $n$th arrival. 
+Study the stability conditions for it.
+\item Using $(1)$ obtain the stability conditions for the waiting time process. 
+Also for $q_t$ and $V_t$.
+\end{enumerate}
+
+\noindent \textbf{Problem 3: (Queue with priority)} Consider a queue with two classes of traffic. 
+Class-1 gets Poisson arrivals with rate $\lambda_1$ and class-2 with rate $\lambda_2$. 
+All the service times are $i.i.d.$ with a general distribution and mean $\frac{1}{\mu}$. 
+Class-1 has preemptive resume priority over class-2.
+\begin{enumerate}
+\item Study the stability (Existence of stationary distribution etc.).
+\item Find probability under stationarity that customer of class-$i$, $i=1,2$ experiences zero delay in the queue.
+\item Find the mean delay of each class under stationarity.
+\end{enumerate}
+
+\noindent \textbf{Problem 4:} Consider two queues in tandem with Poisson arrivals with rate $\lambda$ to $Q_1$.  The service times are exponential $i.i.d.$ with rate $\mu_i$ in $Q_i$. Let $\lambda < \mu_i, i=1,2$.
+\begin{enumerate} 
+\item Compute the stationary distribution of queue length seen by arrivals to $Q_2$. Buffer length of each queue is infinite.
+\item Assume $Q_1$ has infinite buffer but $Q_2$ has finite buffer of size $N$. 
+Find the stationary probability of buffer overflow at $Q_2$. 
+\item Let $Q_i$ has finite buffer $N_i<\infty, i=1,2$. 
+Compute the stationary probability of buffer overflow in $Q_i, i=1,2$. 
+Also compute the mean sojourn time $\E_{\pi}{S_i}$ in $Q_i,i=1,2$. 
+Also compute stationary distribution of $S_i$.
+\end{enumerate}
+
+
+\noindent \textbf{Problem 5:}
+Consider a single queue with Poisson arrivals with rate $\lambda$, Processor sharing, mean service time $\frac{1}{\mu}$.
+After completion of service a customer is fed back with probability $p$ and leaves the system with probability 1-$p$.
+Assume the system is under stationarity.
+\begin{enumerate}
+\item Find the distribution of queue length seen by an external arrival.
+Also find distribution of its sojourn time.
+\item Find the distribution of queue length seen by a customer fed back.
+\item Which of the following flows are Poisson:
+\begin{itemize}
+\item Fed back customers.
+\item Customers completing service at the server.
+\item Customers leaving the network.
+\end{itemize}
+\item Solve $(1)$-$(3)$ if the queue length buffer is of length $N$.
+In part-$3$ also check the flow of external customers entering the queue.
+Also compute the probability of external arrivals getting lost at the queue and the probability of a fed back customer getting lost.
+\end{enumerate}
+
+\noindent \textbf{Problem 6:}
+Consider an open Jackson network with three nodes with exogenous arrivals to each queue as Poisson with rate $\lambda_i, i=1,2,3$ and exponential $i.i.d.$ service rates $\mu_i, i=1,2,3$.
+The Markovian routing probabilities are $p_{12}+p_{13}=1$, $p_{21}+p_{23}=1$, $p_{30}=1$.
+\begin{enumerate}
+\item Find conditions for $q(t)=(q_1(t), q_2(t), q_3(t))$ to be a stable Markov chain.
+\item On which arcs in the network the flows are Poisson under stationarity.
+\item Find the mean sojourn time in the network under stationarity.
+\item Find distribution of sojourn time in $Q_3$ under stationarity.
+\item Find the distribution of sojourn time on a visit of a customer from $Q_1$ to $Q_2$.
+\item Answer all above if $Q_3$ has a general service time distribution with Process sharing.
+\end{enumerate}
+
+\noindent \textbf{Problem 7:(Window flow control)} A source transmits its packets through a queue (router) to the destination via a window flow control mechanism.
+The window size is $N$.
+Packets from the source enter $Q_1$ and are served in $i.i.d.$ $exp(\mu_1)$ in FCFS fashion.
+Whenever the destination receives a packet, it immediately releases an acknowledgement in $Q_2$.
+Service times in $Q_2$ are $i.i.d.$ $exp(\mu_2)$.
+At any time the sum of packets and acks in the system is $N$. 
+Whenever an ack reaches source, it releases the next packet to $Q_1$.
+(This models a simplistic version of TCP and is a closed queueing network.)
+\begin{enumerate}
+\item Find conditions for stationary distribution of queue lengths in network.
+\item Find rate at which packets are released by source.
+\item Find the mean sojourn time of packets in $Q_1$.
+\end{enumerate}
+
+\noindent \textbf{Problem 8:} Consider a $GI/GI/1$ queue with last come first serve preemptive resume discipline.
+Whenever a customer arrives, server leaves other customers and starts serving a new one.
+Whenever a server completes a service it goes back to previous customer to complete its service. 
+Find conditions for its stability.
+Show its mean sojourn time equals busy period of $GI/GI/1$ with FCFS.
+\end{document}
